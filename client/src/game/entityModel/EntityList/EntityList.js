@@ -13,7 +13,7 @@ import CobrowsingAccordianList from '../../cobrowsing/CobrowsingAccordianList/Co
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
 import { entityModelTypeToDisplayName, entityModelTypeToContainerIID } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
-import { BASIC_ENTITY_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, getSelectEntityFromEntityType, NPC_ENTITY_IID, ENTITY_BOX_OPEN_IID, PLAYER_ENTITY_IID, POWERUP_ENTITY_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
+import { BASIC_ENTITY_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, getSelectEntityFromEntityType, NPC_ENTITY_IID, ENTITY_BOX_OPEN_IID, PLAYER_ENTITY_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 import { openEntityBoxDialog } from '../../../store/actions/game/gameSelectorActions';
 import { sortByLastEditedDate } from '../../../utils/editorUtils';
 import Icon from '../../../ui/Icon/Icon';
@@ -73,7 +73,7 @@ const EntityList = ({
   const accordians = []
   const hiddenOpacity = 0.5
 
-  const entityModelTypes = [PLAYER_ENTITY_IID, NPC_ENTITY_IID, BASIC_ENTITY_IID, POWERUP_ENTITY_IID, ZONE_ENTITY_IID]
+  const entityModelTypes = [PLAYER_ENTITY_IID, NPC_ENTITY_IID, BASIC_ENTITY_IID, ZONE_ENTITY_IID]
   entityModelTypes.forEach((entityIID) => {
     const releventEntityModels = Object.keys(entityModels).
       filter(filterEntityModels(entityIID)).

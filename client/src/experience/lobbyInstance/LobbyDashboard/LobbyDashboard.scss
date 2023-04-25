@@ -16,7 +16,7 @@
   .ActivitySwitcher {
     display: none;
   }
-  .Tabs {
+  .LobbyDashboard__tabs {
     display: none;
   }
 }
@@ -30,13 +30,14 @@
 
 .LobbyDashboard--preview {
 
-  .Tabs {
+  .LobbyDashboard__tabs {
     width: 40%;
-    &__panel {
+    .Tabs__panel {
       height: 90vh;
       overflow-y: scroll;
     }
   }
+  
   .LobbyDashboard {
     &__video-container {
       margin-left: auto;

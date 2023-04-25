@@ -7,7 +7,7 @@ import { effectInterfaceDatas, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_TRANSFORM
 import Sprite from "../../textures/Texture/Texture"
 
 function renderRelationTag(relationTag) {
-  return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2em'}}>
+  return <span key={relationTag.relationTagId} style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2em'}}>
     <span style={{width: '.6em', height: '.6em'}}>
       <Sprite textureId={relationTag.textureId} textureTint={relationTag.textureTint}/>
     </span>

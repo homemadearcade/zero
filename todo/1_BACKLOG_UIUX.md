@@ -8,8 +8,7 @@ SNACKBARS
 
 VIDEO INSIDE GAME VIEW UPGRADE
   The User that you are cobrowsing, have their video in the top right 
-    Yes and have the tools for cobrowsing there too - Toggle Cobrowsing, StarView, Game Power on/ff?? Hmm not sure maybe thres another spot for that, Maybe even the tools too
-    
+
 BRUSH UPGRADE
   When you change the layer, the brushes change to tHAT layers colors and brushes
   Layers as a Radio Button Select
@@ -20,5 +19,3 @@ SELECT FORMS
 
 (more) MORE MENUS
 like 'fine tune size' for brushes, grid mode for the view, other things. This should be expected and common
-
-Icons for each Event type

@@ -7,6 +7,12 @@
 
   }
 
+  &__tabs {
+    .Tabs__panel {
+      min-height: 25em;
+    }
+  }
+
   &__name {
     width: 100%;
     text-align: center;
@@ -20,6 +26,5 @@
   &__texture-stage {
     width: 10em;
     height: 10em;
-    flex: 1;
   }
 }

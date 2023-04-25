@@ -49,12 +49,12 @@ const SelectorAbstractList = ({
     return true
   }).map((currentCutsceneId, i) => {
     const currentCutscene = gameModel.cutscenes[currentCutsceneId]
-    return <Unlockable interfaceId={CUTSCENE_SELECT_IID}>
+    return <Unlockable key={currentCutsceneId} interfaceId={CUTSCENE_SELECT_IID}>
       <NestedListItem title={currentCutscene.name} onClick={() => {openCreateCutscene(currentCutscene)}}/>
     </Unlockable>
   })
 
-  cutscenes.push(<Unlockable interfaceId={CUTSCENE_ADD_IID}>
+  cutscenes.push(<Unlockable key="add cutscene" interfaceId={CUTSCENE_ADD_IID}>
     <NestedListItemButton>
       <Button onClick={() => {
         openCreateCutscene({
@@ -79,12 +79,12 @@ const SelectorAbstractList = ({
     return true
   }).map((currentCutsceneId, i) => {
     const currentCutscene = gameModel.cutscenes[currentCutsceneId]
-    return <Unlockable interfaceId={DIALOGUE_SELECT_IID}>
+    return <Unlockable key={currentCutsceneId} interfaceId={DIALOGUE_SELECT_IID}>
       <NestedListItem title={currentCutscene.name} onClick={() => {openCreateCutscene(currentCutscene)}}/>
     </Unlockable>
   })
 
-  dialogueScenes.push(<Unlockable interfaceId={DIALOGUE_ADD_IID}>
+  dialogueScenes.push(<Unlockable key="add dialog" interfaceId={DIALOGUE_ADD_IID}>
     <NestedListItemButton>
       <Button onClick={() => {
         openCreateCutscene({
@@ -107,10 +107,10 @@ const SelectorAbstractList = ({
     if(isDataSourceInvisible(RELATION_TAG_ABSTRACT_IID, currentTag.dataSourceIID)) return false
     return true
   }).map((currentRelationTagId, i) => {
-    return <RelationTagItem relationTagId={currentRelationTagId}/>
+    return <RelationTagItem  key={currentRelationTagId} relationTagId={currentRelationTagId}/>
   })
 
-  relationTags.push(<Unlockable interfaceId={RELATION_TAG_ADD_IID}>
+  relationTags.push(<Unlockable key={'add relation tag'} interfaceId={RELATION_TAG_ADD_IID}>
     <NestedListItemButton
       >
       <Button onClick={() => {
@@ -132,10 +132,10 @@ const SelectorAbstractList = ({
     if(isDataSourceInvisible(RELATION_ABSTRACT_IID, currentRelation.dataSourceIID)) return false
     return true
   }).map((currentRelationId, i) => {
-    return <RelationItem relationId={currentRelationId}/>
+    return <RelationItem key={currentRelationId} relationId={currentRelationId}/>
   })
 
-  relations.push(<Unlockable interfaceId={RELATION_ADD_IID}>
+  relations.push(<Unlockable key={'add relation'} interfaceId={RELATION_ADD_IID}>
     <NestedListItemButton
       >
       <Button onClick={() => {
@@ -157,10 +157,10 @@ const SelectorAbstractList = ({
     if(isDataSourceInvisible(EFFECT_ABSTRACT_IID, currentEffect.dataSourceIID)) return false
     return true
   }).map((effectId, i) => {
-    return <EffectItem effectId={effectId}/>
+    return <EffectItem key={effectId} effectId={effectId}/>
   })
 
-  effects.push(<Unlockable interfaceId={EFFECT_ADD_IID}>
+  effects.push(<Unlockable key={'effect add'} interfaceId={EFFECT_ADD_IID}>
     <NestedListItemButton
       >
       <Button onClick={() => {
@@ -183,7 +183,7 @@ const SelectorAbstractList = ({
     return true
   }).map((currentEventId, i) => {
     const currentEvent = gameModel.events[currentEventId]
-    return <Unlockable interfaceId={EVENT_SELECT_IID}>
+    return <Unlockable key={currentEventId} interfaceId={EVENT_SELECT_IID}>
       <NestedListItem
         onClick={() => {openCreateEvent(currentEvent)}}
       >
@@ -192,7 +192,7 @@ const SelectorAbstractList = ({
     </Unlockable>
   })
 
-  events.push(<Unlockable interfaceId={EVENT_ADD_IID}>
+  events.push(<Unlockable key="add event" interfaceId={EVENT_ADD_IID}>
     <NestedListItemButton>
       <Button onClick={() => {
         openCreateEvent()
@@ -210,7 +210,7 @@ const SelectorAbstractList = ({
   return <div className="SelectorAbstractList">
     <NestedListContainer>
       {nestedLists.map((props) => {
-        return <CobrowsingNestedList
+        return <CobrowsingNestedList key={props.interfaceId}
           interfaceGroupId="SelectorColumns"
           {...props}
         ></CobrowsingNestedList>

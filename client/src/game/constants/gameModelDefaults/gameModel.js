@@ -7,7 +7,7 @@ import { directionalPlayerEntityId, initialCameraZoneEntityId, initialPlayerSpaw
 import { mirrorPlayerDefaults } from "../entityModelPropertyDefaults";
 import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { nodeSize } from "../core";
-import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, DATA_SOURCE_SYSTEM_IID } from "../../../constants/interfaceIds";
+import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, DATA_SOURCE_SYSTEM_IID, ENTITY_SPAWN_ZONE_ENTITY_IID } from "../../../constants/interfaceIds";
 import { DRAW_NEW_SPRITE_FOR_ENTITY_AID, EDIT_ENTITY_AID, EDIT_ENTITY_GRAPHICS_AID, IMPORT_DATA_SOURCE_AID, PLACE_ENTITY_AID } from "../../../constants/interfaceActionIds";
 
 export const defaultGameModel = {
@@ -134,6 +134,7 @@ export const defaultGameModel = {
         hiddenFromIDs: {
           [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true,
           [RELATION_SPAWN_ENTITY_MODEL_IID]: true,
+          [ENTITY_SPAWN_ZONE_ENTITY_IID]: true,
           [EDIT_ENTITY_AID]: true,
           [IMPORT_DATA_SOURCE_AID]: true,
           [PLACE_ENTITY_AID]: true,

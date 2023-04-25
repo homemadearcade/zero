@@ -26,6 +26,8 @@ export const CHANGE_ENTITY_INTERFACE_IID = "entity/changeEntityInterface";
 export const ENTITY_MODEL_REMOVE_IID= 'contextMenu/entity/remove'
 export const ENTITY_MODEL_IMPORT_IID= 'contextMenu/entity/import'
 
+export const ENTITY_MODEL_BOUNDARY_RELATION_IID = 'ENTITY_MODEL_BOUNDARY_RELATION_IID'
+
 export function getSelectEntityFromEntityType(entityIID) {
   if(entityIID === PLAYER_ENTITY_IID) return PLAYER_ENTITY_SELECT_IID
   if(entityIID === ZONE_ENTITY_IID) return ZONE_ENTITY_SELECT_IID

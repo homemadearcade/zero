@@ -10,4 +10,19 @@ YES HOW TO MAKE IT JUICEY....JUIECTY JUICEY. Voice to text thin that comes down 
 
 Loading should be fun. Loading up some dialogs that take time ( like create stage )
 
+--
+
+TO TALK ABOUT 
+
+RESIZING EASY
+
+Sizing like the way unity does it. Entities would have arrrows attached to them on the left, right, bottom, top and you can resize from there
+
+----
+
+4 Panel Drawing ON/OFF
+
+theres Background, Playground, Foreground, and then everything together
+
+
 ----

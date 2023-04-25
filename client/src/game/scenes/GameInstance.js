@@ -109,7 +109,7 @@ export class GameInstance extends Phaser.Scene {
     this.cameras.main.setZoom(zoom)
   }
 
-  // --------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
 // RELATIONS
@@ -152,6 +152,7 @@ export class GameInstance extends Phaser.Scene {
       } else {
         relationsByEvent[populatedEvent.eventType] = [populatedRelation]
       }
+      
       
 
       return relationsByEvent
@@ -926,14 +927,13 @@ export class GameInstance extends Phaser.Scene {
     }
 
     if(effect.effectBehavior === EFFECT_UNPAUSE_GAME) {
-      // if(this.isPlaythrough) {
-      //   store.dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
-      // } else {
-      //   store.dispatch(changeGameState(PLAY_STATE))
-      // }
+      if(this.isPlaythrough) {
+        store.dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
+      } else {
+        store.dispatch(changeGameState(PLAY_STATE))
+      }
     } else if(effect.effectBehavior === EFFECT_PAUSE_GAME) {
-      // store.dispatch(changeGameState(PAUSED_STATE))
-      console.log('pause game')
+      store.dispatch(changeGameState(PAUSED_STATE))
     } else if(effect.effectBehavior === EFFECT_END_GAME) {
       store.dispatch(changeGameState(GAME_END_STATE, effect.text))
       this.sendResetGameEvent()

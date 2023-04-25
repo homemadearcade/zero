@@ -11,6 +11,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { getHexFromColorId, isBrushIdColor, sortColorByLastSelectedDate } from '../../../utils/editorUtils';
 import { NON_LAYER_COLOR_ID } from '../../constants';
+import { AGREGGATE_CREATE_COLOR_DIALOG_IID } from '../../../constants/interfaceIds';
 
 const AggregateColorSelect = ({
   gameModel: { gameModel : { colors }},
@@ -26,7 +27,7 @@ const AggregateColorSelect = ({
   const aggregateColors = Object.keys(colors)
 
   function onAddColor() {
-    openCreateColorFlow('AggregateColorSelect' + layerId, layerId)
+    openCreateColorFlow(AGREGGATE_CREATE_COLOR_DIALOG_IID, NON_LAYER_COLOR_ID)
   }
 
   function renderColorSelect() {
@@ -50,12 +51,12 @@ const AggregateColorSelect = ({
   
   return <>
     {renderColorSelect()}
-    {isCreateColorFlowOpen === ('AggregateColorSelect' + layerId) && <CreateColorFlow
+    {isCreateColorFlowOpen === (AGREGGATE_CREATE_COLOR_DIALOG_IID) && <CreateColorFlow
       onComplete={(color) => {
         editGameModel({
           colors: {
             [color.hex]: {
-              [NON_LAYER_COLOR_ID]: Date.now()
+              [color.layerId]: Date.now()
             }
           }
         })

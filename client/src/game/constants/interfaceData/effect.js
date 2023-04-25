@@ -3,7 +3,8 @@ import { NO_RELATION_TAG_EFFECT_IID, SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATIO
 import store from "../../../store"
 import { EFFECT_CAMERA_SHAKE, EFFECT_CLOSE_TRANSITION, EFFECT_CUTSCENE, EFFECT_DESTROY,
     EFFECT_END_GAME, EFFECT_IGNORE_GRAVITY, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EFFECT_INVISIBLE, EFFECT_OPEN_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_SPAWN, 
-  EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_UNPAUSE_GAME, ON_STEP_BEGINS, ON_TOUCH_ACTIVE,
+  EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_UNPAUSE_GAME, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_STEP_BEGINS, ON_TOUCH_ACTIVE,
+ ON_TOUCH_START,
  SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, 
    SPAWN_ZONE_RANDOM_SELECT } from "../core";
 
@@ -108,11 +109,13 @@ export const effectEditInterfaces = {
   },
   [EFFECT_IGNORE_GRAVITY]: {
     targetableType: TWO_RELATION_TAG_EFFECT_IID,
-    isStandalone: true
+    autogenerateEffect: true,
+    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE]
   },
   [EFFECT_STICK_TO]: {
     targetableType: SINGLE_RELATION_TAG_EFFECT_IID,
-    isStandalone: true
+    autogenerateEffect: true,
+    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE]
   },
 
   // Lifecycle
@@ -130,7 +133,8 @@ export const effectEditInterfaces = {
   },
   [EFFECT_DESTROY]: {
     targetableType: TWO_RELATION_TAG_EFFECT_IID,
-    isStandalone: true
+    autogenerateEffect: true,
+    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT]
   },
 
   // Game State
@@ -138,7 +142,8 @@ export const effectEditInterfaces = {
     text: 'Message',
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     isCustomizeable: true,
-    isStandalone: true
+    autogenerateEffect: true,
+    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT, ON_DESTROY_ALL, ON_DESTROY_ONE]
   },
 
   // Graphical
@@ -146,11 +151,11 @@ export const effectEditInterfaces = {
     // number: 'How intense is the camera shake?',
     // effectCooldown: true,
     targetableType: NO_RELATION_TAG_EFFECT_IID,
-    isStandalone: true
+    autogenerateEffect: true
   },
   [EFFECT_INVISIBLE]: {
     targetableType: TWO_RELATION_TAG_EFFECT_IID,
-    isStandalone: true
+    autogenerateEffect: true
   },
 
   // Meta
@@ -163,11 +168,11 @@ export const effectEditInterfaces = {
   },
   [EFFECT_PAUSE_GAME]: {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
-    isStandalone: true
+    autogenerateEffect: true,
   },
   [EFFECT_UNPAUSE_GAME]: {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
-    isStandalone: true
+    autogenerateEffect: true,
   },
 
   // INTERFACE
@@ -186,11 +191,13 @@ export const effectEditInterfaces = {
   },
   [EFFECT_OPEN_TRANSITION]: {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
-    isStandalone: true
+    autogenerateEffect: true,
+    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT]
   },
   [EFFECT_CLOSE_TRANSITION]: {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
-    isStandalone: true
+    autogenerateEffect: true,
+    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT]
   },
 }
 

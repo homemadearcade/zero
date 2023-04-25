@@ -64,7 +64,7 @@ const EntityNameForm = ({ isEditingInitially, initialName, updateCreateEntity, g
         <div className="EntityNameForm">
           <TextField onChange={handleChange} label="Name" value={entityModel.name} />
           {entityModel.error && <Alert severity="error">{entityModel.error}</Alert>}
-          {!isEditingInitially && <IconButton icon="faCheck" onClick={() => {
+          {!isEditingInitially && <IconButton color="primary" icon="faCheck" onClick={() => {
             setIsEditing(false)
         }}></IconButton>}
         </div>
@@ -79,12 +79,12 @@ const EntityNameForm = ({ isEditingInitially, initialName, updateCreateEntity, g
         setIsHovering(false)
       }}
     >
-        <Typography variant="h4">
+      <Typography variant="h4">
         {entityModel.name}
       </Typography>
-      {isHovering && <IconButton icon="faPen" onClick={() => {
+      <IconButton icon="faPen" color="primary" onClick={() => {
         setIsEditing(true)
-      }}></IconButton>}
+      }}></IconButton>
     </div>
   }
 };

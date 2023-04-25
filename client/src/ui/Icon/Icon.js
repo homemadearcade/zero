@@ -4,12 +4,18 @@ import { faArrowUp, faArrowDown, faArrowRight } from '@fortawesome/free-solid-sv
 import { faClose } from '@fortawesome/free-solid-svg-icons'
 import { faWarning, faEraser, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { faEye, faShuffle, faFont, faUsers, faCrown, faArrowPointer, faChevronDown, faDownload, faUpload, faWindowMaximize } from '@fortawesome/free-solid-svg-icons'
-import { faBars, faBurst, faChessPawn, faSkullCrossbones, faCircleXmark, faIcons, faMapLocation, faCameraRotate, faHammer, faCircleQuestion, faEyeDropper } from '@fortawesome/free-solid-svg-icons'
-import { faEyeSlash, fa1, faMasksTheater, faTableCellsLarge, faBullhorn, faTerminal, faAward, faRightLeft, faBullseye, faLink, faUpLong, faScroll, faRobot, faArrowsDownToLine, faPersonBooth, faBoxArchive, faTrash, faBookAtlas, faBookBookmark, faWandMagicSparkles, faEllipsis, faCircle, faHourglassEnd, faComments, faHourglassStart, faPaintbrush, faGamepad, faDoorOpen, faListOl, faImage, faCameraRetro, faPen, faTableList, faTriangleExclamation, faRepeat, faCompress, faExpand, faCrosshairs, faHandPointer, faFolderOpen, faFloppyDisk, faPenToSquare, faUserSecret, faUserLock, faUser, faCirclePlay, faArrowLeft, faLocationDot, faMusic, faStar, faCalendar, faPlus, faVolumeHigh, faVolumeXmark, faMask, faHouseLaptop, faStop, faRotateLeft, faDesktop, faQuestionCircle, faQuestion, faLock, faLockOpen, faTableCells } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faBurst, faUpDownLeftRight, faCopy, faChessPawn, faSkullCrossbones, faCircleXmark, faIcons, faMapLocation, faCameraRotate, faHammer, faCircleQuestion, faEyeDropper } from '@fortawesome/free-solid-svg-icons'
+import { faEyeSlash, faSquareMinus, faClone, fa1, faStreetView, faUpRightAndDownLeftFromCenter, faMasksTheater, faTableCellsLarge, faBullhorn, faTerminal, faAward, faRightLeft, faBullseye, faLink, faUpLong, faScroll, faRobot, faArrowsDownToLine, faPersonBooth, faBoxArchive, faTrash, faBookAtlas, faBookBookmark, faWandMagicSparkles, faEllipsis, faCircle, faHourglassEnd, faComments, faHourglassStart, faPaintbrush, faGamepad, faDoorOpen, faListOl, faImage, faCameraRetro, faPen, faTableList, faTriangleExclamation, faRepeat, faCompress, faExpand, faCrosshairs, faHandPointer, faFolderOpen, faFloppyDisk, faPenToSquare, faUserSecret, faUserLock, faUser, faCirclePlay, faArrowLeft, faLocationDot, faMusic, faStar, faCalendar, faPlus, faVolumeHigh, faVolumeXmark, faMask, faHouseLaptop, faStop, faRotateLeft, faDesktop, faQuestionCircle, faQuestion, faLock, faLockOpen, faTableCells } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
  
 const iconMap = {
+  faSquareMinus,
+  faClone,
+  faCopy,
+  faStreetView,
+  faUpDownLeftRight,
+  faUpRightAndDownLeftFromCenter,
   faMasksTheater,
   fa1,
   faTableCellsLarge,
@@ -121,7 +127,7 @@ const Icon = (props) => {
     console.error(icon)
   }
 
-  return <FontAwesomeIcon {...props} icon={iconMap[icon]} onClick={onClick} size={size} color={color} />
+  return <FontAwesomeIcon {...props}  icon={iconMap[icon]} onClick={onClick} size={size} color={color}  />
 }
 
 export default Icon

@@ -18,6 +18,8 @@ import { ENTITY_MODEL_OPEN_CAMERA_IID,
   EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, PLAYER_ENTITY_IID, DATA_SOURCE_GAME_MODEL_IID,
   CAMERA_EDITOR_IID, JUMP_EDITOR_IID, MOVEMENT_EDITOR_IID, DATA_SOURCE_ENTITY_MODEL_IID, ENTITY_MODEL_IMPORT_IID
 } from '../../../constants/interfaceIds';
+import { ListItemIcon } from '@mui/material';
+import Icon from '../../../ui/Icon/Icon';
 
 const EntityContextMenu = ({ 
   editGameModel, 
@@ -53,52 +55,21 @@ const EntityContextMenu = ({
           }
         })
         onMenuItemClick()
-      }}>Set as Player</MenuItem>
+      }}><ListItemIcon><Icon icon="faStreetView"/></ListItemIcon>Set as Player</MenuItem>
     </Unlockable>}
-    <Unlockable interfaceId={ENTITY_MODEL_OPEN_EDIT_IID}>
-      <MenuItem onClick={() => {
-        openEditEntityDialog(entityModel)
-        onMenuItemClick()
-      }}>Edit {entityModelTypeToDisplayName[entityModel.entityIID]}</MenuItem>
-    </Unlockable>
     <Unlockable interfaceId={ENTITY_MODEL_OPEN_GRAPHICS_IID}>
       <MenuItem onClick={() => {
         openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, entityModel)
         onMenuItemClick()
-      }}>Edit Graphics</MenuItem>
+      }}><ListItemIcon><Icon icon="faImage"/></ListItemIcon>Graphics</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={ENTITY_MODEL_OPEN_COLLISIONS_IID}>
+    <Unlockable interfaceId={ENTITY_MODEL_OPEN_EDIT_IID}>
       <MenuItem onClick={() => {
-        openLiveEditor(COLLISION_EDITOR_IID, entityModelId)
+        openEditEntityDialog(entityModel)
         onMenuItemClick()
-      }}>Edit Collisions</MenuItem>
+      }}><ListItemIcon><Icon icon="faPenToSquare"/></ListItemIcon>Edit {entityModelTypeToDisplayName[entityModel.entityIID]}</MenuItem>
     </Unlockable>
-    {entityModel.entityIID === PLAYER_ENTITY_IID &&
-      <Unlockable interfaceId={ENTITY_MODEL_OPEN_CAMERA_IID}>
-        <MenuItem onClick={() => {
-          openLiveEditor(CAMERA_EDITOR_IID, entityModelId)
-          onMenuItemClick()
-        }}>Edit Camera</MenuItem>
-      </Unlockable>
-    }
-    <Unlockable interfaceId={ENTITY_MODEL_OPEN_PROJECTILE_IID}>
-      <MenuItem onClick={() => {
-        openLiveEditor(PROJECTILE_EDITOR_IID, entityModelId)
-        onMenuItemClick()
-      }}>Edit Projectile</MenuItem>
-    </Unlockable>
-    {entityModel.entityIID === PLAYER_ENTITY_IID && <Unlockable interfaceId={ENTITY_MODEL_OPEN_JUMP_IID}>
-      <MenuItem onClick={() => {
-        openLiveEditor(JUMP_EDITOR_IID, entityModelId)
-        onMenuItemClick()
-      }}>Edit Jump</MenuItem>
-    </Unlockable>}
-    <Unlockable interfaceId={ENTITY_MODEL_OPEN_MOVEMENT_IID}>
-      <MenuItem onClick={() => {
-        openLiveEditor(MOVEMENT_EDITOR_IID, entityModelId)
-        onMenuItemClick()
-      }}>Edit Movement</MenuItem>
-    </Unlockable>
+
     {!insideEntityInstanceContextMenu && <Unlockable interfaceId={ENTITY_MODEL_DUPLICATE_IID}>
         <MenuItem onClick={() => {  
           const newEntityId = ENTITY_MODEL_DID+entityModelTypeToPrefix[entityModel.entityIID]+generateUniqueId()
@@ -128,7 +99,7 @@ const EntityContextMenu = ({
             }
           })
           onMenuItemClick()
-        }}>Duplicate {entityModelTypeToDisplayName[entityModel.entityIID]}</MenuItem>
+        }}><ListItemIcon><Icon icon="faClone"/></ListItemIcon>Duplicate {entityModelTypeToDisplayName[entityModel.entityIID]}</MenuItem>
       </Unlockable>}
       {!insideEntityInstanceContextMenu && 
         <Unlockable interfaceId={ENTITY_MODEL_REMOVE_IID}>
@@ -141,7 +112,7 @@ const EntityContextMenu = ({
               },
             })
             onMenuItemClick()
-          }}>{entityModel.isRemoved ? 'Restore' : 'Remove'}</MenuItem>
+          }}><ListItemIcon><Icon icon="faSquareMinus"/></ListItemIcon>{entityModel.isRemoved ? 'Restore' : 'Remove'}</MenuItem>
         </Unlockable>}
         {!insideEntityInstanceContextMenu && 
           <Unlockable interfaceId={ENTITY_MODEL_IMPORT_IID}>
@@ -154,14 +125,10 @@ const EntityContextMenu = ({
                 },
               })
               onMenuItemClick()
-            }}>{entityModel.isImported ? 'Unimport' : 'Import'}</MenuItem>
+            }}>
+              <ListItemIcon><Icon icon="faBoxArchive"/></ListItemIcon>
+              {entityModel.isImported ? 'Unimport' : 'Import'}</MenuItem>
         </Unlockable>}
-        {!insideEntityInstanceContextMenu && <Unlockable interfaceId={ENTITY_INSTANCE_JSON_IID}>
-      <MenuItem onClick={() => {
-        openJsonViewer(entityModel)
-        onMenuItemClick()
-      }}>View Json</MenuItem>
-    </Unlockable>}
   </>
 };
 

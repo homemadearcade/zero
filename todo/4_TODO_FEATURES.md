@@ -9,20 +9,7 @@ FEATURES TODO
 
 GAME
 --------------------------------------------------------------------------------------
-
-Classes can have a spawn zone by default instead of a relation spawning
-
 I think projectiles dont do anything right now, register relations with them please :) or SOEMTHING. Perhaps actually put them on the object instances?? hmm?
-
-IMPLEMENT THESE EFFECTS
-  Pause Game. Unpause Game
-  Also transform while touching 
-    auto generate zones for this effect
-  EFFECTS 
-    Remove Tag, Add Tag Effect
-  Game End Tags
-  Interact to Destroy Tag
-  Touch to Start Transition
 
 CUTSCENES
   A default cutscene runs at the beginning
@@ -67,7 +54,9 @@ IMPORTING/COPYING/SYSTEM
 
   remove system data
 
-  Aggregate all SelectGameInstanceEffect -> SelectInterfaceAction -> into one thing and just have a visibility toggle take care of this...
+  We would need the game to keep track of important ids in ITS MODEL - Player Tag, Spawn Zone Tag, etc. but some things we dont want copied across games. Those things can perhaps stay?
+
+Aggregate all SelectGameInstanceEffect -> SelectInterfaceAction -> into one thing and just have a visibility toggle take care of this...
 
 LOCK DATA
   ArcadeGame.currentEditingSessionId == LobbyId/UserMongoId
@@ -90,14 +79,13 @@ SETTINGS
 
 ---------------------------------------------------------------------------------------------------- 
 
-
 KEYBOARD MODE
 
 SHIFT -> turn on grid view
 
 CAPS LOCK - Grid View 
 
-MMO-esque toolbar on the bottom
+MMO-esque toolbar on the bottom left
 
 ---------------------------------------------------------------------------------------------------- 
 

@@ -17,7 +17,7 @@ export const interfaceActionsUIData = {
   },
   [INTERFACE_ACTION_RESIZE]: {
     displayName: 'Resize',
-    icon: 'faExpand',
+    icon: 'faUpRightAndDownLeftFromCenter',
     description: 'Resize game objects'
   },
   [INTERFACE_ACTION_DRAW]: {

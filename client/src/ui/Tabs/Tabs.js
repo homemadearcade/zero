@@ -36,17 +36,17 @@ function a11yProps(index) {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default function({ tabs }) {
+export default function({ tabs, className }) {
   const [value, setValue] = React.useState(0)
 
   function handleChange(newValue) {
     setValue(newValue)
   }
 
-  return <TabsBody tabs={tabs} value={value} onChange={handleChange}/>
+  return <TabsBody className={className} tabs={tabs} value={value} onChange={handleChange}/>
 }
 
-function TabsBody({ tabs, value, onChange }) {
+export function TabsBody({ tabs, value, onChange, className }) {
   const theme = useTheme();
 
   const handleChange = (event, newValue) => {
@@ -58,7 +58,7 @@ function TabsBody({ tabs, value, onChange }) {
   };
 
   return (
-    <div className="Tabs">
+    <div className={"Tabs " + className}>
       <AppBar position="static">
         <Tabs
           value={value}

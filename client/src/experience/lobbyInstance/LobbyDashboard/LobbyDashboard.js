@@ -32,7 +32,7 @@ const LobbyDashboard = ({
           <ActivityView myTracks={myTracks} userTracks={userTracks}/>
           <ActivitySwitcher myTracks={myTracks} userTracks={userTracks} userMongoId={cobrowsingUserMongoId}/>
         </div>
-        <Tabs tabs={[
+        <Tabs className="LobbyDashboard__tabs" tabs={[
           {
             label: 'Instructions',
             body: <LobbyInstructions myTracks={myTracks} userTracks={userTracks}/>

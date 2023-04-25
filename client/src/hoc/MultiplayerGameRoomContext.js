@@ -6,6 +6,7 @@ import GameRoomErrorStates from '../game/gameRoomInstance/GameRoomErrorStates/Ga
 import { addGameRoom, editGameRoom, endGameRoom, joinGameRoom, leaveGameRoom } from '../store/actions/game/gameRoomInstanceActions';
 import { initializeUnlockableInterfaceIds } from '../store/actions/game/unlockedInterfaceActions';
 import { getUserByMongoId } from '../store/actions/user/userActions';
+import LinearIndeterminateLoader from '../ui/LinearIndeterminateLoader/LinearIndeterminateLoader';
 import Loader from '../ui/Loader/Loader';
 import { generateUniqueId } from '../utils';
 
@@ -31,6 +32,8 @@ class MultiplayerGameRoomContext extends Component {
               [gameRoomInstance.arcadeGameMongoId]: gameInstanceId
             }
           })
+        } else {
+          console.error('not setting game instance id yet: ', gameInstanceId)
         }
 
         if(experienceModel?.id) {
@@ -79,17 +82,20 @@ class MultiplayerGameRoomContext extends Component {
     const { children, gameRoomInstance: { isLoading, isJoining, gameRoomInstance}} = this.props;
     
     if(isLoading) {
-      return <Loader text="Loading Game Session..."/>
+      return <LinearIndeterminateLoader/>
+      // return <Loader text="Loading Game Session..."/>
     }
   
     if(isJoining && !gameRoomInstance.id) {
-      return <Loader text="Joining Game Session..."/>
+      return <LinearIndeterminateLoader/>
+      // return <Loader text="Joining Game Session..."/>
     }
 
     if(gameRoomInstance.gameRoomInstanceIds) {
       const gameInstanceId = gameRoomInstance.gameInstanceIds[gameRoomInstance.arcadeGameMongoId]
       if(!gameInstanceId) {
-        return <Loader text="Creating Game Instance..."/>
+        return <LinearIndeterminateLoader/>
+        // return <Loader text="Creating Game Instance..."/>
       }
     }
 

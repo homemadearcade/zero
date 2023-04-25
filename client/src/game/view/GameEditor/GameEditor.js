@@ -4,18 +4,17 @@ import { connect } from 'react-redux';
 import './GameEditor.scss';
 import ReactJson from 'react-json-view'
 
-import { clearEditor, closeJsonViewer } from '../../../store/actions/game/gameSelectorActions';
+import { clearEditor, closeJsonViewer, selectBrush } from '../../../store/actions/game/gameSelectorActions';
 import { clearGameFormEditor } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../../store/actions/game/gameViewEditorActions';
 import SectionEditor from '../../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../../textures/SnapshotTaker/SnapshotTaker';
 import SelectStageColorDialog from '../../stages/SelectStageColorDialog/SelectStageColorDialog';
-import { BRUSH_DID, PLAYTHROUGH_PLAY_STATE, GAME_START_STATE } from '../../constants';
+import { BRUSH_DID, PLAYTHROUGH_PLAY_STATE, GAME_START_STATE, COLOR_BRUSH_ID } from '../../constants';
 import GameMetadataDialog from '../../selector/GameMetadataDialog/GameMetadataDialog';
 import CutscenesMenu from '../../cutscene/CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
-import BoundaryRelation from '../../entityModel/BoundaryRelation/BoundaryRelation';
 import EditEntityDialog from '../../entityModel/EditEntityDialog/EditEntityDialog';
 import GridToggle from '../GridToggle/GridToggle';
 import GameStateToolbar from '../../gameRoomInstance/GameStateToolbar/GameStateToolbar';
@@ -29,7 +28,7 @@ import CreateBrushFlow from '../../brush/CreateBrushFlow/CreateBrushFlow';
 import { copyToClipboard, generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
-import { EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, INSTANCE_TOOLBAR_CONTAINER_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
+import {  EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, INSTANCE_TOOLBAR_CONTAINER_IID, LAYER_CREATE_COLOR_DIALOG_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
 import EntityBoxDialog from '../../entityModel/EntityBoxDialog/EntityBoxDialog';
 import HoverPreview from '../../selector/HoverPreview/HoverPreview';
 import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
@@ -44,6 +43,7 @@ import GameView from '../GameView/GameView';
 import EditEntityGraphics from '../../entityModel/EditEntityGraphics/EditEntityGraphics';
 import EffectPromptDialog from '../../effect/EffectPromptDialog/EffectPromptDialog';
 import CanvasImageDialog from '../../textures/CanvasImageDialog/CanvasImageDialog';
+import CreateColorFlow from '../../color/CreateColorFlow/CreateColorFlow';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -68,10 +68,10 @@ const GameEditor = ({
     isCreateRelationTagOpen, 
     isCreateRelationOpen,
     isCreateCutsceneOpen, 
+    isCreateColorFlowOpen,
     isCreateBrushFlowOpen, 
     isCreateStageDialogOpen, 
     isCutscenesMenuOpen, 
-    isBoundaryRelationOpen, 
     isCreateEffectOpen,
     isStagesMenuOpen,
     isCreateEventOpen
@@ -88,6 +88,7 @@ const GameEditor = ({
   isObscurable,
   rootFontSize,
   children,
+  selectBrush,
   gameRoomInstance: { gameRoomInstance: { gameState } },
   gameModel: { gameModel },
   playerInterface: { cutsceneId }
@@ -163,7 +164,6 @@ const GameEditor = ({
       {isEditEntityDialogOpen && <EditEntityDialog/>}
       {isCutscenesMenuOpen && <CutscenesMenu/>}
       {isCreateCutsceneOpen && <CreateCutscene/>}
-      {isBoundaryRelationOpen && <BoundaryRelation/>}
       {isCreateRelationOpen && <CreateRelation/>}
       {isCreateEffectOpen && <CreateEffectDialog/>}
       {isCreateEventOpen && <CreateEventDialog/>}
@@ -203,6 +203,17 @@ const GameEditor = ({
             })
           }}
       />}
+      {isCreateColorFlowOpen === LAYER_CREATE_COLOR_DIALOG_IID && <CreateColorFlow
+        onComplete={(color) => {
+        editGameModel({
+          colors: {
+            [color.hex]: {
+              [color.layerId]: Date.now()
+            }
+          }
+        })
+        selectBrush(COLOR_BRUSH_ID + '/' + color.layerId + '/' + color.hex, color.layerId)
+      }}/>}
       <div id="CobrowsingDialog"></div>
       {viewingJson && <Dialog onClose={closeJsonViewer} open>
         <Button onClick={() => {
@@ -254,4 +265,5 @@ export default connect(mapStateToProps, {
   clearGameViewEditor, 
   closeJsonViewer,
   editGameModel,
+  selectBrush,
 })(GameEditor);

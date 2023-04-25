@@ -15,7 +15,7 @@ function SelectorMoreMenu({  interfaceId}) {
   function getStageVisibility() {
     const menuItems = []
     if(entityModelTypeToDisplayName[interfaceId]) {
-      menuItems.push(<MenuItem className="MenuIconButton__title" gutters key="visibile on stage" dense>Visible on Stage</MenuItem>)
+      menuItems.push(<MenuItem className="MenuIconButton__title" key="visibile on stage" dense>Visible on Stage</MenuItem>)
       menuItems.push(<MenuItem key={"visible on stage" + interfaceId} dense><LayerVisibility layerId={interfaceId} /></MenuItem>)
     }
 
@@ -23,7 +23,7 @@ function SelectorMoreMenu({  interfaceId}) {
   }
 
   return <MenuList dense={true}>
-    <MenuItem className="MenuIconButton__title" gutters dense>Visible in List</MenuItem>
+    <MenuItem className="MenuIconButton__title" dense>Visible in List</MenuItem>
     <DataSourceVisibilityMenu interfaceId={interfaceId} />
     {/* {getStageVisibility()} */}
     </MenuList>

@@ -21,9 +21,6 @@ import {
   CLOSE_CREATE_RELATION,
   OPEN_CUTSCENES_MENU,
   CLOSE_CUTSCENES_MENU,
-  OPEN_BOUNDARY_RELATION,
-  UPDATE_BOUNDARY_RELATION,
-  CLOSE_BOUNDARY_RELATION,
   OPEN_STAGES_MENU,
   CLOSE_STAGES_MENU,
   OPEN_CREATE_STAGE,
@@ -319,25 +316,6 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isCreateRelationOpen: false
-      }
-    case OPEN_BOUNDARY_RELATION: 
-      return {
-        ...state,
-        isBoundaryRelationOpen: true,
-        entityModel: {
-          ..._.cloneDeep(initialState.entityModel),
-          ...payload.initialEntityModel ? _.cloneDeep(payload.initialEntityModel) : {}
-        },
-      }
-    case UPDATE_BOUNDARY_RELATION: 
-      return {
-        ...state,
-        entityModel: {...state.entityModel, ...payload.entityModel }
-      }
-    case CLOSE_BOUNDARY_RELATION: 
-      return {
-        ...state,
-        isBoundaryRelationOpen: false
       }
    case OPEN_STAGES_MENU: 
       return {

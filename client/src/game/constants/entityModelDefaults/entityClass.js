@@ -3,29 +3,29 @@ import { initialPlayerSpawnZoneEntityId, playerDepthModifier } from "../core";
 import { DIRECTIONAL_CONTROLS } from "../core";
 import { MOVEMENT_NONE } from "../entityModelPropertyDefaults";
 
-export const defaultPowerupEntity = { 
-  entityIID: POWERUP_ENTITY_IID,
-  graphics: {
-    glowing: true
-  },
-  movement: {
-    movementBehavior: MOVEMENT_NONE,
-  },
-  collisionResponse: {
-    notPushable: true,
-    mass: 100,
-    bounciness: 0,
-  },
-  autogeneration: {
-    teleportToEffect: false,
-      playerTeleportToRelationTag: false,
-    transformIntoEffect: false,
-      playerTransformIntoRelationTag: false,
-    automaticEntityTag: false,
-    spawnOntoStageEffect: false,
-    destroyAllEffect: true,
-  }
-}
+// export const defaultPowerupEntity = { 
+//   entityIID: POWERUP_ENTITY_IID,
+//   graphics: {
+//     glowing: true
+//   },
+//   movement: {
+//     movementBehavior: MOVEMENT_NONE,
+//   },
+//   collisionResponse: {
+//     notPushable: true,
+//     mass: 100,
+//     bounciness: 0,
+//   },
+//   autogeneration: {
+//     teleportToEffect: false,
+//       playerTeleportToRelationTag: false,
+//     transformIntoEffect: false,
+//       playerTransformIntoRelationTag: false,
+//     automaticEntityTag: false,
+//     spawnOntoStageEffect: false,
+//     destroyAllEffect: true,
+//   }
+// }
 
 export const defaultNpcEntity = { 
   entityIID: NPC_ENTITY_IID,
@@ -90,7 +90,7 @@ export const defaultPlayerEntity = {
     automaticEntityTag: true,
     spawnOntoStageEffect: false,
   },
-  spawnZoneClassId: initialPlayerSpawnZoneEntityId
+  // spawnZoneEntityModelIds: [initialPlayerSpawnZoneEntityId]
 }
 
 export const defaultBasicEntity = { 
@@ -120,5 +120,5 @@ export const defaultEntityByCategory = {
   [PLAYER_ENTITY_IID]: defaultPlayerEntity,
   [NPC_ENTITY_IID]: defaultNpcEntity,
   [ZONE_ENTITY_IID]: defaultZoneEntity,
-  [POWERUP_ENTITY_IID]: defaultPowerupEntity
+  // [POWERUP_ENTITY_IID]: defaultPowerupEntity
 }

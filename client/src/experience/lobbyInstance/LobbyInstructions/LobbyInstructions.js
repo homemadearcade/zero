@@ -10,7 +10,7 @@ import Typography from '../../../ui/Typography/Typography';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import Switch from '../../../ui/Switch/Switch';
 import { VerticalLinearStepperControlled } from '../../../ui/VerticalLinearStepper/VerticalLinearStepper';
-import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGameActions';
+import { loadArcadeGameByMongoId, updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGameActions';
 import { EXPERIENCE_EFFECT_GAME_ACTION, EXPERIENCE_ROLE_PARTICIPANT, GAME_ROOM_ACTIVITY } from '../../../constants';
 import { ANIMATION_CONFETTI, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EVENT_LOBBY_STEP_INITIALIZED, RUN_GAME_INSTANCE_ACTION } from '../../../game/constants';
 import { ON_GAME_INSTANCE_EVENT, ON_LOBBY_INSTANCE_EVENT } from '../../../store/types';
@@ -26,6 +26,7 @@ const LobbyInstructions = ({
   editLobby,
   updateArcadeGameCharacter,
   toggleActiveCobrowsing,
+  loadArcadeGameByMongoId,
   editGameRoom,
   experienceModel: { experienceModel },
   gameRoomInstance: { gameRoomInstance },
@@ -135,117 +136,154 @@ const LobbyInstructions = ({
 
   steps = steps.concat(endingSteps)
 
+  async function runStepActions(stepId, stepNumber) {
+    const interfaceIdsToUnlock = []
+    const step = allSteps[stepId]
+    if(step) {
+      const updatedLobby = {}
+      if(step.activityId) {
+        if(step.activityId !== lobbyInstance.currentActivityId) {
+          console.error('trying to run without required actvittyId')
+          return
+        }
+        // const activity = lobbyInstance.activitys[step.activityId]
+        // // if(activity.activityCategory === GAME_ROOM_ACTIVITY) {
+        // //   await editGameRoom(gameRoomInstance.id, {
+        // //     isPoweredOn: true
+        // //   })
+        // // }
+      }
+
+      if(step.changeViewCategory) {
+        updatedLobby.activitys = {
+          [lobbyInstance.currentActivityId]: {
+            currentViewCategory: step.viewCategory
+          }
+        }
+      }
+      
+      if(step.cobrowsingRoleId) {
+        if(step.cobrowsingRoleId !== myRoleId) {
+          const cobrowsingUserMongoId = lobbyInstance.roleIdToUserMongoIds[step.cobrowsingRoleId][0]
+          updatedLobby.cobrowsingUserMongoId = cobrowsingUserMongoId
+        }
+        // if(step.cobrowsingRoleId !== myRoleId) {
+        //   window.socket.emit(ON_LOBBY_INSTANCE_EVENT, { lobbyInstanceMongoId: lobbyInstance.id, lobbyInstanceEventType: EVENT_LOBBY_STEP_INITIALIZED, data: { instructionId, stepId, roleId: myRoleId, stepNumber, cobrowsingUserMongoId }})
+        // }
+      }
+
+      await editLobby(lobbyInstance.id, updatedLobby)
+    }  
+
+    if(step && step.effectIds?.length) {
+      const effectIds = step.effectIds
+
+      // const lobbyInstanceMongoId = getState().lobbyInstance.lobbyInstance?.id
+      effectIds.forEach(effectId => {
+        const effect = gameModel.effects[effectId]
+
+        if(step.cobrowsingRoleId === myRoleId) {
+          toggleActiveCobrowsing(false)
+        } else {
+          toggleActiveCobrowsing(true)
+        }
+
+        if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
+          
+          if(step.cobrowsingRoleId !== myRoleId) {
+            forceCobrowsingUpdateDispatch(clearEditor())
+            setTimeout(() => {
+              effect.onClick(forceCobrowsingUpdateDispatch, gameModel, store.getState)
+            }, 100)
+          } else {
+            store.dispatch(clearEditor())
+            effect.onClick(store.dispatch, gameModel, store.getState)
+          }
+        } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
+          interfaceIdsToUnlock.push(effect.interfaceId)
+        } else {
+          const gameInstance = getCurrentGameScene(store.getState().webPage.gameInstance)
+          gameInstance.callGameInstanceEvent({gameRoomInstanceEventType: RUN_GAME_INSTANCE_ACTION, data: { effectId } , hostOnly: true })
+        }
+
+      })
+    }
+
+    if(interfaceIdsToUnlock.length) {
+      const unlockedInterfaceIds = interfaceIdsToUnlock.reduce((acc, interfaceId) => {
+        acc[interfaceId] = true
+        return acc
+      }, {})
+      updateArcadeGameCharacter({
+        userMongoId: lobbyInstance.cobrowsingUserMongoId,
+        unlockedInterfaceIds,
+        merge: true,
+        experienceModelMongoId: experienceModel.id,
+      })
+    }
+          
+  }
+
+  async function goToStep(stepNumber) {
+    await editLobby(lobbyInstance.id, {
+      instructionCurrentSteps: {
+        [instructionId]: stepNumber
+      }
+    })
+  }
+
   return (
     <div className="LobbyInstructions">
       <div className="LobbyInstructions__stepper">
-      <Switch
-        labels={['Steps In Order', 'Can Skip Steps']}
+        <Switch
+          labels={['Steps In Order', 'Can Skip Steps']}
           size="small"
           onChange={(e) => {
             setCanSkipStep(e.target.checked)
           }}
           checked={canSkipStep}
-      ></Switch>
-      <VerticalLinearStepperControlled
-        canSkipStep={canSkipStep}
-        currentStep={lobbyInstance.instructionCurrentSteps[instructionId]}
-        onStepChange={async (stepNumber, stepId) => {
-          const interfaceIdsToUnlock = []
-          const step = allSteps[stepId]
-          if(step) {
-            const updatedLobby = {}
-            if(step.activityId) {
-              updatedLobby.currentActivityId = step.activityId
-              // const activity = lobbyInstance.activitys[step.activityId]
-              // // if(activity.activityCategory === GAME_ROOM_ACTIVITY) {
-              // //   await editGameRoom(gameRoomInstance.id, {
-              // //     isPoweredOn: true
-              // //   })
-              // // }
-            }
-
-            if(step.changeViewCategory) {
-              updatedLobby.activitys = {
-                [lobbyInstance.currentActivityId]: {
-                  currentViewCategory: step.viewCategory
-                }
-              }
-            }
-            
-            if(step.cobrowsingRoleId) {
-              if(step.cobrowsingRoleId !== myRoleId) {
-                const cobrowsingUserMongoId = lobbyInstance.roleIdToUserMongoIds[step.cobrowsingRoleId][0]
-                updatedLobby.cobrowsingUserMongoId = cobrowsingUserMongoId
-              }
-              // if(step.cobrowsingRoleId !== myRoleId) {
-              //   window.socket.emit(ON_LOBBY_INSTANCE_EVENT, { lobbyInstanceMongoId: lobbyInstance.id, lobbyInstanceEventType: EVENT_LOBBY_STEP_INITIALIZED, data: { instructionId, stepId, roleId: myRoleId, stepNumber, cobrowsingUserMongoId }})
-              // }
-            }
-
-            await editLobby(lobbyInstance.id, updatedLobby)
-          }
-
-          await editLobby(lobbyInstance.id, {
-            instructionCurrentSteps: {
-              [instructionId]: stepNumber
-            }
-          })
-          
-
-          if(step && step.effectIds?.length) {
-            const effectIds = step.effectIds
-
-            // const lobbyInstanceMongoId = getState().lobbyInstance.lobbyInstance?.id
-            effectIds.forEach(effectId => {
-              const effect = gameModel.effects[effectId]
-
-              if(step.cobrowsingRoleId === myRoleId) {
-                toggleActiveCobrowsing(false)
-              } else {
-                toggleActiveCobrowsing(true)
-              }
-
-              if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
-                
-                if(step.cobrowsingRoleId !== myRoleId) {
-                  forceCobrowsingUpdateDispatch(clearEditor())
-                  setTimeout(() => {
-                    effect.onClick(forceCobrowsingUpdateDispatch, gameModel, store.getState)
+        ></Switch>
+        <VerticalLinearStepperControlled
+          canSkipStep={canSkipStep}
+          currentStep={lobbyInstance.instructionCurrentSteps[instructionId]}
+          onStepChange={async (stepNumber, stepId) => {
+            const step = allSteps[stepId]
+            if(step) {
+              if(step.activityId) {
+                if(step.activityId !== lobbyInstance.currentActivityId) {
+                  await editLobby(lobbyInstance.id, {
+                    currentActivityId: step.activityId
+                  })
+                  const activity = lobbyInstance.activitys[step.activityId]
+                  if(activity.activityCategory === GAME_ROOM_ACTIVITY) {
+                    if(activity.gameRoom?.arcadeGameMongoId) {
+                      await loadArcadeGameByMongoId(activity.gameRoom.arcadeGameMongoId)
+                    }
+                  }
+                  setTimeout(async () => {
+                    await runStepActions(stepId, stepNumber)
+                    goToStep(stepNumber)
                   }, 100)
+                  
+                  return
                 } else {
-                  store.dispatch(clearEditor())
-                  effect.onClick(store.dispatch, gameModel, store.getState)
+                  await runStepActions(stepId, stepNumber)
+                  goToStep(stepNumber)
                 }
-              } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
-                interfaceIdsToUnlock.push(effect.interfaceId)
               } else {
-                const gameInstance = getCurrentGameScene(store.getState().webPage.gameInstance)
-                gameInstance.callGameInstanceEvent({gameRoomInstanceEventType: RUN_GAME_INSTANCE_ACTION, data: { effectId } , hostOnly: true })
+                await runStepActions(stepId, stepNumber)
+                goToStep(stepNumber)
               }
-
-            })
-          }
-
-          if(interfaceIdsToUnlock.length) {
-            const unlockedInterfaceIds = interfaceIdsToUnlock.reduce((acc, interfaceId) => {
-              acc[interfaceId] = true
-              return acc
-            }, {})
-            updateArcadeGameCharacter({
-              userMongoId: lobbyInstance.cobrowsingUserMongoId,
-              unlockedInterfaceIds,
-              merge: true,
-              experienceModelMongoId: experienceModel.id,
-            })
-          }
-          
-        }}
-        steps={steps}
-        completed={<>
-          <Typography component="h5" variant="h5">Great job!</Typography>
-        </>}
-      />
-    </div>
+            } else {
+              goToStep(stepNumber)
+            }
+          }}
+          steps={steps}
+          completed={<>
+            <Typography component="h5" variant="h5">Great job!</Typography>
+          </>}
+        />
+      </div>
     </div>
   );
 };
@@ -258,5 +296,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby, updateArcadeGameCharacter, editGameRoom, toggleActiveCobrowsing }),
+  connect(mapStateToProps, { editLobby, updateArcadeGameCharacter, loadArcadeGameByMongoId, editGameRoom, toggleActiveCobrowsing }),
 )(LobbyInstructions);

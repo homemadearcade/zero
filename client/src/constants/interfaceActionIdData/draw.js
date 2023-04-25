@@ -3,7 +3,7 @@ import { DRAW_BRUSH_AID, DRAW_COLOR_AID, DRAW_NEW_BRUSH_AID, DRAW_NEW_SPRITE_FOR
 import { findColorNameByHex, getLayerIdFromColorId } from "../../utils";
 import { INTERFACE_ACTION_DRAW } from "../interfaceActions";
 import { openCreateBrushFlow, openCreateCanvasImageDialog, openCreateColorFlow } from "../../store/actions/game/gameFormEditorActions";
-import { ZONE_ENTITY_IID } from "../interfaceIds";
+import { LAYER_CREATE_COLOR_DIALOG_IID, ZONE_ENTITY_IID } from "../interfaceIds";
 import Texture from "../../game/textures/Texture/Texture";
 import { selectBrush } from "../../store/actions/game/gameSelectorActions";
 import { COLOR_BRUSH_ID } from "../../game/constants";
@@ -18,8 +18,7 @@ export default {
     },
     actionType: INTERFACE_ACTION_DRAW,
     onClick: ([layerId]) => (dispatch) => {
-      // need to fix dialog for this, it will not show up right now
-      dispatch(openCreateColorFlow('LayerColorSelect' + layerId, layerId))
+      dispatch(openCreateColorFlow(LAYER_CREATE_COLOR_DIALOG_IID, layerId))
     },
     higherPriority: true
   },

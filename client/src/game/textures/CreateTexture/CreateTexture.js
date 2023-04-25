@@ -7,10 +7,8 @@ import './CreateTexture.scss';
 import FormLabel from '../../../ui/FormLabel/FormLabel';
 import TaggedTextures from '../TaggedTextures/TaggedTextures';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import CreateColorFlow from '../../color/CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Button from '../../../ui/Button/Button';
-import { NON_LAYER_COLOR_ID } from '../../constants';
 import GameTextures from '../GameTextures/GameTextures';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
@@ -27,11 +25,8 @@ const CreateTexture = ({
   onSelect,
   onSelectTint,
   onClearTint,
-  openCreateColorFlow,
-  editGameModel,
-  gameModel: { gameModel : { colors }},
   openCreateCanvasImageDialog,
-  gameFormEditor: { isCreateColorFlowOpen, isCanvasImageDialogOpen, entityModel }
+  gameFormEditor: { isCanvasImageDialogOpen, entityModel }
 }) => {
   return <>
     <div className="CreateTexture">
@@ -58,9 +53,6 @@ const CreateTexture = ({
         selectedColor={textureTintSelected} 
         onSelectColor={onSelectTint} 
         onUnselectColor={onClearTint}
-        onAddColor={() => {
-          openCreateColorFlow('CreateTexture')
-        }}
       />
         <div className="CreateTexture__texture-list">
           <Unlockable interfaceId={CHOOSE_SYSTEM_TEXTURES_IID}>
@@ -71,18 +63,6 @@ const CreateTexture = ({
           </Unlockable>
         </div>
     </div>
-
-    {isCreateColorFlowOpen === 'CreateTexture' && <CreateColorFlow
-      onComplete={(color) => {
-        editGameModel({
-          colors: {
-            [color.hex]: {
-              [NON_LAYER_COLOR_ID]: Date.now()
-            }
-          }
-        })
-      }}
-    />}
   </>
 };
 
@@ -92,5 +72,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 });
 
 export default compose(
-  connect(mapStateToProps, { openCreateColorFlow, editGameModel, openCreateCanvasImageDialog  }),
+  connect(mapStateToProps, { editGameModel, openCreateCanvasImageDialog  }),
 )(CreateTexture);

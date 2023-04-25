@@ -3,6 +3,7 @@ import {
   ON_LOBBY_INSTANCE_USER_STATUS_UPDATE,
   ON_COBROWSING_STATUS_UPDATE,
   ON_CLEAR_COBROWSING_STATUS,
+  LEAVE_LOBBY_SUCCESS,
 } from '../../types';
 
 const initialState = {
@@ -14,6 +15,15 @@ const initialState = {
 
 export default function statusReducer(state = initialState, { type, payload }) {
   switch (type) {
+
+    case LEAVE_LOBBY_SUCCESS: 
+      return {
+        ...state,
+        lobbyInstanceUserStatuses: {},
+        cobrowsingMouses: {},
+        cobrowsingScrolls: {},
+        phaserViews: {}
+      };
     case ON_LOBBY_INSTANCE_USER_STATUS_UPDATE:
       return {
         ...state,

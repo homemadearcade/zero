@@ -40,7 +40,7 @@ const TextureStage = ({
   > 
     {renderBody()}
     {overlayIcon && isHoverTexture && <div className='TextureStage__overlay'>
-      <IconButton onClick={onClickIcon} icon={overlayIcon}> </IconButton>
+      <IconButton color="primary" onClick={onClickIcon} icon={overlayIcon}> </IconButton>
     </div>}
   </div>
 };

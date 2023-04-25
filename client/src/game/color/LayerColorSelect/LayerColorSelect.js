@@ -14,6 +14,7 @@ import ColorSelect from '../ColorSelect/ColorSelect';
 import { clearBrush, closeSelectAggregateColor, openSelectAggregateColor, selectBrush } from '../../../store/actions/game/gameSelectorActions';
 import { getHexFromColorId, getLayerIdFromColorId, isBrushIdColor, sortColorByLastSelectedDate } from '../../../utils/editorUtils';
 import AggregateColorSelectDialog from '../AggregateColorSelectDialog/AggregateColorSelectDialog';
+import { LAYER_AGGREGATE_COLOR_SELECT_IID, LAYER_CREATE_COLOR_DIALOG_IID } from '../../../constants/interfaceIds';
 
 const LayerColorSelect = ({
   gameModel: { gameModel : { colors }},
@@ -24,7 +25,6 @@ const LayerColorSelect = ({
   selectBrush,
   clearBrush,
   gameSelector: { brushIdSelectedBrushList, isSelectAggregateColorOpen },
-  gameFormEditor: { isCreateColorFlowOpen },
   closeSelectAggregateColor,
   withEraser
 }) => {
@@ -40,9 +40,9 @@ const LayerColorSelect = ({
   
   function onAddColor() {
     if(Object.keys(colors).length) {
-      openSelectAggregateColor('LayerColorSelect' + layerId)
+      openSelectAggregateColor(LAYER_AGGREGATE_COLOR_SELECT_IID)
     } else {
-      openCreateColorFlow('LayerColorSelect' + layerId, layerId)
+      openCreateColorFlow(LAYER_CREATE_COLOR_DIALOG_IID, layerId)
     }
   }
 
@@ -88,19 +88,7 @@ const LayerColorSelect = ({
 
   return <>
     {renderColorSelect()}
-    {isCreateColorFlowOpen === ('LayerColorSelect' + layerId) && <CreateColorFlow
-      onComplete={(color) => {
-        editGameModel({
-          colors: {
-            [color.hex]: {
-              [color.layerId]: Date.now()
-            }
-          }
-        })
-        selectBrush(COLOR_BRUSH_ID + '/' + color.layerId + '/' + color.hex, color.layerId)
-      }}
-    />}
-    {isSelectAggregateColorOpen === ('LayerColorSelect' + layerId) && <AggregateColorSelectDialog
+    {isSelectAggregateColorOpen === LAYER_AGGREGATE_COLOR_SELECT_IID && <AggregateColorSelectDialog
       onSelectColor={(hex) => {
         closeSelectAggregateColor()
         editGameModel({

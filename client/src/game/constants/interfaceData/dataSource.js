@@ -19,7 +19,7 @@ export const dataSourceIIDToIcon = {
   [DATA_SOURCE_SYSTEM_IID]: 'faRobot',
   [DATA_SOURCE_ACTION_IID]: 'faArrowPointer',
   [IS_DATA_HIDDEN_IID]: 'faEyeSlash',
-  [IS_DATA_REMOVED_IID]: 'faTrash',
+  [IS_DATA_REMOVED_IID]: 'faSquareMinus',
   [DATA_SOURCE_GAME_MODEL_IID]: 'faGamepad'
 }
 

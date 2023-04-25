@@ -13,6 +13,8 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { ENTITY_INSTANCE_DELETE_IID, ENTITY_INSTANCE_JSON_IID, ENTITY_INSTANCE_MOVE_IID, ENTITY_INSTANCE_RESIZE_ENTITY_IID, ENTITY_INSTANCE_SELECT_ENTITY_IID } from '../../../constants/interfaceIds';
 import { openEditEntityDialog } from '../../../store/actions/game/gameFormEditorActions';
 import { setResizingEntityInstance } from '../../../store/actions/game/gameViewEditorActions';
+import Icon from '../../../ui/Icon/Icon';
+import { ListItemIcon } from '@mui/material';
 
 const EntityInstanceContextMenu = ({ 
   editGameModel, entityModelId, onMenuItemClick,
@@ -29,7 +31,7 @@ const EntityInstanceContextMenu = ({
         setResizingEntityInstance(entityInstanceId)
         // getCurrentGameScene(gameInstance).onResizeStart(entityInstanceId)
         onMenuItemClick()
-      }}>Resize</MenuItem>
+      }}><ListItemIcon><Icon icon="faUpRightAndDownLeftFromCenter"/></ListItemIcon>Resize</MenuItem>
     </Unlockable>
   }
 
@@ -42,19 +44,25 @@ const EntityInstanceContextMenu = ({
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onDragStartContextMenu(entityInstanceId)
         onMenuItemClick()
-      }}>Move</MenuItem>
+      }}>
+        <ListItemIcon><Icon icon="faUpDownLeftRight"/></ListItemIcon>
+        Move
+      </MenuItem>
     </Unlockable>
     {entityInstanceId !== PLAYER_INSTANCE_DID && <Unlockable interfaceId={ENTITY_INSTANCE_SELECT_ENTITY_IID}>
       <MenuItem onClick={() => {
         selectEntity(entityModelId)
         onMenuItemClick()
-      }}>Copy</MenuItem>
+      }}>
+        <ListItemIcon><Icon icon="faCopy"/></ListItemIcon>
+        Copy
+      </MenuItem>
     </Unlockable>}
     <Unlockable interfaceId={ENTITY_INSTANCE_RESIZE_ENTITY_IID}>
       <MenuItem onClick={() => {
         setResizingEntityInstance(entityInstanceId)
         onMenuItemClick()
-      }}>Resize{entityInstanceId === PLAYER_INSTANCE_DID ? '' : ' All'}</MenuItem>
+      }}><ListItemIcon><Icon icon="faUpRightAndDownLeftFromCenter"/></ListItemIcon>Resize{entityInstanceId === PLAYER_INSTANCE_DID ? '' : ' All'}</MenuItem>
     </Unlockable>
     {entityInstanceId !== PLAYER_INSTANCE_DID && <Unlockable interfaceId={ENTITY_INSTANCE_DELETE_IID}>
       <MenuItem onClick={() => {
@@ -66,9 +74,9 @@ const EntityInstanceContextMenu = ({
           }
         })
         onMenuItemClick()
-      }}>Delete</MenuItem>
+      }}><ListItemIcon><Icon icon="faTrash"/></ListItemIcon>Delete</MenuItem>
     </Unlockable>}
-    {<Unlockable interfaceId={ENTITY_INSTANCE_JSON_IID}>
+    {false && <Unlockable interfaceId={ENTITY_INSTANCE_JSON_IID}>
       <MenuItem onClick={() => {
         const entityInstance = getCurrentGameScene(gameInstance).getEntityInstance(entityInstanceId)
         const json = {

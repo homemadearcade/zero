@@ -24,4 +24,10 @@ USER SPEED TESTS FULL FEATURE
 
 GAME VIEW OBSCURED
   Switch game view unlock to just a black screen view
+
+RELATION TAGS
+  Also transform while touching 
+    auto generate zones for this effect
+  EFFECTS 
+    Remove Tag, Add Tag Effect
 ---

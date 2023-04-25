@@ -23,9 +23,6 @@ import {
   UPDATE_CREATE_RELATION,
   OPEN_CUTSCENES_MENU,
   CLOSE_CUTSCENES_MENU,
-  OPEN_BOUNDARY_RELATION,
-  CLOSE_BOUNDARY_RELATION,
-  UPDATE_BOUNDARY_RELATION,
   OPEN_STAGES_MENU,
   CLOSE_STAGES_MENU,
   OPEN_CREATE_STAGE,
@@ -349,32 +346,6 @@ export const updateCreateRelation = (relation) => (dispatch, getState) => {
     noCobrowsingToolNeeded: true,
     type: UPDATE_CREATE_RELATION,
     payload: { relation }
-  });
-}
-
-
-
-export const openBoundaryRelation = (initialEntityModel) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_BOUNDARY_RELATION,
-    payload: { initialEntityModel }
-  });
-}
-
-export const closeBoundaryRelation= () => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: CLOSE_BOUNDARY_RELATION,
-    payload: {}
-  });
-}
-
-export const updateBoundaryRelation = (entityModel) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: UPDATE_BOUNDARY_RELATION,
-    payload: { entityModel }
   });
 }
 

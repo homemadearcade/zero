@@ -22,6 +22,7 @@ export class GameHostScene extends EditorScene {
     this.upsServer = 0
 
     this.gameInstanceId = props.gameRoomInstance.gameInstanceId
+    console.log('gameInstanceId', this.gameInstanceId)
 
     this.registerEvents()
   }
@@ -94,6 +95,7 @@ export class GameHostScene extends EditorScene {
       }
       
       this.updateNetworkStatus()
+      
       window.socket.emit(ON_GAME_INSTANCE_UPDATE, 
         { 
           gameInstanceId: this.gameInstanceId, 

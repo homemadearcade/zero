@@ -11,6 +11,7 @@ const StepTitle = ({
     if(!step.effectIds || step.effectIds.length === 0) return 'Step'
     if(gameModel) {
       const effect = gameModel?.effects[step.effectIds[0]]
+      if(!effect) return 'Step'
       return getEffectShorthand(effect)
     }
   }

@@ -11,15 +11,27 @@ import Button from '../../../ui/Button/Button';
 import { closeEditEntityDialog, openEditEntityGraphics, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
 import SelectEntityModelInterfaceCategory from '../../ui/SelectEntityModelInterfaceCategory/SelectEntityModelInterfaceCategory';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { CHANGE_ENTITY_INTERFACE_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, ENTITY_RELATION_TAGS_IID } from '../../../constants/interfaceIds';
+import { CAMERA_EDITOR_IID, CHANGE_ENTITY_INTERFACE_IID, COLLISION_EDITOR_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, EDIT_ENTITY_MODEL_ADVANCED_TAB_CONTANER_IID, EDIT_ENTITY_MODEL_AUTOGENERATION_TAB_IID, EDIT_ENTITY_MODEL_BEHAVIORS_TAB_IID, EDIT_ENTITY_MODEL_GENERAL_TAB_IID, EDIT_ENTITY_MODEL_JSON_TAB_IID, EDIT_ENTITY_MODEL_TAB_CONTANER_IID, ENTITY_MODEL_BOUNDARY_RELATION_IID, ENTITY_MODEL_OPEN_CAMERA_IID, ENTITY_MODEL_OPEN_COLLISIONS_IID, ENTITY_MODEL_OPEN_JUMP_IID, ENTITY_MODEL_OPEN_MOVEMENT_IID, ENTITY_MODEL_OPEN_PROJECTILE_IID, ENTITY_RELATION_TAGS_IID, ENTITY_SPAWN_ZONE_ENTITY_IID, JUMP_EDITOR_IID, MOVEMENT_EDITOR_IID, PLAYER_ENTITY_IID, PROJECTILE_EDITOR_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
 import { entityModelTypeToDisplayName, entityModelTypeToPrefix, ENTITY_MODEL_DID } from '../../constants';
-import { generateUniqueId } from '../../../utils';
+import { copyToClipboard, generateUniqueId } from '../../../utils';
 import Typography from '../../../ui/Typography/Typography';
 import TextureStage from '../../textures/TextureStage/TextureStage';
+import SelectEntityModel from '../../ui/SelectEntityModel/SelectEntityModel';
+import CobrowsingTabs from '../../cobrowsing/CobrowsingTabs/CobrowsingTabs';
+import { openLiveEditor } from '../../../store/actions/game/gameSelectorActions';
+import ReactJson from 'react-json-view';
+import Divider from '../../../ui/Divider/Divider';
 
-const EditEntityDialog = ({ openEditEntityGraphics, updateCreateEntity, closeEditEntityDialog, editGameModel, gameFormEditor: { entityModel }, gameModel: { gameModel } }) => {
+const EditEntityDialog = ({ 
+  openEditEntityGraphics, 
+  updateCreateEntity, 
+  closeEditEntityDialog, 
+  editGameModel, 
+  openLiveEditor,
+  gameFormEditor: { entityModel }, 
+  gameModel: { gameModel } }) => {
   function handleClose() {
     closeEditEntityDialog()
   }
@@ -39,7 +51,8 @@ const EditEntityDialog = ({ openEditEntityGraphics, updateCreateEntity, closeEdi
           name: entityModel.name,
           relationTags: entityModel.relationTags,
           entityIID: entityModel.entityIID,
-          boundaryRelation: entityModel.boundaryRelation
+          boundaryRelation: entityModel.boundaryRelation,
+          spawnZoneEntityModelIds: entityModel.spawnZoneEntityModelIds,
         }
       }
     })
@@ -89,18 +102,11 @@ const EditEntityDialog = ({ openEditEntityGraphics, updateCreateEntity, closeEdi
     </Unlockable>
   }
 
-  
-  return <CobrowsingDialog open onClose={handleClose}>
-    <div className="EditEntityDialog">
-       <div className="EditEntityDialog__name"><Typography variant="h5">
-        {entityModel.isNew && 'New ' + entityModelTypeToDisplayName[entityModel.entityIID]}
-        {!entityModel.isNew && <div>
-          <EntityNameForm
-            initialName={entityModel.name}
-          />
-        </div>}
-        </Typography>
-      </div>
+
+  const generalTab = {
+    interfaceId: EDIT_ENTITY_MODEL_GENERAL_TAB_IID,
+    label: 'General',
+    body: <>
       <div className="EditEntityDialog__header">
         <div className="EditEntityDialog__texture-stage">
           <TextureStage onClickIcon={() => {
@@ -111,21 +117,117 @@ const EditEntityDialog = ({ openEditEntityGraphics, updateCreateEntity, closeEdi
           </TextureStage>
         </div>
         <div className="EditEntityDialog__primary-options">
- 
           {renderTagSelect()}
           {renderSelectInterfaceId()}
         </div>
       </div>
-      <SelectBoundaryEffect
-        entityModelId={entityModel.entityModelId}
-        formLabel={`What happens when touching the world boundary?`}
-        value={entityModel.boundaryRelation ? [entityModel.boundaryRelation] : []}
-        onChange={(event, BoundaryRelations) => {
-          const boundaryRelation = BoundaryRelations[BoundaryRelations.length-1]
-          updateCreateEntity({ boundaryRelation })
-      }}/>
+      <Unlockable interfaceId={ENTITY_MODEL_BOUNDARY_RELATION_IID}>
+        <SelectBoundaryEffect
+          entityModelId={entityModel.entityModelId}
+          formLabel={`What happens when touching the world boundary?`}
+          value={entityModel.boundaryRelation ? [entityModel.boundaryRelation] : []}
+          onChange={(event, BoundaryRelations) => {
+            const boundaryRelation = BoundaryRelations[BoundaryRelations.length-1]
+            updateCreateEntity({ boundaryRelation })
+        }}/>
+      </Unlockable>
       <Button disabled={entityModel.error} type="submit" onClick={handleSubmit}>Save</Button>
+    </>
+  }
+
+  const behaviorsTab = {
+    interfaceId: EDIT_ENTITY_MODEL_BEHAVIORS_TAB_IID,
+    label: 'Behaviors',
+    body: <>
+      <Unlockable interfaceId={ENTITY_MODEL_OPEN_COLLISIONS_IID}>
+        <Button onClick={() => {
+          openLiveEditor(COLLISION_EDITOR_IID, entityModel.entityModelId)
+        }}>Edit Collisions</Button>
+      </Unlockable>
+      {entityModel.entityIID === PLAYER_ENTITY_IID &&
+        <Unlockable interfaceId={ENTITY_MODEL_OPEN_CAMERA_IID}>
+          <Button onClick={() => {
+            openLiveEditor(CAMERA_EDITOR_IID, entityModel.entityModelId)
+          }}>Edit Camera</Button>
+        </Unlockable>
+      }
+      <Unlockable interfaceId={ENTITY_MODEL_OPEN_PROJECTILE_IID}>
+        <Button onClick={() => {
+          openLiveEditor(PROJECTILE_EDITOR_IID, entityModel.entityModelId)
+        }}>Edit Projectile</Button>
+      </Unlockable>
+      {entityModel.entityIID === PLAYER_ENTITY_IID && <Unlockable interfaceId={ENTITY_MODEL_OPEN_JUMP_IID}>
+        <Button onClick={() => {
+          openLiveEditor(JUMP_EDITOR_IID, entityModel.entityModelId)
+        }}>Edit Jump</Button>
+      </Unlockable>}
+      <Unlockable interfaceId={ENTITY_MODEL_OPEN_MOVEMENT_IID}>
+        <Button onClick={() => {
+          openLiveEditor(MOVEMENT_EDITOR_IID, entityModel.entityModelId)
+        }}>Edit Movement</Button>
+      </Unlockable>
+    </>
+  }
+
+  const autogenerationTab = {
+    interfaceId: EDIT_ENTITY_MODEL_AUTOGENERATION_TAB_IID,
+    label: 'Autogeneration',
+    body: <>
+      <Unlockable interfaceId={ENTITY_SPAWN_ZONE_ENTITY_IID}>
+        <SelectEntityModel 
+          entityModelType={ZONE_ENTITY_IID}
+          interfaceId={ENTITY_SPAWN_ZONE_ENTITY_IID}
+          formLabel={'Generate spawn effect for zones:'}
+          value={entityModel.spawnZoneEntityModelIds}
+          onChange={(event, entityModels) => {
+              updateCreateEntity({ spawnZoneEntityModelIds: entityModels })
+          }}
+        />
+      </Unlockable>
+      <Button disabled={entityModel.error} type="submit" onClick={handleSubmit}>Save</Button>
+    </>
+  }
+
+  const jsonTab = {
+    interfaceId: EDIT_ENTITY_MODEL_JSON_TAB_IID,
+    label: 'JSON',
+    body: <>
+        <Button onClick={() => {
+          copyToClipboard(JSON.stringify(entityModel))
+        }} >Copy to clipboard</Button>
+        <ReactJson src={entityModel} theme="monokai" />
+    </>
+  }
+
+  const advancedTabs = [autogenerationTab, jsonTab]
+
+  const advancedTab = {
+    interfaceId: EDIT_ENTITY_MODEL_ADVANCED_TAB_CONTANER_IID,
+    label: 'Advanced',
+    body: <>
+      <Divider/>
+      <CobrowsingTabs className="EditEntityDialog__tabs" interfaceGroupId={EDIT_ENTITY_MODEL_ADVANCED_TAB_CONTANER_IID} tabs={advancedTabs}/>
+    </>
+  }
+
+  const tabs = [generalTab, behaviorsTab, advancedTab]
+  
+  return <CobrowsingDialog widthModifier={1} open onClose={handleClose}>
+    <div className="EditEntityDialog">
+       <div className="EditEntityDialog__name"><Typography variant="h5">
+        {entityModel.isNew && 'New ' + entityModelTypeToDisplayName[entityModel.entityIID]}
+        {!entityModel.isNew && <div>
+          <EntityNameForm
+            initialName={entityModel.name}
+          />
+        </div>}
+        </Typography>
+      </div>
+
+      <CobrowsingTabs className="EditEntityDialog__tabs" interfaceGroupId={EDIT_ENTITY_MODEL_TAB_CONTANER_IID} tabs={tabs}/>
+
     </div>
+
   </CobrowsingDialog>
 }
 
@@ -135,5 +237,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { openEditEntityGraphics, closeEditEntityDialog, editGameModel, updateCreateEntity }),
+  connect(mapStateToProps, { openEditEntityGraphics, openLiveEditor, closeEditEntityDialog, editGameModel, updateCreateEntity }),
 )(EditEntityDialog);

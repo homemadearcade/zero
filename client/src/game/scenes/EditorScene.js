@@ -7,7 +7,7 @@ import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/edito
 import { clearBrush, clearEntity } from '../../store/actions/game/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom, setResizingEntityInstance } from '../../store/actions/game/gameViewEditorActions';
 import { PLAYER_INSTANCE_DID, ENTITY_INSTANCE_DID, UI_LAYER_DEPTH, 
-  STAGE_LAYER_ID, PAUSED_STATE, EVENT_SPAWN_MODEL_DRAG_FINISH,
+  STAGE_LAYER_ID, EVENT_SPAWN_MODEL_DRAG_FINISH,
    initialCameraZoneEntityId, initialStageZoneEntityId, 
    gameWidth, gameHeight } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
@@ -25,7 +25,6 @@ import { addSnackbar } from '../../store/actions/snackbarActions';
 import { BACKGROUND_LAYER_GROUP_IID, ENTITY_INSTANCE_MOVE_IID, FOREGROUND_LAYER_GROUP_IID, PLAYGROUND_LAYER_GROUP_IID } from '../../constants/interfaceIds';
 import { addCanvasImage, uploadCanvasImageAndAddToGameModel } from '../../store/actions/media/canvasImageActions';
 import { updateTheme } from '../../store/actions/themeActions';
-import { ON_GAME_INSTANCE_EVENT } from '../../store/types';
 import { changeInstanceHovering } from '../../store/actions/game/hoverPreviewActions';
 import { EXPERIENCE_ROLE_PARTICIPANT, IMAGE_TYPE_SNAPSHOT } from '../../constants';
 
@@ -60,7 +59,6 @@ export class EditorScene extends GameInstance {
   onDragStartContextMenu = (entityInstanceId) => {
     this.draggingEntityInstanceId = entityInstanceId
     this.isDragFromContext = true
-    if(!document.body.style.cursor) document.body.style.cursor = 'grab'
   }
 
   onDragStart = (pointer, entitySprite, dragX, dragY) => {
@@ -72,7 +70,6 @@ export class EditorScene extends GameInstance {
     // if(entitySprite.effectSpawned) return
 
     this.isDragFromContext = false
-    if(!document.body.style.cursor) document.body.style.cursor = 'grab'
 
     if(this.draggingEntityInstanceId) {
       this.continueDrag(entitySprite, {x: dragX, y: dragY})
@@ -90,7 +87,6 @@ export class EditorScene extends GameInstance {
   }
 
   finishDrag(entitySprite) {
-    document.body.style.cursor = null
     if(entitySprite.effectSpawned) {
       this.callGameInstanceEvent({
         gameRoomInstanceEventType: EVENT_SPAWN_MODEL_DRAG_FINISH,
@@ -1098,6 +1094,22 @@ export class EditorScene extends GameInstance {
       this.onResizeStart(resizingEntityInstanceId)
     } else if(!resizingEntityInstanceId && this.resizingEntityInstance) {
       this.clearResize()
+    }
+
+    const instanceEntityIdHovering = getCobrowsingState().hoverPreview.instanceEntityIdHovering
+    if(this.resizingEntityInstance) {
+      document.body.style.cursor = 'nesw-resize'
+    } else if(this.draggingEntityInstanceId) {
+      document.body.style.cursor = 'grab'
+    } else if(gameViewEditor.isSnapshotTakerOpen) {
+      document.body.style.cursor = 'cell'
+    } else if(instanceEntityIdHovering) {
+      const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
+      if(!isObscured) {
+        document.body.style.cursor = 'move'
+      }
+    } else {
+      document.body.style.cursor = 'default'
     }
 
     // const gameSelector = getCobrowsingState().gameSelector

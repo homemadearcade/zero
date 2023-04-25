@@ -58,7 +58,7 @@ const GameRoomDrawer = ({
         setIsDrawerOpen(false)
       }>
         <div className="GameRoomDrawer__drawer">
-          <Tabs tabs={[
+          <Tabs className="GameRoomDrawer__tabs" tabs={[
             {
               label: 'Game',
               body: <GameRoomOverview myTracks={myTracks} userTracks={userTracks}/>
