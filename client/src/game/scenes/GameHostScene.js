@@ -27,7 +27,6 @@ export class GameHostScene extends EditorScene {
     this.registerEvents()
   }
   
-
   callGameInstanceEvent({gameRoomInstanceEventType, data, hostOnly}) {
     if(!hostOnly) window.socket.emit(ON_GAME_INSTANCE_EVENT, { 
       gameRoomInstanceMongoId: this.gameRoomInstance.id,
@@ -97,7 +96,7 @@ export class GameHostScene extends EditorScene {
       this.updateNetworkStatus()
       
       window.socket.emit(ON_GAME_INSTANCE_UPDATE, 
-        { 
+        {
           gameInstanceId: this.gameInstanceId, 
           gameRoomInstanceMongoId: this.gameRoomInstance.id,
           entityInstances, 
@@ -105,7 +104,8 @@ export class GameHostScene extends EditorScene {
           temporaryInstances, 
           stageId: currentStageId, 
           upsHost: this.upsHost
-        })
+        }
+      )
       this.afterGameInstanceUpdateEffects() 
 
     }, updateInterval)

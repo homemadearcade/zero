@@ -55,19 +55,19 @@ export default {
     previewText: 'Add Player',
     interfaceGroupId: ENTITY_MODEL_IGID
   },
-  [POWERUP_ENTITY_CONTAINER_IID]: {
-    name: 'Powerups Container',
-    interfaceGroupId: ENTITY_MODEL_IGID
-    // ignoreTools: true
-  },
-  [POWERUP_ENTITY_SELECT_IID]: {
-    isDefaultUnlocked: true
-  },
-  [POWERUP_ENTITY_ADD_IID]: {
-    previewText: 'Add Powerup',
-    name: 'Add Powerup Button',
-    interfaceGroupId: ENTITY_MODEL_IGID
-  },
+  // [POWERUP_ENTITY_CONTAINER_IID]: {
+  //   name: 'Powerups Container',
+  //   interfaceGroupId: ENTITY_MODEL_IGID
+  //   // ignoreTools: true
+  // },
+  // [POWERUP_ENTITY_SELECT_IID]: {
+  //   isDefaultUnlocked: true
+  // },
+  // [POWERUP_ENTITY_ADD_IID]: {
+  //   previewText: 'Add Powerup',
+  //   name: 'Add Powerup Button',
+  //   interfaceGroupId: ENTITY_MODEL_IGID
+  // },
   [ENTITY_MODEL_REMOVE_IID]: {},
   [CHANGE_ENTITY_INTERFACE_IID]: {
     adminOnly: true

@@ -33,7 +33,7 @@ export function getSelectEntityFromEntityType(entityIID) {
   if(entityIID === ZONE_ENTITY_IID) return ZONE_ENTITY_SELECT_IID
   if(entityIID === BASIC_ENTITY_IID) return BASIC_ENTITY_SELECT_IID
   if(entityIID === NPC_ENTITY_IID) return NPC_ENTITY_SELECT_IID
-  if(entityIID === POWERUP_ENTITY_IID) return POWERUP_ENTITY_SELECT_IID
+  // if(entityIID === POWERUP_ENTITY_IID) return POWERUP_ENTITY_SELECT_IID
 }
 
 /////////////////////////////////////

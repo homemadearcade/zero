@@ -117,8 +117,8 @@ const EditEntityDialog = ({
           </TextureStage>
         </div>
         <div className="EditEntityDialog__primary-options">
-          {renderTagSelect()}
           {renderSelectInterfaceId()}
+          {renderTagSelect()}
         </div>
       </div>
       <Unlockable interfaceId={ENTITY_MODEL_BOUNDARY_RELATION_IID}>

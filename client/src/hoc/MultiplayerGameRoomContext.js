@@ -7,7 +7,6 @@ import { addGameRoom, editGameRoom, endGameRoom, joinGameRoom, leaveGameRoom } f
 import { initializeUnlockableInterfaceIds } from '../store/actions/game/unlockedInterfaceActions';
 import { getUserByMongoId } from '../store/actions/user/userActions';
 import LinearIndeterminateLoader from '../ui/LinearIndeterminateLoader/LinearIndeterminateLoader';
-import Loader from '../ui/Loader/Loader';
 import { generateUniqueId } from '../utils';
 
 class MultiplayerGameRoomContext extends Component {

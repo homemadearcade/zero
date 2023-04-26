@@ -68,13 +68,13 @@ const EntityModelAdd = ({
     </Unlockable>
   }
 
-  if(entityIID === POWERUP_ENTITY_IID) {
-    return <Unlockable interfaceId={POWERUP_ENTITY_ADD_IID}>
-      {children(() => {
-        onOpenEditEntityGraphics(defaultPowerupEntity)
-      })}
-    </Unlockable>
-  }
+  // if(entityIID === POWERUP_ENTITY_IID) {
+  //   return <Unlockable interfaceId={POWERUP_ENTITY_ADD_IID}>
+  //     {children(() => {
+  //       onOpenEditEntityGraphics(defaultPowerupEntity)
+  //     })}
+  //   </Unlockable>
+  // }
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
