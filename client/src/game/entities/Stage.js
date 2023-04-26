@@ -37,17 +37,17 @@ export class Stage {
   }
 
   setBoundaries(boundaries) {
-    const gameWidth = boundaries.width
-    const gameHeight = boundaries.height
+    const stageWidth = boundaries.width
+    const stageHeight = boundaries.height
     const gameX = boundaries.x
     const gameY = boundaries.y
     if(this.physicsType === MATTER_PHYSICS) {
       if(!boundaries.loop) {
-        this.scene.matter.world.setBounds(gameX, gameY, gameWidth, gameHeight);
+        this.scene.matter.world.setBounds(gameX, gameY, stageWidth, stageHeight);
       }
     }
     if(this.physicsType === ARCADE_PHYSICS) {
-      this.scene.physics.world.setBounds(gameX, gameY, gameWidth, gameHeight);
+      this.scene.physics.world.setBounds(gameX, gameY, stageWidth, stageHeight);
     }
   }
 

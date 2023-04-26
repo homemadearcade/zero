@@ -10,6 +10,8 @@ import Typography from '../../../ui/Typography/Typography';
 import GameTexturesDialog from '../../textures/GameTexturesDialog/GameTexturesDialog';
 import { closeGameTexturesDialog, openGameTexturesDialog } from '../../../store/actions/game/gameSelectorActions';
 import { getImageUrlFromTextureId } from '../../../utils';
+import SelectPlayScope from '../../ui/SelectPlayScope/SelectPlayScope';
+import SelectEditScope from '../../ui/SelectEditScope/SelectEditScope';
 
 const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, openGameTexturesDialog, closeGameTexturesDialog, gameSelector: { isGameTexturesDialogOpen} }) => {
   const metadata = gameModel.metadata
@@ -20,19 +22,25 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
 
   const { handleSubmit, reset, control } = useForm({
     defaultValues: {
-      title,
-      description,
-      authorPseudonym : authorPseudonym ? authorPseudonym : gameModel.owner?.username,
-      imageUrl
+      metadata: {
+        title,
+        description,
+        authorPseudonym : authorPseudonym ? authorPseudonym : gameModel.owner?.username,
+        imageUrl
+      },
+      playScope: gameModel.playScope,
+      editScope: gameModel.editScope,
     },
   });
 
   const submit = async (data) => {
     editGameModel({
       metadata: {
-        ...data,
+        ...data.metadata,
         imageUrl
       },
+      playScope: data.playScope,
+      editScope: data.editScope,
     })
     reset();
     onSubmit()
@@ -49,11 +57,10 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
 
   return (
     <div className="GameMetadataform">
-      <Typography variant="h2" component="h2">Game Metadata</Typography>
         {renderImageSelect()}
         <div>
           <Controller
-            name={"title"}
+            name={"metadata.title"}
             control={control}
             render={({ field: { onChange, value } }) => (
               <TextField onChange={onChange} value={value} label={"Title"} />
@@ -62,7 +69,7 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
         </div>
         <div>
           <Controller
-            name={"authorPseudonym"}
+            name={"metadata.authorPseudonym"}
             control={control}
             render={({ field: { onChange, value } }) => (
               <TextField onChange={onChange} value={value} label={"Author"} />
@@ -71,10 +78,28 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
         </div>
         <div>
           <Controller
-            name={"description"}
+            name={"metadata.description"}
             control={control}
             render={({ field: { onChange, value } }) => (
               <TextField multiline onChange={onChange} value={value} label={"Description"} />
+            )}
+          />
+        </div>
+        <div>
+          <Controller
+            name={"playScope"}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <SelectPlayScope formLabel="Who can play this game?" onChange={onChange} value={value} />
+            )}
+          />
+        </div>
+        <div>
+          <Controller
+            name={"editScope"}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <SelectEditScope formLabel="Who can edit this game?" onChange={onChange} value={value} />
             )}
           />
         </div>

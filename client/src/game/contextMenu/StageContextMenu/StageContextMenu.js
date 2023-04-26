@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
-import { openGameMetadataDialog, openLiveEditor } from '../../../store/actions/game/gameSelectorActions';
+import { openGameEditDialog, openLiveEditor } from '../../../store/actions/game/gameSelectorActions';
 import { toggleGridView, openSectionEditor, openSnapshotTaker, toggleLayerVisibility } from '../../../store/actions/game/gameViewEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { openCutscenesMenu, openStagesMenu } from '../../../store/actions/game/gameFormEditorActions';
@@ -15,14 +15,14 @@ const StageContextMenu = ({
   openSectionEditor, 
   onMenuItemClick, 
   openSelectStageColorDialog,
-  openGameMetadataDialog, 
+  openGameEditDialog, 
   openSnapshotTaker, 
   openStagesMenu,
   gameModel: { gameModel }, 
 }) => {
   return <>
     <ContextMenuTitle onClick={() => {
-        openGameMetadataDialog()
+        openGameEditDialog()
         onMenuItemClick()
     }}>{gameModel?.metadata.title}</ContextMenuTitle>
     <Unlockable interfaceId={STAGE_OPEN_GRAVITY_IID}>
@@ -37,30 +37,30 @@ const StageContextMenu = ({
         onMenuItemClick()
       }}>Edit Boundaries</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={STAGE_OPEN_BACKGROUND_COLOR_IID}>
+    {false && <Unlockable interfaceId={STAGE_OPEN_BACKGROUND_COLOR_IID}>
       <MenuItem onClick={() => {
         openSelectStageColorDialog()
         onMenuItemClick()
       }}>Edit Background Color</MenuItem>
-    </Unlockable>
-    <Unlockable interfaceId={GAME_OPEN_METADATA_IID}>
+    </Unlockable>}
+    {false && <Unlockable interfaceId={GAME_OPEN_METADATA_IID}>
       <MenuItem onClick={() => {
-        openGameMetadataDialog()
+        openGameEditDialog()
         onMenuItemClick()
       }}>Edit Metadata</MenuItem>
-    </Unlockable>
+    </Unlockable>}
     <Unlockable interfaceId={STAGES_OPEN_IID}>
       <MenuItem onClick={() => {
         openStagesMenu()
         onMenuItemClick()
       }}>Edit Stages</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={GAME_OPEN_SNAPSHOT_IID}>
+    {false && <Unlockable interfaceId={GAME_OPEN_SNAPSHOT_IID}>
       <MenuItem onClick={() => {
         openSnapshotTaker()
         onMenuItemClick()
       }}>Take Snapshot</MenuItem>
-    </Unlockable>
+    </Unlockable>}
     <Unlockable interfaceId={PLAYTEST_OPEN_IID}>
       <MenuItem onClick={() => {
         window.open(window.location.origin + '/play/' + gameModel.id, '_blank');
@@ -81,7 +81,7 @@ export default connect(mapStateToProps, {
   openSelectStageColorDialog, 
   openSnapshotTaker, 
   toggleGridView, 
-  openGameMetadataDialog, 
+  openGameEditDialog, 
   openCutscenesMenu,
   openStagesMenu,
   toggleLayerVisibility,

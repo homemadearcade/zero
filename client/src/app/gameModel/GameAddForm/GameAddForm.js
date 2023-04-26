@@ -10,6 +10,7 @@ import Dialog from '../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
+import { gameGridHeight, gameGridWidth, nodeSize } from '../../../game/constants';
 
 const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {} }) => {
   const [isAddGameFormOpen, setIsAddGameFormOpen] = useState(false)
@@ -28,6 +29,11 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
       brushes: {},
       colors: {},
       textures: {},
+      size: {
+        nodeSize: nodeSize,
+        gridWidth: gameGridWidth,
+        gridHeight: gameGridHeight
+      },
       userMongoId: me.id,
       ...defaultValues
     },

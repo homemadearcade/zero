@@ -8,6 +8,7 @@ import './CreditsActivity.scss'
 import { defaultGuideRoleId, defaultParticipantRoleId } from '../../../constants';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import { VIDEO_ACTIVITY_VIDEO_IID } from '../../../constants/interfaceIds';
+import HomemadeArcadeCredits from '../../../marketing/homemadeArcade/HomemadeArcadeCredits/HomemadeArcadeCredits';
 
 const CreditsActivity = ({
   lobbyInstance: { lobbyInstance },
@@ -35,7 +36,7 @@ const CreditsActivity = ({
           ></AgoraUserVideo>
         })}
       </div>
-      <iframe title="credits" src="/ha-credits" frameborder="0"></iframe>
+      <HomemadeArcadeCredits/>
       <div className="CreditsActivity__browse-right">
         {participantUserMongoIds.map((userMongoId, index) => {
           return <AgoraUserVideo

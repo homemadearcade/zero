@@ -29,7 +29,7 @@ export class CollisionCanvas extends CodrawingCanvas {
     const { bufferCanvasContext, bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
     const state = store.getState()
     const gameModel = state.gameModel.gameModel 
-    const nodeSize = gameModel.nodeSize
+    const nodeSize = gameModel.size.nodeSize
 
     const terrainData = bufferCanvasContext.getImageData(0, 0, bufferCanvas.width, bufferCanvas.height);
     const data = terrainData.data

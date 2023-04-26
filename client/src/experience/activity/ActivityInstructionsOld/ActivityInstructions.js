@@ -11,7 +11,7 @@ import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcad
 import Typography from '../../../ui/Typography/Typography';
 import LobbyChecklist from '../../lobbyInstance/LobbyChecklist/LobbyChecklist';
 import { isLocalHost, requestFullscreen } from '../../../utils/webPageUtils';
-import { openGameMetadataDialog } from '../../../store/actions/game/gameSelectorActions';
+import { openGameEditDialog } from '../../../store/actions/game/gameSelectorActions';
 import { ARCHIVE_USER_MONGO_ID, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY } from '../../../constants';
 import { ANIMATION_CONFETTI, defaultStage, EVENT_SPAWN_MODEL_IN_CAMERA, initialStageId, PAUSED_STATE, PLAY_STATE } from '../../../game/constants';
 import ActivityVerticalLinearStepper from '../ActivityVerticalLinearStepper/ActivityVerticalLinearStepper';
@@ -504,7 +504,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           id: 'Fill Out Game Metadata',
           title: <Typography component="h5" variant="h5">Fill Out Game Metadata</Typography>,
           onClickNext: () => {
-            store.dispatch(forceCobrowsingUpdateDispatch(openGameMetadataDialog()))
+            store.dispatch(forceCobrowsingUpdateDispatch(openGameEditDialog()))
             editGameModel({
               metadata: {
                 isPublished: true

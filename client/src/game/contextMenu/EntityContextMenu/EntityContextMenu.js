@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { editGameModel } from '../../../store/actions/game/gameModelActions'
 import { openJsonViewer, openLiveEditor } from '../../../store/actions/game/gameSelectorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { openEditEntityGraphics, openEditEntityDialog } from '../../../store/actions/game/gameFormEditorActions';
+import { openEditEntityGraphics, openEditEntityDialog, openCreateCanvasImageDialog } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { ENTITY_MODEL_DID, entityModelTypeToPrefix, initialCameraZoneEntityId } from '../../constants';
 import { entityModelTypeToDisplayName } from '../../constants';
@@ -24,14 +24,13 @@ import Icon from '../../../ui/Icon/Icon';
 const EntityContextMenu = ({ 
   editGameModel, 
   openEditEntityGraphics, 
-  openLiveEditor, 
   onMenuItemClick, 
   gameModel: { gameModel, currentStageId }, 
   playerInterface: { playerEntityModelId },
   openEditEntityDialog,
   entityModelId, 
   insideEntityInstanceContextMenu,
-  openJsonViewer,
+  openCreateCanvasImageDialog
 }) => {
   const entityModel = gameModel.entityModels[entityModelId]
 
@@ -62,6 +61,12 @@ const EntityContextMenu = ({
         openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, entityModel)
         onMenuItemClick()
       }}><ListItemIcon><Icon icon="faImage"/></ListItemIcon>Graphics</MenuItem>
+    </Unlockable>
+    <Unlockable interfaceId={ENTITY_MODEL_OPEN_GRAPHICS_IID}>
+      <MenuItem onClick={() => {
+        openCreateCanvasImageDialog(entityModelId, entityModel.graphics.textureId, entityModel.graphics.textureTint)
+        onMenuItemClick()
+      }}><ListItemIcon><Icon icon="faPaintbrush"/></ListItemIcon>Draw</MenuItem>
     </Unlockable>
     <Unlockable interfaceId={ENTITY_MODEL_OPEN_EDIT_IID}>
       <MenuItem onClick={() => {
@@ -143,4 +148,5 @@ export default connect(mapStateToProps, {
   openEditEntityGraphics, 
   openLiveEditor, 
   openEditEntityDialog,
+  openCreateCanvasImageDialog,
 })(EntityContextMenu);

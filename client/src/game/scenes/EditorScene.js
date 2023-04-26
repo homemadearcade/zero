@@ -9,18 +9,17 @@ import { closeSnapshotTaker, changeEditorCameraZoom, setResizingEntityInstance }
 import { PLAYER_INSTANCE_DID, ENTITY_INSTANCE_DID, UI_LAYER_DEPTH, 
   STAGE_LAYER_ID, EVENT_SPAWN_MODEL_DRAG_FINISH,
    initialCameraZoneEntityId, initialStageZoneEntityId, 
-   gameWidth, gameHeight } from '../constants';
+ } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { EntityStamper } from '../drawing/EntityStamper';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../drawing/ColorPencil';
-import { nodeSize } from '../constants';
 import { getImageUrlFromTextureId, urlToFile } from '../../utils/utils';
 import { generateUniqueId, getThemePrimaryColor, isLocalHost } from '../../utils/webPageUtils';
 import { getInterfaceIdData } from '../../utils/unlockedInterfaceUtils';
-import { createGameSceneInstance } from '../../utils/gameUtils';
+import { createGameSceneInstance, getGameModelSize } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
 import { BACKGROUND_LAYER_GROUP_IID, ENTITY_INSTANCE_MOVE_IID, FOREGROUND_LAYER_GROUP_IID, PLAYGROUND_LAYER_GROUP_IID } from '../../constants/interfaceIds';
 import { addCanvasImage, uploadCanvasImageAndAddToGameModel } from '../../store/actions/media/canvasImageActions';
@@ -141,6 +140,7 @@ export class EditorScene extends GameInstance {
   onResizeMove = (pointer) => {
     const phaserInstance = this.resizingEntityInstance.phaserInstance
     const boundaries = store.getState().gameModel.gameModel.stages[this.stage.stageId].boundaries
+    const nodeSize = store.getState().gameModel.gameModel.size.nodeSize
     // const distance = Phaser.Math.Distance.Between(phaserInstance.x, phaserInstance.y, pointer.worldX, pointer.worldY)
     const distanceW = Phaser.Math.Snap.To(Math.abs(phaserInstance.x - pointer.worldX), nodeSize)
     const distanceH = Phaser.Math.Snap.To(Math.abs(phaserInstance.y - pointer.worldY), nodeSize)
@@ -708,11 +708,11 @@ export class EditorScene extends GameInstance {
         // set camera previews zoom
         // set camera bounds
         // set world bounds
-        const gameWidth = stageUpdate.boundaries.width
-        const gameHeight = stageUpdate.boundaries.height
-        const gameX = stageUpdate.boundaries.x
-        const gameY = stageUpdate.boundaries.y
-        this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight)
+        const stageWidth = stageUpdate.boundaries.width
+        const stageHeight = stageUpdate.boundaries.height
+        const stageX = stageUpdate.boundaries.x
+        const stageY = stageUpdate.boundaries.y
+        this.cameras.main.setBounds(stageX, stageY, stageWidth, stageHeight)
         this.stage.setBoundaries(stageUpdate.boundaries)
         this.forAllEntityInstancesMatchingEntityId(initialStageZoneEntityId, (entityInstance) => {
           const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
@@ -948,13 +948,14 @@ export class EditorScene extends GameInstance {
     if(this.grid2) this.grid2.destroy()
 
     const boundaries = store.getState().gameModel.gameModel.stages[this.stage.stageId].boundaries
+    const nodeSize = store.getState().gameModel.gameModel.size.nodeSize
 
-    const gameWidth = boundaries.width
-    const gameHeight = boundaries.height
-    const gameX = boundaries.x
-    const gameY = boundaries.y
-    this.grid = this.add.grid(gameX + gameWidth/2, gameY + gameHeight/2, gameWidth, gameHeight, nodeSize, nodeSize, null, null, 0x222222, 0.2)
-    this.grid2 = this.add.grid(gameX + gameWidth/2, gameY + gameHeight/2, gameWidth, gameHeight, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
+    const stageWidth = boundaries.width
+    const stageHeight = boundaries.height
+    const stageX = boundaries.x
+    const stageY = boundaries.y
+    this.grid = this.add.grid(stageX + stageWidth/2, stageY + stageHeight/2, stageWidth, stageHeight, nodeSize, nodeSize, null, null, 0x222222, 0.2)
+    this.grid2 = this.add.grid(stageX + stageWidth/2, stageY + stageHeight/2, stageWidth, stageHeight, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
 
     this.grid.setDepth(UI_LAYER_DEPTH)
     this.grid2.setDepth(UI_LAYER_DEPTH)
@@ -969,12 +970,14 @@ export class EditorScene extends GameInstance {
     const boundaries = gameModel.stages[this.stage.stageId].boundaries
     const gameMaxWidth = boundaries.maxWidth
     const gameMaxHeight = boundaries.maxHeight
-    
+
+    const { width, height } = getGameModelSize(gameModel)
+
     const editorCameraJSON = {
       x: 0,
       y: 0,
-      width: gameWidth,
-      height: gameHeight,
+      width,
+      height,
       zoom: 3,
       rotation: 0,
       scrollX: 0,

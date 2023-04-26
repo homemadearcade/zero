@@ -1,6 +1,14 @@
 import Phaser from 'phaser';
 
-import { PLAYER_INSTANCE_DID,  UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, GAME_START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_END_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_MODEL_IN_CAMERA, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth, noRemoteEffectedTagEffects, EFFECT_SPAWN, effectEditInterfaces, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_DESTROY, EFFECT_TRANSFORM, SPAWNED_INSTANCE_DID, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, EFFECT_CUTSCENE, EFFECT_CAMERA_SHAKE, EFFECT_END_GAME, EFFECT_SWITCH_STAGE, RUN_GAME_INSTANCE_ACTION, ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION, gameWidth, EFFECT_PAUSE_GAME, EFFECT_UNPAUSE_GAME } from '../constants';
+import { PLAYER_INSTANCE_DID,
+    UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH,
+     GAME_START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, 
+     GAME_END_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI,
+      EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID, 
+      NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth, noRemoteEffectedTagEffects, EFFECT_SPAWN, effectEditInterfaces, 
+      EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_DESTROY, EFFECT_TRANSFORM, SPAWNED_INSTANCE_DID, SPAWN_ZONE_A_SELECT, 
+      SPAWN_ZONE_B_SELECT, EFFECT_CUTSCENE, EFFECT_CAMERA_SHAKE, EFFECT_END_GAME, EFFECT_SWITCH_STAGE, RUN_GAME_INSTANCE_ACTION,
+       ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_UNPAUSE_GAME } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerEntity, clearCutscenes, openCutscene } from '../../store/actions/game/playerInterfaceActions';
@@ -14,7 +22,7 @@ import { Stage } from '../entities/Stage';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
 import JSConfetti from 'js-confetti'
 import { directionalPlayerEntityId } from '../constants';
-import { generateUniqueId, getLayerIdFromEraserId, isZoneEntityId } from '../../utils';
+import { generateUniqueId, getGameModelSize, getLayerIdFromEraserId, isZoneEntityId } from '../../utils';
 import { NO_RELATION_TAG_EFFECT_IID, PLAYGROUND_LAYER_GROUP_IID } from '../../constants/interfaceIds';
 import _ from 'lodash';
 import { updateLobbyMember } from '../../store/actions/experience/lobbyInstanceActions';
@@ -577,12 +585,12 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     // CAMERA
     ////////////////////////////////////////////////////////////
-    const gameWidth = currentStage.boundaries.width
-    const gameHeight = currentStage.boundaries.height
-    const gameX = currentStage.boundaries.x
-    const gameY = currentStage.boundaries.y
+    const stageWidth = currentStage.boundaries.width
+    const stageHeight = currentStage.boundaries.height
+    const stageX = currentStage.boundaries.x
+    const stageY = currentStage.boundaries.y
 
-    this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight);
+    this.cameras.main.setBounds(stageX, stageY, stageWidth, stageHeight);
     this.cameras.main.pan(this.playerInstance.phaserInstance.x, this.playerInstance.phaserInstance.y, 0)
     const playerCameraZone = gameModel.entityModels[initialCameraZoneEntityId]
     this.setPlayerZoom({...playerCameraZone.graphics});
@@ -601,7 +609,8 @@ export class GameInstance extends Phaser.Scene {
         let intensity = data.intensity/333
         const gameBoundaryWidth = this.getCurrentStage().boundaries.width
 
-        const gameSizePercent = gameBoundaryWidth/gameWidth
+        const { width } = getGameModelSize(store.getState().gameModel.gameModel)
+        const gameSizePercent = gameBoundaryWidth/width
         
         intensity = intensity * gameSizePercent
 

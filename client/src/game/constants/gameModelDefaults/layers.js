@@ -1,6 +1,5 @@
 import { BACKGROUND_LAYER_GROUP_IID, DATA_SOURCE_GAME_MODEL_IID, FOREGROUND_LAYER_GROUP_IID, PLAYGROUND_LAYER_GROUP_IID } from "../../../constants/interfaceIds";
-import {  gameHeight, gameWidth } from "../core";
-import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
+import { gameGridHeight, gameGridWidth, nodeSize, PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { FOREGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { BACKGROUND_LAYER_GROUP_DEPTH } from "../core";
 
@@ -10,8 +9,8 @@ export const defaultLayer = {
   stageId: null,
   hasCollisionBody: false,
   layerGroupIID: null,
-  width: gameWidth,
-  height: gameHeight,
+  width: nodeSize * gameGridWidth,
+  height: nodeSize * gameGridHeight,
   dataSourceIID: DATA_SOURCE_GAME_MODEL_IID
 }
 

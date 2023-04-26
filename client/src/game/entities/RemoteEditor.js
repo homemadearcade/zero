@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import { nodeSize } from "../constants";
 import store from "../../store";
 import { CameraPreview } from "./members/CameraPreview";
 import { getHexIntFromHexString } from "../../utils";
@@ -27,6 +26,7 @@ export class RemoteEditor extends Phaser.GameObjects.Container {
     if(!this.scene) return console.log('we dont have a scene here... preventing phaser breakdown')
     this.cameraPreview = new CameraPreview(this.scene, { zoom: phaserView.cameraZoom, color: this.color})
 
+    const nodeSize = store.getState().gameModel.gameModel.size.nodeSize
     var circle = new Phaser.Geom.Circle(0, 0, nodeSize);
     // circle.setPosition(400, 200);
     this.mouse = this.scene.add.graphics({ lineStyle: { color: this.color } });

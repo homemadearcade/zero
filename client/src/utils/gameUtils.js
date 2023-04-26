@@ -9,6 +9,17 @@ import { getCurrentGameScene } from "./editorUtils";
 import Phaser from 'phaser'
 
 
+export const getGameModelSize = (gameModel) => {
+  const width = gameModel.size.nodeSize * gameModel.size.gridWidth
+  const height = gameModel.size.nodeSize * gameModel.size.gridHeight
+  const aspectRatio = width / height
+
+  return {
+    width,
+    height,
+    aspectRatio
+  }
+}
 
 export function isGameBoundaryWall(world, body) {
   if(body === world.walls.left || body === world.walls.right || body === world.walls.up || body === world.walls.down) {

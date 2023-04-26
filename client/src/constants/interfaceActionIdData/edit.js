@@ -1,5 +1,5 @@
 import { openCreateStageDialog, openEditEntityDialog, openEditEntityGraphics } from "../../store/actions/game/gameFormEditorActions";
-import { openGameMetadataDialog, openLiveEditor, openSelectStageColorDialog } from "../../store/actions/game/gameSelectorActions";
+import { openGameEditDialog, openLiveEditor, openSelectStageColorDialog } from "../../store/actions/game/gameSelectorActions";
 import { openSectionEditor } from "../../store/actions/game/gameViewEditorActions";
 import { EDIT_CURRENT_PLAYER_CAMERA_AID, EDIT_CURRENT_STAGE_AID, EDIT_CURRENT_STAGE_BACKGROUND_COLOR_AID, EDIT_CURRENT_STAGE_BOUNDARIES_AID, EDIT_ENTITY_AID, EDIT_ENTITY_GRAPHICS_AID, EDIT_GAME_METADATA_AID } from "../interfaceActionIds/edit";
 import { INTERFACE_ACTION_EDIT } from "../interfaceActions";
@@ -37,7 +37,7 @@ export default {
     subTitle: 'This will open a popup to edit the game metadata',
     actionType: INTERFACE_ACTION_EDIT,
     onClick: () => (dispatch) => {
-      dispatch(openGameMetadataDialog())
+      dispatch(openGameEditDialog())
     }
   },
   [EDIT_ENTITY_GRAPHICS_AID]: {

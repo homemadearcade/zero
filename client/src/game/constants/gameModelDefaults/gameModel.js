@@ -3,12 +3,13 @@ import { DEFAULT_THEME_COLOR } from "../../../constants";
 import { defaultZoneEntity, directionalEntity, jumperEntity, swimmerEntity, vehicleEntity } from "../entityModelDefaults";
 import { initialStage } from "./stage";
 import { directionalPlayerEntityId, initialCameraZoneEntityId, initialPlayerSpawnZoneEntityId, initialStageId, initialStageZoneEntityId, jumperPlayerEntityId, 
-  vehiclePlayerEntityId, gameWidth, gameHeight, swimmerPlayerEntityId } from "../core";
+  vehiclePlayerEntityId,  gameHeight, swimmerPlayerEntityId, gameGridWidth, gameGridHeight } from "../core";
 import { mirrorPlayerDefaults } from "../entityModelPropertyDefaults";
 import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { nodeSize } from "../core";
 import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, DATA_SOURCE_SYSTEM_IID, ENTITY_SPAWN_ZONE_ENTITY_IID } from "../../../constants/interfaceIds";
-import { DRAW_NEW_SPRITE_FOR_ENTITY_AID, EDIT_ENTITY_AID, EDIT_ENTITY_GRAPHICS_AID, IMPORT_DATA_SOURCE_AID, PLACE_ENTITY_AID } from "../../../constants/interfaceActionIds";
+import { EDIT_ENTITY_AID, IMPORT_DATA_SOURCE_AID, PLACE_ENTITY_AID } from "../../../constants/interfaceActionIds";
+import { EDIT_GAME_SCOPE_ONLY_ME, PLAY_GAME_SCOPE_ONLY_ME } from "./scope";
 
 export const defaultGameModel = {
   "metadata": {
@@ -16,13 +17,20 @@ export const defaultGameModel = {
     "description": "",
     "authorPseudonym": "",
     "imageUrl": "",
-    isArchived: false,
-    isFeatured: false,
-    isPublished: false,
+    // isArchived: false,
+    // isFeatured: false,
+    // isPublished: false,
   },
+  playScope: PLAY_GAME_SCOPE_ONLY_ME,
+  editScope: EDIT_GAME_SCOPE_ONLY_ME,
   importedArcadeGames: [],
   theme: {
     primaryColor: DEFAULT_THEME_COLOR
+  },
+  size: {
+    gridWidth: gameGridWidth,
+    gridHeight: gameGridHeight,
+    "nodeSize": nodeSize,
   },
   "stages": {
      [initialStageId]: {
@@ -30,7 +38,6 @@ export const defaultGameModel = {
       stageId: initialStageId
     }
   },
-  "nodeSize": nodeSize,
   colors: {
 
   },
@@ -159,8 +166,8 @@ export const defaultGameModel = {
         ...defaultZoneEntity.graphics,
         textureTint: '#000000',
         depthOverride: 1,
-        width: gameWidth,
-        height: gameHeight
+        width: nodeSize * gameGridWidth,
+        height: nodeSize * gameGridHeight
       },
       dataSourceIID: DATA_SOURCE_SYSTEM_IID,
     }

@@ -18,6 +18,6 @@ export * from "./selectorInterfaceIds";
 export * from "./dataSourceInterfaceIds";
 export * from './graphicsInterfaceIds'
 export * from './entityInstanceInterfaceIds'
-export * from './entityModelMemberInterfaceIds'
+export * from './entityModelBehaviorInterfaceIds'
 export * from './dialogInterfaceIds'
 export * from './tabInterfaceIds'

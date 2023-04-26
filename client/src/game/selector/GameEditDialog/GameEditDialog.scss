@@ -1,7 +1,13 @@
-.GameMetadataDialog {
+.GameEditDialog {
   &__imported-games {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 1em;
+  }
+
+  &__tabs {
+    .Tabs__panel {
+      min-height: 25em;
+    }
   }
 }

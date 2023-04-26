@@ -2,37 +2,45 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './GameMetadataDialog.scss';
+import './GameEditDialog.scss';
 import CobrowsingDialog from '../../cobrowsing/CobrowsingDialog/CobrowsingDialog';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { closeGameMetadataDialog } from '../../../store/actions/game/gameSelectorActions';
+import { closeGameEditDialog } from '../../../store/actions/game/gameSelectorActions';
 import GameMetadataForm from '../GameMetadataForm/GameMetadataForm';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { GAME_MODEL_IMPORT_IID, GAME_INTERFACE_COLOR_IID } from '../../../constants/interfaceIds';
+import { GAME_MODEL_IMPORT_IID, GAME_INTERFACE_COLOR_IID, EDIT_GAME_TAB_CONTANER_IID, EDIT_GAME_METADATA_TAB_IID, EDIT_GAME_LIBRARY_TAB_IID, EDIT_GAME_THEME_TAB_IID } from '../../../constants/interfaceIds';
 import FormLabel from '../../../ui/FormLabel/FormLabel';
-import Divider from '../../../ui/Divider/Divider';
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import GameCard from '../../../app/gameModel/GameCard/GameCard';
 import { addImportedArcadeGame } from '../../../store/actions/game/arcadeGameActions';
 import Alert from '../../../ui/Alert/Alert';
+import CobrowsingTabs from '../../cobrowsing/CobrowsingTabs/CobrowsingTabs';
 
-const GameMetadataDialog = ({ 
-  editGameModel, closeGameMetadataDialog, 
+const GameEditDialog = ({ 
+  editGameModel, closeGameEditDialog, 
   gameViewEditor: { isSnapshotTakerOpen },
   gameModel: { gameModel },
   addImportedArcadeGame
 }) => {
   function handleClose() {
-    closeGameMetadataDialog()
+    closeGameEditDialog()
   }
 
-  return <CobrowsingDialog open={!isSnapshotTakerOpen} onClose={handleClose}>
-    <div className="GameMetadataDialog">
+  const metadataTab = {
+    interfaceId: EDIT_GAME_METADATA_TAB_IID,
+    label: 'General',
+    body: <>
       <GameMetadataForm onSubmit={handleClose}/>
+    </>
+  }
+
+  const themeTab = {
+    interfaceId: EDIT_GAME_THEME_TAB_IID,
+    label: 'Theme',
+    body: <>
       <Unlockable interfaceId={GAME_INTERFACE_COLOR_IID}>
-        <Divider/>
         <FormLabel>
           Interface Color
         </FormLabel>
@@ -45,8 +53,14 @@ const GameMetadataDialog = ({
           }}
         />
       </Unlockable>
-      <Unlockable interfaceId={GAME_MODEL_IMPORT_IID}>
-        <Divider/>
+    </>
+  }
+
+  const libraryTab = {
+    interfaceId: EDIT_GAME_LIBRARY_TAB_IID,
+    label: 'Library',
+    body: <>
+       <Unlockable interfaceId={GAME_MODEL_IMPORT_IID}>
         <SelectArcadeGame excludedIds={gameModel.id} removeFilter = {(game) => {
           if(!game.importedArcadeGames || game.importedArcadeGames?.length) return false 
           return true 
@@ -56,7 +70,7 @@ const GameMetadataDialog = ({
         }
         }}/>
         <FormLabel>Imported Games</FormLabel>
-        <div className="GameMetadataDialog__imported-games">{gameModel.importedArcadeGames?.map((gameModel) => {
+        <div className="GameEditDialog__imported-games">{gameModel.importedArcadeGames?.map((gameModel) => {
           if(gameModel.importedArcadeGames?.length) return <>
             <Alert severity="error">
               {gameModel.metadata.title + ' also has imported games and cannot be imported'}
@@ -66,6 +80,14 @@ const GameMetadataDialog = ({
         })}
         </div>
       </Unlockable>
+    </>
+  }
+
+  const tabs = [metadataTab, themeTab, libraryTab]
+
+  return <CobrowsingDialog widthModifier={1} open={!isSnapshotTakerOpen} onClose={handleClose}>
+    <div className="GameEditDialog">
+      <CobrowsingTabs className="GameEditDialog__tabs" interfaceGroupId={EDIT_GAME_TAB_CONTANER_IID} tabs={tabs}/>
     </div>
   </CobrowsingDialog>
 }
@@ -73,9 +95,8 @@ const GameMetadataDialog = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameViewEditor: state.gameViewEditor,
   gameModel: state.gameModel,
-
 })
 
 export default compose(
-  connect(mapStateToProps, { closeGameMetadataDialog, editGameModel, addImportedArcadeGame }),
-)(GameMetadataDialog);
+  connect(mapStateToProps, { closeGameEditDialog, editGameModel, addImportedArcadeGame }),
+)(GameEditDialog);

@@ -17,7 +17,7 @@ import videoInterfaceIdData from "./videoInterfaceIdData";
 import selectorInterfaceIdData from "./selectorInterfaceIdData";
 import dataSourceInterfaceIdData from "./dataSourceInterfaceIdData";
 import graphicsInterfaceIdData from "./graphicsInterfaceIdData";
-import entityModelMemberInterfaceIdData from "./entityModelMemberInterfaceIdData";
+import entityModelBehaviorInterfaceIdData from "./entityModelBehaviorInterfaceIdData";
 import dialogInterfaceIdData from "./dialogInterfaceIdData";
 
 export * from './hideableInterfaceIds'
@@ -42,6 +42,6 @@ export const interfaceIdData = {
   ...selectorInterfaceIdData,
   ...dataSourceInterfaceIdData,
   ...graphicsInterfaceIdData,
-  ...entityModelMemberInterfaceIdData,
+  ...entityModelBehaviorInterfaceIdData,
   ...dialogInterfaceIdData
 }

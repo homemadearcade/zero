@@ -6,21 +6,13 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { TabsBody } from '../../../ui/Tabs/Tabs';
 
 function CobrowsingNestedList({interfaceGroupId, tabs, className, updateOpenInterfaceId, gameSelector}) {
-   const open = gameSelector.openInterfaceIdGroups[interfaceGroupId]
-
-  useEffect(() => {
-    if(open === undefined) {
-      updateOpenInterfaceId(interfaceGroupId, 0);
-    }
-  }, [])
-
-  if(open === undefined) return
+   const currentTabInterfaceId = gameSelector.openInterfaceIdGroups[interfaceGroupId]
 
   const handleChange = (newTab) =>{
     updateOpenInterfaceId(interfaceGroupId, newTab);
   };
 
-  return <TabsBody tabs={tabs} className={className} value={open} onChange={handleChange}/>
+  return <TabsBody tabs={tabs} className={className} currentTabInterfaceId={currentTabInterfaceId} onChange={handleChange}/>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

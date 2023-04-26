@@ -117,7 +117,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       events: req.body.events,
       effects: req.body.effects,
       textures: req.body.textures,
-      nodeSize: req.body.nodeSize, 
+      size: req.body.size, 
       owner: req.body.userMongoId,
       gameModelId: GAME_MODEL_DID + generateUniqueId()
     });
@@ -252,7 +252,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       relationTags: updatedGame.relationTags,
       cutscenes: updatedGame.cutscenes,
       textures: updatedGame.textures,
-      nodeSize: updatedGame.nodeSize, 
+      size: updatedGame.size, 
       relations: updatedGame.relations, 
       events: updatedGame.events, 
       collisions: updatedGame.collisions, 
@@ -261,6 +261,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       isRemoved: updatedGame.isRemoved,
       stages: updatedGame.stages,
       layers: updatedGame.layers,
+      version: updatedGame.version,
       // user: tempGame.owner ? tempGame.owner.id : Math.random()
     }
 

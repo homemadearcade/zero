@@ -6,7 +6,6 @@ import './ConstellationHero.scss';
 import { Fade, useMediaQuery } from '@mui/material';
 import { Constellation } from '../Constellation/Constellation';
 import Typography from '../../../ui/Typography/Typography';
-import Button from '../../../ui/Button/Button';
 
 const ConstellationHero = ({children, width, height}) => {
   const matches = useMediaQuery('(max-width:800px)');
@@ -16,7 +15,7 @@ const ConstellationHero = ({children, width, height}) => {
     <Fade in timeout={{ enter: 3000 }}><div><Constellation width={width} height={height}>
       <Fade in timeout={{ enter: 5000 }}>
         <div>
-          <Typography className="ConstellationHero__title" font="2P" component="h3" variant={matches ? 'h4' : "h1"}>Homemade<br/> Arcade</Typography>
+          <Typography className="ConstellationHero__title" font="2P" component="h3" variant={matches ? 'h4' : "h2"}>Homemade<br/> Arcade</Typography>
           {children}
         </div>
       </Fade>

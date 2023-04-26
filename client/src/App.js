@@ -32,7 +32,6 @@ import InterfaceListPage from './pages/InterfaceListPage/InterfaceListPage';
 import ArcadePage from './pages/ArcadePage/ArcadePage';
 import ExperienceCreatorPage from './pages/ExperienceCreatorPage/ExperienceCreatorPage';
 import ExperiencesPage from './pages/ExperiencesPage/ExperiencesPage';
-import HomemadeArcadeCreditsPage from './pages/HomemadeArcadeCreditsPage/HomemadeArcadeCreditsPage';
 
 window.awsUrl = window.location.origin + '/api/aws/' //'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
@@ -326,7 +325,6 @@ const App = ({ theme: { primaryColor } }) => {
         <Switch>
           <Route path="/wishlabs" children={wrapComponentInAppIfAuthenticated(WishLabsPage)}/>
           <Route path="/buy-tickets" children={wrapComponentInAppIfAuthenticated(HATicketsPage)}/>
-          <Route path="/ha-credits" children={<HomemadeArcadeCreditsPage/>} />
           <Route path="/calendar" children={wrapComponentInApp(TicketedEventCalendarPage)} />
           <Route path="/games" children={wrapComponentInApp(GamesPage)} />
           <Route path="/arcade" children={wrapComponentInApp(ArcadePage)} />

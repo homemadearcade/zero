@@ -37,7 +37,7 @@ const initialState = {
   entityModelIdSelectedLiveEditor: null,
   liveEditingCategory: null,
   isSelectStageColorDialogOpen: false,
-  isGameMetadataDialogOpen: false,
+  isGameEditDialogOpen: false,
   openInterfaceIdGroups: {
   },
   verticalLinearSteppers: {
@@ -167,12 +167,12 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
     case OPEN_GAME_METADATA_DIALOG: 
       return {
         ...state,
-        isGameMetadataDialogOpen: true
+        isGameEditDialogOpen: true
       }
     case CLOSE_GAME_METADATA_DIALOG:
       return {
         ...state,
-        isGameMetadataDialogOpen: false
+        isGameEditDialogOpen: false
       }
     case OPEN_ENTITY_BOX_DIALOG: 
       return {

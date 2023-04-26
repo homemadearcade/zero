@@ -22,7 +22,7 @@ const LayerVisibility = ({
       toggleLayerVisibility(layerId)
     }}
   > 
-    <Button startIcon={<Icon icon="faMapLocation"></Icon>} size="tiny">
+    <Button startIcon={<Icon icon="faEye"></Icon>} size="tiny">
       {!layerInvisibility[layerId] && 'Hide'}
       {layerInvisibility[layerId] && 'Show'}
     </Button>

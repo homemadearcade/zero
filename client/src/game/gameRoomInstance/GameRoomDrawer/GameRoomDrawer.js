@@ -19,6 +19,7 @@ import LobbyOverview from '../../../experience/lobbyInstance/LobbyOverview/Lobby
 import ActivityTransitionToggle from '../../../experience/activity/ActivityTransitionToggle/ActivityTransitionToggle';
 import LobbyDashboardToggle from '../../../experience/lobbyInstance/LobbyDashboardToggle/LobbyDashboardToggle';
 import Chatroom from '../../../experience/Chatroom/Chatroom';
+import { LOBBY_DRAWER_CHATLOG_TAB_IID, LOBBY_DRAWER_GAME_ROOM_TAB_IID, LOBBY_DRAWER_ROLES_TAB_IID } from '../../../constants/interfaceIds';
 
 const GameRoomDrawer = ({
   lobbyInstance: { lobbyInstance },
@@ -60,16 +61,19 @@ const GameRoomDrawer = ({
         <div className="GameRoomDrawer__drawer">
           <Tabs className="GameRoomDrawer__tabs" tabs={[
             {
+              interfaceId: LOBBY_DRAWER_GAME_ROOM_TAB_IID,
               label: 'Game',
               body: <GameRoomOverview myTracks={myTracks} userTracks={userTracks}/>
             },
             {
-            label: 'Chatlog',
+              interfaceId: LOBBY_DRAWER_CHATLOG_TAB_IID,
+              label: 'Chatlog',
               body: <div className="LobbyDashboard__chatroom">
                 <Chatroom myTracks={myTracks} userTracks={userTracks} />
               </div>
             },
             {
+              interfaceId: LOBBY_DRAWER_ROLES_TAB_IID,
               label: 'Roles',
               body: <>
                 <LobbyOverview myTracks={myTracks} userTracks={userTracks}></LobbyOverview>

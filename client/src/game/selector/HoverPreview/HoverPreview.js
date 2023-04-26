@@ -11,7 +11,7 @@ import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
 import { entityModelTypeToDisplayName } from '../../constants';
 import { initialStageId } from '../../constants';
-import { changeSelectorList, openGameMetadataDialog, openSelectStageColorDialog } from '../../../store/actions/game/gameSelectorActions';
+import { changeSelectorList, openGameEditDialog, openSelectStageColorDialog } from '../../../store/actions/game/gameSelectorActions';
 import Button from '../../../ui/Button/Button';
 import { openEditEntityDialog, openEffectPromptDialog } from '../../../store/actions/game/gameFormEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
@@ -47,7 +47,11 @@ const HoverPreview = ({
   gameRoomInstance: {
     gameRoomInstance
   },
-  openGameMetadataDialog,
+  gameViewEditor: {
+    isSectionEditorOpen,
+    isSnapshotTakerOpen
+  },
+  openGameEditDialog,
   openEditEntityDialog,
   openSelectStageColorDialog,
   openSnapshotTaker,
@@ -60,14 +64,15 @@ const HoverPreview = ({
 
   if(!gameModel) return 
   
-
-  const { metadata,
+  const { 
+      metadata,
       entityModels,
       brushes,
       stages,
       effects,
       relations,
-      relationTags } = gameModel
+      relationTags
+    } = gameModel
 
   const currentStage = stages[currentStageId]
 
@@ -98,7 +103,7 @@ const HoverPreview = ({
   function renderEditableIcon(onEdit) {
     return <Button size="xs" className="HoverPreview__editable" onClick={() => {
       onEdit()
-    }}><Icon icon="faPen"></Icon></Button>
+    }}><Icon icon="faPenToSquare"></Icon></Button>
   }
 
   function renderDisplayTitle(title, onEdit) {
@@ -118,7 +123,7 @@ const HoverPreview = ({
         {renderDisplayTitle(title, onEdit)}
         <Typography 
           variant="div" 
-          sx={{fontSize:'.4em'}}
+          sx={{fontSize:'1em', marginTop: '.2em'}}
         >
           {subtitle}
         </Typography>
@@ -214,15 +219,15 @@ const HoverPreview = ({
       {(gameRoomInstance.gameState === PAUSED_STATE) && renderDisplayTitle('(Paused)')}
       {isHoveringOverTitle && 
         <div className="HoverPreview__actions">
+          <Unlockable interfaceId={GAME_OPEN_METADATA_IID}>
+            {renderEditableIcon(() => {
+              openGameEditDialog()
+            })}
+          </Unlockable>
           <Unlockable interfaceId={GAME_OPEN_SNAPSHOT_IID}>
             <Button size="xs" onClick={() => {
               openSnapshotTaker()
             }}><Icon icon="faCameraRetro"/></Button>
-          </Unlockable>
-          <Unlockable interfaceId={GAME_OPEN_METADATA_IID}>
-            {renderEditableIcon(() => {
-              openGameMetadataDialog()
-            })}
           </Unlockable>
           {<Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
             <Button size="xs" onClick={() => {
@@ -255,6 +260,20 @@ const HoverPreview = ({
       return <div className="HoverPreview__title">
         <Typography font="2P" variant="subtitle2">{interfaceData.previewText}</Typography>
       </div>
+    }
+
+    if(isSectionEditorOpen) {
+      return renderTextOnlyDisplay({
+        title: 'Editing Boundaries',
+        subtitle: 'Click squares on the map to allow movement into that area',
+      })
+    } 
+    
+    if(isSnapshotTakerOpen) {
+      return renderTextOnlyDisplay({
+        title: 'Taking Snapshot',
+        subtitle: 'Draw a square on the map for where you want to take a photo',
+      })
     }
 
     // hovering 
@@ -313,7 +332,8 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameSelector: state.gameSelector,
   cobrowsing: state.cobrowsing,
-  gameRoomInstance: state.gameRoomInstance
+  gameRoomInstance: state.gameRoomInstance,
+  gameViewEditor: state.gameViewEditor,
 })
 
-export default connect(mapStateToProps, { openEffectPromptDialog, openGameMetadataDialog, openEditEntityDialog, openSelectStageColorDialog, openSnapshotTaker, changeSelectorList })(HoverPreview);
+export default connect(mapStateToProps, { openEffectPromptDialog, openGameEditDialog, openEditEntityDialog, openSelectStageColorDialog, openSnapshotTaker, changeSelectorList })(HoverPreview);

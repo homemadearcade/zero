@@ -24,7 +24,7 @@ export class Brush extends Phaser.GameObjects.Image {
     this.scene.add.existing(this)
 
     const brushSize = getCobrowsingState().gameSelector.brushSize
-    const nodeSize = store.getState().gameModel.gameModel.nodeSize
+    const nodeSize = store.getState().gameModel.gameModel.size.nodeSize
     this.width = nodeSize * brushSize
     this.height = nodeSize * brushSize
 

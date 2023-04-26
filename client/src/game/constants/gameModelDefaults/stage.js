@@ -1,4 +1,7 @@
-import { gameHeight, gameWidth, initialCameraZoneEntityId, initialCameraZoneInstanceId, initialPlayerEntityId, initialPlayerSpawnZoneEntityId, initialPlayerSpawnZoneInstanceId, initialStageZoneEntityId, initialStageZoneInstanceId } from "..";
+import { gameGridWidth, initialCameraZoneEntityId, initialCameraZoneInstanceId, initialPlayerEntityId, initialPlayerSpawnZoneEntityId, initialPlayerSpawnZoneInstanceId, initialStageZoneEntityId, initialStageZoneInstanceId, nodeSize } from "..";
+
+const gameWidth = nodeSize * gameGridWidth
+const gameHeight = nodeSize * gameGridWidth
 
 export const initialPlayerSpawnZoneInstance = {
   id: initialPlayerSpawnZoneInstanceId,

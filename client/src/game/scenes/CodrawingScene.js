@@ -44,6 +44,8 @@ export class CodrawingScene extends Phaser.Scene {
       height: this.size,
       width: this.size
     }
+
+    this.nodeSize = nodeSize
   }
 
   ////////////////////////////////////////////////////////////
@@ -234,13 +236,13 @@ export class CodrawingScene extends Phaser.Scene {
     if(this.grid) this.grid.destroy()
     if(this.grid2) this.grid2.destroy()
 
-    this.grid = this.add.grid(0, 0, this.size * 2, this.size * 2, nodeSize, nodeSize, null, null, 0x1111, 0.2)
-    // this.grid2 = this.add.grid(0, 0, this.size * 2, this.size * 2, nodeSize * 3, nodeSize * 3, null, null, 0x1111, 0.2)
+    this.grid = this.add.grid(0, 0, this.size * 2, this.size * 2, this.nodeSize, this.nodeSize, null, null, 0x1111, 0.2)
+    // this.grid2 = this.add.grid(0, 0, this.size * 2, this.size * 2, this.nodeSize * 3, this.nodeSize * 3, null, null, 0x1111, 0.2)
 
     this.grid.setDepth(UI_LAYER_DEPTH)
     // this.grid2.setDepth(UI_LAYER_DEPTH)
 
-    this.grid3 = this.add.grid(0, 0, this.size * 2, this.size * 2, nodeSize, nodeSize, null, null, 0xFFFFFF, 0.2)
+    this.grid3 = this.add.grid(0, 0, this.size * 2, this.size * 2, this.nodeSize, this.nodeSize, null, null, 0xFFFFFF, 0.2)
 
     this.grid3.setDepth(0)
   }

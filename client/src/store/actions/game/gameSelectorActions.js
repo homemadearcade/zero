@@ -155,7 +155,7 @@ export const closeEntityBoxDialog = () => (dispatch, getState) => {
   });
 }
 
-export const openGameMetadataDialog = () => (dispatch, getState) => {
+export const openGameEditDialog = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_GAME_METADATA_DIALOG,
@@ -163,7 +163,7 @@ export const openGameMetadataDialog = () => (dispatch, getState) => {
   });
 }
 
-export const closeGameMetadataDialog = () => (dispatch, getState) => {
+export const closeGameEditDialog = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_GAME_METADATA_DIALOG,

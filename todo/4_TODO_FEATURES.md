@@ -7,6 +7,36 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
+CLEAN UP STAGES, GAME, ADD KEYBOARD TOOLBAR
+
+STAGE
+  Defaults
+  Color
+  Name
+    isStartStage
+    isCurrentStage
+  Gravity
+  Boundaries
+
+GAME
+  Size
+  Theme
+  Metadata
+  Privacy
+  Startup
+    Player
+    Stage
+  Important Ids
+  Library
+
+CONTENT LIST
+  Textures
+  Dialog
+  Cutscenes
+  Stages
+  Audio
+  Particles
+
 GAME
 --------------------------------------------------------------------------------------
 I think projectiles dont do anything right now, register relations with them please :) or SOEMTHING. Perhaps actually put them on the object instances?? hmm?
@@ -63,6 +93,9 @@ LOCK DATA
   if(lobbyid !== currentEditingSessionId) not allowed to load
   Same with Classes, and all these other global data objects
 
+  there might be an object of lobbys with like the date that the permission expires??
+  if they dont use it for 1 hour then its locked and released to another lobby if requested
+
   Lock which Lobby you are in
     I think user just needs to have a current lobby Id and current game room id, cuz right now its on a member and that doesnt really do anything
 
@@ -80,15 +113,23 @@ SETTINGS
 ---------------------------------------------------------------------------------------------------- 
 
 KEYBOARD MODE
+  SHIFT -> turn on grid view
 
-SHIFT -> turn on grid view
+  CAPS LOCK - Grid View 
 
-CAPS LOCK - Grid View 
+  MMO-esque toolbar on the bottom left
 
-MMO-esque toolbar on the bottom left
+  ALL TOOLS go in here
+    Snapshot Tool
+    Grid Change
+    Section Editor
+    Prompt Editor
+  COBROWSING TOOLS
+    Open MORE TOOLS selector. Perhaps more tools need to be added? Tool Creator system. WOW!
+
+ESC key 
 
 ---------------------------------------------------------------------------------------------------- 
-
 
 GAME VISIBILITY SCOPE
 ——

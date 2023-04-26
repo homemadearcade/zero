@@ -8,24 +8,24 @@
   background-color: black;
   display: flex;
   gap: 2em;
+  padding-top: 2em;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 
   &__body {
-      display: flex;
-          flex-direction: column;
+    display: flex;
+    flex-direction: column;
     min-width: 300px;
     width: 60%;
   }
 
   &__actions {
-        margin-top: 2em;
-          margin-bottom: 2em;
-                display: flex;
-                  flex-direction: column;
-                  gap: .2em
-
+    margin-top: 2em;
+    margin-bottom: 2em;
+    display: flex;
+    flex-direction: column;
+    gap: .2em
   }
 
   &__action {

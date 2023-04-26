@@ -16,7 +16,7 @@
   .ActivitySwitcher {
     display: none;
   }
-  .LobbyDashboard__tabs {
+  .LobbyInstructions {
     display: none;
   }
 }
@@ -30,12 +30,10 @@
 
 .LobbyDashboard--preview {
 
-  .LobbyDashboard__tabs {
+  .LobbyInstructions{
     width: 40%;
-    .Tabs__panel {
-      height: 90vh;
-      overflow-y: scroll;
-    }
+    height: 90vh;
+    overflow-y: scroll;
   }
   
   .LobbyDashboard {

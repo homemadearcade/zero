@@ -261,7 +261,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
 
       req.gameRoomInstance.messages.push({
         user: {
-          userMongoId: userFound.id,
+          userMongoId: userFound.userMongoId,
           username: userFound.username
         },
         message: 'has re-joined the gameRoomInstance',

@@ -7,7 +7,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
 function TabPanel(props) {
-  const { children, value, index, label, ...other } = props;
+  const { children, value, index, interfaceId, label, ...other } = props;
 
   return (
     <div className="Tabs__panel"
@@ -37,25 +37,28 @@ function a11yProps(index) {
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default function({ tabs, className }) {
-  const [value, setValue] = React.useState(0)
+  const [currentTabInterfaceId, setCurrentTabInterfaceId] = React.useState(0)
 
-  function handleChange(newValue) {
-    setValue(newValue)
+  function handleChange(interfaceId) {
+    setCurrentTabInterfaceId(interfaceId)
   }
 
-  return <TabsBody className={className} tabs={tabs} value={value} onChange={handleChange}/>
+  return <TabsBody className={className} tabs={tabs} currentTabInterfaceId={currentTabInterfaceId} onChange={handleChange}/>
 }
 
-export function TabsBody({ tabs, value, onChange, className }) {
+export function TabsBody({ tabs, currentTabInterfaceId, onChange, className }) {
   const theme = useTheme();
 
-  const handleChange = (event, newValue) => {
-    onChange(newValue);
+  const handleChange = (event, tabIndex) => {
+    const interfaceId = tabs[tabIndex].interfaceId
+    onChange(interfaceId);
   };
 
-  const handleChangeIndex = (index) => {
-    onChange(index);
-  };
+  let value = tabs.findIndex(tab => tab.interfaceId === currentTabInterfaceId)
+
+  if(value === -1) {
+    value = 0
+  }
 
   return (
     <div className={"Tabs " + className}>

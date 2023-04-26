@@ -26,6 +26,16 @@ const arcadeGameSchema = new Schema(
         title: 'New Game',
       }
     },
+    playScope: {
+      type: String,
+    },
+    editScope: {
+      type: String,
+    },
+    size: {
+      type: Object,
+      default : {}
+    },
     theme: {
       type: Object,
       required: true,
@@ -123,7 +133,7 @@ export const validateArcadeGame = (game) => {
 
     }),
     gameModelId: Joi.string(),
-    nodeSize: Joi.number(),
+    size: Joi.object(),
     stages: Joi.object(),
     layers: Joi.object(),
     entityModels: Joi.object(),
@@ -139,6 +149,9 @@ export const validateArcadeGame = (game) => {
     textures: Joi.object(),
     isRemoved: Joi.bool(),
     relationTags: Joi.object(),
+    version: Joi.string(),
+    playScope: Joi.string(),
+    editScope: Joi.string(),
   };
   return Joi.validate(game, schema, { allowUnknown: true });
 };
@@ -149,7 +162,7 @@ arcadeGameSchema.methods.toJSON = function () {
     metadata: this.metadata,
     stages: this.stages,
     layers: this.layers,
-    nodeSize: this.nodeSize,
+    size: this.size,
     player: this.player,
     entityModels: this.entityModels,
     brushes: this.brushes,
@@ -169,7 +182,11 @@ arcadeGameSchema.methods.toJSON = function () {
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
     isRemoved: this.isRemoved,
+    theme: this.theme,
     relationTags: this.relationTags ? this.relationTags : {},
+    version: this.version,
+    playScope: this.playScope,
+    editScope: this.editScope,
   };
 };
 

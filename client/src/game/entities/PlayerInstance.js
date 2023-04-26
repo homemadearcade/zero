@@ -7,7 +7,6 @@ import { InteractArea } from "./members/InteractArea";
 import { ControlledMovement } from "./members/ControlledMovement";
 import { ControlledProjectileEjector } from "./members/ControlledProjectileEjector";
 import { ON_INTERACT } from "../constants";
-import { nodeSize } from "../constants";
 
 export class PlayerInstance extends EntityInstance {
   constructor(scene, entityInstanceId, instanceData){
@@ -50,6 +49,7 @@ export class PlayerInstance extends EntityInstance {
 
     this.cursors = scene.input.keyboard.createCursorKeys();
 
+    const nodeSize = store.getState().gameModel.gameModel.size.nodeSize
     this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: entityModel.graphics.width + (nodeSize * 4), height: entityModel.graphics.height + (nodeSize * 4) }) 
     this.lastInteractAreaUpdate = 0
 

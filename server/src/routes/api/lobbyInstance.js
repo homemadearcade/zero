@@ -239,7 +239,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
 
       req.lobbyInstance.messages.push({
         user: {
-          userMongoId: userFound.id,
+          userMongoId: userFound.userMongoId,
           username: userFound.username
         },
         message: 'has re-joined the lobby',

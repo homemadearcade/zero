@@ -21,13 +21,13 @@ import { ADMIN_ROLE } from '../../constants';
 
 function AppBar({ auth }) {
 
-  const pages = [{
-    name: 'Arcade',
-    url: 'arcade',
-  }, {
-    name: 'Tickets',
-    url: 'buy-tickets',
-  }]
+  const pages = [
+    {
+      name: 'Buy Tickets',
+      url: 'buy-tickets',
+      variant: 'contained',
+    }
+  ]
 
   const settings = []
 
@@ -35,6 +35,11 @@ function AppBar({ auth }) {
     settings.push({
       name: 'My Account',
       url: 'user/'+auth.me.username,
+    })
+
+    pages.push({
+      name: 'Arcade',
+      url: 'arcade',
     })
 
     // pages.push({
@@ -214,13 +219,14 @@ function AppBar({ auth }) {
             HA
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map(({name, url}) => (
+            {pages.map(({name, url, variant}) => (
               <Button
+                variant={variant}
                 component={Link}
                 key={name}
                 to={`/${url}`}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: variant !== 'contained' && 'white', display: 'block' }}
               >
                 {name}
               </Button>

@@ -12,7 +12,7 @@ import SectionEditor from '../../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../../textures/SnapshotTaker/SnapshotTaker';
 import SelectStageColorDialog from '../../stages/SelectStageColorDialog/SelectStageColorDialog';
 import { BRUSH_DID, PLAYTHROUGH_PLAY_STATE, GAME_START_STATE, COLOR_BRUSH_ID } from '../../constants';
-import GameMetadataDialog from '../../selector/GameMetadataDialog/GameMetadataDialog';
+import GameEditDialog from '../../selector/GameEditDialog/GameEditDialog';
 import CutscenesMenu from '../../cutscene/CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
 import EditEntityDialog from '../../entityModel/EditEntityDialog/EditEntityDialog';
@@ -52,7 +52,7 @@ const GameEditor = ({
     isEntityBoxDialogOpen, 
     isSelectStageColorDialogOpen, 
     liveEditingCategory, 
-    isGameMetadataDialogOpen, 
+    isGameEditDialogOpen, 
     currentSelectorListInterfaceId,
     viewingJson }, 
   gameViewEditor: { 
@@ -160,7 +160,7 @@ const GameEditor = ({
       </div>
       {liveEditingCategory && <LiveEditor></LiveEditor>}
       {isEntityBoxDialogOpen && <EntityBoxDialog/>}
-      {isGameMetadataDialogOpen && <GameMetadataDialog/>}
+      {isGameEditDialogOpen && <GameEditDialog/>}
       {isEditEntityDialogOpen && <EditEntityDialog/>}
       {isCutscenesMenuOpen && <CutscenesMenu/>}
       {isCreateCutsceneOpen && <CreateCutscene/>}

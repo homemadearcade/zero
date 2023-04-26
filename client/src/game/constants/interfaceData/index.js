@@ -6,3 +6,4 @@ export * from './event'
 export * from './layers'
 export * from './relationTag';
 export * from './dataSource';
+export * from './scope';

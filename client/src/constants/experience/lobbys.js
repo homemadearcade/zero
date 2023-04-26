@@ -1,12 +1,12 @@
 import { defaultAudienceRoleId, defaultGuideRoleId, defaultParticipantRoleId } from "./constants"
-import { SECURITY_SCOPE_INVITE_ONLY, SECURITY_SCOPE_PUBLIC, SECURITY_SCOPE_UNLISTED } from "./constants/lobbys"
+import { ROLE_SECURITY_SCOPE_INVITE_ONLY, ROLE_SECURITY_SCOPE_PUBLIC, ROLE_SECURITY_SCOPE_UNLISTED } from "./constants/lobbys"
 
 export const defaultLobby = {
   name: null,
   securityScopeByRoleId: {
-    [defaultGuideRoleId]: SECURITY_SCOPE_UNLISTED,
-    [defaultParticipantRoleId]: SECURITY_SCOPE_INVITE_ONLY,
-    [defaultAudienceRoleId]: SECURITY_SCOPE_PUBLIC,
+    [defaultGuideRoleId]: ROLE_SECURITY_SCOPE_UNLISTED,
+    [defaultParticipantRoleId]: ROLE_SECURITY_SCOPE_INVITE_ONLY,
+    [defaultAudienceRoleId]: ROLE_SECURITY_SCOPE_PUBLIC,
   },
   hostRoleId: defaultGuideRoleId,
   activitys: {},
