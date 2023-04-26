@@ -143,7 +143,7 @@ const LobbyInstructions = ({
       const updatedLobby = {}
       if(step.activityId) {
         if(step.activityId !== lobbyInstance.currentActivityId) {
-          console.error('trying to run without required actvittyId')
+          // console.error('trying to run without required actvittyId')
           return
         }
         // const activity = lobbyInstance.activitys[step.activityId]
@@ -181,8 +181,6 @@ const LobbyInstructions = ({
       // const lobbyInstanceMongoId = getState().lobbyInstance.lobbyInstance?.id
       effectIds.forEach(effectId => {
         const effect = gameModel.effects[effectId]
-
-        console.log('effect', effect, effectId, gameModel)
 
         if(step.cobrowsingRoleId === myRoleId) {
           toggleActiveCobrowsing(false)

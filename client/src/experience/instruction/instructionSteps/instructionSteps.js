@@ -7,13 +7,20 @@ import StepPrompts from "../../../app/experienceModel/step/StepPrompts/StepPromp
 import StepTitle from "../../../app/experienceModel/step/StepTitle/StepTitle";
 import { GAME_ROOM_ACTIVITY } from "../../../constants";
 import SelectGameInstanceEffect from "../../../game/ui/SelectGameInstanceEffect/SelectGameInstanceEffect";
+import store from "../../../store";
 import { editGameRoom } from "../../../store/actions/game/gameRoomInstanceActions";
 import Button from "../../../ui/Button/Button";
 import Divider from "../../../ui/Divider/Divider";
 import FormLabel from "../../../ui/FormLabel/FormLabel";
 import Typography from "../../../ui/Typography/Typography";
 
-export function instructionSteps({ instruction, lobbyInstance, myRoleId, gameModel, gameRoomInstance }) {
+export function instructionSteps({ 
+  instruction, 
+  lobbyInstance, 
+  myRoleId, 
+  gameModel, 
+  gameRoomInstance,
+ }) {
   let steps = []
 
   instruction.stepOrder.forEach((stepId, index) => {
@@ -45,9 +52,9 @@ export function instructionSteps({ instruction, lobbyInstance, myRoleId, gameMod
             return <>
               Incorrect game loaded!
               <Button onClick={async () => {
-                await editGameRoom(gameRoomInstance.id, {
+                await store.dispatch(editGameRoom(gameRoomInstance.id, {
                   arcadeGameMongoId: instruction.arcadeGameMongoId,
-                })
+                }))
               }}>Load Correct Game</Button>
             </>
           }
@@ -66,13 +73,13 @@ export function instructionSteps({ instruction, lobbyInstance, myRoleId, gameMod
         steps.push({
           stepId: step.stepId,
           title: <Typography component="h5" variant="h5">
-            <Divider/>
-            Start
-            <ActivityChip activity={activity}/>
+              <Divider/>
+                Start
+              <ActivityChip activity={activity}/>
             </Typography>,
-            shouldContinueBeDisabledCheck,
-            break: true
-          })
+          shouldContinueBeDisabledCheck,
+          break: true
+        })
 
         instruction.stepOrder.forEach((stepId, index) => {
           const step = instruction.steps[stepId]
@@ -126,9 +133,7 @@ export function instructionSteps({ instruction, lobbyInstance, myRoleId, gameMod
           </div>,
           nextButtonText: (index !== (instruction.stepOrder.length - 1)) &&  <StepTitle step={instruction.steps[instruction.stepOrder[index+1]]}/>,
         })
-      }
-
-  
+      }  
     }
   })
 

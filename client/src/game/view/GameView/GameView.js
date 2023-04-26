@@ -81,9 +81,16 @@ const GameView = (props) => {
     return <GameViewEmpty></GameViewEmpty>
   }
 
-  if(props.gameRoomInstance.gameRoomInstance.isOnlineMultiplayer === true) {
-    if(!props.gameRoomInstance.gameRoomInstance.id) {
-      console.log('game room instance id is null', props.gameRoomInstance)
+  const gameRoomInstance = props.gameRoomInstance.gameRoomInstance
+
+  if(gameRoomInstance.isOnlineMultiplayer === true) {
+    if(!gameRoomInstance.id) {
+      return <GameViewEmpty/>
+    }
+
+    const gameInstanceId = gameRoomInstance.gameInstanceIds[gameRoomInstance.arcadeGameMongoId]
+
+    if(!gameInstanceId) {
       return <GameViewEmpty/>
     }
   }

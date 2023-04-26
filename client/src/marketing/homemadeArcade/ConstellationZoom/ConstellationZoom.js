@@ -13,16 +13,14 @@ const ConstellationZoom = ({gameRoomInstance: { gameRoomInstance }, width, heigh
   useEffect(() => {
     let timeout =  setTimeout(() => {attemptConstellation()}, 0)
 
-    console.log('running this')
     async function attemptConstellation() {
+      if(zoomOutImage) return 
+
       if(gameRoomInstance.isPoweredOn) {
         const gameInstance = store.getState().webPage.gameInstance
         const scene = getCurrentGameScene(gameInstance)
 
-        console.log('??? running img getter thing')
-
         if(!scene) {
-          console.log('no scene, redoing attemptConstellation')
           timeout = setTimeout(attemptConstellation, 1000)
           return
         }
@@ -31,7 +29,7 @@ const ConstellationZoom = ({gameRoomInstance: { gameRoomInstance }, width, heigh
 
         setZoomOutImage(imgCanvas.toDataURL())
       } else {
-        console.log('not in correct state, redoing attemptConstellation')
+        // console.log('not in correct state, redoing attemptConstellation')
         timeout = setTimeout(attemptConstellation, 1000)
       }
     }

@@ -90,12 +90,10 @@ class MultiplayerGameRoomContext extends Component {
       // return <Loader text="Joining Game Session..."/>
     }
 
-    if(gameRoomInstance.gameRoomInstanceIds) {
-      const gameInstanceId = gameRoomInstance.gameInstanceIds[gameRoomInstance.arcadeGameMongoId]
-      if(!gameInstanceId) {
-        return <LinearIndeterminateLoader/>
-        // return <Loader text="Creating Game Instance..."/>
-      }
+    const gameInstanceId = gameRoomInstance.gameInstanceIds[gameRoomInstance.arcadeGameMongoId]
+    if(!gameInstanceId) {
+      return <LinearIndeterminateLoader/>
+      // return <Loader text="Creating Game Instance..."/>
     }
 
     return children instanceof Function ? children(this.props) : children
