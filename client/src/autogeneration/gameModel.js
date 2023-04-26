@@ -646,7 +646,7 @@ export function enrichGameModel(gameData) {
 
     const spawnOntoStageEffect = entityModel.autogeneration.spawnOntoStageEffect
     if(spawnOntoStageEffect) {
-      const spawnEntityModelId = 'spawn-stage-'+entityModelId
+      const spawnEntityModelId = 'spawn-'+entityModelId
       gameData.effects[spawnEntityModelId] = {
         effectId: spawnEntityModelId,
         effectBehavior: EFFECT_SPAWN,
