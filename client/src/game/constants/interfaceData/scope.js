@@ -1,11 +1,16 @@
-import { EDIT_GAME_SCOPE_ANYONE, EDIT_GAME_SCOPE_ONLY_ME, EDIT_GAME_SCOPE_USER_LIST, PLAY_GAME_SCOPE_ARCADE, PLAY_GAME_SCOPE_FEATURED, PLAY_GAME_SCOPE_ONLY_ME } from "../gameModelDefaults"
+import { EDIT_GAME_SCOPE_ANYONE, EDIT_GAME_SCOPE_ONLY_ME, EDIT_GAME_SCOPE_USER_LIST, PLAY_GAME_SCOPE_ARCADE, PLAY_GAME_SCOPE_FEATURED, PLAY_GAME_SCOPE_UNLISTED, PLAY_GAME_SCOPE_USER_PROFILE } from "../gameModelDefaults"
 
 export const playScopeInterfaceData = {
-  [PLAY_GAME_SCOPE_ONLY_ME]: {
-    name: 'Only Me',
-    description: 'Only you can play this game.',
+  [PLAY_GAME_SCOPE_UNLISTED]: {
+    name: 'Unlisted',
+    description: 'Only users with the link can play this game.',
     icon: 'faLock',
   },
+  // [PLAY_GAME_SCOPE_USER_PROFILE]: {
+  //   name: 'User Profile',
+  //   description: 'Users who visit your profile can play this game.',
+  //   icon: 'faUser',
+  // },
   // [PLAY_GAME_SCOPE_FRIENDS]: {
   //   name: 'Friends',
   //   description: 'Only your friends can play this game.',

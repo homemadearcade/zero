@@ -17,31 +17,6 @@ import { ADMIN_ROLE } from '../../../constants';
 const GameCard = ({game, game: { metadata }, width, canEdit, canRemove, canPlay, canPublish, editArcadeGame, getArcadeGames, auth: { me }}) => {
   const isEditor = me?.role === ADMIN_ROLE || me?.id === game.owner?.id
 
-  function renderPublishButton() {
-    if(game.metadata.isPublished) {
-      return <Button size="small" onClick={async () => {
-        await editArcadeGame(game.id, {
-          metadata: {
-            isPublished: false
-          }
-        })
-        getArcadeGames()
-      }}>
-        Unpublish
-      </Button>
-    } else {
-      return <Button size="small" onClick={async () => {
-        await editArcadeGame(game.id, {
-          metadata: {
-            isPublished: true
-          }
-        })
-        getArcadeGames()
-      }}>
-        Publish
-      </Button>
-    }
-  }
 
   function renderRemoveButton() {
     if(game.isRemoved) {
@@ -89,7 +64,6 @@ const GameCard = ({game, game: { metadata }, width, canEdit, canRemove, canPlay,
       {canEdit && isEditor && < Link to={`/edit/${game.id}`}>
         Edit
       </Link>}
-      {canPublish && isEditor && renderPublishButton()}
       {canRemove && isEditor && renderRemoveButton()}
     </CardActions>
   </Card>

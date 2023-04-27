@@ -12,8 +12,8 @@ const SelectPlayScope = ({ onChange, value, formLabel, auth: { me } }) => {
     const interfaceData = playScopeInterfaceData[playScopeId]
 
     return {
-      label: interfaceData.name,
-      subLabel: interfaceData.description,
+      labelTitle: interfaceData.name,
+      label: interfaceData.description,
       icon: interfaceData.icon,
       value: playScopeId,
       isRemoved: interfaceData.adminOnly && me.role !== ADMIN_ROLE

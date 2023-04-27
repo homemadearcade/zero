@@ -13,7 +13,7 @@ import { getCurrentGameScene } from '../../../utils';
 import store from '../../../store';
 import { interfaceActionsUIData } from '../../../constants';
 import Icon from '../../../ui/Icon/Icon';
-import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, RUN_GAME_INSTANCE_ACTION } from '../../constants';
+import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, ON_STEP_BEGINS, RUN_GAME_INSTANCE_ACTION } from '../../constants';
 import { unlockInterfaceId } from '../../../store/actions/game/unlockedInterfaceActions';
 import SelectGameInstanceEffect from '../../ui/SelectGameInstanceEffect/SelectGameInstanceEffect';
 
@@ -106,6 +106,7 @@ const EffectPromptDialog = ({
         {renderActionData()}
         <SelectGameInstanceEffect
           value={value}
+          eventType={ON_STEP_BEGINS}
           onChange={(event, effectIds) => {
             setValue(effectIds)
             handleClose()

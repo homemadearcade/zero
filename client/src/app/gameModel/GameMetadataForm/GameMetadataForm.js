@@ -7,11 +7,12 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
-import GameTexturesDialog from '../../textures/GameTexturesDialog/GameTexturesDialog';
+import GameTexturesDialog from '../../../game/textures/GameTexturesDialog/GameTexturesDialog';
 import { closeGameTexturesDialog, openGameTexturesDialog } from '../../../store/actions/game/gameSelectorActions';
 import { getImageUrlFromTextureId } from '../../../utils';
-import SelectPlayScope from '../../ui/SelectPlayScope/SelectPlayScope';
-import SelectEditScope from '../../ui/SelectEditScope/SelectEditScope';
+import SelectPlayScope from '../../../game/ui/SelectPlayScope/SelectPlayScope';
+import SelectEditScope from '../../../game/ui/SelectEditScope/SelectEditScope';
+import Divider from '../../../ui/Divider/Divider';
 
 const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, openGameTexturesDialog, closeGameTexturesDialog, gameSelector: { isGameTexturesDialogOpen} }) => {
   const metadata = gameModel.metadata
@@ -94,7 +95,7 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
             )}
           />
         </div>
-        <div>
+        {/* <div>
           <Controller
             name={"editScope"}
             control={control}
@@ -102,8 +103,10 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
               <SelectEditScope formLabel="Who can edit this game?" onChange={onChange} value={value} />
             )}
           />
-        </div>
+        </div> */}
+      <Divider/>
       <Button type="submit" onClick={handleSubmit(submit)}>Save</Button>
+      <Button type="submit" onClick={handleSubmit(submit)}>Cancel</Button>
       {isGameTexturesDialogOpen && <GameTexturesDialog onClickTexture={(textureId) => {
         setImageUrl(getImageUrlFromTextureId(textureId))
         closeGameTexturesDialog()

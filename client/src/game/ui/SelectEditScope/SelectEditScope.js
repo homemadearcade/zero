@@ -11,8 +11,8 @@ const SelectEditScope = ({ onChange, value, formLabel }) => {
     const interfaceData = editScopeInterfaceData[playScopeId]
 
     return {
-      label: interfaceData.name,
-      subLabel: interfaceData.description,
+      labelTitle: interfaceData.name,
+      label: interfaceData.description,
       icon: interfaceData.icon,
       value: playScopeId
     }

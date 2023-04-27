@@ -9,6 +9,7 @@ import GameCard from '../../app/gameModel/GameCard/GameCard';
 import ConstellationHero from '../../marketing/homemadeArcade/ConstellationHero/ConstellationHero';
 import AppBar from '../../layout/AppBar/AppBar';
 import { Container } from '@mui/material';
+import { PLAY_GAME_SCOPE_FEATURED } from '../../game/constants';
 
 // {!auth.isAuthenticated ? (
 //   <div>
@@ -39,7 +40,7 @@ const HomemadeArcadePage = () => {
         }}>Play Now</Button>
       </ConstellationHero>
       <Container><div ref={gameListRef}><GameList>{(game) => {
-        if(!game.metadata.isPublished) return
+        if(game.playScope !== PLAY_GAME_SCOPE_FEATURED) return
         if(game.isRemoved) return
         return <GameCard key={game.id} canPlay game={game}/>
       }}</GameList></div></Container>

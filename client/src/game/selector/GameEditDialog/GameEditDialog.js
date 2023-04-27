@@ -6,17 +6,18 @@ import './GameEditDialog.scss';
 import CobrowsingDialog from '../../cobrowsing/CobrowsingDialog/CobrowsingDialog';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { closeGameEditDialog } from '../../../store/actions/game/gameSelectorActions';
-import GameMetadataForm from '../GameMetadataForm/GameMetadataForm';
+import GameMetadataForm from '../../../app/gameModel/GameMetadataForm/GameMetadataForm';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { GAME_MODEL_IMPORT_IID, GAME_INTERFACE_COLOR_IID, EDIT_GAME_TAB_CONTANER_IID, EDIT_GAME_METADATA_TAB_IID, EDIT_GAME_LIBRARY_TAB_IID, EDIT_GAME_THEME_TAB_IID } from '../../../constants/interfaceIds';
+import { GAME_MODEL_IMPORT_IID, GAME_INTERFACE_COLOR_IID, EDIT_GAME_TAB_CONTANER_IID, EDIT_GAME_METADATA_TAB_IID, EDIT_GAME_LIBRARY_TAB_IID, EDIT_GAME_THEME_TAB_IID, EDIT_GAME_SIZE_TAB_IID } from '../../../constants/interfaceIds';
 import FormLabel from '../../../ui/FormLabel/FormLabel';
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import GameCard from '../../../app/gameModel/GameCard/GameCard';
 import { addImportedArcadeGame } from '../../../store/actions/game/arcadeGameActions';
 import Alert from '../../../ui/Alert/Alert';
 import CobrowsingTabs from '../../cobrowsing/CobrowsingTabs/CobrowsingTabs';
+import GameSizeEditor from '../../../app/gameModel/GameSizeEditor/GameSizeEditor';
 
 const GameEditDialog = ({ 
   editGameModel, closeGameEditDialog, 
@@ -83,7 +84,15 @@ const GameEditDialog = ({
     </>
   }
 
-  const tabs = [metadataTab, themeTab, libraryTab]
+  const sizeTab = {
+    interfaceId: EDIT_GAME_SIZE_TAB_IID,
+    label: 'Size',
+    body: <>
+      <GameSizeEditor onSubmit={handleClose}/>
+    </>
+  }
+
+  const tabs = [metadataTab, themeTab, libraryTab, sizeTab]
 
   return <CobrowsingDialog widthModifier={1} open={!isSnapshotTakerOpen} onClose={handleClose}>
     <div className="GameEditDialog">

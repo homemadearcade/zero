@@ -17,32 +17,6 @@ import { ADMIN_ROLE } from '../../../../constants';
 const ExperienceCard = ({experienceModel, experienceModel: { metadata }, width, canEdit, canRemove, canPublish, editExperienceModel, getExperienceModels, auth: { me }}) => {
   const isEditor = me?.role === ADMIN_ROLE || me?.id === experienceModel.owner?.id
 
-  function renderPublishButton() {
-    if(experienceModel.metadata.isPublished) {
-      return <Button size="small" onClick={async () => {
-        await editExperienceModel(experienceModel.id, {
-          metadata: {
-            isPublished: false
-          }
-        })
-        getExperienceModels()
-      }}>
-        Unpublish
-      </Button>
-    } else {
-      return <Button size="small" onClick={async () => {
-        await editExperienceModel(experienceModel.id, {
-          metadata: {
-            isPublished: true
-          }
-        })
-        getExperienceModels()
-      }}>
-        Publish
-      </Button>
-    }
-  }
-
   function renderRemoveButton() {
     if(experienceModel.isRemoved) {
       return <Button size="small" onClick={async () => {
@@ -86,7 +60,6 @@ const ExperienceCard = ({experienceModel, experienceModel: { metadata }, width, 
       {canEdit && isEditor && < Link to={`/experience/${experienceModel.id}`}>
         Edit
       </Link>}
-      {canPublish && isEditor && renderPublishButton()}
       {canRemove && isEditor && renderRemoveButton()}
     </CardActions>
   </Card>

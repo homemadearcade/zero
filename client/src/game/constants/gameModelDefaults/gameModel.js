@@ -9,7 +9,7 @@ import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { nodeSize } from "../core";
 import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, DATA_SOURCE_SYSTEM_IID, ENTITY_SPAWN_ZONE_ENTITY_IID } from "../../../constants/interfaceIds";
 import { EDIT_ENTITY_AID, IMPORT_DATA_SOURCE_AID, PLACE_ENTITY_AID } from "../../../constants/interfaceActionIds";
-import { EDIT_GAME_SCOPE_ONLY_ME, PLAY_GAME_SCOPE_ONLY_ME } from "./scope";
+import { EDIT_GAME_SCOPE_ONLY_ME, PLAY_GAME_SCOPE_UNLISTED } from "./scope";
 
 export const defaultGameModel = {
   "metadata": {
@@ -17,11 +17,8 @@ export const defaultGameModel = {
     "description": "",
     "authorPseudonym": "",
     "imageUrl": "",
-    // isArchived: false,
-    // isFeatured: false,
-    // isPublished: false,
   },
-  playScope: PLAY_GAME_SCOPE_ONLY_ME,
+  playScope: PLAY_GAME_SCOPE_UNLISTED,
   editScope: EDIT_GAME_SCOPE_ONLY_ME,
   importedArcadeGames: [],
   theme: {

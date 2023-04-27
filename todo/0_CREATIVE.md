@@ -28,3 +28,8 @@ WE WORKING ON IT
 KEYBOARD MODE FOR GAME?
 KEYBOARD MODE FOR STEPS
 
+----
+
+MY CABINETS
+  Select Games and Buy a Cabinet!?
+  Add game to cabinet?

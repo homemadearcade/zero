@@ -19,15 +19,11 @@ STAGE
   Boundaries
 
 GAME
-  Size
-  Theme
-  Metadata
   Privacy
   Startup
     Player
     Stage
-  Important Ids
-  Library
+  Important Ids ( Once System and Autogeneration Data is changed.. )
 
 CONTENT LIST
   Textures
@@ -59,34 +55,7 @@ UPLOAD PHOTOS
     attempt the user profile pic upload first
     Should be a /image route not an aws route
 
-Games and CanvasImages that anyone in a lobby can edit!
-  Does that mean we want to keep track of what lobby you are in? on the user object? lobbyInstanceMongoId === ? Also then we can just be like 'yo we got a lobby already working on this thing here'
-
 --------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
-DATA
---------------------------------------------------------------------------------------
-
-IMPORTING/COPYING/SYSTEM
-  get original entity id so that things inherit
-  I have to decide what Ids mean and I have to decide fast
-  Copying, importing, etc how tf do I do it!
-
-  When you copy a class. It should open edit Graphics with IsNew triggered
-
-  IMPORTED GAMES
-    Mark an imported game as just like a 'library' in order to be able to import it. I just cant trust users to handle this on their own. 
-
-    It seems to be easiest all around for importing from system or from library that we COPY everything. but I think thats not REALLY true for this. WE want INTEROPABLE game in the future... INTEROPABLE so like a version of a tag with the same name in one game shouldnt be different than another version of a tag
-
-    Problem is that... We want a lot of classes baked into the game data 
-
-  remove system data
-
-  We would need the game to keep track of important ids in ITS MODEL - Player Tag, Spawn Zone Tag, etc. but some things we dont want copied across games. Those things can perhaps stay?
-
-Aggregate all SelectGameInstanceEffect -> SelectInterfaceAction -> into one thing and just have a visibility toggle take care of this...
 
 LOCK DATA
   ArcadeGame.currentEditingSessionId == LobbyId/UserMongoId
@@ -99,13 +68,24 @@ LOCK DATA
   Lock which Lobby you are in
     I think user just needs to have a current lobby Id and current game room id, cuz right now its on a member and that doesnt really do anything
 
+  ALWAYS COPY A GAME when its used inside an experience. Its the users CHOICE whether or not to store is as the primary game or not AFTER THE EXPERIENCE IS OVER
+
+  A game has a gameRoomInstanceMongoId and only members of that gameRoom can edit it
+  A user is in only one lobby at a given time, we need to store that
+  Remove from members
+
+  Games and CanvasImages that anyone in a lobby can edit!
+  Does that mean we want to keep track of what lobby you are in? on the user object? lobbyInstanceMongoId === ? Also then we can just be like 'yo we got a lobby already working on this thing here'
+
+--------
+
 USER DATA
   Users.role should be
   User.roles...{}
     interfaceIds[userId] === their default interfaceId... for us to use?
     super admins...
 
-SETTINGS
+APP SETTINGS
   editorExperienceMongoId
   libraryArcadeGamaMongoId
   archiveUserId
@@ -128,24 +108,3 @@ KEYBOARD MODE
     Open MORE TOOLS selector. Perhaps more tools need to be added? Tool Creator system. WOW!
 
 ESC key 
-
----------------------------------------------------------------------------------------------------- 
-
-GAME VISIBILITY SCOPE
-——
-Private
-Unlisted
-Arcade
-Featured ( Admin Only )
-
---
-
-GAME SECURITY SCOPE
-
-Only Me
-UserList
-Public
-
-Current Lobby? This overrides?
-
----

@@ -35,6 +35,7 @@ import {
     initialStageId, 
     LAYER_DID, 
     nodeSize, 
+    PLAY_GAME_SCOPE_UNLISTED, 
     UNDO_MEMORY_MAX } from '../../../game/constants';
 import { changeCurrentStage } from './gameModelActions';
 import { generateUniqueId, getImageUrlFromTextureId } from '../../../utils';
@@ -414,7 +415,7 @@ export const copyArcadeGameToUser = ({arcadeGameMongoId, userMongoId, gameDataUp
   const response = await axios.get('/api/arcadeGames/' + arcadeGameMongoId, options);
   const gameData = response.data.game
   gameData.owner = null
-  gameData.metadata.isPublished = false
+  gameData.playScope = PLAY_GAME_SCOPE_UNLISTED
   gameData.userMongoId = userMongoId
   mergeDeep(gameData, gameDataUpdate)
 

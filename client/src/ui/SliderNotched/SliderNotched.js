@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Slider from '@mui/material/Slider';
 import FormLabel from '../FormLabel/FormLabel';
 
-export default function SliderNotched({formLabel, restricted, value, step, options, onChangeCommitted}) {
+export default function SliderNotched({formLabel, restricted, disabled, value, step, options, onChangeCommitted}) {
   const [sliderValue, setSliderValue] = useState()
 
   useEffect(() => {
@@ -35,6 +35,7 @@ export default function SliderNotched({formLabel, restricted, value, step, optio
     <div className="SliderNotched">
       {formLabel && <FormLabel>{formLabel}</FormLabel>}
       <Slider
+        disabled={disabled}
         aria-label={formLabel}
         value={sliderValue}
         min={marks[0].value}

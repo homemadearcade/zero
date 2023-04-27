@@ -1,4 +1,5 @@
 BUGS
+  Dont set Agora to a device if that device isn’t found this time.
 
 ROLES
   If you switch roles the camera breaks 
@@ -11,6 +12,8 @@ GAME HOST CHANGE
   Changing Game host requires you to reload the game doesnt it. Because host is decided in PreloaderScene
 
 -----
+
+CHORES
 
 Look up x, y, on phaser instance should be... getPosition(). Overall use Get Methods instead of .x, .y, .rotation
 

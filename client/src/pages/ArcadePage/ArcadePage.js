@@ -8,12 +8,13 @@ import Layout from '../../layout/Layout';
 import { getArcadeGames } from '../../store/actions/game/arcadeGameActions';
 import GameCard from '../../app/gameModel/GameCard/GameCard';
 import GameList from '../../app/gameModel/GameList/GameList';
+import { PLAY_GAME_SCOPE_ARCADE, PLAY_GAME_SCOPE_FEATURED } from '../../game/constants';
 
 const ArcadePage = () => {
   function getGameData(game) {
     let visible = false 
 
-    if(!game.isRemoved && game.metadata.isPublished ) {
+    if(!game.isRemoved && (game.playScope === PLAY_GAME_SCOPE_FEATURED || game.playScope === PLAY_GAME_SCOPE_ARCADE) ) {
       visible = true 
     }
 

@@ -349,7 +349,7 @@ const CreateRelation = ({
   }
 
   return <CobrowsingDialog open={true} onClose={handleClose}>
-    <div className="CreateEvent">
+    <div className="CreateRelation">
       <Typography variant="h4">{'Relationship'}</Typography>
       <CreateEvent/>
       {event.eventType && <SelectGameInstanceEffect
