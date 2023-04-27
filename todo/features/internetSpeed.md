@@ -6,7 +6,7 @@ Internet speed stuff
 --
 
 PERFORMANCE TEST 
-Run other games in the background during test….? Performance test?
+  Run other games in the background during test….? Performance test?
 
 --
 

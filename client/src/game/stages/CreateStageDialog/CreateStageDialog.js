@@ -11,7 +11,9 @@ import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import {  STAGE_DID} from '../../constants';
 import { addLayersForArcadeGameStage } from '../../../store/actions/game/arcadeGameActions';
-import CreateStage from '../CreateStage/CreateStage';
+import StageNameForm from '../StageNameForm/StageNameForm';
+import SelectEntityModel from '../../ui/SelectEntityModel/SelectEntityModel';
+import { STAGE_SPAWN_ZONE_SELECT_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 
         // {/* <RadioGroupColumn
         //   formLabel={"Perspective"}
@@ -49,74 +51,74 @@ const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreate
   }
 
   return <CobrowsingDialog open={true} onClose={handleClose}>
-    <div className="CreateStageDialog">
-        <CreateStage stage={stage} onUpdate={(stageUpdate) => {
-          if(stage.stageId === currentStageId) {
-            editGameModel({
-              stages: {
-                [stage.stageId] : {
-                  ...stageUpdate,
-                  isNew: false,
-                }
-              }
-            })
+    <StageNameForm initialName={stage.name}/>
+    <SelectEntityModel
+    entityModelType={ZONE_ENTITY_IID}
+    interfaceId={STAGE_SPAWN_ZONE_SELECT_IID}
+    formLabel={"Into which zone should the Player spawn?"}
+    value={stage.playerSpawnZoneEntityId ? [stage.playerSpawnZoneEntityId] : []}
+    onChange={(event, entityModels) => {
+      const newEntityId = entityModels[entityModels.length-1]
+      editGameModel({
+        stages: {
+          [stage.stageId] : {
+            playerSpawnZoneEntityId: newEntityId
           }
-          updateCreateStage(stageUpdate)
-        }}/>
-        <div className="CreateStageDialog__buttons">
-          <Button 
-            disabled={isAutosaveDisabled()}
-            onClick={async () => {
-            if(stage.isNew) {
-              const layers = await addLayersForArcadeGameStage(gameModel.id, gameModel.owner.id, stage.stageId)
-              editGameModel({
-                stages: {
-                  [stage.stageId] : {
-                    ...stage,
-                    isNew: false,
-                  }
-                },
-                layers,
-              })
-            } else {
-             editGameModel({
-                stages: {
-                  [stage.stageId] : {
-                    ...stage,
-                    isNew: false,
-                  }
-                }
-              })
+        }
+      })
+    }}/>
+    <div className="CreateStageDialog__buttons">
+      <Button 
+        disabled={isAutosaveDisabled()}
+        onClick={async () => {
+        if(stage.isNew) {
+          const layers = await addLayersForArcadeGameStage(gameModel.id, gameModel.owner.id, stage.stageId)
+          editGameModel({
+            stages: {
+              [stage.stageId] : {
+                ...stage,
+                isNew: false,
+              }
+            },
+            layers,
+          })
+        } else {
+          editGameModel({
+            stages: {
+              [stage.stageId] : {
+                ...stage,
+                isNew: false,
+              }
             }
-
-            handleClose()
-          }}>
-            Save
-          </Button>
-          <Button onClick={handleClose}>
-            Cancel
-          </Button>
-          {!stage.isNew && !stage.isRemoved && <Button onClick={() => {
-            editGameModel({
-              stages: {
-                [stage.stageId]: {
-                  isRemoved: true
-                }
-              }
-            })
-            handleClose()
-          }}>Remove</Button>}
-          {stage.isRemoved && <Button onClick={() => {
-            editGameModel({
-              stages: {
-                [stage.stageId]: {
-                  isRemoved: false
-                }
-              }
-            })
-            handleClose()
-          }}>Restore</Button>}
-      </div>
+          })
+        }
+        handleClose()
+      }}>
+        Save
+      </Button>
+      <Button onClick={handleClose}>
+        Cancel
+      </Button>
+      {!stage.isNew && !stage.isRemoved && <Button onClick={() => {
+        editGameModel({
+          stages: {
+            [stage.stageId]: {
+              isRemoved: true
+            }
+          }
+        })
+        handleClose()
+      }}>Remove</Button>}
+      {stage.isRemoved && <Button onClick={() => {
+        editGameModel({
+          stages: {
+            [stage.stageId]: {
+              isRemoved: false
+            }
+          }
+        })
+        handleClose()
+      }}>Restore</Button>}
     </div>
   </CobrowsingDialog>
 }

@@ -27,7 +27,7 @@ export const effectInterfaceDatas = {
   },
   [EFFECT_STICK_TO]: {
     displayName: 'Hold',
-    icon: 'faLink'
+    icon: 'faHandsHolding'
   },
 
   // Lifecycle

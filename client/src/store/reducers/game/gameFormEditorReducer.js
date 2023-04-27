@@ -44,6 +44,8 @@ import {
   CLOSE_EFFECT_PROMPT_DIALOG,
   OPEN_EFFECT_PROMPT_DIALOG,
   CLEAR_EDITOR,
+  OPEN_EDIT_RELATION_SYSTEM_DIALOG,
+  CLOSE_EDIT_RELATION_SYSTEM_DIALOG,
 } from '../../types';
 
 // game create editor
@@ -88,7 +90,7 @@ const initialState = {
   },
 
   isStagesMenuOpen: false,
-  isCreateStageDialogOpen: false,
+  isEditStageDialogOpen: false,
   stage: {
     name: '',
   },
@@ -156,6 +158,17 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isEditEntityDialogOpen: false,
+        // entityModel: null
+      }
+    case OPEN_EDIT_RELATION_SYSTEM_DIALOG: 
+      return {
+        ...state,
+        isEditRelationSystemDialogOpen: true,
+      }
+    case CLOSE_EDIT_RELATION_SYSTEM_DIALOG:
+      return {
+        ...state,
+        isEditRelationSystemDialogOpen: false,
         // entityModel: null
       }
     case CLOSE_CREATE_COLOR_FLOW: 
@@ -330,7 +343,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case OPEN_CREATE_STAGE: 
       return {
         ...state,
-        isCreateStageDialogOpen: true,
+        isEditStageDialogOpen: true,
         stage: {
           ..._.cloneDeep(initialState.stage),
           ...payload.initialStage ? _.cloneDeep(payload.initialStage) : {}
@@ -344,7 +357,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case CLOSE_CREATE_STAGE: 
       return {
         ...state,
-        isCreateStageDialogOpen: false
+        isEditStageDialogOpen: false
       }
     case UPDATE_CREATE_CANVAS_IMAGE: 
       return {

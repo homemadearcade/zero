@@ -36,7 +36,7 @@ function a11yProps(index) {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default function({ tabs, className }) {
+export default function({ tabs, className,}) {
   const [currentTabInterfaceId, setCurrentTabInterfaceId] = React.useState(0)
 
   function handleChange(interfaceId) {
@@ -64,11 +64,11 @@ export function TabsBody({ tabs, currentTabInterfaceId, onChange, className }) {
     <div className={"Tabs " + className}>
       <AppBar position="static">
         <Tabs
+          variant="scrollable"
           value={value}
           onChange={handleChange}
           textColor="inherit"
-          variant="fullWidth"
-          aria-label="full width tabs example"
+          aria-label="scrollabe tabs"
         >
           {tabs.map((tab, index) => {
             return <Tab key={tab.label} label={tab.label} {...a11yProps(index)} />

@@ -11,7 +11,14 @@ import Button from '../../../ui/Button/Button';
 import { closeEditEntityDialog, openEditEntityGraphics, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
 import SelectEntityModelInterfaceCategory from '../../ui/SelectEntityModelInterfaceCategory/SelectEntityModelInterfaceCategory';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { CAMERA_EDITOR_IID, CHANGE_ENTITY_INTERFACE_IID, COLLISION_EDITOR_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, EDIT_ENTITY_MODEL_ADVANCED_TAB_CONTANER_IID, EDIT_ENTITY_MODEL_AUTOGENERATION_TAB_IID, EDIT_ENTITY_MODEL_BEHAVIORS_TAB_IID, EDIT_ENTITY_MODEL_GENERAL_TAB_IID, EDIT_ENTITY_MODEL_JSON_TAB_IID, EDIT_ENTITY_MODEL_TAB_CONTANER_IID, ENTITY_MODEL_BOUNDARY_RELATION_IID, ENTITY_MODEL_OPEN_CAMERA_IID, ENTITY_MODEL_OPEN_COLLISIONS_IID, ENTITY_MODEL_OPEN_JUMP_IID, ENTITY_MODEL_OPEN_MOVEMENT_IID, ENTITY_MODEL_OPEN_PROJECTILE_IID, ENTITY_RELATION_TAGS_IID, ENTITY_SPAWN_ZONE_ENTITY_IID, JUMP_EDITOR_IID, MOVEMENT_EDITOR_IID, PLAYER_ENTITY_IID, PROJECTILE_EDITOR_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
+import { CHANGE_ENTITY_INTERFACE_IID, 
+   EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, EDIT_ENTITY_MODEL_ADVANCED_TAB_CONTANER_IID, EDIT_ENTITY_MODEL_AUTOGENERATION_TAB_IID, 
+   EDIT_ENTITY_MODEL_BEHAVIORS_TAB_IID, EDIT_ENTITY_MODEL_GENERAL_TAB_IID, EDIT_ENTITY_MODEL_JSON_TAB_IID, 
+   EDIT_ENTITY_MODEL_TAB_CONTANER_IID, ENTITY_MODEL_BOUNDARY_RELATION_IID, 
+  ENTITY_RELATION_TAGS_IID, 
+   ENTITY_SPAWN_ZONE_ENTITY_IID, LIVE_ENTITY_EDITOR_CAMERA_TAB_IID, LIVE_ENTITY_EDITOR_COLLISIONS_TAB_IID, 
+   LIVE_ENTITY_EDITOR_JUMP_TAB_IID, LIVE_ENTITY_EDITOR_MOVEMENT_TAB_IID, 
+   LIVE_ENTITY_EDITOR_PROJECTILE_TAB_IID, PLAYER_ENTITY_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
 import { entityModelTypeToDisplayName, entityModelTypeToPrefix, ENTITY_MODEL_DID } from '../../constants';
@@ -20,7 +27,7 @@ import Typography from '../../../ui/Typography/Typography';
 import TextureStage from '../../textures/TextureStage/TextureStage';
 import SelectEntityModel from '../../ui/SelectEntityModel/SelectEntityModel';
 import CobrowsingTabs from '../../cobrowsing/CobrowsingTabs/CobrowsingTabs';
-import { openLiveEditor } from '../../../store/actions/game/gameSelectorActions';
+import { openEntityBehaviorLiveEditor } from '../../../store/actions/game/gameSelectorActions';
 import ReactJson from 'react-json-view';
 import Divider from '../../../ui/Divider/Divider';
 
@@ -29,7 +36,7 @@ const EditEntityDialog = ({
   updateCreateEntity, 
   closeEditEntityDialog, 
   editGameModel, 
-  openLiveEditor,
+  openEntityBehaviorLiveEditor,
   gameFormEditor: { entityModel }, 
   gameModel: { gameModel } }) => {
   function handleClose() {
@@ -139,33 +146,25 @@ const EditEntityDialog = ({
     interfaceId: EDIT_ENTITY_MODEL_BEHAVIORS_TAB_IID,
     label: 'Behaviors',
     body: <>
-      <Unlockable interfaceId={ENTITY_MODEL_OPEN_COLLISIONS_IID}>
         <Button onClick={() => {
-          openLiveEditor(COLLISION_EDITOR_IID, entityModel.entityModelId)
-        }}>Edit Collisions</Button>
-      </Unlockable>
-      {entityModel.entityIID === PLAYER_ENTITY_IID &&
-        <Unlockable interfaceId={ENTITY_MODEL_OPEN_CAMERA_IID}>
-          <Button onClick={() => {
-            openLiveEditor(CAMERA_EDITOR_IID, entityModel.entityModelId)
-          }}>Edit Camera</Button>
-        </Unlockable>
-      }
-      <Unlockable interfaceId={ENTITY_MODEL_OPEN_PROJECTILE_IID}>
-        <Button onClick={() => {
-          openLiveEditor(PROJECTILE_EDITOR_IID, entityModel.entityModelId)
-        }}>Edit Projectile</Button>
-      </Unlockable>
-      {entityModel.entityIID === PLAYER_ENTITY_IID && <Unlockable interfaceId={ENTITY_MODEL_OPEN_JUMP_IID}>
-        <Button onClick={() => {
-          openLiveEditor(JUMP_EDITOR_IID, entityModel.entityModelId)
-        }}>Edit Jump</Button>
-      </Unlockable>}
-      <Unlockable interfaceId={ENTITY_MODEL_OPEN_MOVEMENT_IID}>
-        <Button onClick={() => {
-          openLiveEditor(MOVEMENT_EDITOR_IID, entityModel.entityModelId)
+          openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_MOVEMENT_TAB_IID, entityModel.entityModelId)
         }}>Edit Movement</Button>
-      </Unlockable>
+        <Button onClick={() => {
+          openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_COLLISIONS_TAB_IID, entityModel.entityModelId)
+        }}>Edit Collisions</Button>
+        {entityModel.entityIID === PLAYER_ENTITY_IID &&
+          <Button onClick={() => {
+            openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_CAMERA_TAB_IID, entityModel.entityModelId)
+          }}>Edit Camera</Button>
+        }
+        <Button onClick={() => {
+          openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_PROJECTILE_TAB_IID, entityModel.entityModelId)
+        }}>Edit Projectile</Button>
+      {entityModel.entityIID === PLAYER_ENTITY_IID && 
+        <Button onClick={() => {
+          openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_JUMP_TAB_IID, entityModel.entityModelId)
+        }}>Edit Jump</Button>
+      }
     </>
   }
 
@@ -237,5 +236,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { openEditEntityGraphics, openLiveEditor, closeEditEntityDialog, editGameModel, updateCreateEntity }),
+  connect(mapStateToProps, { openEditEntityGraphics, openEntityBehaviorLiveEditor, closeEditEntityDialog, editGameModel, updateCreateEntity }),
 )(EditEntityDialog);

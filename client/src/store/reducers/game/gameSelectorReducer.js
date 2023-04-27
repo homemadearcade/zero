@@ -1,7 +1,7 @@
 import { SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
 import { defaultSelectorClassDataSourceInvisibility } from '../../../game/constants/interfaceData';
 import {
-  CLOSE_LIVE_EDITOR,
+  CLOSE_ENTITY_LIVE_EDITOR,
   SELECT_ENTITY_MODEL,
   CLEAR_SELECTED_ENTITY_MODEL,
   SELECT_BRUSH,
@@ -11,7 +11,7 @@ import {
   UPDATE_OPEN_INTERFACE_ID,
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR,
-  OPEN_LIVE_EDITOR,
+  OPEN_ENTITY_LIVE_EDITOR,
   OPEN_GAME_METADATA_DIALOG,
   CLOSE_GAME_METADATA_DIALOG,
   OPEN_GAME_TEXTURES_DIALOG,
@@ -25,6 +25,8 @@ import {
   CLOSE_SELECT_AGGREGATE_COLOR,
   CHANGE_SELECTOR_COLUMN,
   TOGGLE_SELECTOR_ENTITY_INVISIBILITY,
+  OPEN_STAGE_LIVE_EDITOR,
+  CLOSE_STAGE_LIVE_EDITOR,
 } from '../../types';
 
 const initialState = {
@@ -35,7 +37,7 @@ const initialState = {
   entityModelIdSelectedEntityList: null,
   brushSize: 3,
   entityModelIdSelectedLiveEditor: null,
-  liveEditingCategory: null,
+  isEntityBehaviorLiveEditorOpen: null,
   isSelectStageColorDialogOpen: false,
   isGameEditDialogOpen: false,
   openInterfaceIdGroups: {
@@ -103,17 +105,29 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
           [payload.verticalLinearStepperId]: payload.verticalLinearStepperValue
         }
       };
-    case OPEN_LIVE_EDITOR:
+    case OPEN_ENTITY_LIVE_EDITOR:
       return {
         ...state,
-        liveEditingCategory: payload.type,
+        isEntityBehaviorLiveEditorOpen: true,
         entityModelIdSelectedLiveEditor: payload.entityModelIdSelectedLiveEditor,
       };
-    case CLOSE_LIVE_EDITOR:
+    case CLOSE_ENTITY_LIVE_EDITOR:
       return {
           ...state,
         entityModelIdSelectedLiveEditor: null,
-        liveEditingCategory: null
+        isEntityBehaviorLiveEditorOpen: false
+      };
+    case OPEN_STAGE_LIVE_EDITOR:
+      return {
+        ...state,
+        isStageLiveEditorOpen: true,
+        stageIdSelectedLiveEditor: payload.stageIdSelectedLiveEditor,
+      };
+    case CLOSE_STAGE_LIVE_EDITOR:
+      return {
+          ...state,
+        stageIdSelectedLiveEditor: null,
+        isStageLiveEditorOpen: false
       };
     case OPEN_SELECT_BACKGROUND_COLOR: 
       return {

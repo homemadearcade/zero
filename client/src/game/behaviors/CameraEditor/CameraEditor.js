@@ -5,7 +5,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 
 import './CameraEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
-import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { CAMERA_LERP_X_IID, CAMERA_LERP_Y_IID, CAMERA_ZOOM_IID } from '../../../constants/interfaceIds';
 
 const CameraEditor = ({ entityModelId, gameModel: { gameModel, currentStageId }, editGameModel }) => {

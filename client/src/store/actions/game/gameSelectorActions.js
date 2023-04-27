@@ -1,7 +1,8 @@
+import { EDIT_ENTITY_MODEL_TAB_CONTANER_IID, EDIT_GAME_TAB_CONTANER_IID, EDIT_STAGE_TAB_CONTAINER_IID, LIVE_ENTITY_EDITOR_TAB_CONTANER_IID } from '../../../constants/interfaceIds';
 import { getCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { getLayerIdFromColorId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
 import { 
-  CLOSE_LIVE_EDITOR,
+  CLOSE_ENTITY_LIVE_EDITOR,
   SELECT_ENTITY_MODEL,
   CLEAR_SELECTED_ENTITY_MODEL,
   SELECT_BRUSH,
@@ -11,7 +12,7 @@ import {
   UPDATE_OPEN_INTERFACE_ID,
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR,
-  OPEN_LIVE_EDITOR,
+  OPEN_ENTITY_LIVE_EDITOR,
   OPEN_GAME_METADATA_DIALOG,
   CLOSE_GAME_METADATA_DIALOG,
   OPEN_GAME_TEXTURES_DIALOG,
@@ -25,6 +26,8 @@ import {
   CLOSE_SELECT_AGGREGATE_COLOR,
   CHANGE_SELECTOR_COLUMN,
   TOGGLE_SELECTOR_ENTITY_INVISIBILITY,
+  OPEN_STAGE_LIVE_EDITOR,
+  CLOSE_STAGE_LIVE_EDITOR,
 } from '../../types';
 
 import { saveAllCurrentCanvases } from '../media/codrawingActions';
@@ -123,15 +126,31 @@ export const clearBrush = (brushId) => (dispatch, getState) => {
   });
 }
 
-export const openLiveEditor = (type, entityModelId) => (dispatch, getState) => {
+export const openEntityBehaviorLiveEditor = (tabIID, entityModelId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
+
+  dispatch(updateOpenInterfaceId(LIVE_ENTITY_EDITOR_TAB_CONTANER_IID, tabIID))
 
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_LIVE_EDITOR,
+    type: OPEN_ENTITY_LIVE_EDITOR,
     payload: {
-      type,
+      tabIID,
       entityModelIdSelectedLiveEditor: entityModelId, 
+    }
+  });
+}
+
+export const openStageLiveEditor = (tabIID, stageId) => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
+  dispatch(updateOpenInterfaceId(EDIT_STAGE_TAB_CONTAINER_IID, tabIID))
+
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_STAGE_LIVE_EDITOR,
+    payload: {
+      stageIdSelectedLiveEditor: stageId, 
     }
   });
 }
@@ -155,7 +174,10 @@ export const closeEntityBoxDialog = () => (dispatch, getState) => {
   });
 }
 
-export const openGameEditDialog = () => (dispatch, getState) => {
+export const openGameEditDialog = (tabIID) => (dispatch, getState) => {
+
+  dispatch(updateOpenInterfaceId(EDIT_GAME_TAB_CONTANER_IID, tabIID))
+
   dispatch({
     updateCobrowsing: true,
     type: OPEN_GAME_METADATA_DIALOG,
@@ -206,10 +228,17 @@ export const closeSelectAggregateColor= () => (dispatch, getState) => {
   });
 }
 
-export const closeLiveEditor = () => (dispatch, getState) => {
+export const closeEntityBehaviorLiveEditor = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_LIVE_EDITOR
+    type: CLOSE_ENTITY_LIVE_EDITOR
+  });
+}
+
+export const closeStageLiveEditor = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_STAGE_LIVE_EDITOR
   });
 }
 

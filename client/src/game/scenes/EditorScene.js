@@ -4,8 +4,8 @@ import store from '../../store';
 import { editGameModel } from '../../store/actions/game/gameModelActions';
 import { openContextMenuFromEntityInstance, openStageContextMenu } from '../../store/actions/game/contextMenuActions';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
-import { clearBrush, clearEntity } from '../../store/actions/game/gameSelectorActions';
-import { closeSnapshotTaker, changeEditorCameraZoom, setResizingEntityInstance } from '../../store/actions/game/gameViewEditorActions';
+import { clearBrush, clearEntity, openEntityBehaviorLiveEditor, openGameEditDialog, openStageLiveEditor, selectEntity } from '../../store/actions/game/gameSelectorActions';
+import { closeSnapshotTaker, changeEditorCameraZoom, setResizingEntityInstance, closeBoundaryEditor } from '../../store/actions/game/gameViewEditorActions';
 import { PLAYER_INSTANCE_DID, ENTITY_INSTANCE_DID, UI_LAYER_DEPTH, 
   STAGE_LAYER_ID, EVENT_SPAWN_MODEL_DRAG_FINISH,
    initialCameraZoneEntityId, initialStageZoneEntityId, 
@@ -21,11 +21,12 @@ import { generateUniqueId, getThemePrimaryColor, isLocalHost } from '../../utils
 import { getInterfaceIdData } from '../../utils/unlockedInterfaceUtils';
 import { createGameSceneInstance, getGameModelSize } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
-import { BACKGROUND_LAYER_GROUP_IID, ENTITY_INSTANCE_MOVE_IID, FOREGROUND_LAYER_GROUP_IID, PLAYGROUND_LAYER_GROUP_IID } from '../../constants/interfaceIds';
+import { BACKGROUND_LAYER_GROUP_IID, ENTITY_INSTANCE_MOVE_IID, ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID, ENTITY_MODEL_OPEN_EDIT_IID, FOREGROUND_LAYER_GROUP_IID, GAME_OPEN_EDIT_IID, PLAYGROUND_LAYER_GROUP_IID, STAGE_OPEN_EDIT_IID } from '../../constants/interfaceIds';
 import { addCanvasImage, uploadCanvasImageAndAddToGameModel } from '../../store/actions/media/canvasImageActions';
 import { updateTheme } from '../../store/actions/themeActions';
 import { changeInstanceHovering } from '../../store/actions/game/hoverPreviewActions';
 import { EXPERIENCE_ROLE_PARTICIPANT, IMAGE_TYPE_SNAPSHOT } from '../../constants';
+import { openEditEntityDialog } from '../../store/actions/game/gameFormEditorActions';
 
 export class EditorScene extends GameInstance {
   constructor(props) {
@@ -416,10 +417,18 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerDown = (pointer, phaserInstances) => {
+    const hoveringInstances = phaserInstances.filter((phaserInstance) => {
+      return phaserInstance.isSelectable
+    })
+
     const clickDelay = this.time.now - this.lastClick;
     this.lastClick = this.time.now;
-    if(clickDelay < 350) {
-      this.onDoubleClick(pointer)
+    if(clickDelay < 200 && !pointer.event.shiftKey) {
+      this.doubleClicked = true
+      setTimeout(() => {
+        this.doubleClicked = false
+      }, 200)
+      this.onDoubleClick(pointer, hoveringInstances)
       return
     }
 
@@ -440,9 +449,6 @@ export class EditorScene extends GameInstance {
         document.body.removeEventListener('contextmenu', disableContextMenue)
       })
 
-      const hoveringInstances = phaserInstances.filter((phaserInstance) => {
-        return phaserInstance.isSelectable
-      })
       
       if(hoveringInstances.length) {
         store.dispatch(openContextMenuFromEntityInstance(phaserInstances, pointer.event))
@@ -452,13 +458,14 @@ export class EditorScene extends GameInstance {
     }
 
     if(pointer.leftButtonDown()) {
-
       if(this.draggingEntityInstanceId && this.isDragFromContext) {
         this.finishDrag(this.getEntityInstance(this.draggingEntityInstanceId).phaserInstance)
+        return
       }
 
       if(this.resizingEntityInstance) {
         this.onResizeEnd()
+        return
       }
 
       ////////////////////////////////////////////////////////////
@@ -495,6 +502,34 @@ export class EditorScene extends GameInstance {
         const canvas = this.getLayerInstanceByLayerId(this.brush.getLayerId())
         this.canvas = canvas
         this.brush.stroke(pointer, this.canvas)
+        return
+      }
+
+      if(this.stamper && !this.draggingEntityInstanceId) {
+        this.stamper.stamp(pointer)
+        if(!pointer.event.shiftKey) {
+          this.destroyStamper()
+          store.dispatch(clearEntity())
+        }
+        return
+      }
+
+      if(!this.draggingEntityInstanceId) {
+        setTimeout(() => {
+          if(this.draggingEntityInstanceId || this.doubleClicked) return
+
+          if(hoveringInstances.length) {
+            const { isObscured } = getInterfaceIdData(ENTITY_MODEL_OPEN_EDIT_IID)
+            if(!isObscured) {
+              store.dispatch(openEditEntityDialog(this.getGameModel().entityModels[hoveringInstances[0].entityModelId]))
+            }
+          } else {
+            const { isObscured } = getInterfaceIdData(STAGE_OPEN_EDIT_IID)
+            if(!isObscured) {
+              store.dispatch(openStageLiveEditor())
+            }
+          }
+        }, 200)
       }
     }
   }
@@ -529,13 +564,7 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerUp = (pointer) => {
-    if(this.stamper && pointer.leftButtonReleased() && !this.draggingEntityInstanceId) {
-      this.stamper.stamp(pointer)
-      if(!pointer.event.shiftKey) {
-        this.destroyStamper()
-        store.dispatch(clearEntity())
-      }
-    }
+
     
     this.draggingEntityInstanceId = null
 
@@ -580,7 +609,22 @@ export class EditorScene extends GameInstance {
     }
   }
 
-  onDoubleClick = (pointer) => {
+  onDoubleClick = (pointer, hoveringInstances) => {
+    if(this.draggingEntityInstanceId) return
+    if(hoveringInstances.length) {
+      const { isObscured } = getInterfaceIdData(ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID)
+      if(!isObscured) {
+        store.dispatch(openEntityBehaviorLiveEditor(null, hoveringInstances[0].entityModelId))
+      }
+    } else {
+      const { isObscured } = getInterfaceIdData(GAME_OPEN_EDIT_IID)
+      if(!isObscured) {
+        store.dispatch(openGameEditDialog())
+      }
+    }
+
+
+      // store.dispatch(selectEntity(hoveringInstances[0].entityModelId))
     // store.dispatch(changeEditorCameraZoom(5))
     // this.editorCamera.setZoom(5)
     // this.editorCamera.pan(pointer.worldX, pointer.worldY, 0)
@@ -1042,8 +1086,17 @@ export class EditorScene extends GameInstance {
     if(this.escKey.isDown) {
       if(this.readyForNextEscapeKey) {
         this.readyForNextEscapeKey = false
+        const gameViewEditor = store.getState().gameViewEditor
+        if(gameViewEditor.isSnapshotTakerOpen) {
+          store.dispatch(closeSnapshotTaker())
+        }
+        if(gameViewEditor.isBoundaryEditorOpen) {
+          store.dispatch(closeBoundaryEditor())
+        }
+
         store.dispatch(clearBrush())
         store.dispatch(clearEntity())
+        
         if(this.draggingEntityInstanceId) {
           this.draggingEntityInstanceId = null
         } else if(this.brush) {
@@ -1086,7 +1139,7 @@ export class EditorScene extends GameInstance {
 
     const gameViewEditor = store.getState().gameViewEditor
     
-    const cameraZoom = gameViewEditor.isSectionEditorOpen ? getCobrowsingState().gameViewEditor.cameraZoom : store.getState().gameViewEditor.cameraZoom
+    const cameraZoom = gameViewEditor.isBoundaryEditorOpen ? getCobrowsingState().gameViewEditor.cameraZoom : store.getState().gameViewEditor.cameraZoom
     if(cameraZoom !== this.editorCamera.zoom) {
       this.editorCamera.setZoom(cameraZoom)
       // this.editorCamera.zoomTo(cameraZoom, 100, 'Linear', true)

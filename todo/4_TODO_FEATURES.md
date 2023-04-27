@@ -9,23 +9,7 @@ FEATURES TODO
 
 CLEAN UP STAGES, GAME, ADD KEYBOARD TOOLBAR
 
-STAGE
-  Defaults
-  Color
-  Name
-    isStartStage
-    isCurrentStage
-  Gravity
-  Boundaries
-
-GAME
-  Privacy
-  Startup
-    Player
-    Stage
-  Important Ids ( Once System and Autogeneration Data is changed.. )
-
-CONTENT LIST
+CONTENT DIALOG
   Textures
   Dialog
   Cutscenes

@@ -10,7 +10,7 @@ import GameMetadataForm from '../../../app/gameModel/GameMetadataForm/GameMetada
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { GAME_MODEL_IMPORT_IID, GAME_INTERFACE_COLOR_IID, EDIT_GAME_TAB_CONTANER_IID, EDIT_GAME_METADATA_TAB_IID, EDIT_GAME_LIBRARY_TAB_IID, EDIT_GAME_THEME_TAB_IID, EDIT_GAME_SIZE_TAB_IID } from '../../../constants/interfaceIds';
+import { GAME_MODEL_IMPORT_IID, GAME_INTERFACE_COLOR_IID, EDIT_GAME_TAB_CONTANER_IID, EDIT_GAME_METADATA_TAB_IID, EDIT_GAME_LIBRARY_TAB_IID, EDIT_GAME_THEME_TAB_IID, EDIT_GAME_SIZE_TAB_IID, EDIT_GAME_PLAYERS_TAB_IID, PLAYER_ENTITY_IID, GAME_PLAYER_START_ENTITY_MODEL_IID } from '../../../constants/interfaceIds';
 import FormLabel from '../../../ui/FormLabel/FormLabel';
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import GameCard from '../../../app/gameModel/GameCard/GameCard';
@@ -18,12 +18,20 @@ import { addImportedArcadeGame } from '../../../store/actions/game/arcadeGameAct
 import Alert from '../../../ui/Alert/Alert';
 import CobrowsingTabs from '../../cobrowsing/CobrowsingTabs/CobrowsingTabs';
 import GameSizeEditor from '../../../app/gameModel/GameSizeEditor/GameSizeEditor';
+import SelectEntityModel from '../../ui/SelectEntityModel/SelectEntityModel';
+import SelectStage from '../../ui/SelectStage/SelectStage';
+import Button from '../../../ui/Button/Button';
+import Divider from '../../../ui/Divider/Divider';
+import { openCreateStageDialog } from '../../../store/actions/game/gameFormEditorActions';
+import { openEditEntityDialog } from '../../../store/actions/game/gameFormEditorActions';
 
 const GameEditDialog = ({ 
   editGameModel, closeGameEditDialog, 
   gameViewEditor: { isSnapshotTakerOpen },
   gameModel: { gameModel },
-  addImportedArcadeGame
+  addImportedArcadeGame,
+  openCreateStageDialog,
+  openEditEntityDialog
 }) => {
   function handleClose() {
     closeGameEditDialog()
@@ -84,6 +92,49 @@ const GameEditDialog = ({
     </>
   }
 
+  const stage = gameModel.stages[gameModel.player.startingStageId]
+  const playerEntity = gameModel.entityModels[gameModel.player.startingEntityModelId]
+  const playersTab = {
+    interfaceId: EDIT_GAME_PLAYERS_TAB_IID,
+    label: 'Players',
+    body: <>
+      <SelectStage
+        entityModelType={PLAYER_ENTITY_IID}
+        formLabel="What stage should players start on?"
+        value={gameModel.player.startingStageId ? [gameModel.player.startingStageId] : []}
+        onChange={(event, stageIds) => {
+          const newStageId = stageIds[stageIds.length-1]
+          editGameModel({ 
+            player: {
+              startingStageId: newStageId
+            }
+          })
+        }}/>
+        <Button onClick={() => {
+          openCreateStageDialog(stage)
+          handleClose()
+        }}>Edit {stage.name}</Button>
+      <Divider/>
+      {false && <SelectEntityModel
+        formLabel="What should the player spawn as? ( Stages can override this )"
+        interfaceId={GAME_PLAYER_START_ENTITY_MODEL_IID}
+        entityModelType={PLAYER_ENTITY_IID}
+        value={gameModel.player.startingEntityModelId ? [gameModel.player.startingEntityModelId] : []}
+        onChange={(event, entityModels) => {
+          const newEntityId = entityModels[entityModels.length-1]
+          editGameModel({ 
+            player: {
+              startingEntityModelId: newEntityId
+            }
+          })
+        }}/>}
+      {playerEntity && <Button onClick={() => {
+        openEditEntityDialog(playerEntity)
+        handleClose()
+      }}>Edit {playerEntity.name}</Button>}
+    </>
+  }
+
   const sizeTab = {
     interfaceId: EDIT_GAME_SIZE_TAB_IID,
     label: 'Size',
@@ -92,7 +143,7 @@ const GameEditDialog = ({
     </>
   }
 
-  const tabs = [metadataTab, themeTab, libraryTab, sizeTab]
+  const tabs = [metadataTab, playersTab, themeTab, libraryTab, sizeTab]
 
   return <CobrowsingDialog widthModifier={1} open={!isSnapshotTakerOpen} onClose={handleClose}>
     <div className="GameEditDialog">
@@ -107,5 +158,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { closeGameEditDialog, editGameModel, addImportedArcadeGame }),
+  connect(mapStateToProps, { closeGameEditDialog, openEditEntityDialog, editGameModel, openCreateStageDialog, addImportedArcadeGame }),
 )(GameEditDialog);

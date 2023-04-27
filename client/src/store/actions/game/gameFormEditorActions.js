@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { IMAGE_TYPE_SPRITE } from '../../../constants';
+import { EDIT_ENTITY_MODEL_TAB_CONTANER_IID } from '../../../constants/interfaceIds';
 import { CANVAS_IMAGE_DID, newTextureSize } from '../../../game/constants';
 import { generateUniqueId, getImageUrlFromTextureId } from '../../../utils';
 
@@ -45,9 +46,12 @@ import {
   CLOSE_CREATE_CANVAS_IMAGE_DIALOG,
   OPEN_EFFECT_PROMPT_DIALOG,
   CLOSE_EFFECT_PROMPT_DIALOG,
+  OPEN_EDIT_RELATION_SYSTEM_DIALOG,
+  CLOSE_EDIT_RELATION_SYSTEM_DIALOG,
 } from '../../types';
 import { addCanvasImage } from '../media/canvasImageActions';
 import { saveAllCurrentCanvases } from '../media/codrawingActions';
+import { updateOpenInterfaceId } from './gameSelectorActions';
 
 export const changeEditorCameraZoom = (zoom) => (dispatch, getState) => {
   dispatch({
@@ -163,7 +167,10 @@ export const openCreateColorFlow = (componentName, layerId) => (dispatch, getSta
   });
 }
 
-export const openEditEntityDialog = (entityModel) => (dispatch, getState) => {
+export const openEditEntityDialog = (entityModel, tabIID) => (dispatch, getState) => {
+
+  dispatch(updateOpenInterfaceId(EDIT_ENTITY_MODEL_TAB_CONTANER_IID, tabIID))
+
   dispatch({
     updateCobrowsing: true,
     type: OPEN_ENTITY_EDIT_DIALOG,
@@ -175,6 +182,23 @@ export const closeEditEntityDialog = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_ENTITY_EDIT_DIALOG,
+    payload: {}
+  });
+}
+
+export const openEditRelationSystemDialog = (tabIID) => (dispatch, getState) => {
+  // dispatch(updateOpenInterfaceId(EDIT_ENTITY_MODEL_TAB_CONTANER_IID, tabIID))
+
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_EDIT_RELATION_SYSTEM_DIALOG,
+  });
+}
+
+export const closeEditRelationSystemDialog = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_EDIT_RELATION_SYSTEM_DIALOG,
     payload: {}
   });
 }

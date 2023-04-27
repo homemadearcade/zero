@@ -1,0 +1,30 @@
+.EditRelationSystemDialog {
+  &__header {
+    display: flex;
+    gap: 1em;
+    padding: 1em;
+
+
+  }
+
+  &__tabs {
+    .Tabs__panel {
+      min-height: 25em;
+    }
+  }
+
+  &__name {
+    width: 100%;
+    text-align: center;
+    padding-top: 1em;
+  }
+
+
+  &__primary-options {
+    flex: 2;
+  }
+  &__texture-stage {
+    width: 10em;
+    height: 10em;
+  }
+}

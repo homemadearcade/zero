@@ -1,9 +1,9 @@
 import { openCreateStageDialog, openEditEntityDialog, openEditEntityGraphics } from "../../store/actions/game/gameFormEditorActions";
-import { openGameEditDialog, openLiveEditor, openSelectStageColorDialog } from "../../store/actions/game/gameSelectorActions";
-import { openSectionEditor } from "../../store/actions/game/gameViewEditorActions";
+import { openGameEditDialog, openEntityBehaviorLiveEditor, openSelectStageColorDialog, openStageLiveEditor } from "../../store/actions/game/gameSelectorActions";
+import { openBoundaryEditor } from "../../store/actions/game/gameViewEditorActions";
 import { EDIT_CURRENT_PLAYER_CAMERA_AID, EDIT_CURRENT_STAGE_AID, EDIT_CURRENT_STAGE_BACKGROUND_COLOR_AID, EDIT_CURRENT_STAGE_BOUNDARIES_AID, EDIT_ENTITY_AID, EDIT_ENTITY_GRAPHICS_AID, EDIT_GAME_METADATA_AID } from "../interfaceActionIds/edit";
 import { INTERFACE_ACTION_EDIT } from "../interfaceActions";
-import { CAMERA_EDITOR_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, ZONE_ENTITY_IID } from "../interfaceIds";
+import { CAMERA_EDITOR_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, EDIT_GAME_METADATA_TAB_IID, EDIT_STAGE_COLOR_TAB_IID, LIVE_ENTITY_EDITOR_CAMERA_TAB_IID, ZONE_ENTITY_IID } from "../interfaceIds";
 
  // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -29,7 +29,7 @@ export default {
     subTitle: 'This will open a popup to select the background color',
     actionType: INTERFACE_ACTION_EDIT,
     onClick: () => (dispatch) => {
-      dispatch(openSelectStageColorDialog())
+      dispatch(openStageLiveEditor(EDIT_STAGE_COLOR_TAB_IID))
     }
   },
   [EDIT_GAME_METADATA_AID]: {
@@ -37,7 +37,7 @@ export default {
     subTitle: 'This will open a popup to edit the game metadata',
     actionType: INTERFACE_ACTION_EDIT,
     onClick: () => (dispatch) => {
-      dispatch(openGameEditDialog())
+      dispatch(openGameEditDialog(EDIT_GAME_METADATA_TAB_IID))
     }
   },
   [EDIT_ENTITY_GRAPHICS_AID]: {
@@ -62,7 +62,7 @@ export default {
     subTitle: 'This will open a popup to edit the boundaries',
     actionType: INTERFACE_ACTION_EDIT,
     onClick: () => (dispatch) => {
-      dispatch(openSectionEditor())
+      dispatch(openBoundaryEditor())
     }
   },
   [EDIT_CURRENT_STAGE_AID]: {
@@ -81,7 +81,7 @@ export default {
     actionType: INTERFACE_ACTION_EDIT,
     onClick: () => (dispatch, gameModel, getState) => {
       const currentPlayerEntityId = getState().playerInterface.playerEntityModelId
-      dispatch(openLiveEditor(CAMERA_EDITOR_IID, currentPlayerEntityId))
+      dispatch(openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_CAMERA_TAB_IID, currentPlayerEntityId))
     }
   }
 }

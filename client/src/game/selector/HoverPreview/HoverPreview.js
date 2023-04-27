@@ -11,16 +11,36 @@ import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
 import { entityModelTypeToDisplayName } from '../../constants';
 import { initialStageId } from '../../constants';
-import { changeSelectorList, openGameEditDialog, openSelectStageColorDialog } from '../../../store/actions/game/gameSelectorActions';
+import { changeSelectorList, openGameEditDialog, openStageLiveEditor } from '../../../store/actions/game/gameSelectorActions';
 import Button from '../../../ui/Button/Button';
-import { openEditEntityDialog, openEffectPromptDialog } from '../../../store/actions/game/gameFormEditorActions';
+import { openEditEntityDialog, openEditRelationSystemDialog, openEffectPromptDialog } from '../../../store/actions/game/gameFormEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { CHANGE_SELECTOR_TABS_IID, GAME_OPEN_METADATA_IID, GAME_OPEN_SNAPSHOT_IID, HOVER_PREVIEW_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, SELECTOR_PROMPT_ENTRY_IID, STAGE_OPEN_BACKGROUND_COLOR_IID } from '../../../constants/interfaceIds';
+import { 
+  CHANGE_SELECTOR_TABS_IID, 
+  EDIT_STAGE_COLOR_TAB_IID,
+  GAME_OPEN_EDIT_IID, 
+  GAME_OPEN_SNAPSHOT_IID, 
+  HOVER_PREVIEW_IID, 
+  SELECTOR_RELATION_SYSTEM_IID, 
+  SELECTOR_ENTITY_BY_INTERFACE_ID_IID, 
+  STAGE_OPEN_BACKGROUND_COLOR_IID
+} from '../../../constants/interfaceIds';
 import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import IconButton from '../../../ui/IconButton/IconButton';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 
+          // {<Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
+          //   <Button size="xs" onClick={() => {
+          //     openEffectPromptDialog()
+          //   }}><Icon icon="faTerminal"/></Button>
+          // </Unlockable>}
+
+          //           <Unlockable interfaceId={GAME_OPEN_SNAPSHOT_IID}>
+          //   <Button size="xs" onClick={() => {
+          //     openSnapshotTaker()
+          //   }}><Icon icon="faCameraRetro"/></Button>
+          // </Unlockable>
 const HoverPreview = ({ 
   cobrowsing: {
     mouseOverInterfaceId
@@ -48,15 +68,16 @@ const HoverPreview = ({
     gameRoomInstance
   },
   gameViewEditor: {
-    isSectionEditorOpen,
+    isBoundaryEditorOpen,
     isSnapshotTakerOpen
   },
   openGameEditDialog,
   openEditEntityDialog,
-  openSelectStageColorDialog,
+  openStageLiveEditor,
   openSnapshotTaker,
+  openEditRelationSystemDialog,
   changeSelectorList,
-  openEffectPromptDialog
+  openEffectPromptDialog,
 }) => {
   const [isHoveringOverTitle, setIsHoveringOverTitle] = useState(false)
   const theme = useWishTheme()
@@ -100,12 +121,6 @@ const HoverPreview = ({
 
   const interfaceData = interfaceIdData[mouseOverInterfaceId]
 
-  function renderEditableIcon(onEdit) {
-    return <Button size="xs" className="HoverPreview__editable" onClick={() => {
-      onEdit()
-    }}><Icon icon="faPenToSquare"></Icon></Button>
-  }
-
   function renderDisplayTitle(title, onEdit) {
     return <>
       <Typography 
@@ -113,7 +128,6 @@ const HoverPreview = ({
         sx={{fontSize:'.8em'}}
         font="2P">
         {title}
-        {onEdit && isHoveringOverTitle && renderEditableIcon(onEdit)}
       </Typography>
     </>
   }
@@ -152,9 +166,6 @@ const HoverPreview = ({
       textureTint: entityModel.graphics.textureTint,
       textureId: entityModel.graphics.textureId,
       title,
-      onEdit: () => {
-        openEditEntityDialog(entityModel)
-      }
     })
   }
 
@@ -203,10 +214,37 @@ const HoverPreview = ({
     //     onMenuItemClick()
     //   }}>Take Snapshot</MenuItem>
     // </Unlockable>
+    if(isHoveringOverTitle) {
+     return  <div className="HoverPreview__title">
+        <div className="HoverPreview__actions">
+          <Unlockable interfaceId={GAME_OPEN_EDIT_IID}>
+            <Button size="xs" startIcon={<Icon icon="faGamepad"/>} onClick={() => {
+              openGameEditDialog()
+            }}>Edit Game</Button>
+          </Unlockable>
+          <Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
+            <Button startIcon={<Icon icon="faLink"/>} size="xs" onClick={() => {
+              openEditRelationSystemDialog()
+            }}>Edit Relationships</Button>
+          </Unlockable>
+          <Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
+            <Button startIcon={<Icon icon="faIcons"/>} size="xs" onClick={() => {
+              
+            }}>Edit Content</Button>
+          </Unlockable>
+          <Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
+            <Button startIcon={<Icon icon="faMap"/>} size="xs" onClick={() => {
+              openStageLiveEditor()
+            }}>Edit Stage</Button>
+          </Unlockable>
+        </div>
+      </div>
+    }
+
    return  <>
     {metadata.imageUrl && <div className="HoverPreview__image-background" style={{backgroundImage: imageBackground ? `url("${imageBackground}"` : ''}}></div>}
     <div className="HoverPreview__title" onClick={() => {
-      // if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID) changeSelectorList(SELECTOR_ABSTRACT_LIST)
+      // if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID) changeSelectorList(SELECTOR_RELATION_SYSTEM)
     }}>
       <Typography font="2P" variant="subtitle2">
         {metadata.title}
@@ -217,37 +255,13 @@ const HoverPreview = ({
         }}></IconButton>
       </div>}
       {(gameRoomInstance.gameState === PAUSED_STATE) && renderDisplayTitle('(Paused)')}
-      {isHoveringOverTitle && 
-        <div className="HoverPreview__actions">
-          <Unlockable interfaceId={GAME_OPEN_METADATA_IID}>
-            {renderEditableIcon(() => {
-              openGameEditDialog()
-            })}
-          </Unlockable>
-          <Unlockable interfaceId={GAME_OPEN_SNAPSHOT_IID}>
-            <Button size="xs" onClick={() => {
-              openSnapshotTaker()
-            }}><Icon icon="faCameraRetro"/></Button>
-          </Unlockable>
-          {<Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
-            <Button size="xs" onClick={() => {
-              openEffectPromptDialog()
-            }}><Icon icon="faTerminal"/></Button>
-          </Unlockable>}
-          {currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID && <Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
-            <Button size="xs" onClick={() => {
-              changeSelectorList(SELECTOR_ABSTRACT_LIST_IID)
-            }}><Icon icon="faTableList"/></Button>
-          </Unlockable>}
-
-      </div>}
       {currentStageId === initialStageId ? null : <>
         <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5em'}} >{currentStage.name}</Typography>
       </>}
       {isHoveringOverTitle && <div className="HoverPreview__actions">
         <Unlockable interfaceId={STAGE_OPEN_BACKGROUND_COLOR_IID}>
           <Button size="xs" className="HoverPreview__actions-color" onClick={() => {
-            openSelectStageColorDialog()
+            openStageLiveEditor(EDIT_STAGE_COLOR_TAB_IID)
           }} style={{borderColor: theme.primaryColor.hexString, backgroundColor: currentStage.color, height: '1.2em', width: '4em'}}/>
         </Unlockable>
       </div>}
@@ -262,7 +276,7 @@ const HoverPreview = ({
       </div>
     }
 
-    if(isSectionEditorOpen) {
+    if(isBoundaryEditorOpen) {
       return renderTextOnlyDisplay({
         title: 'Editing Boundaries',
         subtitle: 'Click squares on the map to allow movement into that area',
@@ -336,4 +350,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameViewEditor: state.gameViewEditor,
 })
 
-export default connect(mapStateToProps, { openEffectPromptDialog, openGameEditDialog, openEditEntityDialog, openSelectStageColorDialog, openSnapshotTaker, changeSelectorList })(HoverPreview);
+export default connect(mapStateToProps, { openEditRelationSystemDialog, openStageLiveEditor, openEffectPromptDialog, openGameEditDialog, openEditEntityDialog, openStageLiveEditor, openSnapshotTaker, changeSelectorList })(HoverPreview);

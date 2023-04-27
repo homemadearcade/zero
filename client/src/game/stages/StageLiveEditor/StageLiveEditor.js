@@ -1,0 +1,167 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import './StageLiveEditor.scss';
+import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
+import { ZONE_ENTITY_IID } from '../../constants';
+import Typography from '../../../ui/Typography/Typography';
+import SelectStageColor from '../SelectStageColor/SelectStageColor';
+import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
+import SelectStageDefaultType from '../../ui/SelectStageDefaultType/SelectStageDefaultType';
+import Switch from '../../../ui/Switch/Switch';
+import { EDIT_STAGE_COLOR_TAB_IID, EDIT_STAGE_PLAYERS_TAB_IID, EDIT_STAGE_GRAVITY_TAB_IID, EDIT_STAGE_TAB_CONTAINER_IID, PLAYER_ENTITY_IID, STAGE_CUSTOMIZE_IID, STAGE_GRAVITY_X_IID, STAGE_GRAVITY_Y_IID, STAGE_SPAWN_ZONE_SELECT_IID } from '../../../constants/interfaceIds';
+import SelectEntityModel from '../../ui/SelectEntityModel/SelectEntityModel';
+import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
+import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
+import CobrowsingTabs from '../../cobrowsing/CobrowsingTabs/CobrowsingTabs';
+import Button from '../../../ui/Button/Button';
+import { closeStageLiveEditor } from '../../../store/actions/game/gameSelectorActions';
+import Icon from '../../../ui/Icon/Icon';
+import IconButton from '../../../ui/IconButton/IconButton';
+import { openCreateStageDialog, openStagesMenu } from '../../../store/actions/game/gameFormEditorActions';
+
+        // {/* <RadioGroupColumn
+        //   formLabel={"Perspective"}
+        //   value={stage.playerEntityModelId}
+        //   onChange={(e, value) => {
+        //     onUpdate({
+        //       playerEntityModelId: value
+        //     })
+        //   }}
+        //   options={[{
+        //       value: directionalPlayerEntityId,
+        //       label: 'Overhead'
+        //     },
+        //     {
+        //       value: jumperPlayerEntityId,
+        //       label: 'Platformer'
+        //     },
+        //   ]}
+        // /> */}
+const StageLiveEditor = ({ openCreateStageDialog, openStagesMenu, editGameModel, gameModel: { gameModel, currentStageId }, closeStageLiveEditor }) => {
+  const stage = gameModel.stages[currentStageId]
+
+  const backgroundColorTab = {
+    label: 'Background Color',
+    interfaceId: EDIT_STAGE_COLOR_TAB_IID,
+    body: <>
+      <SelectStageColor selectedColor={stage.color} onSelectColor={(hex) => {
+        editGameModel({
+          stages: {
+            [stage.stageId] : {
+              color: hex
+            }
+          }
+        })
+      }}/>
+    </>
+  }
+
+  const playerTab = {
+    label: 'Player',
+    interfaceId: EDIT_STAGE_PLAYERS_TAB_IID,
+    body: <>
+      <SelectStageDefaultType
+        value={stage.defaultType ? [stage.defaultType] : []}
+        onChange={(defaultProperties) => {
+        editGameModel({
+          stages: {
+            [stage.stageId] : {
+                ...defaultProperties
+            }
+          }})    
+      }}/>
+      <CobrowsingNestedList interfaceId={STAGE_CUSTOMIZE_IID} title="Customize" interfaceGroupId="StageCustomize">
+        <>
+        {<SelectEntityModel
+          formLabel="Should the player spawn as a new class? ( Leave blank to keep the same hero )"
+          interfaceId={STAGE_CUSTOMIZE_IID}
+          entityModelType={PLAYER_ENTITY_IID}
+          value={stage.playerEntityModelId ? [stage.playerEntityModelId] : []}
+          onChange={(event, entityModels) => {
+            const newEntityId = entityModels[entityModels.length-1]
+            editGameModel({
+              stages: {
+                [stage.stageId] : {
+                  playerEntityModelId: newEntityId
+                }
+              }
+            })
+          }}/>}
+        </>
+        {<Switch
+          labels={["No Gravity", "Gravity"]}
+          checked={stage.gravityY}
+          onChange={(e) => {
+            editGameModel({
+              stages: {
+                [stage.stageId] : {
+                  gravityY: e.target.checked
+                }
+              }
+            })
+          }}
+        >
+        </Switch>}
+      </CobrowsingNestedList>
+    </>
+  }
+
+  const gravityTab = {
+    label: 'Gravity',
+    interfaceId: EDIT_STAGE_GRAVITY_TAB_IID,
+    body: <>
+        <Unlockable interfaceId={STAGE_GRAVITY_Y_IID}>
+        <SliderNotched
+          formLabel="Gravity ⇵"
+          step={0.5}
+          options={[-10, -5, -2.5, -1, -0.5, 0, 0.5, 1, 2.5, 5, 10]}
+          onChangeCommitted={(value) => {
+            editGameModel({ stages: { [stage.stageId] : { gravity: { y: value } }} })        
+          }}
+          value={stage.gravity.y}
+        />
+      </Unlockable>
+      <Unlockable interfaceId={STAGE_GRAVITY_X_IID}>
+        <SliderNotched
+          formLabel="Gravity ⇆"
+          step={0.5}
+          options={[-10, -5, -2.5, -1, -0.5, 0, 0.5, 1, 2.5, 5, 10]}
+          onChangeCommitted={(value) => {
+            editGameModel({ stages: { [stage.stageId]: { gravity: { x: value } }} })        
+          }}
+          value={stage.gravity.x}
+        />
+      </Unlockable>
+    </>
+  }
+
+  const tabs = [backgroundColorTab, playerTab, gravityTab]
+
+  return <div className='StageLiveEditor'>
+    <div className="StageLiveEditor__close"><Button onClick={closeStageLiveEditor}><Icon icon="faClose"/></Button></div>
+   <div className="StageLiveEditor__name">
+      <Typography component="h4" variant="h4">
+        {stage.name}
+      </Typography>
+      <IconButton icon="faPen" color="primary" onClick={() => {
+        openCreateStageDialog(stage)
+      }}/> 
+      <IconButton icon="faShuffle" color="primary" onClick={() => {
+        openStagesMenu()
+        closeStageLiveEditor()
+      }}/> 
+    </div>  
+    <CobrowsingTabs tabs={tabs} interfaceGroupId={EDIT_STAGE_TAB_CONTAINER_IID}/>
+  </div>
+}
+
+const mapStateToProps = (state) => mapCobrowsingState(state, {
+  gameModel: state.gameModel
+})
+
+export default compose(
+  connect(mapStateToProps, { editGameModel, openStagesMenu, closeStageLiveEditor, openCreateStageDialog }),
+)(StageLiveEditor);

@@ -8,12 +8,10 @@ import { clearEditor, closeJsonViewer, selectBrush } from '../../../store/action
 import { clearGameFormEditor } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../../store/actions/game/gameViewEditorActions';
-import SectionEditor from '../../stages/SectionEditor/SectionEditor';
+import BoundaryEditor from '../../stages/BoundaryEditor/BoundaryEditor';
 import SnapshotTaker from '../../textures/SnapshotTaker/SnapshotTaker';
-import SelectStageColorDialog from '../../stages/SelectStageColorDialog/SelectStageColorDialog';
 import { BRUSH_DID, PLAYTHROUGH_PLAY_STATE, GAME_START_STATE, COLOR_BRUSH_ID } from '../../constants';
 import GameEditDialog from '../../selector/GameEditDialog/GameEditDialog';
-import CutscenesMenu from '../../cutscene/CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
 import EditEntityDialog from '../../entityModel/EditEntityDialog/EditEntityDialog';
 import GridToggle from '../GridToggle/GridToggle';
@@ -28,12 +26,12 @@ import CreateBrushFlow from '../../brush/CreateBrushFlow/CreateBrushFlow';
 import { copyToClipboard, generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
-import {  EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, INSTANCE_TOOLBAR_CONTAINER_IID, LAYER_CREATE_COLOR_DIALOG_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
+import {  EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, INSTANCE_TOOLBAR_CONTAINER_IID, LAYER_CREATE_COLOR_DIALOG_IID, SELECTOR_RELATION_SYSTEM_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
 import EntityBoxDialog from '../../entityModel/EntityBoxDialog/EntityBoxDialog';
 import HoverPreview from '../../selector/HoverPreview/HoverPreview';
-import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
+import EntityBehaviorLiveEditor from '../../behaviors/EntityBehaviorLiveEditor/EntityBehaviorLiveEditor';
 import Button from '../../../ui/Button/Button';
-import SelectorAbstractList from '../../selector/SelectorAbstractList/SelectorAbstractList';
+import SelectorList from '../../relations/RelationSystemList/RelationSystemList';
 import CreateRelationTag from '../../tags/CreateRelationTag/CreateRelationTag';
 import CreateRelation from '../../relations/CreateRelation/CreateRelation';
 import CreateEffectDialog from '../../effect/CreateEffectDialog/CreateEffectDialog';
@@ -44,27 +42,31 @@ import EditEntityGraphics from '../../entityModel/EditEntityGraphics/EditEntityG
 import EffectPromptDialog from '../../effect/EffectPromptDialog/EffectPromptDialog';
 import CanvasImageDialog from '../../textures/CanvasImageDialog/CanvasImageDialog';
 import CreateColorFlow from '../../color/CreateColorFlow/CreateColorFlow';
+import StageLiveEditor from '../../stages/StageLiveEditor/StageLiveEditor';
+import EditRelationSystemDialog from '../../relations/EditRelationSystemDialog/EditRelationSystemDialog';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
   classNames, 
   gameSelector: { 
     isEntityBoxDialogOpen, 
-    isSelectStageColorDialogOpen, 
-    liveEditingCategory, 
+    isEntityBehaviorLiveEditorOpen, 
+    isStageLiveEditorOpen,
     isGameEditDialogOpen, 
     currentSelectorListInterfaceId,
     viewingJson }, 
   gameViewEditor: { 
-    isSectionEditorOpen, 
+    isBoundaryEditorOpen, 
     isSnapshotTakerOpen, 
-    isGridViewOn }, 
+    isGridViewOn 
+  }, 
   gameFormEditor: { 
     canvasImageEntityModelId,
     isCanvasImageDialogOpen,
     isEffectPromptDialogOpen,
     isEditEntityGraphicsOpen,
     isEditEntityDialogOpen, 
+    isEditRelationSystemDialogOpen,
     isCreateRelationTagOpen, 
     isCreateRelationOpen,
     isCreateCutsceneOpen, 
@@ -108,12 +110,9 @@ const GameEditor = ({
     }
   }, [])
 
-  const showColumns = !cutsceneId && !isSectionEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== GAME_START_STATE) && !isSnapshotTakerOpen
+  const showColumns = !cutsceneId && !isBoundaryEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== GAME_START_STATE) && !isSnapshotTakerOpen
 
   function renderSelectorColumn() {
-    if(currentSelectorListInterfaceId === SELECTOR_ABSTRACT_LIST_IID) {
-      return <SelectorAbstractList/>
-    } 
     if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID) {
       return <EntityList/>
     } 
@@ -121,9 +120,9 @@ const GameEditor = ({
 
   function renderOverlay() {
     return <>
-      {isSectionEditorOpen && <SectionEditor/>}
+      {isBoundaryEditorOpen && <BoundaryEditor/>}
       {isSnapshotTakerOpen && <SnapshotTaker/>}
-      {isGridViewOn && !isSectionEditorOpen && !isSnapshotTakerOpen && <GridViewArrows/>}
+      {isGridViewOn && !isBoundaryEditorOpen && !isSnapshotTakerOpen && <GridViewArrows/>}
     </>
   }
 
@@ -158,51 +157,41 @@ const GameEditor = ({
           {renderSelectorColumn()}
         </>}
       </div>
-      {liveEditingCategory && <LiveEditor></LiveEditor>}
-      {isEntityBoxDialogOpen && <EntityBoxDialog/>}
+      
+      <div id="CobrowsingDialog"></div>
+
+      {/* TABBED DIALOGS */}
+      {isEntityBehaviorLiveEditorOpen && <EntityBehaviorLiveEditor/>}
+      {isStageLiveEditorOpen && <StageLiveEditor/>}
+
       {isGameEditDialogOpen && <GameEditDialog/>}
-      {isEditEntityDialogOpen && <EditEntityDialog/>}
-      {isCutscenesMenuOpen && <CutscenesMenu/>}
+      {isEditEntityDialogOpen && <EditEntityDialog/>}     
+      {isEditRelationSystemDialogOpen && <EditRelationSystemDialog/>}
+      {isStagesMenuOpen && <StagesMenu/>}
+
+
+      {/* CREATE CONTENT DIALOGS */}
       {isCreateCutsceneOpen && <CreateCutscene/>}
+      {isCreateStageDialogOpen && <CreateStageDialog/>}
+
+      {/* CREATE  DIALOGS */}
       {isCreateRelationOpen && <CreateRelation/>}
       {isCreateEffectOpen && <CreateEffectDialog/>}
       {isCreateEventOpen && <CreateEventDialog/>}
       {isCreateRelationTagOpen && <CreateRelationTag/>}
-      {isStagesMenuOpen && <StagesMenu/>}
-      {isCreateStageDialogOpen && <CreateStageDialog/>}
-      {isSelectStageColorDialogOpen && <SelectStageColorDialog/>}
+
+      {/* MISC DIALOGS */}
+      {isEntityBoxDialogOpen && <EntityBoxDialog/>}
       {isEffectPromptDialogOpen && <EffectPromptDialog/>}
-      {isCanvasImageDialogOpen && <CanvasImageDialog onSaveCanvasImage={(textureId) => {
-        clearGameFormEditor()
-        editGameModel({
-          entityModels: {
-            [canvasImageEntityModelId] : {
-              graphics: {
-                textureId,
-                textureTint: null
-              }
-            }
-          }
-        })
-      }} />}
-      {isEditEntityGraphicsOpen === EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID && <EditEntityGraphics 
-          onComplete={(entityModel) => {
-            editGameModel({
-              entityModels: {
-                [entityModel.entityModelId] : {
-                  // must be a spread operator here because when this is opened it has a lot of properties brought in from some defaults
-                  ...entityModel,
-                  isNew: false,
-                  isImported: true
-                  // graphics: entityModel.graphics,
-                  // editorInterface: entityModel.editorInterface,
-                  // visualTags: entityModel.visualTags,
-                  // name: entityModel.name,
-                }
-              }
-            })
-          }}
-      />}
+      {viewingJson && <Dialog onClose={closeJsonViewer} open>
+        <Button onClick={() => {
+          copyToClipboard(JSON.stringify(viewingJson))
+        }} >Copy to clipboard</Button>
+        <ReactJson src={viewingJson} theme="monokai" />
+      </Dialog>}
+
+
+      {/* GRAPHICS DIALOGS */}
       {isCreateColorFlowOpen === LAYER_CREATE_COLOR_DIALOG_IID && <CreateColorFlow
         onComplete={(color) => {
         editGameModel({
@@ -214,13 +203,6 @@ const GameEditor = ({
         })
         selectBrush(COLOR_BRUSH_ID + '/' + color.layerId + '/' + color.hex, color.layerId)
       }}/>}
-      <div id="CobrowsingDialog"></div>
-      {viewingJson && <Dialog onClose={closeJsonViewer} open>
-        <Button onClick={() => {
-          copyToClipboard(JSON.stringify(viewingJson))
-        }} >Copy to clipboard</Button>
-        <ReactJson src={viewingJson} theme="monokai" />
-      </Dialog>}
       {isCreateBrushFlowOpen && <CreateBrushFlow 
         onComplete={(brush) => {
           if(!brush.textureId) {   
@@ -242,6 +224,37 @@ const GameEditor = ({
             })
           }
      }}/>}
+    {isEditEntityGraphicsOpen === EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID && <EditEntityGraphics 
+        onComplete={(entityModel) => {
+          editGameModel({
+            entityModels: {
+              [entityModel.entityModelId] : {
+                // must be a spread operator here because when this is opened it has a lot of properties brought in from some defaults
+                ...entityModel,
+                isNew: false,
+                isImported: true
+                // graphics: entityModel.graphics,
+                // editorInterface: entityModel.editorInterface,
+                // visualTags: entityModel.visualTags,
+                // name: entityModel.name,
+              }
+            }
+          })
+        }}
+      />}
+      {isCanvasImageDialogOpen && <CanvasImageDialog onSaveCanvasImage={(textureId) => {
+        clearGameFormEditor()
+        editGameModel({
+          entityModels: {
+            [canvasImageEntityModelId] : {
+              graphics: {
+                textureId,
+                textureTint: null
+              }
+            }
+          }
+        })
+      }} />}
     </>
   }
 

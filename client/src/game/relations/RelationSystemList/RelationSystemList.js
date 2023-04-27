@@ -3,24 +3,25 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import './SelectorAbstractList.scss';
+import './RelationSystemList.scss';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { openEditEntityGraphics, openCreateCutscene, openCreateEffect, openCreateEvent, openCreateRelation, openCreateRelationTag } from '../../../store/actions/game/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import {  DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, EFFECT_ABSTRACT_IID, EFFECT_ADD_IID, EFFECT_CONTAINER_IID, EVENT_ABSTRACT_IID, EVENT_ADD_IID, EVENT_CONTAINER_IID, EVENT_SELECT_IID, IS_DATA_REMOVED_IID, RELATION_ABSTRACT_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, RELATION_TAG_ABSTRACT_IID, RELATION_TAG_ADD_IID, RELATION_TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
+import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
+import {  DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, EFFECT_IID, EFFECT_ADD_IID, EFFECT_CONTAINER_IID, EVENT_IID, EVENT_ADD_IID, EVENT_CONTAINER_IID, EVENT_SELECT_IID, IS_DATA_REMOVED_IID, RELATION_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, RELATION_TAG_IID, RELATION_TAG_ADD_IID, RELATION_TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openEntityBoxDialog } from '../../../store/actions/game/gameSelectorActions';
 import { NestedListContainer, NestedListItem, NestedListItemButton } from '../../../ui/NestedList/NestedList';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
-import RelationItem from '../../relations/RelationItem/RelationItem';
+import RelationItem from '../RelationItem/RelationItem';
 import { CUTSCENE_ADD_IID, CUTSCENE_CONTAINER_IID, CUTSCENE_SELECT_IID } from '../../../constants/interfaceIds/cutsceneInterfaceIds';
 import EventShorthand from '../../event/EventShorthand/EventShorthand';
 import RelationTagItem from '../../tags/RelationTagItem/RelationTagItem';
 import EffectItem from '../../effect/EffectItem/EffectItem';
-import SelectorMoreMenu from '../SelectorMoreMenu/SelectorMoreMenu';
+import SelectorMoreMenu from '../../selector/SelectorMoreMenu/SelectorMoreMenu';
+import Icon from '../../../ui/Icon/Icon';
 
-const SelectorAbstractList = ({
+const RelationSystemList = ({
   gameModel: { gameModel },
   openCreateRelationTag,
   openCreateCutscene,
@@ -68,7 +69,7 @@ const SelectorAbstractList = ({
     interfaceId: CUTSCENE_CONTAINER_IID,
     title: 'Cutscenes',
     children: cutscenes,
-    // moreMenu: <SelectorMoreMenu interfaceId={CUTSCENE_ABSTRACT_IID}/>
+    // moreMenu: <SelectorMoreMenu interfaceId={CUTSCENE_IID}/>
   })
 
 
@@ -98,13 +99,13 @@ const SelectorAbstractList = ({
     interfaceId: DIALOGUE_CONTAINER_IID,
     title: 'Dialogues',
     children: dialogueScenes,
-    // moreMenu: <SelectorMoreMenu interfaceId={DIALOGUE_ABSTRACT_IID}/>
+    // moreMenu: <SelectorMoreMenu interfaceId={DIALOGUE_IID}/>
   })
 
   const relationTags = Object.keys(gameModel.relationTags).filter((currentRelationTagId) => {
     const currentTag = gameModel.relationTags[currentRelationTagId]
-    if(isRemovedDataInvisible(RELATION_TAG_ABSTRACT_IID, currentTag.isRemoved)) return false
-    if(isDataSourceInvisible(RELATION_TAG_ABSTRACT_IID, currentTag.dataSourceIID)) return false
+    if(isRemovedDataInvisible(RELATION_TAG_IID, currentTag.isRemoved)) return false
+    if(isDataSourceInvisible(RELATION_TAG_IID, currentTag.dataSourceIID)) return false
     return true
   }).map((currentRelationTagId, i) => {
     return <RelationTagItem  key={currentRelationTagId} relationTagId={currentRelationTagId}/>
@@ -123,13 +124,13 @@ const SelectorAbstractList = ({
     interfaceId: RELATION_TAG_CONTAINER_IID,
     title: 'Relationship Tags',
     children: relationTags,
-    moreMenu: <SelectorMoreMenu interfaceId={RELATION_TAG_ABSTRACT_IID}/>
+    moreMenu: <SelectorMoreMenu interfaceId={RELATION_TAG_IID}/>
   })
 
   const relations = Object.keys(gameModel.relations).filter((currentRelationId) => {
     const currentRelation = gameModel.relations[currentRelationId]
-    if(isRemovedDataInvisible(RELATION_ABSTRACT_IID, currentRelation.isRemoved)) return false
-    if(isDataSourceInvisible(RELATION_ABSTRACT_IID, currentRelation.dataSourceIID)) return false
+    if(isRemovedDataInvisible(RELATION_IID, currentRelation.isRemoved)) return false
+    if(isDataSourceInvisible(RELATION_IID, currentRelation.dataSourceIID)) return false
     return true
   }).map((currentRelationId, i) => {
     return <RelationItem key={currentRelationId} relationId={currentRelationId}/>
@@ -148,13 +149,13 @@ const SelectorAbstractList = ({
     interfaceId: RELATION_CONTAINER_IID,
     title: 'Relationships',
     children: relations,
-    moreMenu: <SelectorMoreMenu interfaceId={RELATION_ABSTRACT_IID}/>
+    moreMenu: <SelectorMoreMenu interfaceId={RELATION_IID}/>
   })
 
   const effects = Object.keys(gameModel.effects).filter((currentEffectId) => {
     const currentEffect = gameModel.effects[currentEffectId]
-    if(isRemovedDataInvisible(EFFECT_ABSTRACT_IID, currentEffect.isRemoved)) return false
-    if(isDataSourceInvisible(EFFECT_ABSTRACT_IID, currentEffect.dataSourceIID)) return false
+    if(isRemovedDataInvisible(EFFECT_IID, currentEffect.isRemoved)) return false
+    if(isDataSourceInvisible(EFFECT_IID, currentEffect.dataSourceIID)) return false
     return true
   }).map((effectId, i) => {
     return <EffectItem key={effectId} effectId={effectId}/>
@@ -173,13 +174,13 @@ const SelectorAbstractList = ({
     interfaceId: EFFECT_CONTAINER_IID,
     title: 'Effects',
     children: effects,
-    moreMenu: <SelectorMoreMenu interfaceId={EFFECT_ABSTRACT_IID}/>
+    moreMenu: <SelectorMoreMenu interfaceId={EFFECT_IID}/>
   })
 
   const events = Object.keys(gameModel.events).filter((currentEventId) => {
     const currentEvent = gameModel.events[currentEventId]
-    if(isRemovedDataInvisible(EVENT_ABSTRACT_IID, currentEvent.isRemoved)) return false
-    if(isDataSourceInvisible(EVENT_ABSTRACT_IID, currentEvent.dataSourceIID)) return false
+    if(isRemovedDataInvisible(EVENT_IID, currentEvent.isRemoved)) return false
+    if(isDataSourceInvisible(EVENT_IID, currentEvent.dataSourceIID)) return false
     return true
   }).map((currentEventId, i) => {
     const currentEvent = gameModel.events[currentEventId]
@@ -196,7 +197,7 @@ const SelectorAbstractList = ({
     <NestedListItemButton>
       <Button onClick={() => {
         openCreateEvent()
-      }}>+</Button>
+      }}><Icon icon="faPlus"/></Button>
     </NestedListItemButton>
   </Unlockable>)
 
@@ -204,10 +205,10 @@ const SelectorAbstractList = ({
     interfaceId: EVENT_CONTAINER_IID,
     title: 'Events',
     children: events,
-    moreMenu: <SelectorMoreMenu interfaceId={EVENT_ABSTRACT_IID}/>
+    moreMenu: <SelectorMoreMenu interfaceId={EVENT_IID}/>
   })
 
-  return <div className="SelectorAbstractList">
+  return <div className="RelationSystemList">
     <NestedListContainer>
       {nestedLists.map((props) => {
         return <CobrowsingNestedList key={props.interfaceId}
@@ -222,9 +223,7 @@ const SelectorAbstractList = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameSelector: state.gameSelector,
-  // for the unlockability to show up
-  cobrowsing: state.cobrowsing
 })
 export default compose(
   connect(mapStateToProps, { editGameModel, openEditEntityGraphics, openCreateEvent, openCreateEffect, openCreateRelationTag, openCreateCutscene, openCreateRelation, openEntityBoxDialog }),
-)(SelectorAbstractList);
+)(RelationSystemList);

@@ -3,7 +3,6 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectStageColor.scss';
-import Typography from '../../../ui/Typography/Typography';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { GAME_VIEW_INSTANCE_VISIBILITY_IID } from '../../../constants/interfaceIds';
@@ -11,7 +10,6 @@ import { STAGE_LAYER_ID } from '../../constants';
 import { toggleLayerVisibility } from '../../../store/actions/game/gameViewEditorActions';
 import Button from '../../../ui/Button/Button';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import FormLabel from '../../../ui/FormLabel/FormLabel';
 
 const SelectStageColor = ({ 
   gameViewEditor: { layerInvisibility }, 
@@ -20,7 +18,6 @@ const SelectStageColor = ({
   selectedColor
 }) => {
   return <>
-      <FormLabel>Background Color</FormLabel>
       <AggregateColorSelect selectedColor={selectedColor} onSelectColor={onSelectColor}/>
       {<Unlockable interfaceId={GAME_VIEW_INSTANCE_VISIBILITY_IID}>
       <Button onClick={() => {

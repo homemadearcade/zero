@@ -5,7 +5,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 
 import './ProjectileEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
-import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import SelectEntity from '../../ui/SelectEntityModel/SelectEntityModel';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import { PLAYER_ENTITY_IID, PROJECTILE_ENTITY_IID, PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID } from '../../../constants/interfaceIds';

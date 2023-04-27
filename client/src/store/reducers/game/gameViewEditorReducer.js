@@ -19,7 +19,7 @@ const initialState = {
   },
   cameraZoom: 3,
   isGridViewOn: false,
-  isSectionEditorOpen: false,
+  isBoundaryEditorOpen: false,
   isSnapshotTakerOpen: false,
   snapshotTextureId: null,
   // this could be on the playerInterface reducer
@@ -52,14 +52,14 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
     case OPEN_SECTION_EDITOR:
       return {
         ...state,
-        isSectionEditorOpen: true,
+        isBoundaryEditorOpen: true,
         isGridViewOn: true,
         cameraZoom: 1,
       };
     case CLOSE_SECTION_EDITOR:
       return {
         ...state,
-        isSectionEditorOpen: false,
+        isBoundaryEditorOpen: false,
       };
     case TOGGLE_GRID_VIEW: 
       if(payload.value !== undefined) {

@@ -5,7 +5,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 
 import './MovementEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
-import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
 import SelectMovementBehavior from '../../ui/SelectMovementBehavior/SelectMovementBehavior';
 import SelectMovementControlsBehavior from '../../ui/SelectMovementControlsBehavior/SelectMovementControlsBehavior';

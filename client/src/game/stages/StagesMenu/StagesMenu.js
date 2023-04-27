@@ -12,10 +12,20 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { changeCurrentStage } from '../../../store/actions/game/gameModelActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
-import { REMOVED_DATA_SHOW_IID, STAGE_OPEN_EDIT_IID } from '../../../constants/interfaceIds';
-import { initialStage } from '../../constants';
+import { REMOVED_DATA_SHOW_IID, STAGE_ADD_IID, } from '../../../constants/interfaceIds';
+import { initialStage, STAGE_DID } from '../../constants';
+import { generateUniqueId } from '../../../utils';
+import Divider from '../../../ui/Divider/Divider';
 
-const StagesMenu = ({ closeStagesMenu, openCreateStageDialog, changeCurrentStage, gameModel: { gameModel, currentStageId }, editGameModel}) => {
+          // {gameModel.player.startingStageId !== stageId && stage.playerEntityModelId && <Button onClick={() => {
+          //   editGameModel({
+          //     player: {
+          //       startingStageId: stageId
+          //     }
+          // })
+          // }}>Set as Start Stage</Button>}
+
+const StagesMenu = ({  closeStagesMenu, openCreateStageDialog, changeCurrentStage, gameModel: { gameModel, currentStageId }, editGameModel}) => {
   function handleClose() {
     closeStagesMenu()
   }
@@ -26,42 +36,40 @@ const StagesMenu = ({ closeStagesMenu, openCreateStageDialog, changeCurrentStage
 
   return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="StagesMenu">
-      <Typography component="h2" variant="h2">Stages</Typography>
       {Object.keys(stages).map((stageId) => {
 
         const stage = stages[stageId]
         if(stage.isRemoved && !showRemovedStages) return null 
 
         return <div key={stageId} className="StagesMenu__stage">
-          <Typography component="h4" variant="h4">{stage.name}</Typography>
-          <Button onClick={() => {
-            openCreateStageDialog(stage)
-          }}>Edit</Button>
-          <Button onClick={() => {
-            openCreateStageDialog({
-              ...stage,
-              name: stage.name + 'copy'
-            })
-          }}>Copy</Button>
-          {gameModel.player.startingStageId !== stageId && stage.playerEntityModelId && <Button onClick={() => {
-            editGameModel({
-              player: {
-                startingStageId: stageId
-              }
-          })
-          }}>Set as Start Stage</Button>}
-          {currentStageId !== stageId && <Button onClick={() => {
+          <Typography component="h5" variant="h5">{stage.name}</Typography>
+          {currentStageId !== stageId && <Button startIcon={<Icon icon="faShuffle"/>} onClick={() => {
             changeCurrentStage(stageId)
-          }}>Switch to this Stage</Button>}
+          }}>Switch to {stage.name}</Button>}
+          <Unlockable interfaceId={STAGE_ADD_IID}>
+            <Button startIcon={<Icon icon="faPlus"/>} onClick={() => {
+              const newStageId = STAGE_DID + generateUniqueId()
+              openCreateStageDialog({
+                ...stage,
+                stageId: newStageId,
+                name: stage.name + 'copy'
+              })
+              // changeCurrentStage(newStageId)
+            }}>New stage from {stage.name}</Button>
+          </Unlockable>
         </div>
       })}
-      <Unlockable interfaceId={STAGE_OPEN_EDIT_IID}>
-        <Button onClick={() => {
+      <Divider/>
+      <Unlockable interfaceId={STAGE_ADD_IID}>
+        <Button startIcon={<Icon icon="faPlus"/>} onClick={() => {
+          const newStageId = STAGE_DID + generateUniqueId()
           openCreateStageDialog({
             ...initialStage,
+            stageId: newStageId,
             name: 'Stage #' + (Object.keys(stages).length + 1).toString(),
           })
-        }}><Icon icon="faPlus"/> New Stage</Button>
+          // changeCurrentStage(newStageId)
+        }}>New Stage</Button>
       </Unlockable>
       {!showRemovedStages && <Unlockable interfaceId={REMOVED_DATA_SHOW_IID}>
         <Button onClick={() => {

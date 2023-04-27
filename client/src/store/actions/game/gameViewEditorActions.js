@@ -46,7 +46,7 @@ export const closeSnapshotTaker = () => (dispatch, getState) => {
   });
 }
 
-export const openSectionEditor= () => (dispatch, getState) => {
+export const openBoundaryEditor= () => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
   dispatch({
@@ -56,7 +56,7 @@ export const openSectionEditor= () => (dispatch, getState) => {
   });
 }
 
-export const closeSectionEditor= () => (dispatch, getState) => {
+export const closeBoundaryEditor= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_SECTION_EDITOR,

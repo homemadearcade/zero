@@ -1,16 +1,15 @@
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Button from '../../../ui/Button/Button';
-import { closeSectionEditor } from '../../../store/actions/game/gameViewEditorActions';
+import { closeBoundaryEditor } from '../../../store/actions/game/gameViewEditorActions';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { FormLabel } from '@mui/material';
 
-import './SectionEditor.scss'
+import './BoundaryEditor.scss'
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { currentStageId, gameModel : { stages }}}) => {
+const BoundaryEditor = ({closeBoundaryEditor, editGameModel, gameModel: { currentStageId, gameModel : { stages }}}) => {
   const boundaries = stages[currentStageId].boundaries
   const [sections, setSections] = useState({})
   const [isError, setIsError] = useState(false)
@@ -129,11 +128,11 @@ const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { currentS
   }, [])
 
   return (
-    <div className="SectionEditor">
+    <div className="BoundaryEditor">
 
-      <div className="SectionEditor__sections">{[...Array(9)].map((_, i) => {
+      <div className="BoundaryEditor__sections">{[...Array(9)].map((_, i) => {
       if(sections[i+1]) {
-        return <div className='SectionEditor__section' onClick={() => {
+        return <div className='BoundaryEditor__section' onClick={() => {
           setSections({
               ...sections,
               [i+1]: false
@@ -142,7 +141,7 @@ const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { currentS
 
         </div>  
       } else {
-        return <div className='SectionEditor__section SectionEditor__section--covered' onClick={() => {
+        return <div className='BoundaryEditor__section BoundaryEditor__section--covered' onClick={() => {
           handleAddSection(i+1)
         }}>
 
@@ -150,7 +149,7 @@ const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { currentS
       }
     })}</div>
   
-    <div className="SectionEditor__controls">
+    <div className="BoundaryEditor__controls">
         <Button
           onClick={() => {
             if(!verifySections()) {
@@ -221,7 +220,7 @@ const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { currentS
               }
             })
 
-            closeSectionEditor()
+            closeBoundaryEditor()
           }}
         >Save
         </Button>
@@ -229,7 +228,7 @@ const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { currentS
         >Shape must be square<br/> or rectangular</FormLabel>}
         <Button
           onClick={() => {
-            closeSectionEditor()
+            closeBoundaryEditor()
           }}
         >
           Cancel
@@ -243,4 +242,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
 });
 
-export default connect(mapStateToProps, { closeSectionEditor, editGameModel })(SectionEditor);
+export default connect(mapStateToProps, { closeBoundaryEditor, editGameModel })(BoundaryEditor);

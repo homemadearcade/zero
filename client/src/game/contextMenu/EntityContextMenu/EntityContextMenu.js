@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 import { editGameModel } from '../../../store/actions/game/gameModelActions'
-import { openJsonViewer, openLiveEditor } from '../../../store/actions/game/gameSelectorActions';
+import { openEntityBehaviorLiveEditor, openJsonViewer } from '../../../store/actions/game/gameSelectorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { openEditEntityGraphics, openEditEntityDialog, openCreateCanvasImageDialog } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
@@ -10,13 +10,12 @@ import { ENTITY_MODEL_DID, entityModelTypeToPrefix, initialCameraZoneEntityId } 
 import { entityModelTypeToDisplayName } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
-import { ENTITY_MODEL_OPEN_CAMERA_IID, 
-  COLLISION_EDITOR_IID, PROJECTILE_EDITOR_IID,
-  ENTITY_MODEL_DUPLICATE_IID, ENTITY_MODEL_OPEN_GRAPHICS_IID, ENTITY_MODEL_OPEN_JUMP_IID, ENTITY_MODEL_OPEN_MOVEMENT_IID, 
-  ENTITY_MODEL_OPEN_EDIT_IID, ENTITY_MODEL_OPEN_COLLISIONS_IID, ENTITY_MODEL_OPEN_PROJECTILE_IID, 
-  ENTITY_MODEL_REMOVE_IID, PLAYER_ENTITY_TRANSFORM_IID, ENTITY_INSTANCE_JSON_IID, 
+import { 
+  ENTITY_MODEL_DUPLICATE_IID, ENTITY_MODEL_OPEN_GRAPHICS_IID,
+  ENTITY_MODEL_OPEN_EDIT_IID, 
+  ENTITY_MODEL_REMOVE_IID, PLAYER_ENTITY_TRANSFORM_IID,
   EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, PLAYER_ENTITY_IID, DATA_SOURCE_GAME_MODEL_IID,
-  CAMERA_EDITOR_IID, JUMP_EDITOR_IID, MOVEMENT_EDITOR_IID, DATA_SOURCE_ENTITY_MODEL_IID, ENTITY_MODEL_IMPORT_IID
+  DATA_SOURCE_ENTITY_MODEL_IID, ENTITY_MODEL_IMPORT_IID, ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID
 } from '../../../constants/interfaceIds';
 import { ListItemIcon } from '@mui/material';
 import Icon from '../../../ui/Icon/Icon';
@@ -30,7 +29,8 @@ const EntityContextMenu = ({
   openEditEntityDialog,
   entityModelId, 
   insideEntityInstanceContextMenu,
-  openCreateCanvasImageDialog
+  openCreateCanvasImageDialog,
+  openEntityBehaviorLiveEditor,
 }) => {
   const entityModel = gameModel.entityModels[entityModelId]
 
@@ -72,7 +72,13 @@ const EntityContextMenu = ({
       <MenuItem onClick={() => {
         openEditEntityDialog(entityModel)
         onMenuItemClick()
-      }}><ListItemIcon><Icon icon="faPenToSquare"/></ListItemIcon>Edit {entityModelTypeToDisplayName[entityModel.entityIID]}</MenuItem>
+      }}><ListItemIcon><Icon icon="faChessPawn"/></ListItemIcon>Edit {entityModelTypeToDisplayName[entityModel.entityIID]}</MenuItem>
+    </Unlockable>
+    <Unlockable interfaceId={ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID}>
+      <MenuItem onClick={() => {
+        openEntityBehaviorLiveEditor(null, entityModelId)
+        onMenuItemClick()
+      }}><ListItemIcon><Icon icon="faDna"/></ListItemIcon>Edit Behaviors</MenuItem>
     </Unlockable>
 
     {!insideEntityInstanceContextMenu && <Unlockable interfaceId={ENTITY_MODEL_DUPLICATE_IID}>
@@ -146,7 +152,7 @@ export default connect(mapStateToProps, {
   openJsonViewer,
   editGameModel, 
   openEditEntityGraphics, 
-  openLiveEditor, 
   openEditEntityDialog,
   openCreateCanvasImageDialog,
+  openEntityBehaviorLiveEditor
 })(EntityContextMenu);
