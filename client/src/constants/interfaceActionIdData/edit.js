@@ -1,9 +1,9 @@
 import { openCreateStageDialog, openEditEntityDialog, openEditEntityGraphics } from "../../store/actions/game/gameFormEditorActions";
 import { openGameEditDialog, openEntityBehaviorLiveEditor, openSelectStageColorDialog, openStageLiveEditor } from "../../store/actions/game/gameSelectorActions";
 import { openBoundaryEditor } from "../../store/actions/game/gameViewEditorActions";
-import { EDIT_CURRENT_PLAYER_CAMERA_AID, EDIT_CURRENT_STAGE_AID, EDIT_CURRENT_STAGE_BACKGROUND_COLOR_AID, EDIT_CURRENT_STAGE_BOUNDARIES_AID, EDIT_ENTITY_AID, EDIT_ENTITY_GRAPHICS_AID, EDIT_GAME_METADATA_AID } from "../interfaceActionIds/edit";
+import { EDIT_CURRENT_PLAYER_CAMERA_AID, EDIT_CURRENT_STAGE_AID, EDIT_CURRENT_STAGE_BACKGROUND_COLOR_AID, EDIT_CURRENT_STAGE_BOUNDARIES_AID, EDIT_CURRENT_STAGE_PERSPECTIVE_AID, EDIT_ENTITY_AID, EDIT_ENTITY_GRAPHICS_AID, EDIT_GAME_METADATA_AID } from "../interfaceActionIds/edit";
 import { INTERFACE_ACTION_EDIT } from "../interfaceActions";
-import { CAMERA_EDITOR_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, EDIT_GAME_METADATA_TAB_IID, EDIT_STAGE_COLOR_TAB_IID, LIVE_ENTITY_EDITOR_CAMERA_TAB_IID, ZONE_ENTITY_IID } from "../interfaceIds";
+import { CAMERA_EDITOR_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, EDIT_GAME_METADATA_TAB_IID, LIVE_EDIT_STAGE_COLOR_TAB_IID, LIVE_EDIT_STAGE_PERSPECTIVE_TAB_IID, LIVE_ENTITY_EDITOR_CAMERA_TAB_IID, ZONE_ENTITY_IID } from "../interfaceIds";
 
  // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -26,10 +26,18 @@ export default {
   },
   [EDIT_CURRENT_STAGE_BACKGROUND_COLOR_AID]: {
     title: 'Edit Background Color',
-    subTitle: 'This will open a popup to select the background color',
+    subTitle: 'This will open a popup to select the stage background color',
     actionType: INTERFACE_ACTION_EDIT,
     onClick: () => (dispatch) => {
-      dispatch(openStageLiveEditor(EDIT_STAGE_COLOR_TAB_IID))
+      dispatch(openStageLiveEditor(LIVE_EDIT_STAGE_COLOR_TAB_IID))
+    }
+  },
+  [EDIT_CURRENT_STAGE_PERSPECTIVE_AID]: {
+    title: 'Edit Perspective',
+    subTitle: 'This will open a popup to select the stage perspective',
+    actionType: INTERFACE_ACTION_EDIT,
+    onClick: () => (dispatch) => {
+      dispatch(openStageLiveEditor(LIVE_EDIT_STAGE_PERSPECTIVE_TAB_IID))
     }
   },
   [EDIT_GAME_METADATA_AID]: {

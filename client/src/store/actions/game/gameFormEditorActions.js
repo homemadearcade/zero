@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { IMAGE_TYPE_SPRITE } from '../../../constants';
-import { EDIT_ENTITY_MODEL_TAB_CONTANER_IID } from '../../../constants/interfaceIds';
+import { EDIT_CONTENT_TAB_CONTANER_IID, EDIT_ENTITY_MODEL_TAB_CONTANER_IID } from '../../../constants/interfaceIds';
 import { CANVAS_IMAGE_DID, newTextureSize } from '../../../game/constants';
 import { generateUniqueId, getImageUrlFromTextureId } from '../../../utils';
 
@@ -24,8 +24,6 @@ import {
   UPDATE_CREATE_RELATION,
   OPEN_CUTSCENES_MENU,
   CLOSE_CUTSCENES_MENU,
-  OPEN_STAGES_MENU,
-  CLOSE_STAGES_MENU,
   OPEN_CREATE_STAGE,
   CLOSE_CREATE_STAGE,
   UPDATE_CREATE_STAGE,
@@ -48,6 +46,8 @@ import {
   CLOSE_EFFECT_PROMPT_DIALOG,
   OPEN_EDIT_RELATION_SYSTEM_DIALOG,
   CLOSE_EDIT_RELATION_SYSTEM_DIALOG,
+  OPEN_EDIT_CONTENT_DIALOG,
+  CLOSE_EDIT_CONTENT_DIALOG,
 } from '../../types';
 import { addCanvasImage } from '../media/canvasImageActions';
 import { saveAllCurrentCanvases } from '../media/codrawingActions';
@@ -203,6 +203,23 @@ export const closeEditRelationSystemDialog = () => (dispatch, getState) => {
   });
 }
 
+export const openEditContentDialog = (tabIID) => (dispatch, getState) => {
+  dispatch(updateOpenInterfaceId(EDIT_CONTENT_TAB_CONTANER_IID, tabIID))
+
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_EDIT_CONTENT_DIALOG
+  });
+}
+
+export const closeEditContentDialog = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_EDIT_CONTENT_DIALOG,
+    payload: {}
+  });
+}
+
 
 export const closeCreateColorFlow = () => (dispatch, getState) => {
   dispatch({
@@ -246,43 +263,6 @@ export const updateCreateBrush = (brush) => (dispatch, getState) => {
     noCobrowsingToolNeeded: true,
     type: UPDATE_CREATE_BRUSH,
     payload: { brush }
-  });
-}
-
-
-export const openCutscenesMenu= () => (dispatch, getState) => {
-  saveAllCurrentCanvases()
-
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_CUTSCENES_MENU,
-    payload: {}
-  });
-}
-
-export const closeCutscenesMenu= () => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: CLOSE_CUTSCENES_MENU,
-    payload: {}
-  });
-}
-
-export const openStagesMenu= () => (dispatch, getState) => {
-  saveAllCurrentCanvases()
-
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_STAGES_MENU,
-    payload: {}
-  });
-}
-
-export const closeStagesMenu= () => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: CLOSE_STAGES_MENU,
-    payload: {}
   });
 }
 

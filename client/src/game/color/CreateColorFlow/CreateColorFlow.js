@@ -20,7 +20,6 @@ const CreateColorFlow = ({ onComplete, closeCreateColorFlow, toggleEyeDropper, g
 
   return <CobrowsingDialog open={!isEyeDropping} onClose={handleClose}>
     <div className="CreateColorFlow">
-      <Typography component="h2" variant="h2">Add Color</Typography>
       <Icon icon="faEyeDropper" onClick={() => {
         const eyeDropper = new window.EyeDropper();
         eyeDropper.open().then((result) => {

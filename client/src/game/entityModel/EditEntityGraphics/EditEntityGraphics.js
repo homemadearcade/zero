@@ -43,7 +43,7 @@ const EditEntityGraphics = ({
   return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="EditEntityGraphics">
       {entityModel.isNew === true && <Typography component="h2" variant="h2">New {entityModelTypeToDisplayName[entityModel.entityIID]}</Typography>}
-      {entityModel.isNew === false && <EntityMemberTitle entityModelId={entityModel.entityModelId} title="Graphics"></EntityMemberTitle>}
+      {entityModel.isNew === false && <EntityMemberTitle entityModelId={entityModel.entityModelId} title="Sprite"></EntityMemberTitle>}
       <Unlockable interfaceId={ENTITY_INVISIBLE_IID}>
         <Switch
           labels={['Visible', 'Invisible']}

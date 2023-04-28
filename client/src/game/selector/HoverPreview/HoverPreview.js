@@ -5,30 +5,46 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import Texture from '../../textures/Texture/Texture';
 import { getLayerIdFromColorId, getLayerIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
-import { effectInterfaceDatas, PAUSED_STATE } from '../../constants';
+import { dataSourceIIDToIcon, effectInterfaceDatas, layerGroupIIDtoShortName, PAUSED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
 import { entityModelTypeToDisplayName } from '../../constants';
 import { initialStageId } from '../../constants';
-import { changeSelectorList, openGameEditDialog, openStageLiveEditor } from '../../../store/actions/game/gameSelectorActions';
+import { changeSelectorList, openEntityBehaviorLiveEditor, openGameEditDialog, openStageLiveEditor } from '../../../store/actions/game/gameSelectorActions';
 import Button from '../../../ui/Button/Button';
-import { openEditEntityDialog, openEditRelationSystemDialog, openEffectPromptDialog } from '../../../store/actions/game/gameFormEditorActions';
+import { openEditContentDialog, openEditEntityDialog, openEditEntityGraphics, openEditRelationSystemDialog, openEffectPromptDialog } from '../../../store/actions/game/gameFormEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { 
   CHANGE_SELECTOR_TABS_IID, 
-  EDIT_STAGE_COLOR_TAB_IID,
+  LIVE_EDIT_STAGE_COLOR_TAB_IID,
   GAME_OPEN_EDIT_IID, 
   GAME_OPEN_SNAPSHOT_IID, 
   HOVER_PREVIEW_IID, 
   SELECTOR_RELATION_SYSTEM_IID, 
   SELECTOR_ENTITY_BY_INTERFACE_ID_IID, 
-  STAGE_OPEN_BACKGROUND_COLOR_IID
+  STAGE_OPEN_BACKGROUND_COLOR_IID,
+  STAGES_OPEN_IID,
+  STAGE_OPEN_EDIT_IID,
+  RELATION_SYSTEM_OPEN_EDIT_IID,
+  CONTENT_OPEN_EDIT_IID,
+  EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID,
+  ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID,
+  ENTITY_MODEL_OPEN_EDIT_IID,
+  ENTITY_MODEL_OPEN_GRAPHICS_IID
 } from '../../../constants/interfaceIds';
 import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import IconButton from '../../../ui/IconButton/IconButton';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
+import { Paper } from '@mui/material';
+
+    // <Unlockable interfaceId={CONTEXT_MENU_SNAPSHOT_IID}>
+    //   <MenuItem onClick={() => {
+    //     openSnapshotTaker()
+    //     onMenuItemClick()
+    //   }}>Take Snapshot</MenuItem>
+    // </Unlockable>
 
           // {<Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
           //   <Button size="xs" onClick={() => {
@@ -41,6 +57,14 @@ import useGameEditorSize from '../../../hooks/useGameEditorSize';
           //     openSnapshotTaker()
           //   }}><Icon icon="faCameraRetro"/></Button>
           // </Unlockable>
+
+      //           {isHoveringOverPreview && <div className="HoverPreview__actions">
+      //   <Unlockable interfaceId={STAGE_OPEN_BACKGROUND_COLOR_IID}>
+      //     <Button size="xs" className="HoverPreview__actions-color" onClick={() => {
+      //       openStageLiveEditor(LIVE_EDIT_STAGE_COLOR_TAB_IID)
+      //     }} style={{borderColor: theme.primaryColor.hexString, backgroundColor: currentStage.color, height: '1.2em', width: '4em'}}/>
+      //   </Unlockable>
+      // </div>}
 const HoverPreview = ({ 
   cobrowsing: {
     mouseOverInterfaceId
@@ -78,8 +102,11 @@ const HoverPreview = ({
   openEditRelationSystemDialog,
   changeSelectorList,
   openEffectPromptDialog,
+  openEditContentDialog,
+  openEditEntityGraphics, 
+  openEntityBehaviorLiveEditor
 }) => {
-  const [isHoveringOverTitle, setIsHoveringOverTitle] = useState(false)
+  const [isHoveringOverPreview, setIsHoveringOverPreview] = useState(false)
   const theme = useWishTheme()
   const { gameEditorHeight } = useGameEditorSize()
 
@@ -91,6 +118,7 @@ const HoverPreview = ({
       brushes,
       stages,
       effects,
+      layers,
       relations,
       relationTags
     } = gameModel
@@ -121,20 +149,62 @@ const HoverPreview = ({
 
   const interfaceData = interfaceIdData[mouseOverInterfaceId]
 
-  function renderDisplayTitle(title, onEdit) {
+  ///////////------------------///////////
+  ///////////------------------///////////
+  ///////////------------------///////////
+  ///////////------------------///////////
+  ///////////------------------///////////
+  ///////////------------------///////////
+  //// DISPLAY PARTS
+  function renderPrimaryTitle(title, onEdit) {
     return <>
       <Typography 
         variant="div" 
-        sx={{fontSize:'.8em'}}
+        sx={{fontSize:'.7em'}}
         font="2P">
         {title}
       </Typography>
     </>
   }
 
+  function renderCategoryTitle(title, onEdit) {
+    return <div className="HoverPreview__category-title">
+      <Paper elevation={8} sx={{padding: '.4em'}}>
+        <Typography 
+          variant="div" 
+          sx={{fontSize:'.8em'}}
+          font="2P">
+          {title}
+        </Typography>
+      </Paper>
+    </div>
+  }
+
+
+  function renderTopRightCornerData(data, onEdit) {
+    return <div className="HoverPreview__top-right-corner-data">
+      {data.map((data) => {
+        return <Paper elevation={5} sx={{
+            padding: '.4em',
+            justifyContent: 'center',
+            display: 'flex'
+          }}>
+          {data.icon && <Icon size="xs" icon={data.icon}/>}
+          {data.icon && data.text && <div style={{display: 'inline-flex', width: '.2em'}}/>}
+          {data.text && <Typography 
+            variant="div" 
+            // font="2P"
+            sx={{fontSize:'.6em'}}
+          >{data.text}</Typography>}
+        </Paper>
+      })}
+    </div>
+  }
+
+
   function renderTextOnlyDisplay({title, subtitle, onEdit}) {
       return <div className="HoverPreview__title">
-        {renderDisplayTitle(title, onEdit)}
+        {renderPrimaryTitle(title, onEdit)}
         <Typography 
           variant="div" 
           sx={{fontSize:'1em', marginTop: '.2em'}}
@@ -154,53 +224,113 @@ const HoverPreview = ({
             {spriteOverlay}
           </div>}
         </div>
-        {renderDisplayTitle(title, onEdit)}
+        {renderPrimaryTitle(title, onEdit)}
       </div>
     </>
   }
 
+
+  ///////////------------------///////////
+  ///////////------------------///////////
+  ///////////------------------///////////
+  ///////////------------------///////////
+  ///////////------------------///////////
+  ///////////------------------///////////
+  //// SPECIFIC DISPLAYS
   function renderEntityDisplay() {
-    let title = entityModel.name + ' - ' + entityModelTypeToDisplayName[entityModel.entityIID]
+    if(isHoveringOverPreview) {
+      return <div className="HoverPreview__title">
+        <div className="HoverPreview__actions">
+        <Unlockable interfaceId={ENTITY_MODEL_OPEN_GRAPHICS_IID}>
+          <Button size="xs" startIcon={<Icon icon="faImage"/>} onClick={() => {
+            openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, entityModel)
+          }}>Edit Sprite</Button>
+        </Unlockable>
+        <Unlockable interfaceId={ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID}>
+          <Button startIcon={<Icon icon="faDna"/>} size="xs" onClick={() => {
+            openEntityBehaviorLiveEditor(null, entityModelId)
+          }}>Edit Behaviors</Button>
+        </Unlockable>
+        <Unlockable interfaceId={ENTITY_MODEL_OPEN_EDIT_IID}>
+          <Button startIcon={<Icon icon="faChessPawn"/>} size="xs" onClick={() => {
+            openEditEntityDialog(entityModel)
+          }}>Edit {entityModelTypeToDisplayName[entityModel.entityIID]}</Button>
+        </Unlockable>
+        </div>
+      </div>
+    }
+
+    let title = entityModel.name
     if(instanceDataHovering?.isSpawned) title += ' (Spawned)'
-    return renderDisplayWithTexture({
-      textureTint: entityModel.graphics.textureTint,
-      textureId: entityModel.graphics.textureId,
-      title,
-    })
+    return <>
+      {renderTopRightCornerData([
+        { 
+          icon: 'faLayerGroup',
+          text: layerGroupIIDtoShortName[entityModel.graphics.layerGroupIID]
+        },
+        {
+          icon: 'faTag',
+          text: Object.keys(entityModel.relationTags).filter((relationTagId) => {
+            return entityModel.relationTags[relationTagId]
+          }).length
+        },
+        {
+          icon: dataSourceIIDToIcon[entityModel.dataSourceIID]
+        },
+      ])}
+      {renderCategoryTitle(entityModelTypeToDisplayName[entityModel.entityIID])}
+      {renderDisplayWithTexture({
+        textureTint: entityModel.graphics.textureTint,
+        textureId: entityModel.graphics.textureId,
+        title,
+      })}
+    </>
   }
 
   function renderBrushDisplay() {
-    const layer = gameModel.layers[brushModel.layerId]
+    const layer = layers[brushModel.layerId]
     if(!layer) return null
-    return renderDisplayWithTexture({
-      textureTint: brushModel.textureTint,
-      textureId: brushModel.textureId,
-      title: layer.name
-    })
+    return <>
+      {renderTopRightCornerData([{
+        icon: 'faLayerGroup',
+        text: layerGroupIIDtoShortName[layer.layerGroupIID]
+      }])}
+      {renderCategoryTitle('Brush')}
+      {renderDisplayWithTexture({
+        textureTint: brushModel.textureTint,
+        textureId: brushModel.textureId,
+        title: layer.name
+      })}
+    </>
   }
 
   function renderColorDisplay() {
-    const layer = gameModel.layers[getLayerIdFromColorId(brushId)]
+    const layer = layers[getLayerIdFromColorId(brushId)]
     if(!layer) return null
-    return renderDisplayWithTexture({
-      textureTint: hex,
-      spriteOverlay: <ColorNameFit hex={hex}/>,
-      title:<>
-        {layer && <>
-          <br/>{layer.name}
-        </>}
-      </> 
-    })
+    return <>
+      {renderTopRightCornerData([{
+        icon: 'faLayerGroup',
+        text: layerGroupIIDtoShortName[layer.layerGroupIID]
+      }])}
+      {renderCategoryTitle('Brush')}
+      {renderDisplayWithTexture({
+        textureTint: hex,
+        spriteOverlay: hex,
+        title: <>
+          <ColorNameFit hex={hex}/>
+        </> 
+      })}
+    </>
   }
 
   function renderEraserDisplay() {
-    const layer = gameModel.layers[getLayerIdFromEraserId(brushId)]
+    const layer = layers[getLayerIdFromEraserId(brushId)]
     if(!layer) return null
     return <><div className="HoverPreview__display">
         <div className="HoverPreview__display-item">
           <Icon icon="faEraser"/>
         </div>
-        {renderDisplayTitle(layer.name)}
+        {renderPrimaryTitle(layer.name)}
       </div>
     </>
   }
@@ -208,13 +338,7 @@ const HoverPreview = ({
   function renderGameTitleDisplay() {
     const imageBackground = metadata.imageUrl;
 
-    // <Unlockable interfaceId={CONTEXT_MENU_SNAPSHOT_IID}>
-    //   <MenuItem onClick={() => {
-    //     openSnapshotTaker()
-    //     onMenuItemClick()
-    //   }}>Take Snapshot</MenuItem>
-    // </Unlockable>
-    if(isHoveringOverTitle) {
+    if(isHoveringOverPreview) {
      return  <div className="HoverPreview__title">
         <div className="HoverPreview__actions">
           <Unlockable interfaceId={GAME_OPEN_EDIT_IID}>
@@ -222,17 +346,17 @@ const HoverPreview = ({
               openGameEditDialog()
             }}>Edit Game</Button>
           </Unlockable>
-          <Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
+          <Unlockable interfaceId={RELATION_SYSTEM_OPEN_EDIT_IID}>
             <Button startIcon={<Icon icon="faLink"/>} size="xs" onClick={() => {
               openEditRelationSystemDialog()
             }}>Edit Relationships</Button>
           </Unlockable>
-          <Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
+          <Unlockable interfaceId={CONTENT_OPEN_EDIT_IID}>
             <Button startIcon={<Icon icon="faIcons"/>} size="xs" onClick={() => {
-              
+              openEditContentDialog()
             }}>Edit Content</Button>
           </Unlockable>
-          <Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
+          <Unlockable interfaceId={STAGE_OPEN_EDIT_IID}>
             <Button startIcon={<Icon icon="faMap"/>} size="xs" onClick={() => {
               openStageLiveEditor()
             }}>Edit Stage</Button>
@@ -254,21 +378,21 @@ const HoverPreview = ({
           changeSelectorList(SELECTOR_ENTITY_BY_INTERFACE_ID_IID)
         }}></IconButton>
       </div>}
-      {(gameRoomInstance.gameState === PAUSED_STATE) && renderDisplayTitle('(Paused)')}
+      {(gameRoomInstance.gameState === PAUSED_STATE) && renderPrimaryTitle('(Paused)')}
       {currentStageId === initialStageId ? null : <>
         <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5em'}} >{currentStage.name}</Typography>
       </>}
-      {isHoveringOverTitle && <div className="HoverPreview__actions">
-        <Unlockable interfaceId={STAGE_OPEN_BACKGROUND_COLOR_IID}>
-          <Button size="xs" className="HoverPreview__actions-color" onClick={() => {
-            openStageLiveEditor(EDIT_STAGE_COLOR_TAB_IID)
-          }} style={{borderColor: theme.primaryColor.hexString, backgroundColor: currentStage.color, height: '1.2em', width: '4em'}}/>
-        </Unlockable>
-      </div>}
     </div>
    </>
   }
 
+  ///////////------------------///////////
+  ///////////------------------///////////
+  ///////////------------------///////////
+  ///////////------------------///////////
+  ///////////------------------///////////
+  ///////////------------------///////////
+  //// DISPLAY CONTAINER
   function renderBody() {
     if(interfaceData?.previewText) {
       return <div className="HoverPreview__title">
@@ -321,19 +445,17 @@ const HoverPreview = ({
       return renderBrushDisplay()
     }
 
-
     return renderGameTitleDisplay()
   }
-
 
   return <Unlockable interfaceId={HOVER_PREVIEW_IID}>
     <div className="HoverPreview"
       style={{backgroundColor: '#222', color: 'white', height: gameEditorHeight ? gameEditorHeight * 0.2 : 0}}
       onMouseEnter={() => {
-        setIsHoveringOverTitle(true)
+        setIsHoveringOverPreview(true)
       }} 
       onMouseLeave={() => {
-        setIsHoveringOverTitle(false)
+        setIsHoveringOverPreview(false)
       }}
     >
       {renderBody()}
@@ -350,4 +472,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameViewEditor: state.gameViewEditor,
 })
 
-export default connect(mapStateToProps, { openEditRelationSystemDialog, openStageLiveEditor, openEffectPromptDialog, openGameEditDialog, openEditEntityDialog, openStageLiveEditor, openSnapshotTaker, changeSelectorList })(HoverPreview);
+export default connect(mapStateToProps, { openEditContentDialog, openEditEntityGraphics, openEntityBehaviorLiveEditor, openEditRelationSystemDialog, openStageLiveEditor, openEffectPromptDialog, openGameEditDialog, openEditEntityDialog, openStageLiveEditor, openSnapshotTaker, changeSelectorList })(HoverPreview);

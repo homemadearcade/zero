@@ -68,7 +68,7 @@ export function NestedListBody({expanded, onChange, title, children, interfaceId
 
 export function NestedListContainer({children, title}) {
   return <List
-    sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+    sx={{ width: '100%', bgcolor: 'background.paper' }}
     aria-labelledby="nested-list-subheader"
     subheader={
       title ? <ListSubheader component="div" id="nested-list-subheader">

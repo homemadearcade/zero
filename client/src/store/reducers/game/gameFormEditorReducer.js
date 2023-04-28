@@ -21,8 +21,6 @@ import {
   CLOSE_CREATE_RELATION,
   OPEN_CUTSCENES_MENU,
   CLOSE_CUTSCENES_MENU,
-  OPEN_STAGES_MENU,
-  CLOSE_STAGES_MENU,
   OPEN_CREATE_STAGE,
   UPDATE_CREATE_STAGE,
   CLOSE_CREATE_STAGE,
@@ -46,6 +44,8 @@ import {
   CLEAR_EDITOR,
   OPEN_EDIT_RELATION_SYSTEM_DIALOG,
   CLOSE_EDIT_RELATION_SYSTEM_DIALOG,
+  OPEN_EDIT_CONTENT_DIALOG,
+  CLOSE_EDIT_CONTENT_DIALOG,
 } from '../../types';
 
 // game create editor
@@ -81,7 +81,6 @@ const initialState = {
   },
   isEyeDropping: false,
 
-  isCutscenesMenuOpen: false,
   isCreateCutsceneOpen: false,
   cutscene: {
     name: '',
@@ -89,8 +88,7 @@ const initialState = {
     cutsceneId: null
   },
 
-  isStagesMenuOpen: false,
-  isEditStageDialogOpen: false,
+  isCreateStageDialogOpen: false,
   stage: {
     name: '',
   },
@@ -128,6 +126,9 @@ const initialState = {
   canvasImageTextureTint: null,
 
   isEffectPromptDialogOpen: false,
+
+  isEditRelationSystemDialogOpen: false,
+  isEditContentDialogOpen: false,
 };
 
 export const initialGameFormEditorState = initialState
@@ -158,6 +159,17 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isEditEntityDialogOpen: false,
+        // entityModel: null
+      }
+    case OPEN_EDIT_CONTENT_DIALOG: 
+      return {
+        ...state,
+        isEditContentDialogOpen: true,
+      }
+    case CLOSE_EDIT_CONTENT_DIALOG:
+      return {
+        ...state,
+        isEditContentDialogOpen: false,
         // entityModel: null
       }
     case OPEN_EDIT_RELATION_SYSTEM_DIALOG: 
@@ -220,16 +232,6 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         ...state,
         isCreateBrushFlowOpen: false,
         brush: initialState.brush
-      }
-    case OPEN_CUTSCENES_MENU: 
-      return {
-        ...state,
-        isCutscenesMenuOpen: true,
-      }
-    case CLOSE_CUTSCENES_MENU:
-      return {
-        ...state,
-        isCutscenesMenuOpen: false
       }
     case OPEN_CREATE_CUTSCENE: 
       return {
@@ -330,20 +332,10 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         ...state,
         isCreateRelationOpen: false
       }
-   case OPEN_STAGES_MENU: 
-      return {
-        ...state,
-        isStagesMenuOpen: true,
-      }
-    case CLOSE_STAGES_MENU:
-      return {
-        ...state,
-        isStagesMenuOpen: false
-      }
     case OPEN_CREATE_STAGE: 
       return {
         ...state,
-        isEditStageDialogOpen: true,
+        isCreateStageDialogOpen: true,
         stage: {
           ..._.cloneDeep(initialState.stage),
           ...payload.initialStage ? _.cloneDeep(payload.initialStage) : {}
@@ -357,7 +349,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case CLOSE_CREATE_STAGE: 
       return {
         ...state,
-        isEditStageDialogOpen: false
+        isCreateStageDialogOpen: false
       }
     case UPDATE_CREATE_CANVAS_IMAGE: 
       return {

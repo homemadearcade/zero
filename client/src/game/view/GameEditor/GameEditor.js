@@ -19,7 +19,6 @@ import GameStateToolbar from '../../gameRoomInstance/GameStateToolbar/GameStateT
 import EntityList from '../../entityModel/EntityList/EntityList';
 import BrushList from '../../brush/BrushList/BrushList';
 import Dialog from '../../../ui/Dialog/Dialog';
-import StagesMenu from '../../stages/StagesMenu/StagesMenu';
 import CreateStageDialog from '../../stages/CreateStageDialog/CreateStageDialog';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CreateBrushFlow from '../../brush/CreateBrushFlow/CreateBrushFlow';
@@ -31,7 +30,6 @@ import EntityBoxDialog from '../../entityModel/EntityBoxDialog/EntityBoxDialog';
 import HoverPreview from '../../selector/HoverPreview/HoverPreview';
 import EntityBehaviorLiveEditor from '../../behaviors/EntityBehaviorLiveEditor/EntityBehaviorLiveEditor';
 import Button from '../../../ui/Button/Button';
-import SelectorList from '../../relations/RelationSystemList/RelationSystemList';
 import CreateRelationTag from '../../tags/CreateRelationTag/CreateRelationTag';
 import CreateRelation from '../../relations/CreateRelation/CreateRelation';
 import CreateEffectDialog from '../../effect/CreateEffectDialog/CreateEffectDialog';
@@ -44,6 +42,7 @@ import CanvasImageDialog from '../../textures/CanvasImageDialog/CanvasImageDialo
 import CreateColorFlow from '../../color/CreateColorFlow/CreateColorFlow';
 import StageLiveEditor from '../../stages/StageLiveEditor/StageLiveEditor';
 import EditRelationSystemDialog from '../../relations/EditRelationSystemDialog/EditRelationSystemDialog';
+import EditContentDialog from '../../content/EditContentDialog/EditContentDialog';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -66,6 +65,7 @@ const GameEditor = ({
     isEffectPromptDialogOpen,
     isEditEntityGraphicsOpen,
     isEditEntityDialogOpen, 
+    isEditContentDialogOpen,
     isEditRelationSystemDialogOpen,
     isCreateRelationTagOpen, 
     isCreateRelationOpen,
@@ -73,9 +73,7 @@ const GameEditor = ({
     isCreateColorFlowOpen,
     isCreateBrushFlowOpen, 
     isCreateStageDialogOpen, 
-    isCutscenesMenuOpen, 
     isCreateEffectOpen,
-    isStagesMenuOpen,
     isCreateEventOpen
   },
   leftColumnRef, 
@@ -167,7 +165,7 @@ const GameEditor = ({
       {isGameEditDialogOpen && <GameEditDialog/>}
       {isEditEntityDialogOpen && <EditEntityDialog/>}     
       {isEditRelationSystemDialogOpen && <EditRelationSystemDialog/>}
-      {isStagesMenuOpen && <StagesMenu/>}
+      {isEditContentDialogOpen && <EditContentDialog/>}
 
 
       {/* CREATE CONTENT DIALOGS */}

@@ -7,7 +7,12 @@ HOVER PREVIEW
   Color name on bottom
   Tags
   for Relations - show the full Relation view in the preview - Only show event in the list?
-  
+
+  CornerTitle1
+    Layer
+    Data Source
+    Tags Count
+
 ---
 
 STEPS PREVIEW UI

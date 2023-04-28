@@ -1,38 +1,81 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
-import { openGameEditDialog  } from '../../../store/actions/game/gameSelectorActions';
-import { openBoundaryEditor } from '../../../store/actions/game/gameViewEditorActions';
+import { openGameEditDialog, openStageLiveEditor  } from '../../../store/actions/game/gameSelectorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import {
-  PLAYTEST_OPEN_IID, STAGE_OPEN_SECTIONS_IID, 
- } from '../../../constants/interfaceIds';
+import { CONTENT_OPEN_EDIT_IID, GAME_OPEN_EDIT_IID, RELATION_SYSTEM_OPEN_EDIT_IID, STAGE_OPEN_EDIT_IID } from '../../../constants/interfaceIds';
+import { ListItemIcon } from '@mui/material';
+import Icon from '../../../ui/Icon/Icon';
+import { openEditContentDialog, openEditRelationSystemDialog } from '../../../store/actions/game/gameFormEditorActions';
 
+    // <Unlockable interfaceId={PLAYTEST_OPEN_IID}>
+    //   <MenuItem onClick={() => {
+    //     window.open(window.location.origin + '/play/' + gameModel.id, '_blank');
+    //     onMenuItemClick()
+    //   }}>Playtest Game</MenuItem>
+    // </Unlockable>
+
+    //     <Unlockable interfaceId={STAGE_OPEN_SECTIONS_IID}>
+    //   <MenuItem onClick={() => {
+    //     openBoundaryEditor()
+    //     onMenuItemClick()
+    //   }}>Edit Boundaries</MenuItem>
+    // </Unlockable>
 const StageContextMenu = ({ 
   onMenuItemClick, 
-  openGameEditDialog, 
-  openStagesMenu,
+  openGameEditDialog,
+  openEditRelationSystemDialog,
+  openEditContentDialog,
+  openStageLiveEditor,
   gameModel: { gameModel }, 
 }) => {
   return <>
     <ContextMenuTitle onClick={() => {
-        openGameEditDialog()
-        onMenuItemClick()
+      openGameEditDialog()
+      onMenuItemClick()
     }}>{gameModel?.metadata.title}</ContextMenuTitle>
-    <Unlockable interfaceId={STAGE_OPEN_SECTIONS_IID}>
-      <MenuItem onClick={() => {
-        openBoundaryEditor()
-        onMenuItemClick()
-      }}>Edit Boundaries</MenuItem>
-    </Unlockable>
-    <Unlockable interfaceId={PLAYTEST_OPEN_IID}>
-      <MenuItem onClick={() => {
-        window.open(window.location.origin + '/play/' + gameModel.id, '_blank');
-        onMenuItemClick()
-      }}>Playtest Game</MenuItem>
-    </Unlockable>
+      <Unlockable interfaceId={GAME_OPEN_EDIT_IID}>
+        <MenuItem onClick={() => {
+          openGameEditDialog()
+        }}>
+          <ListItemIcon>
+            <Icon icon="faGamepad"/>
+          </ListItemIcon>
+          Edit Game
+        </MenuItem>
+      </Unlockable>
+      <Unlockable interfaceId={RELATION_SYSTEM_OPEN_EDIT_IID}>
+        <MenuItem onClick={() => {
+          openEditRelationSystemDialog()
+        }}>
+          <ListItemIcon>
+            <Icon icon="faLink"/>
+            </ListItemIcon>
+          Edit Relationships
+        </MenuItem>
+      </Unlockable>
+      <Unlockable interfaceId={CONTENT_OPEN_EDIT_IID}>
+        <MenuItem onClick={() => {
+          openEditContentDialog()
+        }}>
+          <ListItemIcon>
+            <Icon icon="faIcons"/>
+          </ListItemIcon>
+          Edit Content
+          </MenuItem>
+      </Unlockable>
+      <Unlockable interfaceId={STAGE_OPEN_EDIT_IID}>
+        <MenuItem onClick={() => {
+          openStageLiveEditor()
+        }}>
+          <ListItemIcon>
+            <Icon icon="faMap"/>
+          </ListItemIcon>
+            Edit Stage
+          </MenuItem>
+      </Unlockable>
   </>
 };
 
@@ -42,6 +85,8 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 });
 
 export default connect(mapStateToProps, { 
-  openBoundaryEditor, 
   openGameEditDialog, 
+  openStageLiveEditor,
+  openEditContentDialog,
+  openEditRelationSystemDialog,
 })( StageContextMenu );

@@ -1,4 +1,4 @@
-import { EDIT_ENTITY_MODEL_TAB_CONTANER_IID, EDIT_GAME_TAB_CONTANER_IID, EDIT_STAGE_TAB_CONTAINER_IID, LIVE_ENTITY_EDITOR_TAB_CONTANER_IID } from '../../../constants/interfaceIds';
+import { EDIT_ENTITY_MODEL_TAB_CONTANER_IID, EDIT_GAME_TAB_CONTANER_IID, LIVE_EDIT_STAGE_TAB_CONTAINER_IID, LIVE_ENTITY_EDITOR_TAB_CONTANER_IID } from '../../../constants/interfaceIds';
 import { getCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { getLayerIdFromColorId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
 import { 
@@ -129,6 +129,7 @@ export const clearBrush = (brushId) => (dispatch, getState) => {
 export const openEntityBehaviorLiveEditor = (tabIID, entityModelId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
+  console.log('openEntityBehaviorLiveEditor', tabIID, entityModelId)
   dispatch(updateOpenInterfaceId(LIVE_ENTITY_EDITOR_TAB_CONTANER_IID, tabIID))
 
   dispatch({
@@ -144,7 +145,7 @@ export const openEntityBehaviorLiveEditor = (tabIID, entityModelId) => (dispatch
 export const openStageLiveEditor = (tabIID, stageId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
-  dispatch(updateOpenInterfaceId(EDIT_STAGE_TAB_CONTAINER_IID, tabIID))
+  dispatch(updateOpenInterfaceId(LIVE_EDIT_STAGE_TAB_CONTAINER_IID, tabIID))
 
   dispatch({
     updateCobrowsing: true,

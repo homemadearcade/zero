@@ -13,7 +13,9 @@ import Icon from '../../../ui/Icon/Icon';
 import { toggleLayerVisibility } from '../../../store/actions/game/gameViewEditorActions';
 import { changeEntityIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
-import { PLAYER_ENTITY_IID } from '../../../constants/interfaceIds';
+import { ENTITY_MODEL_OPEN_EDIT_IID, PLAYER_ENTITY_IID } from '../../../constants/interfaceIds';
+import { openEditEntityDialog } from '../../../store/actions/game/gameFormEditorActions';
+import { getInterfaceIdData } from '../../../utils';
 
 const EntityItem = ({
   gameModel: { gameModel: { entityModels } },
@@ -27,6 +29,7 @@ const EntityItem = ({
   toggleLayerVisibility,
   changeEntityIdHovering,
   onClick,
+  openEditEntityDialog
 }) => {
   const entityModel = entityModels[entityModelId]
   const [isHovering, setIsHovering] = useState(false)
@@ -36,16 +39,28 @@ const EntityItem = ({
   return <div
     style={{width: width? width: null, height: height? height: null, border: isSelected ? border : null}}
     onClick={(e) => {
-      if(onClick) onClick(e)
-      if(entityModel.entityIID === PLAYER_ENTITY_IID) return
+      switch (e.detail) {
+        case 1:
+          if(onClick) onClick(e)
+          // if(entityModel.entityIID === PLAYER_ENTITY_IID) return
 
-      if(entityModelId === entityModelIdSelectedEntityList) {
-        clearEntity()
-      } else {
-        selectEntity(entityModelId)
-        if(getCobrowsingState().gameViewEditor.layerInvisibility[entityModel.entityIID]) {
-          toggleLayerVisibility(entityModel.entityIID)
-        }
+          if(entityModelId === entityModelIdSelectedEntityList) {
+            clearEntity()
+          } else {
+            selectEntity(entityModelId)
+            if(getCobrowsingState().gameViewEditor.layerInvisibility[entityModel.entityIID]) {
+              toggleLayerVisibility(entityModel.entityIID)
+            }
+          }
+          break;
+        case 2:
+          const { isObscured } = getInterfaceIdData(ENTITY_MODEL_OPEN_EDIT_IID)
+          if(!isObscured) {
+            openEditEntityDialog(entityModel)
+          }
+          break;
+        default:
+          break;
       }
     }}
     onMouseEnter={() => {
@@ -77,5 +92,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { changeEntityIdHovering, openContextMenuFromEntityId, selectEntity, clearEntity, toggleLayerVisibility }),
+  connect(mapStateToProps, { changeEntityIdHovering, openEditEntityDialog, openContextMenuFromEntityId, selectEntity, clearEntity, toggleLayerVisibility }),
 )(EntityItem);

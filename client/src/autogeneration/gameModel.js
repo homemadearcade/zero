@@ -130,7 +130,7 @@ export function generateActionEffects(gameModel) {
               customSelectorCategory: interfaceActionUIData.displayName,
               subTitle: interfaceActionData.getSubtitle([brushId], gameModel),
               title:  interfaceActionData.title || interfaceActionData.getTitle([brushId], gameModel),
-              onClick: interfaceActionData([brushId]),
+              onClick: interfaceActionData.onClick([brushId]),
               icon: interfaceActionUIData.icon,
               isReadOnly: true
             }

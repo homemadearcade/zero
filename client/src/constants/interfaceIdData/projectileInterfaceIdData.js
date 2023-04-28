@@ -1,8 +1,7 @@
-import { PROJECTILE_ENTITY_IID, PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID } from "../interfaceIds";
+import { PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID } from "../interfaceIds";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  [PROJECTILE_ENTITY_IID]: {},
   [PROJECTILE_COOLDOWN_IID]: {},
   [PROJECTILE_LIFETIME_IID]: {},
   [PROJECTILE_SPEED_IID]: {

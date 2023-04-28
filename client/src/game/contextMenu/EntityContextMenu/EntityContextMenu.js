@@ -58,27 +58,27 @@ const EntityContextMenu = ({
     </Unlockable>}
     <Unlockable interfaceId={ENTITY_MODEL_OPEN_GRAPHICS_IID}>
       <MenuItem onClick={() => {
-        openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, entityModel)
-        onMenuItemClick()
-      }}><ListItemIcon><Icon icon="faImage"/></ListItemIcon>Graphics</MenuItem>
-    </Unlockable>
-    <Unlockable interfaceId={ENTITY_MODEL_OPEN_GRAPHICS_IID}>
-      <MenuItem onClick={() => {
         openCreateCanvasImageDialog(entityModelId, entityModel.graphics.textureId, entityModel.graphics.textureTint)
         onMenuItemClick()
       }}><ListItemIcon><Icon icon="faPaintbrush"/></ListItemIcon>Draw</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={ENTITY_MODEL_OPEN_EDIT_IID}>
+    <Unlockable interfaceId={ENTITY_MODEL_OPEN_GRAPHICS_IID}>
       <MenuItem onClick={() => {
-        openEditEntityDialog(entityModel)
+        openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, entityModel)
         onMenuItemClick()
-      }}><ListItemIcon><Icon icon="faChessPawn"/></ListItemIcon>Edit {entityModelTypeToDisplayName[entityModel.entityIID]}</MenuItem>
+      }}><ListItemIcon><Icon icon="faImage"/></ListItemIcon>Edit Sprite</MenuItem>
     </Unlockable>
     <Unlockable interfaceId={ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID}>
       <MenuItem onClick={() => {
         openEntityBehaviorLiveEditor(null, entityModelId)
         onMenuItemClick()
       }}><ListItemIcon><Icon icon="faDna"/></ListItemIcon>Edit Behaviors</MenuItem>
+    </Unlockable>
+    <Unlockable interfaceId={ENTITY_MODEL_OPEN_EDIT_IID}>
+      <MenuItem onClick={() => {
+        openEditEntityDialog(entityModel)
+        onMenuItemClick()
+      }}><ListItemIcon><Icon icon="faChessPawn"/></ListItemIcon>Edit {entityModelTypeToDisplayName[entityModel.entityIID]}</MenuItem>
     </Unlockable>
 
     {!insideEntityInstanceContextMenu && <Unlockable interfaceId={ENTITY_MODEL_DUPLICATE_IID}>

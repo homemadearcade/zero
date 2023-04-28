@@ -19,6 +19,7 @@ import dataSourceInterfaceIdData from "./dataSourceInterfaceIdData";
 import graphicsInterfaceIdData from "./graphicsInterfaceIdData";
 import entityModelBehaviorInterfaceIdData from "./entityModelBehaviorInterfaceIdData";
 import dialogInterfaceIdData from "./dialogInterfaceIdData";
+import toolbarInterfaceIdData from "./toolbarInterfaceIdData";
 
 export * from './hideableInterfaceIds'
 
@@ -43,5 +44,6 @@ export const interfaceIdData = {
   ...dataSourceInterfaceIdData,
   ...graphicsInterfaceIdData,
   ...entityModelBehaviorInterfaceIdData,
-  ...dialogInterfaceIdData
+  ...dialogInterfaceIdData,
+  ...toolbarInterfaceIdData,
 }

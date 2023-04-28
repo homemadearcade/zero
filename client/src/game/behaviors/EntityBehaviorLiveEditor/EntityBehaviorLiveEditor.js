@@ -61,8 +61,8 @@ const EntityBehaviorLiveEditor = ({ closeEntityBehaviorLiveEditor, gameSelector:
   return (
     <div className="EntityBehaviorLiveEditor">
       <div className="EntityBehaviorLiveEditor__close"><Button onClick={closeEntityBehaviorLiveEditor}><Icon icon="faClose"/></Button></div>
-      <EntityMemberTitle title={entityModel.name} entityModelId={entityModelIdSelectedLiveEditor}></EntityMemberTitle>
-      <CobrowsingTabs tabs={tabs} tabContainerInterfaceId={LIVE_ENTITY_EDITOR_TAB_CONTANER_IID} />
+      <EntityMemberTitle title="Behavior" entityModelId={entityModelIdSelectedLiveEditor}></EntityMemberTitle>
+      <CobrowsingTabs tabs={tabs} interfaceGroupId={LIVE_ENTITY_EDITOR_TAB_CONTANER_IID} />
     </div>
   );
 };

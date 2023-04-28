@@ -4,13 +4,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './StageLiveEditor.scss';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { ZONE_ENTITY_IID } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import SelectStageColor from '../SelectStageColor/SelectStageColor';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
 import SelectStageDefaultType from '../../ui/SelectStageDefaultType/SelectStageDefaultType';
 import Switch from '../../../ui/Switch/Switch';
-import { EDIT_STAGE_COLOR_TAB_IID, EDIT_STAGE_PLAYERS_TAB_IID, EDIT_STAGE_GRAVITY_TAB_IID, EDIT_STAGE_TAB_CONTAINER_IID, PLAYER_ENTITY_IID, STAGE_CUSTOMIZE_IID, STAGE_GRAVITY_X_IID, STAGE_GRAVITY_Y_IID, STAGE_SPAWN_ZONE_SELECT_IID } from '../../../constants/interfaceIds';
+import { LIVE_EDIT_STAGE_COLOR_TAB_IID, LIVE_EDIT_STAGE_GRAVITY_TAB_IID, LIVE_EDIT_STAGE_TAB_CONTAINER_IID, PLAYER_ENTITY_IID, STAGE_CUSTOMIZE_IID, STAGE_GRAVITY_X_IID, STAGE_GRAVITY_Y_IID, STAGE_SPAWN_ZONE_SELECT_IID, LIVE_EDIT_STAGE_SPAWN_TAB_IID, ZONE_ENTITY_IID, LIVE_EDIT_STAGE_PERSPECTIVE_TAB_IID, EDIT_CONTENT_STAGES_TAB_IID } from '../../../constants/interfaceIds';
 import SelectEntityModel from '../../ui/SelectEntityModel/SelectEntityModel';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
@@ -20,7 +19,7 @@ import Button from '../../../ui/Button/Button';
 import { closeStageLiveEditor } from '../../../store/actions/game/gameSelectorActions';
 import Icon from '../../../ui/Icon/Icon';
 import IconButton from '../../../ui/IconButton/IconButton';
-import { openCreateStageDialog, openStagesMenu } from '../../../store/actions/game/gameFormEditorActions';
+import { openCreateStageDialog, openEditContentDialog } from '../../../store/actions/game/gameFormEditorActions';
 
         // {/* <RadioGroupColumn
         //   formLabel={"Perspective"}
@@ -40,12 +39,18 @@ import { openCreateStageDialog, openStagesMenu } from '../../../store/actions/ga
         //     },
         //   ]}
         // /> */}
-const StageLiveEditor = ({ openCreateStageDialog, openStagesMenu, editGameModel, gameModel: { gameModel, currentStageId }, closeStageLiveEditor }) => {
+const StageLiveEditor = ({ 
+  openCreateStageDialog, 
+  editGameModel, 
+  openEditContentDialog,
+  gameModel: { gameModel, currentStageId }, 
+  closeStageLiveEditor
+ }) => {
   const stage = gameModel.stages[currentStageId]
 
   const backgroundColorTab = {
     label: 'Background Color',
-    interfaceId: EDIT_STAGE_COLOR_TAB_IID,
+    interfaceId: LIVE_EDIT_STAGE_COLOR_TAB_IID,
     body: <>
       <SelectStageColor selectedColor={stage.color} onSelectColor={(hex) => {
         editGameModel({
@@ -59,9 +64,9 @@ const StageLiveEditor = ({ openCreateStageDialog, openStagesMenu, editGameModel,
     </>
   }
 
-  const playerTab = {
-    label: 'Player',
-    interfaceId: EDIT_STAGE_PLAYERS_TAB_IID,
+  const perspectiveTab = {
+    label: 'Perspective',
+    interfaceId: LIVE_EDIT_STAGE_PERSPECTIVE_TAB_IID,
     body: <>
       <SelectStageDefaultType
         value={stage.defaultType ? [stage.defaultType] : []}
@@ -111,7 +116,7 @@ const StageLiveEditor = ({ openCreateStageDialog, openStagesMenu, editGameModel,
 
   const gravityTab = {
     label: 'Gravity',
-    interfaceId: EDIT_STAGE_GRAVITY_TAB_IID,
+    interfaceId: LIVE_EDIT_STAGE_GRAVITY_TAB_IID,
     body: <>
         <Unlockable interfaceId={STAGE_GRAVITY_Y_IID}>
         <SliderNotched
@@ -138,7 +143,29 @@ const StageLiveEditor = ({ openCreateStageDialog, openStagesMenu, editGameModel,
     </>
   }
 
-  const tabs = [backgroundColorTab, playerTab, gravityTab]
+  const spawnTab = {
+    label: 'Spawn',
+    interfaceId: LIVE_EDIT_STAGE_SPAWN_TAB_IID,
+    body: <>
+      <SelectEntityModel
+        entityModelType={ZONE_ENTITY_IID}
+        interfaceId={STAGE_SPAWN_ZONE_SELECT_IID}
+        formLabel={"Into which zone should the Player spawn?"}
+        value={stage.playerSpawnZoneEntityId ? [stage.playerSpawnZoneEntityId] : []}
+        onChange={(event, entityModels) => {
+          const newEntityId = entityModels[entityModels.length-1]
+          editGameModel({
+            stages: {
+              [stage.stageId] : {
+                playerSpawnZoneEntityId: newEntityId
+              }
+            }
+          })
+      }}/>
+    </>
+  }
+
+  const tabs = [backgroundColorTab, perspectiveTab, gravityTab, spawnTab]
 
   return <div className='StageLiveEditor'>
     <div className="StageLiveEditor__close"><Button onClick={closeStageLiveEditor}><Icon icon="faClose"/></Button></div>
@@ -150,11 +177,11 @@ const StageLiveEditor = ({ openCreateStageDialog, openStagesMenu, editGameModel,
         openCreateStageDialog(stage)
       }}/> 
       <IconButton icon="faShuffle" color="primary" onClick={() => {
-        openStagesMenu()
+        openEditContentDialog(EDIT_CONTENT_STAGES_TAB_IID)
         closeStageLiveEditor()
       }}/> 
-    </div>  
-    <CobrowsingTabs tabs={tabs} interfaceGroupId={EDIT_STAGE_TAB_CONTAINER_IID}/>
+    </div>
+    <CobrowsingTabs tabs={tabs} interfaceGroupId={LIVE_EDIT_STAGE_TAB_CONTAINER_IID}/>
   </div>
 }
 
@@ -163,5 +190,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { editGameModel, openStagesMenu, closeStageLiveEditor, openCreateStageDialog }),
+  connect(mapStateToProps, { editGameModel, closeStageLiveEditor, openCreateStageDialog, openEditContentDialog }),
 )(StageLiveEditor);

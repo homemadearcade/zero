@@ -7,15 +7,9 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-CLEAN UP STAGES, GAME, ADD KEYBOARD TOOLBAR
+TOOLBAR
 
-CONTENT DIALOG
-  Textures
-  Dialog
-  Cutscenes
-  Stages
-  Audio
-  Particles
+Unlockable Tabs?
 
 GAME
 --------------------------------------------------------------------------------------
@@ -77,9 +71,13 @@ APP SETTINGS
 ---------------------------------------------------------------------------------------------------- 
 
 KEYBOARD MODE
+  Avoid shift? Yes avoid shift. SHIFT is - KEEP TOOL SELECTED
+
   SHIFT -> turn on grid view
 
   CAPS LOCK - Grid View 
+
+  Figure out how to register keys?
 
   MMO-esque toolbar on the bottom left
 

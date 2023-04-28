@@ -21,7 +21,7 @@ import { generateUniqueId, getThemePrimaryColor, isLocalHost } from '../../utils
 import { getInterfaceIdData } from '../../utils/unlockedInterfaceUtils';
 import { createGameSceneInstance, getGameModelSize } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
-import { BACKGROUND_LAYER_GROUP_IID, ENTITY_INSTANCE_MOVE_IID, ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID, ENTITY_MODEL_OPEN_EDIT_IID, FOREGROUND_LAYER_GROUP_IID, GAME_OPEN_EDIT_IID, PLAYGROUND_LAYER_GROUP_IID, STAGE_OPEN_EDIT_IID } from '../../constants/interfaceIds';
+import { BACKGROUND_LAYER_GROUP_IID, ENTITY_INSTANCE_MOVE_IID, ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID, ENTITY_MODEL_OPEN_EDIT_IID, FOREGROUND_LAYER_GROUP_IID, GAME_OPEN_EDIT_IID, PLAYER_ENTITY_IID, PLAYGROUND_LAYER_GROUP_IID, STAGE_OPEN_EDIT_IID } from '../../constants/interfaceIds';
 import { addCanvasImage, uploadCanvasImageAndAddToGameModel } from '../../store/actions/media/canvasImageActions';
 import { updateTheme } from '../../store/actions/themeActions';
 import { changeInstanceHovering } from '../../store/actions/game/hoverPreviewActions';
@@ -297,7 +297,9 @@ export class EditorScene extends GameInstance {
     }
     if(entityModelId && !this.stamper) {
       const entityModel = gameModel.entityModels[entityModelId]
-      this.stamper = new EntityStamper(this, entityModelId, entityModel)
+      if(entityModel.entityIID !== PLAYER_ENTITY_IID) {
+        this.stamper = new EntityStamper(this, entityModelId, entityModel)
+      }
     }
     if(this.stamper) {
       this.stamper.update(pointer)
@@ -519,9 +521,9 @@ export class EditorScene extends GameInstance {
           if(this.draggingEntityInstanceId || this.doubleClicked) return
 
           if(hoveringInstances.length) {
-            const { isObscured } = getInterfaceIdData(ENTITY_MODEL_OPEN_EDIT_IID)
+            const { isObscured } = getInterfaceIdData(ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID)
             if(!isObscured) {
-              store.dispatch(openEditEntityDialog(this.getGameModel().entityModels[hoveringInstances[0].entityModelId]))
+              store.dispatch(openEntityBehaviorLiveEditor(null, hoveringInstances[0].entityModelId))
             }
           } else {
             const { isObscured } = getInterfaceIdData(STAGE_OPEN_EDIT_IID)
@@ -612,9 +614,9 @@ export class EditorScene extends GameInstance {
   onDoubleClick = (pointer, hoveringInstances) => {
     if(this.draggingEntityInstanceId) return
     if(hoveringInstances.length) {
-      const { isObscured } = getInterfaceIdData(ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID)
+      const { isObscured } = getInterfaceIdData(ENTITY_MODEL_OPEN_EDIT_IID)
       if(!isObscured) {
-        store.dispatch(openEntityBehaviorLiveEditor(null, hoveringInstances[0].entityModelId))
+        store.dispatch(openEditEntityDialog(this.getGameModel().entityModels[hoveringInstances[0].entityModelId]))
       }
     } else {
       const { isObscured } = getInterfaceIdData(GAME_OPEN_EDIT_IID)

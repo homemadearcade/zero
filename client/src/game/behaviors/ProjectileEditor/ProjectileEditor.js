@@ -8,7 +8,7 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import SelectEntity from '../../ui/SelectEntityModel/SelectEntityModel';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
-import { PLAYER_ENTITY_IID, PROJECTILE_ENTITY_IID, PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID } from '../../../constants/interfaceIds';
+import { PLAYER_ENTITY_IID, PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID, PROJECTILE_ENTITY_SELECTOR_IID } from '../../../constants/interfaceIds';
 import { PROJECTILE_TARGET_ENTITY_MODEL } from '../../constants';
 import SelectProjectileBehavior from '../../ui/SelectProjectileBehavior/SelectProjectileBehavior';
 
@@ -30,8 +30,9 @@ const ProjectileEditor = ({ entityModelId, gameModel: { gameModel }, editGameMod
 
   return (
     <div className="ProjectileEditor">
-      <Unlockable interfaceId={PROJECTILE_ENTITY_IID}>
+      <Unlockable interfaceId={PROJECTILE_ENTITY_SELECTOR_IID}>
         <SelectEntity 
+          interfaceId={PROJECTILE_ENTITY_SELECTOR_IID}
           formLabel="Projectile Entity"
           value={entitySelected.projectile.entityModelId ? [entitySelected.projectile.entityModelId] : []}
           onChange={(event, entityModels) => {

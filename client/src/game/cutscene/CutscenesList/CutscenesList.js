@@ -2,42 +2,37 @@
 import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './CutscenesMenu.scss';
-import CobrowsingDialog from '../../../game/cobrowsing/CobrowsingDialog/CobrowsingDialog';
-import { closeCutscenesMenu, openCreateCutscene, updateCreateCutscene } from '../../../store/actions/game/gameFormEditorActions';
+import './CutscenesList.scss';
+import { openCreateCutscene, updateCreateCutscene } from '../../../store/actions/game/gameFormEditorActions';
 import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
 import { REMOVED_DATA_SHOW_IID } from '../../../constants/interfaceIds';
+import Divider from '../../../ui/Divider/Divider';
 
-const CutscenesMenu = ({ closeCutscenesMenu, openCreateCutscene, gameModel: { gameModel }}) => {
+const CutscenesList = ({ openCreateCutscene, gameModel: { gameModel }}) => {
   const [showRemovedCutscenes, setShowRemovedCutscenes] = useState()
   
-  function handleClose() {
-    closeCutscenesMenu()
-  }
-
   const cutscenes = gameModel.cutscenes
 
   function renderCutscene(cutscene) {
-     return <div key={cutscene.cutsceneId} className="CutscenesMenu__cutscene">
-      <Typography component="h4" variant="h4">{cutscene.name}</Typography>
+     return <div key={cutscene.cutsceneId} className="CutscenesList__cutscene">
+      <Typography component="h5" variant="h5">{cutscene.name}</Typography>
       <Button onClick={() => {
         openCreateCutscene(cutscene)
       }}>Edit</Button>
     </div>
   }
 
-  return <CobrowsingDialog open={true} onClose={handleClose}>
-    <div className="CutscenesMenu">
-      <Typography component="h2" variant="h2">Cutscenes</Typography>
+  return <div className="CutscenesList">
       {Object.keys(cutscenes).map((cutsceneId) => {
         const cutscene = cutscenes[cutsceneId]
         if(cutscene.isRemoved && !showRemovedCutscenes) return null
         return renderCutscene(cutscene)
       })}
+      <Divider/>
       <Button onClick={() => {
         openCreateCutscene({
           name: 'Cutscene #' + (Object.keys(cutscenes).length + 1).toString()
@@ -49,7 +44,6 @@ const CutscenesMenu = ({ closeCutscenesMenu, openCreateCutscene, gameModel: { ga
         }}>Show Removed Cutscenes</Button>
       </Unlockable>}
     </div>
-  </CobrowsingDialog>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
@@ -57,5 +51,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateCutscene, closeCutscenesMenu, openCreateCutscene }),
-)(CutscenesMenu);
+  connect(mapStateToProps, { updateCreateCutscene, openCreateCutscene }),
+)(CutscenesList);

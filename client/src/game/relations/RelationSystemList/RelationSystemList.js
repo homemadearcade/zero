@@ -43,64 +43,64 @@ const RelationSystemList = ({
 
   const nestedLists = []
 
-  const cutscenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
-    const currentCutscene = gameModel.cutscenes[currentCutsceneId]
-    if(currentCutscene.isRemoved) return false
-    if(currentCutscene.inDialogueMenu) return false
-    return true
-  }).map((currentCutsceneId, i) => {
-    const currentCutscene = gameModel.cutscenes[currentCutsceneId]
-    return <Unlockable key={currentCutsceneId} interfaceId={CUTSCENE_SELECT_IID}>
-      <NestedListItem title={currentCutscene.name} onClick={() => {openCreateCutscene(currentCutscene)}}/>
-    </Unlockable>
-  })
+  // const cutscenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
+  //   const currentCutscene = gameModel.cutscenes[currentCutsceneId]
+  //   if(currentCutscene.isRemoved) return false
+  //   if(currentCutscene.inDialogueMenu) return false
+  //   return true
+  // }).map((currentCutsceneId, i) => {
+  //   const currentCutscene = gameModel.cutscenes[currentCutsceneId]
+  //   return <Unlockable key={currentCutsceneId} interfaceId={CUTSCENE_SELECT_IID}>
+  //     <NestedListItem title={currentCutscene.name} onClick={() => {openCreateCutscene(currentCutscene)}}/>
+  //   </Unlockable>
+  // })
 
-  cutscenes.push(<Unlockable key="add cutscene" interfaceId={CUTSCENE_ADD_IID}>
-    <NestedListItemButton>
-      <Button onClick={() => {
-        openCreateCutscene({
-          inDialogueMenu: false
-        })
-      }}>+</Button>
-    </NestedListItemButton>
-  </Unlockable>)
+  // cutscenes.push(<Unlockable key="add cutscene" interfaceId={CUTSCENE_ADD_IID}>
+  //   <NestedListItemButton>
+  //     <Button onClick={() => {
+  //       openCreateCutscene({
+  //         inDialogueMenu: false
+  //       })
+  //     }}>+</Button>
+  //   </NestedListItemButton>
+  // </Unlockable>)
 
-  nestedLists.push({
-    interfaceId: CUTSCENE_CONTAINER_IID,
-    title: 'Cutscenes',
-    children: cutscenes,
-    // moreMenu: <SelectorMoreMenu interfaceId={CUTSCENE_IID}/>
-  })
+  // nestedLists.push({
+  //   interfaceId: CUTSCENE_CONTAINER_IID,
+  //   title: 'Cutscenes',
+  //   children: cutscenes,
+  //   // moreMenu: <SelectorMoreMenu interfaceId={CUTSCENE_IID}/>
+  // })
 
 
-  const dialogueScenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
-    const currentCutscene = gameModel.cutscenes[currentCutsceneId]
-    if(currentCutscene.isRemoved) return false
-    if(!currentCutscene.inDialogueMenu) return false
-    return true
-  }).map((currentCutsceneId, i) => {
-    const currentCutscene = gameModel.cutscenes[currentCutsceneId]
-    return <Unlockable key={currentCutsceneId} interfaceId={DIALOGUE_SELECT_IID}>
-      <NestedListItem title={currentCutscene.name} onClick={() => {openCreateCutscene(currentCutscene)}}/>
-    </Unlockable>
-  })
+  // const dialogueScenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
+  //   const currentCutscene = gameModel.cutscenes[currentCutsceneId]
+  //   if(currentCutscene.isRemoved) return false
+  //   if(!currentCutscene.inDialogueMenu) return false
+  //   return true
+  // }).map((currentCutsceneId, i) => {
+  //   const currentCutscene = gameModel.cutscenes[currentCutsceneId]
+  //   return <Unlockable key={currentCutsceneId} interfaceId={DIALOGUE_SELECT_IID}>
+  //     <NestedListItem title={currentCutscene.name} onClick={() => {openCreateCutscene(currentCutscene)}}/>
+  //   </Unlockable>
+  // })
 
-  dialogueScenes.push(<Unlockable key="add dialog" interfaceId={DIALOGUE_ADD_IID}>
-    <NestedListItemButton>
-      <Button onClick={() => {
-        openCreateCutscene({
-          inDialogueMenu: true
-        })
-      }}>+</Button>
-    </NestedListItemButton>
-  </Unlockable>)
+  // dialogueScenes.push(<Unlockable key="add dialog" interfaceId={DIALOGUE_ADD_IID}>
+  //   <NestedListItemButton>
+  //     <Button onClick={() => {
+  //       openCreateCutscene({
+  //         inDialogueMenu: true
+  //       })
+  //     }}>+</Button>
+  //   </NestedListItemButton>
+  // </Unlockable>)
 
-  nestedLists.push({
-    interfaceId: DIALOGUE_CONTAINER_IID,
-    title: 'Dialogues',
-    children: dialogueScenes,
-    // moreMenu: <SelectorMoreMenu interfaceId={DIALOGUE_IID}/>
-  })
+  // nestedLists.push({
+  //   interfaceId: DIALOGUE_CONTAINER_IID,
+  //   title: 'Dialogues',
+  //   children: dialogueScenes,
+  //   // moreMenu: <SelectorMoreMenu interfaceId={DIALOGUE_IID}/>
+  // })
 
   const relationTags = Object.keys(gameModel.relationTags).filter((currentRelationTagId) => {
     const currentTag = gameModel.relationTags[currentRelationTagId]

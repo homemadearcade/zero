@@ -8,7 +8,6 @@ import {
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   [TEXTURE_EDITOR_OPEN_IID]: {
-    previewText: 'Draw New Sprite',
     name: 'Draw New Sprite Button',
     interfaceGroupId: DRAW_IGID
   },
@@ -18,12 +17,10 @@ export default {
     interfaceGroupId: DRAW_IGID
   },
   [CHOOSE_SYSTEM_TEXTURES_IID]: {
-    previewText: 'Choose Sprites',
     name: 'Select System Sprites Area',
     interfaceGroupId: DRAW_IGID
   },
   [CHOOSE_GAME_TEXTURES_IID]: {
-    previewText: 'Choose My Sprites',
     name: 'Select My Sprites Area',
     isDefaultUnlocked: true,
     interfaceGroupId: DRAW_IGID

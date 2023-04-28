@@ -50,9 +50,8 @@ const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreate
     return false 
   }
 
-  return <CobrowsingDialog open={true} onClose={handleClose}>
-    <StageNameForm initialName={stage.name}/>
-    <SelectEntityModel
+  function renderSelectSpawn() {
+    return <SelectEntityModel
     entityModelType={ZONE_ENTITY_IID}
     interfaceId={STAGE_SPAWN_ZONE_SELECT_IID}
     formLabel={"Into which zone should the Player spawn?"}
@@ -67,6 +66,11 @@ const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreate
         }
       })
     }}/>
+  }
+
+  return <CobrowsingDialog open={true} onClose={handleClose}>
+    <StageNameForm initialName={stage.name}/>
+    {/* {renderSelectSpawn()} */}
     <div className="CreateStageDialog__buttons">
       <Button 
         disabled={isAutosaveDisabled()}

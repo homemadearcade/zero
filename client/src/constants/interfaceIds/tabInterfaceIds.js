@@ -31,13 +31,13 @@ export const EDIT_GAME_IDS_TAB_IID = 'EDIT_GAME_IDS_TAB_IID';
 // -----------------------------------------------------------------
 // --- EDIT STAGE TABS ---------------------------------------------
 
-export const EDIT_STAGE_TAB_CONTAINER_IID = 'EDIT_STAGE_TAB_CONTAINER_IID';
+export const LIVE_EDIT_STAGE_TAB_CONTAINER_IID = 'LIVE_EDIT_STAGE_TAB_CONTAINER_IID';
 
-export const EDIT_STAGE_PLAYERS_TAB_IID = 'EDIT_STAGE_PLAYERS_TAB_IID';
-export const EDIT_STAGE_COLOR_TAB_IID = 'EDIT_STAGE_COLOR_TAB_IID';
-export const EDIT_STAGE_NAME_TAB_IID = 'EDIT_STAGE_NAME_TAB_IID';
-export const EDIT_STAGE_GRAVITY_TAB_IID = 'EDIT_STAGE_GRAVITY_TAB_IID';
-export const EDIT_STAGE_BOUNDARIES_TAB_IID = 'EDIT_STAGE_BOUNDARIES_TAB_IID';
+export const LIVE_EDIT_STAGE_PERSPECTIVE_TAB_IID = 'LIVE_EDIT_STAGE_PERSPECTIVE_TAB_IID';
+export const LIVE_EDIT_STAGE_COLOR_TAB_IID = 'LIVE_EDIT_STAGE_COLOR_TAB_IID';
+export const LIVE_EDIT_STAGE_GRAVITY_TAB_IID = 'LIVE_EDIT_STAGE_GRAVITY_TAB_IID';
+export const LIVE_EDIT_STAGE_BOUNDARIES_TAB_IID = 'LIVE_EDIT_STAGE_BOUNDARIES_TAB_IID';
+export const LIVE_EDIT_STAGE_SPAWN_TAB_IID = 'LIVE_EDIT_STAGE_SPAWN_TAB_IID';
 
 // -----------------------------------------------------------------
 // -----------------------------------------------------------------
@@ -61,3 +61,16 @@ export const LIVE_ENTITY_EDITOR_MOVEMENT_TAB_IID = 'LIVE_ENTITY_EDITOR_MOVEMENT_
 export const LIVE_ENTITY_EDITOR_COLLISIONS_TAB_IID = 'LIVE_ENTITY_EDITOR_COLLISIONS_TAB_IID';
 export const LIVE_ENTITY_EDITOR_CAMERA_TAB_IID = 'LIVE_ENTITY_EDITOR_CAMERA_TAB_IID';
 export const LIVE_ENTITY_EDITOR_PROJECTILE_TAB_IID = 'LIVE_ENTITY_EDITOR_PROJECTILE_TAB_IID';
+
+// -----------------------------------------------------------------
+// -----------------------------------------------------------------
+// --- EDIT CONTENT TABS  ------------------------------------------
+
+export const EDIT_CONTENT_TAB_CONTANER_IID = 'EDIT_CONTENT_TAB_CONTANER_IID';
+
+export const EDIT_CUTSCENES_TAB_IID = 'EDIT_CUTSCENES_TAB_IID';
+export const EDIT_CONTENT_STAGES_TAB_IID = 'EDIT_CONTENT_STAGES_TAB_IID';
+export const EDIT_CONTENT_TEXTURES_TAB_IID = 'EDIT_CONTENT_TEXTURES_TAB_IID';
+export const EDIT_CONTENT_AUDIO_TAB_IID = 'EDIT_CONTENT_AUDIO_TAB_IID';
+export const EDIT_CONTENT_PARTICLE_TAB_IID = 'EDIT_CONTENT_PARTICLE_TAB_IID';
+
