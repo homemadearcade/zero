@@ -1,35 +1,10 @@
 import { Router } from 'express';
-import multer from 'multer';
-import { resolve } from 'path';
-
 import requireJwtAuth from '../../middleware/requireJwtAuth';
-import User, { hashPassword, validateUser } from '../../models/User';
+import User, { hashPassword } from '../../models/User';
 import Message from '../../models/Message';
-import { seedDb } from '../../utils/seed';
+import { recordS3Upload, s3Multer } from '../../services/aws';
 
 const router = Router();
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, resolve(__dirname, '../../../public/images'));
-  },
-  filename: function (req, file, cb) {
-    const fileName = file.originalname.toLowerCase().split(' ').join('-');
-    cb(null, `avatar-${Date.now()}-${fileName}`);
-  },
-});
-
-const upload = multer({
-  storage: storage,
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype == 'image/png' || file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg') {
-      cb(null, true);
-    } else {
-      cb(null, false);
-      return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-    }
-  },
-});
 
 router.put('/:id/speedTest', requireJwtAuth, async (req, res, next) => {
   try {
@@ -74,7 +49,7 @@ router.get('/userId/:userId', async (req, res) => {
   }
 });
 
-router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, next) => {
+router.put('/:id', [requireJwtAuth, s3Multer, recordS3Upload], async (req, res, next) => {
   try {
     const tempUser = await User.findById(req.params.id);
     if (!tempUser) return res.status(404).json({ message: 'No such user.' });
@@ -87,6 +62,7 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
 
     // let avatarPath = null;
     // if (req.file) {
+      // console.log(req.file)
     //   avatarPath = req.file.filename;
     // }
 

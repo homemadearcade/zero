@@ -183,7 +183,7 @@ const HoverPreview = ({
   function renderTopRightCornerData(data, onEdit) {
     return <div className="HoverPreview__top-right-corner-data">
       {data.map((data) => {
-        return <Paper elevation={5} sx={{
+        return <Paper key={data.text + data.icon} elevation={5} sx={{
             padding: '.4em',
             justifyContent: 'center',
             display: 'flex'
@@ -298,7 +298,6 @@ const HoverPreview = ({
       {renderDisplayWithTexture({
         textureTint: brushModel.textureTint,
         textureId: brushModel.textureId,
-        title: layer.name
       })}
     </>
   }

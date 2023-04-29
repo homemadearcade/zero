@@ -84,10 +84,6 @@ const ClickPreview = ({
     }
     
 
-    if(entityModelIdHovering) {
-
-    }
-
     if(entityModelIdHovering && !isMouseOverGameView) {
 
       return renderActionTitle('Select ' + getEntityClassName(), 'faArrowPointer')

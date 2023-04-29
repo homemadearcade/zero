@@ -9,15 +9,9 @@ import {
   GET_SPRITESHEET_DATA_SUCCESS,
   GET_SPRITESHEET_DATA_FAIL,
   CHANGE_CURRENT_STAGE,
-  SAVE_CANVAS_IMAGE_LOADING,
-  SAVE_CANVAS_IMAGE_SUCCESS,
-  SAVE_CANVAS_IMAGE_FAIL,
-  ON_GAME_MODEL_UPDATE,
 } from '../../types';
 import _ from 'lodash';
-import { uploadToAws } from '../../../utils/networkUtils';
 import { getSpritesByDescriptor } from '../../../game/constants';
-import store from '../..';
 import { onArcadeGameModelUpdate } from './arcadeGameActions';
 
 export const changeCurrentStage = (stageId) => (dispatch, getState) => {

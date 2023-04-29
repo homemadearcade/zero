@@ -5,6 +5,8 @@ import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
+import { getInterfaceIdData } from '../../utils';
 
 function TabPanel(props) {
   const { children, value, index, interfaceId, label, ...other } = props;
@@ -36,7 +38,7 @@ function a11yProps(index) {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default function({ tabs, className,}) {
+export default function({ tabs, className }) {
   const [currentTabInterfaceId, setCurrentTabInterfaceId] = React.useState(0)
 
   function handleChange(interfaceId) {
@@ -46,7 +48,7 @@ export default function({ tabs, className,}) {
   return <TabsBody className={className} tabs={tabs} currentTabInterfaceId={currentTabInterfaceId} onChange={handleChange}/>
 }
 
-export function TabsBody({ tabs, currentTabInterfaceId, onChange, className }) {
+export function TabsBody({ obscureInterfaceIds, tabs, currentTabInterfaceId, onChange, className }) {
   const theme = useTheme();
 
   const handleChange = (event, tabIndex) => {
@@ -71,7 +73,16 @@ export function TabsBody({ tabs, currentTabInterfaceId, onChange, className }) {
           aria-label="scrollabe tabs"
         >
           {tabs.map((tab, index) => {
-            return <Tab key={tab.label} label={tab.label} {...a11yProps(index)} />
+            const tabEl = <Tab key={tab.label} label={tab.label} {...a11yProps(index)} />
+
+            if(obscureInterfaceIds) {
+              const { isObscured } = getInterfaceIdData(tab.interfaceId)
+              if(!isObscured) {
+                return tabEl
+              }
+            } 
+
+            return tabEl
           })}
         </Tabs>
       </AppBar>

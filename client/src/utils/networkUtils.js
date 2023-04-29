@@ -82,29 +82,28 @@ export const testInternetSpeed = async () => {
   })
 }
 
-export const uploadToAws = async (imageUrl, imageFile) => {
+export const uploadToAws = async ({url = '/api/aws/post', imageUrl, imageFile}) => {
   const contentType = imageFile.type; // eg. image/jpeg or image/svg+xml
-
-  const options = {
-    params: {
-      Key: imageUrl,
-      ContentType: contentType || 'image/png'
-    }
-  };
+  // imageFile.name = 'imageFile'
+  let formData = new FormData();
+  formData.append('imageFile', imageFile);
 
   try {
-    const generatedPutUrl = await axios.get('/api/aws/generate-put-url', options);
-    return await axios.put('https://immense-fjord-18543.herokuapp.com/' + generatedPutUrl.data.url, imageFile, {
-      ...options,
+    return await axios({
+      method: 'put',
+      url,
       headers: {
         'Content-Type': contentType || 'image/png',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      },
+      data: formData,
+      params: {
+        Key: imageUrl,
+        ContentType: contentType || 'image/png'
       }
-    })
+    });
   } catch(e) {
     console.error(e)
   }
-
-
 };

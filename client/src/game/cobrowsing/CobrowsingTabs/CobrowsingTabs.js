@@ -12,7 +12,7 @@ function CobrowsingNestedList({interfaceGroupId, tabs, className, updateOpenInte
     updateOpenInterfaceId(interfaceGroupId, newTab);
   };
 
-  return <TabsBody tabs={tabs} className={className} currentTabInterfaceId={currentTabInterfaceId} onChange={handleChange}/>
+  return <TabsBody tabs={tabs} obscureInterfaceIds className={className} currentTabInterfaceId={currentTabInterfaceId} onChange={handleChange}/>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

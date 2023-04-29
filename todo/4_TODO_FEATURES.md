@@ -7,10 +7,6 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-TOOLBAR
-
-Unlockable Tabs?
-
 GAME
 --------------------------------------------------------------------------------------
 I think projectiles dont do anything right now, register relations with them please :) or SOEMTHING. Perhaps actually put them on the object instances?? hmm?

@@ -45,6 +45,7 @@ export class PreloaderScene extends Phaser.Scene {
 
     const gameModel = store.getState().gameModel.gameModel
     Object.keys(gameModel.textures).forEach((textureId) => {
+      console.log(getImageUrlFromTextureId(textureId))
       this.load.image(textureId, getImageUrlFromTextureId(textureId))
     })
 

@@ -317,37 +317,6 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
 }
 
 
-
-
-  export const uploadToAws = async (id, file) => {
-  const contentType = file.type; // eg. image/jpeg or image/svg+xml
-
-        let formData = new FormData();
-      formData.append('file', file);
-  try {
-    return await axios({
-      method: 'put',
-      url: '/api/aws/post',
-      headers: {
-        'Content-Type': contentType || 'image/png',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-      },
-      data: formData,
-      params: {
-        Key: id,
-        ContentType: contentType || 'image/png'
-      }
-    });
-  } catch(e) {
-    console.error(e)
-  }
-
-
-};
-
-
-
     // if(hideIfObscured) {
     //   return null
     // }

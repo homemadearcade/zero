@@ -1,6 +1,9 @@
 import AWS from 'aws-sdk'; // Requiring AWS SDK.
 import dotenv from 'dotenv'; // Loading dotenv to have access to env variables
 dotenv.config()
+import multer from 'multer';
+import multerS3 from 'multer-s3';
+import S3ImageUpload from '../models/S3ImageUpload';
 
 // Configuring AWS
 AWS.config = new AWS.Config({
@@ -15,18 +18,52 @@ const s3 = new AWS.S3();
 // Retrieving the bucket name from env variable
 const Bucket = process.env.BUCKET_NAME;
 
-// In order to create pre-signed GET adn PUT URLs we use the AWS SDK s3.getSignedUrl method.
-// getSignedUrl(operation, params, callback) ⇒ String
-// For more information check the AWS documentation: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html
+export const s3Multer = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.BUCKET_NAME,
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+      const { Key, ContentType } =  req.query;
+      cb(null, Key)
+    }
+  })
+}).single('imageFile');
+
+export const recordS3Upload = async function(req, res, next) {
+  try {
+    const { Key, ContentType } =  req.query;
+    // Key refers to the remote name of the file.
+
+    let s3ImageUpload = await S3ImageUpload.create({
+      data: {
+        Key,
+        ContentType,
+        fieldname: req.file.fieldname,
+        bucket: process.env.BUCKET_NAME,
+        bucketRegion: process.env.BUCKET_REGION
+      }
+    });
+
+    console.log('s3 upload success', Key)
+    next()
+  } catch(e) {
+    console.log('s3 upload error', e)
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+}
 
 // GET URL Generator
-function generateGetUrl(Key) {
+export function generateGetUrl(Key) {
   return new Promise((resolve, reject) => {
     const params = {
       Bucket,
       Key,
       Expires: 120 // 2 minutes
     };
+
     // Note operation in this case is getObject
     s3.getSignedUrl('getObject', params, (err, url) => {
       if (err) {
@@ -41,7 +78,7 @@ function generateGetUrl(Key) {
 }
 
 // PUT URL Generator
-function generatePutUrl(Key, ContentType) {
+export function generatePutUrl(Key, ContentType) {
   return new Promise((resolve, reject) => {
     // Note Bucket is retrieved from the env variable above.
     const params = { Bucket, Key, ContentType };
@@ -56,6 +93,3 @@ function generatePutUrl(Key, ContentType) {
     });
   });
 }
-
-// Finally, we export the methods so we can use it in our main application.
-export default { generateGetUrl, generatePutUrl };

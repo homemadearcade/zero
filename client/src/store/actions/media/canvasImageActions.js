@@ -33,7 +33,7 @@ export const uploadCanvasImageAndAddToGameModel  = ({imageFile, textureId, image
   });
 
   try {
-    const awsResponse = await addAwsImage(imageFile, textureId)
+    const awsResponse = await uploadToAws({imageFile, imageUrl: textureId})
 
     // this is good here because it sends an event out to update this image/load it
     // but do we need that anymore?
@@ -62,19 +62,6 @@ export const uploadCanvasImageAndAddToGameModel  = ({imageFile, textureId, image
     });
   }
 }
-
-export const addAwsImage = (imageFile, imageUrl) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      await uploadToAws(imageUrl, imageFile)
-      resolve()
-    } catch (err) {
-      console.error(err)
-      reject(err)
-    }
-  })
-}
- 
 
 export const getCanvasImages = () => async (dispatch, getState) => {
   dispatch({
