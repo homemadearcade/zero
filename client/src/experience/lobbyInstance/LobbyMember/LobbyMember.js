@@ -23,7 +23,7 @@ const LobbyMember = ({
   userMongoId, 
   key, 
   lobbyInstance: { lobbyInstance }, 
-  status : { lobbyInstanceUserStatuses, cobrowsingMouses }, 
+  status : { lobbyInstanceMemberStatuses, cobrowsingMouses }, 
   auth: {me}, 
   setCutAudio, 
   setCutVideo
@@ -32,16 +32,16 @@ const LobbyMember = ({
   const [showUnlockedUI, setShowUnlockedUI] = useState(false)
   const [isVideoOpen, setIsVideoOpen] = useState(false)
 
-  const userStatus = lobbyInstanceUserStatuses[userMongoId];
+  const memberStatus = lobbyInstanceMemberStatuses[userMongoId];
   const userCobrowsingStatus = cobrowsingMouses[userMongoId]
-  const user = lobbyInstance.members.filter((member) => {
+  const member = lobbyInstance.members.filter((member) => {
     if(userMongoId === member.userMongoId) {
       return true
     }
     return false;
   })[0]
 
-  if(!user) {
+  if(!member) {
     return <Button disabled>(Not Present)</Button>
   }
 
@@ -59,25 +59,25 @@ const LobbyMember = ({
   function renderConnectionInfo() {
     return <div className="LobbyMember__connection">
       <div className="LobbyMember__title">
-        <div className="LobbyMember__username">{user.username}{isMe && ' (me)'}</div>
-        <div className={classnames("LobbyMember__connection-dot", {'LobbyMember__connection-dot--bad' : userStatus?.pingDelta && userStatus.pingDelta > 60, 'LobbyMember__connection-dot--none': !user.connected})}/>
-        <div className="LobbyMember__ping">{userStatus?.pingDelta > -1 ? userStatus?.pingDelta : 0}</div>
-        {user.role === ADMIN_ROLE && <div className="LobbyMember__admin"><Icon icon="faCrown"/></div>}
+        <div className="LobbyMember__username">{member.username}{isMe && ' (me)'}</div>
+        <div className={classnames("LobbyMember__connection-dot", {'LobbyMember__connection-dot--bad' : memberStatus?.pingDelta && memberStatus.pingDelta > 60, 'LobbyMember__connection-dot--none': !member.connected})}/>
+        <div className="LobbyMember__ping">{memberStatus?.pingDelta > -1 ? memberStatus?.pingDelta : 0}</div>
+        {member.role === ADMIN_ROLE && <div className="LobbyMember__admin"><Icon icon="faCrown"/></div>}
       </div>
       <Divider></Divider>
 
       <Divider></Divider>
       <div className="LobbyMember__icons">
-        <div className="LobbyMember__fullscreen">Email: <a href={'mailto::' + user.email}>{user.email}</a></div>
-        <div className="LobbyMember__fullscreen"><div className="LobbyMember__icon"><Icon icon="faWindowMaximize"/></div>{(userStatus?.isFullscreen) ? 'Fullscreen' : 'Windowed'}</div>
-        <div className="LobbyMember__focus"><div className="LobbyMember__icon"><Icon icon="faEye"/></div>{(!userStatus || userStatus?.isFocused) ? 'On Tab' : 'Away'}</div>
+        <div className="LobbyMember__fullscreen">Email: <a href={'mailto::' + member.email}>{member.email}</a></div>
+        <div className="LobbyMember__fullscreen"><div className="LobbyMember__icon"><Icon icon="faWindowMaximize"/></div>{(memberStatus?.isFullscreen) ? 'Fullscreen' : 'Windowed'}</div>
+        <div className="LobbyMember__focus"><div className="LobbyMember__icon"><Icon icon="faEye"/></div>{(!memberStatus || memberStatus?.isFocused) ? 'On Tab' : 'Away'}</div>
         <div className="LobbyMember__cobrowsing"><div className="LobbyMember__icon"><Icon icon="faArrowPointer"/></div>{userCobrowsingStatus ? <span>{((Date.now() - userCobrowsingStatus.lastPing)/1000).toFixed(0)}s ago</span> : 'Never'}</div>
-        <div className="LobbyMember__upload"><div className="LobbyMember__icon"><Icon icon="faUpload"/></div>{(user.internetSpeedTestResults?.uploadSpeed) ? user.internetSpeedTestResults?.uploadSpeed : 'Not Tested'}</div>
-        <div className="LobbyMember__download"><div className="LobbyMember__icon"><Icon icon="faDownload"/></div>{(user.internetSpeedTestResults?.downloadSpeed) ? user.internetSpeedTestResults?.downloadSpeed : 'Not Tested'}</div>
-        <div className="LobbyMember__video-call"><div className="LobbyMember__icon"><Icon icon="faVideo"/></div>{userTracksById && userTracksById[user.userMongoId] ? 'Connected' : 'Not Connected'}</div>
+        <div className="LobbyMember__upload"><div className="LobbyMember__icon"><Icon icon="faUpload"/></div>{(member.internetSpeedTestResults?.uploadSpeed) ? member.internetSpeedTestResults?.uploadSpeed : 'Not Tested'}</div>
+        <div className="LobbyMember__download"><div className="LobbyMember__icon"><Icon icon="faDownload"/></div>{(member.internetSpeedTestResults?.downloadSpeed) ? member.internetSpeedTestResults?.downloadSpeed : 'Not Tested'}</div>
+        <div className="LobbyMember__video-call"><div className="LobbyMember__icon"><Icon icon="faVideo"/></div>{userTracksById && userTracksById[member.userMongoId] ? 'Connected' : 'Not Connected'}</div>
       </div>
       <Divider></Divider>
-      <Link newTab href={`/user/${user.username}`}>
+      <Link newTab href={`/user/${member.username}`}>
         More Info
       </Link>
       <Divider></Divider>
@@ -93,8 +93,8 @@ const LobbyMember = ({
   return <span key={userMongoId}>
   <Button onClick={() => {
     setIsDialogOpen(true)
-  }} size="small" key={key} className={classnames("LobbyMember", {'LobbyMember--left' : user.joinedLobbyInstanceMongoId !== lobbyInstance.id, 'LobbyMember--cobrowser': isNavigatedToCobrowse})}>
-    {user.username}
+  }} size="small" key={key} className={classnames("LobbyMember", {'LobbyMember--left' : member.joinedLobbyInstanceMongoId !== lobbyInstance.id, 'LobbyMember--cobrowser': isNavigatedToCobrowse})}>
+    {member.username}
   </Button>
   {isDialogOpen && <Dialog open onClose={() => {
     setIsDialogOpen(false)

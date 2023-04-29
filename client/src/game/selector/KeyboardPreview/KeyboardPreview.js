@@ -82,7 +82,6 @@ const ClickPreview = ({
     if(brushIdSelectedBrushList && isMouseOverGameView) {
       return renderActionTitle('Paint with Brush', 'faPaintbrush')
     }
-    
 
     if(entityModelIdHovering && !isMouseOverGameView) {
 

@@ -5,7 +5,7 @@ import './GameEditor.scss';
 import ReactJson from 'react-json-view'
 
 import { clearEditor, closeJsonViewer, selectBrush } from '../../../store/actions/game/gameSelectorActions';
-import { clearGameFormEditor } from '../../../store/actions/game/gameFormEditorActions';
+import { clearGameFormEditor, closeEditEntityGraphics, updateCreateBrush } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../../store/actions/game/gameViewEditorActions';
 import BoundaryEditor from '../../stages/BoundaryEditor/BoundaryEditor';
@@ -25,7 +25,9 @@ import CreateBrushFlow from '../../brush/CreateBrushFlow/CreateBrushFlow';
 import { copyToClipboard, generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
-import {  EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, INSTANCE_TOOLBAR_CONTAINER_IID, LAYER_CREATE_COLOR_DIALOG_IID, SELECTOR_RELATION_SYSTEM_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
+import {  EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID,
+   INSTANCE_TOOLBAR_CONTAINER_IID, LAYER_CREATE_COLOR_DIALOG_IID, 
+   SELECTOR_RELATION_SYSTEM_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
 import EntityBoxDialog from '../../entityModel/EntityBoxDialog/EntityBoxDialog';
 import HoverPreview from '../../selector/HoverPreview/HoverPreview';
 import EntityBehaviorLiveEditor from '../../behaviors/EntityBehaviorLiveEditor/EntityBehaviorLiveEditor';
@@ -84,12 +86,14 @@ const GameEditor = ({
   editGameModel,
   clearEditor, 
   clearGameFormEditor, 
+  closeEditEntityGraphics,
   clearGameViewEditor,
   closeJsonViewer,
   isObscurable,
   rootFontSize,
   children,
   selectBrush,
+  updateCreateBrush,
   gameRoomInstance: { gameRoomInstance: { gameState } },
   gameModel: { gameModel },
   playerInterface: { cutsceneId }
@@ -243,17 +247,24 @@ const GameEditor = ({
         }}
       />}
       {isCanvasImageDialogOpen && <CanvasImageDialog onSaveCanvasImage={(textureId) => {
-        clearGameFormEditor()
-        editGameModel({
-          entityModels: {
-            [canvasImageEntityModelId] : {
-              graphics: {
-                textureId,
-                textureTint: null
+        if(canvasImageEntityModelId) {
+          closeEditEntityGraphics()
+
+          editGameModel({
+            entityModels: {
+              [canvasImageEntityModelId] : {
+                graphics: {
+                  textureId,
+                  textureTint: null
+                }
               }
             }
-          }
-        })
+          })
+        } else if(isCreateBrushFlowOpen) {
+          updateCreateBrush({
+            textureId,
+          })
+        }
       }} />}
     </>
   }
@@ -277,6 +288,8 @@ export default connect(mapStateToProps, {
   clearGameFormEditor, 
   clearGameViewEditor, 
   closeJsonViewer,
+  updateCreateBrush,
+  closeEditEntityGraphics,
   editGameModel,
   selectBrush,
 })(GameEditor);

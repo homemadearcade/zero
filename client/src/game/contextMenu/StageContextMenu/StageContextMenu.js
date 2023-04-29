@@ -38,6 +38,7 @@ const StageContextMenu = ({
     }}>{gameModel?.metadata.title}</ContextMenuTitle>
       <Unlockable interfaceId={GAME_OPEN_EDIT_IID}>
         <MenuItem onClick={() => {
+          onMenuItemClick()
           openGameEditDialog()
         }}>
           <ListItemIcon>
@@ -48,6 +49,7 @@ const StageContextMenu = ({
       </Unlockable>
       <Unlockable interfaceId={RELATION_SYSTEM_OPEN_EDIT_IID}>
         <MenuItem onClick={() => {
+          onMenuItemClick()
           openEditRelationSystemDialog()
         }}>
           <ListItemIcon>
@@ -58,6 +60,7 @@ const StageContextMenu = ({
       </Unlockable>
       <Unlockable interfaceId={CONTENT_OPEN_EDIT_IID}>
         <MenuItem onClick={() => {
+          onMenuItemClick()
           openEditContentDialog()
         }}>
           <ListItemIcon>
@@ -68,6 +71,7 @@ const StageContextMenu = ({
       </Unlockable>
       <Unlockable interfaceId={STAGE_OPEN_EDIT_IID}>
         <MenuItem onClick={() => {
+          onMenuItemClick()
           openStageLiveEditor()
         }}>
           <ListItemIcon>

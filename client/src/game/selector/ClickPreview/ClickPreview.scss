@@ -15,16 +15,17 @@
   }
 
   &__row-control {
-    flex: 1;
     border-right: 1px solid #333;
     padding: .5em;
+    display: flex;
+    gap: .5em;
   }
 
   &__row-action {
-    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-grow: 1;
     gap: .5em;
   }
 }

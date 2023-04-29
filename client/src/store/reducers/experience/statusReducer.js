@@ -1,13 +1,13 @@
 import {
   // LEAVE_LOBBY_LOADING,
-  ON_LOBBY_INSTANCE_USER_STATUS_UPDATE,
+  ON_LOBBY_INSTANCE_MEMBER_STATUS_UPDATE,
   ON_COBROWSING_STATUS_UPDATE,
   ON_CLEAR_COBROWSING_STATUS,
   LEAVE_LOBBY_SUCCESS,
 } from '../../types';
 
 const initialState = {
-  lobbyInstanceUserStatuses: {},
+  lobbyInstanceMemberStatuses: {},
   cobrowsingMouses: {},
   cobrowsingScrolls: {},
   phaserViews: {}
@@ -19,15 +19,15 @@ export default function statusReducer(state = initialState, { type, payload }) {
     case LEAVE_LOBBY_SUCCESS: 
       return {
         ...state,
-        lobbyInstanceUserStatuses: {},
+        lobbyInstanceMemberStatuses: {},
         cobrowsingMouses: {},
         cobrowsingScrolls: {},
         phaserViews: {}
       };
-    case ON_LOBBY_INSTANCE_USER_STATUS_UPDATE:
+    case ON_LOBBY_INSTANCE_MEMBER_STATUS_UPDATE:
       return {
         ...state,
-        lobbyInstanceUserStatuses: {...state.lobbyInstanceUserStatuses, [payload.userMongoId]: payload.status }
+        lobbyInstanceMemberStatuses: {...state.lobbyInstanceMemberStatuses, [payload.userMongoId]: payload.status }
       };
     case ON_COBROWSING_STATUS_UPDATE:
       return {

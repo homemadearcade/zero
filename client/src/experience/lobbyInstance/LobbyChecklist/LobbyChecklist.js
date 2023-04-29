@@ -30,7 +30,7 @@ const LobbyChecklist = ({
   editLobby,
   lobbyInstance: { lobbyInstance },
   auth: { me },
-  status: { lobbyInstanceUserStatuses },
+  status: { lobbyInstanceMemberStatuses },
   cobrowsing: { remoteStateUserMongoId }
 }) => {
   const membersById = lobbyInstance.members.reduce((prev, next) => {
@@ -53,8 +53,8 @@ const LobbyChecklist = ({
     return {
       text: `${member.username} is present`,
       test: () => {
-        const userStatus = lobbyInstanceUserStatuses[member.userMongoId]
-        return userStatus?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && userStatus?.isFocused
+        const memberStatus = lobbyInstanceMemberStatuses[member.userMongoId]
+        return memberStatus?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && memberStatus?.isFocused
       },
       required: true,
     }
@@ -122,7 +122,7 @@ const LobbyChecklist = ({
   //       isAllPassing, isAllRequiredPassing
   //     }
   //   }
-  // }, [client, lobbyInstance, lobbyInstanceUserStatuses])
+  // }, [client, lobbyInstance, lobbyInstanceMemberStatuses])
 
   return <div className="LobbyChecklist__checklist">
     {checklist.map((item, i) => {

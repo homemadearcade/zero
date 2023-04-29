@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import store from "../../store";
-import { CameraPreview } from "./members/CameraPreview";
+import { CameraPreview } from "./behaviors/CameraPreview";
 import { getHexIntFromHexString } from "../../utils";
 
 export class RemoteEditor extends Phaser.GameObjects.Container {

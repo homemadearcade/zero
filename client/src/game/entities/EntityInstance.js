@@ -1,11 +1,11 @@
 import { DEFAULT_TEXTURE_ID, ON_SPAWN, BOUNDARY_COLLIDE, BOUNDARY_WRAP, ON_DESTROY_ONE, ON_DESTROY_ALL, ON_INTERACT, ON_TOUCH_START, ON_TOUCH_ACTIVE } from "../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
-import { PhaserInstance } from "./members/PhaserInstance";
-import { Collider } from "./members/Collider";
-import { Graphics } from "./members/Graphics";
-import { Movement } from "./members/Movement";
-import { ProjectileEjector } from "./members/ProjectileEjector";
+import { PhaserInstance } from "./behaviors/PhaserInstance";
+import { Collider } from "./behaviors/Collider";
+import { Graphics } from "./behaviors/Graphics";
+import { Movement } from "./behaviors/Movement";
+import { ProjectileEjector } from "./behaviors/ProjectileEjector";
 
 export class EntityInstance extends PhaserInstance {
   constructor(scene, entityInstanceId, {spawnX, spawnY, entityModelId}, effectSpawned){

@@ -2,10 +2,10 @@ import Phaser from "phaser";
 import store from "../../store";
 
 import { EntityInstance } from "./EntityInstance";
-import { CameraPreview } from "./members/CameraPreview";
-import { InteractArea } from "./members/InteractArea";
-import { ControlledMovement } from "./members/ControlledMovement";
-import { ControlledProjectileEjector } from "./members/ControlledProjectileEjector";
+import { CameraPreview } from "./behaviors/CameraPreview";
+import { InteractArea } from "./behaviors/InteractArea";
+import { ControlledMovement } from "./behaviors/ControlledMovement";
+import { ControlledProjectileEjector } from "./behaviors/ControlledProjectileEjector";
 import { ON_INTERACT } from "../constants";
 
 export class PlayerInstance extends EntityInstance {

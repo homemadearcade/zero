@@ -24,7 +24,7 @@ import {
   DELETE_GAME_ROOM_SUCCESS,
   DELETE_GAME_ROOM_FAIL,
   ON_GAME_ROOM_INSTANCE_UPDATE,
-  ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE,
+  ON_GAME_ROOM_INSTANCE_MEMBER_STATUS_UPDATE,
   SEND_GAME_ROOM_MESSAGE_LOADING,
   SEND_GAME_ROOM_MESSAGE_SUCCESS,
   SEND_GAME_ROOM_MESSAGE_FAIL,
@@ -348,9 +348,9 @@ export const joinGameRoom = ({ gameRoomInstanceMongoId, userMongoId }) => async 
     window.socket.on(ON_GAME_ROOM_INSTANCE_UNDO, onInstanceUndo)
 
     // event is triggered to all members in this gameRoomInstance when gameRoomInstance is updated
-    window.socket.on(ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE, (payload) => {
+    window.socket.on(ON_GAME_ROOM_INSTANCE_MEMBER_STATUS_UPDATE, (payload) => {
       dispatch({
-        type: ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE,
+        type: ON_GAME_ROOM_INSTANCE_MEMBER_STATUS_UPDATE,
         payload: payload,
       });
     });
@@ -384,7 +384,7 @@ export const leaveGameRoom = ({ gameRoomInstanceMongoId, userMongoId }) => async
     const response = await axios.post(`/api/gameRoomInstance/leave/${gameRoomInstanceMongoId}`, { userMongoId }, options);
 
     window.socket.off(ON_GAME_ROOM_INSTANCE_UPDATE);
-    window.socket.off(ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE);
+    window.socket.off(ON_GAME_ROOM_INSTANCE_MEMBER_STATUS_UPDATE);
     window.socket.off(ON_GAME_ROOM_INSTANCE_UNDO)
 
     dispatch({

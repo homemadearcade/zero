@@ -18,11 +18,11 @@ const LobbyOverview = ({
   //   return prev
   // }, {})
 
-  let usersWithoutRole = lobbyInstance.members.filter((user) => {
+  let usersWithoutRole = lobbyInstance.members.filter((member) => {
     const roleIdToUserMongoIds = lobbyInstance.roleIdToUserMongoIds
     for(let roleId in roleIdToUserMongoIds) {
       const userMongoIds = roleIdToUserMongoIds[roleId]
-      if(userMongoIds.includes(user.userMongoId)) return false
+      if(userMongoIds.includes(member.userMongoId)) return false
     }
     return true
   })

@@ -12,7 +12,7 @@ const ActivityTransition = ({
   auth: { me },
   cobrowsing: { cobrowsingUser, isActivelyCobrowsing }
 }) => {
-  const user = members.filter((member) => {
+  const member = members.filter((member) => {
     if(cobrowsingUser?.id === member.userMongoId) {
       return true
     }
@@ -21,7 +21,7 @@ const ActivityTransition = ({
 
   const { gameEditorWidth, gameEditorHeight } = useGameEditorSize()
 
-  if(gameEditorHeight && gameEditorWidth && user?.inTransitionView && (isActivelyCobrowsing || cobrowsingUser.id === me.id)) {
+  if(gameEditorHeight && gameEditorWidth && member?.inTransitionView && (isActivelyCobrowsing || cobrowsingUser.id === me.id)) {
     return <ConstellationZoom width={gameEditorWidth} height={gameEditorHeight}/>
   }
 };

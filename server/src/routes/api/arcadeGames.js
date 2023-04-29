@@ -10,6 +10,17 @@ import { recordS3Upload, s3Multer } from '../../services/aws';
 
 const router = Router();
 
+async function requireArcadeGameEditPermissions(req, res, next) {
+  const tempGame = await ArcadeGame.findById(req.params.id).populate('owner')
+  if (!tempGame) return res.status(404).json({ message: 'No such Game.' });
+  if (!(tempGame.owner.id === req.user.id || req.user.role === 'ADMIN'))
+    return res.status(400).json({ message: 'You do not have privelages to edit this Game.' });
+
+  req.tempGame = tempGame
+  
+  next()
+}
+
 router.get('/', async (req, res) => {
   try {
     const games = await ArcadeGame.find().sort({ createdAt: 'desc' }).select('owner createdAt isRemoved updatedAt metadata').populate('owner');
@@ -146,12 +157,9 @@ router.post('/', requireJwtAuth, async (req, res) => {
 //     res.status(500).json({ game: 'Something went wrong.' });
 //   }
 // });
-router.post('/:id/importedArcadeGame', requireJwtAuth, requireSocketAuth, async (req, res) => {
+router.post('/:id/importedArcadeGame', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermissions, async (req, res) => {
   try{
-    const tempGame = await ArcadeGame.findById(req.params.id).populate('owner')
-    if (!tempGame) return res.status(404).json({ message: 'No such Game.' });
-    if (!(tempGame.owner.id === req.user.id || req.user.role === 'ADMIN'))
-      return res.status(400).json({ message: 'You do not have privelages to edit this Game.' });
+    const tempGame = req.tempGame
 
     tempGame.importedArcadeGames.push(req.body.arcadeGameMongoId)
 
@@ -165,23 +173,13 @@ router.post('/:id/importedArcadeGame', requireJwtAuth, requireSocketAuth, async 
   }
 });
 
-router.put('/texture/:id', requireJwtAuth, requireSocketAuth, async (req, res, next) => {
-  const tempGame = await ArcadeGame.findById(req.params.id).populate('owner importedArcadeGames');
-  if (!tempGame) return res.status(404).json({ message: 'No game found.' });
-  if (!(tempGame.owner?.id === req.user.id || req.user.role === 'ADMIN'))
-    return res.status(400).json({ message: 'Not updated by the game owner or admin.' });
-
-  next()
-}, s3Multer, recordS3Upload, async (req, res) => {
+router.put('/texture/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermissions, s3Multer, recordS3Upload, async (req, res) => {
   res.status(200).send()
 })
 
-router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
+router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermissions, async (req, res) => {
   try {
-    const tempGame = await ArcadeGame.findById(req.params.id).populate('owner importedArcadeGames');
-    if (!tempGame) return res.status(404).json({ message: 'No game found.' });
-    if (!(tempGame.owner?.id === req.user.id || req.user.role === 'ADMIN'))
-      return res.status(400).json({ message: 'Not updated by the game owner or admin.' });
+    const tempGame = req.tempGame
 
     const updatedGame = mergeDeep(tempGame, req.body.gameUpdate)
 

@@ -17,16 +17,16 @@ const ActivityTransitionToggle = ({
   updateLobbyMember,
   toggleActiveCobrowsing
 }) => {
-  const user = members.filter((member) => {
+  const member = members.filter((member) => {
     if(cobrowsingUser?.id === member.userMongoId) {
       return true
     }
     return false;
   })[0]
 
-  if(!user) return
+  if(!member) return
 
-  const inTransitionView = user.inTransitionView
+  const inTransitionView = member.inTransitionView
 
   return <div
     className="ActivityTransitionToggle"

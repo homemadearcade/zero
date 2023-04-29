@@ -27,7 +27,7 @@ import {
   DELETE_LOBBY_SUCCESS,
   DELETE_LOBBY_FAIL,
   ON_LOBBY_INSTANCE_UPDATE,
-  ON_LOBBY_INSTANCE_USER_STATUS_UPDATE,
+  ON_LOBBY_INSTANCE_MEMBER_STATUS_UPDATE,
   ON_COBROWSING_STATUS_UPDATE,
   SEND_LOBBY_MESSAGE_LOADING,
   SEND_LOBBY_MESSAGE_SUCCESS,
@@ -182,7 +182,7 @@ export const updateLobbyMember = ({userMongoId, lobbyInstanceMongoId, member}) =
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.put(`/api/lobbyInstance/user/${lobbyInstanceMongoId}`, {userMongoId, member}, options);
+    const response = await axios.put(`/api/lobbyInstance/member/${lobbyInstanceMongoId}`, {userMongoId, member}, options);
 
     dispatch({
       type: UPDATE_LOBBY_USER_SUCCESS,
@@ -322,7 +322,7 @@ export const joinLobbyByMongoId = ({ lobbyInstanceMongoId, userMongoId }) => asy
       }
       window.lastIsFocused = window.isFocused
 
-      window.socket.emit(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE, { status: {
+      window.socket.emit(ON_LOBBY_INSTANCE_MEMBER_STATUS_UPDATE, { status: {
         lastSeen: Date.now(),
         pingDelta, isFocused: !document.hidden, isFullscreen: document.fullscreenElement,
       }, userMongoId, lobbyInstanceMongoId })
@@ -340,9 +340,9 @@ export const joinLobbyByMongoId = ({ lobbyInstanceMongoId, userMongoId }) => asy
 
 
     // event is triggered to all members in this lobbyInstance when lobbyInstance is updated
-    window.socket.on(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE, (payload) => {
+    window.socket.on(ON_LOBBY_INSTANCE_MEMBER_STATUS_UPDATE, (payload) => {
       dispatch({
-        type: ON_LOBBY_INSTANCE_USER_STATUS_UPDATE,
+        type: ON_LOBBY_INSTANCE_MEMBER_STATUS_UPDATE,
         payload: payload,
       });
     });
@@ -414,7 +414,7 @@ export const leaveLobbyByMongoId = ({ lobbyInstanceMongoId, userMongoId }, histo
     const response = await axios.post(`/api/lobbyInstance/leave/${lobbyInstanceMongoId}`, { userMongoId }, options);
 
     window.socket.off(ON_LOBBY_INSTANCE_UPDATE);
-    window.socket.off(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE);
+    window.socket.off(ON_LOBBY_INSTANCE_MEMBER_STATUS_UPDATE);
     window.socket.off(ON_COBROWSING_STATUS_UPDATE);
     window.clearInterval(pingInterval);
 

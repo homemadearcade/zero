@@ -14,6 +14,14 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
 
     if(relationTag.relationTagIID === RELATION_TAG_ENTITY_IID) {
       const relationTagEntity = gameModel.entityModels[relationTag.relationTagId]
+      if(!relationTagEntity) {
+        console.error('missing entity for relation tag id', collidingRelationTagId)
+        return {
+          label: relationTag.name,
+          value: collidingRelationTagId,
+          isRemoved: true,
+        }
+      }
 
       return {
         label: relationTag.name,

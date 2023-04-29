@@ -138,16 +138,19 @@ const ClickPreview = ({
   }
 
   function renderControl(text) {
-    return <Typography sx={{fontSize: '.5em', color: '#aaa'}} variant="subtitle2" font="2P">
-      {text}
-    </Typography>
+    return <>
+      <Icon size="xs" icon="faComputerMouse" color="#aaa"></Icon>
+      <Typography sx={{fontSize: '.5em', color: '#aaa'}} variant="subtitle2" font="2P">
+        {text}
+      </Typography>
+    </>
   }
  
   return <Unlockable interfaceId={CLICK_PREVIEW_IID}>
     <div className="ClickPreview">
       <div className="ClickPreview__row">
         <div className="ClickPreview__row-control">
-          {renderControl('Left Click')}
+          {renderControl('L')}
         </div>
         <div className="ClickPreview__row-action">
           {renderLeftClickAction()}
@@ -155,7 +158,7 @@ const ClickPreview = ({
       </div>
       <div className="ClickPreview__row">
         <div className="ClickPreview__row-control">
-          {renderControl('Double Click')}
+          {renderControl('x2')}
         </div>
         <div className="ClickPreview__row-action">
           {renderDoubleClickAction()}
@@ -163,7 +166,7 @@ const ClickPreview = ({
       </div>
       <div className="ClickPreview__row">
         <div className="ClickPreview__row-control">
-          {renderControl('Right Click')}
+          {renderControl('R')}
         </div>
         <div className="ClickPreview__row-action">
           {renderRightClickAction()}

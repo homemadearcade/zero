@@ -18,12 +18,12 @@ import User from './models/User';
 import { InMemorySessionStore } from './utils/sessionStore';
 import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_INSTANCE_UPDATE, 
   ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, 
-  ON_GAME_INSTANCE_UPDATE, ON_LOBBY_INSTANCE_USER_STATUS_UPDATE,
+  ON_GAME_INSTANCE_UPDATE, ON_LOBBY_INSTANCE_MEMBER_STATUS_UPDATE,
    ON_GAME_INSTANCE_EVENT, ON_GAME_CHARACTER_UPDATE, ON_SOCKET_DISCONNECT,
     ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_CODRAWING_STROKE_ACKNOWLEDGED, 
     ON_CODRAWING_INITIALIZE, ON_GAME_ROOM_INSTANCE_UPDATE, SOCKET_IO_STORE, 
     SOCKET_SESSIONS_STORE, LOBBY_INSTANCE_STORE, CODRAWING_ROOM_PREFIX, 
-    GAME_ROOMS_STORE, ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE, 
+    GAME_ROOMS_STORE, ON_GAME_ROOM_INSTANCE_MEMBER_STATUS_UPDATE, 
     ON_LOBBY_INSTANCE_EVENT } from './constants';
 import LobbyInstance from './models/LobbyInstance';
 import TicketedEvent from './models/TicketedEvent';
@@ -181,18 +181,18 @@ io.on("connection", (socket) => {
 
         const lobbyInstances = app.get(LOBBY_INSTANCE_STORE)
         lobbyInstances?.forEach((lobbyInstance) => {
-          lobbyInstance.members.forEach((user) => {
-            if(user.userMongoId === socket.user.userMongoId) {
-              user.connected = true
+          lobbyInstance.members.forEach((member) => {
+            if(member.userMongoId === socket.user.userMongoId) {
+              member.connected = true
               lobbyInstance.messages.push({
                 user: {
-                  userMongoId: user.userMongoId,
-                  username: user.username
+                  userMongoId: member.userMongoId,
+                  username: member.username
                 },
                 message: 'has connected',
                 automated: true
               })
-              if(user.joinedLobbyInstanceMongoId === lobbyInstance.id) socket.join(lobbyInstance.id);
+              if(member.joinedLobbyInstanceMongoId === lobbyInstance.id) socket.join(lobbyInstance.id);
               io.to(lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance});
             }
           })
@@ -200,18 +200,18 @@ io.on("connection", (socket) => {
 
         const gameRoomInstances = app.get(GAME_ROOMS_STORE)
         gameRoomInstances?.forEach((gameRoomInstance) => {
-          gameRoomInstance.members.forEach((user) => {
-            if(user.userMongoId === socket.user.userMongoId) {
-              user.connected = true
+          gameRoomInstance.members.forEach((member) => {
+            if(member.userMongoId === socket.user.userMongoId) {
+              member.connected = true
               gameRoomInstance.messages.push({
                 user: {
-                  userMongoId: user.userMongoId,
-                  username: user.username
+                  userMongoId: member.userMongoId,
+                  username: member.username
                 },
                 message: 'has connected',
                 automated: true
               })
-              if(user.joinedGameRoomInstanceMongoId === gameRoomInstance.id) {
+              if(member.joinedGameRoomInstanceMongoId === gameRoomInstance.id) {
                 socket.join(gameRoomInstance.id);
               }
               io.to(gameRoomInstance.id).emit(ON_GAME_ROOM_INSTANCE_UPDATE, {gameRoomInstance});
@@ -234,8 +234,8 @@ io.on("connection", (socket) => {
     io.to('cobrowsing@'+payload.userMongoId).emit(ON_COBROWSING_STATUS_UPDATE, payload)
   })
 
-  socket.on(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE, (payload) => {
-    io.to(payload.lobbyInstanceMongoId).emit(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE, payload)
+  socket.on(ON_LOBBY_INSTANCE_MEMBER_STATUS_UPDATE, (payload) => {
+    io.to(payload.lobbyInstanceMongoId).emit(ON_LOBBY_INSTANCE_MEMBER_STATUS_UPDATE, payload)
   })
 
   socket.on(ON_LOBBY_INSTANCE_EVENT, (payload) => {
@@ -254,8 +254,8 @@ io.on("connection", (socket) => {
     io.to(payload.lobbyInstanceMongoId).emit(ON_LOBBY_INSTANCE_EVENT, payload)
   })
 
-  socket.on(ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE, (payload) => {
-    io.to(payload.gameRoomInstanceMongoId).emit(ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE, payload)
+  socket.on(ON_GAME_ROOM_INSTANCE_MEMBER_STATUS_UPDATE, (payload) => {
+    io.to(payload.gameRoomInstanceMongoId).emit(ON_GAME_ROOM_INSTANCE_MEMBER_STATUS_UPDATE, payload)
   })
 
   socket.on(ON_GAME_INSTANCE_EVENT, (payload) => {
@@ -330,14 +330,14 @@ io.on("connection", (socket) => {
     if(socket.user?.userMongoId) {
       const lobbyInstances = app.get(LOBBY_INSTANCE_STORE)
       lobbyInstances.forEach((lobbyInstance) => {
-        lobbyInstance.members.forEach((user) => {
-          if(user.userMongoId === socket.user.userMongoId) {
-            user.connected = false
+        lobbyInstance.members.forEach((member) => {
+          if(member.userMongoId === socket.user.userMongoId) {
+            member.connected = false
             socket.emit(ON_SOCKET_DISCONNECT)
             lobbyInstance.messages.push({
               user: {
-                userMongoId: user.userMongoId,
-                username: user.username
+                userMongoId: member.userMongoId,
+                username: member.username
               },
               message: 'has disconnected',
               automated: true
@@ -350,15 +350,15 @@ io.on("connection", (socket) => {
       const gameRoomInstances = app.get(GAME_ROOMS_STORE)
 
       gameRoomInstances.forEach((gameRoomInstance) => {
-        gameRoomInstance.members.forEach((user) => {
-          if(user.userMongoId === socket.user.userMongoId) {
-            user.connected = false
+        gameRoomInstance.members.forEach((member) => {
+          if(member.userMongoId === socket.user.userMongoId) {
+            member.connected = false
             // if(reason === 'ping timeout') user.loadedGameMongoId = null
             socket.emit(ON_SOCKET_DISCONNECT)
             gameRoomInstance.messages.push({
               user: {
-                userMongoId: user.userMongoId,
-                username: user.username
+                userMongoId: member.userMongoId,
+                username: member.username
               },
               message: 'has disconnected',
               automated: true

@@ -32,6 +32,9 @@ const arcadeGameSchema = new Schema(
     editScope: {
       type: String,
     },
+    permissionedLobbyInstanceMongoId: {
+      type: String,
+    },
     size: {
       type: Object,
       default : {}

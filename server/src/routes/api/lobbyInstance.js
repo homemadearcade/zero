@@ -10,6 +10,8 @@ import { generateUniqueId, mergeDeep } from '../../utils/utils';
 
 const router = Router();
 
+
+
 function requireLobbyInstances(req, res, next) {
   req.lobbyInstances = req.app.get(LOBBY_INSTANCE_STORE);
   next()
@@ -167,8 +169,8 @@ router.post('/leave/:id', requireJwtAuth, requireLobbyInstance, requireSocketAut
     }
 
     // let index;
-    const userFound = req.lobbyInstance.members.filter((user, i) => {
-      if(user.userMongoId === req.body.userMongoId) {
+    const memberFound = req.lobbyInstance.members.filter((member, i) => {
+      if(member.userMongoId === req.body.userMongoId) {
         // index = i
         return true
       } else {
@@ -176,16 +178,16 @@ router.post('/leave/:id', requireJwtAuth, requireLobbyInstance, requireSocketAut
       }
     })[0]
 
-    if(!userFound) {
+    if(!memberFound) {
       return res.status(400).json({ message: 'No user with id ' + req.body.userMongoId + ' found in lobbyInstance' });
     }
 
-    userFound.joinedLobbyInstanceMongoId = false
+    memberFound.joinedLobbyInstanceMongoId = false
 
     req.lobbyInstance.messages.push({
       user: {
-        userMongoId: userFound.id,
-        username: userFound.username
+        userMongoId: memberFound.id,
+        username: memberFound.username
       },
       automated: true,
       message: 'has left the lobby',
@@ -216,7 +218,7 @@ router.post('/assign/:id', requireJwtAuth, requireLobbyInstance, requireSocketAu
     { new: true },
   );
 
-  // if(!userFound) {
+  // if(!memberFound) {
   //   return res.status(400).json({ message: 'You are not a member of this lobbyInstance' });
   // }
 
@@ -226,8 +228,8 @@ router.post('/assign/:id', requireJwtAuth, requireLobbyInstance, requireSocketAu
 
 router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, async (req, res) => {
   try {
-    const userFound = req.lobbyInstance.members.filter((u, i) => {
-      if(u.userMongoId === req.user.id) {
+    const memberFound = req.lobbyInstance.members.filter((member, i) => {
+      if(member.userMongoId === req.user.id) {
         return true
       } else {
         return false
@@ -235,12 +237,12 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
     })[0]
 
 
-    if(userFound) {
+    if(memberFound) {
 
       req.lobbyInstance.messages.push({
         user: {
-          userMongoId: userFound.userMongoId,
-          username: userFound.username
+          userMongoId: memberFound.userMongoId,
+          username: memberFound.username
         },
         message: 'has re-joined the lobby',
         automated: true
@@ -248,7 +250,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
       
       req.socket.join(req.lobbyInstance.id);
       if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.lobbyInstance.id);
-      userFound.joinedLobbyInstanceMongoId = req.lobbyInstance.id;
+      memberFound.joinedLobbyInstanceMongoId = req.lobbyInstance.id;
       req.io.to(req.lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance: req.lobbyInstance});
       return res.status(200).json({ lobbyInstance: req.lobbyInstance });
     }
@@ -294,8 +296,8 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
 
     req.lobbyInstances.forEach((lobbyInstance) => {
       let index;
-      lobbyInstance.members.forEach((user, i) => {
-        if(newLobbyInstanceMember.userMongoId === user.userMongoId) {
+      lobbyInstance.members.forEach((member, i) => {
+        if(newLobbyInstanceMember.userMongoId === member.userMongoId) {
           index = i
         }
       })
@@ -347,15 +349,15 @@ router.delete('/:id', requireJwtAuth, requireLobbyInstance, async (req, res) => 
   }
 });
 
-router.put('/user/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, async (req, res) => {
+router.put('/member/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, async (req, res) => {
   try {
     if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
       return res.status(400).json({ message: 'You do not have privelages to update that user in that lobbyInstance.' });
     }
 
     let index;
-    const userFound = req.lobbyInstance.members.filter((user, i) => {
-      if(user.userMongoId === req.body.userMongoId) {
+    const memberFound = req.lobbyInstance.members.filter((member, i) => {
+      if(member.userMongoId === req.body.userMongoId) {
         index = i
         return true
       } else {
@@ -363,7 +365,7 @@ router.put('/user/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth,
       }
     })[0]
 
-    if(!userFound) {
+    if(!memberFound) {
       return res.status(400).json({ message: 'No user with id ' + req.body.userMongoId + ' found in lobbyInstance' });
     }
 
