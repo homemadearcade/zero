@@ -43,6 +43,7 @@ import CreateColorFlow from '../../color/CreateColorFlow/CreateColorFlow';
 import StageLiveEditor from '../../stages/StageLiveEditor/StageLiveEditor';
 import EditRelationSystemDialog from '../../relations/EditRelationSystemDialog/EditRelationSystemDialog';
 import EditContentDialog from '../../content/EditContentDialog/EditContentDialog';
+import ClickPreview from '../../selector/ClickPreview/ClickPreview';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -150,7 +151,8 @@ const GameEditor = ({
       {children}
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}><GameStateToolbar/></Unlockable>
-        <HoverPreview></HoverPreview>
+        <HoverPreview/>
+        <ClickPreview/>
         {showColumns && gameModel && <>
           {renderSelectorColumn()}
         </>}

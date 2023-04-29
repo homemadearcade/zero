@@ -67,13 +67,12 @@ import { Paper } from '@mui/material';
       // </div>}
 const HoverPreview = ({ 
   cobrowsing: {
-    mouseOverInterfaceId
+    interfaceIdHovering
   },
   hoverPreview: { 
     brushIdHovering, 
     entityModelIdHovering,
     entityInstanceIdHovering,
-    instanceEntityIdHovering,
     instanceDataHovering,
     effectIdHovering,
     relationIdHovering,
@@ -127,7 +126,7 @@ const HoverPreview = ({
 
   let entityModel
 
-  const entityModelId = instanceEntityIdHovering || entityModelIdHovering || entityModelIdSelectedEntityList 
+  const entityModelId = entityModelIdHovering || entityModelIdSelectedEntityList 
   if(entityModelId) {
     entityModel = entityModels[entityModelId]
   }
@@ -147,7 +146,7 @@ const HoverPreview = ({
     }
   }
 
-  const interfaceData = interfaceIdData[mouseOverInterfaceId]
+  const interfaceData = interfaceIdData[interfaceIdHovering]
 
   ///////////------------------///////////
   ///////////------------------///////////
@@ -160,9 +159,9 @@ const HoverPreview = ({
     return <>
       <Typography 
         variant="div" 
-        sx={{fontSize:'.7em'}}
+        sx={{fontSize:'.7em', padding: '0 1em'}}
         font="2P">
-        {title}
+          {title}
       </Typography>
     </>
   }
@@ -427,8 +426,6 @@ const HoverPreview = ({
       return renderTextOnlyDisplay({
         title: effectInterfaceDatas[effect.effectBehavior].displayName
       })
-    } else if(instanceEntityIdHovering) {
-      return renderEntityDisplay()
     } else if(entityModelIdHovering) {
       return renderEntityDisplay()
     } else if(brushIdHovering) {
@@ -450,7 +447,7 @@ const HoverPreview = ({
 
   return <Unlockable interfaceId={HOVER_PREVIEW_IID}>
     <div className="HoverPreview"
-      style={{backgroundColor: '#222', color: 'white', height: gameEditorHeight ? gameEditorHeight * 0.2 : 0}}
+      style={{height: gameEditorHeight ? gameEditorHeight * 0.2 : 0}}
       onMouseEnter={() => {
         setIsHoveringOverPreview(true)
       }} 

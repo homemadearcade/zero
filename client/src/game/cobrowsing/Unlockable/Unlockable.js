@@ -7,7 +7,7 @@ import './Unlockable.scss';
 import { getInterfaceIdData } from '../../../utils/unlockedInterfaceUtils';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { Fade } from '@mui/material';
-import { setMouseOverInterfaceId, selectCobrowsingTool } from '../../../store/actions/game/cobrowsingActions';
+import { setInterfaceIdHovering, selectCobrowsingTool } from '../../../store/actions/game/cobrowsingActions';
 import { OPEN_TOOL, UNLOCK_TOOL } from '../../../constants';
 import { ADMIN_ROLE } from '../../../constants';
 import { confetti } from 'tsparticles-confetti'
@@ -18,14 +18,14 @@ const noAnimInterfaces = ['contextMenu/*']
 const Unlockable = ({
   auth: { me },
   className,
-  setMouseOverInterfaceId,
+  setInterfaceIdHovering,
   selectCobrowsingTool,
   experienceModel: { experienceModel },
   updateArcadeGameCharacter,
   interfaceId,
   children,
   isSlider,
-  cobrowsing: { mouseOverInterfaceId, selectedTool, remoteStateUserMongoId, isSubscribedCobrowsing }, 
+  cobrowsing: { InterfaceIdHovering, selectedTool, remoteStateUserMongoId, isSubscribedCobrowsing }, 
   width,
   height,
 }) => {
@@ -81,10 +81,10 @@ const Unlockable = ({
     return <div 
       className={classNames(className)}
       onMouseEnter={() => {
-        setMouseOverInterfaceId(interfaceId)
+        setInterfaceIdHovering(interfaceId)
       }}
       onMouseLeave={() => {
-        setMouseOverInterfaceId(null)
+        setInterfaceIdHovering(null)
       }}>
       {renderChildren()}
     </div>
@@ -96,7 +96,7 @@ const Unlockable = ({
         classNames(
           "Unlockable__unlock-cover", 
           { 
-            'Unlockable__unlock-cover--mouse-over': mouseOverInterfaceId === interfaceId, 
+            'Unlockable__unlock-cover--mouse-over': InterfaceIdHovering === interfaceId, 
             'Unlockable__unlock-cover--slider': isSlider 
           }
         )
@@ -118,10 +118,10 @@ const Unlockable = ({
         }
       }}
       onMouseEnter={() => {
-        setMouseOverInterfaceId(interfaceId)
+        setInterfaceIdHovering(interfaceId)
       }}
       onMouseLeave={() => {
-        setMouseOverInterfaceId(null)
+        setInterfaceIdHovering(null)
       }}
     >
 
@@ -164,5 +164,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 });
 
 export default compose(
-  connect(mapStateToProps, { setMouseOverInterfaceId, selectCobrowsingTool, updateArcadeGameCharacter  }),
+  connect(mapStateToProps, { setInterfaceIdHovering, selectCobrowsingTool, updateArcadeGameCharacter  }),
 )(Unlockable);

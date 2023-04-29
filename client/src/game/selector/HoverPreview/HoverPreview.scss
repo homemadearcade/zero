@@ -6,7 +6,9 @@
   justify-content: center;
   align-items: center;
   gap: 1em;
-
+  background-color: #222;
+  color: white;
+  
   &__editable {
     cursor: pointer;
     // margin-left: .5em;

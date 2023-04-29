@@ -11,11 +11,21 @@ import {
   OPEN_SNAPSHOT_TAKER,
   CHANGE_EDITOR_CAMERA_ZOOM,
   SET_RESIZING_ENTITY_INSTANCE_ID,
+  SET_IS_MOUSE_OVER_GAME_VIEW,
   // UNDO_INSTANCE_CHANGE_FAIL,
   // UNDO_INSTANCE_CHANGE_SUCCESS
 } from '../../types';
 
 import { saveAllCurrentCanvases } from '../media/codrawingActions';
+
+export const setIsMouseOverGameView = (isMouseOverGameView) => (dispatch, getState) => {
+  dispatch({
+    type: SET_IS_MOUSE_OVER_GAME_VIEW,
+    payload: {
+      isMouseOverGameView
+    }
+  });
+}
 
 export const changeEditorCameraZoom = (zoom) => (dispatch, getState) => {
   dispatch({

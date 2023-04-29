@@ -10,6 +10,7 @@ import { updateBrushSize } from '../../../store/actions/game/gameSelectorActions
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { BRUSH_SIZE_IID } from '../../../constants/interfaceIds';
+import Icon from '../../../ui/Icon/Icon';
 
 const BrushControl = ({
   gameModel: { gameModel: { brushes, stages }, currentStageId},
@@ -38,7 +39,13 @@ const BrushControl = ({
 
   return <div className="BrushControl">
     <Unlockable isSlider interfaceId={BRUSH_SIZE_IID}>
-      <FormLabel>Brush Size</FormLabel>
+      <div className="BrushControl__title">
+        <Icon size="xs" icon="faPaintbrush"></Icon>
+        <FormLabel>
+          Size
+        </FormLabel>
+      </div>
+
       <div className="BrushControl__size">
         <SliderNotched
           step={null}

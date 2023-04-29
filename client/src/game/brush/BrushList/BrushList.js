@@ -17,6 +17,7 @@ import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordia
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { BRUSH_ADD_IID, BRUSH_SELECT_IID } from '../../../constants/interfaceIds';
 import { sortByLastSelectedDate } from '../../../utils/editorUtils';
+import Divider from '../../../ui/Divider/Divider';
 
 const BrushList = ({
   gameModel: { gameModel, currentStageId },
@@ -88,6 +89,7 @@ const BrushList = ({
       </>,
       body: <>
         <BrushControl/>
+        <Divider/>
         <LayerColorSelect withEraser layerId={layerId}/>
         <div className="BrushList__brushes">
           <BorderedGrid 

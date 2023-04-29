@@ -16,6 +16,7 @@ export default {
   [EVENT_ADD_IID]: {
     previewText: 'Add Event',
     name: 'Add Event Button',
+    leftClickAction: 'Add Event',
     interfaceGroupId: EVENT_IGID
   }, 
   [EVENT_SELECT_IID]: {},
@@ -24,6 +25,7 @@ export default {
   [EFFECT_ADD_IID]: {
     previewText: 'Add Effect',
     name: 'Add Effect Button',
+    leftClickAction: 'Add Effect',
     interfaceGroupId: EVENT_IGID
   },
   [EFFECT_SELECT_IID]: {},
@@ -38,6 +40,7 @@ export default {
   [RELATION_ADD_IID]: {
     previewText: 'Add Relationship',
     name: 'Add Relationship Button',
+    leftClickAction: 'Add Relationship',
     interfaceGroupId: RELATION_IGID
   }, 
   [RELATION_SELECT_IID]: {},

@@ -42,6 +42,7 @@ const initialState = {
   cobrowsingUser: false,
   selectedTool: null,
   remoteStateUserMongoId: null,
+  interfaceIdHovering: null,
   remoteState: {
     video: initialVideoState,
     gameSelector: initialGameSelectorState,
@@ -130,7 +131,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
     case SET_MOUSE_OVER_INTERFACE_ID:
       return {
         ...state,
-        mouseOverInterfaceId: payload.interfaceId
+        interfaceIdHovering: payload.interfaceId
       }
     case ON_COBROWSING_UPDATE:
       return {

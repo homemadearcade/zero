@@ -450,7 +450,7 @@ export const toggleUnlockableInterfaceLocks = (value) => (dispatch, getState) =>
   })
 }
 
-export const setMouseOverInterfaceId = (interfaceId) => (dispatch, getState) => {
+export const setInterfaceIdHovering = (interfaceId) => (dispatch, getState) => {
   store.dispatch({
     type: SET_MOUSE_OVER_INTERFACE_ID,
     payload: {

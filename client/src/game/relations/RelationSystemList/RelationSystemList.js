@@ -46,7 +46,7 @@ const RelationSystemList = ({
   // const cutscenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
   //   const currentCutscene = gameModel.cutscenes[currentCutsceneId]
   //   if(currentCutscene.isRemoved) return false
-  //   if(currentCutscene.inDialogueMenu) return false
+  //   if(currentCutscene.isDialogue) return false
   //   return true
   // }).map((currentCutsceneId, i) => {
   //   const currentCutscene = gameModel.cutscenes[currentCutsceneId]
@@ -59,7 +59,7 @@ const RelationSystemList = ({
   //   <NestedListItemButton>
   //     <Button onClick={() => {
   //       openCreateCutscene({
-  //         inDialogueMenu: false
+  //         isDialogue: false
   //       })
   //     }}>+</Button>
   //   </NestedListItemButton>
@@ -76,7 +76,7 @@ const RelationSystemList = ({
   // const dialogueScenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
   //   const currentCutscene = gameModel.cutscenes[currentCutsceneId]
   //   if(currentCutscene.isRemoved) return false
-  //   if(!currentCutscene.inDialogueMenu) return false
+  //   if(!currentCutscene.isDialogue) return false
   //   return true
   // }).map((currentCutsceneId, i) => {
   //   const currentCutscene = gameModel.cutscenes[currentCutsceneId]
@@ -89,7 +89,7 @@ const RelationSystemList = ({
   //   <NestedListItemButton>
   //     <Button onClick={() => {
   //       openCreateCutscene({
-  //         inDialogueMenu: true
+  //         isDialogue: true
   //       })
   //     }}>+</Button>
   //   </NestedListItemButton>

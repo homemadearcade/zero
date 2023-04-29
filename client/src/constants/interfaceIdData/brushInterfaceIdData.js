@@ -30,11 +30,13 @@ export default {
   [ERASER_SELECT_IID]: {
     name: 'Select Eraser Button',
     previewText: 'Eraser',
+    leftClickAction: 'Select Eraser',
     interfaceGroupId: DRAW_IGID,
   },
   [BRUSH_ADD_IID]: {
     name: 'Add Brush Button',
-    previewText: 'Add a Brush',
+    previewText: 'Add Sprite Brush',
+    leftClickAction: 'Add Brush',
     interfaceGroupId: DRAW_IGID,
   },
   [BACKGROUND_LAYER_GROUP_IID]: {

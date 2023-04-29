@@ -1,5 +1,6 @@
 .EntityList {
-
+  // margin-top: 2em;
+  
   &__tools {
     display: flex;
     justify-content: space-evenly;
@@ -12,6 +13,13 @@
     width:3.95em;
     min-width: auto !important;
     padding: 0 !important;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5em;
   }
   
 }

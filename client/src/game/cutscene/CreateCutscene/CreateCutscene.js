@@ -78,7 +78,7 @@ const CreateCutscene = ({
 
   function renderActionButtons() {
 
-    if(cutscene.inDialogueMenu) {
+    if(cutscene.isDialogue) {
       return <Button onClick={() => {
         addScene(TEXT_CUTSCENE_IID)
       }}>
@@ -109,13 +109,13 @@ const CreateCutscene = ({
     <div className="CreateCutscene">
        <Unlockable interfaceId={DIALOGUE_SHORTCUT_IID}>
         <Switch
-          labels={['Only In Cutscene Menu', 'In Dialogue Menu']}
+          labels={['Is Cutscene', 'Is Dialogue']}
           size="small"
           onChange={(e) => {
-              updateCreateCutscene({ inDialogueMenu: e.target.checked
+              updateCreateCutscene({ isDialogue: e.target.checked
             })          
           }}
-          checked={cutscene.inDialogueMenu}
+          checked={cutscene.isDialogue}
          />
       </Unlockable>
       <Typography component="h2" variant="h2">{cutscene.name}</Typography>

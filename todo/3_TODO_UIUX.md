@@ -1,17 +1,7 @@
 EDIT ENTITY_MODEL DIALOG
   Dialogues
   AUTOGENERATION FORM
-
-HOVER PREVIEW
-  Layer on the top right
-  Color name on bottom
-  Tags
-  for Relations - show the full Relation view in the preview - Only show event in the list?
-
-  CornerTitle1
-    Layer
-    Data Source
-    Tags Count
+  Graphics in there?
 
 ---
 

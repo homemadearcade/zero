@@ -1,0 +1,30 @@
+.ClickPreview {
+  background-color: #222;
+  color: white;
+
+  &__row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #333;
+
+    &:last-child {
+      border-bottom: 1px solid #333;
+    }
+  }
+
+  &__row-control {
+    flex: 1;
+    border-right: 1px solid #333;
+    padding: .5em;
+  }
+
+  &__row-action {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5em;
+  }
+}

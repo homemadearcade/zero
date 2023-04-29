@@ -16,6 +16,7 @@ export default {
   [REMOVED_DATA_SHOW_IID]: {},
   [ENTITY_BOX_OPEN_IID]: {
     previewText: 'More',
+    leftClickAction: 'Open Box',
     name: 'See More Classes Button',
     interfaceGroupId: ENTITY_MODEL_IGID
   },

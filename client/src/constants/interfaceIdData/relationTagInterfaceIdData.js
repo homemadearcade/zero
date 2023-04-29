@@ -11,6 +11,7 @@ export default {
   [RELATION_TAG_ADD_IID]: {
     previewText: 'Add Relationship Tag',
     name: 'Add Relationship Tag Button',
+    leftClickAction: 'Add Relationship Tag',
     interfaceGroupId: RELATION_TAG_IGID
   },
   [RELATION_TAG_SELECT_IID]: {

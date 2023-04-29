@@ -9,6 +9,8 @@ NEW UI
 Mouse selection area! Classes, brushes, etc all get the full right hand side bar when selected
 Keyboard selection area on the left hand
 
+Even the live editor gets the right hand bar. The reason why is that we want to be able to help the user with the hover preview area while they have a live editor open!
+
 Organize Classes into the background, playground, foreground sections
   BG
     Colors
@@ -25,11 +27,8 @@ Organize Classes into the background, playground, foreground sections
 
 Sort by by Layer, By Tag
 
-Show key/click info inside the Hover Preview. Is there where it goes??
-  Left Click, Right Click?
-  
-  We need to know
-  Esc -> Pause, Close Item
-  Arrow Keys - Move
-  X - Interact 
-  Spacebar - Shoot
+We need to know
+Esc -> Pause, Close Item
+Arrow Keys - Move
+X - Interact 
+Spacebar - Shoot

@@ -111,6 +111,10 @@ const EntityList = ({
   })
 
   return <div className="EntityList">
+    {/* <div className='EntityList__title'>
+      <Icon icon="faChessPawn"/>
+      Classes
+    </div> */}
     <CobrowsingAccordianList
       interfaceGroupId="SelectorColumns"
       accordians={accordians}

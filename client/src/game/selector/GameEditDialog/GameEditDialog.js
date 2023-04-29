@@ -96,7 +96,7 @@ const GameEditDialog = ({
   const playerEntity = gameModel.entityModels[gameModel.player.startingEntityModelId]
   const playersTab = {
     interfaceId: EDIT_GAME_PLAYERS_TAB_IID,
-    label: 'Players',
+    label: 'Stage',
     body: <>
       <SelectStage
         entityModelType={PLAYER_ENTITY_IID}
@@ -114,8 +114,8 @@ const GameEditDialog = ({
           openCreateStageDialog(stage)
           handleClose()
         }}>Edit {stage.name}</Button>
-      <Divider/>
-      {false && <SelectEntityModel
+      {/* <Divider/>
+      <SelectEntityModel
         formLabel="What should the player spawn as? ( Stages can override this )"
         interfaceId={GAME_PLAYER_START_ENTITY_MODEL_IID}
         entityModelType={PLAYER_ENTITY_IID}
@@ -127,11 +127,11 @@ const GameEditDialog = ({
               startingEntityModelId: newEntityId
             }
           })
-        }}/>}
+        }}/>
       {playerEntity && <Button onClick={() => {
         openEditEntityDialog(playerEntity)
         handleClose()
-      }}>Edit {playerEntity.name}</Button>}
+      }}>Edit {playerEntity.name}</Button>} */}
     </>
   }
 

@@ -5,7 +5,7 @@ import { editGameModel } from '../../store/actions/game/gameModelActions';
 import { openContextMenuFromEntityInstance, openStageContextMenu } from '../../store/actions/game/contextMenuActions';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearEntity, openEntityBehaviorLiveEditor, openGameEditDialog, openStageLiveEditor, selectEntity } from '../../store/actions/game/gameSelectorActions';
-import { closeSnapshotTaker, changeEditorCameraZoom, setResizingEntityInstance, closeBoundaryEditor } from '../../store/actions/game/gameViewEditorActions';
+import { closeSnapshotTaker, changeEditorCameraZoom, setResizingEntityInstance, closeBoundaryEditor, setIsMouseOverGameView } from '../../store/actions/game/gameViewEditorActions';
 import { PLAYER_INSTANCE_DID, ENTITY_INSTANCE_DID, UI_LAYER_DEPTH, 
   STAGE_LAYER_ID, EVENT_SPAWN_MODEL_DRAG_FINISH,
    initialCameraZoneEntityId, initialStageZoneEntityId, 
@@ -577,9 +577,12 @@ export class EditorScene extends GameInstance {
 
   onPointerOverGame = () => {
     this.isMouseOverGame = true
+    store.dispatch(setIsMouseOverGameView(true))
   }
 
   onPointerLeaveGame = () => {
+    store.dispatch(setIsMouseOverGameView(false))
+
     // without !this.canvas check we end up with discrepencies in codrawing
     if(this.brush && !this.canvas) this.destroyBrush()
     if(this.stamper) this.destroyStamper()
@@ -1154,14 +1157,14 @@ export class EditorScene extends GameInstance {
       this.clearResize()
     }
 
-    const instanceEntityIdHovering = getCobrowsingState().hoverPreview.instanceEntityIdHovering
+    const entityInstanceIdHovering = getCobrowsingState().hoverPreview.entityInstanceIdHovering
     if(this.resizingEntityInstance) {
       document.body.style.cursor = 'nesw-resize'
     } else if(this.draggingEntityInstanceId) {
       document.body.style.cursor = 'grab'
     } else if(gameViewEditor.isSnapshotTakerOpen) {
       document.body.style.cursor = 'cell'
-    } else if(instanceEntityIdHovering) {
+    } else if(entityInstanceIdHovering) {
       const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
       if(!isObscured) {
         document.body.style.cursor = 'move'

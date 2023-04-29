@@ -12,7 +12,6 @@ import {
 const initialState = {
   entityModelIdHovering: null,
   brushIdHovering: null,
-  instanceEntityIdHovering: null,
   entityInstanceIdHovering: null,
   relationTagIdHovering: null,
   relationIdHovering: null,
@@ -58,7 +57,7 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         instanceDataHovering: payload.data,
-        instanceEntityIdHovering: payload.entityModelId,
+        entityModelIdHovering: payload.entityModelId,
         entityInstanceIdHovering: payload.entityInstanceId
       }
     default:

@@ -6,6 +6,7 @@ export default {
   [GAME_VIEW_INSTANCE_VISIBILITY_IID]: {
     previewText: 'Hide/Show on Map',
     name: 'Show/Hide Button',
+    leftClickAction: 'Toggle',
     interfaceGroupId: GAME_VIEW_IGID
   },
   [GAME_VIEW_IID]: {
@@ -15,7 +16,8 @@ export default {
   },
   [GRID_VIEW_TOGGLE_IID]: {
     name: 'Grid View Toggle',
-    previewText: 'Toggle Grids on Map',
+    previewText: 'Creative Mode',
+    leftClickAction: 'Toggle',
     interfaceGroupId: GAME_VIEW_IGID
   },
   [GAME_OPEN_SNAPSHOT_IID]: {},

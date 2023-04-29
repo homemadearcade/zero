@@ -10,6 +10,7 @@ import {
   CHANGE_EDITOR_CAMERA_ZOOM,
   SET_RESIZING_ENTITY_INSTANCE_ID,
   CLEAR_EDITOR,
+  SET_IS_MOUSE_OVER_GAME_VIEW,
 } from '../../types';
 
 // these are editor things that take place within the game view
@@ -22,9 +23,8 @@ const initialState = {
   isBoundaryEditorOpen: false,
   isSnapshotTakerOpen: false,
   snapshotTextureId: null,
-  // this could be on the playerInterface reducer
-  cameraShakeIntensity: null,
-  cameraShakeEndTime: 0,
+
+  isMouseOverGameView: false,
 };
 
 export const initialGameViewEditorState = initialState
@@ -84,6 +84,11 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
           ...state.layerInvisibility,
           [payload.layerId]: !state.layerInvisibility[payload.layerId]
         }
+      }
+    case SET_IS_MOUSE_OVER_GAME_VIEW: 
+      return {
+        ...state,
+        isMouseOverGameView: payload.isMouseOverGameView
       }
     case CLEAR_GAME_VIEW_EDITOR:
     case CLEAR_EDITOR:

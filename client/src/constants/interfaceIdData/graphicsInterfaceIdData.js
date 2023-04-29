@@ -12,8 +12,9 @@ export default {
     interfaceGroupId: DRAW_IGID
   },
   [COLOR_ADD_IID]: {
-    previewText: 'Add Color',
+    previewText: 'Add Color Brush',
     name: 'Add Color Button',
+    leftClickAction: 'Add a Brush',
     interfaceGroupId: DRAW_IGID
   },
   [CHOOSE_SYSTEM_TEXTURES_IID]: {
