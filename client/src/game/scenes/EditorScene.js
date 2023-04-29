@@ -62,10 +62,10 @@ export class EditorScene extends GameInstance {
   }
 
   onDragStart = (pointer, entitySprite, dragX, dragY) => {
-    const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
-    if(isObscured) {
-      return
-    }
+    // const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
+    // if(isObscured) {
+    //   return
+    // }
 
     // if(entitySprite.effectSpawned) return
 
@@ -405,7 +405,8 @@ export class EditorScene extends GameInstance {
           userMongoId: gameModel.owner.id,
         }))
 
-        await store.dispatch(uploadCanvasImageAndAddToGameModel({imageFile, textureId, imageType: IMAGE_TYPE_SNAPSHOT}))
+        const arcadeGameMongoId = gameModel.id
+        await store.dispatch(uploadCanvasImageAndAddToGameModel({arcadeGameMongoId, imageFile, textureId, imageType: IMAGE_TYPE_SNAPSHOT}))
 
         store.dispatch(addSnackbar({
           message: 'Snapshot Saved!',
@@ -521,15 +522,15 @@ export class EditorScene extends GameInstance {
           if(this.draggingEntityInstanceId || this.doubleClicked) return
 
           if(hoveringInstances.length) {
-            const { isObscured } = getInterfaceIdData(ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID)
-            if(!isObscured) {
+            // const { isObscured } = getInterfaceIdData(ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID)
+            // if(!isObscured) {
               store.dispatch(openEntityBehaviorLiveEditor(null, hoveringInstances[0].entityModelId))
-            }
+            // }
           } else {
-            const { isObscured } = getInterfaceIdData(STAGE_OPEN_EDIT_IID)
-            if(!isObscured) {
+            // const { isObscured } = getInterfaceIdData(STAGE_OPEN_EDIT_IID)
+            // if(!isObscured) {
               store.dispatch(openStageLiveEditor())
-            }
+            // }
           }
         }, 200)
       }
@@ -594,10 +595,10 @@ export class EditorScene extends GameInstance {
     const phaserInstance = entitySprite[0]
     phaserInstance.isMouseOver = false
     store.dispatch(changeInstanceHovering(null, null))
-    const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
-    if(isObscured) {
-      return
-    }
+    // const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
+    // if(isObscured) {
+    //   return
+    // }
     // if(document.body.style.cursor === 'grab') document.body.style.cursor = null
   }
 
@@ -617,15 +618,15 @@ export class EditorScene extends GameInstance {
   onDoubleClick = (pointer, hoveringInstances) => {
     if(this.draggingEntityInstanceId) return
     if(hoveringInstances.length) {
-      const { isObscured } = getInterfaceIdData(ENTITY_MODEL_OPEN_EDIT_IID)
-      if(!isObscured) {
+      // const { isObscured } = getInterfaceIdData(ENTITY_MODEL_OPEN_EDIT_IID)
+      // if(!isObscured) {
         store.dispatch(openEditEntityDialog(this.getGameModel().entityModels[hoveringInstances[0].entityModelId]))
-      }
+      // }
     } else {
-      const { isObscured } = getInterfaceIdData(GAME_OPEN_EDIT_IID)
-      if(!isObscured) {
+      // const { isObscured } = getInterfaceIdData(GAME_OPEN_EDIT_IID)
+      // if(!isObscured) {
         store.dispatch(openGameEditDialog())
-      }
+      // }
     }
 
 

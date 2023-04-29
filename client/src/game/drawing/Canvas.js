@@ -59,7 +59,9 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
         const imageFile = await urlToFile(bufferCanvas.toDataURL(), textureId, 'image/png')
         if(!this.strokeHistory.length) this.markSaved()
 
-        await store.dispatch(uploadCanvasImageAndAddToGameModel({imageFile, textureId, imageType: this.imageType || IMAGE_TYPE_CANVAS}))
+        const arcadeGameMongoId = store.getState().gameModel.gameModel.id
+        console.log(arcadeGameMongoId)
+        await store.dispatch(uploadCanvasImageAndAddToGameModel({imageFile, arcadeGameMongoId, textureId, imageType: this.imageType || IMAGE_TYPE_CANVAS}))
 
         resolve(textureId)
       } catch(e) {

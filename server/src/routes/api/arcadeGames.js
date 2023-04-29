@@ -6,6 +6,7 @@ import { mergeDeep } from '../../utils/utils';
 import { ON_GAME_CHARACTER_UPDATE, ON_GAME_MODEL_UPDATE, GAME_MODEL_DID } from '../../constants';
 import User from '../../models/User';
 import { generateUniqueId } from '../../utils/utils';
+import { recordS3Upload, s3Multer } from '../../services/aws';
 
 const router = Router();
 
@@ -163,6 +164,17 @@ router.post('/:id/importedArcadeGame', requireJwtAuth, requireSocketAuth, async 
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });
+
+router.put('/texture/:id', requireJwtAuth, requireSocketAuth, async (req, res, next) => {
+  const tempGame = await ArcadeGame.findById(req.params.id).populate('owner importedArcadeGames');
+  if (!tempGame) return res.status(404).json({ message: 'No game found.' });
+  if (!(tempGame.owner?.id === req.user.id || req.user.role === 'ADMIN'))
+    return res.status(400).json({ message: 'Not updated by the game owner or admin.' });
+
+  next()
+}, s3Multer, recordS3Upload, async (req, res) => {
+  res.status(200).send()
+})
 
 router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {

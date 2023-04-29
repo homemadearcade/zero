@@ -24,7 +24,7 @@ import {
 import { uploadToAws } from '../../../utils/networkUtils';
 import { editGameModel } from '../game/gameModelActions';
 
-export const uploadCanvasImageAndAddToGameModel  = ({imageFile, textureId, imageType}) => async (dispatch, getState) => {
+export const uploadCanvasImageAndAddToGameModel  = ({imageFile, textureId, imageType, arcadeGameMongoId}) => async (dispatch, getState) => {
   dispatch({
     type: SAVE_CANVAS_IMAGE_LOADING,
     payload: {
@@ -33,7 +33,7 @@ export const uploadCanvasImageAndAddToGameModel  = ({imageFile, textureId, image
   });
 
   try {
-    const awsResponse = await uploadToAws({imageFile, imageUrl: textureId})
+    const awsResponse = await uploadToAws({url: '/api/arcadeGames/texture/' + arcadeGameMongoId, imageFile, imageUrl: textureId})
 
     // this is good here because it sends an event out to update this image/load it
     // but do we need that anymore?

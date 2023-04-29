@@ -54,10 +54,10 @@ const EntityItem = ({
           }
           break;
         case 2:
-          const { isObscured } = getInterfaceIdData(ENTITY_MODEL_OPEN_EDIT_IID)
-          if(!isObscured) {
+          // const { isObscured } = getInterfaceIdData(ENTITY_MODEL_OPEN_EDIT_IID)
+          // if(!isObscured) {
             openEditEntityDialog(entityModel)
-          }
+          // }
           break;
         default:
           break;

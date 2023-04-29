@@ -20,15 +20,7 @@ CUTSCENES
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
-TEXTURES
---------------------------------------------------------------------------------------
-
-UPLOAD PHOTOS
-  Textures
-    Security for changing the game images.... Any user can really edit those images now because amazon isnt checking. Perhaps it has to go through our check?
-    attempt the user profile pic upload first
-    Should be a /image route not an aws route
-
+DATA 
 --------------------------------------------------------------------------------------
 
 LOCK DATA

@@ -1,4 +1,6 @@
 import axios from "axios";
+import store from "../store";
+import { attachTokenToHeaders } from "../store/actions/user/authActions";
 
 export function isSpeedTestPassing({uploadSpeed, downloadSpeed}) {
   if(uploadSpeed > 3 && downloadSpeed > 10) return true 
@@ -88,6 +90,8 @@ export const uploadToAws = async ({url = '/api/aws/post', imageUrl, imageFile}) 
   let formData = new FormData();
   formData.append('imageFile', imageFile);
 
+  const options = attachTokenToHeaders(store.getState);
+
   try {
     return await axios({
       method: 'put',
@@ -96,6 +100,7 @@ export const uploadToAws = async ({url = '/api/aws/post', imageUrl, imageFile}) 
         'Content-Type': contentType || 'image/png',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        ...options.headers
       },
       data: formData,
       params: {

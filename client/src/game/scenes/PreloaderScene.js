@@ -44,8 +44,31 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.image(DEFAULT_CLEAR_TEXTURE_ID, '/assets/images/eraser10x10.png')
 
     const gameModel = store.getState().gameModel.gameModel
+
+    const textureIds = {}
+    Object.keys(gameModel.entityModels).forEach((entityModelId) => {
+      const entityModel = gameModel.entityModels[entityModelId]
+      if(entityModel.graphics.textureId) {
+        textureIds[entityModel.graphics.textureId] = true
+      }
+    })
+    Object.keys(gameModel.brushes).forEach((brushId) => {
+      const brush = gameModel.brushes[brushId]
+      if(brush.textureId) {
+        textureIds[brush.textureId] = true
+      }
+    })
+    Object.keys(gameModel.layers).forEach((layerId) => {
+      const layer = gameModel.layers[layerId]
+      if(layer.textureId) {
+        textureIds[layer.textureId] = true
+      }
+    })
     Object.keys(gameModel.textures).forEach((textureId) => {
-      console.log(getImageUrlFromTextureId(textureId))
+      textureIds[textureId] = true
+    })
+
+    Object.keys(textureIds).forEach((textureId) => {
       this.load.image(textureId, getImageUrlFromTextureId(textureId))
     })
 
