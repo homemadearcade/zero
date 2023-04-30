@@ -71,6 +71,12 @@ const UserPage = ({
               interfaceId: USER_SPEED_TESTS_TAB_IID,
               label: 'Speed Tests',
               body: <UserSpeedTestList user={user}></UserSpeedTestList>
+            },
+            {
+              label: 'App Location',
+              body: <>
+                <Typography variant="body1">{user.appLocation && JSON.stringify(user.appLocation)}</Typography>
+              </>
             }
           ]}></Tabs>
         )}
