@@ -80,21 +80,21 @@ const StageLiveEditor = ({
       }}/>
       <CobrowsingNestedList interfaceId={STAGE_CUSTOMIZE_IID} title="Customize" interfaceGroupId="StageCustomize">
         <>
-        {<SelectEntityModel
-          formLabel="Should the player spawn as a new class? ( Leave blank to keep the same hero )"
-          interfaceId={STAGE_CUSTOMIZE_IID}
-          entityModelType={PLAYER_ENTITY_IID}
-          value={stage.playerEntityModelId ? [stage.playerEntityModelId] : []}
-          onChange={(event, entityModels) => {
-            const newEntityId = entityModels[entityModels.length-1]
-            editGameModel({
-              stages: {
-                [stage.stageId] : {
-                  playerEntityModelId: newEntityId
+          {<SelectEntityModel
+            formLabel="Should the player spawn as a new class? ( Leave blank to keep the same hero )"
+            interfaceId={STAGE_CUSTOMIZE_IID}
+            entityModelType={PLAYER_ENTITY_IID}
+            value={stage.playerEntityModelId ? [stage.playerEntityModelId] : []}
+            onChange={(event, entityModels) => {
+              const newEntityId = entityModels[entityModels.length-1]
+              editGameModel({
+                stages: {
+                  [stage.stageId] : {
+                    playerEntityModelId: newEntityId
+                  }
                 }
-              }
-            })
-          }}/>}
+              })
+            }}/>}
         </>
         {<Switch
           labels={["No Gravity", "Gravity"]}

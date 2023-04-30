@@ -6,11 +6,12 @@ import Switch from '../../../../ui/Switch/Switch';
 import GameCardLoad from '../../../gameModel/GameCardLoad/GameCardLoad';
 import SelectRole from '../../../../ui/connected/SelectRole/SelectRole';
 import GameAddForm from '../../../gameModel/GameAddForm/GameAddForm';
+import NestedList, { NestedListContainer } from '../../../../ui/NestedList/NestedList';
 
 const GameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me }, experienceModel: { experienceModel }}) => {
-  const copyGame = useWatch({
+  const doNotCopy = useWatch({
     control,
-    name: "copyGame",
+    name: "doNotCopy",
   });
 
   const arcadeGameMongoId = useWatch({
@@ -58,34 +59,26 @@ const GameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me
     />
   }
 
-  function renderCopyGame() {
-    if(isEdit) {
-      if(copyGame) return <div>Makes a new copy of the game for each experience session</div>
-      return
-    }
-    return <Controller
-      {...register("copyGame", {
-        // shouldUnregister: true,
-      })}
-      name={"copyGame"}
-      control={control}
-      render={({ field: { onChange, value } }) => (
-        <Switch
-          disabled={isEdit}
-          labels={['', 'Make a new copy of the game for each experience session']}
-          size="small"
-          checked={value}
-          onChange={(e) => {
-            if(e.target.checked) {
-              setValue("isAutosaveDisabled", false)
-            } else {
-              setValue("isAutosaveDisabled", true)
-            }
-            onChange(e.target.checked)
-          }}
-        />
-      )}
-    />
+  function renderDoNotCopy() {
+    return <>
+      <Controller
+        {...register("doNotCopy", {
+          // shouldUnregister: true,
+        })}
+        name={"doNotCopy"}
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Switch
+            labels={['', 'Do not make a copy of this game each time the experience runs']}
+            size="small"
+            checked={value}
+            onChange={(e) => {      
+              onChange(e.target.checked)
+            }}
+          />
+        )}
+      />
+    </>
   }
 
   return <>
@@ -97,25 +90,29 @@ const GameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me
       trigger("arcadeGameMongoId")
     }} defaultValues={{userMongoId: me.id}}></GameAddForm>}
     {arcadeGameMongoId && <GameCardLoad canEdit canPlay arcadeGameMongoId={arcadeGameMongoId} />}
-    {renderCopyGame()}
-    {isEdit && <Controller
-      {...register("isAutosaveDisabled", {
-        // shouldUnregister: true,
-      })}
-      name={"isAutosaveDisabled"}
-      control={control}
-      render={({ field: { onChange, value } }) => (
-        <Switch
-          labels={['', `Permanently save changes to the ${copyGame ?  'Game Copy' : 'Game'} from the experience session`]}
-          size="small"
-          checked={!value}
-          onChange={(e) => {
-            onChange(!e.target.checked)
-          }}
-        />
-      )}
-    />}
     {isEdit && renderHostRoleSelect()}
+    <NestedListContainer>
+      <NestedList title="Advanced" interfaceId="AdvancedGameRoom">
+        {renderDoNotCopy()}
+        <Controller
+          {...register("isAutosaveDisabled", {
+            // shouldUnregister: true,
+          })}
+          name={"isAutosaveDisabled"}
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Switch
+              labels={['', `Disabled autosave`]}
+              size="small"
+              checked={value}
+              onChange={(e) => {
+                onChange(e.target.checked)
+              }}
+            />
+          )}
+        />
+      </NestedList>
+    </NestedListContainer>
   </>
 };
 

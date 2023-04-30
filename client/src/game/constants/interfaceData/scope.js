@@ -1,6 +1,12 @@
-import { EDIT_GAME_SCOPE_ANYONE, EDIT_GAME_SCOPE_ONLY_ME, EDIT_GAME_SCOPE_USER_LIST, PLAY_GAME_SCOPE_ARCADE, PLAY_GAME_SCOPE_FEATURED, PLAY_GAME_SCOPE_UNLISTED, PLAY_GAME_SCOPE_USER_PROFILE } from "../gameModelDefaults"
+import { EDIT_GAME_SCOPE_ANYONE, EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE, EDIT_GAME_SCOPE_ONLY_ME, EDIT_GAME_SCOPE_USER_LIST, PLAY_GAME_SCOPE_ARCADE, PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE, PLAY_GAME_SCOPE_FEATURED, PLAY_GAME_SCOPE_UNLISTED, PLAY_GAME_SCOPE_USER_PROFILE } from "../gameModelDefaults"
 
 export const playScopeInterfaceData = {
+  [PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE]: {
+    name: 'In Experience',
+    adminOnly: true,
+    description: 'This game is hidden but is played during an experience',
+    icon: 'faE',
+  },
   [PLAY_GAME_SCOPE_UNLISTED]: {
     name: 'Unlisted',
     description: 'Only users with the link can play this game.',
@@ -35,6 +41,12 @@ export const playScopeInterfaceData = {
 }
 
 export const editScopeInterfaceData = {
+  [EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE]: {
+    name: 'In Experience',
+    adminOnly: true,
+    description: 'This game is hidden but can be played during an experience',
+    icon: 'faE',
+  },
   [EDIT_GAME_SCOPE_ONLY_ME]: {
     name: 'Only Me',
     description: 'Only you can edit this game.',

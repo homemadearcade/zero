@@ -1,9 +1,9 @@
-.UserPage .user-info {
+.UserInfo .user-info {
   display: flex;
   padding-bottom: 20px;
 }
 
-.UserPage .avatar {
+.UserInfo .avatar {
   width: 220px;
   height: 220px;
   align-self: center;
@@ -11,33 +11,33 @@
   object-fit: cover;
 }
 
-.UserPage .label,
-.UserPage label {
+.UserInfo .label,
+.UserInfo label {
   font-size: 18px;
   font-weight: bold;
   margin-right: 10px;
 }
 
-.UserPage .info {
+.UserInfo .info {
   font-size: 18px;
 }
 
-.UserPage .info-container {
+.UserInfo .info-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.UserPage .btn {
+.UserInfo .btn {
   width: auto;
   margin-right: 10px;
 }
 
-.UserPage input {
+.UserInfo input {
   width: 40%;
   display: block;
 }
 
-.UserPage .form {
+.UserInfo .form {
   margin-bottom: 30px;
 }

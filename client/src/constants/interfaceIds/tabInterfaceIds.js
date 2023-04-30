@@ -74,3 +74,21 @@ export const EDIT_CONTENT_TEXTURES_TAB_IID = 'EDIT_CONTENT_TEXTURES_TAB_IID';
 export const EDIT_CONTENT_AUDIO_TAB_IID = 'EDIT_CONTENT_AUDIO_TAB_IID';
 export const EDIT_CONTENT_PARTICLE_TAB_IID = 'EDIT_CONTENT_PARTICLE_TAB_IID';
 
+
+// -----------------------------------------------------------------
+// -----------------------------------------------------------------
+// --- USER TABS  ------------------------------------------
+
+export const USER_TAB_CONTANER_IID = 'USER_TAB_CONTANER_IID';
+
+export const USER_PROFILE_TAB_IID = 'USER_PROFILE_TAB_IID';
+export const USER_SETTINGS_TAB_IID = 'USER_SETTINGS_TAB_IID';
+export const USER_NOTIFICATIONS_TAB_IID = 'USER_NOTIFICATIONS_TAB_IID';
+export const USER_FRIENDS_TAB_IID = 'USER_FRIENDS_TAB_IID';
+export const USER_MESSAGES_TAB_IID = 'USER_MESSAGES_TAB_IID';
+export const USER_ACHIEVEMENTS_TAB_IID = 'USER_ACHIEVEMENTS_TAB_IID';
+export const USER_INVENTORY_TAB_IID = 'USER_INVENTORY_TAB_IID';
+export const USER_INTERFACE_IDS_TAB_IID = 'USER_INTERFACE_IDS_TAB_IID';
+export const USER_SPEED_TESTS_TAB_IID = 'USER_SPEED_TESTS_TAB_IID';
+export const USER_INFO_TAB_IID = 'USER_INFO_TAB_IID';
+export const USER_GAMES_TAB_IID = 'USER_GAMES_TAB_IID';

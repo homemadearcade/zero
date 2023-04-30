@@ -14,7 +14,7 @@ function CobrowsingNestedList({interfaceGroupId, children, onClick, updateOpenIn
     updateOpenInterfaceId(interfaceGroupId, expanded === interfaceId ? null : interfaceId);
   };
 
-  return <NestedListBody interfaceGroupId={interfaceGroupId} onClick={onClick} title={title} interfaceId={interfaceId} children={children} expanded={expanded} onChange={handleChange} moreMenu={moreMenu}/>
+  return <NestedListBody obscureInterfaceIds interfaceGroupId={interfaceGroupId} onClick={onClick} title={title} interfaceId={interfaceId} children={children} expanded={expanded} onChange={handleChange} moreMenu={moreMenu}/>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

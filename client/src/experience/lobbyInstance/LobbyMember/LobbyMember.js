@@ -53,19 +53,16 @@ const LobbyMember = ({
       return prev
     }, {})
   }
-
   
   const isMe = me?.id === userMongoId
   function renderConnectionInfo() {
     return <div className="LobbyMember__connection">
       <div className="LobbyMember__title">
         <div className="LobbyMember__username">{member.username}{isMe && ' (me)'}</div>
-        <div className={classnames("LobbyMember__connection-dot", {'LobbyMember__connection-dot--bad' : memberStatus?.pingDelta && memberStatus.pingDelta > 60, 'LobbyMember__connection-dot--none': !member.connected})}/>
-        <div className="LobbyMember__ping">{memberStatus?.pingDelta > -1 ? memberStatus?.pingDelta : 0}</div>
+        <div className={classnames({'LobbyMember__connection-dot--bad' : memberStatus?.pingDelta > 60, 'LobbyMember__connection-dot--good':  (!memberStatus?.pingDelta <= 60) })}/>
+        <div className="LobbyMember__ping">{memberStatus?.pingDelta > -1 ? memberStatus?.pingDelta : null}</div>
         {member.role === ADMIN_ROLE && <div className="LobbyMember__admin"><Icon icon="faCrown"/></div>}
       </div>
-      <Divider></Divider>
-
       <Divider></Divider>
       <div className="LobbyMember__icons">
         <div className="LobbyMember__fullscreen">Email: <a href={'mailto::' + member.email}>{member.email}</a></div>
@@ -93,7 +90,7 @@ const LobbyMember = ({
   return <span key={userMongoId}>
   <Button onClick={() => {
     setIsDialogOpen(true)
-  }} size="small" key={key} className={classnames("LobbyMember", {'LobbyMember--left' : member.joinedLobbyInstanceMongoId !== lobbyInstance.id, 'LobbyMember--cobrowser': isNavigatedToCobrowse})}>
+  }} size="small" key={key} className={classnames("LobbyMember", {'LobbyMember--not-joined' : !member.joined, 'LobbyMember--cobrowser': isNavigatedToCobrowse})}>
     {member.username}
   </Button>
   {isDialogOpen && <Dialog open onClose={() => {

@@ -120,6 +120,9 @@ const arcadeGameSchema = new Schema(
       unique: true,
       index: true,
     },
+    appLocation: {
+      type: Object
+    },
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true },
@@ -190,6 +193,7 @@ arcadeGameSchema.methods.toJSON = function () {
     version: this.version,
     playScope: this.playScope,
     editScope: this.editScope,
+    appLocation: this.appLocation,
   };
 };
 

@@ -1,6 +1,4 @@
 .LobbyMember {
-  position: relative;
-
   &__title {
     position: relative;
     width: 50%;
@@ -12,12 +10,12 @@
     display: block;
   }
 
-  &--left {
+  &--not-joined {
     opacity: 0.4;
   }
 
   &--cobrowser {
-    border: 1px solid white;
+    // border: 1px solid white;
   }
 
   &__icons {
@@ -54,20 +52,24 @@
   }
 
   &__connection-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 8px;
-    background-color: green;
-    position: absolute;
-    top: 2px;
-    right: 2px;
-
     &--bad {
       background-color: red;
+      width: 8px;
+      height: 8px;
+      border-radius: 8px;
+      position: absolute;
+      top: 2px;
+      right: 2px;
     }
 
-    &--none {
-      opacity: 0;
+    &--good {
+      width: 8px;
+      height: 8px;
+      border-radius: 8px;
+      background-color: green;;
+      position: absolute;
+      top: 2px;
+      right: 2px;
     }
   }
 

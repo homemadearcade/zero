@@ -1,7 +1,3 @@
-/*
- * For Tips and Advanced Usage read this Blog Post
- * https://levelup.gitconnected.com/integrating-p5-sketches-into-your-react-app-de44a8c74e91
- */
 import classNames from 'classnames';
 import React from 'react';
 import Sketch from 'react-p5';

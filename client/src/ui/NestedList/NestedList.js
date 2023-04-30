@@ -20,10 +20,12 @@ export default function NestedList({ children, onClick, title, interfaceId, more
     setExpanded(expanded === interfaceId ? null : interfaceId);
   };
 
+  console.log('NestedList', {expanded, interfaceId})
+
   return <NestedListBody onClick={onClick} title={title} interfaceId={interfaceId} children={children} expanded={expanded} onChange={handleChange} moreMenu={moreMenu}/>
 }
 
-export function NestedListBody({expanded, onChange, title, children, interfaceId, moreMenu}) {
+export function NestedListBody({expanded, onChange, title, obscureInterfaceIds, children, interfaceId, moreMenu}) {
     const isOpen = expanded === interfaceId
     const el = <><ListItemButton  onClick={onChange(interfaceId)}>
       {isOpen ? <ExpandMore  sx={{ fontSize: '1.5' }} /> : <ChevronRight  sx={{ fontSize: '1.5' }} />}
@@ -57,7 +59,7 @@ export function NestedListBody({expanded, onChange, title, children, interfaceId
       </Collapse>
     </>
 
-    if(interfaceId) {
+    if(obscureInterfaceIds) {
       return <Unlockable key={interfaceId} interfaceId={interfaceId}>
         {el}
       </Unlockable>

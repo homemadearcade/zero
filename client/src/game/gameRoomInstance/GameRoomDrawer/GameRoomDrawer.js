@@ -7,12 +7,8 @@ import { inIframe } from '../../../utils/webPageUtils';
 import Drawer from '../../../ui/Drawer/Drawer';
 import Icon from '../../../ui/Icon/Icon';
 import Link from '../../../ui/Link/Link';
-import { GAME_ROOM_ACTIVITY } from '../../../constants';
 import CobrowsingIndicator from '../../../experience/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
-import Typography from '../../../ui/Typography/Typography';
-import Switch from '../../../ui/Switch/Switch';
 import './GameRoomDrawer.scss'
-import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import GameRoomOverview from '../GameRoomOverview/GameRoomOverview';
 import Tabs from '../../../ui/Tabs/Tabs';
 import LobbyOverview from '../../../experience/lobbyInstance/LobbyOverview/LobbyOverview';
@@ -23,14 +19,11 @@ import { LOBBY_DRAWER_CHATLOG_TAB_IID, LOBBY_DRAWER_GAME_ROOM_TAB_IID, LOBBY_DRA
 
 const GameRoomDrawer = ({
   lobbyInstance: { lobbyInstance },
-  gameRoomInstance: { gameRoomInstance, gameRoomInstance: { isPoweredOn, isAutosaveDisabled }},
   myTracks,
   userTracks,
-  editGameRoom
 }) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
-    const currentActivityCategory = lobbyInstance.activitys[lobbyInstance.currentActivityId].activityCategory
     return <>
       <div className="GameRoomDrawer">
         {!inIframe() && <div className="GameRoomDrawer__toggle" onClick={() => {
@@ -41,19 +34,6 @@ const GameRoomDrawer = ({
         <LobbyDashboardToggle/>
         <CobrowsingIndicator/>
         <ActivityTransitionToggle/>
-        {currentActivityCategory === GAME_ROOM_ACTIVITY && isAutosaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
-          <Icon icon="faFloppyDisk"></Icon>
-          <Typography variant="subtitle2">Autosave Disabled</Typography>
-          <Switch
-            size="small"
-            onChange={() => {
-              editGameRoom(gameRoomInstance.id, {
-                isAutosaveDisabled: false
-              })
-            }}
-            checked={isAutosaveDisabled}
-          />
-        </div>}
       </div>
       <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 
         setIsDrawerOpen(false)
@@ -87,10 +67,9 @@ const GameRoomDrawer = ({
 };
 
 const mapStateToProps = (state) => ({
-  gameRoomInstance: state.gameRoomInstance,
   lobbyInstance: state.lobbyInstance,
 });
 
 export default compose(
-  connect(mapStateToProps, { editGameRoom }),
+  connect(mapStateToProps, { }),
 )(GameRoomDrawer);

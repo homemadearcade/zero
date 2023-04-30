@@ -64,12 +64,10 @@ const userSchema = new Schema(
       unique: true,
       index: true,
     },
-    joinedLobbyInstanceMongoId: {
-      type: String,
-    },
-    joinedGameRoomInstanceMongoId: {
-      type: String,
-    },
+    appLocation: {
+      type: Object,
+
+    }
     // fb
     // facebookId: {
     //   type: String,
@@ -106,8 +104,7 @@ userSchema.methods.toJSON = function () {
     updatedAt: this.updatedAt,
     preferences: this.preferences,
     unlockedInterfaceIds: this.unlockedInterfaceIds,
-    joinedGameRoomInstanceMongoId: this.joinedGameRoomInstanceMongoId,
-    joinedLobbyInstanceMongoId: this.joinedLobbyInstanceMongoId,
+    appLocation: this.appLocation,
     isRemoved: this.isRemoved
   };
 };

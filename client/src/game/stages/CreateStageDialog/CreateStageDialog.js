@@ -44,7 +44,7 @@ const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreate
     }
   }, [])
 
-  function isAutosaveDisabled() {
+  function isSaveDisabled() {
     if(stage.error) return false
     if(!stage.playerSpawnZoneEntityId) return true
     return false 
@@ -73,7 +73,7 @@ const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreate
     {/* {renderSelectSpawn()} */}
     <div className="CreateStageDialog__buttons">
       <Button 
-        disabled={isAutosaveDisabled()}
+        disabled={isSaveDisabled()}
         onClick={async () => {
         if(stage.isNew) {
           const layers = await addLayersForArcadeGameStage(gameModel.id, gameModel.owner.id, stage.stageId)

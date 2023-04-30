@@ -12,9 +12,11 @@ import Divider from '../../../ui/Divider/Divider';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 import LobbyMember from '../../../experience/lobbyInstance/LobbyMember/LobbyMember';
 import GameRoomPowerIndicator from '../GameRoomPowerIndicator/GameRoomPowerIndicator';
+import Icon from '../../../ui/Icon/Icon';
+import Switch from '../../../ui/Switch/Switch';
 
 const GameRoomOverview = ({
-  gameRoomInstance: { gameRoomInstance },
+  gameRoomInstance: { gameRoomInstance, gameRoomInstance: { isPoweredOn, isAutosaveDisabled } },
   myTracks, userTracks,
   lobbyInstance: { lobbyInstance },
   editGameRoom,
@@ -25,6 +27,19 @@ const GameRoomOverview = ({
       <GameStatus/>
       <Divider></Divider>
         <GameRoomPowerIndicator/>
+        <div className="GameRoomDrawer__not-saving-stage">
+          <Icon icon="faFloppyDisk"></Icon>
+          <Typography variant="subtitle2">Autosave Disabled</Typography>
+          <Switch
+            size="small"
+            onChange={() => {
+              editGameRoom(gameRoomInstance.id, {
+                isAutosaveDisabled: !isAutosaveDisabled
+              })
+            }}
+            checked={isAutosaveDisabled}
+          />
+        </div>
       <Divider></Divider>
       <SelectArcadeGame label="Select from games owned by host" userMongoId={gameRoomInstance.hostUserMongoId} onSelect={(games) => {
         if(games[0]) {

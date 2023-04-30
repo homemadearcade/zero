@@ -49,6 +49,7 @@ const GameStatus = ({ gameRoomInstance: { gameRoomInstance: { isPoweredOn, gameS
   return <div className={classnames("GameStatus")}>
     <AccordianList accordians={[{
       id: gameModel.id,
+      interfaceId: 'GameStatus',
       title: <span className="GameStatus__title">
         {gameModel.metadata.title || gameModel.owner?.username + "'s game"}
       </span>,

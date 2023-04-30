@@ -6,6 +6,7 @@ import { generateUniqueId } from '../../utils/utils';
 import { ON_GAME_ROOM_INSTANCE_UPDATE, ADMIN_ROOM_PREFIX, GAME_ROOMS_STORE, GAME_ROOM_INSTANCE_DID } from '../../constants';
 import GameRoomInstance from '../../models/GameRoomInstance';
 import { mergeDeep } from '../../utils/utils';
+import { updateUserAppLocation } from '../../utils/appLocation';
 
 const router = Router();
 
@@ -117,8 +118,6 @@ router.post('/', requireJwtAuth, requireGameRoomInstances, async (req, res) => {
         userMongoId: user.id,
         username: user.username,
         role: user.role,
-        joinedGameRoomInstanceMongoId: null,
-        connected: false,
       }
     })
 
@@ -155,7 +154,7 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoomInstance, requireSocket
       return res.status(400).json({ message: 'No user with id ' + req.body.userMongoId + ' found in gameRoomInstance' });
     }
 
-    userFound.joinedGameRoomInstanceMongoId = null
+    userFound.joined = false
     userFound.loadedGameMongoId = null
 
     req.gameRoomInstance.messages.push({
@@ -248,8 +247,8 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoomInstance, requireSocket
 
 router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
   try {
-    const userFound = req.gameRoomInstance.members.find((u, i) => {
-      if(u.userMongoId === req.user.id) {
+    const memberFound = req.gameRoomInstance.members.find((member) => {
+      if(member.userMongoId === req.user.id) {
         return true
       } else {
         return false
@@ -257,12 +256,12 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
     })
 
 
-    if(userFound) {
+    if(memberFound) {
 
       req.gameRoomInstance.messages.push({
         user: {
-          userMongoId: userFound.userMongoId,
-          username: userFound.username
+          userMongoId: memberFound.userMongoId,
+          username: memberFound.username
         },
         message: 'has re-joined the gameRoomInstance',
         automated: true
@@ -270,7 +269,12 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
       
       req.socket.join(req.gameRoomInstance.id);
       if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX + req.gameRoomInstance.id);
-      userFound.joinedGameRoomInstanceMongoId = req.gameRoomInstance.id;
+      updateUserAppLocation({
+        userMongoId: memberFound.userMongoId,
+        gameRoomInstanceMongoId: req.gameRoomInstance.id,
+        authenticatedUser: req.user,
+      })
+      memberFound.joined = true
       req.io.to(req.gameRoomInstance.id).emit(ON_GAME_ROOM_INSTANCE_UPDATE, {gameRoomInstance: req.gameRoomInstance});
       return res.status(200).json({ gameRoomInstance: req.gameRoomInstance });
     }
@@ -292,9 +296,13 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
       userMongoId: req.user.id,
       username: req.user.username,
       role: req.user.role,
-      joinedGameRoomInstanceMongoId: req.gameRoomInstance.id,
-      connected: true
+      joined: true
     }
+    updateUserAppLocation({
+      userMongoId: newGameRoomInstanceMember.userMongoId,
+      gameRoomInstanceMongoId: req.gameRoomInstance.id,
+      authenticatedUser: req.user,
+    })
 
     req.gameRoomInstance.messages.push({
       user: {
@@ -313,12 +321,10 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
       automated: true
     })
       
-
     // listen for all of this game sessions events
     req.socket.join(req.gameRoomInstance.id);
     if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.gameRoomInstance.id);
 
-    // remove for now
     // remove from all other game sessions
     req.gameRoomInstances.forEach((gameRoomInstance) => {
       let index;
@@ -330,8 +336,8 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
       if(index >= -1) {
         // gameRoomInstance.members.splice(index, 1)
         const member = gameRoomInstance.members[index]
-        member.joinedGameRoomInstanceMongoId = null
         member.loadedGameMongoId = null
+        member.joined = false
         gameRoomInstance.messages.push({
           user: {
             userMongoId: member.userMongoId,
@@ -384,8 +390,8 @@ router.put('/user/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAu
     }
 
     let index;
-    const userFound = req.gameRoomInstance.members.find((user, i) => {
-      if(user.userMongoId === req.body.userMongoId) {
+    const memberFound = req.gameRoomInstance.members.find((member, i) => {
+      if(member.userMongoId === req.body.userMongoId) {
         index = i
         return true
       } else {
@@ -393,7 +399,7 @@ router.put('/user/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAu
       }
     })
 
-    if(!userFound) {
+    if(!memberFound) {
       return res.status(400).json({ message: 'No user with id ' + req.body.userMongoId + ' found in gameRoomInstance' });
     }
 

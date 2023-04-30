@@ -58,12 +58,12 @@ export class PreloaderScene extends Phaser.Scene {
         textureIds[brush.textureId] = true
       }
     })
-    Object.keys(gameModel.layers).forEach((layerId) => {
-      const layer = gameModel.layers[layerId]
-      if(layer.textureId) {
-        textureIds[layer.textureId] = true
-      }
-    })
+    // Object.keys(gameModel.layers).forEach((layerId) => {
+    //   const layer = gameModel.layers[layerId]
+    //   if(layer.textureId) {
+    //     textureIds[layer.textureId] = true
+    //   }
+    // })
     Object.keys(gameModel.textures).forEach((textureId) => {
       textureIds[textureId] = true
     })

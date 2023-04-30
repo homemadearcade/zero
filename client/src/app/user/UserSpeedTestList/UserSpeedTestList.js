@@ -14,7 +14,6 @@ const UserSpeedTestList = ({
 }) => {
     return <>
       <div className="UserSpeedTestList">
-        <Typography component="h5" variant="h5">Device Speed Tests</Typography>
         {user.speedTests?.length > 0 && <SpeedTestTable rows={reverse(user.speedTests)}></SpeedTestTable>}
       </div>
       {me.id === user.id && <UserSpeedTestButton></UserSpeedTestButton>}

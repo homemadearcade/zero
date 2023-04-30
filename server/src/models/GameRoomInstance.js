@@ -26,11 +26,6 @@ const gameRoomInstanceSchema = new Schema(
       required: false,
       default: false
     },
-    isAutosaveDisabled: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
     arcadeGameMongoId: {
       type: String,
       required: false,

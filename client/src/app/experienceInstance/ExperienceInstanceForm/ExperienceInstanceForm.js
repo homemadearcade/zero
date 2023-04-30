@@ -9,7 +9,7 @@ import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 import { Paper, TextField } from '@mui/material';
-import { addArcadeGame, copyArcadeGameToUser } from '../../../store/actions/game/arcadeGameActions';
+import { addArcadeGame, copyArcadeGameToUser, editArcadeGame } from '../../../store/actions/game/arcadeGameActions';
 import { addGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import moment from 'moment';
 import { generateUniqueId, isLobbyInstanceUserAlreadyAssignedRoles } from '../../../utils';
@@ -18,6 +18,7 @@ import Icon from '../../../ui/Icon/Icon';
 import { EXPERIENCE_ROLE_AUDIENCE, roleToInterfaceData, EXPERIENCE_INSTANCE_DID, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, defaultParticipantRoleId } from '../../../constants';
 import { RoleChip } from '../../experienceModel/role/RoleChip/RoleChip';
 import _ from 'lodash';
+import { EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE, PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE } from '../../../game/constants';
 
 function convertExperienceModelToLobbyInstance(experienceModel) {
   return {
@@ -39,6 +40,7 @@ const ExperienceInstanceForm = ({
   addLobby, onSubmit, 
   addGameRoom, 
   copyArcadeGameToUser,
+  editArcadeGame,
   experienceModel: { experienceModel }
 }) => {
 
@@ -80,10 +82,14 @@ const ExperienceInstanceForm = ({
 
           let arcadeGameMongoId = gameRoom.arcadeGameMongoId
 
-          if(gameRoom.copyGame) {
+          if(!gameRoom.doNotCopy) {
             const arcadeGameResponse = await copyArcadeGameToUser({
               userMongoId: hostUserMongoId,
               arcadeGameMongoId: gameRoom.arcadeGameMongoId,
+              gameDataUpdate: {
+                playScope: PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE,
+                editScope: EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE
+              }
             })
 
             arcadeGameMongoId = arcadeGameResponse.data.game.id
@@ -92,6 +98,10 @@ const ExperienceInstanceForm = ({
               if(instruction.activityId === activityId) {
                 instruction.arcadeGameMongoId = arcadeGameMongoId
               }
+            })
+          } else {
+            await editArcadeGame(arcadeGameMongoId, {
+              editScope: EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE
             })
           }
 
@@ -231,4 +241,4 @@ const mapStateToProps = (state) => ({
   experienceModel: state.experienceModel
 });
 
-export default connect(mapStateToProps, { addLobby, addGameRoom, copyArcadeGameToUser })(ExperienceInstanceForm);
+export default connect(mapStateToProps, { addLobby, editArcadeGame, addGameRoom, copyArcadeGameToUser })(ExperienceInstanceForm);

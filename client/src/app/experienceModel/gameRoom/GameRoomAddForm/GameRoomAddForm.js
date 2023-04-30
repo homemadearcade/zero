@@ -16,7 +16,6 @@ const GameRoomAddForm = ({ onSubmit, defaultValues = {}}) => {
   const { handleSubmit, reset, trigger, control, formState: { isValid }, register, setValue } = useForm({
     defaultValues: {
       name: '',
-      isAutosaveDisabled: true,
       ...defaultValues
     },
   });

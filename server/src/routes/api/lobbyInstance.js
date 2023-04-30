@@ -7,6 +7,7 @@ import User from '../../models/User';
 import { ON_LOBBY_INSTANCE_UPDATE, ADMIN_ROOM_PREFIX, LOBBY_INSTANCE_STORE, LOBBY_INSTANCE_DID } from '../../constants';
 import LobbyInstance from '../../models/LobbyInstance';
 import { generateUniqueId, mergeDeep } from '../../utils/utils';
+import { updateUserAppLocation } from '../../utils/appLocation';
 
 const router = Router();
 
@@ -147,8 +148,6 @@ router.post('/', requireJwtAuth, requireLobbyInstances, async (req, res) => {
         userMongoId: user.id,
         username: user.username,
         role: user.role,
-        joinedLobbyInstanceMongoId: null,
-        connected: false,
       }
     })
 
@@ -182,7 +181,7 @@ router.post('/leave/:id', requireJwtAuth, requireLobbyInstance, requireSocketAut
       return res.status(400).json({ message: 'No user with id ' + req.body.userMongoId + ' found in lobbyInstance' });
     }
 
-    memberFound.joinedLobbyInstanceMongoId = false
+    memberFound.joined = false
 
     req.lobbyInstance.messages.push({
       user: {
@@ -238,7 +237,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
 
 
     if(memberFound) {
-
+      memberFound.joined = true
       req.lobbyInstance.messages.push({
         user: {
           userMongoId: memberFound.userMongoId,
@@ -250,7 +249,13 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
       
       req.socket.join(req.lobbyInstance.id);
       if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.lobbyInstance.id);
-      memberFound.joinedLobbyInstanceMongoId = req.lobbyInstance.id;
+      updateUserAppLocation({
+        userMongoId: memberFound.userMongoId,
+        authenticatedUser: req.user,
+        experienceInstanceId: req.lobbyInstance.experienceInstanceId,
+        lobbyInstanceMongoId: req.lobbyInstance.id,
+      })
+
       req.io.to(req.lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance: req.lobbyInstance});
       return res.status(200).json({ lobbyInstance: req.lobbyInstance });
     }
@@ -269,10 +274,14 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
       userMongoId: req.user.id,
       username: req.user.username,
       role: req.user.role,
-      joinedLobbyInstanceMongoId: req.lobbyInstance.id,
-      connected: true,
+      joined: true,
       inTransitionView: false
     }
+    updateUserAppLocation({
+      userMongoId: newLobbyInstanceMember.userMongoId,
+      authenticatedUser: req.user,
+      lobbyInstanceMongoId: req.lobbyInstance.id,
+    })
 
     req.lobbyInstance.messages.push({
       user: {
@@ -304,7 +313,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
       if(index >= -1) {
         // lobbyInstance.members.splice(index, 1)
         const member = lobbyInstance.members[index]
-        member.joinedLobbyInstanceMongoId = false
+        member.joined = false
         lobbyInstance.messages.push({
           user: {
             userMongoId: member.userMongoId,
