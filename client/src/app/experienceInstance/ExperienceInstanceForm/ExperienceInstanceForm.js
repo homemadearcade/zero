@@ -88,7 +88,6 @@ const ExperienceInstanceForm = ({
               arcadeGameMongoId: gameRoom.arcadeGameMongoId,
               gameDataUpdate: {
                 playScope: PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE,
-                editScope: EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE
               }
             })
 
@@ -98,10 +97,6 @@ const ExperienceInstanceForm = ({
               if(instruction.activityId === activityId) {
                 instruction.arcadeGameMongoId = arcadeGameMongoId
               }
-            })
-          } else {
-            await editArcadeGame(arcadeGameMongoId, {
-              editScope: EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE
             })
           }
 
@@ -119,6 +114,15 @@ const ExperienceInstanceForm = ({
           const gameRoomInstanceResponse = await addGameRoom(gameRoomInstance);
           const gameRoomInstanceMongoId = gameRoomInstanceResponse.data.gameRoomInstance.id
           gameRoomInstanceMongoIds.push(gameRoomInstanceMongoId)
+
+          await editArcadeGame(arcadeGameMongoId, {
+            editScope: EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE,
+            appLocation: {
+              lastUpdateDate: new Date().getTime(),
+              experienceInstanceId,
+              gameRoomInstanceMongoId,
+            }
+          })
 
           activitys[activityId] = {
             activityId,

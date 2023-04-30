@@ -20,7 +20,7 @@ const TaggedTextures = ({
 
   return <div className="TaggedTextures">
     {sprites.map((sprite) => {
-      return <Texture onClick={onClickTexture} textureId={sprite.textureId}/>
+      return <Texture key={sprite.textureId} onClick={onClickTexture} textureId={sprite.textureId}/>
     })}
   </div>
 };

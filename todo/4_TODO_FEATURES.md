@@ -17,20 +17,6 @@ CUTSCENES
   The End. The text can be customized. 
   Default Ending cutscene 
 
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
-DATA 
---------------------------------------------------------------------------------------
-
-NEW FORMAT FOR GAME SAVING/EDITING PERMISSIONS
-LOBBY ONLY ( HIDDEN ) Privacy Setting for Games
-
-  Create copied games with the new lobby instance id 
-  allow users that are in that new lobby instance id to edit the game
-  you need to copy the textures within the game... too ( just the layer images really )
-  Or do versioning for the layer images.. not sure
-
 --------
 
 USER DATA
@@ -66,3 +52,11 @@ KEYBOARD MODE
     Open MORE TOOLS selector. Perhaps more tools need to be added? Tool Creator system. WOW!
 
 ESC key 
+
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+LAYER VERSIONING BY GAME SESSION?
+--------------------------------------------------------------------------------------
+  you need to copy the textures within the game... too ( just the layer images really )
+  Or do versioning for the layer images.. not sure

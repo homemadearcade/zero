@@ -425,8 +425,6 @@ router.put('/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, asyn
       { new: true },
     );
 
-    console.log(req.lobbyInstance)
-
     req.io.to(req.lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance: req.lobbyInstance});
     res.status(200).json({ lobbyInstance: req.lobbyInstance });
   } catch (err) {

@@ -32,6 +32,9 @@ const canvasImage = new Schema(
       type: Array,
       default: []
     },
+    appLocation: {
+      type: Object,
+    },
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true },
@@ -43,6 +46,7 @@ canvasImage.methods.toJSON = function () {
     textureId: this.textureId,
     imageType: this.imageType,
     strokeHistory: this.strokeHistory,
+    appLocation: this.appLocation,
     visualTags: this.visualTags,
     owner: this.owner?.toJSON(),
   };

@@ -13,7 +13,9 @@ const router = Router();
 async function requireArcadeGameEditPermissions(req, res, next) {
   const tempGame = await ArcadeGame.findById(req.params.id).populate('owner')
   if (!tempGame) return res.status(404).json({ message: 'No such Game.' });
-  if (!(tempGame.owner.id === req.user.id || req.user.role === 'ADMIN'))
+  const tempUser = await User.findById(req.user.id);
+  const inSameAppLocation = tempGame.appLocation?.experienceInstanceId && tempUser.appLocation?.experienceInstanceId && tempGame.appLocation?.experienceInstanceId === tempUser.appLocation?.experienceInstanceId
+  if (!(tempGame.owner.id === req.user.id || req.user.role === 'ADMIN' || inSameAppLocation))
     return res.status(400).json({ message: 'You do not have privelages to edit this Game.' });
 
   req.tempGame = tempGame
@@ -131,6 +133,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       textures: req.body.textures,
       size: req.body.size, 
       owner: req.body.userMongoId,
+      appLocation: req.body.appLocation,
       gameModelId: GAME_MODEL_DID + generateUniqueId()
     });
 
@@ -272,6 +275,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermi
       stages: updatedGame.stages,
       layers: updatedGame.layers,
       version: updatedGame.version,
+      appLocation: updatedGame.appLocation,
       // user: tempGame.owner ? tempGame.owner.id : Math.random()
     }
 

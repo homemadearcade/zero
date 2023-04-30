@@ -56,7 +56,7 @@ router.put('/:id', [requireJwtAuth, s3Multer, recordS3Upload], async (req, res, 
     if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN'))
       return res.status(400).json({ message: 'You do not have privelages to edit this user.' });
 
-    //       //validate name, username and password
+    // validate name, username and password
     // const { error } = validateUser();
     // if (error) return res.status(400).json({ message: error.details[0].message });
 
@@ -99,6 +99,11 @@ router.put('/:id', [requireJwtAuth, s3Multer, recordS3Upload], async (req, res, 
 
     if(req.body.unlockedInterfaceIds) {
       updatedUser.unlockedInterfaceIds = { ...tempUser.unlockedInterfaceIds, ...req.body.unlockedInterfaceIds }
+    }
+
+    // not allows to be edited here
+    if(req.body.appLocation) {
+      delete updatedUser.appLocation
     }
 
     // remove '', null, undefined

@@ -368,9 +368,11 @@ const HoverPreview = ({
     <div className="HoverPreview__title" onClick={() => {
       // if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID) changeSelectorList(SELECTOR_RELATION_SYSTEM)
     }}>
-      <Typography font="2P" variant="subtitle2">
-        {metadata.title}
-       </Typography>
+      <Paper elevation={10} sx={{padding: '1em'}}>
+          <Typography font="2P" variant="subtitle2">
+          {metadata.title}
+        </Typography>
+       </Paper>
        {currentSelectorListInterfaceId !== SELECTOR_ENTITY_BY_INTERFACE_ID_IID && <div className="HoverPreview__close">
         <IconButton icon="faClose" onClick={() => {
           changeSelectorList(SELECTOR_ENTITY_BY_INTERFACE_ID_IID)

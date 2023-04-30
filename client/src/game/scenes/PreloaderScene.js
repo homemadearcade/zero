@@ -8,7 +8,7 @@ import {
 } from '../constants';
 import { createGameSceneInstance } from '../../utils/gameUtils';
 import { updateTheme } from '../../store/actions/themeActions';
-import { getImageUrlFromTextureId } from '../../utils';
+import { getImageUrlFromTextureId, getSpriteSheetData, getTextureMetadata } from '../../utils';
 
 export class PreloaderScene extends Phaser.Scene {
   constructor({ isOnlineMultiplayer, isEdit, hostUserMongoId, gameInstanceIds, id, arcadeGameMongoId}) {
@@ -49,13 +49,19 @@ export class PreloaderScene extends Phaser.Scene {
     Object.keys(gameModel.entityModels).forEach((entityModelId) => {
       const entityModel = gameModel.entityModels[entityModelId]
       if(entityModel.graphics.textureId) {
-        textureIds[entityModel.graphics.textureId] = true
+        const textureId = entityModel.graphics.textureId
+        const { spriteSheetName } = getTextureMetadata(textureId)
+        if(!spriteSheetName) {
+          textureIds[textureId] = true
+        }
       }
     })
     Object.keys(gameModel.brushes).forEach((brushId) => {
       const brush = gameModel.brushes[brushId]
       if(brush.textureId) {
-        textureIds[brush.textureId] = true
+        const textureId = brush.textureId
+        const { spriteSheetName } = getTextureMetadata(textureId)
+        if(!spriteSheetName) textureIds[textureId] = true
       }
     })
     // Object.keys(gameModel.layers).forEach((layerId) => {

@@ -121,7 +121,8 @@ const arcadeGameSchema = new Schema(
       index: true,
     },
     appLocation: {
-      type: Object
+      type: Object,
+      default: {}
     },
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },

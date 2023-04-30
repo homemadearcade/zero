@@ -24,7 +24,6 @@ const CobrowsingErrorStates = ({
       const mouseData = store.getState().status.cobrowsingMouses[cobrowsingUser.id];
       if(mouseData) {
         setLastPing(mouseData.lastPing)
-        
         if(mouseData.lastPing + noCobrowsingUpdateDelta < Date.now()) {
           changeErrorState(COBROWSING_CONNECTION_LOST, { userMongoId: cobrowsingUser.id })
           setLastPing(null)

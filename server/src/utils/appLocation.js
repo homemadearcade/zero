@@ -7,28 +7,30 @@ export async function updateUserAppLocation({ authenticatedUser, userMongoId, ex
   const appLocation = {}
     
   if(lobbyInstanceMongoId != undefined) {
-    console.log('updating lobby instance mongo id')
+    // console.log('updating lobby instance mongo id')
     appLocation.lobbyInstanceMongoId = lobbyInstanceMongoId
-    return true
   }
   
   if(gameRoomInstanceMongoId != undefined) {
-    console.log('updating game room instance mongo id')
+    // console.log('updating game room instance mongo id')
     appLocation.gameRoomInstanceMongoId = gameRoomInstanceMongoId
-    return false
   }
 
   if(experienceInstanceId != undefined) {
-    console.log('updating experience instance id')
+    // console.log('updating experience instance id')
     appLocation.experienceInstanceId = experienceInstanceId
-    return false
   }
 
   if(Object.keys(appLocation).length) {
-     await User.findByIdAndUpdate(userMongoId, {...authenticatedUser.appLocation, ...appLocation})
+     await User.findByIdAndUpdate(userMongoId, {
+      appLocation: {
+        ...authenticatedUser.appLocation,
+        ...appLocation,
+        lastUpdateDate: new Date().getTime()
+      }
+    })
   }
 }
-
 
 export async function updateArcadeGameAppLocation({ arcadeGame, experienceInstanceId, gameRoomInstanceMongoId }) {
   // if(arcadeGame.id != userMongoId) return false
@@ -48,6 +50,12 @@ export async function updateArcadeGameAppLocation({ arcadeGame, experienceInstan
   }
 
   if(Object.keys(appLocation).length) {
-     await ArcadeGame.findByIdAndUpdate(userMongoId, {...arcadeGame.appLocation, ...appLocation})
+     await ArcadeGame.findByIdAndUpdate(userMongoId, {
+      appLocation: {
+        ...arcadeGame.appLocation,
+        ...appLocation,
+        lastUpdateDate: new Date().getTime(),
+      }
+    })
   }
 }

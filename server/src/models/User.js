@@ -66,7 +66,7 @@ const userSchema = new Schema(
     },
     appLocation: {
       type: Object,
-
+      default: {}
     }
     // fb
     // facebookId: {

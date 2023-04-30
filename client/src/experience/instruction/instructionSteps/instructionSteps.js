@@ -25,6 +25,7 @@ export function instructionSteps({
 
   instruction.stepOrder.forEach((stepId, index) => {
     const step = instruction.steps[stepId]
+    
 
     if(step.activityId) {
       const activity = lobbyInstance.activitys[step.activityId]      
@@ -49,6 +50,7 @@ export function instructionSteps({
             </>
           }
           if(gameRoomInstance?.arcadeGameMongoId !== instruction.arcadeGameMongoId) {
+            console.log('incorrect game loaded', gameRoomInstance?.arcadeGameMongoId, instruction.arcadeGameMongoId)
             return <>
               Incorrect game loaded!
               <Button onClick={async () => {
