@@ -1,6 +1,5 @@
 
 ---
-AUDIO EFFECTS
 
 VIDEO CALL FEATURES
   End Call for everyone in lobby, End call for self also
@@ -10,14 +9,8 @@ VIDEO CALL FEATURES
 PARTICLE EFFECT ON INSTANCES WHEN YOU CHANGE A ENTITY_MODEL
   Explode on Destroy Tag
 
-PUSH UI STATE ( Envelope Icon )
-
 ENTITY INSTANCE UPGRADE
   Compound Static Body for Entities
-
-LOBBY UPDATE
-  Lobby Join Sound
-  Lobby Member Count in /lobbys page
 
 DALL E GENERATOR
 
@@ -29,7 +22,10 @@ RELATION TAGS
   EFFECTS 
     Remove Tag, Add Tag Effect
 
+AUDIO EFFECTS
+
 --
+
 Animate.css wiggle when you import class, when class is added, etc
 
 ---

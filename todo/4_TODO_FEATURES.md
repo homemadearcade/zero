@@ -30,6 +30,8 @@ KEYBOARD MODE
 
   MMO-esque toolbar on the bottom left
 
+  PUSH UI STATE ( Envelope Icon )
+
   ALL TOOLS go in here
     Snapshot Tool
     Grid Change
@@ -40,3 +42,9 @@ KEYBOARD MODE
 
 ESC key 
 
+---
+
+ROLES
+
+Admin Only -> App Admin
+then.. implement other role system server side and creator beta role

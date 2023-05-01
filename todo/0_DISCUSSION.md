@@ -24,13 +24,15 @@ Sizing like the way unity does it. Entities would have arrrows attached to them 
 
 theres Background, Playground, Foreground, and then everything together
 
-
 ----
 
 Games are always copied?? and like if the game is used for whatever reason.... in a list somewhere. You can decide to like edit the reference for the game to this new game
+NEED A WARNING FOR THIS
 
 --
 
 If a player is clicked, current player is set to that?
 
 --
+
+COMBINE LOBBY DASHBOARD with ACTIVE COBROWSING???

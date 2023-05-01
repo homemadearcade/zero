@@ -2,18 +2,14 @@
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-Scroll in/out of game view WITH the cobrowsing user when cobrowse is active ( in creative mode )
-
 SNACKBARS
   Change height width of the snackbar to fit with??...vh/vw
   If internet speed failed, give a shared snackbar. LOBBY EVENT or just messages for now...
 
-VIDEO INSIDE GAME VIEW UPGRADE
-  The User that you are cobrowsing, have their video in the top right 
-
 BRUSH UPGRADE
   When you change the layer, the brushes change to tHAT layers colors and brushes
   Layers as a Radio Button Select
+  Smaller in the bottom right corner?? Not sure
 
 SELECT FORMS
   Also For Select Relation Tag. Switch between visibility for Tag Interface Id vs Data Source
