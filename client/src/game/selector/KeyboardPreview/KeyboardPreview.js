@@ -159,7 +159,7 @@ const KeyboardPreview = ({
               {renderControl(keyActionId)}
             </div>
             <div className="KeyboardPreview__node-action">
-              {renderLeftClickAction()}
+              {/* {renderLeftClickAction()} */}
             </div>
           </div>
         })}

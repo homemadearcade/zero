@@ -25,7 +25,7 @@ export default {
     actionType: INTERFACE_ACTION_EDIT
   },
   [EDIT_CURRENT_STAGE_BACKGROUND_COLOR_AID]: {
-    title: 'Edit Background Color',
+    title: 'Edit Stage Background Color',
     subTitle: 'This will open a popup to select the stage background color',
     actionType: INTERFACE_ACTION_EDIT,
     onClick: () => (dispatch) => {
@@ -78,9 +78,7 @@ export default {
     subTitle: 'This will open a popup to edit the current stage',
     actionType: INTERFACE_ACTION_EDIT,
     onClick: () => (dispatch, gameModel, getState) => {
-      const currentStageId = getState().gameModel.currentStageId
-      const currentStage = gameModel.stages[currentStageId]
-      dispatch(openCreateStageDialog(currentStage))
+      dispatch(openStageLiveEditor())
     }
   },
   [EDIT_CURRENT_PLAYER_CAMERA_AID]: {
