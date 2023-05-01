@@ -1,30 +1,34 @@
-.ClickPreview {
-  background-color: #222;
+.KeyboardPreview {
   color: white;
 
-  &__row {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+
+  &__node {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid #333;
-
+    border: 1px solid #333;
+    width: 4em;
+    height: 4em;
+    position: relative;
     &:last-child {
-      border-bottom: 1px solid #333;
+
     }
   }
 
-  &__row-control {
+  &__node-control {
     flex: 1;
-    border-right: 1px solid #333;
-    padding: .5em;
+    position: absolute;
+    bottom: .2em;
+    left: .2em;
   }
 
-  &__row-action {
+  &__node-action {
     flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: .5em;
   }
 }

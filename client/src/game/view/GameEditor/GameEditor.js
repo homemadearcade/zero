@@ -46,6 +46,7 @@ import StageLiveEditor from '../../stages/StageLiveEditor/StageLiveEditor';
 import EditRelationSystemDialog from '../../relations/EditRelationSystemDialog/EditRelationSystemDialog';
 import EditContentDialog from '../../content/EditContentDialog/EditContentDialog';
 import ClickPreview from '../../selector/ClickPreview/ClickPreview';
+import KeyboardPreview from '../../selector/KeyboardPreview/KeyboardPreview';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -145,6 +146,7 @@ const GameEditor = ({
         {showColumns && <>
           <GridToggle/>
           <BrushList/>
+          <KeyboardPreview/>
         </>}
       </div>
       {isObscurable ? <GameViewObscured>

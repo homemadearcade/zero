@@ -3,6 +3,7 @@ export const GAME_VIEW_INSTANCE_VISIBILITY_IID = 'selector/layerInvisibility';
 export const HOVER_PREVIEW_IID = "selector/hoverPreview";
 export const CHANGE_SELECTOR_TABS_IID = "selector/changeTab";
 export const CLICK_PREVIEW_IID = "selector/clickPreview";
+export const KEYBOARD_PREVIEW_IID = "selector/keyboardPreview";
 
 
 // NO DATA BELOW HERE 

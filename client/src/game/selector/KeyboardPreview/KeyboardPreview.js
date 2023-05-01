@@ -1,28 +1,18 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import './ClickPreview.scss'
+import './KeyboardPreview.scss'
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import Texture from '../../textures/Texture/Texture';
 import { getLayerIdFromColorId, getLayerIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
 import { dataSourceIIDToIcon, effectInterfaceDatas, layerGroupIIDtoShortName, PAUSED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
-import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
 import { entityModelTypeToDisplayName } from '../../constants';
-import { initialStageId } from '../../constants';
-import { changeSelectorList, openEntityBehaviorLiveEditor, openGameEditDialog, openStageLiveEditor } from '../../../store/actions/game/gameSelectorActions';
-import Button from '../../../ui/Button/Button';
-import { openEditContentDialog, openEditEntityDialog, openEditEntityGraphics, openEditRelationSystemDialog, openEffectPromptDialog } from '../../../store/actions/game/gameFormEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorActions';
-import { useWishTheme } from '../../../hooks/useWishTheme';
-import IconButton from '../../../ui/IconButton/IconButton';
-import useGameEditorSize from '../../../hooks/useGameEditorSize';
-import { Paper } from '@mui/material';
-import { CLICK_PREVIEW_IID } from '../../../constants/interfaceIds';
+import { KEYBOARD_PREVIEW_IID } from '../../../constants/interfaceIds';
 
-const ClickPreview = ({ 
+const KeyboardPreview = ({ 
   cobrowsing: {
     interfaceIdHovering
   },
@@ -137,33 +127,44 @@ const ClickPreview = ({
       {text}
     </Typography>
   }
+
+  // function renderActions() {
+  //   <Unlockable interfaceId={ENTITY_BOX_OPEN_IID}>
+  //     <Button size="fit" startIcon={<Icon icon='faArrowPointer'/>} className="EntityList__more" onClick={() => {
+  //       openEntityBoxDialog(PLACE_ENTITY_AID, entityModelType)
+  //     }}>
+  //       More
+  //     </Button>
+  //   </Unlockable>
+  //   <Unlockable interfaceId={ENTITY_BOX_OPEN_IID}>
+  //     <Button size="fit" startIcon={<Icon icon='faBoxArchive'/>} className="EntityList__more" onClick={() => {
+  //       openEntityBoxDialog(IMPORT_DATA_SOURCE_AID, entityModelType)
+  //     }}>
+  //       Import
+  //     </Button>
+  //   </Unlockable>
+  // }
+
+  const keyActions = [1, 2, 3, 4, 5, 6, 7, 8, 9] 
  
-  return <Unlockable interfaceId={CLICK_PREVIEW_IID}>
-    <div className="ClickPreview">
-      <div className="ClickPreview__row">
-        <div className="ClickPreview__row-control">
-          {renderControl('Left Click')}
-        </div>
-        <div className="ClickPreview__row-action">
-          {renderLeftClickAction()}
-        </div>
+  return <Unlockable interfaceId={KEYBOARD_PREVIEW_IID}>
+    <div className="KeyboardPreview">
+      <div className="KeyboardPreview__core">
+
       </div>
-      <div className="ClickPreview__row">
-        <div className="ClickPreview__row-control">
-          {renderControl('Double Click')}
-        </div>
-        <div className="ClickPreview__row-action">
-          {renderDoubleClickAction()}
-        </div>
+      <div className="KeyboardPreview__grid">
+        {keyActions.map((keyActionId) => {
+          return <div className="KeyboardPreview__node">
+            <div className="KeyboardPreview__node-control">
+              {renderControl(keyActionId)}
+            </div>
+            <div className="KeyboardPreview__node-action">
+              {renderLeftClickAction()}
+            </div>
+          </div>
+        })}
       </div>
-      <div className="ClickPreview__row">
-        <div className="ClickPreview__row-control">
-          {renderControl('Right Click')}
-        </div>
-        <div className="ClickPreview__row-action">
-          {renderRightClickAction()}
-        </div>
-      </div>
+
     </div>
   </Unlockable>
 }
@@ -177,4 +178,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameViewEditor: state.gameViewEditor,
 })
 
-export default connect(mapStateToProps, {})(ClickPreview);
+export default connect(mapStateToProps, {})(KeyboardPreview);
