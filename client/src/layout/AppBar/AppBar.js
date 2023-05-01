@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { logOutUser } from '../../store/actions/user/authActions';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { ADMIN_ROLE } from '../../constants';
+import {  APP_ADMIN_ROLE } from '../../constants';
 
 
 function AppBar({ auth }) {
@@ -47,7 +47,7 @@ function AppBar({ auth }) {
     //   url: 'my-tickets',
     //   })
 
-    if (auth.me.role === ADMIN_ROLE) {
+    if (auth.me.roles[APP_ADMIN_ROLE]) {
       pages.push({
         name: 'Games',
         url: 'games',

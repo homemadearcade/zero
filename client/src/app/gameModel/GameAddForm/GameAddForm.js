@@ -12,7 +12,7 @@ import { Controller, useForm } from 'react-hook-form';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 import { gameGridHeight, gameGridWidth, nodeSize } from '../../../game/constants';
 
-const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {} }) => {
+const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, appSettings: { appSettings }, defaultValues = {} }) => {
   const [isAddGameFormOpen, setIsAddGameFormOpen] = useState(false)
 
   const { handleSubmit, reset, control } = useForm({
@@ -25,7 +25,7 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
       relationTags: {},
       entityModels: {},
       colliisions: {},
-      importedArcadeGames: [],
+      importedArcadeGames: appSettings.importedArcadeGameMongoIds || [],
       brushes: {},
       colors: {},
       textures: {},
@@ -86,7 +86,8 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth
+  auth: state.auth,
+  appSettings: state.appSettings
 });
 
 export default connect(mapStateToProps, { addArcadeGame })(GameAddForm);

@@ -14,6 +14,7 @@ import GameCopyForm from '../../app/gameModel/GameCopyForm/GameCopyForm';
 import GameCard from '../../app/gameModel/GameCard/GameCard';
 import GameList from '../../app/gameModel/GameList/GameList';
 import Button from '../../ui/Button/Button';
+import { PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE, PLAY_GAME_SCOPE_UNLISTED, PLAY_GAME_SCOPE_USER_PROFILE } from '../../game/constants';
 
 const GamesPage = ({ getArcadeGames}) => {
   const [showRemovedGames, setShowRemovedGames] = useState()
@@ -31,7 +32,8 @@ const GamesPage = ({ getArcadeGames}) => {
         }}>Show Removed Games</Button>}
         <div className="GamesPage__list">
           <GameList>{(game) => {
-            if(game.isRemoved && !showRemovedGames) return
+            if((game.isRemoved && !showRemovedGames)) return 
+            if((game.playScope === PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE)) return
             return <GameCard key={game.id} width={300} game={game} canPlay canEdit canPublish canRemove></GameCard>
           }}</GameList>
         </div>

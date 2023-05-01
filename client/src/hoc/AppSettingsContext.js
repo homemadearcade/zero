@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Loader from '../ui/Loader/Loader';
 import { getAppSettings } from '../store/actions/appSettingsActions';
+import LinearIndeterminateLoader from '../ui/LinearIndeterminateLoader/LinearIndeterminateLoader';
 
 // eslint-disable-next-line import/no-anonymous-default-export
-class WithAppSettings extends Component {
+class AppSettingsContext extends Component {
   componentWillMount() {
     const { getAppSettings } = this.props
 
@@ -15,8 +16,8 @@ class WithAppSettings extends Component {
 
   render() {
     const { appSettings: { isLoading, appSettings }, children } = this.props;
-    if(isLoading || !appSettings) {
-      return <Loader text="Loading..."/>
+    if(!appSettings) {
+      return <LinearIndeterminateLoader/>
     }
 
     return children instanceof Function ? children(this.props) : children
@@ -30,4 +31,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, { getAppSettings })
-)(WithAppSettings)
+)(AppSettingsContext)

@@ -13,7 +13,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { setCutAudio, setCutVideo } from '../../../store/actions/experience/videoActions';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
-import { ADMIN_ROLE } from '../../../constants';
+import { APP_ADMIN_ROLE } from '../../../constants';
 import { LOBBY_MEMBER_VIDEO_IID } from '../../../constants/interfaceIds';
 
 const LobbyMember = ({ 
@@ -61,7 +61,7 @@ const LobbyMember = ({
         <div className="LobbyMember__username">{member.username}{isMe && ' (me)'}</div>
         <div className={classnames({'LobbyMember__connection-dot--bad' : memberStatus?.pingDelta > 60, 'LobbyMember__connection-dot--good':  (!memberStatus?.pingDelta <= 60) })}/>
         <div className="LobbyMember__ping">{memberStatus?.pingDelta > -1 ? memberStatus?.pingDelta : null}</div>
-        {member.role === ADMIN_ROLE && <div className="LobbyMember__admin"><Icon icon="faCrown"/></div>}
+        {member.roles[APP_ADMIN_ROLE] && <div className="LobbyMember__admin"><Icon icon="faCrown"/></div>}
       </div>
       <Divider></Divider>
       <div className="LobbyMember__icons">

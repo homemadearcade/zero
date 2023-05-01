@@ -9,7 +9,7 @@ import LinearIndeterminateLoader from '../ui/LinearIndeterminateLoader/LinearInd
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
-  class WithLobby extends Component {
+  class LobbyInstanceContext extends Component {
     componentWillMount() {
       const {joinLobbyByMongoId,  match, auth: { me } } = this.props
 
@@ -26,10 +26,10 @@ export default (ChildComponent) => {
     }
 
     componentWillUnmount() {
-      this.withLobbyCleaup()
+      this.LobbyInstanceContextCleaup()
     }
 
-    withLobbyCleaup() {
+    LobbyInstanceContextCleaup() {
       const { auth: { me }, leaveLobbyByMongoId, lobbyInstance: { lobbyInstance }, leaveAgoraVideoCall } = this.props
 
       leaveAgoraVideoCall()
@@ -61,5 +61,5 @@ export default (ChildComponent) => {
   return compose(
     withRouter, 
     connect(mapStateToProps, { joinLobbyByMongoId, leaveLobbyByMongoId, leaveAgoraVideoCall })
-  )(WithLobby)
+  )(LobbyInstanceContext)
 };

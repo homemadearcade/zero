@@ -9,7 +9,7 @@ import { List, ListItem, TextField } from '@mui/material';
 import Button from '../../ui/Button/Button';
 import { clearLobbyMessages, sendLobbyMessage } from '../../store/actions/experience/lobbyInstanceActions';
 import LobbyMember from '../lobbyInstance/LobbyMember/LobbyMember';
-import { ADMIN_ROLE, EXPERIENCE_ROLE_FACILITATOR } from '../../constants';
+import { APP_ADMIN_ROLE, EXPERIENCE_ROLE_FACILITATOR } from '../../constants';
 import { getUserRoleIdFromLobbyInstance } from '../../utils';
 
 const Chatroom = ({
@@ -44,7 +44,7 @@ const Chatroom = ({
     const roleId = getUserRoleIdFromLobbyInstance(lobbyInstance, user.userMongoId)
     const role = lobbyInstance.roles[roleId]
 
-    if(me?.role === ADMIN_ROLE) {
+    if(me?.roles[APP_ADMIN_ROLE]) {
       return <LobbyMember myTracks={myTracks} userTracks={userTracks} userMongoId={messageData.user.userMongoId}></LobbyMember>
     }
 
@@ -84,7 +84,7 @@ const Chatroom = ({
           sendLobbyMessage({message: text})
           setText('')
         }}>Send</Button>
-        {me.role === ADMIN_ROLE && <Button onClick={() => {
+        {me.roles[APP_ADMIN_ROLE] && <Button onClick={() => {
           clearLobbyMessages(lobbyInstance.id)
         }}>Clear Log</Button>}
       </div>

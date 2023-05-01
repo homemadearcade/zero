@@ -214,6 +214,25 @@ const themeDefaults = {
         // }
       },
     },
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          minHeight: '3.5em',
+        }
+      }
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          fontSize: '.875em',
+          paddingLeft: '.75em',
+          paddingRight: '.75em',
+          paddingTop: '.75em',
+          paddingBottom: '.6em',
+          minHeight: '3.5em'
+        }
+      }
+    },
     MuiAccordionSummary: {
       styleOverrides: {
         root: {

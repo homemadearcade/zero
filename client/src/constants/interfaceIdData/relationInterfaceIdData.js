@@ -17,6 +17,7 @@ export default {
     previewText: 'Add Event',
     name: 'Add Event Button',
     leftClickAction: 'Add Event',
+    leftClickIcon: 'faPlus',
     interfaceGroupId: EVENT_IGID
   }, 
   [EVENT_SELECT_IID]: {},
@@ -26,6 +27,7 @@ export default {
     previewText: 'Add Effect',
     name: 'Add Effect Button',
     leftClickAction: 'Add Effect',
+    leftClickIcon: 'faPlus',
     interfaceGroupId: EVENT_IGID
   },
   [EFFECT_SELECT_IID]: {},
@@ -41,6 +43,7 @@ export default {
     previewText: 'Add Relationship',
     name: 'Add Relationship Button',
     leftClickAction: 'Add Relationship',
+    leftClickIcon: 'faPlus',
     interfaceGroupId: RELATION_IGID
   }, 
   [RELATION_SELECT_IID]: {},

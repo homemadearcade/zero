@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const appSettingsSchema = new Schema(
   {
-    userEditorExperienceMongoId: {
+    editorExperienceModelMongoId: {
       type: String,
     },
     importedArcadeGameMongoIds: {
@@ -17,7 +17,7 @@ const appSettingsSchema = new Schema(
 appSettingsSchema.methods.toJSON = function () {
   return {
     id: this._id,
-    userEditorExperienceMongoId: this.userEditorExperienceMongoId,
+    editorExperienceModelMongoId: this.editorExperienceModelMongoId,
     importedArcadeGameMongoIds: this.importedArcadeGameMongoIds,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,

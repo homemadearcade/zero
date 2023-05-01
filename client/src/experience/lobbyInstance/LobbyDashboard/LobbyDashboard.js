@@ -5,15 +5,11 @@ import { connect } from 'react-redux';
 
 import './LobbyDashboard.scss';
 import ActivitySwitcher from '../../activity/ActivitySwitcher/ActivitySwitcher';
-import Chatroom from '../../Chatroom/Chatroom';
-import Tabs from '../../../ui/Tabs/Tabs';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
-import LobbyOverview from '../LobbyOverview/LobbyOverview';
 import ActivityView from '../../activity/ActivityView/ActivityView';
 import classNames from 'classnames';
 import { CURRENT_COBROWSING_VIDEO_IID } from '../../../constants/interfaceIds';
 import LobbyInstructions from '../LobbyInstructions/LobbyInstructions';
-import ActivityInstructions from '../../activity/ActivityInstructions/ActivityInstructions';
 
 const LobbyDashboard = ({
   lobbyInstance: { lobbyInstance, isLobbyDashboardOpen },

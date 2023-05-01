@@ -12,10 +12,10 @@ import { CardActions } from '@mui/material';
 import Link from '../../../../ui/Link/Link';
 import { editExperienceModel, getExperienceModels } from '../../../../store/actions/experience/experienceModelActions';
 import Button from '../../../../ui/Button/Button';
-import { ADMIN_ROLE } from '../../../../constants';
+import { APP_ADMIN_ROLE } from '../../../../constants';
 
 const ExperienceCard = ({experienceModel, experienceModel: { metadata }, width, canEdit, canRemove, canPublish, editExperienceModel, getExperienceModels, auth: { me }}) => {
-  const isEditor = me?.role === ADMIN_ROLE || me?.id === experienceModel.owner?.id
+  const isEditor = me?.roles[APP_ADMIN_ROLE] || me?.id === experienceModel.owner?.id
 
   function renderRemoveButton() {
     if(experienceModel.isRemoved) {

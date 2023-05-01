@@ -14,7 +14,7 @@ import { userSchema } from './validation';
 
 import './UserInfo.scss';
 import Button from '../../../ui/Button/Button';
-import { ADMIN_ROLE } from '../../../constants';
+import { APP_ADMIN_ROLE } from '../../../constants';
 import { getExperienceModelByMongoId } from '../../../store/actions/experience/experienceModelActions';
 
 const UserInfo = ({
@@ -46,7 +46,6 @@ const UserInfo = ({
     formik.setFieldValue('id', user.id);
     formik.setFieldValue('name', user.name);
     formik.setFieldValue('username', user.username);
-    formik.setFieldValue('role', user.role);
   };
 
   const formik = useFormik({
@@ -55,17 +54,12 @@ const UserInfo = ({
       id: '',
       username: user.username,
       password: '',
-      role: user.role,
     },
     validationSchema: userSchema,
     onSubmit: async (values, { resetForm }) => {
       const formData = new FormData();
       // formData.append('avatar', avatar);
       formData.append('username', values.username);
-      
-      if(me?.role === ADMIN_ROLE) {
-        formData.append('role', values.role);
-      }
 
       if (user.provider === 'email') {
         formData.append('password', values.password);
@@ -78,7 +72,6 @@ const UserInfo = ({
           formik.setFieldValue('id', result.data.user.id);
           formik.setFieldValue('name', result.data.user.name);
           formik.setFieldValue('username', result.data.user.username);
-          formik.setFieldValue('role', result.data.user.role);
         })
       }
 
@@ -93,10 +86,6 @@ const UserInfo = ({
           <div>
             <span className="label">Provider: </span>
             <span className="info">{user.provider}</span>
-          </div>
-          <div>
-            <span className="label">Role: </span>
-            <span className="info">{user.role}</span>
           </div>
           <div>
             <span className="label">Username: </span>
@@ -117,7 +106,7 @@ const UserInfo = ({
               className="btn"
               type="button"
               onClick={handleClickEdit}
-              disabled={!(me?.username === user.username || me?.role === ADMIN_ROLE)}
+              disabled={!(me?.username === user.username || me?.roles[APP_ADMIN_ROLE])}
             >
               {isEdit ? 'Cancel' : 'Edit'}
             </Button>
@@ -169,7 +158,7 @@ const UserInfo = ({
                 <p className="error">{formik.errors.username}</p>
               ) : null}
             </div>
-            {me?.role === ADMIN_ROLE && <div className="input-div">
+            {me?.roles[APP_ADMIN_ROLE] && <div className="input-div">
               <label>Role:</label>
               <select
                 placeholder="Role"

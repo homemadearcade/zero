@@ -13,7 +13,7 @@ import { clearErrorState } from '../../../store/actions/errorsActions';
 import Button from '../../../ui/Button/Button';
 import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
-import { ADMIN_ROLE, PHASER_ERROR } from '../../../constants';
+import { APP_ADMIN_ROLE, PHASER_ERROR } from '../../../constants';
 import GameLoadButton from '../../ui/GameLoadButton/GameLoadButton';
 import GameCardLoad from '../../../app/gameModel/GameCardLoad/GameCardLoad';
 
@@ -28,12 +28,12 @@ const GameViewObscured = ({
   webPage: { recentlyFocused }
 }) => {
   function renderOverlay() {
-    // if(cobrowsingUser.role === ADMIN_ROLE) return
+    // if(cobrowsingUser.roles[APP_ADMIN_ROLE]) return
 
     if(errorStates[PHASER_ERROR].on && !recentlyFocused) return <GameViewEmpty>
       <Icon icon="faTriangleExclamation"></Icon>
       Game Error
-      {me.role === ADMIN_ROLE && <Button onClick={async () => {
+      {me.roles[APP_ADMIN_ROLE] && <Button onClick={async () => {
         await editGameRoom(gameRoomInstance.id, {
           isPoweredOn: false
         })
@@ -61,7 +61,7 @@ const GameViewObscured = ({
       {gameRoomInstance.arcadeGameMongoId && <GameCardLoad width="30%" arcadeGameMongoId={gameRoomInstance.arcadeGameMongoId}/>}
       <Icon icon="faPowerOff"></Icon>
       Not Powered On
-      {me.role === ADMIN_ROLE && <>
+      {me.roles[APP_ADMIN_ROLE] && <>
         <Button onClick={async () => {
           await editGameRoom(gameRoomInstance.id, {
             isPoweredOn: true

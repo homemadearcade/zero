@@ -9,7 +9,7 @@ import requireAuth from '../../hoc/requireAuth';
 import requireChrome from '../../hoc/requireChrome';
 
 import './LobbyPage.scss';
-import withLobby from '../../hoc/withLobby';
+import LobbyInstanceContext from '../../hoc/LobbyInstanceContext';
 import LobbyDashboard from '../../experience/lobbyInstance/LobbyDashboard/LobbyDashboard';
 import withSpeedTest from '../../hoc/withSpeedTest';
 import CobrowsingSession from '../../hoc/CobrowsingSession';
@@ -17,8 +17,8 @@ import LobbyErrorStates from '../../experience/lobbyInstance/LobbyErrorStates/Lo
 import GameRoomDrawer from '../../game/gameRoomInstance/GameRoomDrawer/GameRoomDrawer';
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
 import AgoraVideoPeek from '../../experience/agora/AgoraVideoPeek/AgoraVideoPeek';
-import { ADMIN_ROLE, EXPERIENCE_ROLE_FACILITATOR, WAITING_ACTIVITY } from '../../constants';
-import { ANIMATION_CONFETTI, EVENT_LOBBY_STEP_INITIALIZED } from '../../game/constants';
+import { APP_ADMIN_ROLE, EXPERIENCE_ROLE_FACILITATOR, WAITING_ACTIVITY } from '../../constants';
+import { ANIMATION_CONFETTI } from '../../game/constants';
 import JSConfetti from 'js-confetti';
 import { ON_LOBBY_INSTANCE_EVENT } from '../../store/types';
 
@@ -32,7 +32,7 @@ const LobbyPage = ({
   // let { path } = useRouteMatch();
 
   useEffect(() => {
-    if(me.role === ADMIN_ROLE) {
+    if(me.roles[APP_ADMIN_ROLE]) {
       toggleLobbyDashboard(true)
     }
 
@@ -66,7 +66,7 @@ const LobbyPage = ({
   const role = lobbyInstance.roles[myRoleId]
   if(role.roleCategory === EXPERIENCE_ROLE_FACILITATOR) {
     return <CobrowsingSession userMongoId={lobbyInstance.cobrowsingUserMongoId}>
-      {me.role === ADMIN_ROLE && <GameRoomDrawer myTracks={myTracks} userTracks={userTracks}/>}
+      {me.roles[APP_ADMIN_ROLE] && <GameRoomDrawer myTracks={myTracks} userTracks={userTracks}/>}
       {renderBody()}
     </CobrowsingSession>
 
@@ -93,7 +93,7 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireChrome,
   requireAuth,
-  withLobby,
+  LobbyInstanceContext,
   withSpeedTest,
   withAgoraVideoCall,
   connect(mapStateToProps, { editLobby, toggleLobbyDashboard }),

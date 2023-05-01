@@ -17,6 +17,7 @@ export default {
   [ENTITY_BOX_OPEN_IID]: {
     previewText: 'More',
     leftClickAction: 'Open Box',
+    leftClickIcon: 'faBoxArchive',
     name: 'See More Classes Button',
     interfaceGroupId: ENTITY_MODEL_IGID
   },

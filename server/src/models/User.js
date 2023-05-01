@@ -67,7 +67,11 @@ const userSchema = new Schema(
     appLocation: {
       type: Object,
       default: {}
-    }
+    },
+    roles: {
+      type: Object,
+      default: {}
+    },
     // fb
     // facebookId: {
     //   type: String,
@@ -105,7 +109,8 @@ userSchema.methods.toJSON = function () {
     preferences: this.preferences,
     unlockedInterfaceIds: this.unlockedInterfaceIds,
     appLocation: this.appLocation,
-    isRemoved: this.isRemoved
+    isRemoved: this.isRemoved,
+    roles: this.roles,
   };
 };
 

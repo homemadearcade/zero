@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -18,7 +18,13 @@ import UserSpeedTestList from '../../app/user/UserSpeedTestList/UserSpeedTestLis
 import UserInfo from '../../app/user/UserInfo/UserInfo';
 import UserInterfaceIds from '../../app/user/UserInterfaceIds/UserInterfaceIds';
 import Tabs from '../../ui/Tabs/Tabs';
-import { USER_GAMES_TAB_IID, USER_INFO_TAB_IID, USER_INTERFACE_IDS_TAB_IID, USER_SPEED_TESTS_TAB_IID } from '../../constants/interfaceIds';
+import { USER_EXPERIENCES_TAB_IID, USER_GAMES_TAB_IID, USER_INFO_TAB_IID, USER_INTERFACE_IDS_TAB_IID, USER_ROLES_TAB_IID, USER_SPEED_TESTS_TAB_IID } from '../../constants/interfaceIds';
+import { PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE, PLAY_GAME_SCOPE_UNLISTED } from '../../game/constants';
+import Button from '../../ui/Button/Button';
+import UserRoles from '../../app/user/UserRoles/UserRoles';
+import ExperienceList from '../../app/experienceModel/experience/ExperienceList/ExperienceList';
+import ExperienceCard from '../../app/experienceModel/experience/ExperienceCard/ExperienceCard';
+import { CREATOR_BETA_ROLE } from '../../constants';
 
 const UserPage = ({
   getUserByUsername,
@@ -32,6 +38,8 @@ const UserPage = ({
   useEffect(() => {
     getUserByUsername(matchUsername, history);
   }, [matchUsername]);
+
+  const [showUnlistedGames, setShowUnlistedGames] = useState()
 
   return (
     <Layout>
@@ -55,17 +63,41 @@ const UserPage = ({
               label: 'Interface Ids',
               body: <UserInterfaceIds/>
             },
+            { 
+              interfaceId: USER_ROLES_TAB_IID,
+              adminOnly: true,
+              label: 'Roles',
+              body: <UserRoles/>
+            },
             {
               interfaceId: USER_GAMES_TAB_IID,
               label: 'Games',
               body: <>
+                {!showUnlistedGames &&  <Button onClick={() => {
+                  setShowUnlistedGames(true)
+                }}>Show Unlisted Games</Button>}
                 <GameList>
                   {(game) => {
+                    if(game.playScope === PLAY_GAME_SCOPE_UNLISTED && !showUnlistedGames) return null
+                    if(game.playScope === PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE) return null
                     if(game.owner?.id !== user.id) return null
+                    if(game.isRemoved) return null
                     return <GameCard key={game.id} game={game} canPlay canPublish canEdit></GameCard>
                   }}
                 </GameList>
               </>
+            },
+            {
+              interfaceId: USER_EXPERIENCES_TAB_IID,
+              label: 'Experiences',
+              roles: [CREATOR_BETA_ROLE],
+              body: <>
+                <ExperienceList>{(experienceModel) => {
+                  if(experienceModel.isRemoved) return null
+                  if(experienceModel.owner?.id !== user.id) return null
+                  return <ExperienceCard key={experienceModel.id} width={300} experienceModel={experienceModel} canPlay canEdit canPublish canRemove></ExperienceCard>
+                }}</ExperienceList>   
+              </>               
             },
             {
               interfaceId: USER_SPEED_TESTS_TAB_IID,

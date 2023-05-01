@@ -12,6 +12,7 @@ export default {
     previewText: 'Add Relationship Tag',
     name: 'Add Relationship Tag Button',
     leftClickAction: 'Add Relationship Tag',
+    leftClickIcon: 'faPlus',
     interfaceGroupId: RELATION_TAG_IGID
   },
   [RELATION_TAG_SELECT_IID]: {

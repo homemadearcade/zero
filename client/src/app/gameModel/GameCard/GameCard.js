@@ -12,10 +12,10 @@ import { CardActions } from '@mui/material';
 import Link from '../../../ui/Link/Link';
 import { editArcadeGame, getArcadeGames } from '../../../store/actions/game/arcadeGameActions';
 import Button from '../../../ui/Button/Button';
-import { ADMIN_ROLE } from '../../../constants';
+import { APP_ADMIN_ROLE } from '../../../constants';
 
 const GameCard = ({game, game: { metadata }, width, canEdit, canRemove, canPlay, canPublish, editArcadeGame, getArcadeGames, auth: { me }}) => {
-  const isEditor = me?.role === ADMIN_ROLE || me?.id === game.owner?.id
+  const isEditor = me?.roles[APP_ADMIN_ROLE] || me?.id === game.owner?.id
 
 
   function renderRemoveButton() {

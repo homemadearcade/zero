@@ -217,6 +217,7 @@ export const handleCobrowsingUpdates = store => next => action => {
         // if(action.cobrowsingPublisherOnly) return 
         // alert('When cobrowsing you must select the mouse tool before clicking the interface. Action:' + action.type)
         // throw new Error(action.type)
+        return
       }
 
       // NORMAL ACTION

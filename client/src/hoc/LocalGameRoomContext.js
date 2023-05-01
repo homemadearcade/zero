@@ -4,9 +4,14 @@ import { compose } from 'redux';
 import { addGameRoom, editGameRoom, endGameRoom } from '../store/actions/game/gameRoomInstanceActions';
 import { initializeUnlockableInterfaceIds } from '../store/actions/game/unlockedInterfaceActions';
 import { getUserByMongoId } from '../store/actions/user/userActions';
+import LinearIndeterminateLoader from '../ui/LinearIndeterminateLoader/LinearIndeterminateLoader';
 import Loader from '../ui/Loader/Loader';
 
 class LocalGameRoomContext extends Component {
+  state = {
+    isUnlockableInterfaceIdsInitialized: false
+  }
+
   componentWillMount() {
     const { room, editGameRoom } = this.props
     editGameRoom(null, room)
@@ -15,15 +20,17 @@ class LocalGameRoomContext extends Component {
   }
 
   async joinGameRoom() {
-    const { getUserByMongoId, experienceModel : { experienceModel }, auth : { me }, initializeUnlockableInterfaceIds } = this.props
+    const { getUserByMongoId, appSettings: { appSettings }, experienceModel : { experienceModel }, auth : { me }, initializeUnlockableInterfaceIds } = this.props
 
     const response = await getUserByMongoId(me.id)
-    if(experienceModel?.id) {
-      const unlockedInterfaceIds = response.data.user.unlockedInterfaceIds[experienceModel.id]
-      initializeUnlockableInterfaceIds(unlockedInterfaceIds ? unlockedInterfaceIds: { all: true })
-    } else {
-      initializeUnlockableInterfaceIds({all: true})
-    }
+    const user = response.data.user
+    const editorExperienceModelMongoId = user.editorExperienceModelMongoId || appSettings.editorExperienceModelMongoId
+    const unlockedInterfaceIds = user.unlockedInterfaceIds[experienceModel?.id] || user.unlockedInterfaceIds[editorExperienceModelMongoId]
+    initializeUnlockableInterfaceIds(unlockedInterfaceIds ? unlockedInterfaceIds: {})
+
+    this.setState({
+      isUnlockableInterfaceIdsInitialized: true
+    })
   }
 
   componentWillUnmount() {
@@ -31,12 +38,16 @@ class LocalGameRoomContext extends Component {
     endGameRoom()
   }
 
-
   render() {
     const { children, gameRoomInstance: { isLoading, isJoining }} = this.props;
   
     if(isJoining || isLoading) {
-      return <Loader text="Starting Game Session..."/>
+      return <LinearIndeterminateLoader/>
+      // return <Loader text="Starting Game Session..."/>
+    }
+
+    if(!this.state.isUnlockableInterfaceIdsInitialized) {
+      return <LinearIndeterminateLoader/>
     }
 
     return children instanceof Function ? children(this.props) : children
@@ -47,6 +58,7 @@ const mapStateToProps = (state) => ({
   gameRoomInstance: state.gameRoomInstance,
   experienceModel: state.experienceModel,
   auth: state.auth,
+  appSettings: state.appSettings,
   // cobrowsing: state.cobrowsing
 });
 

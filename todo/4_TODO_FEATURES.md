@@ -17,19 +17,6 @@ CUTSCENES
   The End. The text can be customized. 
   Default Ending cutscene 
 
---------
-
-USER DATA
-  Users.role should be
-  User.roles...{}
-    interfaceIds[userId] === their default interfaceId... for us to use?
-    super admins...
-
-APP SETTINGS
-  editorExperienceMongoId
-  libraryArcadeGamaMongoId
-  archiveUserId
-
 ---------------------------------------------------------------------------------------------------- 
 
 KEYBOARD MODE
@@ -53,14 +40,3 @@ KEYBOARD MODE
 
 ESC key 
 
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
-LAYER VERSIONING BY GAME SESSION?
---------------------------------------------------------------------------------------
-  you need to copy the textures within the game... too ( just the layer images really )
-  Or do versioning for the layer images.. not sure
-
-  ALSO security is still a problem. If I send in a texture id I want to replace then I CAN. 
-
-  Ok so we need to prevent overriding? Or like have an owner of a texture? but then not everyone can edit? I think its about creating new images and then deleting past images eventually. Thats why we record s3 uploads. 

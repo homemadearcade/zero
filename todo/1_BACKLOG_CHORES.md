@@ -1,7 +1,7 @@
 BUGS
   Dont set Agora to a device if that device isn’t found this time.
 
-ROLES
+EXPERIENCE ROLES
   If you switch roles the camera breaks 
 
   When I switched participant with admin things got messed up when trying to join
@@ -35,7 +35,7 @@ Only Once should be on relation model
 SELECT CHIPS AUTO 
   Asynchronous and FreeSolo MUI Autocomplete is now in the docs
 
-REMOVE ENTITY INSTANCE
+REMOVE ENTITY INSTANCE RELATIONS
   Dont redo ALL relations when this happens, just relevant ones. Same with player, etc
 
 MIGRATE TO TYPESCRIPT?
@@ -43,3 +43,15 @@ MIGRATE TO TYPESCRIPT?
 
 RENAME ACTIVITYS?
   brew install rename
+
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+LAYER VERSIONING BY GAME SESSION?
+--------------------------------------------------------------------------------------
+  you need to copy the textures within the game... too ( just the layer images really )
+  Or do versioning for the layer images.. not sure
+
+  ALSO security is still a problem. If I send in a texture id I want to replace then I CAN. 
+
+  Ok so we need to prevent overriding? Or like have an owner of a texture? but then not everyone can edit? I think its about creating new images and then deleting past images eventually. Thats why we record s3 uploads. 

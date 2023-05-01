@@ -25,7 +25,7 @@ const Unlockable = ({
   interfaceId,
   children,
   isSlider,
-  cobrowsing: { InterfaceIdHovering, selectedTool, remoteStateUserMongoId, isSubscribedCobrowsing }, 
+  cobrowsing: { interfaceIdHovering, selectedTool, remoteStateUserMongoId, isSubscribedCobrowsing }, 
   width,
   height,
 }) => {
@@ -46,7 +46,7 @@ const Unlockable = ({
     if(wasComponentLockedUserMongoId === remoteStateUserMongoId && isUnlocked) {
       var rect = unlockableRef.current.getBoundingClientRect();
       if(noAnimInterfaces.includes(interfaceId)) return 
-      console.log('conffetti for', interfaceId)
+      // console.log('conffetti for', interfaceId)
       confetti({
         origin: {
           x: (rect.left + (rect.width/2))/window.innerWidth,
@@ -96,7 +96,7 @@ const Unlockable = ({
         classNames(
           "Unlockable__unlock-cover", 
           { 
-            'Unlockable__unlock-cover--mouse-over': InterfaceIdHovering === interfaceId, 
+            'Unlockable__unlock-cover--mouse-over': interfaceIdHovering === interfaceId, 
             'Unlockable__unlock-cover--slider': isSlider 
           }
         )

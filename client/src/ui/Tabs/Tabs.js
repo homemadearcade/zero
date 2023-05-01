@@ -7,6 +7,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
 import { getInterfaceIdData } from '../../utils';
+import './Tabs.scss'
 
 function TabPanel(props) {
   const { children, value, index, interfaceId, label, ...other } = props;

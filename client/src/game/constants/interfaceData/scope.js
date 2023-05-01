@@ -4,7 +4,7 @@ export const playScopeInterfaceData = {
   [PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE]: {
     name: 'In Experience',
     adminOnly: true,
-    description: 'This game is hidden but is played during an experience',
+    description: 'This game is played seen during an experience and will be deleted after some time',
     icon: 'faE',
   },
   [PLAY_GAME_SCOPE_UNLISTED]: {

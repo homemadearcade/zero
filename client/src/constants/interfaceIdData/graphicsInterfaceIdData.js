@@ -14,7 +14,8 @@ export default {
   [COLOR_ADD_IID]: {
     previewText: 'Add Color Brush',
     name: 'Add Color Button',
-    leftClickAction: 'Add a Brush',
+    leftClickAction: 'Add Brush',
+    leftClickIcon: 'faPlus',
     interfaceGroupId: DRAW_IGID
   },
   [CHOOSE_SYSTEM_TEXTURES_IID]: {

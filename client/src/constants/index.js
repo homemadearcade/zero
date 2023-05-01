@@ -3,15 +3,6 @@ export const GOOGLE_AUTH_LINK = 'https://homemadearcade.herokuapp.com/auth/googl
 export const DEFAULT_THEME_COLOR = '#90CAF9';
 
 export const ADMIN_ROLE = 'ADMIN'
-export const TECH_ADMIN_ROLE = 'TECH_ADMIN'
-
-export const USER_ROLE = 'USER'
-export const PRO_USER_ROLE = 'PRO_USER'
-export const TECH_USER_ROLE = 'TECH_USER'
-
-export const CREATOR_ROLE = 'CREATOR'
-export const PRO_CREATOR_ROLE = 'PRO_CREATOR'
-
 
 export const ON_MY_VIDEO_QUALITY_STATUS_UPDATE = 'ON_MY_VIDEO_QUALITY_STATUS_UPDATE'
 
@@ -41,14 +32,11 @@ export const TICKET_PURCHASE_DID = 'tp-';
 export const INTERFACE_PRESET_DID = 'ip-';
 export const GAME_ROOM_INSTANCE_DID = 'gri-';
 
-const isLocalHost = window.location.host.indexOf('localhost') !== -1;
-export const ARCHIVE_USER_MONGO_ID = isLocalHost ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
-export const LIBRARY_USER_MONGO_ID = isLocalHost ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
-
 export * from './interfaceActions'
 export * from './interface'
 export * from './interfaceIdGroups'
 
 export * from './experience'
 export * from './mediaCreator'
+export * from './user'
 

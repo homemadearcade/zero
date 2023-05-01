@@ -10,6 +10,7 @@ export default {
     previewText:  'Pause',
     name: 'Pause Game Button',
     leftClickAction: 'Pause Game',
+    leftClickIcon: 'faPause',
     interfaceGroupId: GAME_INSTANCE_IGID
   },
   [INSTANCE_TOOLBAR_UNDO_IID]: {},
@@ -17,18 +18,21 @@ export default {
     previewText:  'Reset',
     name: 'Reset Game Button',
     leftClickAction: 'Reset Game',
+    leftClickIcon: 'faRepeat',
     interfaceGroupId: GAME_INSTANCE_IGID
   },
   [INSTANCE_TOOLBAR_PLAY_IID]: {
     previewText:  'Play',
     name: 'Unpause Game Button',
     leftClickAction: 'Play Game',
+    leftClickIcon: 'faPlay',
     interfaceGroupId: GAME_INSTANCE_IGID
   },
   [INSTANCE_TOOLBAR_PLAYTHROUGH_IID]: {
     previewText:  'Start Game',
     name: 'Start Game Button',
     leftClickAction: 'Start Game',
+    leftClickIcon: 'faCirclePlay',
     interfaceGroupId: GAME_INSTANCE_IGID
   },
 }

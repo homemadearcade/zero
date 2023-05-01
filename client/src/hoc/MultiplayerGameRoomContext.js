@@ -10,13 +10,17 @@ import LinearIndeterminateLoader from '../ui/LinearIndeterminateLoader/LinearInd
 import { generateUniqueId } from '../utils';
 
 class MultiplayerGameRoomContext extends Component {
+  state = {
+    isUnlockableInterfaceIdsInitialized: false
+  }
+
   componentWillMount() {
     const { gameRoomInstanceMongoId } = this.props
     this.joinMultiplayerGameRoom(gameRoomInstanceMongoId)
   }
 
   joinMultiplayerGameRoom(gameRoomInstanceMongoId) {
-    const {joinGameRoom, getUserByMongoId, editGameRoom, auth: { me }, experienceModel : { experienceModel }, initializeUnlockableInterfaceIds} = this.props
+    const {joinGameRoom, getUserByMongoId, appSettings: { appSettings }, editGameRoom, auth: { me }, experienceModel : { experienceModel }, initializeUnlockableInterfaceIds} = this.props
     
     const doJoinMultiPlayerGameRoom = async () => {   
       try {
@@ -35,13 +39,16 @@ class MultiplayerGameRoomContext extends Component {
           console.error('not setting game instance id yet: ', gameInstanceId)
         }
 
-        if(experienceModel?.id) {
-          const response = await getUserByMongoId(me.id)
-          const unlockedInterfaceIds = response.data.user.unlockedInterfaceIds[experienceModel.id]
-          initializeUnlockableInterfaceIds(unlockedInterfaceIds ? unlockedInterfaceIds: { })
-        } else {
-          initializeUnlockableInterfaceIds({all: true})
-        }
+        const userResponse = await getUserByMongoId(me.id)
+        const user = userResponse.data.user
+        const editorExperienceModelMongoId = user.editorExperienceModelMongoId || appSettings.editorExperienceModelMongoId
+        const unlockedInterfaceIds = user.unlockedInterfaceIds[experienceModel?.id] || user.unlockedInterfaceIds[editorExperienceModelMongoId]
+        console.log('unlockedInterfaceIds: ', unlockedInterfaceIds, editorExperienceModelMongoId)
+        initializeUnlockableInterfaceIds(unlockedInterfaceIds ? unlockedInterfaceIds: {})
+
+        this.setState({
+          isUnlockableInterfaceIdsInitialized: true
+        })
 
       } catch(error) {
         console.log(error)
@@ -90,6 +97,10 @@ class MultiplayerGameRoomContext extends Component {
       // return <Loader text="Joining Game Session..."/>
     }
 
+    if(!this.state.isUnlockableInterfaceIdsInitialized) {
+      return <LinearIndeterminateLoader/>
+    }
+
     const gameInstanceId = gameRoomInstance.gameInstanceIds[gameRoomInstance.arcadeGameMongoId]
     if(!gameInstanceId) {
       return <LinearIndeterminateLoader/>
@@ -111,6 +122,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   gameRoomInstance: state.gameRoomInstance,
   experienceModel: state.experienceModel,
+  appSettings: state.appSettings,
   // cobrowsing: state.cobrowsing
 });
 

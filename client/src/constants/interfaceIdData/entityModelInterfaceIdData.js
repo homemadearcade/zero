@@ -11,6 +11,7 @@ export default {
   [ZONE_ENTITY_ADD_IID]: {
     previewText: 'Add Zone',
     leftClickAction: 'Add a Zone',
+    leftClickIcon: 'faPlus',
     name: 'Add Zone Button',
     interfaceGroupId: ENTITY_MODEL_IGID
   },
@@ -25,6 +26,7 @@ export default {
     previewText: 'Add Object',
     name: 'Add Object Button',
     leftClickAction: 'Add an Object',
+    leftClickIcon: 'faPlus',
     interfaceGroupId: ENTITY_MODEL_IGID
   },
   [BASIC_ENTITY_SELECT_IID]: {
@@ -42,6 +44,7 @@ export default {
     previewText: 'Add NPC',
     name: 'Add NPC Button',
     leftClickAction: 'Add an NPC',
+    leftClickIcon: 'faPlus',
     interfaceGroupId: ENTITY_MODEL_IGID
   },
   [PLAYER_ENTITY_CONTAINER_IID]: {
@@ -57,6 +60,7 @@ export default {
   [PLAYER_ENTITY_ADD_IID]: {
     previewText: 'Add Player',
     leftClickAction: 'Add a Player',
+    leftClickIcon: 'faPlus',
     name: 'Add Player Button',
     interfaceGroupId: ENTITY_MODEL_IGID
   },

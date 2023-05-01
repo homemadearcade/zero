@@ -20,6 +20,7 @@ import Dialog from '../../ui/Dialog/Dialog';
 import UserSpeedTestRequest from '../../app/user/UserSpeedTestRequest/UserSpeedTestRequest';
 import { inIframe } from '../../utils/webPageUtils';
 import LinearIndeterminateLoader from '../../ui/LinearIndeterminateLoader/LinearIndeterminateLoader';
+import AppSettingsContext from '../../hoc/AppSettingsContext';
 
 const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
   const [needsSpeedTest, setNeedsSpeedTest] = useState()
@@ -61,7 +62,7 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
 
   function renderBody() {
     if(auth.appLoaded) {
-      return children
+      return <AppSettingsContext>{children}</AppSettingsContext> 
     } else {
       return <LinearIndeterminateLoader/>
     }

@@ -16,7 +16,7 @@ ARCADE PATHFINDING
 CUSTOM CODING
 
 APP SETTINGS
-  editorExperienceMongoId
+  editorExperienceModelMongoId
   libraryArcadeGamaMongoId
   archiveUserId
 

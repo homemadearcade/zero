@@ -117,7 +117,7 @@ const nodeIdsWithChildren = []
 function structureAllInterfaceIds() {
   const interfaceIdRoot= {
     "id": "all",
-    "name": "all",
+    "name": "All Interfaces",
     "children": []
   }
 
@@ -152,9 +152,10 @@ function structureAllInterfaceIds() {
         if(foundNode) {
           currentTreeNode = foundNode
         } else {
+          const name = interfaceIdData[nodeNameRaw]?.name || nodeNameRaw
           const newTreeNode = {
             id: nodeNameRaw,
-            name: nodeName,
+            name,
             children: []
           }
           currentTreeNode.children.push(newTreeNode)

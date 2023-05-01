@@ -9,7 +9,7 @@ import './AgoraVideo.scss'
 import AgoraVideoStatus from "../AgoraVideoStatus/AgoraVideoStatus";
 import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
 import Icon from "../../../ui/Icon/Icon";
-import { ADMIN_ROLE } from "../../../constants";
+import { APP_ADMIN_ROLE } from "../../../constants";
 
 function Video({setShowInfo, setShowChangeInput, showChangeInput, showInfo, hideOverlay, className, label, me, tracks, userMongoId, controls}) {
   const isMe = me.id === userMongoId
@@ -22,7 +22,7 @@ function Video({setShowInfo, setShowChangeInput, showChangeInput, showInfo, hide
       setShowChangeInput(false)
     }}>
     {!hideOverlay && showInfo === userMongoId && <div className="AgoraVideo__info">
-      {!showChangeInput && me.role === ADMIN_ROLE && <div className="AgoraVideo__details">
+      {!showChangeInput && me.roles[APP_ADMIN_ROLE] && <div className="AgoraVideo__details">
         <div>
           {label ? label : null}
           {isMe && ' - me'}

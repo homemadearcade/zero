@@ -90,6 +90,32 @@ export const editUser = (id, data) => async (dispatch, getState) => {
   }
 };
 
+export const editUserRoles = (id, data) => async (dispatch, getState) => {
+  dispatch({
+    type: EDIT_USER_LOADING,
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.put(`/api/users/${id}/roles`, data, options);
+
+    dispatch({
+      type: EDIT_USER_SUCCESS,
+      payload: { user: response.data.user },
+    });
+    // edited him self, reload me
+    if (getState().auth.me?.id === response.data.user.id) dispatch(loadMe());
+
+    return response
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: EDIT_USER_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
 export const openInterfaceTree = (userMongoId) => (dispatch, getState) => {
   dispatch({
     type: OPEN_INTERFACE_TREE,

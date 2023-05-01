@@ -1,4 +1,4 @@
-import { ADMIN_ROLE } from "../constants"
+import { GAME_EDITOR_EXPERT_ROLE } from "../constants";
 import { interfaceIdData } from "../constants/interfaceIdData"
 import store from "../store"
 import { getCobrowsingState } from "./cobrowsingUtils"
@@ -90,7 +90,7 @@ export function getInterfaceIdData(interfaceId) {
   const isObscured = !isToolOpen && isObscuringInterfaces() && !isUnlocked
 
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-  const isToolInteractable = me?.role === ADMIN_ROLE && isSubscribedCobrowsing && isToolOpen && !ignoreTools
+  const isToolInteractable = isSubscribedCobrowsing && isToolOpen && !ignoreTools
 
   return {
     isUnlocked,
@@ -112,7 +112,7 @@ export function isObscuringInterfaces(interfaceId) {
     else return false
   }
 
-  // if(me?.role === ADMIN_ROLE) return false
+  if(me?.roles[GAME_EDITOR_EXPERT_ROLE]) return false
   
   return true
 }

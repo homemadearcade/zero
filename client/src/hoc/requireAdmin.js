@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { ADMIN_ROLE } from '../constants';
+import { APP_ADMIN_ROLE } from '../constants';
 import Login from '../pages/Login/Login';
 import UnauthorizedPage from '../pages/UnauthorizedPage/UnauthorizedPage';
 
@@ -24,7 +24,7 @@ export default (ChildComponent) => {
     // }
 
     render() {
-      if (this.props.auth.isAuthenticated && this.props.auth.me?.role === ADMIN_ROLE) {
+      if (this.props.auth.isAuthenticated && this.props.auth.me?.roles[APP_ADMIN_ROLE]) {
         return <ChildComponent {...this.props} />;
       } else if(!this.props.auth.isAuthenticated) {
         return <Login/>

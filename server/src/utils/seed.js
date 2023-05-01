@@ -4,6 +4,7 @@ import { join } from 'path';
 import User, { hashPassword } from '../models/User';
 import Message from '../models/Message';
 import { deleteAllAvatars } from './utils';
+import { APP_ADMIN_ROLE } from '../../../client/src/constants';
 
 export const seedDb = async () => {
   console.log('Seeding database...');
@@ -25,7 +26,9 @@ export const seedDb = async () => {
     });
 
     if (index === 0) {
-      user.role = 'ADMIN';
+      user.roles = {
+        [APP_ADMIN_ROLE]: true
+      }
     }
     
     return user;

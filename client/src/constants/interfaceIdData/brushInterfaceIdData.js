@@ -31,12 +31,14 @@ export default {
     name: 'Select Eraser Button',
     previewText: 'Eraser',
     leftClickAction: 'Select Eraser',
+    leftClickIcon: 'faEraser',
     interfaceGroupId: DRAW_IGID,
   },
   [BRUSH_ADD_IID]: {
     name: 'Add Brush Button',
     previewText: 'Add Sprite Brush',
     leftClickAction: 'Add Brush',
+    leftClickIcon: 'faPlus',
     interfaceGroupId: DRAW_IGID,
   },
   [BACKGROUND_LAYER_GROUP_IID]: {

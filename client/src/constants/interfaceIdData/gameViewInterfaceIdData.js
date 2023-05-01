@@ -7,6 +7,7 @@ export default {
     previewText: 'Hide/Show on Map',
     name: 'Show/Hide Button',
     leftClickAction: 'Toggle',
+    leftClickIcon: 'faEye',
     interfaceGroupId: GAME_VIEW_IGID
   },
   [GAME_VIEW_IID]: {
@@ -16,8 +17,9 @@ export default {
   },
   [GRID_VIEW_TOGGLE_IID]: {
     name: 'Grid View Toggle',
-    previewText: 'Creative Mode',
+    previewText: 'Grid View',
     leftClickAction: 'Toggle',
+    leftClickIcon: 'faTableCells',
     interfaceGroupId: GAME_VIEW_IGID
   },
   [GAME_OPEN_SNAPSHOT_IID]: {},

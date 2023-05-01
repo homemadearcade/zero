@@ -7,9 +7,8 @@ import { bypassAgoraVideoCall, useChangeAgoraVideoAudio, useMicrophoneAndCameraT
 import { startAgoraVideoCall } from "../../../store/actions/experience/videoActions";
 import Button from "../../../ui/Button/Button";
 import Typography from "../../../ui/Typography/Typography";
-import { isLocalHost } from "../../../utils/webPageUtils";
 import AgoraVideoPreview from "../AgoraVideoPreview/AgoraVideoPreview";
-import { ADMIN_ROLE } from "../../../constants";
+import {  APP_ADMIN_ROLE } from "../../../constants";
 
 const AgoraVideoSetup = ({ auth: { me }, startAgoraVideoCall, bypassAgoraVideoCall, video: { videoTrackId, audioTrackId }}) => {
   const { tracks, ready } = useMicrophoneAndCameraTracks();
@@ -37,7 +36,7 @@ const AgoraVideoSetup = ({ auth: { me }, startAgoraVideoCall, bypassAgoraVideoCa
       }}>
         Enter Lobby with Video
       </Button>
-      {me?.role === ADMIN_ROLE && <Button onClick={() => {
+      {me?.roles[APP_ADMIN_ROLE] && <Button onClick={() => {
         bypassAgoraVideoCall()
       }}>
         Bypass Video Call
