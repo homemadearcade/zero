@@ -2,6 +2,8 @@
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
+Scroll in/out of game view WITH the cobrowsing user when cobrowse is active ( in creative mode )
+
 SNACKBARS
   Change height width of the snackbar to fit with??...vh/vw
   If internet speed failed, give a shared snackbar. LOBBY EVENT or just messages for now...

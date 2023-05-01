@@ -37,6 +37,7 @@ import relationTagLibraryReducer from './library/relationTagLibraryReducer';
 import effectLibraryReducer from './library/effectLibraryReducer';
 import eventLibraryReducer from './library/eventLibraryReducer';
 import libraryReducer from './library/libraryReducer';
+import appSettingsReducer from './appSettingsReducer';
 
 export default combineReducers({
   arcadeGames: arcadeGamesReducer,
@@ -76,4 +77,5 @@ export default combineReducers({
   effectLibrary: effectLibraryReducer,
   eventLibrary: eventLibraryReducer,
   library: libraryReducer,
+  appSettings: appSettingsReducer,
 });

@@ -11,6 +11,7 @@ import interfacePresetRoutes from './library/interfacePreset'
 import codrawingRoutes from './codrawing'
 import gameRoomInstanceRoutes from './gameRoomInstance'
 import canvasImagesRoutes from './canvasImages'
+import appSettingsRoutes from './appSettings'
 import experienceModelRoutes from './experienceModel'
 import entityModelRoutes from './library/entityModel'
 import relationRoutes from './library/relation'
@@ -18,6 +19,7 @@ import relationTagRoutes from './library/relationTag'
 import effectRoutes from './library/effect'
 import eventRoutes from './library/event'
 import libraryRoutes from './library/library'
+
 
 const router = Router();
 
@@ -40,6 +42,7 @@ router.use('/effect', effectRoutes);
 router.use('/event', eventRoutes);
 router.use('/canvasImages', canvasImagesRoutes);
 router.use('/library', libraryRoutes);
+router.use('/appSettings', appSettingsRoutes);
 
 'routes register', router.stack.map((router) => {
   // console.log(router.regexp)

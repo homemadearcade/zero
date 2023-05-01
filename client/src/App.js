@@ -32,6 +32,7 @@ import InterfaceListPage from './pages/InterfaceListPage/InterfaceListPage';
 import ArcadePage from './pages/ArcadePage/ArcadePage';
 import ExperienceCreatorPage from './pages/ExperienceCreatorPage/ExperienceCreatorPage';
 import ExperiencesPage from './pages/ExperiencesPage/ExperiencesPage';
+import AppSettingsPage from './pages/AppSettingsPage/AppSettingsPage';
 
 window.awsUrl = window.location.origin + '/api/aws/' //'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
@@ -337,6 +338,7 @@ const App = ({ theme: { primaryColor } }) => {
           <Route path="/notfound" children={wrapComponentInAppIfAuthenticated(NotFound)} />
           <Route path="/lobbys" children={wrapComponentInApp(Lobbys)} />
           <Route path="/experiences" children={wrapComponentInApp(ExperiencesPage)} />
+          <Route path="/app-settings" children={wrapComponentInApp(AppSettingsPage)} />
           <Route path="/experience/:experienceModelMongoId" children={wrapComponentInApp(ExperienceCreatorPage)} />
           <Route path="/lobby/:lobbyInstanceMongoId" children={wrapComponentInApp(LobbyPage)} />
           <Route exact path="/user/:username" children={wrapComponentInApp(UserPage)} />

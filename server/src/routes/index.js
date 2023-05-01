@@ -36,25 +36,6 @@ router.use('/api', (req, res) => res.status(404).json('No route for this path'))
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
 /// MISC
-router.post('/uploadtest', (req, res) => {
-  let startTime = new Date().getTime();
-  let dataSize = 0;
-
-  // Each time data is received, report the number of bits each second
-  req.on('data', (data) => {
-    dataSize += data.length;
-  });
-
-  // When all data is received, log it and close the connection;
-  req.on('end', () => {
-    let currentTime = new Date().getTime();
-    let duration =  (currentTime - startTime)/1000;
-    var bitsLoaded = dataSize * 8;
-    var speedMbps = ((bitsLoaded / duration) / 1024 / 1024).toFixed(2);
-    res.status(200).send({ });
-  })
-})
-
 router.get('/spriteSheets', (req,res)=>{
   const { spriteSheetIds } =  req.query;
 

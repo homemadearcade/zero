@@ -72,6 +72,11 @@ function AppBar({ auth }) {
         name: 'Calendar',
         url: 'calendar',
       })
+
+      pages.push({
+        name: 'App',
+        url: 'app-settings',
+      })
     }
   }
 

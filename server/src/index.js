@@ -23,9 +23,11 @@ import { ON_COBROWSING_STATUS_UPDATE,
     ON_LOBBY_INSTANCE_EVENT } from './constants';
 import { onSocketAuthenticate, onSocketDisconnect } from './socket';
 import { onMongoDBConnected } from './onMongoDBConnected';
+import { uploadTest } from './services/uploadTest';
 
 const app = express();
 
+app.post('/uploadtest', uploadTest)
 // Bodyparser Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

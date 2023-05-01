@@ -42,12 +42,13 @@ export const testInternetSpeed = async () => {
     }
 
     function detectUploadSpeed() {
+      const uploadSize = downloadSize/10
       return new Promise((resolve, reject) => {
         var http = new XMLHttpRequest();
         var startTime, endTime;
         var url = "/uploadtest";
         var myData = ""; // the raw data you will send
-        for(var i = 0 ; i < downloadSize ; i++) //if you want to send 1 kb (2 + 1022 bytes = 1024b = 1kb). change it the way you want
+        for(var i = 0 ; i < uploadSize ; i++) //if you want to send 1 kb (2 + 1022 bytes = 1024b = 1kb). change it the way you want
         {
             myData += "k"; // add one byte of data;
         }
@@ -60,7 +61,7 @@ export const testInternetSpeed = async () => {
           if(http.readyState === 4 && http.status === 200) {
               endTime = (new Date()).getTime();
               var duration = (endTime - startTime) / 1000;
-              var bitsLoaded = downloadSize * 8;
+              var bitsLoaded = uploadSize * 8;
               var speedMbps = ((bitsLoaded / duration) / 1024 / 1024).toFixed(2);
               resolve(speedMbps)
             }

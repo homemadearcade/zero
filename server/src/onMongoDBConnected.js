@@ -1,4 +1,5 @@
 import { GAME_ROOMS_STORE, LOBBY_INSTANCE_STORE } from "./constants"
+import AppSettings from "./models/AppSettings"
 import GameRoomInstance from "./models/GameRoomInstance"
 import LobbyInstance from "./models/LobbyInstance"
 
@@ -13,6 +14,11 @@ export async function onMongoDBConnected(app) {
   // }
   
   // await TicketPurchase.create(ticketPurchase)
+
+  const appSettings = await AppSettings.findOne()
+  if(!appSettings) {
+    await AppSettings.create({})
+  }
 
   let lobbyInstances = await LobbyInstance.find().populate('invitedUsers gameRoomInstances')
   
