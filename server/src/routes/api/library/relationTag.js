@@ -2,6 +2,7 @@ import { Router } from 'express';
 import requireJwtAuth from '../../../middleware/requireJwtAuth';
 import { mergeDeep } from '../../../utils/utils';
 import RelationTag from '../../../models/library/RelationTag';
+import { APP_ADMIN_ROLE } from '../../../constants/index';
 
 const router = Router();
 
@@ -43,7 +44,7 @@ router.get('/relationTagId/:relationTagId', async (req, res) => {
 });
 
 router.post('/', requireJwtAuth, async (req, res) => {
-  if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
+  if (!(req.body.userMongoId === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
     return res.status(400).json({ message: 'Not created by the relationTag owner or admin.' });
   }
 
@@ -65,7 +66,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
 router.delete('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempRelationTag = await RelationTag.findById(req.params.id).populate('owner');
-    if (!(tempRelationTag.owner.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempRelationTag.owner.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ relationTag: 'Not the relationTag owner or admin.' });
 
     const relationTag = await RelationTag.findByIdAndRemove(req.params.id).populate('owner');
@@ -80,7 +81,7 @@ router.put('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempRelationTag = await RelationTag.findById(req.params.id).populate('owner');
     if (!tempRelationTag) return res.status(404).json({ message: 'No relationTag found.' });
-    if (!(tempRelationTag.owner.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempRelationTag.owner.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ message: 'Not updated by the relationTag owner or admin.' });
 
     const updatedRelationTag = mergeDeep(tempRelationTag, req.body)

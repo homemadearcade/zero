@@ -2,20 +2,20 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './SelectEntityModelInterfaceCategory.scss';
+import './SelectEntityModelClass.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { entityModelTypeToDisplayName } from '../../constants';
+import { entityModelClassToDisplayName } from '../../constants';
 
-const SelectEntityModelInterfaceCategory = ({ onChange, value, formLabel }) => {
-  const mapEntityTypeToOption = (entityModelType) => {
+const SelectEntityModelClass = ({ onChange, value, formLabel }) => {
+  const mapEntityTypeToOption = (entityModelClass) => {
 
     return {
-      label: entityModelTypeToDisplayName[entityModelType],
-      value: entityModelType
+      label: entityModelClassToDisplayName[entityModelClass],
+      value: entityModelClass
     }
   }
 
-  const options = Object.keys(entityModelTypeToDisplayName).map(mapEntityTypeToOption)
+  const options = Object.keys(entityModelClassToDisplayName).map(mapEntityTypeToOption)
 
   return <SelectChipsAuto 
     onChange={onChange}
@@ -33,4 +33,4 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, { }),
-)(SelectEntityModelInterfaceCategory);
+)(SelectEntityModelClass);

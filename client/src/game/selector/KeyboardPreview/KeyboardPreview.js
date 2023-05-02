@@ -8,9 +8,11 @@ import { getLayerIdFromColorId, getLayerIdFromEraserId, getHexFromColorId, isBru
 import { dataSourceIIDToIcon, effectInterfaceDatas, layerGroupIIDtoShortName, PAUSED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
-import { entityModelTypeToDisplayName } from '../../constants';
+import { entityModelClassToDisplayName } from '../../constants';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { KEYBOARD_PREVIEW_IID } from '../../../constants/interfaceIds';
+import { TOOLBAR_MORE_IID } from '../../../constants/interfaceIds/toolbarInterfaceIds';
+import Button from '../../../ui/Button/Button';
 
 const KeyboardPreview = ({ 
   cobrowsing: {
@@ -48,7 +50,7 @@ const KeyboardPreview = ({
     const entityModelId = entityModelIdHovering || entityModelIdSelectedEntityList
     const entityModel = gameModel.entityModels[entityModelId]
     if(!entityModel) return
-    return entityModelTypeToDisplayName[entityModel.entityIID]
+    return entityModelClassToDisplayName[entityModel.entityIID]
   }
 
   function renderActionTitle(text, icon) {
@@ -128,17 +130,21 @@ const KeyboardPreview = ({
     </Typography>
   }
 
+  function renderMore() {
+    return <Unlockable interfaceId={TOOLBAR_MORE_IID}>
+      <Button size="fit" startIcon={<Icon icon='faToolbox'/>} className="Toolbox__more" onClick={() => {
+        // openEntityBoxDialog(PLACE_ENTITY_AID, entityModelClass)
+      }}>
+        More
+      </Button>
+    </Unlockable>
+  }
+
   // function renderActions() {
-  //   <Unlockable interfaceId={ENTITY_BOX_OPEN_IID}>
-  //     <Button size="fit" startIcon={<Icon icon='faArrowPointer'/>} className="EntityList__more" onClick={() => {
-  //       openEntityBoxDialog(PLACE_ENTITY_AID, entityModelType)
-  //     }}>
-  //       More
-  //     </Button>
-  //   </Unlockable>
+
   //   <Unlockable interfaceId={ENTITY_BOX_OPEN_IID}>
   //     <Button size="fit" startIcon={<Icon icon='faBoxArchive'/>} className="EntityList__more" onClick={() => {
-  //       openEntityBoxDialog(IMPORT_DATA_SOURCE_AID, entityModelType)
+  //       openEntityBoxDialog(IMPORT_DATA_SOURCE_AID, entityModelClass)
   //     }}>
   //       Import
   //     </Button>
@@ -149,6 +155,9 @@ const KeyboardPreview = ({
  
   return <Unlockable interfaceId={KEYBOARD_PREVIEW_IID}>
     <div className="KeyboardPreview">
+      <div className="KeyboardPreview__header">
+        <Icon icon="faKeyboard" color="#aaa" size="xs"/>
+      </div>
       <div className="KeyboardPreview__core">
 
       </div>
@@ -164,7 +173,7 @@ const KeyboardPreview = ({
           </div>
         })}
       </div>
-
+      {renderMore()}
     </div>
   </Unlockable>
 }

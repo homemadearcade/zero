@@ -4,6 +4,7 @@ import { mergeDeep } from '../../utils/utils';
 import TicketPurchase from '../../models/TicketPurchase';
 import { generateUniqueId } from '../../utils/utils';
 import { TICKET_PURCHASE_DID } from '../../constants';
+import { APP_ADMIN_ROLE } from "../../constants/index";
 
 const router = Router();
 
@@ -56,7 +57,7 @@ router.get('/byEvent/:eventId', async (req, res) => {
 });
 
 router.post('/', requireJwtAuth, async (req, res) => {
-  if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
+  if (!(req.body.userMongoId === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
     return res.status(400).json({ message: 'Not created by the ticket purchase owner or admin.' });
   }
 
@@ -79,7 +80,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
 // router.delete('/:id', requireJwtAuth, async (req, res) => {
 //   try {
 //     const tempTicketPurchase = await TicketPurchase.findById(req.params.id).populate('user');
-//     if (!(tempTicketPurchase.user.id === req.user.id || req.user.role === 'ADMIN'))
+//     if (!(tempTicketPurchase.user.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
 //       return res.status(400).json({ ticketPurchase: 'Not the ticket purchase owner or admin.' });
 
 //     const ticketPurchase = await TicketPurchase.findByIdAndRemove(req.params.id);
@@ -94,7 +95,7 @@ router.put('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempTicketPurchase = await TicketPurchase.findById(req.params.id).populate('user');
     if (!tempTicketPurchase) return res.status(404).json({ message: 'No ticket purchase found.' });
-    if (!(tempTicketPurchase.user.id === req.user.id || req.user.role === 'ADMIN')) return res.status(400).json({ message: 'Not updated by the ticketed purchase owner or admin.' });
+    if (!(tempTicketPurchase.user.id === req.user.id || req.user.roles[APP_ADMIN_ROLE])) return res.status(400).json({ message: 'Not updated by the ticketed purchase owner or admin.' });
 
     const updatedTicketPurchase = mergeDeep(tempTicketPurchase, req.body)
 

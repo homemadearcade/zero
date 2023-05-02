@@ -5,6 +5,7 @@
 import { JUMP_GROUND } from "../core"
 import { JUMP_NONE } from "../core"
 import { ADVANCED_DIRECTIONAL_CONTROLS, DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from "../core"
+import { CONTROLS_NO_BEHAVIOR_NONE } from "./movement"
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -35,6 +36,9 @@ export const movementControlsBehaviorToInterface = {
     bounce: true,
     ignoreGravity: true
   },
+  [CONTROLS_NO_BEHAVIOR_NONE]: {
+
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -123,6 +127,9 @@ export const movementControlsToKeys = {
     right: 'Accelerate Right',
     down: 'Accelerate Down'
   },
+  [CONTROLS_NO_BEHAVIOR_NONE]: {
+  
+  }
   // [CAR_CONTROLS]: {
   //   up: 'Accelerate',
   //   left: 'Turn Left',

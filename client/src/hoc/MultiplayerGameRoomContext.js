@@ -7,7 +7,9 @@ import { addGameRoom, editGameRoom, endGameRoom, joinGameRoom, leaveGameRoom } f
 import { initializeUnlockableInterfaceIds } from '../store/actions/game/unlockedInterfaceActions';
 import { getUserByMongoId } from '../store/actions/user/userActions';
 import LinearIndeterminateLoader from '../ui/LinearIndeterminateLoader/LinearIndeterminateLoader';
+import Loader from '../ui/Loader/Loader';
 import { generateUniqueId } from '../utils';
+import GameContext from './GameContext';
 
 class MultiplayerGameRoomContext extends Component {
   state = {
@@ -83,18 +85,28 @@ class MultiplayerGameRoomContext extends Component {
       await leaveGameRoom({gameRoomInstanceMongoId: gameRoomInstance.id, userMongoId: me?.id})
     }
   }
+  
+  renderChildren() {
+    const { children } = this.props;
+    console.log('rendering thse children')
+    return children instanceof Function ? children(this.props) : children
+  }
 
   renderBody() {
-    const { children, gameRoomInstance: { isLoading, isJoining, gameRoomInstance}} = this.props;
+    const {  gameRoomInstance: { isLoading, isJoining, gameRoomInstance }} = this.props;
     
+
+
     if(isLoading) {
+            // return <Loader text="Loading Game Session..."/>
+
       return <LinearIndeterminateLoader/>
-      // return <Loader text="Loading Game Session..."/>
     }
   
     if(isJoining && !gameRoomInstance.id) {
+            // return <Loader text="Joining Game Session..."/>
+
       return <LinearIndeterminateLoader/>
-      // return <Loader text="Joining Game Session..."/>
     }
 
     if(!this.state.isUnlockableInterfaceIdsInitialized) {
@@ -103,11 +115,14 @@ class MultiplayerGameRoomContext extends Component {
 
     const gameInstanceId = gameRoomInstance.gameInstanceIds[gameRoomInstance.arcadeGameMongoId]
     if(!gameInstanceId) {
+            // return <Loader text="Creating Game Instance..."/>
+
       return <LinearIndeterminateLoader/>
-      // return <Loader text="Creating Game Instance..."/>
     }
 
-    return children instanceof Function ? children(this.props) : children
+    return <GameContext arcadeGameMongoId={gameRoomInstance.arcadeGameMongoId} gameInstanceId={gameInstanceId}>
+      {this.renderChildren()}
+    </GameContext>
   }
 
   render() {

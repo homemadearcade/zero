@@ -7,7 +7,8 @@ import { STAGES_OPEN_IID, STAGE_ADD_IID, STAGE_OPEN_BACKGROUND_COLOR_IID,
 export default {
   [STAGE_GRAVITY_X_IID]: {},
   [STAGE_GRAVITY_Y_IID]: {
-     isDefaultUnlocked: true
+     isDefaultUnlocked: true,
+      interfaceGroupId: STAGE_IGID
   },
   [STAGE_OPEN_BACKGROUND_COLOR_IID]: {
     

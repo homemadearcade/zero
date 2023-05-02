@@ -18,4 +18,6 @@ SELECT FORMS
 (more) MORE MENUS
 like 'fine tune size' for brushes, grid mode for the view, other things. This should be expected and common
 
+When there is a SAVE required, before closing ask if you are certain to close
+
 --

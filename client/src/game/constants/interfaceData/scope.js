@@ -3,7 +3,7 @@ import { EDIT_GAME_SCOPE_ANYONE, EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE, EDIT_GAME_
 export const playScopeInterfaceData = {
   [PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE]: {
     name: 'In Experience',
-    adminOnly: true,
+    appAdminOnly: true,
     description: 'This game is played seen during an experience and will be deleted after some time',
     icon: 'faE',
   },
@@ -34,7 +34,7 @@ export const playScopeInterfaceData = {
   },
   [PLAY_GAME_SCOPE_FEATURED]: {
     name: 'Featured',
-    adminOnly: true,
+    appAdminOnly: true,
     description: 'This game will be featured on the Homemade Arcade homepage for anyone to play.',
     icon: 'faStar',
   },
@@ -43,7 +43,7 @@ export const playScopeInterfaceData = {
 export const editScopeInterfaceData = {
   [EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE]: {
     name: 'In Experience',
-    adminOnly: true,
+    appAdminOnly: true,
     description: 'This game is hidden but can be played during an experience',
     icon: 'faE',
   },

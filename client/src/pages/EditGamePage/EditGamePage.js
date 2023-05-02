@@ -6,23 +6,24 @@ import GameEditor from '../../game/view/GameEditor/GameEditor';
 
 import './EditGamePage.scss';
 
-import withGame from '../../hoc/withGame';
 import requireChrome from '../../hoc/requireChrome';
 import LocalGameRoomContext from '../../hoc/LocalGameRoomContext';
 import { PLAY_STATE } from '../../game/constants';
 import requireAuth from '../../hoc/requireAuth';
+import { withRouter } from 'react-router-dom';
 
-const EditGamePage = ({}) => {
+const EditGamePage = ({ match }) => {
   return (
-    <LocalGameRoomContext room={{isEdit: true, gameState: PLAY_STATE}}>
+    <LocalGameRoomContext room={{isEdit: true, gameState: PLAY_STATE, arcadeGameMongoId: match.params.arcadeGameMongoId}}>
       <div className="EditGamePage">
-          <GameEditor 
-            leftColumn={<>
-            </>}
-            rightColumn={<>
-            </>}
-          >
-          </GameEditor>
+        <GameEditor 
+          leftColumn={<>
+
+          </>}
+          rightColumn={<>
+
+          </>}
+        />
       </div>
     </LocalGameRoomContext>
   );
@@ -35,6 +36,6 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireChrome,
   requireAuth,
-  withGame,
+  withRouter,
   connect(mapStateToProps, { })
 )(EditGamePage);

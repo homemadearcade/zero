@@ -3,6 +3,8 @@ import requireJwtAuth from '../../middleware/requireJwtAuth';
 import User, { hashPassword } from '../../models/User';
 import Message from '../../models/Message';
 import { recordS3Upload, s3Multer } from '../../services/aws';
+import { APP_ADMIN_ROLE } from '../../constants';
+
 
 const router = Router();
 
@@ -10,7 +12,7 @@ router.put('/:id/speedTest', requireJwtAuth, async (req, res, next) => {
   try {
     const tempUser = await User.findById(req.params.id);
     if (!tempUser) return res.status(404).json({ message: 'No such user.' });
-    if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempUser.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ message: 'You do not have privelages to edit this user.' });
 
     //       //validate name, username and password
@@ -62,7 +64,7 @@ router.put('/:id/roles', [requireJwtAuth], async (req, res, next) => {
   try {
     const tempUser = await User.findById(req.params.id);
     if (!tempUser) return res.status(404).json({ message: 'No such user.' });
-    if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempUser.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ message: 'You do not have privelages to edit this user.' });
 
     // remove '', null, undefined
@@ -83,7 +85,7 @@ router.put('/:id', [requireJwtAuth], async (req, res, next) => {
   try {
     const tempUser = await User.findById(req.params.id);
     if (!tempUser) return res.status(404).json({ message: 'No such user.' });
-    if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempUser.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ message: 'You do not have privelages to edit this user.' });
 
     // validate name, username and password
@@ -206,7 +208,7 @@ router.delete('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempUser = await User.findById(req.params.id);
     if (!tempUser) return res.status(404).json({ message: 'No such user.' });
-    if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempUser.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ message: 'You do not have privelages to delete that user.' });
 
     // if (['email0@email.com', 'email1@email.com'].includes(tempUser.email))

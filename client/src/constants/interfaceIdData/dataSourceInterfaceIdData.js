@@ -4,11 +4,11 @@ import { GAME_MODEL_IMPORT_IID, ENTITY_BOX_OPEN_IID, LIBRARY_REMOVE_IID, REMOVED
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   [LIBRARY_REMOVE_IID]: {
-    adminOnly: true,
+    appAdminOnly: true,
     // previewText: 'Remove from Library'
   },
   [GAME_MODEL_IMPORT_IID]: {
-    adminOnly: true,
+    appAdminOnly: true,
     previewText: 'Import Game Model',
     name: 'Import Game Model Button',
     interfaceGroupId: ENTITY_MODEL_IGID

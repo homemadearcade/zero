@@ -1,6 +1,10 @@
 BUGS
   Dont set Agora to a device if that device isn’t found this time.
 
+  Step titles are currently undefined without the game model 
+
+  Edit Scroll bar style to be non existent 
+
 EXPERIENCE ROLES
   If you switch roles the camera breaks 
 
@@ -44,14 +48,18 @@ MIGRATE TO TYPESCRIPT?
 RENAME ACTIVITYS?
   brew install rename
 
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
-LAYER VERSIONING BY GAME SESSION?
---------------------------------------------------------------------------------------
-  you need to copy the textures within the game... too ( just the layer images really )
-  Or do versioning for the layer images.. not sure
+entityIID -> entityClassIID
 
-  ALSO security is still a problem. If I send in a texture id I want to replace then I CAN. 
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+IMAGE SECURITY
+--------------------------------------------------------------------------------------
+ALSO security is still a problem. If I send in a texture id I want to replace then I CAN
 
-  Ok so we need to prevent overriding? Or like have an owner of a texture? but then not everyone can edit? I think its about creating new images and then deleting past images eventually. Thats why we record s3 uploads. 
+
+/////
+
+I think that Errors should just simualte a refresh of almost essnetially the entire page ( except the video call ? ). 
+
+If theres a problem with cobrowsing connection there could easily be a problem with lobby, game instance, etc. 

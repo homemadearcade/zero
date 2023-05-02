@@ -1,10 +1,19 @@
 .KeyboardPreview {
   color: white;
 
+  &__header {
+    background-color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   &__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
+    border: 1px solid #333;
+    background-color: #111;
   }
 
   &__node {
@@ -12,20 +21,40 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #333;
-    width: 4em;
+    // border: 1px solid #333;
     height: 4em;
     position: relative;
-    &:last-child {
 
+    border-top: 1px solid #333;
+    border-left: 1px solid #333;
+  
+    &:nth-child(-n + 2) {
+      border-top: 1px solid #333;
+    }
+  
+    &:nth-child(odd) {
+      border-left: 1px solid #333;
+    }
+  
+    &:nth-child(-n + 3) {
+      border-top: none;
+    }
+  
+    &:first-child,
+    &:nth-child(3n + 1) {
+      border-left: none;
     }
   }
 
   &__node-control {
     flex: 1;
     position: absolute;
-    bottom: .2em;
-    left: .2em;
+    padding: .2em;
+    bottom: 0;
+    left: 0;
+    background-color: #222;
+        border-top: 1px solid #333;
+            border-right: 1px solid #333;
   }
 
   &__node-action {

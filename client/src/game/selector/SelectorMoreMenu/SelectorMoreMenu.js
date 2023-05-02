@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { mapCobrowsingState } from "../../../utils";
 import { toggleSelectorClassInvisibility } from "../../../store/actions/game/gameSelectorActions";
-import { entityModelTypeToDisplayName } from "../../constants";
+import { entityModelClassToDisplayName } from "../../constants";
 import LayerVisibility from "../../ui/LayerVisibility/LayerVisibility";
 import DataSourceVisibilityMenu from "../../../ui/connected/DataSourceVisibilityMenu/DataSourceVisibilityMenu";
 import Divider from "../../../ui/Divider/Divider";
@@ -14,7 +14,7 @@ import Divider from "../../../ui/Divider/Divider";
 function SelectorMoreMenu({  interfaceId}) {
   function getStageVisibility() {
     const menuItems = []
-    if(entityModelTypeToDisplayName[interfaceId]) {
+    if(entityModelClassToDisplayName[interfaceId]) {
       menuItems.push(<MenuItem className="MenuIconButton__title" key="visibile on stage" dense>Visible on Stage</MenuItem>)
       menuItems.push(<MenuItem key={"visible on stage" + interfaceId} dense><LayerVisibility layerId={interfaceId} /></MenuItem>)
     }

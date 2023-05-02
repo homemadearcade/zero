@@ -430,7 +430,7 @@ export class EditorScene extends GameInstance {
       this.doubleClicked = true
       setTimeout(() => {
         this.doubleClicked = false
-      }, 200)
+      }, 350)
       this.onDoubleClick(pointer, hoveringInstances)
       return
     }
@@ -532,7 +532,7 @@ export class EditorScene extends GameInstance {
               store.dispatch(openStageLiveEditor())
             // }
           }
-        }, 200)
+        }, 350)
       }
     }
   }

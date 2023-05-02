@@ -10,7 +10,7 @@ import EntityBoxList from '../EntityBoxList/EntityBoxList';
 import EntityModelAdd from '../EntityModelAdd/EntityModelAdd';
 import { ENTITY_BOX_DIALOG_IID } from '../../../constants/interfaceIds';
 import Button from '../../../ui/Button/Button';
-import { entityModelTypeToDisplayName } from '../../constants';
+import { entityModelClassToDisplayName } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import EditEntityGraphics from '../EditEntityGraphics/EditEntityGraphics';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
@@ -41,7 +41,7 @@ const EntityBoxDialog = ({
       <EntityModelAdd entityIID={entityBoxDialogType} addEntityDialogIID={ENTITY_BOX_DIALOG_IID}>
       {(onClick) => {
         return <Button size="wide" startIcon={<Icon icon="faPlus"/>}onClick={onClick}>
-          Add {entityModelTypeToDisplayName[entityBoxDialogType]}
+          Add {entityModelClassToDisplayName[entityBoxDialogType]}
         </Button>
       }}
       </EntityModelAdd>

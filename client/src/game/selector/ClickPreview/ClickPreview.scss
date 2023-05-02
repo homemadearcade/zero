@@ -1,5 +1,4 @@
 .ClickPreview {
-  background-color: #222;
   color: white;
 
   &__row {
@@ -12,6 +11,7 @@
     &:last-child {
       border-bottom: 1px solid #333;
     }
+    background-color: #111;
   }
 
   &__row-control {
@@ -19,6 +19,7 @@
     padding: .5em;
     display: flex;
     gap: .5em;
+    background-color: #222;
   }
 
   &__row-action {

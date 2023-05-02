@@ -6,8 +6,8 @@ import { openEntityBehaviorLiveEditor, openJsonViewer } from '../../../store/act
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { openEditEntityGraphics, openEditEntityDialog, openCreateCanvasImageDialog } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { ENTITY_MODEL_DID, entityModelTypeToPrefix, initialCameraZoneEntityId } from '../../constants';
-import { entityModelTypeToDisplayName } from '../../constants';
+import { ENTITY_MODEL_DID, entityModelClassToPrefix, initialCameraZoneEntityId } from '../../constants';
+import { entityModelClassToDisplayName } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { 
@@ -78,12 +78,12 @@ const EntityContextMenu = ({
       <MenuItem onClick={() => {
         openEditEntityDialog(entityModel)
         onMenuItemClick()
-      }}><ListItemIcon><Icon icon="faChessPawn"/></ListItemIcon>Edit {entityModelTypeToDisplayName[entityModel.entityIID]}</MenuItem>
+      }}><ListItemIcon><Icon icon="faChessPawn"/></ListItemIcon>Edit {entityModelClassToDisplayName[entityModel.entityIID]}</MenuItem>
     </Unlockable>
 
     {!insideEntityInstanceContextMenu && <Unlockable interfaceId={ENTITY_MODEL_DUPLICATE_IID}>
         <MenuItem onClick={() => {  
-          const newEntityId = ENTITY_MODEL_DID+entityModelTypeToPrefix[entityModel.entityIID]+generateUniqueId()
+          const newEntityId = ENTITY_MODEL_DID+entityModelClassToPrefix[entityModel.entityIID]+generateUniqueId()
 
           const newRelationTags =  Object.keys(entityModel.relationTags).filter(relationTagId => {
             const relationTag = gameModel.relationTags[relationTagId]
@@ -110,7 +110,7 @@ const EntityContextMenu = ({
             }
           })
           onMenuItemClick()
-        }}><ListItemIcon><Icon icon="faClone"/></ListItemIcon>Duplicate {entityModelTypeToDisplayName[entityModel.entityIID]}</MenuItem>
+        }}><ListItemIcon><Icon icon="faClone"/></ListItemIcon>Duplicate {entityModelClassToDisplayName[entityModel.entityIID]}</MenuItem>
       </Unlockable>}
       {!insideEntityInstanceContextMenu && 
         <Unlockable interfaceId={ENTITY_MODEL_REMOVE_IID}>

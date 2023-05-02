@@ -76,11 +76,11 @@ export function getInterfaceIdData(interfaceId) {
   
   const data = interfaceIdData[interfaceId]
   let isDefaultUnlocked = false
-  let adminOnly = false
+  let appAdminOnly = false
   let ignoreTools = false
   if(data) {
     isDefaultUnlocked = data.isDefaultUnlocked
-    adminOnly = data.adminOnly
+    appAdminOnly = data.appAdminOnly
     ignoreTools = data.ignoreTools
   }
 
@@ -97,7 +97,7 @@ export function getInterfaceIdData(interfaceId) {
     idAliases,
     isObscured,
     isToolInteractable,
-    adminOnly,
+    appAdminOnly,
   }
 }
 

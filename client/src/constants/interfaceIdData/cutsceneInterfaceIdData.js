@@ -16,7 +16,7 @@ export default {
   },
   [DIALOGUE_SELECT_IID]: {},
   [DIALOGUE_SHORTCUT_IID]: {
-    adminOnly: true
+    appAdminOnly: true
   },
   [CUTSCENE_CONTAINER_IID]: {
     name: 'Cutscene Container',

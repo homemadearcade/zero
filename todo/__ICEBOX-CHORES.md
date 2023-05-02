@@ -55,8 +55,6 @@ APP ORGANIZATION
 
 updateCobrowsing wrapper that only occurs when you use the target icon in the cobrowsing toolbar
 
-comebine withGame with GameRoomContext
-
 TicketedEvent/TicketPurchase need to change user to owner/purchaser
 
 OPEN/CLOSE should all be TOGGLE with a value prop

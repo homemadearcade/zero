@@ -33,7 +33,7 @@ export default {
     }
   },
   [EDIT_CURRENT_STAGE_PERSPECTIVE_AID]: {
-    title: 'Edit Perspective',
+    title: 'Edit Stage Perspective',
     subTitle: 'This will open a popup to select the stage perspective',
     actionType: INTERFACE_ACTION_EDIT,
     onClick: () => (dispatch) => {

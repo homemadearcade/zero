@@ -66,6 +66,6 @@ export const initialTags = {
   // [movingPlatformRelationTagId]: createLibraryTag(movingPlatformRelationTagId, 'Moving Platform', '#FFFFFF'),
 }
 
-// Object.keys(entityModelTypeToDisplayName).forEach((relationTagIID) => {
-//   initialTags[relationTagIID] = createLibraryTag(relationTagIID, entityModelTypeToDisplayName[relationTagIID], '#FFFF00')
+// Object.keys(entityModelClassToDisplayName).forEach((relationTagIID) => {
+//   initialTags[relationTagIID] = createLibraryTag(relationTagIID, entityModelClassToDisplayName[relationTagIID], '#FFFF00')
 // })

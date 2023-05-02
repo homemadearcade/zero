@@ -11,9 +11,10 @@ export const MOVEMENT_FOLLOW_PLAYER = 'MOVEMENT_FOLLOW_PLAYER'
 export const MOVEMENT_FOLLOW_RELATION_TAG = 'MOVEMENT_FOLLOW_RELATION_TAG'
 export const MOVEMENT_NONE = 'MOVEMENT_NONE'
 export const MOVEMENT_MIRROR_PLAYER = 'MOVEMENT_MIRROR_PLAYER'
+export const CONTROLS_NO_BEHAVIOR_NONE = 'CONTROLS_NO_BEHAVIOR_NONE'
 
 export const defaultMovement = {
-  movementControlsBehavior: null,
+  movementControlsBehavior: CONTROLS_NO_BEHAVIOR_NONE,
   movementBehavior: MOVEMENT_NONE,
   velocityX: 0,
   velocityY: 0,

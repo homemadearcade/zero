@@ -11,7 +11,7 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CobrowsingAccordianList from '../../cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
-import { entityModelTypeToDisplayName, entityModelTypeToContainerIID } from '../../constants';
+import { entityModelClassToDisplayName, entityModelClassToContainerIID } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import { BASIC_ENTITY_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, getSelectEntityFromEntityType, NPC_ENTITY_IID, ENTITY_BOX_OPEN_IID, PLAYER_ENTITY_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 import { openEntityBoxDialog } from '../../../store/actions/game/gameSelectorActions';
@@ -33,25 +33,25 @@ const EntityList = ({
     return null
   }
 
-  const renderEntityItem = (entityModelType) =>  (currentEntityModelId, i) => {
+  const renderEntityItem = (entityModelClass) =>  (currentEntityModelId, i) => {
     const el = <EntityItem key={i} entityModelId={currentEntityModelId}/>
-    return <Unlockable interfaceId={getSelectEntityFromEntityType(entityModelType)}>
+    return <Unlockable interfaceId={getSelectEntityFromEntityType(entityModelClass)}>
       {el}
     </Unlockable>
   }
 
-  function renderEntityBoxButton(entityModelType){
+  function renderEntityBoxButton(entityModelClass){
     return <>
       <Unlockable interfaceId={ENTITY_BOX_OPEN_IID}>
       <Button size="fit" startIcon={<Icon icon='faArrowPointer'/>} className="EntityList__more" onClick={() => {
-        openEntityBoxDialog(PLACE_ENTITY_AID, entityModelType)
+        openEntityBoxDialog(PLACE_ENTITY_AID, entityModelClass)
       }}>
         More
       </Button>
     </Unlockable>
     <Unlockable interfaceId={ENTITY_BOX_OPEN_IID}>
       <Button size="fit" startIcon={<Icon icon='faBoxArchive'/>} className="EntityList__more" onClick={() => {
-        openEntityBoxDialog(IMPORT_DATA_SOURCE_AID, entityModelType)
+        openEntityBoxDialog(IMPORT_DATA_SOURCE_AID, entityModelClass)
       }}>
         Import
       </Button>
@@ -59,12 +59,12 @@ const EntityList = ({
    </>
   }
 
-  const filterEntityModels = (entityModelType) => (currentEntityModelId) => {
+  const filterEntityModels = (entityModelClass) => (currentEntityModelId) => {
     const currentEntityModel = entityModels[currentEntityModelId]
     if(currentEntityModel.isRemoved) return 
     if(currentEntityModel.editorInterface.hiddenFromIDs[SELECTOR_ENTITY_BY_INTERFACE_ID_IID]) return false
     if(!currentEntityModel.isImported) return false 
-    if(currentEntityModel.entityIID === entityModelType) {
+    if(currentEntityModel.entityIID === entityModelClass) {
       return true
     }
     return false
@@ -73,8 +73,8 @@ const EntityList = ({
   const accordians = []
   const hiddenOpacity = 0.5
 
-  const entityModelTypes = [PLAYER_ENTITY_IID, NPC_ENTITY_IID, BASIC_ENTITY_IID, ZONE_ENTITY_IID]
-  entityModelTypes.forEach((entityIID) => {
+  const entityModelClasss = [PLAYER_ENTITY_IID, NPC_ENTITY_IID, BASIC_ENTITY_IID, ZONE_ENTITY_IID]
+  entityModelClasss.forEach((entityIID) => {
     const releventEntityModels = Object.keys(entityModels).
       filter(filterEntityModels(entityIID)).
       sort(sortByLastEditedDate(entityModels)).
@@ -89,10 +89,10 @@ const EntityList = ({
     </EntityModelAdd>)
 
     accordians.push({
-      interfaceId: entityModelTypeToContainerIID[entityIID],
+      interfaceId: entityModelClassToContainerIID[entityIID],
       sx: layerInvisibility[entityIID] ? {opacity: hiddenOpacity} : {},
       title: <>
-        <Typography component="div" variant="subtitle1">{entityModelTypeToDisplayName[entityIID]}</Typography>
+        <Typography component="div" variant="subtitle1">{entityModelClassToDisplayName[entityIID]}</Typography>
       </>,
       body: <>
         <BorderedGrid

@@ -9,7 +9,7 @@ import EntityNameForm from '../EntityNameForm/EntityNameForm';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Button from '../../../ui/Button/Button';
 import { closeEditEntityDialog, openEditEntityGraphics, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
-import SelectEntityModelInterfaceCategory from '../../ui/SelectEntityModelInterfaceCategory/SelectEntityModelInterfaceCategory';
+import SelectEntityModelClass from '../../ui/SelectEntityModelClass/SelectEntityModelClass';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { CHANGE_ENTITY_INTERFACE_IID, 
    EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, EDIT_ENTITY_MODEL_ADVANCED_TAB_CONTANER_IID, EDIT_ENTITY_MODEL_AUTOGENERATION_TAB_IID, 
@@ -21,7 +21,7 @@ import { CHANGE_ENTITY_INTERFACE_IID,
    LIVE_ENTITY_EDITOR_PROJECTILE_TAB_IID, PLAYER_ENTITY_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
-import { entityModelTypeToDisplayName, entityModelTypeToPrefix, ENTITY_MODEL_DID } from '../../constants';
+import { entityModelClassToDisplayName, entityModelClassToPrefix, ENTITY_MODEL_DID } from '../../constants';
 import { copyToClipboard, generateUniqueId } from '../../../utils';
 import Typography from '../../../ui/Typography/Typography';
 import TextureStage from '../../textures/TextureStage/TextureStage';
@@ -45,7 +45,7 @@ const EditEntityDialog = ({
 
   useEffect(() => {
     if(!entityModel.entityModelId) {
-      updateCreateEntity({ entityModelId: ENTITY_MODEL_DID+entityModelTypeToPrefix[entityModel.entityIID]+generateUniqueId(), isNew: true })
+      updateCreateEntity({ entityModelId: ENTITY_MODEL_DID+entityModelClassToPrefix[entityModel.entityIID]+generateUniqueId(), isNew: true })
     }
   }, [])
 
@@ -100,7 +100,7 @@ const EditEntityDialog = ({
 
   function renderSelectInterfaceId() {
     return <Unlockable interfaceId={CHANGE_ENTITY_INTERFACE_IID}>
-      <SelectEntityModelInterfaceCategory formLabel="Category" value={entityModel.entityIID ? [entityModel.entityIID]: []} onChange={(event, entityIID) => {
+      <SelectEntityModelClass formLabel="Class" value={entityModel.entityIID ? [entityModel.entityIID]: []} onChange={(event, entityIID) => {
         if(!entityIID.length) return
         updateCreateEntity({
           entityIID: entityIID[entityIID.length-1]
@@ -109,6 +109,20 @@ const EditEntityDialog = ({
     </Unlockable>
   }
 
+
+  function renderSpawnZoneGeneration(formLabel) {
+    return <Unlockable interfaceId={ENTITY_SPAWN_ZONE_ENTITY_IID}>
+      <SelectEntityModel 
+        entityModelClass={ZONE_ENTITY_IID}
+        interfaceId={ENTITY_SPAWN_ZONE_ENTITY_IID}
+        formLabel={formLabel}
+        value={entityModel.spawnZoneEntityModelIds}
+        onChange={(event, entityModels) => {
+            updateCreateEntity({ spawnZoneEntityModelIds: entityModels })
+        }}
+      />
+    </Unlockable>
+  }
 
   const generalTab = {
     interfaceId: EDIT_ENTITY_MODEL_GENERAL_TAB_IID,
@@ -128,6 +142,7 @@ const EditEntityDialog = ({
           {renderTagSelect()}
         </div>
       </div>
+      {renderSpawnZoneGeneration('Potential Spawn Zones')}
       <Unlockable interfaceId={ENTITY_MODEL_BOUNDARY_RELATION_IID}>
         <SelectBoundaryEffect
           entityModelId={entityModel.entityModelId}
@@ -172,17 +187,7 @@ const EditEntityDialog = ({
     interfaceId: EDIT_ENTITY_MODEL_AUTOGENERATION_TAB_IID,
     label: 'Autogeneration',
     body: <>
-      <Unlockable interfaceId={ENTITY_SPAWN_ZONE_ENTITY_IID}>
-        <SelectEntityModel 
-          entityModelType={ZONE_ENTITY_IID}
-          interfaceId={ENTITY_SPAWN_ZONE_ENTITY_IID}
-          formLabel={'Generate spawn effect for zones:'}
-          value={entityModel.spawnZoneEntityModelIds}
-          onChange={(event, entityModels) => {
-              updateCreateEntity({ spawnZoneEntityModelIds: entityModels })
-          }}
-        />
-      </Unlockable>
+      {renderSpawnZoneGeneration('Generate spawn effect for zones:')}
       <Button disabled={entityModel.error} type="submit" onClick={handleSubmit}>Save</Button>
     </>
   }
@@ -214,7 +219,7 @@ const EditEntityDialog = ({
   return <CobrowsingDialog widthModifier={1} open onClose={handleClose}>
     <div className="EditEntityDialog">
        <div className="EditEntityDialog__name"><Typography variant="h5">
-        {entityModel.isNew && 'New ' + entityModelTypeToDisplayName[entityModel.entityIID]}
+        {entityModel.isNew && 'New ' + entityModelClassToDisplayName[entityModel.entityIID]}
         {!entityModel.isNew && <div>
           <EntityNameForm
             initialName={entityModel.name}

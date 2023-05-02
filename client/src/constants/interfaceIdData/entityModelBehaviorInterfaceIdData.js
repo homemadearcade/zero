@@ -15,7 +15,7 @@ export default {
   // [ENTITY_MODEL_OPEN_MOVEMENT_IID]: {},
   [ENTITY_MODEL_OPEN_EDIT_IID]: {},
   [ENTITY_DATA_SOURCE_IID]: {
-    adminOnly: true
+    appAdminOnly: true
   },
   [ENTITY_RELATION_TAGS_IID]: {}
 }

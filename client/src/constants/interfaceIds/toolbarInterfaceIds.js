@@ -12,11 +12,7 @@ export const TOOL_PLAYTEST_IID = 'TOOL_PLAYTEST_IID';
 
 export const TOOL_GAME_ACTION_IID = 'TOOL_GAME_ACTION_IID';
 
-export const TOOLBAR_ADD_IID = 'TOOLBAR_ADD_IID';
-export const TOOLBAR_EDIT_IID = 'TOOLBAR_EDIT_IID';
-
-export const TOOL_CLICK_TOGGLE_IID = 'TOOL_CLICK_TOGGLE_IID';
-export const TOOL_CLICK_ACTION_IID = 'TOOL_CLICK_ACTION_IID';
+export const TOOLBAR_MORE_IID = 'TOOLBAR_MORE_IID';
 
 // is toolbars per user? or what? per user per game?, Where I keep all these toolbar tools?
 // users -> Game -> toolbar setup

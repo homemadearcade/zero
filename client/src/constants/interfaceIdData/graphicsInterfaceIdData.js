@@ -16,7 +16,8 @@ export default {
     name: 'Add Color Button',
     leftClickAction: 'Add Brush',
     leftClickIcon: 'faPlus',
-    interfaceGroupId: DRAW_IGID
+    interfaceGroupId: DRAW_IGID,
+    isDefaultUnlocked: true,
   },
   [CHOOSE_SYSTEM_TEXTURES_IID]: {
     name: 'Select System Sprites Area',
@@ -39,7 +40,7 @@ export default {
     interfaceGroupId: DRAW_IGID
   },
   [ENTITY_INVISIBLE_IID]: {
-    adminOnly: true,
+    appAdminOnly: true,
     interfaceGroupId: DRAW_IGID
     // previewText: ''
   },

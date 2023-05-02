@@ -12,7 +12,7 @@ export default {
   [ENTITY_MODEL_DUPLICATE_IID]: {},
   [PLAYER_ENTITY_TRANSFORM_IID]: {},
   [PLAYTEST_OPEN_IID]: {
-    adminOnly: true ,
+    appAdminOnly: true ,
     notCobrowseCompatible: true,
     interfaceGroupId: WEB_PAGE_IGID,
     name: 'Playtest Button',

@@ -1,3 +1,4 @@
+import { ENTITY_MODEL_BEHAVIOR_IGID } from "../interfaceIdGroups";
 import { COLLISIONS_BOUNCE_IID, COLLISIONS_COLLIDERS_IID, COLLISIONS_FRICTION_IID, COLLISIONS_IGNORE_BOUNDARIES_IID, COLLISIONS_IGNORE_SIDES_IID, COLLISIONS_IMMOVABLE_IID, COLLISIONS_MASS_IID, COLLISIONS_PUSHABLE_IID } from "../interfaceIds";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -5,13 +6,14 @@ export default {
   [COLLISIONS_COLLIDERS_IID]: {},
   [COLLISIONS_IGNORE_SIDES_IID]: {},
   [COLLISIONS_BOUNCE_IID]: {
-    isDefaultUnlocked: true
+    isDefaultUnlocked: true,
+    interfaceGroupId: ENTITY_MODEL_BEHAVIOR_IGID
   },
   [COLLISIONS_FRICTION_IID]: {},
   [COLLISIONS_MASS_IID]: {},
   [COLLISIONS_PUSHABLE_IID]: {},
   [COLLISIONS_IMMOVABLE_IID]: {},
   [COLLISIONS_IGNORE_BOUNDARIES_IID]: {
-    adminOnly: true
+    appAdminOnly: true
   },
 }

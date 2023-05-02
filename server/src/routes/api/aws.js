@@ -39,6 +39,7 @@ router.get('/:key*', async (req,res)=>{
 
     request.get(url).pipe(res)
   } catch(e) {
+    console.log(e)
     res.send(e)
   }
 

@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { playScopeInterfaceData } from '../../constants';
-import { ADMIN_ROLE } from '../../../constants';
+import { APP_ADMIN_ROLE } from '../../../constants';
 
 const SelectPlayScope = ({ onChange, value, formLabel, auth: { me } }) => {
   const mapEntityTypeToOption = (playScopeId) => {
@@ -16,7 +16,7 @@ const SelectPlayScope = ({ onChange, value, formLabel, auth: { me } }) => {
       label: interfaceData.description,
       icon: interfaceData.icon,
       value: playScopeId,
-      isRemoved: interfaceData.adminOnly && me.role !== ADMIN_ROLE
+      isRemoved: interfaceData.appAdminOnly && !me.role[APP_ADMIN_ROLE]
     }
   }
 

@@ -4,6 +4,7 @@ import { mergeDeep } from '../../utils/utils';
 import TicketedEvent from '../../models/TicketedEvent';
 import { generateUniqueId } from '../../utils/utils';
 import { TICKETED_EVENT_DID } from '../../constants';
+import { APP_ADMIN_ROLE } from "../../constants/index";
 
 const router = Router();
 
@@ -45,7 +46,7 @@ router.get('/ticketedEventId/:ticketedEventId', async (req, res) => {
 });
 
 router.post('/', requireJwtAuth, async (req, res) => {
-  if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
+  if (!(req.body.userMongoId === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
     return res.status(400).json({ message: 'Not created by the ticketed event owner or admin.' });
   }
 
@@ -68,7 +69,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
 router.delete('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempTicketedEvent = await TicketedEvent.findById(req.params.id).populate('user');
-    if (!(tempTicketedEvent.user.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempTicketedEvent.user.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ ticketedEvent: 'Not the ticketed event owner or admin.' });
 
     const ticketedEvent = await TicketedEvent.findByIdAndRemove(req.params.id).populate('user');
@@ -83,7 +84,7 @@ router.put('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempTicketedEvent = await TicketedEvent.findById(req.params.id).populate('user');
     if (!tempTicketedEvent) return res.status(404).json({ message: 'No ticketed event found.' });
-    if (!(tempTicketedEvent.user.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempTicketedEvent.user.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ message: 'Not updated by the ticketed event owner or admin.' });
 
     const updatedTicketedEvent = mergeDeep(tempTicketedEvent, req.body)

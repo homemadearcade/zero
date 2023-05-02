@@ -9,7 +9,7 @@ import { dataSourceIIDToIcon, effectInterfaceDatas, layerGroupIIDtoShortName, PA
 import Icon from '../../../ui/Icon/Icon';
 import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
-import { entityModelTypeToDisplayName } from '../../constants';
+import { entityModelClassToDisplayName } from '../../constants';
 import { initialStageId } from '../../constants';
 import { changeSelectorList, openEntityBehaviorLiveEditor, openGameEditDialog, openStageLiveEditor } from '../../../store/actions/game/gameSelectorActions';
 import Button from '../../../ui/Button/Button';
@@ -253,7 +253,7 @@ const HoverPreview = ({
         <Unlockable interfaceId={ENTITY_MODEL_OPEN_EDIT_IID}>
           <Button startIcon={<Icon icon="faChessPawn"/>} size="xs" onClick={() => {
             openEditEntityDialog(entityModel)
-          }}>Edit {entityModelTypeToDisplayName[entityModel.entityIID]}</Button>
+          }}>Edit {entityModelClassToDisplayName[entityModel.entityIID]}</Button>
         </Unlockable>
         </div>
       </div>
@@ -277,7 +277,7 @@ const HoverPreview = ({
           icon: dataSourceIIDToIcon[entityModel.dataSourceIID]
         },
       ])}
-      {renderCategoryTitle(entityModelTypeToDisplayName[entityModel.entityIID])}
+      {renderCategoryTitle(entityModelClassToDisplayName[entityModel.entityIID])}
       {renderDisplayWithTexture({
         textureTint: entityModel.graphics.textureTint,
         textureId: entityModel.graphics.textureId,

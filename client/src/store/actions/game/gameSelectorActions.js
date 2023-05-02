@@ -156,13 +156,13 @@ export const openStageLiveEditor = (tabIID, stageId) => (dispatch, getState) => 
   });
 }
 
-export const openEntityBoxDialog = (interfaceActionId, entityModelType) => (dispatch, getState) => {
+export const openEntityBoxDialog = (interfaceActionId, entityModelClass) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_ENTITY_BOX_DIALOG,
     payload: {
       interfaceActionId,
-      entityModelType
+      entityModelClass
     }
   });
 }

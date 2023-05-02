@@ -8,8 +8,7 @@ import { getInterfaceIdData } from '../../../utils/unlockedInterfaceUtils';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { Fade } from '@mui/material';
 import { setInterfaceIdHovering, selectCobrowsingTool } from '../../../store/actions/game/cobrowsingActions';
-import { OPEN_TOOL, UNLOCK_TOOL } from '../../../constants';
-import { ADMIN_ROLE } from '../../../constants';
+import { APP_ADMIN_ROLE, OPEN_TOOL, UNLOCK_TOOL } from '../../../constants';
 import { confetti } from 'tsparticles-confetti'
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGameActions';
@@ -37,7 +36,7 @@ const Unlockable = ({
     isUnlocked, 
     isObscured,
     isToolInteractable,
-    adminOnly 
+    appAdminOnly 
   } = getInterfaceIdData(interfaceId)
 
   useEffect(() => {
@@ -67,7 +66,7 @@ const Unlockable = ({
     setWasComponentLockedUserMongoId(isUnlocked === false ? remoteStateUserMongoId : false)
   }, [isUnlocked, remoteStateUserMongoId, isSubscribedCobrowsing])
 
-  if(adminOnly && me?.role !== ADMIN_ROLE) {
+  if(appAdminOnly && !me?.roles[APP_ADMIN_ROLE]) {
     return null
   }
 
@@ -132,7 +131,7 @@ const Unlockable = ({
 
   function shouldShowUnlockCover() {
     if(selectedTool === UNLOCK_TOOL) {
-      return !adminOnly && !isUnlocked
+      return !appAdminOnly && !isUnlocked
     }
     if(selectedTool === OPEN_TOOL) {
       return false

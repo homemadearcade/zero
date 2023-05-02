@@ -1,4 +1,6 @@
-import AWS from 'aws-sdk'; // Requiring AWS SDK.
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+const { getSignedUrl} = require("@aws-sdk/s3-request-presigner");
+
 import dotenv from 'dotenv'; // Loading dotenv to have access to env variables
 dotenv.config()
 import multer from 'multer';
@@ -6,14 +8,13 @@ import multerS3 from 'multer-s3';
 import S3ImageUpload from '../models/S3ImageUpload';
 
 // Configuring AWS
-AWS.config = new AWS.Config({
-  accessKeyId: process.env.S3_KEY, // stored in the .env file
-  secretAccessKey: process.env.S3_SECRET, // stored in the .env file
+const s3 = new S3Client({
+  credentials: {
+    accessKeyId: process.env.S3_KEY, // stored in the .env file
+    secretAccessKey: process.env.S3_SECRET, // stored in the .env file
+  },
   region: process.env.BUCKET_REGION // This refers to your bucket configuration.
 });
-
-// Creating a S3 instance
-const s3 = new AWS.S3();
 
 // Retrieving the bucket name from env variable
 const Bucket = process.env.BUCKET_NAME;
@@ -57,23 +58,23 @@ export const recordS3Upload = async function(req, res, next) {
 
 // GET URL Generator
 export function generateGetUrl(Key) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const params = {
       Bucket,
       Key,
-      Expires: 120 // 2 minutes
     };
 
+    const command = new GetObjectCommand(params);
+
     // Note operation in this case is getObject
-    s3.getSignedUrl('getObject', params, (err, url) => {
-      if (err) {
-        console.log('ERROR', err)
-        reject(err);
-      } else {
-        // If there is no errors we will send back the pre-signed GET URL
-        resolve(url);
-      }
-    });
+    try {
+      const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+      resolve(url);
+    } catch(err) {
+      console.log('ERROR', err)
+      reject(err);
+    }
+
   });
 }
 

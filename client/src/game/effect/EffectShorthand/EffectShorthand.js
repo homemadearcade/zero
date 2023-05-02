@@ -42,7 +42,6 @@ function renderText(text) {
   return  <Typography sx={{ padding: 'bold' }} component="span">{text}</Typography>
 }
 
-
 function EffectShorthand({effect, gameModel: { gameModel }, children}) {
   const effectBehavior = effect.effectBehavior 
   const entityModels = gameModel.entityModels 

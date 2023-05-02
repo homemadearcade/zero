@@ -18,6 +18,6 @@ export default {
   },
   [ENTITY_INSTANCE_JSON_IID]: {
     interfaceGroupId: ENTITY_INSTANCE_IGID,
-    adminOnly: true
+    appAdminOnly: true
   },
 }

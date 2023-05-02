@@ -80,6 +80,7 @@ export const RELATION_TAG_DID = 'relationTag-'
 export const EVENT_DID = 'event-'
 export const EFFECT_DID = 'effect-'
 export const LAYER_DID = 'layer-'
+export const TEXTURE_DID = 'texture-'
 
 export const vehiclePlayerEntityId = ENTITY_MODEL_DID+PLAYER_ENTITY_TYPE_PREFIX+'vehicle'
 export const jumperPlayerEntityId = ENTITY_MODEL_DID+PLAYER_ENTITY_TYPE_PREFIX+'jumper'

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { GAME_ROOM_INSTANCE_DID } from '../constants';
 import { addGameRoom, editGameRoom, endGameRoom } from '../store/actions/game/gameRoomInstanceActions';
 import { initializeUnlockableInterfaceIds } from '../store/actions/game/unlockedInterfaceActions';
 import { getUserByMongoId } from '../store/actions/user/userActions';
 import LinearIndeterminateLoader from '../ui/LinearIndeterminateLoader/LinearIndeterminateLoader';
 import Loader from '../ui/Loader/Loader';
+import { generateUniqueId } from '../utils';
+import GameContext from './GameContext';
 
 class LocalGameRoomContext extends Component {
   state = {
@@ -13,8 +16,15 @@ class LocalGameRoomContext extends Component {
   }
 
   componentWillMount() {
-    const { room, editGameRoom } = this.props
-    editGameRoom(null, room)
+    const { room, editGameRoom, arcadeGameMongoId } = this.props
+    const gameRoomInstanceId = GAME_ROOM_INSTANCE_DID + generateUniqueId()
+    
+    editGameRoom(null, {
+      ...room,
+      gameInstanceIds: {
+        [arcadeGameMongoId]: gameRoomInstanceId
+      },
+    })
 
     this.joinGameRoom()
   }
@@ -39,8 +49,12 @@ class LocalGameRoomContext extends Component {
   }
 
   render() {
-    const { children, gameRoomInstance: { isLoading, isJoining }} = this.props;
+    const { children, gameRoomInstance: { gameRoomInstance, isLoading, isJoining }} = this.props;
   
+    function renderChildren() {
+      return children instanceof Function ? children(this.props) : children
+    }
+
     if(isJoining || isLoading) {
       return <LinearIndeterminateLoader/>
       // return <Loader text="Starting Game Session..."/>
@@ -50,8 +64,10 @@ class LocalGameRoomContext extends Component {
       return <LinearIndeterminateLoader/>
     }
 
-    return children instanceof Function ? children(this.props) : children
-  }
+    const gameInstanceId = gameRoomInstance.gameInstanceIds[gameRoomInstance.arcadeGameMongoId]
+    return <GameContext arcadeGameMongoId={gameRoomInstance.arcadeGameMongoId} gameInstanceId={gameInstanceId}>
+      {renderChildren()}
+    </GameContext>  }
 }
 
 const mapStateToProps = (state) => ({

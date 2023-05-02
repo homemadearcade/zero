@@ -4,6 +4,7 @@ import { mergeDeep } from '../../../utils/utils';
 import InterfacePreset from '../../../models/library/InterfacePreset';
 import { generateUniqueId } from '../../../utils/utils';
 import { INTERFACE_PRESET_DID } from '../../../constants';
+import { APP_ADMIN_ROLE } from '../../../constants/index';
 
 const router = Router();
 
@@ -45,7 +46,7 @@ router.get('/interfacePresetId/:interfacePresetId', async (req, res) => {
 });
 
 router.post('/', requireJwtAuth, async (req, res) => {
-  if (!(req.user.role === 'ADMIN')) {
+  if (!(req.user.roles[APP_ADMIN_ROLE])) {
     return res.status(400).json({ message: 'Not created by admin' });
   }
 
@@ -66,7 +67,7 @@ router.delete('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempinterfacePreset = await InterfacePreset.findById(req.params.id);
     if (!tempinterfacePreset) return res.status(404).json({ message: 'No ticketed event found.' });
-    if (!(req.user.role === 'ADMIN'))
+    if (!(req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ interfacePreset: 'Not admin' });
 
     const interfacePreset = await InterfacePreset.findByIdAndRemove(req.params.id);
@@ -81,7 +82,7 @@ router.put('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempinterfacePreset = await InterfacePreset.findById(req.params.id);
     if (!tempinterfacePreset) return res.status(404).json({ message: 'No ticketed event found.' });
-    if (!(req.user.role === 'ADMIN'))
+    if (!(req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ message: 'Not updated by admin.' });
 
     const updatedinterfacePreset = mergeDeep(tempinterfacePreset, req.body)

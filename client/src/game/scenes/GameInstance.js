@@ -598,7 +598,9 @@ export class GameInstance extends Phaser.Scene {
     this.startPlaythroughStartEffects()
 
     setTimeout(() => {
-      this.setPlayerGameLoaded(this.gameRoomInstance.arcadeGameMongoId)
+      if(this.gameRoomInstance.isOnlineMultiplayer) {
+        this.setPlayerGameLoaded(this.gameRoomInstance.arcadeGameMongoId)
+      }
       this.hasLoadedOnce = true
     })
   }

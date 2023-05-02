@@ -9,7 +9,7 @@ import { dataSourceIIDToIcon, effectInterfaceDatas, layerGroupIIDtoShortName, PA
 import Icon from '../../../ui/Icon/Icon';
 import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
-import { entityModelTypeToDisplayName } from '../../constants';
+import { entityModelClassToDisplayName } from '../../constants';
 import { initialStageId } from '../../constants';
 import { changeSelectorList, openEntityBehaviorLiveEditor, openGameEditDialog, openStageLiveEditor } from '../../../store/actions/game/gameSelectorActions';
 import Button from '../../../ui/Button/Button';
@@ -58,7 +58,7 @@ const ClickPreview = ({
     const entityModelId = entityModelIdHovering || entityModelIdSelectedEntityList
     const entityModel = gameModel.entityModels[entityModelId]
     if(!entityModel) return
-    return entityModelTypeToDisplayName[entityModel.entityIID]
+    return entityModelClassToDisplayName[entityModel.entityIID]
   }
 
   function renderActionTitle(text, icon) {

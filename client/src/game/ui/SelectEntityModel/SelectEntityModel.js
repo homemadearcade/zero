@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectEntityModel.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { entityModelTypeToDisplayName  } from '../../constants';
+import { entityModelClassToDisplayName  } from '../../constants';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { IS_DATA_REMOVED_IID, SELECTOR_MORE_IID, SELECT_ENTITY_MODEL_IID } from '../../../constants/interfaceIds';
 import Icon from '../../../ui/Icon/Icon';
@@ -12,7 +12,7 @@ import { MenuItem, MenuList } from '@mui/material';
 import DataSourceVisibilityMenu from '../../../ui/connected/DataSourceVisibilityMenu/DataSourceVisibilityMenu';
 import CobrowsingMenuIconButton from '../../cobrowsing/CobrowsingMenuIconButton/CobrowsingMenuIconButton';
 
-const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameModel, entityModelType, gameSelector: { selectorInterfaceListInvisibility } }) => {
+const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameModel, entityModelClass, gameSelector: { selectorInterfaceListInvisibility } }) => {
 
   const mapEntityToOption = (entityModelId) => {
     const entityModel = gameModel.entityModels[entityModelId]
@@ -35,8 +35,8 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
   const options = Object.keys(gameModel.entityModels).filter((entityModelId) => {
     const entityModel = gameModel.entityModels[entityModelId]
     // if(entityModel.isRemoved) return false
-    if(!entityModelType) return true
-    if(entityModelType === entityModel.entityIID) return true
+    if(!entityModelClass) return true
+    if(entityModelClass === entityModel.entityIID) return true
     return false
   }).map(mapEntityToOption)
 
@@ -49,7 +49,7 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
         onChange(event,  visualTags)
       }}
       groupBy={option => {
-        return entityModelTypeToDisplayName[option.entityIID]
+        return entityModelClassToDisplayName[option.entityIID]
       }}
       hideRemoved
       formLabel={formLabel}

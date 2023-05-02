@@ -8,6 +8,8 @@ import Tab from '@mui/material/Tab';
 import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
 import { getInterfaceIdData } from '../../utils';
 import './Tabs.scss'
+import store from '../../store';
+import { APP_ADMIN_ROLE } from '../../constants';
 
 function TabPanel(props) {
   const { children, value, index, interfaceId, label, ...other } = props;
@@ -52,12 +54,31 @@ export default function({ tabs, className }) {
 export function TabsBody({ obscureInterfaceIds, tabs, currentTabInterfaceId, onChange, className }) {
   const theme = useTheme();
 
+  const tabsVisible = tabs.filter(tab => {
+    if(obscureInterfaceIds) {
+      const { isObscured } = getInterfaceIdData(tab.interfaceId)
+      if(isObscured) {
+        return false
+      }
+    }
+
+    if(tab.appAdminOnly) {
+      const me = store.getState().auth.me
+      if(!me?.roles[APP_ADMIN_ROLE]) {
+        return false
+      }
+    }
+
+    return true
+  })
+
   const handleChange = (event, tabIndex) => {
-    const interfaceId = tabs[tabIndex].interfaceId
+    const interfaceId = tabsVisible[tabIndex].interfaceId
     onChange(interfaceId);
   };
 
-  let value = tabs.findIndex(tab => tab.interfaceId === currentTabInterfaceId)
+
+  let value = tabsVisible.findIndex(tab => tab.interfaceId === currentTabInterfaceId)
 
   if(value === -1) {
     value = 0
@@ -73,17 +94,8 @@ export function TabsBody({ obscureInterfaceIds, tabs, currentTabInterfaceId, onC
           textColor="inherit"
           aria-label="scrollabe tabs"
         >
-          {tabs.map((tab, index) => {
-            const tabEl = <Tab key={tab.label} label={tab.label} {...a11yProps(index)} />
-
-            if(obscureInterfaceIds) {
-              const { isObscured } = getInterfaceIdData(tab.interfaceId)
-              if(!isObscured) {
-                return tabEl
-              }
-            } 
-
-            return tabEl
+          {tabsVisible.map((tab, index) => {
+            return <Tab key={tab.label} label={tab.label} {...a11yProps(index)} />
           })}
         </Tabs>
       </AppBar>
@@ -91,7 +103,7 @@ export function TabsBody({ obscureInterfaceIds, tabs, currentTabInterfaceId, onC
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={value}
       >
-        {tabs.map((tab, index) => {
+        {tabsVisible.map((tab, index) => {
           return <TabPanel key={tab.label} label={tab.label} value={value} index={index} dir={theme.direction}>
             {tab.body}
           </TabPanel>

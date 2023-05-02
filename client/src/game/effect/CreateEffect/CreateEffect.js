@@ -99,7 +99,7 @@ const CreateEffect = ({ onUpdateEffect, eventType, effect}) => {
     if(effectForms.zoneEntityModelId) {
       forms.push(<SelectEntity 
         key={'zoneEntityModelId'}
-        entityModelType={ZONE_ENTITY_IID}
+        entityModelClass={ZONE_ENTITY_IID}
         interfaceId={RELATION_SPAWN_ZONE_ENTITY_IID}
         formLabel={effectForms.zoneEntityModelId}
         value={effect.zoneEntityModelId ? [effect.zoneEntityModelId] : []}

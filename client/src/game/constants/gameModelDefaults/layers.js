@@ -6,6 +6,7 @@ import { BACKGROUND_LAYER_GROUP_DEPTH } from "../core";
 export const defaultLayer = {
   layerId: null,
   textureId: null,
+  initialTextureId: null,
   stageId: null,
   hasCollisionBody: false,
   layerGroupIID: null,

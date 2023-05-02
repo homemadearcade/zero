@@ -3,6 +3,7 @@ import requireJwtAuth from '../../middleware/requireJwtAuth';
 import { generateUniqueId, mergeDeep } from '../../utils/utils';
 import ExperienceModel from '../../models/ExperienceModel';
 import { EXPERIENCE_MODEL_DID } from '../../constants';
+import { APP_ADMIN_ROLE } from "../../constants/index";
 
 const router = Router();
 
@@ -44,7 +45,7 @@ router.get('/experienceModelId/:experienceModelId', async (req, res) => {
 });
 
 router.post('/', requireJwtAuth, async (req, res) => {
-  if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
+  if (!(req.body.userMongoId === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
     return res.status(400).json({ message: 'Not created by the experienceModel owner or admin.' });
   }
 
@@ -67,7 +68,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
 router.delete('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempExperienceModel = await ExperienceModel.findById(req.params.id).populate('owner');
-    if (!(tempExperienceModel.owner.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempExperienceModel.owner.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ experienceModel: 'Not the experienceModel owner or admin.' });
 
     const experienceModel = await ExperienceModel.findByIdAndRemove(req.params.id).populate('owner');
@@ -82,7 +83,7 @@ router.put('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempExperienceModel = await ExperienceModel.findById(req.params.id).populate('owner');
     if (!tempExperienceModel) return res.status(404).json({ message: 'No experienceModel found.' });
-    if (!(tempExperienceModel.owner.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempExperienceModel.owner.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ message: 'Not updated by the experienceModel owner or admin.' });
 
     const updatedExperienceModel = mergeDeep(tempExperienceModel, req.body)

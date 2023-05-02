@@ -59,13 +59,13 @@ const UserPage = ({
             },
             {
               interfaceId: USER_INTERFACE_IDS_TAB_IID,
-              adminOnly: true,
+              appAdminOnly: true,
               label: 'Interface Ids',
               body: <UserInterfaceIds/>
             },
             { 
               interfaceId: USER_ROLES_TAB_IID,
-              adminOnly: true,
+              appAdminOnly: true,
               label: 'Roles',
               body: <UserRoles/>
             },
@@ -90,7 +90,6 @@ const UserPage = ({
             {
               interfaceId: USER_EXPERIENCES_TAB_IID,
               label: 'Experiences',
-              roles: [CREATOR_BETA_ROLE],
               body: <>
                 <ExperienceList>{(experienceModel) => {
                   if(experienceModel.isRemoved) return null
@@ -105,6 +104,7 @@ const UserPage = ({
               body: <UserSpeedTestList user={user}></UserSpeedTestList>
             },
             {
+              appAdminOnly: true,
               label: 'App Location',
               body: <>
                 <Typography variant="body1">{user.appLocation && JSON.stringify(user.appLocation)}</Typography>

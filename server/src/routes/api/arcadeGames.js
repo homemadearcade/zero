@@ -7,6 +7,7 @@ import { ON_GAME_CHARACTER_UPDATE, ON_GAME_MODEL_UPDATE, GAME_MODEL_DID } from '
 import User from '../../models/User';
 import { generateUniqueId } from '../../utils/utils';
 import { recordS3Upload, s3Multer } from '../../services/aws';
+import { APP_ADMIN_ROLE } from "../../constants/index";
 
 const router = Router();
 
@@ -15,7 +16,7 @@ async function requireArcadeGameEditPermissions(req, res, next) {
   if (!tempGame) return res.status(404).json({ message: 'No such Game.' });
   const tempUser = await User.findById(req.user.id);
   const inSameAppLocation = tempGame.appLocation?.experienceInstanceId && tempUser.appLocation?.experienceInstanceId && tempGame.appLocation?.experienceInstanceId === tempUser.appLocation?.experienceInstanceId
-  if (!(tempGame.owner.id === req.user.id || req.user.role === 'ADMIN' || inSameAppLocation))
+  if (!(tempGame.owner.id === req.user.id || req.user.roles[APP_ADMIN_ROLE] || inSameAppLocation))
     return res.status(400).json({ message: 'You do not have privelages to edit this Game.' });
 
   req.tempGame = tempGame
@@ -52,7 +53,7 @@ router.get('/:id', async (req, res) => {
 router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => {
   const tempUser = await User.findById(req.body.userMongoId);
   if (!tempUser) return res.status(404).json({ message: 'No such user.' });
-  if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN')) {
+  if (!(tempUser.id === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
     return res.status(400).json({ message: 'Not updated by the user themself or an admin.' });
   }
 
@@ -99,7 +100,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
   const { error } = validateArcadeGame(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
 
-  if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
+  if (!(req.body.userMongoId === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
     return res.status(400).json({ message: 'Not created by the game owner or admin.' });
   }
 
@@ -149,7 +150,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
 // router.delete('/:id', requireJwtAuth, async (req, res) => {
 //   try {
 //     const tempGame = await ArcadeGame.findById(req.params.id).populate('owner');
-//     if (!(tempGame.owner.id === req.user.id || req.user.role === 'ADMIN'))
+//     if (!(tempGame.owner.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
 //       return res.status(400).json({ game: 'Not the game owner or admin.' });
 
 //     const game = await ArcadeGame.findByIdAndRemove(req.params.id).populate('owner');

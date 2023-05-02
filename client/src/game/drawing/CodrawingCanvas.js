@@ -15,6 +15,7 @@ export class CodrawingCanvas extends Canvas {
     // if you are the host all that means is that you get to save the image and if there are any discrepencies then yours is the true one
     this.isCodrawingHost = props.isCodrawingHost
     this.isOnlineMultiplayer = scene.gameRoomInstance.isOnlineMultiplayer
+    this.gameInstanceId = scene.gameRoomInstance.gameInstanceId
     this.imageType = null
 
     this.strokeHistory = null

@@ -17,11 +17,13 @@ import { BACKGROUND_LAYER_GROUP_IID, BRUSH_ADD_IID, BRUSH_SELECT_IID, BRUSH_SIZE
 export default {
   [BRUSH_SELECT_IID]: {
     name: 'Select Brush Area',
-    isDefaultUnlocked: true
+    isDefaultUnlocked: true,
+    interfaceGroupId: DRAW_IGID,
   },
   [COLOR_SELECT_IID]: {
     name: 'Select Color Area',
-    isDefaultUnlocked: true
+    isDefaultUnlocked: true,
+    interfaceGroupId: DRAW_IGID,
   },
   [BRUSH_SIZE_IID]: {
     formType: INTERFACE_FORM_SLIDER,

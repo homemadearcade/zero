@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import requireJwtAuth from '../../middleware/requireJwtAuth';
 import requireSocketAuth from '../../middleware/requireSocketAuth';
+import { APP_ADMIN_ROLE } from "../../constants/index";
 
 import User from '../../models/User';
 
@@ -10,7 +11,7 @@ const router = Router();
 
 router.post('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
-    if(req.user.role !== 'ADMIN') {
+    if(!req.user.roles[APP_ADMIN_ROLE]) {
       return res.status(400).json({ message: 'You do not have privelages to register cobrowse.' });
     }
 
@@ -30,7 +31,7 @@ router.post('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
 
 router.post('/stop/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
-    if(req.user.role !== 'ADMIN') {
+    if(!req.user.roles[APP_ADMIN_ROLE]) {
       return res.status(400).json({ message: 'You do not have privelages to unregister this cobrowse.' });
     }
 
@@ -43,7 +44,7 @@ router.post('/stop/:id', requireJwtAuth, requireSocketAuth, async (req, res) => 
 
 router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
-    if (!(req.params.id === req.user.id || req.user.role === 'ADMIN')) {
+    if (!(req.params.id === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
       return res.status(400).json({ message: 'You do not have privelages to update this users cobrowse state.' });
     }
 
@@ -60,7 +61,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
 
 router.put('/dispatch/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
-    if (!(req.params.id === req.user.id || req.user.role === 'ADMIN')) {
+    if (!(req.params.id === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
       return res.status(400).json({ message: 'You do not have privelages to update this users cobrowse state.' });
     }
     

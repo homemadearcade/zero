@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import requireJwtAuth from '../../middleware/requireJwtAuth';
 import Message, { validateMessage } from '../../models/Message';
+import { APP_ADMIN_ROLE } from "../../constants/index";
 
 const router = Router();
 
@@ -48,7 +49,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
 router.delete('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempMessage = await Message.findById(req.params.id).populate('user');
-    if (!(tempMessage.user.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempMessage.user.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ message: 'Not the message owner or admin.' });
 
     const message = await Message.findByIdAndRemove(req.params.id).populate('user');
@@ -65,7 +66,7 @@ router.put('/:id', requireJwtAuth, async (req, res) => {
 
   try {
     const tempMessage = await Message.findById(req.params.id).populate('user');
-    if (!(tempMessage.user.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempMessage.user.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ message: 'Not the message owner or admin.' });
 
     let message = await Message.findByIdAndUpdate(

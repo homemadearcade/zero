@@ -1,3 +1,4 @@
+export const APP_ADMIN_ROLE = 'APP_ADMIN_ROLE';
 
 export const GAME_MODEL_DID = 'gm-';
 export const LOBBY_INSTANCE_DID = 'li-';

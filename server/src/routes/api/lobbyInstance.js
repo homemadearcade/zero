@@ -8,6 +8,7 @@ import { ON_LOBBY_INSTANCE_UPDATE, ADMIN_ROOM_PREFIX, LOBBY_INSTANCE_STORE, LOBB
 import LobbyInstance from '../../models/LobbyInstance';
 import { generateUniqueId, mergeDeep } from '../../utils/utils';
 import { updateUserAppLocation } from '../../utils/appLocation';
+import { APP_ADMIN_ROLE } from "../../constants/index";
 
 const router = Router();
 
@@ -163,7 +164,7 @@ router.post('/', requireJwtAuth, requireLobbyInstances, async (req, res) => {
 
 router.post('/leave/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, async (req, res) => {
   try {
-    if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
+    if (!(req.body.userMongoId === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
       return res.status(400).json({ message: 'You do not have privelages to remove user from that lobbyInstance.' });
     }
 
@@ -194,7 +195,7 @@ router.post('/leave/:id', requireJwtAuth, requireLobbyInstance, requireSocketAut
 
     req.io.to(req.lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance: req.lobbyInstance});
     req.socket.leave(req.lobbyInstance.id)
-    if(req.user.role === 'ADMIN') req.socket.leave(ADMIN_ROOM_PREFIX+req.lobbyInstance.id);
+    if(req.user.roles[APP_ADMIN_ROLE]) req.socket.leave(ADMIN_ROOM_PREFIX+req.lobbyInstance.id);
     res.status(200).json({ lobbyInstance: req.lobbyInstance });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
@@ -202,7 +203,7 @@ router.post('/leave/:id', requireJwtAuth, requireLobbyInstance, requireSocketAut
 });
 
 router.post('/assign/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, async (req, res) => {
-  if (!(req.user.role === 'ADMIN' || req.user.id === req.body.userMongoId)) {
+  if (!(req.user.roles[APP_ADMIN_ROLE] || req.user.id === req.body.userMongoId)) {
     return res.status(400).json({ message: 'You do not have privelages to assign that role.' });
   }
 
@@ -248,7 +249,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
       })
       
       req.socket.join(req.lobbyInstance.id);
-      if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.lobbyInstance.id);
+      if(req.user.roles[APP_ADMIN_ROLE]) req.socket.join(ADMIN_ROOM_PREFIX+req.lobbyInstance.id);
       updateUserAppLocation({
         userMongoId: memberFound.userMongoId,
         authenticatedUser: req.user,
@@ -264,7 +265,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
       return user.id === req.user.id
     })
 
-    if (!(req.user.role === 'ADMIN' || isParticipant)) {
+    if (!(req.user.roles[APP_ADMIN_ROLE] || isParticipant)) {
       return res.status(400).json({ message: 'You do not have permission to join that lobbyInstance.' });
     }
 
@@ -301,7 +302,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
     })
 
     req.socket.join(req.lobbyInstance.id);
-    if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.lobbyInstance.id);
+    if(req.user.roles[APP_ADMIN_ROLE]) req.socket.join(ADMIN_ROOM_PREFIX+req.lobbyInstance.id);
 
     req.lobbyInstances.forEach((lobbyInstance) => {
       let index;
@@ -340,7 +341,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
 
 router.delete('/:id', requireJwtAuth, requireLobbyInstance, async (req, res) => {
   try {
-    if (req.user.role !== 'ADMIN') {
+    if (!req.user.roles[APP_ADMIN_ROLE]) {
       return res.status(400).json({ message: 'You do not have privelages to delete that lobbyInstance.' });
     }
 
@@ -360,7 +361,7 @@ router.delete('/:id', requireJwtAuth, requireLobbyInstance, async (req, res) => 
 
 router.put('/member/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, async (req, res) => {
   try {
-    if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
+    if (!(req.body.userMongoId === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
       return res.status(400).json({ message: 'You do not have privelages to update that user in that lobbyInstance.' });
     }
 
@@ -402,7 +403,7 @@ router.put('/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, asyn
     //   return res.status(400).json({ message: 'You cannot change the current game id of a lobbyInstance when game is powered on' });
     // }
 
-    // if(req.body.isGamePoweredOn && req.user.role !== 'ADMIN') {
+    // if(req.body.isGamePoweredOn && !req.user.roles[APP_ADMIN_ROLE]) {
     //   return res.status(400).json({ message: 'You do not have privelages to power on this game.' });
     // }
 

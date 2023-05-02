@@ -13,6 +13,7 @@ export const WEB_PAGE_IGID = 'WEB_PAGE_IGID';
 export const DRAW_IGID = 'DRAW_IGID';
 
 export const ENTITY_MODEL_IGID = 'ENTITY_MODEL_IGID';
+export const ENTITY_MODEL_BEHAVIOR_IGID = 'ENTITY_MODEL_BEHAVIOR_IGID';
 export const ENTITY_INSTANCE_IGID = 'ENTITY_INSTANCE_IGID';
 
 export const STAGE_IGID = 'STAGE_IGID';
@@ -68,6 +69,10 @@ export const interfaceGroupData = {
   [ENTITY_MODEL_IGID]: {
     name: 'Class',
     icon: 'faChessPawn'
+  },
+  [ENTITY_MODEL_BEHAVIOR_IGID]: {
+    name: 'Class Behavior',
+    icon: 'faDna'
   },
   [ENTITY_INSTANCE_IGID]: {
     name: 'Class Instance',

@@ -52,7 +52,7 @@ const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreate
 
   function renderSelectSpawn() {
     return <SelectEntityModel
-    entityModelType={ZONE_ENTITY_IID}
+    entityModelClass={ZONE_ENTITY_IID}
     interfaceId={STAGE_SPAWN_ZONE_SELECT_IID}
     formLabel={"Into which zone should the Player spawn?"}
     value={stage.playerSpawnZoneEntityId ? [stage.playerSpawnZoneEntityId] : []}

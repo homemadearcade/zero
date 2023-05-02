@@ -2,6 +2,7 @@ import { Router } from 'express';
 import requireJwtAuth from '../../../middleware/requireJwtAuth';
 import { mergeDeep } from '../../../utils/utils';
 import Effect from '../../../models/library/Effect';
+import { APP_ADMIN_ROLE } from '../../../constants/index';
 
 const router = Router();
 
@@ -43,7 +44,7 @@ router.get('/effectId/:effectId', async (req, res) => {
 });
 
 router.post('/', requireJwtAuth, async (req, res) => {
-  if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
+  if (!(req.body.userMongoId === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
     return res.status(400).json({ message: 'Not created by the effect owner or admin.' });
   }
 
@@ -65,7 +66,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
 router.delete('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempEffect = await Effect.findById(req.params.id).populate('owner');
-    if (!(tempEffect.owner.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempEffect.owner.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ effect: 'Not the effect owner or admin.' });
 
     const effect = await Effect.findByIdAndRemove(req.params.id).populate('owner');
@@ -80,7 +81,7 @@ router.put('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempEffect = await Effect.findById(req.params.id).populate('owner');
     if (!tempEffect) return res.status(404).json({ message: 'No effect found.' });
-    if (!(tempEffect.owner.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempEffect.owner.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ message: 'Not updated by the effect owner or admin.' });
 
     const updatedEffect = mergeDeep(tempEffect, req.body)

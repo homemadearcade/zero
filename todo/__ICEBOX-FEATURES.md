@@ -15,11 +15,6 @@ ARCADE PATHFINDING
 
 CUSTOM CODING
 
-APP SETTINGS
-  editorExperienceModelMongoId
-  libraryArcadeGamaMongoId
-  archiveUserId
-
 Soccerball ( attach to hero on collide and allow hero to shoot out again )
 
 Automate some video - In monologue mode …Hovering over video creates… overlay

@@ -2,6 +2,7 @@ import { Router } from "express";
 import requireJwtAuth from "../../middleware/requireJwtAuth";
 import AppSettings from "../../models/AppSettings";
 import { mergeDeep } from "../../utils/utils";
+import { APP_ADMIN_ROLE } from "../../constants/index";
 
 const router = Router();
 
@@ -21,7 +22,7 @@ router.put('/', requireJwtAuth, async (req, res) => {
   try {
     const tempAppSettings = await AppSettings.findOne()
     if (!tempAppSettings) return res.status(404).json({ message: 'No appSettings found.' });
-    if (req.user.role !== 'ADMIN') return res.status(400).json({ message: 'Not updated by admin.' });
+    if (!req.user.roles[APP_ADMIN_ROLE]) return res.status(400).json({ message: 'Not updated by admin.' });
     
     const updatedAppSettings = mergeDeep(tempAppSettings, req.body)
 

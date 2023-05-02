@@ -7,6 +7,7 @@ import { ON_GAME_ROOM_INSTANCE_UPDATE, ADMIN_ROOM_PREFIX, GAME_ROOMS_STORE, GAME
 import GameRoomInstance from '../../models/GameRoomInstance';
 import { mergeDeep } from '../../utils/utils';
 import { updateUserAppLocation } from '../../utils/appLocation';
+import { APP_ADMIN_ROLE } from "../../constants/index";
 
 const router = Router();
 
@@ -136,7 +137,7 @@ router.post('/', requireJwtAuth, requireGameRoomInstances, async (req, res) => {
 
 router.post('/leave/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
   try {
-    if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
+    if (!(req.body.userMongoId === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
       return res.status(400).json({ message: 'You do not have privelages to remove user from that gameRoomInstance.' });
     }
 
@@ -168,7 +169,7 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoomInstance, requireSocket
 
     req.io.to(req.gameRoomInstance.id).emit(ON_GAME_ROOM_INSTANCE_UPDATE, {gameRoomInstance: req.gameRoomInstance});
     req.socket.leave(req.gameRoomInstance.id)
-    if(req.user.role === 'ADMIN') req.socket.leave(ADMIN_ROOM_PREFIX + req.gameRoomInstance.id);
+    if(req.user.roles[APP_ADMIN_ROLE]) req.socket.leave(ADMIN_ROOM_PREFIX + req.gameRoomInstance.id);
     res.status(200).json({ gameRoomInstance: req.gameRoomInstance });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
@@ -181,7 +182,7 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoomInstance, requireSocket
 // this is how you assign yourself to another object instance?
 
 // router.post('/assign/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
-//   if (!(req.user.role === 'ADMIN' || req.user.id === req.body.userMongoId)) {
+//   if (!(req.user.roles[APP_ADMIN_ROLE] || req.user.id === req.body.userMongoId)) {
 //     return res.status(400).json({ message: 'You do not have privelages to assign that role.' });
 //   }
 
@@ -268,7 +269,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
       })
       
       req.socket.join(req.gameRoomInstance.id);
-      if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX + req.gameRoomInstance.id);
+      if(req.user.roles[APP_ADMIN_ROLE]) req.socket.join(ADMIN_ROOM_PREFIX + req.gameRoomInstance.id);
       updateUserAppLocation({
         userMongoId: memberFound.userMongoId,
         gameRoomInstanceMongoId: req.gameRoomInstance.id,
@@ -286,7 +287,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
     //   return user.id === req.user.id
     // })
 
-    // if (!(req.user.role === 'ADMIN' || isParticipant)) {
+    // if (!(req.user.roles[APP_ADMIN_ROLE] || isParticipant)) {
     //   return res.status(400).json({ message: 'You do not have permission to join that gameRoomInstance.' });
     // }
 
@@ -323,7 +324,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
       
     // listen for all of this game sessions events
     req.socket.join(req.gameRoomInstance.id);
-    if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.gameRoomInstance.id);
+    if(req.user.roles[APP_ADMIN_ROLE]) req.socket.join(ADMIN_ROOM_PREFIX+req.gameRoomInstance.id);
 
     // remove from all other game sessions
     req.gameRoomInstances.forEach((gameRoomInstance) => {
@@ -364,7 +365,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
 
 router.delete('/:id', requireJwtAuth, requireGameRoomInstance, async (req, res) => {
   try {
-    if (req.user.role !== 'ADMIN') {
+    if (!req.user.roles[APP_ADMIN_ROLE]) {
       return res.status(400).json({ message: 'You do not have privelages to delete that gameRoomInstance.' });
     }
 
@@ -385,7 +386,7 @@ router.delete('/:id', requireJwtAuth, requireGameRoomInstance, async (req, res) 
 
 router.put('/user/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
   try {
-    if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
+    if (!(req.body.userMongoId === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
       return res.status(400).json({ message: 'You do not have privelages to update that user in that gameRoomInstance.' });
     }
 
@@ -416,7 +417,7 @@ router.post('/undo/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
     return user.id === req.user.id
   })
 
-  if (!(req.user.role === 'ADMIN' || isParticipant)) {
+  if (!(req.user.roles[APP_ADMIN_ROLE] || isParticipant)) {
     return res.status(400).json({ message: 'You do not have permission to undo in that gameRoomInstance.' });
   }
 
@@ -427,7 +428,7 @@ router.post('/undo/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
 
 router.put('/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
   try {
-    if(req.body.isPoweredOn && req.user.role !== 'ADMIN') {
+    if(req.body.isPoweredOn && !req.user.roles[APP_ADMIN_ROLE]) {
       return res.status(400).json({ message: 'You do not have privelages to power on this game.' });
     }
 

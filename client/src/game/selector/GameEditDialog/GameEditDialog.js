@@ -99,7 +99,7 @@ const GameEditDialog = ({
     label: 'Stage',
     body: <>
       <SelectStage
-        entityModelType={PLAYER_ENTITY_IID}
+        entityModelClass={PLAYER_ENTITY_IID}
         formLabel="What stage should players start on?"
         value={gameModel.player.startingStageId ? [gameModel.player.startingStageId] : []}
         onChange={(event, stageIds) => {
@@ -118,7 +118,7 @@ const GameEditDialog = ({
       <SelectEntityModel
         formLabel="What should the player spawn as? ( Stages can override this )"
         interfaceId={GAME_PLAYER_START_ENTITY_MODEL_IID}
-        entityModelType={PLAYER_ENTITY_IID}
+        entityModelClass={PLAYER_ENTITY_IID}
         value={gameModel.player.startingEntityModelId ? [gameModel.player.startingEntityModelId] : []}
         onChange={(event, entityModels) => {
           const newEntityId = entityModels[entityModels.length-1]

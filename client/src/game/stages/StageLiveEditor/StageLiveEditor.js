@@ -83,7 +83,7 @@ const StageLiveEditor = ({
           {<SelectEntityModel
             formLabel="Should the player spawn as a new class? ( Leave blank to keep the same hero )"
             interfaceId={STAGE_CUSTOMIZE_IID}
-            entityModelType={PLAYER_ENTITY_IID}
+            entityModelClass={PLAYER_ENTITY_IID}
             value={stage.playerEntityModelId ? [stage.playerEntityModelId] : []}
             onChange={(event, entityModels) => {
               const newEntityId = entityModels[entityModels.length-1]
@@ -148,7 +148,7 @@ const StageLiveEditor = ({
     interfaceId: LIVE_EDIT_STAGE_SPAWN_TAB_IID,
     body: <>
       <SelectEntityModel
-        entityModelType={ZONE_ENTITY_IID}
+        entityModelClass={ZONE_ENTITY_IID}
         interfaceId={STAGE_SPAWN_ZONE_SELECT_IID}
         formLabel={"Into which zone should the Player spawn?"}
         value={stage.playerSpawnZoneEntityId ? [stage.playerSpawnZoneEntityId] : []}

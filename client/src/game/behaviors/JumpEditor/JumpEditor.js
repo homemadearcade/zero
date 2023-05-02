@@ -13,7 +13,7 @@ import { ADVANCED_DIRECTIONAL_CONTROLS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import SelectJumpControlsBehavior from '../../ui/SelectJumpControlsBehavior/SelectJumpControlsBehavior';
 import { jumpControlsBehaviorToParemeters } from '../../constants';
-import { JUMP_AIR_IID, JUMP_COOLDOWN_IID, JUMP_GROUND_IID, JUMP_BEHAVIOR_IID, MOVEMENT_CONTROLS_BEHAVIOR_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, TOGGLE_ALL_PARAMS_IID, PLAYER_ENTITY_IID } from '../../../constants/interfaceIds';
+import { JUMP_AIR_IID, JUMP_COOLDOWN_IID, JUMP_GROUND_IID, JUMP_BEHAVIOR_IID, CONTROLS_NO_BEHAVIOR_BEHAVIOR_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, TOGGLE_ALL_PARAMS_IID, PLAYER_ENTITY_IID } from '../../../constants/interfaceIds';
 
 const JumpEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {
   const [seeAllParameters, setSeeAllParameters] = useState()
@@ -23,7 +23,7 @@ const JumpEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel, au
 
   if(entitySelected.movement.movementControlsBehavior !== ADVANCED_DIRECTIONAL_CONTROLS) {
     incompatibleErrors.push('Movement control scheme must be the Advanced Directional scheme to use Jump')
-    incompatibleErrors.push(<Unlockable interfaceId={MOVEMENT_CONTROLS_BEHAVIOR_IID}>
+    incompatibleErrors.push(<Unlockable interfaceId={CONTROLS_NO_BEHAVIOR_BEHAVIOR_IID}>
         <Button
           onClick={(e) => {
             editGameModel({ entityModels: { [entityModelId]:  {...advancedDirectionalDefaults } }})        

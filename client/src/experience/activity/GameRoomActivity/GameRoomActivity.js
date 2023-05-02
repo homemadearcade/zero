@@ -36,7 +36,7 @@ const GameRoomActivity = ({
 
   return <div className="GameRoomActivity">
     {renderViewOverlay()}
-    <CobrowsingGame rootFontSize={isLobbyDashboardOpen ? '1vh' : "2vh"}  arcadeGameMongoId={gameRoomInstance.arcadeGameMongoId} myTracks={myTracks} userTracks={userTracks}/>
+    <CobrowsingGame rootFontSize={isLobbyDashboardOpen ? '1vh' : "2vh"} myTracks={myTracks} userTracks={userTracks}/>
   </div>
 };
 

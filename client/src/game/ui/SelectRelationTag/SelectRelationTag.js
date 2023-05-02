@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectRelationTag.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { entityModelTypeToDisplayName, relationTagTypeToDisplayName } from '../../constants';
+import { entityModelClassToDisplayName, relationTagTypeToDisplayName } from '../../constants';
 import { DATA_SOURCE_GAME_MODEL_IID, IS_DATA_REMOVED_IID, RELATION_TAG_ENTITY_IID, SELECTOR_MORE_IID, SELECT_RELATION_TAG_IID } from '../../../constants/interfaceIds';
 import DataSourceVisibilityMenu from '../../../ui/connected/DataSourceVisibilityMenu/DataSourceVisibilityMenu';
 import Icon from '../../../ui/Icon/Icon';
@@ -46,7 +46,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
         textureId: relationTag.textureId,
         textureTint: relationTag.textureTint,
         isRemoved: removeEntityTags || isRemoved || isImportInvisible,
-        relationTagIID: entityModelTypeToDisplayName[relationTagEntity.entityIID],
+        relationTagIID: entityModelClassToDisplayName[relationTagEntity.entityIID],
       }
     }
 

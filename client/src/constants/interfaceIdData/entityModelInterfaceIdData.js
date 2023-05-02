@@ -16,7 +16,8 @@ export default {
     interfaceGroupId: ENTITY_MODEL_IGID
   },
   [ZONE_ENTITY_SELECT_IID]: {
-    isDefaultUnlocked: true
+    isDefaultUnlocked: true,
+    interfaceGroupId: ENTITY_MODEL_IGID
   },
   [BASIC_ENTITY_CONTAINER_IID]: {
     // ignoreTools: true,
@@ -30,7 +31,9 @@ export default {
     interfaceGroupId: ENTITY_MODEL_IGID
   },
   [BASIC_ENTITY_SELECT_IID]: {
-    isDefaultUnlocked: true
+    isDefaultUnlocked: true,
+    interfaceGroupId: ENTITY_MODEL_IGID
+
   },
   [NPC_ENTITY_CONTAINER_IID]: {
     name: 'NPCs Container',
@@ -38,7 +41,8 @@ export default {
     // ignoreTools: true,
   },
   [NPC_ENTITY_SELECT_IID]: {
-    isDefaultUnlocked: true
+    isDefaultUnlocked: true,
+    interfaceGroupId: ENTITY_MODEL_IGID
   },
   [NPC_ENTITY_ADD_IID]: {
     previewText: 'Add NPC',
@@ -54,7 +58,8 @@ export default {
     // ignoreTools: true
   },
   [PLAYER_ENTITY_SELECT_IID]: {
-    isDefaultUnlocked: true
+    isDefaultUnlocked: true,
+    interfaceGroupId: ENTITY_MODEL_IGID
   },
   [PLAYER_ENTITY_TRANSFORM_IID]: {},
   [PLAYER_ENTITY_ADD_IID]: {
@@ -79,6 +84,6 @@ export default {
   // },
   [ENTITY_MODEL_REMOVE_IID]: {},
   [CHANGE_ENTITY_INTERFACE_IID]: {
-    adminOnly: true
+    appAdminOnly: true
   },
 }

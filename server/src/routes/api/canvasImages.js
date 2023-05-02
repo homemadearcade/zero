@@ -4,6 +4,7 @@ import { mergeDeep } from '../../utils/utils';
 import CanvasImage from '../../models/CanvasImage';
 import User from '../../models/User';
 import { generateUniqueId } from '../../utils/utils';
+import { APP_ADMIN_ROLE } from "../../constants/index";
 
 const router = Router();
 
@@ -33,7 +34,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
   try {
     const tempUser = await User.findById(req.body.userMongoId);
     if (!tempUser) return res.status(404).json({ message: 'No such user.' });
-    if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN')) {
+    if (!(tempUser.id === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
       return res.status(400).json({ message: 'Not updated by the user themself or an admin.' });
     }
     
@@ -53,7 +54,7 @@ router.delete('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempImage = await CanvasImage.findById(req.params.id);
     if (!tempImage) return res.status(404).json({ message: 'No canvasImage found.' });
-    if (!(req.user.role === 'ADMIN'))
+    if (!(req.user.roles[APP_ADMIN_ROLE]))
       return res.status(400).json({ canvasImage: 'Not admin' });
 
     const canvasImage = await CanvasImage.findByIdAndRemove(req.params.id);
@@ -68,7 +69,7 @@ router.put('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempImage = await CanvasImage.findById(req.params.id).populate('owner');
     if (!tempImage) return res.status(404).json({ message: 'No canvasImage found.' });
-    // if (!(tempImage.owner?.id === req.user.id || req.user.role === 'ADMIN'))
+    // if (!(tempImage.owner?.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
     //   return res.status(400).json({ message: 'Not updated by the canvasImage owner or admin.' });
     const updatedImage = mergeDeep(tempImage, req.body)
 

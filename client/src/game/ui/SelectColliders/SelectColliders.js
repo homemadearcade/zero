@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './SelectColliders.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { getOppositeColliderRelationTagId } from '../../../utils/gameUtils';
-import { entityModelTypeToDisplayName } from '../../constants';
+import { entityModelClassToDisplayName } from '../../constants';
 import { RELATION_TAG_ENTITY_IID } from '../../../constants/interfaceIds';
 
 const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
@@ -29,7 +29,7 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
         textureId: relationTag.textureId,
         textureTint: relationTag.textureTint,
         isRemoved: relationTag.isRemoved,
-        relationTagIID: entityModelTypeToDisplayName[relationTagEntity.entityIID]
+        relationTagIID: entityModelClassToDisplayName[relationTagEntity.entityIID]
       }
     }
   }
