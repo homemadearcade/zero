@@ -41,10 +41,3 @@ KEYBOARD MODE
     Open MORE TOOLS selector. Perhaps more tools need to be added? Tool Creator system. WOW!
 
 ESC key 
-
----
-
-ROLES
-
-Admin Only -> App Admin
-then.. implement other role system server side and creator beta role

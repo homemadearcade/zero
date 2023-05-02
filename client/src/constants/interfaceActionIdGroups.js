@@ -9,10 +9,10 @@ export const INTERFACE_ACTION_LOAD = 'INTERFACE_ACTION_LOAD'
 export const INTERFACE_ACTION_RESIZE = 'INTERFACE_ACTION_RESIZE'
 export const INTERFACE_ACTION_GRID = 'INTERFACE_ACTION_GRID'
 
-export const interfaceActionsUIData = {
+export const interfaceActionGroupData = {
   [INTERFACE_ACTION_GRID]: {
     displayName: 'Grid',
-    icon: 'faTableCellsLarge',
+    icon: 'faTableCells',
     description: 'Do actions to the game grid'
   },
   [INTERFACE_ACTION_RESIZE]: {

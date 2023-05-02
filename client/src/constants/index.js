@@ -30,7 +30,7 @@ export const TICKET_PURCHASE_DID = 'tp-';
 export const INTERFACE_PRESET_DID = 'ip-';
 export const GAME_ROOM_INSTANCE_DID = 'gri-';
 
-export * from './interfaceActions'
+export * from './interfaceActionIdGroups'
 export * from './interface'
 export * from './interfaceIdGroups'
 

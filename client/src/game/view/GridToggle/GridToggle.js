@@ -22,7 +22,7 @@ const GridToggle = ({
       onClick={() => {
         toggleGridView()
       }}
-    > 
+    >
     <Icon icon="faTableCells"/>
     <Switch
       size="small"

@@ -6,13 +6,13 @@ import './SelectInterfaceAction.scss';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 import { interfaceActionIdData } from '../../constants/interfaceActionIdData';
 
-const SelectInterfaceAction = ({ onChange, disabled, value, formLabel, actionType }) => {
+const SelectInterfaceAction = ({ onChange, disabled, value, formLabel, interfaceActionGroupId }) => {
 
   const mapEntityToOption = (interfaceActionId) => {
     const actionData = interfaceActionIdData[interfaceActionId]
     const name = actionData.name
 
-    if(actionData.actionType !== actionType) return false
+    if(actionData.interfaceActionGroupId !== interfaceActionGroupId) return false
 
     return {
       label: name,

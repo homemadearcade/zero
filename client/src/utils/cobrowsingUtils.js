@@ -7,6 +7,7 @@ export function getRemoteStatePackage(state) {
     gameFormEditor: state.gameFormEditor,
     gameViewEditor: state.gameViewEditor,
     unlockedInterfaceIds: state.unlockedInterfaceIds,
+    keyToolbar: state.keyToolbar,
     // contextMenu: state.contextMenu,
     errors: state.errors,
     playerInterface: state.playerInterface,
@@ -37,6 +38,8 @@ export function mapCobrowsingState(state, props, options) {
         prev[propName] = remoteState.playerInterface
       } else if(propName === 'snackbar') {
         prev[propName] = remoteState.snackbar
+      } else if(propName === 'keyToolbar') {
+        prev[propName] = remoteState.keyToolbar
       }
             
       // else if(propName === 'contextMenu') {
@@ -77,7 +80,8 @@ export function getCobrowsingState(options) {
       playerInterface: remoteState.playerInterface,
       unlockedInterfaceIds: remoteState.unlockedInterfaceIds,
       errors: remoteState.errors,
-      snackbar: remoteState.snackbar
+      snackbar: remoteState.snackbar,
+      keyToolbar: remoteState.keyToolbar,
     }
   }
 

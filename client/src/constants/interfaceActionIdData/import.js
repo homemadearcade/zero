@@ -1,6 +1,6 @@
 import { editGameModel } from "../../store/actions/game/gameModelActions";
 import { IMPORT_DATA_SOURCE_AID } from "../interfaceActionIds";
-import { INTERFACE_ACTION_IMPORT } from "../interfaceActions";
+import { INTERFACE_ACTION_IMPORT } from "../interfaceActionIdGroups";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -24,6 +24,6 @@ export default {
       }))
     },
     arguments: ['entityModelId'],
-    actionType: INTERFACE_ACTION_IMPORT
+    interfaceActionGroupId: INTERFACE_ACTION_IMPORT
   },
 }

@@ -1,11 +1,13 @@
-.KeyboardPreview {
+.KeyToolbar {
   color: white;
 
   &__header {
-    background-color: #333;
+    background-color: #222;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid #333;
+    border-bottom: none;
   }
 
   &__grid {
@@ -14,6 +16,36 @@
     grid-template-rows: repeat(3, 1fr);
     border: 1px solid #333;
     background-color: #111;
+  }
+
+  &__core-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #333;
+  
+    &:last-child {
+      border-bottom: 1px solid #333;
+    }
+  
+    background-color: #111;
+  }
+
+  &__core-key {
+    border-right: 1px solid #333;
+    padding: .5em;
+    display: flex;
+    gap: .5em;
+    background-color: #222;
+  }
+
+  &__core-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    gap: .5em;
   }
 
   &__node {
@@ -59,5 +91,10 @@
 
   &__node-action {
     flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    cursor: pointer;
   }
 }

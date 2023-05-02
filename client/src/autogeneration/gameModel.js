@@ -19,7 +19,7 @@ import { initialStageZoneEntityId } from "../game/constants/core"
 import { mergeDeep } from "../utils/utils"
 import { getPlayerPowerupEntityId } from "./utils"
 import { interfaceActionIdData } from "../constants/interfaceActionIdData"
-import { interfaceActionsUIData, interfaceGroupData } from "../constants"
+import { interfaceActionGroupData, interfaceGroupData } from "../constants"
 import { interfaceIdData } from "../constants/interfaceIdData"
 
 export function generateActionEffects(gameModel) {
@@ -50,7 +50,7 @@ export function generateActionEffects(gameModel) {
 
     if(!interfaceActionData.arguments) {
       const effectId = EFFECT_DID + interfaceActionId
-      const interfaceActionUIData = interfaceActionsUIData[interfaceActionData.actionType]
+      const interfaceActionUIData = interfaceActionGroupData[interfaceActionData.interfaceActionGroupId]
       if(!interfaceActionUIData) return console.error('no interface action ui data for ' + interfaceActionId)
       gameModel.effects[effectId] = {
         effectId,
@@ -71,7 +71,7 @@ export function generateActionEffects(gameModel) {
           // create an action for each entity model and pass in the entity model into the getSubtitle method to get the name
           if(gameModel.entityModels) Object.keys(gameModel.entityModels).forEach((entityModelId) => {
             const effectId = EFFECT_DID + interfaceActionId + entityModelId
-            const interfaceActionUIData = interfaceActionsUIData[interfaceActionData.actionType]
+            const interfaceActionUIData = interfaceActionGroupData[interfaceActionData.interfaceActionGroupId]
             const entityModel = gameModel.entityModels[entityModelId]
             
             let isActionRemoved = false
@@ -98,7 +98,7 @@ export function generateActionEffects(gameModel) {
         } else if(arg1 === 'layerId') {
           if(gameModel.layers) Object.keys(gameModel.layers).forEach((layerId) => {
             const effectId = EFFECT_DID + interfaceActionId + layerId
-            const interfaceActionUIData = interfaceActionsUIData[interfaceActionData.actionType]
+            const interfaceActionUIData = interfaceActionGroupData[interfaceActionData.interfaceActionGroupId]
             gameModel.effects[effectId] = {
               effectId,
               effectBehavior: EFFECT_INTERFACE_ACTION,
@@ -115,7 +115,7 @@ export function generateActionEffects(gameModel) {
         } else if(arg1 === 'brushId') {
           if(gameModel.brushes) Object.keys(gameModel.brushes).forEach((brushId) => {
             const effectId = EFFECT_DID + interfaceActionId + brushId
-            const interfaceActionUIData = interfaceActionsUIData[interfaceActionData.actionType]
+            const interfaceActionUIData = interfaceActionGroupData[interfaceActionData.interfaceActionGroupId]
             const brush = gameModel.brushes[brushId]
 
             if(brush.layerId === NON_LAYER_BRUSH_ID || brush.layerId === CANVAS_IMAGE_LAYER_ID) return
@@ -142,7 +142,7 @@ export function generateActionEffects(gameModel) {
             Object.keys(color).forEach((layerId) => {
               const effectId = EFFECT_DID + interfaceActionId + colorId + layerId
               if(layerId === NON_LAYER_COLOR_ID || layerId === CANVAS_IMAGE_LAYER_ID) return
-              const interfaceActionUIData = interfaceActionsUIData[interfaceActionData.actionType]
+              const interfaceActionUIData = interfaceActionGroupData[interfaceActionData.interfaceActionGroupId]
               gameModel.effects[effectId] = {
                 effectId,
                 effectBehavior: EFFECT_INTERFACE_ACTION,
@@ -163,7 +163,7 @@ export function generateActionEffects(gameModel) {
           if(gameModel.stages) {
             Object.keys(gameModel.stages).forEach((stageId) => {
               const effectId = EFFECT_DID + interfaceActionId + stageId
-              const interfaceActionUIData = interfaceActionsUIData[interfaceActionData.actionType]
+              const interfaceActionUIData = interfaceActionGroupData[interfaceActionData.interfaceActionGroupId]
               gameModel.effects[effectId] = {
                 effectId,
                 effectBehavior: EFFECT_INTERFACE_ACTION,

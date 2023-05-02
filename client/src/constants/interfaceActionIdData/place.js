@@ -3,7 +3,7 @@ import { defaultBasicEntity, defaultEntity, defaultNpcEntity, defaultPlayerEntit
 import { openEditEntityGraphics } from "../../store/actions/game/gameFormEditorActions";
 import { selectEntity } from "../../store/actions/game/gameSelectorActions";
 import { PLACE_BASIC_ENTITY_AID, PLACE_ENTITY_AID, PLACE_NPC_ENTITY_AID, PLACE_PLAYER_ENTITY_AID, PLACE_ZONE_ENTITY_AID } from "../interfaceActionIds/place";
-import { INTERFACE_ACTION_PLACE } from "../interfaceActions";
+import { INTERFACE_ACTION_PLACE } from "../interfaceActionIdGroups";
 import { EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, ENTITY_BOX_DIALOG_IID } from "../interfaceIds";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -19,7 +19,7 @@ export default {
     isRemoved: ([entityModelId], gameModel) => {
       return gameModel.entityModels[entityModelId].editorInterface.hiddenFromIDs[PLACE_ENTITY_AID]
     },
-    actionType: INTERFACE_ACTION_PLACE,
+    interfaceActionGroupId: INTERFACE_ACTION_PLACE,
     onClick: ([entityModelId]) => (dispatch, gameModel) => {
       dispatch(selectEntity(entityModelId))
     }
@@ -28,7 +28,7 @@ export default {
     title: 'Place New Player',
     subTitle: 'This will open a window to create a new Player',
     higherPriority: true,
-    actionType: INTERFACE_ACTION_PLACE,
+    interfaceActionGroupId: INTERFACE_ACTION_PLACE,
     onClick: () => (dispatch, gameModel) => {
       dispatch(openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, _.cloneDeep(defaultPlayerEntity)))
     }
@@ -37,7 +37,7 @@ export default {
     title: 'Place New NPC',
     subTitle: 'This will open a window to create a new NPC',
     higherPriority: true,
-    actionType: INTERFACE_ACTION_PLACE,
+    interfaceActionGroupId: INTERFACE_ACTION_PLACE,
     onClick: () => (dispatch, gameModel) => {
       dispatch(openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, _.cloneDeep(defaultNpcEntity)))
     }
@@ -46,7 +46,7 @@ export default {
     title: 'Place New Zone',
     subTitle: 'This will open a window to create a new Zone',
     higherPriority: true,
-    actionType: INTERFACE_ACTION_PLACE,
+    interfaceActionGroupId: INTERFACE_ACTION_PLACE,
     onClick: () => (dispatch, gameModel) => {
       dispatch(openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, _.cloneDeep(defaultZoneEntity)))
     }
@@ -55,7 +55,7 @@ export default {
     title: 'Place New Object',
     subTitle: 'This will open a window to create a new Object',
     higherPriority: true,
-    actionType: INTERFACE_ACTION_PLACE,
+    interfaceActionGroupId: INTERFACE_ACTION_PLACE,
     onClick: () => (dispatch, gameModel) => {
       dispatch(openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, _.cloneDeep(defaultBasicEntity)))
     }

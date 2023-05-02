@@ -86,10 +86,16 @@ export function instructionSteps({
         instruction.stepOrder.forEach((stepId, index) => {
           const step = instruction.steps[stepId]
 
+          const role = lobbyInstance.roles[step.cobrowsingRoleId]
           steps.push({
             stepId,
-            title: <Typography variant="h5"><StepTitle instructionId={instruction.instructionId} step={step}/></Typography>,
-            body: <div className="LobbyInstructions">
+            title: <div className="LobbyInstructions__step-title">
+              <Typography variant="h5">
+                <StepTitle instructionId={instruction.instructionId} step={step}/>
+              </Typography>
+              {role && <RoleChip role={role} iconOnly />}
+            </div>,
+            body: <div className="LobbyInstructions__step-body">
               <RoleChip role={lobbyInstance.roles[step.cobrowsingRoleId]} />
               {step.changeViewCategory && <>
                 <Divider/>

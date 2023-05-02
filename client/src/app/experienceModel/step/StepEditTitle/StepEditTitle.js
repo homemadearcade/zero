@@ -6,6 +6,7 @@ import './StepEditTitle.scss';
 import IconButton from '../../../../ui/IconButton/IconButton';
 import StepTitle from '../StepTitle/StepTitle';
 import TextField from '../../../../ui/TextField/TextField';
+import { RoleChip } from '../../role/RoleChip/RoleChip';
 
 const StepEditTitle = ({  
   instructionId,
@@ -16,6 +17,9 @@ const StepEditTitle = ({
   const [isHovering, setIsHovering] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [title, setTitle] = useState(step.title)
+
+  const cobrowsingRoleId = step.cobrowsingRoleId
+  const role = experienceModel.roles[cobrowsingRoleId]
 
   if(isEditing) {
     return <div className='StepEditTitle'>
@@ -37,18 +41,18 @@ const StepEditTitle = ({
       })
      }}></IconButton>}
       {<IconButton color="primary" icon="faClose" onClick={() => {
-      setIsEditing(false)
-      editExperienceModel(experienceModel.id, {
-        instructions: {
-          [instructionId]: {
-            steps: {
-              [step.stepId]: {
-                title: ''
+        setIsEditing(false)
+        editExperienceModel(experienceModel.id, {
+          instructions: {
+            [instructionId]: {
+              steps: {
+                [step.stepId]: {
+                  title: ''
+                }
               }
             }
           }
-        }
-      })
+        })
      }}></IconButton>}
     </div>
   }
@@ -67,6 +71,7 @@ const StepEditTitle = ({
         setIsEditing(true)
       }}
     />}
+    {role && <RoleChip role={role} iconOnly />}
   </div>
 };
 

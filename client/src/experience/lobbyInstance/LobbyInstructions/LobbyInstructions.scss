@@ -3,4 +3,10 @@
     height: 100vh;
     overflow-y: scroll;
   }
+
+  &__step-title {
+    display: flex;
+    align-items: center;
+    gap: .2em;
+  }
 }

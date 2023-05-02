@@ -7,7 +7,7 @@ import SelectChipsAuto from '../SelectChipsAuto/SelectChipsAuto';
 import { interfaceIdData } from '../../constants/interfaceIdData';
 import { INTERFACE_ACTION_UNLOCK } from '../../constants';
 
-const SelectInterfaceId = ({ onChange, disabled, value, formLabel, actionType }) => {
+const SelectInterfaceId = ({ onChange, disabled, value, formLabel, interfaceActionGroupId }) => {
 
   const mapEntityToOption = (interfaceId) => {
     const interfaceData = interfaceIdData[interfaceId]
@@ -15,7 +15,7 @@ const SelectInterfaceId = ({ onChange, disabled, value, formLabel, actionType })
 
     if(!name) return false
 
-    if(actionType === INTERFACE_ACTION_UNLOCK && interfaceData.isDefaultUnlocked) return false
+    if(interfaceActionGroupId === INTERFACE_ACTION_UNLOCK && interfaceData.isDefaultUnlocked) return false
 
     return {
       label: name,

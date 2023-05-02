@@ -27,6 +27,7 @@ import { initialUnlockableInterfaceState } from './unlockedInterfaceReducer';
 import { initialVideoState } from '../experience/videoReducer';
 import { inIframe } from '../../../utils/webPageUtils';
 import { initialSnackbarState } from '../snackbarReducer';
+import { initialKeyToolbarState } from './keyToolbar';
 import { mergeDeep } from '../../../utils/utils';
 
 function getDefaultIsActiveCobrowsing() {
@@ -50,6 +51,7 @@ const initialState = {
     gameViewEditor: initialGameViewEditorState,
     playerInterface: initialPlayerInterfaceState,
     contextMenu: initialContextMenuState,
+    keyToolbar: initialKeyToolbarState,
     unlockedInterfaceIds: initialUnlockableInterfaceState,
     errors: initialErrorState,
     snackbar: initialSnackbarState

@@ -57,6 +57,10 @@ const userSchema = new Schema(
       type: Object,
       default: {}
     },
+    keyToolbarActionIds: {
+      type: Object,
+      default: {}
+    },
     isRemoved: Boolean,
     userId: {
       immuteable: true,

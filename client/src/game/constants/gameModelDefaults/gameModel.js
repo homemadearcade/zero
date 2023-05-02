@@ -7,9 +7,10 @@ import { directionalPlayerEntityId, initialCameraZoneEntityId, initialPlayerSpaw
 import { mirrorPlayerDefaults } from "../entityModelPropertyDefaults";
 import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { nodeSize } from "../core";
-import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, DATA_SOURCE_SYSTEM_IID, ENTITY_SPAWN_ZONE_ENTITY_IID, PROJECTILE_ENTITY_SELECTOR_IID, COLLIDER_RELATION_TAG_IID } from "../../../constants/interfaceIds";
-import { EDIT_ENTITY_AID, IMPORT_DATA_SOURCE_AID, PLACE_ENTITY_AID } from "../../../constants/interfaceActionIds";
+import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, DATA_SOURCE_SYSTEM_IID, ENTITY_SPAWN_ZONE_ENTITY_IID, PROJECTILE_ENTITY_SELECTOR_IID, COLLIDER_RELATION_TAG_IID, GRID_VIEW_TOGGLE_IID } from "../../../constants/interfaceIds";
+import { EDIT_ENTITY_AID, IMPORT_DATA_SOURCE_AID, PLACE_ENTITY_AID, PLAY_TEST_GAME_AID, SNAPSHOT_GAME_AREA_AID, TOGGLE_GRID_VIEW_AID } from "../../../constants/interfaceActionIds";
 import { EDIT_GAME_SCOPE_ONLY_ME, PLAY_GAME_SCOPE_UNLISTED } from "./scope";
+import { ONE_KID, THREE_KID, TWO_KID } from "../../../constants/keyboard/keyIds";
 
 export const defaultGameModel = {
   "metadata": {
@@ -61,6 +62,17 @@ export const defaultGameModel = {
   },
   interfacePresets: {
 
+  },
+  keyToolbar: {
+    [ONE_KID]: {
+      interfaceActionId: TOGGLE_GRID_VIEW_AID
+    },
+    [TWO_KID]: {
+      interfaceActionId: PLAY_TEST_GAME_AID,
+    },
+    [THREE_KID]: {
+      interfaceActionId: SNAPSHOT_GAME_AREA_AID
+    }
   },
   layers: {},
   "entityModels": {

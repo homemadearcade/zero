@@ -11,7 +11,7 @@ import Typography from '../../../ui/Typography/Typography';
 import { Fade } from '@mui/material';
 import { getCurrentGameScene } from '../../../utils';
 import store from '../../../store';
-import { interfaceActionsUIData } from '../../../constants';
+import { interfaceActionGroupData } from '../../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, ON_STEP_BEGINS, RUN_GAME_INSTANCE_ACTION } from '../../constants';
 import { unlockInterfaceId } from '../../../store/actions/game/unlockedInterfaceActions';
@@ -68,8 +68,8 @@ const EffectPromptDialog = ({
   function renderActionData() {
     return null
     return <div className="EffectPromptDialog__actions">
-        {Object.keys(interfaceActionsUIData).map((key) => {
-          const { displayName, icon, description } = interfaceActionsUIData[key]
+        {Object.keys(interfaceActionGroupData).map((key) => {
+          const { displayName, icon, description } = interfaceActionGroupData[key]
           return <div className="EffectPromptDialog__action" key={key}>
               <div className="EffectPromptDialog__action-icon">
                 <Icon icon={icon}/>

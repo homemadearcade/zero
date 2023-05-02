@@ -13,3 +13,6 @@ TOUR component for admins? There this 'tour component' I found when searching ui
 MY CABINETS
   Select Games and Buy a Cabinet!?
   Add game to cabinet?
+
+Non Player Enttiy
+  Behavior General Menu kinda like Stage Perspective

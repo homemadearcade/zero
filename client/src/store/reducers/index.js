@@ -38,6 +38,7 @@ import effectLibraryReducer from './library/effectLibraryReducer';
 import eventLibraryReducer from './library/eventLibraryReducer';
 import libraryReducer from './library/libraryReducer';
 import appSettingsReducer from './appSettingsReducer';
+import keyToolbarReducer from './game/keyToolbar';
 
 export default combineReducers({
   arcadeGames: arcadeGamesReducer,
@@ -58,6 +59,7 @@ export default combineReducers({
   contextMenu: contextMenuReducer,
   unlockedInterfaceIds: unlockedInterfaceReducer,
   playerInterface: playerInterfaceReducer,
+  keyToolbar: keyToolbarReducer,
   codrawing: codrawingReducer,
   errors: errorsReducer,
   webPage: webPageReducer,
