@@ -23,6 +23,9 @@ export default  {
     interfaceActionGroupId: INTERFACE_ACTION_RESIZE,
     onClick: () => (dispatch) => {
       dispatch(openBoundaryEditor())
+    },
+    isActive: (state) => {
+      return state.gameViewEditor.isBoundaryEditorOpen
     }
   },
   [RESIZE_CURRENT_PLAYER_CAMERA_AID]: {

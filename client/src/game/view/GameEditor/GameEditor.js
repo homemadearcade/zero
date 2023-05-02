@@ -250,7 +250,6 @@ const GameEditor = ({
       {isCanvasImageDialogOpen && <CanvasImageDialog onSaveCanvasImage={(textureId) => {
         if(canvasImageEntityModelId) {
           closeEditEntityGraphics()
-
           editGameModel({
             entityModels: {
               [canvasImageEntityModelId] : {

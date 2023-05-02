@@ -8,6 +8,7 @@
     align-items: center;
     border: 1px solid #333;
     border-bottom: none;
+    
   }
 
   &__grid {
@@ -16,6 +17,8 @@
     grid-template-rows: repeat(3, 1fr);
     border: 1px solid #333;
     background-color: #111;
+
+    
   }
 
   &__core-row {
@@ -58,6 +61,8 @@
     height: 4em;
     position: relative;
 
+    user-select: none;
+    
     border-top: 1px solid #333;
     border-left: 1px solid #333;
   

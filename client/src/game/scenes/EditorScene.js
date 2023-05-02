@@ -503,6 +503,7 @@ export class EditorScene extends GameInstance {
       ////////////////////////////////////////////////////////////
       if(this.brush) {
         const canvas = this.getLayerInstanceByLayerId(this.brush.getLayerId())
+        if(!canvas) return console.error('this is when that error happens')
         this.canvas = canvas
         this.brush.stroke(pointer, this.canvas)
         return
@@ -1118,6 +1119,7 @@ export class EditorScene extends GameInstance {
           //   gameState: PAUSED_STATE
           // }))
         }
+        
         this.canvas = null
       }
     } else {

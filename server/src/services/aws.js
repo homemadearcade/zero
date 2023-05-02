@@ -38,6 +38,8 @@ export const recordS3Upload = async function(req, res, next) {
     const { Key, ContentType } =  req.query;
     // Key refers to the remote name of the file.
 
+    console.log('upload size', req.file.size)
+
     let s3ImageUpload = await S3ImageUpload.create({
       data: {
         Key,

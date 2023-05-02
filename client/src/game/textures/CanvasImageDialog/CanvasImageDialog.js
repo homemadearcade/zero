@@ -72,10 +72,11 @@ const CanvasImageDialog = ({
   //     </Button>
   // </Unlockable>)
 
-  const isSaving = !!textureIdSaving[canvasImage.textureId]
 
   function renderBody() {
-    if(isCanvasImageDialogLoading) return <Loader></Loader>
+    if(isCanvasImageDialogLoading || !canvasImage) return <Loader></Loader>
+    
+    const isSaving = !!textureIdSaving[canvasImage.textureId]
 
     return <><div className="CanvasImageDialog__left-column">
         <BrushControl/>

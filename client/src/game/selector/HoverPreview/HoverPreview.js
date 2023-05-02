@@ -376,6 +376,9 @@ const HoverPreview = ({
         <Typography font="2P" variant="subtitle2">
           {metadata.title}
         </Typography>
+        <Typography variant="subtitle2">
+         {'by ' + (metadata.authorPseudonym ? metadata.authorPseudonym : gameModel.owner?.username)}
+        </Typography>
       </Paper>
       {(gameRoomInstance.gameState === PAUSED_STATE) && renderPrimaryTitle('(Paused)')}
       {currentStageId === initialStageId ? null : <>

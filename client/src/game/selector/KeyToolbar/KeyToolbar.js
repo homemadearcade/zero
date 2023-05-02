@@ -16,6 +16,7 @@ import store from '../../../store';
 import { unlockInterfaceId } from '../../../store/actions/game/unlockedInterfaceActions';
 import { getCurrentGameScene } from '../../../utils';
 import { changeKeyToolbarActionIdHovering } from '../../../store/actions/game/hoverPreviewActions';
+import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const KeyToolbar = ({ 
   cobrowsing: {
@@ -51,6 +52,7 @@ const KeyToolbar = ({
   unlockInterfaceId,
   keyToolbar
 }) => {
+  const theme = useWishTheme()
 
   const keyIdsToKeyActions = {
     ...gameModel.keyToolbar,
@@ -92,8 +94,15 @@ const KeyToolbar = ({
     const controlName = keyIdToKeyName[keyId]
     const effectId = keyIdsToKeyActions[keyId]?.effectId
     const effect = gameModel.effects[effectId]
+
+    let isActive;
+
+    if(effect?.isActive) {
+      isActive = effect.isActive(store.getState())
+    }
     
     return <div key={effectId + keyId} onClick={() => {
+      if(!effect) return
       if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
         effect.onClick(store.dispatch, gameModel, store.getState)
       } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
@@ -104,6 +113,9 @@ const KeyToolbar = ({
       }
     }} 
       className={classNames("KeyToolbar__node")} 
+      style={{
+        backgroundColor: isActive && theme.primaryColor.hexString
+      }}
       onMouseEnter={() => {
         changeKeyToolbarActionIdHovering(effectId)
       }}

@@ -19,46 +19,24 @@ CUTSCENES
 
 ---------------------------------------------------------------------------------------------------- 
 
+GRID MODE == CREATIVE MODE ( no more physics and change arrow key behavior )
+
 KEYBOARD MODE
   Avoid shift? Yes avoid shift. SHIFT is - KEEP TOOL SELECTED
-
-  SHIFT -> turn on grid view
+   What else is shift?
+  What is X?
+  What is Arrow Keys?
+  What is ESC?
 
   Figure out how to register keys?
 
-  PUSH UI STATE ( Envelope Icon )
-
-  ALL TOOLS go in here
-    Snapshot Tool
-    Grid Change
-    Section Editor
-    Prompt Editor
-  COBROWSING TOOLS
-    Open MORE TOOLS selector. Perhaps more tools need to be added? Tool Creator system. WOW!
-
-ESC key 
-
-TODO 
-  Move all to -> effectIds 
-   Copy from  Effect Prompt
-
   Put in Top-Left under the Guide
+    Allow it to be hidden
 
   Cobrowsing Actions
     Cobrowse Only
   Prompt Editor Action
-  Add to defaults
-    Section Editor
-  Hover Preview for the Toolbar
   Custom Action Ids
   'More Toolbox' ( More Tools option in Context menu and Hover Preview )
   Think more about how these are saved and set...
-  Keyboard shortcuts
-
-  Pause/Play should be numbers
-
-----
-
-COBROWSING TOOL
-
-Arrow Pointer -> Bullseye
+  Keyboard shortcuts actually working

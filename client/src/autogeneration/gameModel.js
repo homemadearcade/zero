@@ -61,7 +61,8 @@ export function generateActionEffects(gameModel) {
         title: interfaceActionData.title,
         subTitle: interfaceActionData.subTitle,
         onClick: interfaceActionData.onClick(),
-        icon: interfaceActionUIData.icon,
+        isActive: interfaceActionData.isActive,
+        icon: interfaceActionData.icon || interfaceActionUIData.icon,
         isReadOnly: true
       }
     } else {

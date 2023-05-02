@@ -302,7 +302,7 @@ export class GameInstance extends Phaser.Scene {
       if(layerInstance.textureId === textureId) return true
     })
 
-    if(!layerInstanceId) console.error('didnt find layer with id', textureId, typeof textureId)
+    // if(!layerInstanceId) console.error('didnt find layer with id', textureId, typeof textureId)
 
     return this.layerInstancesById[layerInstanceId]
   }

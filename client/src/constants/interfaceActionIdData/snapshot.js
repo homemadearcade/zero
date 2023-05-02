@@ -12,6 +12,9 @@ export default {
     interfaceActionGroupId: INTERFACE_ACTION_CAMERA,
     onClick: () => (dispatch, gameModel) => {
       dispatch(openSnapshotTaker())
+    },
+    isActive: (state) => {
+      return state.gameViewEditor.isSnapshotTakerOpen
     }
   },
   // [SNAPSHOT_STAGE_ZONE_AID]: {
