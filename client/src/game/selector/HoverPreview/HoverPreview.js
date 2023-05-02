@@ -5,7 +5,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import Texture from '../../textures/Texture/Texture';
 import { getLayerIdFromColorId, getLayerIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
-import { dataSourceIIDToIcon, effectInterfaceDatas, layerGroupIIDtoShortName, PAUSED_STATE } from '../../constants';
+import { dataSourceIIDToIcon, effectInterfaceDatas, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, layerGroupIIDtoShortName, PAUSED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
@@ -38,6 +38,7 @@ import { useWishTheme } from '../../../hooks/useWishTheme';
 import IconButton from '../../../ui/IconButton/IconButton';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 import { Paper } from '@mui/material';
+import { interfaceActionIdData } from '../../../constants/interfaceActionIdData';
 
     // <Unlockable interfaceId={CONTEXT_MENU_SNAPSHOT_IID}>
     //   <MenuItem onClick={() => {
@@ -75,6 +76,7 @@ const HoverPreview = ({
     entityInstanceIdHovering,
     instanceDataHovering,
     effectIdHovering,
+    keyToolbarActionIdHovering,
     relationIdHovering,
     relationTagIdHovering
   },
@@ -145,6 +147,8 @@ const HoverPreview = ({
       hex = getHexFromColorId(brushId)
     }
   }
+
+  const effectId = effectIdHovering || keyToolbarActionIdHovering
 
   const interfaceData = interfaceIdData[interfaceIdHovering]
 
@@ -364,20 +368,15 @@ const HoverPreview = ({
     }
 
    return  <>
-    {metadata.imageUrl && <div className="HoverPreview__image-background" style={{backgroundImage: imageBackground ? `url("${imageBackground}"` : ''}}></div>}
-    <div className="HoverPreview__title" onClick={() => {
-      // if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID) changeSelectorList(SELECTOR_RELATION_SYSTEM)
-    }}>
+     {metadata.imageUrl && <div className="HoverPreview__image-background" style={{backgroundImage: imageBackground ? `url("${imageBackground}"` : ''}}></div>}
+      <div className="HoverPreview__title" onClick={() => {
+        // if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID) changeSelectorList(SELECTOR_RELATION_SYSTEM)
+      }}>
       <Paper elevation={10} sx={{padding: '1em'}}>
-          <Typography font="2P" variant="subtitle2">
+        <Typography font="2P" variant="subtitle2">
           {metadata.title}
         </Typography>
-       </Paper>
-       {currentSelectorListInterfaceId !== SELECTOR_ENTITY_BY_INTERFACE_ID_IID && <div className="HoverPreview__close">
-        <IconButton icon="faClose" onClick={() => {
-          changeSelectorList(SELECTOR_ENTITY_BY_INTERFACE_ID_IID)
-        }}></IconButton>
-      </div>}
+      </Paper>
       {(gameRoomInstance.gameState === PAUSED_STATE) && renderPrimaryTitle('(Paused)')}
       {currentStageId === initialStageId ? null : <>
         <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5em'}} >{currentStage.name}</Typography>
@@ -422,10 +421,11 @@ const HoverPreview = ({
         textureTint: relationTag.textureTint,
         textureId: relationTag.textureId,
       })
-    } else if(effectIdHovering) {
-      const effect = effects[effectIdHovering]
+    } else if(effectId) {
+      const effect = effects[effectId]
+      let title = effect.title
       return renderTextOnlyDisplay({
-        title: effectInterfaceDatas[effect.effectBehavior].displayName
+        title
       })
     } else if(entityModelIdHovering) {
       return renderEntityDisplay()

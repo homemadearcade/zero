@@ -1,7 +1,7 @@
 import { openCreateStageDialog, openEditEntityDialog, openEditEntityGraphics } from "../../store/actions/game/gameFormEditorActions";
 import { openGameEditDialog, openEntityBehaviorLiveEditor, openSelectStageColorDialog, openStageLiveEditor } from "../../store/actions/game/gameSelectorActions";
 import { openBoundaryEditor } from "../../store/actions/game/gameViewEditorActions";
-import { EDIT_CURRENT_PLAYER_CAMERA_AID, EDIT_CURRENT_STAGE_AID, EDIT_CURRENT_STAGE_BACKGROUND_COLOR_AID, EDIT_CURRENT_STAGE_BOUNDARIES_AID, EDIT_CURRENT_STAGE_PERSPECTIVE_AID, EDIT_ENTITY_AID, EDIT_ENTITY_GRAPHICS_AID, EDIT_GAME_METADATA_AID } from "../interfaceActionIds/edit";
+import { EDIT_CURRENT_PLAYER_CAMERA_AID, EDIT_CURRENT_PLAYER_GRAPHICS_AID, EDIT_CURRENT_STAGE_AID, EDIT_CURRENT_STAGE_BACKGROUND_COLOR_AID, EDIT_CURRENT_STAGE_BOUNDARIES_AID, EDIT_CURRENT_STAGE_PERSPECTIVE_AID, EDIT_ENTITY_AID, EDIT_ENTITY_GRAPHICS_AID, EDIT_GAME_METADATA_AID } from "../interfaceActionIds/edit";
 import { INTERFACE_ACTION_EDIT } from "../interfaceActionIdGroups";
 import { CAMERA_EDITOR_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, EDIT_GAME_METADATA_TAB_IID, LIVE_EDIT_STAGE_COLOR_TAB_IID, LIVE_EDIT_STAGE_PERSPECTIVE_TAB_IID, LIVE_ENTITY_EDITOR_CAMERA_TAB_IID, ZONE_ENTITY_IID } from "../interfaceIds";
 
@@ -65,14 +65,6 @@ export default {
     interfaceActionGroupId: INTERFACE_ACTION_EDIT,
     arguments: ['entityModelId']
   },
-  [EDIT_CURRENT_STAGE_BOUNDARIES_AID]: {
-    title: 'Edit Boundaries',
-    subTitle: 'This will open a popup to edit the boundaries',
-    interfaceActionGroupId: INTERFACE_ACTION_EDIT,
-    onClick: () => (dispatch) => {
-      dispatch(openBoundaryEditor())
-    }
-  },
   [EDIT_CURRENT_STAGE_AID]: {
     title: 'Edit Stage',
     subTitle: 'This will open a popup to edit the current stage',
@@ -88,6 +80,16 @@ export default {
     onClick: () => (dispatch, gameModel, getState) => {
       const currentPlayerEntityId = getState().playerInterface.playerEntityModelId
       dispatch(openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_CAMERA_TAB_IID, currentPlayerEntityId))
+    }
+  },
+  [EDIT_CURRENT_PLAYER_GRAPHICS_AID]: {
+    title: 'Edit Current Player Graphics',
+    subTitle: 'This will open a popup to edit the player graphics',
+    interfaceActionGroupId: INTERFACE_ACTION_EDIT,
+    onClick: () => (dispatch, gameModel, getState) => {
+      const currentPlayerEntityId = getState().playerInterface.playerEntityModelId
+      const currentPlayerEntityModel = gameModel.entityModels[currentPlayerEntityId]
+      dispatch(openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, currentPlayerEntityModel))
     }
   }
 }

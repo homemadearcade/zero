@@ -61,7 +61,7 @@ const LobbyMember = ({
         <div className="LobbyMember__username">{member.username}{isMe && ' (me)'}</div>
         <div className={classnames({'LobbyMember__connection-dot--bad' : memberStatus?.pingDelta > 60, 'LobbyMember__connection-dot--good':  (!memberStatus?.pingDelta <= 60) })}/>
         <div className="LobbyMember__ping">{memberStatus?.pingDelta > -1 ? memberStatus?.pingDelta : null}</div>
-        {member.roles[APP_ADMIN_ROLE] && <div className="LobbyMember__admin"><Icon icon="faCrown"/></div>}
+        {me.roles[APP_ADMIN_ROLE] && <div className="LobbyMember__admin"><Icon icon="faCrown"/></div>}
       </div>
       <Divider></Divider>
       <div className="LobbyMember__icons">

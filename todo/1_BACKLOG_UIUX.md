@@ -21,4 +21,7 @@ like 'fine tune size' for brushes, grid mode for the view, other things. This sh
 POPUP - When there is a SAVE required, before closing ask if you are certain to close
 
 Popup that says - you do not have a role in this game, Join as Audience?
+
+WARNING
+  NEED A WARNING FOR when a game is not being copied
 --

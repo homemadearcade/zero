@@ -157,8 +157,8 @@ const GameEditor = ({
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}><GameStateToolbar/></Unlockable>
         <HoverPreview/>
-        <ClickPreview/>
         {showColumns && gameModel && <>
+          <ClickPreview/>
           {renderSelectorColumn()}
         </>}
       </div>

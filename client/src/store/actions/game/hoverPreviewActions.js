@@ -6,6 +6,7 @@ import {
   CHANGE_EVENT_ID_HOVERING,
   CHANGE_RELATION_TAG_ID_HOVERING,
   CHANGE_RELATION_ID_HOVERING,
+  CHANGE_KEY_TOOLBAR_ACTION_ID_HOVERING,
 } from '../../types';
 
 
@@ -54,6 +55,20 @@ export const changeEffectIdHovering = (effectId) => (dispatch, getState) => {
     }
   });
 }
+
+
+export const changeKeyToolbarActionIdHovering = (effectId) => (dispatch, getState) => {
+  dispatch({
+    type: CHANGE_KEY_TOOLBAR_ACTION_ID_HOVERING,
+    updateCobrowsing: true,
+    cobrowsingPublisherOnly: true,
+    payload: {
+      effectId
+    }
+  });
+}
+
+
 export const changeEventIdHovering = (eventId) => (dispatch, getState) => {
   dispatch({
     type: CHANGE_EVENT_ID_HOVERING,

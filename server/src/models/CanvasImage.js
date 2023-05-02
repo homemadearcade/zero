@@ -13,6 +13,9 @@ const canvasImage = new Schema(
       type: Object,
       required: true,
     },
+    initialTextureId: {
+      type: String,
+    },
     textureId: {
       type: String,
       required: true,
@@ -44,6 +47,7 @@ canvasImage.methods.toJSON = function () {
   return {
     id: this._id.toString(),
     textureId: this.textureId,
+    initialTextureId: this.initialTextureId,
     imageType: this.imageType,
     strokeHistory: this.strokeHistory,
     appLocation: this.appLocation,

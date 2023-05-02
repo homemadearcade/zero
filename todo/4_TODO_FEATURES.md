@@ -24,11 +24,7 @@ KEYBOARD MODE
 
   SHIFT -> turn on grid view
 
-  CAPS LOCK - Grid View 
-
   Figure out how to register keys?
-
-  MMO-esque toolbar on the bottom left
 
   PUSH UI STATE ( Envelope Icon )
 
@@ -41,3 +37,28 @@ KEYBOARD MODE
     Open MORE TOOLS selector. Perhaps more tools need to be added? Tool Creator system. WOW!
 
 ESC key 
+
+TODO 
+  Move all to -> effectIds 
+   Copy from  Effect Prompt
+
+  Put in Top-Left under the Guide
+
+  Cobrowsing Actions
+    Cobrowse Only
+  Prompt Editor Action
+  Add to defaults
+    Section Editor
+  Hover Preview for the Toolbar
+  Custom Action Ids
+  'More Toolbox' ( More Tools option in Context menu and Hover Preview )
+  Think more about how these are saved and set...
+  Keyboard shortcuts
+
+  Pause/Play should be numbers
+
+----
+
+COBROWSING TOOL
+
+Arrow Pointer -> Bullseye

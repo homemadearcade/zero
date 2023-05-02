@@ -5,16 +5,17 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import Icon from '../../../ui/Icon/Icon';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
-import { entityModelClassToDisplayName } from '../../constants';
+import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, entityModelClassToDisplayName, RUN_GAME_INSTANCE_ACTION } from '../../constants';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { KEY_TOOLBAR_ACTIONS_IID } from '../../../constants/interfaceIds';
 import { TOOLBAR_MORE_IID } from '../../../constants/interfaceIds/keyToolbarInterfaceIds';
 import Button from '../../../ui/Button/Button';
 import { EIGHT_KID, FIVE_KID, FOUR_KID, keyIdToKeyName, NINE_KID, ONE_KID, SEVEN_KID, SIX_KID, THREE_KID, TWO_KID } from '../../../constants/keyboard/keyIds';
-import { interfaceActionIdData } from '../../../constants/interfaceActionIdData';
-import { interfaceActionGroupData } from '../../../constants';
 import classNames from 'classnames';
 import store from '../../../store';
+import { unlockInterfaceId } from '../../../store/actions/game/unlockedInterfaceActions';
+import { getCurrentGameScene } from '../../../utils';
+import { changeKeyToolbarActionIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 
 const KeyToolbar = ({ 
   cobrowsing: {
@@ -46,6 +47,8 @@ const KeyToolbar = ({
     isSnapshotTakerOpen,
     isMouseOverGameView
   },
+  changeKeyToolbarActionIdHovering,
+  unlockInterfaceId,
   keyToolbar
 }) => {
 
@@ -61,83 +64,12 @@ const KeyToolbar = ({
     return entityModelClassToDisplayName[entityModel.entityIID]
   }
 
-  function renderActionTitle(text, icon) {
-     return <>
-      {icon && <Icon size="xs" icon={icon}></Icon>}
-      <Typography variant="subtitle2" sx={{fontSize: '.8em'}}>
-        {text}
-      </Typography>
-    </>
-  }
-
   function renderCoreKey(text) {
     return <>
       <Typography sx={{fontSize: '.5em', color: '#aaa'}} variant="subtitle2" font="2P">
         {text}
       </Typography>
     </>
-  }
-
-  function renderLeftClickAction() {
-    
-    if(brushIdHovering) {
-      return <>
-        {/* <Icon size="xs" icon="faMap"></Icon> */}
-        {renderActionTitle('Select Brush', 'faPaintbrush')}
-      </>
-    }
-
-    if(brushIdSelectedBrushList && isMouseOverGameView) {
-      return renderActionTitle('Paint with Brush', 'faPaintbrush')
-    }
-
-    if(entityModelIdHovering && !isMouseOverGameView) {
-
-      return renderActionTitle('Select ' + getEntityClassName(), 'faArrowPointer')
-    }
-
-    if(entityInstanceIdHovering && isMouseOverGameView) {
-      return renderActionTitle('Edit Behavior', 'faDna')
-    }
-
-    if(entityModelIdSelectedEntityList && isMouseOverGameView) {
-      return renderActionTitle('Place ' + getEntityClassName(), 'faArrowPointer')
-    }
-
-    if(entityInstanceIdHovering) {
-      return renderActionTitle('Select ' + getEntityClassName(), 'faArrowPointer')
-    }
-
-
-    if(isMouseOverGameView) {
-      return renderActionTitle('Edit Stage', 'faMap')
-    }
-
-    if(interfaceIdHovering) {
-
-      const interfaceData = interfaceIdData[interfaceIdHovering]
-      if(interfaceData) {
-        return renderActionTitle(interfaceData.leftClickAction, interfaceData.leftClickIcon ? interfaceData.leftClickIcon : null)
-      }
-    }
-  }
-
-  function renderRightClickAction() {
-
-    if(isMouseOverGameView || entityModelIdHovering) {
-      return renderActionTitle('More', 'faEllipsis')
-    }
-  }
-
-  function renderDoubleClickAction() {
-
-    if(entityModelIdHovering) {
-      return renderActionTitle('Edit ' + getEntityClassName(), 'faChessPawn')
-    }
-
-    if(isMouseOverGameView) {
-      return renderActionTitle('Edit Game', 'faGamepad')
-    }
   }
 
   function renderControl(text) {
@@ -158,22 +90,33 @@ const KeyToolbar = ({
 
   function renderNumberKey(keyId) {
     const controlName = keyIdToKeyName[keyId]
-    const interfaceActionId = keyIdsToKeyActions[keyId]?.interfaceActionId
-    const interfaceAction = interfaceActionIdData[interfaceActionId]
-    const keyActionGroup = interfaceActionGroupData[interfaceAction?.interfaceActionGroupId]
-
-    return <div key={interfaceActionId + keyId} onClick={() => {
-      console.log('click', interfaceActionId, interfaceAction, interfaceAction?.onClick)
-      if(interfaceActionId) {
-        interfaceAction.onClick()(store.dispatch, gameModel)
+    const effectId = keyIdsToKeyActions[keyId]?.effectId
+    const effect = gameModel.effects[effectId]
+    
+    return <div key={effectId + keyId} onClick={() => {
+      if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
+        effect.onClick(store.dispatch, gameModel, store.getState)
+      } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
+        store.dispatch(unlockInterfaceId(effect.interfaceId))
+      } else {
+        const gameInstance = getCurrentGameScene(store.getState().webPage.gameInstance)
+        gameInstance.callGameInstanceEvent({gameRoomInstanceEventType: RUN_GAME_INSTANCE_ACTION, data: { effectId } , hostOnly: true })
       }
-    }} className={classNames("KeyToolbar__node")}>
+    }} 
+      className={classNames("KeyToolbar__node")} 
+      onMouseEnter={() => {
+        changeKeyToolbarActionIdHovering(effectId)
+      }}
+      onMouseLeave={() => {
+        changeKeyToolbarActionIdHovering(null)
+      }}
+    >
       <div className="KeyToolbar__node-control">
         {renderControl(controlName)}
       </div>
       <div className="KeyToolbar__node-action">
         {/* {renderLeftClickAction()} */}
-        {keyActionGroup && <Icon icon={keyActionGroup.icon}></Icon>}
+        {effect && <Icon icon={effect.icon}></Icon>}
       </div>
     </div>
   }
@@ -249,4 +192,7 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   keyToolbar: state.keyToolbar,
 })
 
-export default connect(mapStateToProps, {})(KeyToolbar);
+export default connect(mapStateToProps, {
+  changeKeyToolbarActionIdHovering,
+  unlockInterfaceId
+})(KeyToolbar);

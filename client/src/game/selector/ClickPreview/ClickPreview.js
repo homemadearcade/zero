@@ -3,23 +3,10 @@ import { connect } from 'react-redux';
 import './ClickPreview.scss'
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
-import Texture from '../../textures/Texture/Texture';
-import { getLayerIdFromColorId, getLayerIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
-import { dataSourceIIDToIcon, effectInterfaceDatas, layerGroupIIDtoShortName, PAUSED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
-import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
 import { entityModelClassToDisplayName } from '../../constants';
-import { initialStageId } from '../../constants';
-import { changeSelectorList, openEntityBehaviorLiveEditor, openGameEditDialog, openStageLiveEditor } from '../../../store/actions/game/gameSelectorActions';
-import Button from '../../../ui/Button/Button';
-import { openEditContentDialog, openEditEntityDialog, openEditEntityGraphics, openEditRelationSystemDialog, openEffectPromptDialog } from '../../../store/actions/game/gameFormEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorActions';
-import { useWishTheme } from '../../../hooks/useWishTheme';
-import IconButton from '../../../ui/IconButton/IconButton';
-import useGameEditorSize from '../../../hooks/useGameEditorSize';
-import { Paper } from '@mui/material';
 import { CLICK_PREVIEW_IID } from '../../../constants/interfaceIds';
 
 const ClickPreview = ({ 
@@ -30,6 +17,7 @@ const ClickPreview = ({
     brushIdHovering, 
     entityModelIdHovering,
     entityInstanceIdHovering,
+    keyToolbarActionIdHovering,
     instanceDataHovering,
     effectIdHovering,
     relationIdHovering,
@@ -108,6 +96,11 @@ const ClickPreview = ({
 
     if(isMouseOverGameView) {
       return renderActionTitle('Edit Stage', 'faMap')
+    }
+
+    if(keyToolbarActionIdHovering) {
+      const effect = gameModel.effects[keyToolbarActionIdHovering]
+      return renderActionTitle('Do Action', effect.icon)
     }
 
     if(interfaceIdHovering) {

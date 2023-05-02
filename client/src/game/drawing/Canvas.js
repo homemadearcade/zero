@@ -11,14 +11,13 @@ window.instanceUndoStack = []
 window.imageCanvasUndoStack = []
 
 export class Canvas extends Phaser.GameObjects.RenderTexture {
-  constructor(scene, { textureId, initialTextureId, boundaries, autoSave, layerGroupIID, layerId }){
+  constructor(scene, { textureId, boundaries, autoSave, layerGroupIID, layerId }){
     super(scene, 0, 0, boundaries.maxWidth, boundaries.maxHeight)
 
     this.scene = scene
     this.scene.add.existing(this)
 
     this.textureId = textureId
-    this.initialTextureId = initialTextureId
     this.layerGroupIID = layerGroupIID
     this.layerId = layerId
     this.canvasImageMongoId = null
@@ -53,7 +52,8 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
         if(this.canvasImageMongoId) {
           store.dispatch(editCanvasImage(this.canvasImageMongoId, {
-            strokeHistory: []
+            strokeHistory: [],
+            initialTextureId: null
           }))
         }
         this.strokeHistory = []
@@ -61,7 +61,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
         if(!this.strokeHistory.length) this.markSaved()
 
         const arcadeGameMongoId = store.getState().gameModel.gameModel.id
-        console.log(arcadeGameMongoId)
         await store.dispatch(uploadCanvasImageAndAddToGameModel({imageFile, arcadeGameMongoId, textureId, imageType: this.imageType || IMAGE_TYPE_CANVAS}))
 
         resolve(textureId)
@@ -175,9 +174,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   initialDraw() {
-    if(this.scene.textures.exists(this.initialTextureId)) {
-      super.draw(this.initialTextureId, 0, 0)
-    }
     if(this.scene.textures.exists(this.textureId)) {
       super.draw(this.textureId, 0, 0)
     }

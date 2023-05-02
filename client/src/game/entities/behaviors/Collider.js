@@ -107,13 +107,13 @@ export class Collider {
     }
   }
   
-  runCollideActiveEffect({
+  runCollideActiveEffect = ({
     relation,
     phaserInstanceA,
     phaserInstanceB,
     sidesA = [],
     sidesB = []
-  }) {
+  }) => {
     const effect = relation.effect
     const scene = this.scene
 
@@ -167,13 +167,13 @@ export class Collider {
     } 
   }
 
-  startRunCollideEffects({
+  startRunCollideEffects = ({
     relation,
     phaserInstanceA,
     phaserInstanceB,
     sidesA = [],
     sidesB = []
-  }) {
+  }) => {
     Object.keys(relation.effects).forEach((effectId) => {
       const effect = relation.effects[effectId]
       const newRelation = {

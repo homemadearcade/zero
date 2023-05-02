@@ -629,8 +629,12 @@ export class GameInstance extends Phaser.Scene {
         return
       case EVENT_SPAWN_MODEL_DRAG_FINISH: 
         const entityInstance = this.getEntityInstance(data.entityInstanceId)
-        entityInstance.phaserInstance.x = data.x;
-        entityInstance.phaserInstance.y = data.y;
+        if(entityInstance?.phaserInstance) {
+          entityInstance.phaserInstance.x = data.x;
+          entityInstance.phaserInstance.y = data.y;
+        } else {
+          console.error('were trying to move an instance that doesnt exist', data.entityInstanceId)
+        }
         return
       case RUN_GAME_INSTANCE_ACTION: 
         const effect = this.getGameModel().effects[data.effectId]

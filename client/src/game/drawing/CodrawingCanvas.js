@@ -107,6 +107,13 @@ export class CodrawingCanvas extends Canvas {
       canvasImage.strokeHistory.forEach((strokeData) => {
         this.executeRemoteStroke(strokeData)
       })
+
+      const initialTextureId = canvasImage.initialTextureId
+      if(initialTextureId) {
+        if(this.scene.textures.exists(initialTextureId)) {
+          super.draw(initialTextureId, 0, 0)
+        }
+      }
     } catch(e) {
       console.log(e, 'couldnt find image')
     }

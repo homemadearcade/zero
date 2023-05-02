@@ -23,6 +23,9 @@ export default  {
   [TOGGLE_GRID_VIEW_AID]: {
     title: 'Toggle Grid View',
     subTitle: 'This will toggle the grid view',
+    isActive: (store) => {
+      return store.gameViewEditor.isGridViewOn
+    },
     interfaceActionGroupId: INTERFACE_ACTION_GRID,
     onClick: () => (dispatch, gameModel) => {
       dispatch(toggleGridView())

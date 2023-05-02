@@ -88,7 +88,6 @@ class MultiplayerGameRoomContext extends Component {
   
   renderChildren() {
     const { children } = this.props;
-    console.log('rendering thse children')
     return children instanceof Function ? children(this.props) : children
   }
 

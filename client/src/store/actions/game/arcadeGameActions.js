@@ -427,8 +427,6 @@ export const copyArcadeGameToUser = ({arcadeGameMongoId, userMongoId, gameDataUp
   Object.keys(gameData.layers).forEach(layerId => {
     const layer = gameData.layers[layerId]
     const textureId = TEXTURE_DID + generateUniqueId()
-    layer.initialTextureId = layer.textureId
-    layer.textureId = textureId
     dispatch(addCanvasImage({
       imageType: IMAGE_TYPE_LAYER,
       imageData: {
@@ -436,10 +434,12 @@ export const copyArcadeGameToUser = ({arcadeGameMongoId, userMongoId, gameDataUp
         height: nodeSize * gameGridHeight,
       },
       imageUrl: getImageUrlFromTextureId(textureId),
+      initialTextureId: layer.textureId,
       textureId: textureId,
       userMongoId,
       visualTags: ['Layer'],
     }))
+    layer.textureId = textureId
   })
 
 

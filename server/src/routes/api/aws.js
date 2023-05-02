@@ -34,12 +34,14 @@ router.get('/:key*', async (req,res)=>{
     // Key refers to the remote name of the file.
     const url = await generateGetUrl(key)
     .catch(err => {
+      console.log('error', err)
       res.send(err);
     });
 
+    console.log('got here')
     request.get(url).pipe(res)
   } catch(e) {
-    console.log(e)
+    console.log('error', e)
     res.send(e)
   }
 
