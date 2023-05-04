@@ -11,6 +11,5 @@ export default {
   
     interfaceGroupId: GAME_SELECTOR_IGID
   },
-  [CHANGE_SELECTOR_TABS_IID]: {},
   [SELECTOR_MORE_IID]: {},
 }

@@ -5,7 +5,8 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import Texture from '../../textures/Texture/Texture';
 import { getLayerIdFromColorId, getLayerIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
-import { dataSourceIIDToIcon, effectInterfaceDatas, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, layerGroupIIDtoShortName, PAUSED_STATE } from '../../constants';
+import { dataSourceIIDToIcon,
+   layerGroupIIDtoShortName, PAUSED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
@@ -16,15 +17,8 @@ import Button from '../../../ui/Button/Button';
 import { openEditContentDialog, openEditEntityDialog, openEditEntityGraphics, openEditRelationSystemDialog, openEffectPromptDialog } from '../../../store/actions/game/gameFormEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { 
-  CHANGE_SELECTOR_TABS_IID, 
-  LIVE_EDIT_STAGE_COLOR_TAB_IID,
   GAME_OPEN_EDIT_IID, 
-  GAME_OPEN_SNAPSHOT_IID, 
   HOVER_PREVIEW_IID, 
-  SELECTOR_RELATION_SYSTEM_IID, 
-  SELECTOR_ENTITY_BY_INTERFACE_ID_IID, 
-  STAGE_OPEN_BACKGROUND_COLOR_IID,
-  STAGES_OPEN_IID,
   STAGE_OPEN_EDIT_IID,
   RELATION_SYSTEM_OPEN_EDIT_IID,
   CONTENT_OPEN_EDIT_IID,
@@ -35,10 +29,8 @@ import {
 } from '../../../constants/interfaceIds';
 import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
-import IconButton from '../../../ui/IconButton/IconButton';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 import { Paper } from '@mui/material';
-import { interfaceActionIdData } from '../../../constants/interfaceActionIdData';
 
     // <Unlockable interfaceId={CONTEXT_MENU_SNAPSHOT_IID}>
     //   <MenuItem onClick={() => {
@@ -370,8 +362,8 @@ const HoverPreview = ({
    return  <>
      {metadata.imageUrl && <div className="HoverPreview__image-background" style={{backgroundImage: imageBackground ? `url("${imageBackground}"` : ''}}></div>}
       <div className="HoverPreview__title" onClick={() => {
-        // if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID) changeSelectorList(SELECTOR_RELATION_SYSTEM)
-      }}>
+
+}}>
       <Paper elevation={10} sx={{padding: '1em'}}>
         <Typography font="2P" variant="subtitle2">
           {metadata.title}

@@ -1,34 +1,30 @@
-.ClickPreview {
+.KeyboardPreview {
   color: white;
-    // z-index: 1;
-    //   position: relative;
-  &__row {
+
+  &__core-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    
     border-top: 1px solid #333;
-
-    &:first-child {
-      border-top: none;
-    }
-
+  
     &:last-child {
       border-bottom: 1px solid #333;
     }
+  
     background-color: #111;
   }
 
-  &__row-control {
+  &__core-key {
     border-right: 1px solid #333;
     padding: .5em;
     display: flex;
     gap: .5em;
     background-color: #222;
+    text-transform: uppercase;
   }
 
-  &__row-action {
+  &__core-action {
     display: flex;
     justify-content: center;
     align-items: center;

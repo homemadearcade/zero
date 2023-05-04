@@ -9,7 +9,7 @@ import { openEditEntityGraphics, openCreateCutscene, openCreateEffect, openCreat
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import {  DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, EFFECT_IID, EFFECT_ADD_IID, EFFECT_CONTAINER_IID, EVENT_IID, EVENT_ADD_IID, EVENT_CONTAINER_IID, EVENT_SELECT_IID, IS_DATA_REMOVED_IID, RELATION_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, RELATION_TAG_IID, RELATION_TAG_ADD_IID, RELATION_TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
+import {  DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, EFFECT_LIST_IID, EFFECT_ADD_IID, EFFECT_CONTAINER_IID, EVENT_LIST_IID, EVENT_ADD_IID, EVENT_CONTAINER_IID, EVENT_SELECT_IID, IS_DATA_REMOVED_IID, RELATION_LIST_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, RELATION_TAG_LIST_IID, RELATION_TAG_ADD_IID, RELATION_TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openEntityBoxDialog } from '../../../store/actions/game/gameSelectorActions';
 import { NestedListContainer, NestedListItem, NestedListItemButton } from '../../../ui/NestedList/NestedList';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
@@ -104,8 +104,8 @@ const RelationSystemList = ({
 
   const relationTags = Object.keys(gameModel.relationTags).filter((currentRelationTagId) => {
     const currentTag = gameModel.relationTags[currentRelationTagId]
-    if(isRemovedDataInvisible(RELATION_TAG_IID, currentTag.isRemoved)) return false
-    if(isDataSourceInvisible(RELATION_TAG_IID, currentTag.dataSourceIID)) return false
+    if(isRemovedDataInvisible(RELATION_TAG_LIST_IID, currentTag.isRemoved)) return false
+    if(isDataSourceInvisible(RELATION_TAG_LIST_IID, currentTag.dataSourceIID)) return false
     return true
   }).map((currentRelationTagId, i) => {
     return <RelationTagItem  key={currentRelationTagId} relationTagId={currentRelationTagId}/>
@@ -124,13 +124,13 @@ const RelationSystemList = ({
     interfaceId: RELATION_TAG_CONTAINER_IID,
     title: 'Relationship Tags',
     children: relationTags,
-    moreMenu: <SelectorMoreMenu interfaceId={RELATION_TAG_IID}/>
+    moreMenu: <SelectorMoreMenu interfaceId={RELATION_TAG_LIST_IID}/>
   })
 
   const relations = Object.keys(gameModel.relations).filter((currentRelationId) => {
     const currentRelation = gameModel.relations[currentRelationId]
-    if(isRemovedDataInvisible(RELATION_IID, currentRelation.isRemoved)) return false
-    if(isDataSourceInvisible(RELATION_IID, currentRelation.dataSourceIID)) return false
+    if(isRemovedDataInvisible(RELATION_LIST_IID, currentRelation.isRemoved)) return false
+    if(isDataSourceInvisible(RELATION_LIST_IID, currentRelation.dataSourceIID)) return false
     return true
   }).map((currentRelationId, i) => {
     return <RelationItem key={currentRelationId} relationId={currentRelationId}/>
@@ -149,13 +149,13 @@ const RelationSystemList = ({
     interfaceId: RELATION_CONTAINER_IID,
     title: 'Relationships',
     children: relations,
-    moreMenu: <SelectorMoreMenu interfaceId={RELATION_IID}/>
+    moreMenu: <SelectorMoreMenu interfaceId={RELATION_LIST_IID}/>
   })
 
   const effects = Object.keys(gameModel.effects).filter((currentEffectId) => {
     const currentEffect = gameModel.effects[currentEffectId]
-    if(isRemovedDataInvisible(EFFECT_IID, currentEffect.isRemoved)) return false
-    if(isDataSourceInvisible(EFFECT_IID, currentEffect.dataSourceIID)) return false
+    if(isRemovedDataInvisible(EFFECT_LIST_IID, currentEffect.isRemoved)) return false
+    if(isDataSourceInvisible(EFFECT_LIST_IID, currentEffect.dataSourceIID)) return false
     return true
   }).map((effectId, i) => {
     return <EffectItem key={effectId} effectId={effectId}/>
@@ -174,13 +174,13 @@ const RelationSystemList = ({
     interfaceId: EFFECT_CONTAINER_IID,
     title: 'Effects',
     children: effects,
-    moreMenu: <SelectorMoreMenu interfaceId={EFFECT_IID}/>
+    moreMenu: <SelectorMoreMenu interfaceId={EFFECT_LIST_IID}/>
   })
 
   const events = Object.keys(gameModel.events).filter((currentEventId) => {
     const currentEvent = gameModel.events[currentEventId]
-    if(isRemovedDataInvisible(EVENT_IID, currentEvent.isRemoved)) return false
-    if(isDataSourceInvisible(EVENT_IID, currentEvent.dataSourceIID)) return false
+    if(isRemovedDataInvisible(EVENT_LIST_IID, currentEvent.isRemoved)) return false
+    if(isDataSourceInvisible(EVENT_LIST_IID, currentEvent.dataSourceIID)) return false
     return true
   }).map((currentEventId, i) => {
     const currentEvent = gameModel.events[currentEventId]
@@ -205,7 +205,7 @@ const RelationSystemList = ({
     interfaceId: EVENT_CONTAINER_IID,
     title: 'Events',
     children: events,
-    moreMenu: <SelectorMoreMenu interfaceId={EVENT_IID}/>
+    moreMenu: <SelectorMoreMenu interfaceId={EVENT_LIST_IID}/>
   })
 
   return <div className="RelationSystemList">

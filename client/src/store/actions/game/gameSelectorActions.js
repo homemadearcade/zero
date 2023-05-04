@@ -129,7 +129,6 @@ export const clearBrush = (brushId) => (dispatch, getState) => {
 export const openEntityBehaviorLiveEditor = (tabIID, entityModelId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
-  console.log('openEntityBehaviorLiveEditor', tabIID, entityModelId)
   dispatch(updateOpenInterfaceId(LIVE_ENTITY_EDITOR_TAB_CONTANER_IID, tabIID))
 
   dispatch({

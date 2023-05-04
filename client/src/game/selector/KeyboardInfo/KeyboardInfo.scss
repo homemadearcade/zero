@@ -1,0 +1,12 @@
+.KeyboardInfo {
+  &__header {
+    background-color: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #333;
+    border-bottom: none;
+    cursor: pointer;
+
+  }
+}

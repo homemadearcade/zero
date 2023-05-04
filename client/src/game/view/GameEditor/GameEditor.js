@@ -27,7 +27,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
 import {  EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID,
    INSTANCE_TOOLBAR_CONTAINER_IID, LAYER_CREATE_COLOR_DIALOG_IID, 
-   SELECTOR_RELATION_SYSTEM_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
+   SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
 import EntityBoxDialog from '../../entityModel/EntityBoxDialog/EntityBoxDialog';
 import HoverPreview from '../../selector/HoverPreview/HoverPreview';
 import EntityBehaviorLiveEditor from '../../behaviors/EntityBehaviorLiveEditor/EntityBehaviorLiveEditor';
@@ -47,6 +47,9 @@ import EditRelationSystemDialog from '../../relations/EditRelationSystemDialog/E
 import EditContentDialog from '../../content/EditContentDialog/EditContentDialog';
 import ClickPreview from '../../selector/ClickPreview/ClickPreview';
 import KeyToolbar from '../../selector/KeyToolbar/KeyToolbar';
+import KeyboardPreview from '../../selector/KeyboardPreview/KeyboardPreview';
+import MouseInfo from '../../selector/MouseInfo/MouseInfo';
+import KeyboardInfo from '../../selector/KeyboardInfo/KeyboardInfo';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -143,9 +146,9 @@ const GameEditor = ({
     return <>
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
         {leftColumn}
+        <KeyboardInfo/>
         {showColumns && <>
           <BrushList/>
-          <KeyToolbar/>
         </>}
       </div>
       {isObscurable ? <GameViewObscured>
@@ -155,10 +158,11 @@ const GameEditor = ({
       </GameView>}
       {children}
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
-        <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}><GameStateToolbar/></Unlockable>
-        <HoverPreview/>
+        <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}>
+          <GameStateToolbar/>
+        </Unlockable>
+        <MouseInfo hoverPreviewOnly={!gameModel || !showColumns}/>
         {showColumns && gameModel && <>
-          <ClickPreview/>
           {renderSelectorColumn()}
         </>}
       </div>

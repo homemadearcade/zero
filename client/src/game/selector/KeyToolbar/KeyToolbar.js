@@ -22,35 +22,12 @@ import { interfaceActionIdData } from '../../../constants/interfaceActionIdData'
 
 const KeyToolbar = ({ 
   cobrowsing: {
-    interfaceIdHovering,
     isActivelyCobrowsing,
     isSubscribedCobrowsing,
-  },
-  hoverPreview: { 
-    brushIdHovering, 
-    entityModelIdHovering,
-    entityInstanceIdHovering,
-    instanceDataHovering,
-    effectIdHovering,
-    relationIdHovering,
-    relationTagIdHovering
-  },
-  gameSelector: {
-    brushIdSelectedBrushList,
-    entityModelIdSelectedEntityList,
-    currentSelectorListInterfaceId,
   },
   gameModel: { 
     currentStageId,
     gameModel,
-  },
-  gameRoomInstance: {
-    gameRoomInstance
-  },
-  gameViewEditor: {
-    isBoundaryEditorOpen,
-    isSnapshotTakerOpen,
-    isMouseOverGameView
   },
   changeKeyToolbarActionIdHovering,
   unlockInterfaceId,
@@ -63,21 +40,6 @@ const KeyToolbar = ({
     ...keyToolbar
   }
 
-  function getEntityClassName() {
-    const entityModelId = entityModelIdHovering || entityModelIdSelectedEntityList
-    const entityModel = gameModel.entityModels[entityModelId]
-    if(!entityModel) return
-    return entityModelClassToDisplayName[entityModel.entityIID]
-  }
-
-  function renderCoreKey(text) {
-    return <>
-      <Typography sx={{fontSize: '.5em', color: '#aaa'}} variant="subtitle2" font="2P">
-        {text}
-      </Typography>
-    </>
-  }
-
   function renderControl(text) {
     return <Typography sx={{fontSize: '.5em', color: '#aaa'}} variant="subtitle2" font="2P">
       {text}
@@ -86,11 +48,13 @@ const KeyToolbar = ({
 
   function renderMore() {
     return <Unlockable interfaceId={TOOLBAR_MORE_IID}>
-      <Button size="fit" startIcon={<Icon icon='faToolbox'/>} className="Toolbox__more" onClick={() => {
-        // openEntityBoxDialog(PLACE_ENTITY_AID, entityModelClass)
-      }}>
-        More
-      </Button>
+      <div className='KeyToolbar__more'>
+        <Button size="fit" startIcon={<Icon icon='faToolbox'/>} className="Toolbox__more" onClick={() => {
+          // openEntityBoxDialog(PLACE_ENTITY_AID, entityModelClass)
+        }}>
+          More
+        </Button>
+      </div>
     </Unlockable>
   }
 
@@ -188,33 +152,6 @@ const KeyToolbar = ({
  
   return <Unlockable interfaceId={KEY_TOOLBAR_ACTIONS_IID}>
     <div className="KeyToolbar">
-      <div className="KeyToolbar__header">
-        <Icon icon="faKeyboard" color="#aaa" size="xs"/>
-      </div>
-      <div className="KeyToolbar__core-row">
-        <div className="KeyToolbar__core-key">
-          {renderCoreKey('ESC')}
-        </div>
-        <div className="KeyToolbar__core-action">
-
-        </div>
-      </div>
-      <div className="KeyToolbar__core-row">
-        <div className="KeyToolbar__core-key">
-          {renderCoreKey('SHIFT')}
-        </div>
-        <div className="KeyToolbar__core-action">
-          
-        </div>
-      </div>
-      <div className="KeyToolbar__core-row">
-        <div className="KeyToolbar__core-key">
-          {renderCoreKey('X')}
-        </div>
-        <div className="KeyToolbar__core-action">
-          
-        </div>
-      </div>
       <div className="KeyToolbar__grid">
         {keyActions.map(renderNumberKey)}
       </div>

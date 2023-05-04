@@ -31,13 +31,33 @@ KEYBOARD MODE
   Put in Top-Left under the Guide
     Allow it to be hidden
 
-  Cobrowsing Actions
-    Cobrowse Only
   Prompt Editor Action
-  Custom Action Ids
+
   'More Toolbox' ( More Tools option in Context menu and Hover Preview )
-  
   Think more about how these are saved and set...
     Commonly Used Action Tag. Yes its all effects in that box but then we have like the effects are sorted into boxes just like the entity import
 
   Have Keyboard shortcuts actually working
+
+
+INTERFACE HELPERS
+
+Hover Preview
+  Visible
+  Not Visible
+
+Click
+  Not Visible
+  Preview
+  Full Text 
+
+Keyboard
+  Not Visible
+  Editor Keys
+  Game Keys
+  Game And Editor Keys
+
+Tool Shortcuts
+  Not Visible
+  Show Tools only
+  Show Tools with Shortcut

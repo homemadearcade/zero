@@ -14,5 +14,5 @@ MY CABINETS
   Select Games and Buy a Cabinet!?
   Add game to cabinet?
 
-Non Player Enttiy
+Non Player Entity Defaults
   Behavior General Menu kinda like Stage Perspective
