@@ -15,21 +15,15 @@ CUTSCENES
   The End. The text can be customized. 
   Default Ending cutscene 
 
+RELATION TAGS
+  Also transform while touching 
+    auto generate zones for this effect
 ---------------------------------------------------------------------------------------------------- 
 
 GRID MODE == CREATIVE MODE ( no more physics and change arrow key behavior )
 
 KEYBOARD MODE
-  Avoid shift? Yes avoid shift. SHIFT is - KEEP TOOL SELECTED
-   What else is shift?
-  What is X?
-  What is Arrow Keys?
-  What is ESC?
-
   Figure out how to register keys?
-
-  Put in Top-Left under the Guide
-    Allow it to be hidden
 
   Prompt Editor Action
 
@@ -38,26 +32,3 @@ KEYBOARD MODE
     Commonly Used Action Tag. Yes its all effects in that box but then we have like the effects are sorted into boxes just like the entity import
 
   Have Keyboard shortcuts actually working
-
-
-INTERFACE HELPERS
-
-Hover Preview
-  Visible
-  Not Visible
-
-Click
-  Not Visible
-  Preview
-  Full Text 
-
-Keyboard
-  Not Visible
-  Editor Keys
-  Game Keys
-  Game And Editor Keys
-
-Tool Shortcuts
-  Not Visible
-  Show Tools only
-  Show Tools with Shortcut

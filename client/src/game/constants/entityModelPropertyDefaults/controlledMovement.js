@@ -2,6 +2,7 @@
 /////////////////////////////////////
 /////////////////////////////////////
 
+import { DOWN_KID, LEFT_KID, RIGHT_KID, UP_KID } from "../../../constants/keyboard/keyIds"
 import { JUMP_GROUND } from "../core"
 import { JUMP_NONE } from "../core"
 import { ADVANCED_DIRECTIONAL_CONTROLS, DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from "../core"
@@ -104,10 +105,10 @@ export const advancedDirectionalDefaults = {
 
 export const movementControlsToKeys = {
   [VEHICLE_CONTROLS]: {
-    up: 'Thrust Forward',
-    left: 'Rotate Left',
-    right: 'Rotate Right',
-    down: function(entityModel) {
+    [UP_KID]: 'Thrust Forward',
+    [LEFT_KID]: 'Rotate Left',
+    [RIGHT_KID]: 'Rotate Right',
+    [DOWN_KID]: function(entityModel) {
       if(!entityModel.movement.disableDownKey) {
         return 'Thrust Backwards'
       } else {
@@ -116,16 +117,16 @@ export const movementControlsToKeys = {
     },
   },
   [DIRECTIONAL_CONTROLS]: {
-    up: 'Move Up',
-    left: 'Move Left',
-    right: 'Move Right',
-    down: 'Move Down'
+    [UP_KID]: 'Move Up',
+    [LEFT_KID]: 'Move Left',
+    [RIGHT_KID]: 'Move Right',
+    [DOWN_KID]: 'Move Down'
   },
   [ADVANCED_DIRECTIONAL_CONTROLS]: {
-    up: 'Accelerate Up',
-    left: 'Accelerate Left',
-    right: 'Accelerate Right',
-    down: 'Accelerate Down'
+    [UP_KID]: 'Accelerate Up',
+    [LEFT_KID]: 'Accelerate Left',
+    [RIGHT_KID]: 'Accelerate Right',
+    [DOWN_KID]: 'Accelerate Down'
   },
   [CONTROLS_NO_BEHAVIOR_NONE]: {
   

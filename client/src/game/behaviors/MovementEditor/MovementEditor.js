@@ -11,7 +11,7 @@ import SelectMovementBehavior from '../../ui/SelectMovementBehavior/SelectMoveme
 import SelectMovementControlsBehavior from '../../ui/SelectMovementControlsBehavior/SelectMovementControlsBehavior';
 import { movementBehaviorToInterface } from '../../constants';
 import Button from '../../../ui/Button/Button';
-import ControlsCard from '../../ui/ControlsCard/ControlsCard';
+import PlayerControlsCard from '../../selector/PlayerControlsCard/PlayerControlsCard';
 import { CONTROLS_NO_BEHAVIOR_DOWN_IID, CONTROLS_NO_BEHAVIOR_BEHAVIOR_IID, MOVEMENT_DRAG_ANGULAR_IID, MOVEMENT_DRAG_X_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_GRAVITY_X_IID, MOVEMENT_GRAVITY_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, MOVEMENT_BEHAVIOR_IID, MOVEMENT_SPEED_ANGULAR_IID, MOVEMENT_SPEED_IID, MOVEMENT_VELOCITY_X_IID, MOVEMENT_VELOCITY_Y_IID, COLLISIONS_BOUNCE_IID, TOGGLE_ALL_PARAMS_IID, PLAYER_ENTITY_IID } from '../../../constants/interfaceIds';
 import { movementControlsBehaviorToInterface } from '../../constants';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
@@ -66,7 +66,7 @@ const MovementEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel
             const newTagId = relationTags[relationTags.length-1]
             editGameModel({ entityModels: { [entityModelId]: { movement: { relationTagId: newTagId ? newTagId : null  }}}})        
       }}/>}
-      {entitySelected.movement.movementControlsBehavior && <ControlsCard entityModel={entitySelected} movementControlBehavior={entitySelected.movement.movementControlsBehavior} jumpControlsBehavior={entitySelected.jump.jumpControlsBehavior}></ControlsCard>}
+      {entitySelected.movement.movementControlsBehavior && <PlayerControlsCard entityModel={entitySelected} movementControlBehavior={entitySelected.movement.movementControlsBehavior} jumpControlsBehavior={entitySelected.jump.jumpControlsBehavior}></PlayerControlsCard>}
       {movementParameters?.speed &&<Unlockable interfaceId={MOVEMENT_SPEED_IID}>
         <SliderNotched
           formLabel={movementParameters.speed.length ? movementParameters.speed : "Speed"}

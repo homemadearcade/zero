@@ -14,7 +14,6 @@ import { BRUSH_DID, PLAYTHROUGH_PLAY_STATE, GAME_START_STATE, COLOR_BRUSH_ID } f
 import GameEditDialog from '../../selector/GameEditDialog/GameEditDialog';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
 import EditEntityDialog from '../../entityModel/EditEntityDialog/EditEntityDialog';
-import GridToggle from '../GridToggle/GridToggle';
 import GameStateToolbar from '../../gameRoomInstance/GameStateToolbar/GameStateToolbar';
 import EntityList from '../../entityModel/EntityList/EntityList';
 import BrushList from '../../brush/BrushList/BrushList';
@@ -29,7 +28,6 @@ import {  EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID,
    INSTANCE_TOOLBAR_CONTAINER_IID, LAYER_CREATE_COLOR_DIALOG_IID, 
    SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
 import EntityBoxDialog from '../../entityModel/EntityBoxDialog/EntityBoxDialog';
-import HoverPreview from '../../selector/HoverPreview/HoverPreview';
 import EntityBehaviorLiveEditor from '../../behaviors/EntityBehaviorLiveEditor/EntityBehaviorLiveEditor';
 import Button from '../../../ui/Button/Button';
 import CreateRelationTag from '../../tags/CreateRelationTag/CreateRelationTag';
@@ -45,9 +43,6 @@ import CreateColorFlow from '../../color/CreateColorFlow/CreateColorFlow';
 import StageLiveEditor from '../../stages/StageLiveEditor/StageLiveEditor';
 import EditRelationSystemDialog from '../../relations/EditRelationSystemDialog/EditRelationSystemDialog';
 import EditContentDialog from '../../content/EditContentDialog/EditContentDialog';
-import ClickPreview from '../../selector/ClickPreview/ClickPreview';
-import KeyToolbar from '../../selector/KeyToolbar/KeyToolbar';
-import KeyboardPreview from '../../selector/KeyboardPreview/KeyboardPreview';
 import MouseInfo from '../../selector/MouseInfo/MouseInfo';
 import KeyboardInfo from '../../selector/KeyboardInfo/KeyboardInfo';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
@@ -146,8 +141,8 @@ const GameEditor = ({
     return <>
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
         {leftColumn}
-        <KeyboardInfo/>
         {showColumns && <>
+          <KeyboardInfo/>
           <BrushList/>
         </>}
       </div>
@@ -158,9 +153,9 @@ const GameEditor = ({
       </GameView>}
       {children}
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
-        <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}>
+        {showColumns && <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}>
           <GameStateToolbar/>
-        </Unlockable>
+        </Unlockable>}
         <MouseInfo hoverPreviewOnly={!gameModel || !showColumns}/>
         {showColumns && gameModel && <>
           {renderSelectorColumn()}
@@ -198,7 +193,6 @@ const GameEditor = ({
         }} >Copy to clipboard</Button>
         <ReactJson src={viewingJson} theme="monokai" />
       </Dialog>}
-
 
       {/* GRAPHICS DIALOGS */}
       {isCreateColorFlowOpen === LAYER_CREATE_COLOR_DIALOG_IID && <CreateColorFlow

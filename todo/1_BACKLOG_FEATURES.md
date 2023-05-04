@@ -1,4 +1,4 @@
-ROLE C
+ROLE COLOR
   Have this update the cobrowsing color
 
 SPRITE EDITOR

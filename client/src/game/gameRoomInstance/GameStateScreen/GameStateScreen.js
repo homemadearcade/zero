@@ -9,7 +9,7 @@ import { GAME_END_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, GAME_START_STATE } 
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import KeyIndicator from '../../ui/KeyIndicator/KeyIndicator';
 import './GameStateScreen.scss';
-import ControlsCard from '../../ui/ControlsCard/ControlsCard';
+import PlayerControlsCard from '../../selector/PlayerControlsCard/PlayerControlsCard';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import store from '../../../store';
 import useFitText from "use-fit-text";
@@ -42,6 +42,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
   function renderGameStateScreen() {
     if(gameState === GAME_START_STATE) {
       const playerEntityModel = gameModel.entityModels[gameModel.stages[gameModel.player.startingStageId].playerEntityModelId]
+      const projectileEntityModel = gameModel.entityModels[playerEntityModel?.projectile.entityModelId]
       return <Constellation width={gameEditorWidth} height={gameEditorHeight} notInteractive>
         <Fade in><div className="GameStateScreen__content">
           <Typography font="2P" component="h2" variant="h2"><div ref={ref} style={{fontSize}} className='GameStateScreen__title'>
@@ -52,7 +53,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
           </div>
           <div className="GameStateScreen__controls">
             <Typography component="h5" variant="h5">Controls</Typography>
-            {playerEntityModel && <ControlsCard showInteract entityModel={playerEntityModel} projectileEntity={playerEntityModel.projectile.class} controlScheme={playerEntityModel.movement.movementControlsBehavior} jumpControlsBehavior={playerEntityModel.jump.jumpControlsBehavior}></ControlsCard>}
+            {playerEntityModel && <PlayerControlsCard showInteract entityModel={playerEntityModel} projectileEntityModel={projectileEntityModel} movementControlBehavior={playerEntityModel.movement.movementControlsBehavior} jumpControlsBehavior={playerEntityModel.jump.jumpControlsBehavior}></PlayerControlsCard>}
           </div>
         </div></Fade>
       </Constellation>

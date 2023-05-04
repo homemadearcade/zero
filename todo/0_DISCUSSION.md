@@ -19,3 +19,9 @@ TO TALK ABOUT
 theres Background, Playground, Foreground, and then everything together
 
 --
+
+More Operating System-like features? More minimizing?
+Whats needs to be locked in place?
+
+--
+

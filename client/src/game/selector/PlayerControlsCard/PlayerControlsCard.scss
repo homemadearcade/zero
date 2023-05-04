@@ -1,0 +1,35 @@
+.PlayerControlsCard {
+  // margin: 1em 0;
+  // margin-left: 1em;
+
+  &__row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #333;
+  
+      &:last-child {
+        border-bottom: 1px solid #333;
+      }
+  
+      background-color: #111;
+    }
+  
+    &__key {
+      border-right: 1px solid #333;
+      padding: .5em;
+      display: flex;
+      gap: .5em;
+      background-color: #222;
+      text-transform: uppercase;
+    }
+  
+    &__action {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+      gap: .5em;
+    }
+}

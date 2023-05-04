@@ -1,7 +1,5 @@
 .KeyboardPreview {
-  color: white;
-
-  &__core-row {
+  &__row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -15,7 +13,7 @@
     background-color: #111;
   }
 
-  &__core-key {
+  &__key {
     border-right: 1px solid #333;
     padding: .5em;
     display: flex;
@@ -24,7 +22,7 @@
     text-transform: uppercase;
   }
 
-  &__core-action {
+  &__action {
     display: flex;
     justify-content: center;
     align-items: center;

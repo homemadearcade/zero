@@ -139,8 +139,7 @@ const ClickPreview = ({
     </>
   }
  
-  return <Unlockable interfaceId={CLICK_PREVIEW_IID}>
-    <div className="ClickPreview">
+  return  <div className="ClickPreview">
       <div className="ClickPreview__row">
         <div className="ClickPreview__row-control">
           {renderControl('L')}
@@ -166,7 +165,6 @@ const ClickPreview = ({
         </div>
       </div>
     </div>
-  </Unlockable>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

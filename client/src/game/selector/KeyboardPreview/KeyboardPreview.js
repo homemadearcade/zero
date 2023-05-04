@@ -6,8 +6,8 @@ import Typography from '../../../ui/Typography/Typography';
 import Icon from '../../../ui/Icon/Icon';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { KEY_TOOLBAR_ACTIONS_IID } from '../../../constants/interfaceIds';
-
-import { unlockInterfaceId } from '../../../store/actions/game/unlockedInterfaceActions';
+import { COBROWSE_CLICK_TOOL_AID, COBROWSE_UNLOCK_TOOL_AID } from '../../../constants/interfaceActionIds';
+import PlayerControlsCard from '../PlayerControlsCard/PlayerControlsCard';
 
 const KeyboardPreview = ({ 
   cobrowsing: {
@@ -15,6 +15,10 @@ const KeyboardPreview = ({
     isActivelyCobrowsing,
     isSubscribedCobrowsing,
     selectedTool,
+  },
+  playerInterface: {
+    interactOppurtunity,
+    playerEntityModelId
   },
   hoverPreview: { 
     brushIdHovering, 
@@ -28,7 +32,6 @@ const KeyboardPreview = ({
   gameSelector: {
     brushIdSelectedBrushList,
     entityModelIdSelectedEntityList,
-    currentSelectorListInterfaceId,
   },
   gameModel: { 
     currentStageId,
@@ -40,15 +43,13 @@ const KeyboardPreview = ({
   gameViewEditor: {
     isBoundaryEditorOpen,
     isSnapshotTakerOpen,
-    isMouseOverGameView
+    isMouseOverGameView,
+    resizingEntityInstanceId,
   },
-  changeKeyboardPreviewActionIdHovering,
-  unlockInterfaceId,
-  keyToolbar
 }) => {
 
 
-  function renderCoreKey(text) {
+  function renderKey(text) {
     return <>
       <Typography sx={{fontSize: '.5em', color: '#aaa'}} variant="subtitle2" font="2P">
         {text}
@@ -56,64 +57,89 @@ const KeyboardPreview = ({
     </>
   }
 
+  function renderActionTitle(action) {
+    return <>
+      <Typography sx={{fontSize: '.8em'}} variant="subtitle2">
+        {action}
+      </Typography>
+    </>
+  }
+
+  function renderEscAction() {
+    if(selectedTool) {
+      return 'Close Tool'
+    }
+
+    if(brushIdSelectedBrushList) {
+      return 'Unselect'
+    }
+
+    if(entityModelIdSelectedEntityList) {
+      return 'Unselect'
+    }
+
+    if(resizingEntityInstanceId) {
+      return 'Cancel Resize'
+    }
+
+    if(isBoundaryEditorOpen) {
+      return 'Close Boundary Editor'
+    }
+
+    if(isSnapshotTakerOpen) {
+      return 'Close Snapshot Taker'
+    }
+  }
+
+  function renderShiftAction() {
+    if(entityModelIdSelectedEntityList) {
+      return 'Place Multiple'
+    }
+
+    if(selectedTool === COBROWSE_UNLOCK_TOOL_AID) {
+      return 'Unlock Multiple'
+    }
+
+    if(selectedTool === COBROWSE_CLICK_TOOL_AID) {
+      return 'Click Multiple'
+    }
+  }
+
+  const playerEntityModel = gameModel.entityModels[playerEntityModelId]
+  const projectileEntityModel = gameModel.entityModels[playerEntityModel?.projectile.entityModelId]
+
   return <Unlockable interfaceId={KEY_TOOLBAR_ACTIONS_IID}>
     <div className="KeyboardPreview">
-      <div className="KeyboardPreview__core-row">
-        <div className="KeyboardPreview__core-key">
-          {renderCoreKey('ESC')}
+      <div className="KeyboardPreview__row">
+        <div className="KeyboardPreview__key">
+          {renderKey('ESC')}
         </div>
-        <div className="KeyboardPreview__core-action">
-
-        </div>
-      </div>
-      <div className="KeyboardPreview__core-row">
-        <div className="KeyboardPreview__core-key">
-          {renderCoreKey('SHIFT')}
-        </div>
-        <div className="KeyboardPreview__core-action">
-          
+        <div className="KeyboardPreview__action">
+          {renderActionTitle(renderEscAction())}
         </div>
       </div>
-      <div className="KeyboardPreview__core-row">
-        <div className="KeyboardPreview__core-key">
-          {renderCoreKey('X')}
+      <div className="KeyboardPreview__row">
+        <div className="KeyboardPreview__key">
+          {renderKey('SHIFT')}
         </div>
-        <div className="KeyboardPreview__core-action">
-          
-        </div>
-      </div>
-      <div className="KeyboardPreview__core-row">
-        <div className="KeyboardPreview__core-key">
-          {renderCoreKey('Space')}
-        </div>
-        <div className="KeyboardPreview__core-action">
-          
+        <div className="KeyboardPreview__action">
+          {renderActionTitle(renderShiftAction())}
         </div>
       </div>
-      <div className="KeyboardPreview__core-row">
-        <div className="KeyboardPreview__core-key">
-          {renderCoreKey('Up')}
+      <div className="KeyboardPreview__row">
+        <div className="KeyboardPreview__key">
+          {renderKey('X')}
         </div>
-        <div className="KeyboardPreview__core-action">
-          
-        </div>
-      </div>
-      <div className="KeyboardPreview__core-row">
-        <div className="KeyboardPreview__core-key">
-          {renderCoreKey('Left/Right')}
-        </div>
-        <div className="KeyboardPreview__core-action">
-          
+        <div className="KeyboardPreview__action">
+          {interactOppurtunity && renderActionTitle('Interact')}
         </div>
       </div>
-      <div className="KeyboardPreview__core-row">
-        <div className="KeyboardPreview__core-key">
-          {renderCoreKey('Down')}
-        </div>
-        <div className="KeyboardPreview__core-action">
-          
-        </div>
-      </div>
+      {playerEntityModel && <PlayerControlsCard 
+        entityModel={playerEntityModel}
+        projectileEntityModel={projectileEntityModel}
+        movementControlBehavior={playerEntityModel.movement.movementControlsBehavior}
+        jumpControlsBehavior={playerEntityModel.jump.jumpControlsBehavior}
+      />}
     </div>
   </Unlockable>
 }
@@ -126,8 +152,9 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameRoomInstance: state.gameRoomInstance,
   gameViewEditor: state.gameViewEditor,
   keyToolbar: state.keyToolbar,
+  playerInterface: state.playerInterface,
 })
 
 export default connect(mapStateToProps, {
-  unlockInterfaceId
+
 })(KeyboardPreview);

@@ -5,13 +5,13 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import KeyIndicator from '../../ui/KeyIndicator/KeyIndicator';
 import './ControlsPopup.scss';
 
-const ControlsPopup = ({ playerInterface: { controlsToPress }}) => {
-  if(!controlsToPress) return 
+const ControlsPopup = ({ playerInterface: { interactOppurtunity }}) => {
+  if(!interactOppurtunity) return 
 
   return <div className="ControlsPopup">
     <div className="ControlsPopup__text-container">
       Press
-      <KeyIndicator className="ControlsPopup__key" keyName={controlsToPress.key} />
+      <KeyIndicator className="ControlsPopup__key" keyName={'x'} />
       to Interact
     </div>
   </div>

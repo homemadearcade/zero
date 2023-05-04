@@ -152,13 +152,13 @@ export class EditorScene extends GameInstance {
 
     let width;
     let height;
-    if(pointer.event.shiftKey) {
-      width = Phaser.Math.Clamp(distanceW, nodeSize, boundaries.width)
-      height = Phaser.Math.Clamp(distanceH, nodeSize, boundaries.height)
-    } else {
+    // if(pointer.event.shiftKey) {
+    //   width = Phaser.Math.Clamp(distanceW, nodeSize, boundaries.width)
+    //   height = Phaser.Math.Clamp(distanceH, nodeSize, boundaries.height)
+    // } else {
       width = Phaser.Math.Clamp(distanceW * 2, nodeSize, boundaries.width)
       height = Phaser.Math.Clamp(distanceH * 2, nodeSize, boundaries.height)
-    }
+    // }
 
     const entityModel = this.getEntityModel(this.resizingEntityInstance.entityModelId)
     if(entityModel.editorInterface.fixedAspectRatio) {
@@ -1119,7 +1119,7 @@ export class EditorScene extends GameInstance {
           //   gameState: PAUSED_STATE
           // }))
         }
-        
+
         this.canvas = null
       }
     } else {

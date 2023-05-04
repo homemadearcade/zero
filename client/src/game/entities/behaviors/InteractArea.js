@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
 import Phaser from "phaser";
+import { X_KID } from "../../../constants/keyboard/keyIds";
 import store from "../../../store";
-import { changeControlPopup } from "../../../store/actions/game/playerInterfaceActions";
+import { changeInteractOppurtunity } from "../../../store/actions/game/playerInterfaceActions";
 import { ARCADE_PHYSICS, DEFAULT_TEXTURE_ID, MATTER_PHYSICS, ON_INTERACT } from "../../constants";
 import { PhaserInstance } from "./PhaserInstance";
 
@@ -128,44 +129,44 @@ export class InteractArea extends PhaserInstance {
   updateInteractions() {
     if(this.previousClosest) this.previousClosest.interactBorder.setVisible(false)
 
-    let interactPossibility = {
+    let interactOppurtunity = {
       closestInteractable: null,
       closestDistance: Infinity,
       relations: []
     }
 
-    if(this.interactables.length) {
-      if(!store.getState().playerInterface.controlsToPress) {
-        store.dispatch(changeControlPopup({
-          key: 'x'
-        }))
-      }
-    } else if(store.getState().playerInterface.controlsToPress) {
-      store.dispatch(changeControlPopup(null))
-    }
-
     this.interactables.forEach(({entitySprite}) => {
       // entitySprite.interactBorder.setVisible(false)
       const distance = Phaser.Math.Distance.Between(entitySprite.x, entitySprite.y, this.phaserInstance.x, this.phaserInstance.y)
-      const { closestDistance } = interactPossibility
+      const { closestDistance } = interactOppurtunity
       if(distance < closestDistance) {
-        interactPossibility.closestDistance = distance
-        interactPossibility.closestInteractable = entitySprite
+        interactOppurtunity.closestDistance = distance
+        interactOppurtunity.closestInteractable = entitySprite
       }
     })
     
-    const { closestInteractable } = interactPossibility
+    const { closestInteractable } = interactOppurtunity
     if(closestInteractable) {
       closestInteractable.interactBorder.setVisible(true)
       this.interactables.forEach(({entitySprite, relation}) => {
         if(entitySprite === closestInteractable) {
-          interactPossibility.relations.push(relation)
+          interactOppurtunity.relations.push(relation)
         }
       })
     }
 
+    if(this.interactables.length) {
+      if(!store.getState().playerInterface.interactOppurtunity) {
+        store.dispatch(changeInteractOppurtunity({
+          interactOppurtunity
+        }))
+      }
+    } else if(store.getState().playerInterface.interactOppurtunity) {
+      store.dispatch(changeInteractOppurtunity(null))
+    }
+
     if(closestInteractable && this.xKey.isDown && this.xKey.isPressable) {
-      interactPossibility.relations.forEach((relation) => {
+      interactOppurtunity.relations.forEach((relation) => {
         this.entityInstance.runRelation(
           relation, 
           closestInteractable
@@ -173,6 +174,8 @@ export class InteractArea extends PhaserInstance {
         this.xKey.isPressable = false
       })
     }
+
+
 
     if(closestInteractable && this.xKey.isUp) {
       this.xKey.isPressable = true

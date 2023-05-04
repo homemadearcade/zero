@@ -16,11 +16,8 @@ DALL E GENERATOR
 
 USER SPEED TESTS FULL FEATURE
 
-RELATION TAGS
-  Also transform while touching 
-    auto generate zones for this effect
-  EFFECTS 
-    Remove Tag, Add Tag Effect
+EFFECTS 
+  Remove Tag, Add Tag Effect
 
 AUDIO EFFECTS
 

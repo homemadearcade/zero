@@ -33,3 +33,25 @@ I think so yes. Basically we can... turn Game Model into a class that has the Sc
 
 -----
 
+
+INTERFACE HELPERS
+
+Hover Preview
+  Visible
+  Not Visible
+
+Click
+  Not Visible
+  Preview
+  Full Text 
+
+Keyboard
+  Not Visible
+  Editor Keys
+  Game Keys
+  Game And Editor Keys
+
+Tool Shortcuts
+  Not Visible
+  Show Tools only
+  Show Tools with Shortcut

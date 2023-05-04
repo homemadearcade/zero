@@ -4,7 +4,7 @@ import {
   CLOSE_CUTSCENE,
   OPEN_CUTSCENE, 
   PROGRESS_CUTSCENE,
-  CHANGE_CONTROL_POPUP,
+  CHANGE_INTERACT_OPPURTUNITY,
   CHANGE_PLAYER_ENTITY,
 } from '../../types';
 
@@ -17,7 +17,7 @@ const initialState = {
   playerState: null,
   playerStateMessage: null,
   playerEntityModelId: null,
-  controlsToPress: null
+  interactOppurtunity: null
 };
 
 export const initialPlayerInterfaceState = initialState
@@ -61,10 +61,10 @@ export default function playerInterfaceReducer(state = initialState, { type, pay
         ...state,
         playerEntityModelId: payload.playerEntityModelId
       }
-    case CHANGE_CONTROL_POPUP: 
+    case CHANGE_INTERACT_OPPURTUNITY: 
       return {
       ...state,
-      controlsToPress: payload.controlsToPress
+      interactOppurtunity: payload.interactOppurtunity
     }
     default:
       return state;

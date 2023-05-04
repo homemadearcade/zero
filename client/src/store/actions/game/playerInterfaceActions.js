@@ -6,7 +6,7 @@ import {
   CLOSE_CUTSCENE,
   OPEN_CUTSCENE,
   PROGRESS_CUTSCENE,
-  CHANGE_CONTROL_POPUP,
+  CHANGE_INTERACT_OPPURTUNITY,
   CHANGE_PLAYER_ENTITY,
 } from '../../types';
 import { changeGameState } from './gameRoomInstanceActions';
@@ -20,12 +20,12 @@ export const changePlayerEntity = ({entityModelId}) => (dispatch, getState) => {
   })
 };
 
-export const changeControlPopup = (controlsToPress) => (dispatch, getState) => {
+export const changeInteractOppurtunity = (interactOppurtunity) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CHANGE_CONTROL_POPUP,
+    type: CHANGE_INTERACT_OPPURTUNITY,
     payload: {
-        controlsToPress
+      interactOppurtunity
     }
   })
 };
