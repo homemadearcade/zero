@@ -8,11 +8,12 @@
       align-items: center;
       justify-content: center;
     }
+
+    &__instructions {
+      display: none;
+    }
   }
   .ActivitySwitcher {
-    display: none;
-  }
-  .LobbyInstructions {
     display: none;
   }
 }
@@ -25,8 +26,12 @@
 }
 
 .LobbyDashboard--dashboard {
-  .LobbyInstructions{
+  .LobbyInstructions {
     width: 40%;
+    &__stepper {
+      height: 100vh;
+      overflow-y: scroll;
+    }
   }
   
   .LobbyDashboard {

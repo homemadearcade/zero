@@ -32,6 +32,7 @@ const LobbyInstructions = ({
   gameRoomInstance: { gameRoomInstance },
   gameModel: { gameModel },
   lobbyInstance: { lobbyInstance, myRoleId },
+  isPreview,
 }) => {  
   const [canSkipStep, setCanSkipStep] = useState()
 
@@ -235,15 +236,16 @@ const LobbyInstructions = ({
   return (
     <div className="LobbyInstructions">
       <div className="LobbyInstructions__stepper">
-        <Switch
+        {!isPreview && <Switch
           labels={['Steps In Order', 'Can Skip Steps']}
           size="small"
           onChange={(e) => {
             setCanSkipStep(e.target.checked)
           }}
           checked={canSkipStep}
-        ></Switch>
+        ></Switch>}
         <VerticalLinearStepperControlled
+          isPreview={isPreview}
           canSkipStep={canSkipStep}
           currentStep={lobbyInstance.instructionCurrentSteps[instructionId]}
           onStepChange={async (stepNumber, stepId) => {

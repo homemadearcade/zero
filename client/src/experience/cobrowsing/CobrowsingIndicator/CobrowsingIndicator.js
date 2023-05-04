@@ -18,7 +18,7 @@ const CobrowsingIndicator = ({
   return <div
     className="CobrowsingIndicator"
   > 
-    <Icon icon="faTowerObservation"/>
+    <Icon icon="faUserSecret"/>
     <Switch
       onChange={async () => {
         toggleActiveCobrowsing()

@@ -24,6 +24,7 @@ import {
   UNLOCK_INTERFACE,
   SET_MOUSE_OVER_INTERFACE_ID,
   SELECT_COBROWSING_TOOL,
+  TOGGLE_MINIMIZE_COBROWSING_CARD,
 } from '../../types';
 
 import store from '../..';
@@ -96,6 +97,7 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
 
   window.socket.emit(ON_COBROWSING_STATUS_UPDATE, cobrowsingStatus)
 }, 7)
+
 
 function onSubscriberKeyUp(event) {
   const state = store.getState()
@@ -436,6 +438,15 @@ export const toggleActiveCobrowsing = (value) => (dispatch, getState) => {
     type: TOGGLE_COBROWSING,
     payload: {
       value: value !== undefined ? value : !getState().cobrowsing.isActivelyCobrowsing
+    }
+  })
+}
+
+export const toggleMinimizeCobrowsingCard = (value) => (dispatch, getState) => {
+  store.dispatch({
+    type: TOGGLE_MINIMIZE_COBROWSING_CARD,
+    payload: {
+      value: value !== undefined ? value : !getState().cobrowsing.isCobrowsingCardMinimized
     }
   })
 }

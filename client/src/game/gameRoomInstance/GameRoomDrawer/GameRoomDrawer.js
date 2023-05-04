@@ -7,25 +7,32 @@ import { inIframe } from '../../../utils/webPageUtils';
 import Drawer from '../../../ui/Drawer/Drawer';
 import Icon from '../../../ui/Icon/Icon';
 import Link from '../../../ui/Link/Link';
-import CobrowsingIndicator from '../../../experience/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
 import './GameRoomDrawer.scss'
 import GameRoomOverview from '../GameRoomOverview/GameRoomOverview';
 import Tabs from '../../../ui/Tabs/Tabs';
 import LobbyOverview from '../../../experience/lobbyInstance/LobbyOverview/LobbyOverview';
-import ActivityTransitionToggle from '../../../experience/activity/ActivityTransitionToggle/ActivityTransitionToggle';
-import LobbyDashboardToggle from '../../../experience/lobbyInstance/LobbyDashboardToggle/LobbyDashboardToggle';
 import Chatroom from '../../../experience/Chatroom/Chatroom';
 import { LOBBY_DRAWER_CHATLOG_TAB_IID, LOBBY_DRAWER_GAME_ROOM_TAB_IID, LOBBY_DRAWER_ROLES_TAB_IID } from '../../../constants/interfaceIds';
+import IconButton from '../../../ui/IconButton/IconButton';
+import { toggleMinimizeCobrowsingCard } from '../../../store/actions/game/cobrowsingActions';
 
 const GameRoomDrawer = ({
   lobbyInstance: { lobbyInstance },
+  cobrowsing: {
+    isCobrowsingCardMinimized
+  },
   myTracks,
   userTracks,
+  toggleMinimizeCobrowsingCard
 }) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
     return <>
       <div className="GameRoomDrawer">
+        {isCobrowsingCardMinimized && <IconButton icon="faWindowRestore" onClick={() => {
+          toggleMinimizeCobrowsingCard(false)
+        }} color="primary">
+        </IconButton>}
         {!inIframe() && <div className="GameRoomDrawer__toggle" onClick={() => {
           setIsDrawerOpen(true)
         }}>
@@ -65,8 +72,9 @@ const GameRoomDrawer = ({
 
 const mapStateToProps = (state) => ({
   lobbyInstance: state.lobbyInstance,
+  cobrowsing: state.cobrowsing,
 });
 
 export default compose(
-  connect(mapStateToProps, { }),
+  connect(mapStateToProps, { toggleMinimizeCobrowsingCard }),
 )(GameRoomDrawer);

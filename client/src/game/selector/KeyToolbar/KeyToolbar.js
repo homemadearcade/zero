@@ -18,10 +18,13 @@ import { getCurrentGameScene } from '../../../utils';
 import { changeKeyToolbarActionIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import IconButton from '../../../ui/IconButton/IconButton';
+import { interfaceActionIdData } from '../../../constants/interfaceActionIdData';
 
 const KeyToolbar = ({ 
   cobrowsing: {
-    interfaceIdHovering
+    interfaceIdHovering,
+    isActivelyCobrowsing,
+    isSubscribedCobrowsing,
   },
   hoverPreview: { 
     brushIdHovering, 
@@ -93,7 +96,8 @@ const KeyToolbar = ({
 
   function renderNumberKey(keyId) {
     const controlName = keyIdToKeyName[keyId]
-    const effectId = keyIdsToKeyActions[keyId]?.effectId
+    const keyActionData = keyIdsToKeyActions[keyId]
+    const effectId = keyActionData?.effectId
     const effect = gameModel.effects[effectId]
 
     let isActive;
@@ -101,9 +105,26 @@ const KeyToolbar = ({
     if(effect?.isActive) {
       isActive = effect.isActive(store.getState())
     }
-    
+
+    let disabled = false 
+    let hidden = false
+
+    if(effect?.interfaceActionId) {
+      const interfaceActionData = interfaceActionIdData[effect.interfaceActionId]
+      if(interfaceActionData?.activeCobrowsingRequired) {
+        hidden = !isSubscribedCobrowsing
+        disabled = hidden || !isActivelyCobrowsing
+      }
+    }
+
+    if(!effect) {
+      disabled = true
+      hidden = true
+    }
+
     return <div key={effectId + keyId} onClick={() => {
-      if(!effect) return
+      if(disabled) return
+
       if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
         effect.onClick(store.dispatch, gameModel, store.getState)
       } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
@@ -113,14 +134,18 @@ const KeyToolbar = ({
         gameInstance.callGameInstanceEvent({gameRoomInstanceEventType: RUN_GAME_INSTANCE_ACTION, data: { effectId } , hostOnly: true })
       }
     }} 
-      className={classNames("KeyToolbar__node")} 
+      className={classNames("KeyToolbar__node", {
+        "KeyToolbar__node--clickable": !disabled,
+      })} 
       style={{
         backgroundColor: isActive && theme.primaryColor.hexString
       }}
       onMouseEnter={() => {
+        if(disabled) return
         changeKeyToolbarActionIdHovering(effectId)
       }}
       onMouseLeave={() => {
+        if(disabled) return
         changeKeyToolbarActionIdHovering(null)
       }}
     >
@@ -129,7 +154,10 @@ const KeyToolbar = ({
       </div>
       <div className="KeyToolbar__node-action">
         {/* {renderLeftClickAction()} */}
-        {effect && <IconButton size="small" icon={effect.icon}></IconButton>}
+        {!hidden && <IconButton 
+          disabled={disabled}
+          size="small" icon={effect.icon}
+        ></IconButton>}
       </div>
     </div>
   }

@@ -8,28 +8,37 @@ export default  {
   [COBROWSE_CLICK_TOOL_AID]: {
     title: 'Cobrowsing Click Tool',
     icon: 'faBullseye',
-    activeCobrowsingOnly: true,
+    activeCobrowsingRequired: true,
     interfaceActionGroupId: INTERFACE_ACTION_TOOL,
     onClick: () => (dispatch) => {
       dispatch(selectCobrowsingTool(COBROWSE_CLICK_TOOL_AID))
+    },
+    isActive: (state) => {
+      return state.cobrowsing.selectedTool === COBROWSE_CLICK_TOOL_AID
     } 
   },
   [COBROWSE_UNLOCK_TOOL_AID]: {
     title: 'Cobrowsing Unlock Tool',
     icon: 'faLockOpen',
-    activeCobrowsingOnly: true,
+    activeCobrowsingRequired: true,
     interfaceActionGroupId: INTERFACE_ACTION_TOOL,
     onClick: () => (dispatch) => {
       dispatch(selectCobrowsingTool(COBROWSE_UNLOCK_TOOL_AID))
+    },
+    isActive: (state) => {
+      return state.cobrowsing.selectedTool === COBROWSE_UNLOCK_TOOL_AID
     }
   },
   [COBROWSE_WIGGLE_TOOL_AID]: {
     title: 'Cobrowsing Wiggle Tool',
     icon: 'faExclamation',
-    activeCobrowsingOnly: true,
+    activeCobrowsingRequired: true,
     interfaceActionGroupId: INTERFACE_ACTION_TOOL,
     onClick: () => (dispatch) => {
       dispatch(selectCobrowsingTool(COBROWSE_WIGGLE_TOOL_AID))
+    },
+    isActive: (state) => {
+      return state.cobrowsing.selectedTool === COBROWSE_WIGGLE_TOOL_AID
     }
   },
 }

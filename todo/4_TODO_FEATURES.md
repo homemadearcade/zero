@@ -38,12 +38,6 @@ KEYBOARD MODE
   'More Toolbox' ( More Tools option in Context menu and Hover Preview )
   
   Think more about how these are saved and set...
-    Its just effect Ids. The question is - should ALL effects be shown in the toolbar?
+    Commonly Used Action Tag. Yes its all effects in that box but then we have like the effects are sorted into boxes just like the entity import
 
   Have Keyboard shortcuts actually working
-
-  Combine Toggle Active cobrowsing with Lobby Dashboard
-
-  Join X and Return to Dashboard buttons INSIDE cobrowsing card
-
-  Draggable, Resizeable

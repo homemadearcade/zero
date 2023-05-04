@@ -52,7 +52,6 @@
   }
 
   &__node {
-    cursor: pointer;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -62,7 +61,11 @@
     position: relative;
 
     user-select: none;
-    
+
+    &--clickable {
+      cursor: pointer;
+    }
+
     border-top: 1px solid #333;
     border-left: 1px solid #333;
   

@@ -15,6 +15,7 @@ import {
   SET_MOUSE_OVER_INTERFACE_ID,
   SELECT_COBROWSING_TOOL,
   ON_CLEAR_COBROWSING_STATUS,
+  TOGGLE_MINIMIZE_COBROWSING_CARD,
 } from '../../types';
 
 import { initialContextMenuState } from './contextMenuReducer';
@@ -38,6 +39,7 @@ const initialState = {
   isSubscribedCobrowsing: false,
   isActivelyCobrowsing: getDefaultIsActiveCobrowsing(),
   isSubscribingCobrowsing: false,
+  isCobrowsingCardMinimized: false,
   showUnlockableInterfaceLocks: false,
   error: null,
   cobrowsingUser: false,
@@ -119,6 +121,11 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         remoteStateUserMongoId: null,
         error: payload.error,
       };
+    case TOGGLE_MINIMIZE_COBROWSING_CARD: 
+      return {
+        ...state,
+        isCobrowsingCardMinimized: payload.value
+      }
     case TOGGLE_COBROWSING: 
       return {
         ...state,

@@ -1,7 +1,27 @@
 .CobrowsingCard {
-  border: 1px solid red;
   z-index: 1020;
-  display: flex;
+  border: 1px solid red;
+  background-color: rgba(0,0,0,0.3);
+
+  &__close {
+    cursor: pointer;
+    margin-right: .5em;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #222;
+  }
+
+  &__content {
+    display: flex;
+  }
+
+  &__instructions {
+    background-color: #222;
+  }
 
   &__video-container {
     display: flex;
@@ -35,6 +55,9 @@
   }
 }
 
+.CobrowsingCard--minimized {
+  display: none !important;
+}
 
 .CobrowsingCard--editor {
   position: absolute;
@@ -44,7 +67,6 @@
 }
 
 .CobrowsingCard--dashboard {
-  z-index: 0;
   float: right;
-  position: static;
+
 }

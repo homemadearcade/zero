@@ -25,7 +25,7 @@ const LobbyDashboard = ({
           <ActivityView myTracks={myTracks} userTracks={userTracks}/>
           <ActivitySwitcher myTracks={myTracks} userTracks={userTracks} userMongoId={cobrowsingUserMongoId}/>
         </div>
-        <LobbyInstructions myTracks={myTracks} userTracks={userTracks}/>
+        {isLobbyDashboardOpen && <LobbyInstructions myTracks={myTracks} userTracks={userTracks}/>}
       </div>
     </div>
   );

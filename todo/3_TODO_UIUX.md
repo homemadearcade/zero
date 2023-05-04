@@ -7,9 +7,7 @@ EDIT ENTITY_MODEL DIALOG
 
 STEPS PREVIEW UI
   So like when a step is completed or like an effect occurs, we might want a snackbar?? or a log?
-
-  There should be a steps preview when you arent in the lobby dashboard. And like the option to go to the next step
-
+  
 ---
 
 LOBBY UPDATE

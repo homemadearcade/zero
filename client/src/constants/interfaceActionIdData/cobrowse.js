@@ -9,6 +9,9 @@ export default {
     interfaceActionGroupId: INTERFACE_ACTION_COBROWSE,
     onClick: () => (dispatch) => {
       dispatch(toggleActiveCobrowsing())
+    },
+    isActive: (state) => {
+      return state.cobrowsing.isActivelyCobrowsing
     }
   }
 }

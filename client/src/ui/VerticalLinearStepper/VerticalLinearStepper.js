@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 import './VerticalLinearStepper.scss';
-import { Alert, AlertTitle } from '@mui/material';
+import { Alert, AlertTitle, StepConnector } from '@mui/material';
 
 export default function VerticalLinearStepper({initialStep = 0, steps, completed, onStepChange, canSkipStep}) {
 
@@ -36,7 +36,7 @@ export default function VerticalLinearStepper({initialStep = 0, steps, completed
   }} />
 }
 
-export function VerticalLinearStepperControlled({currentStep = 0, steps, completed, onStepChange, canSkipStep}) {
+export function VerticalLinearStepperControlled({currentStep = 0, steps, completed, onStepChange, canSkipStep, isPreview}) {
   const handleNext = () => {
     const nextStepIndex = currentStep+1
     let nextStepId; 
@@ -55,14 +55,13 @@ export function VerticalLinearStepperControlled({currentStep = 0, steps, complet
     if(onStepChange) onStepChange(0)
   };
 
-  return <VerticalLinearStepperBody steps={steps} completed={completed} activeStep={currentStep} canSkipStep={canSkipStep} onChangeStep={(stepIndex) => {
+  return <VerticalLinearStepperBody isPreview={isPreview} steps={steps} completed={completed} activeStep={currentStep} canSkipStep={canSkipStep} onChangeStep={(stepIndex) => {
     if(onStepChange) onStepChange(stepIndex, steps[stepIndex].stepId)
   }
   } onClickNext={handleNext} onClickPrev={handlePrev} onClickReset={handleReset} />
 }
 
-export function VerticalLinearStepperBody({ canSkipStep, onChangeStep, completed, steps, activeStep, onClickNext, onClickPrev, onClickReset }) {
-
+export function VerticalLinearStepperBody({ isPreview, canSkipStep, onChangeStep, completed, steps, activeStep, onClickNext, onClickPrev, onClickReset }) {
   function renderStepText(step, index) {
     if(step.nextButtonText) {
       return step.nextButtonText
@@ -79,8 +78,16 @@ export function VerticalLinearStepperBody({ canSkipStep, onChangeStep, completed
 
   return (
     <Box>
-      <Stepper activeStep={activeStep} orientation="vertical">
+      <Stepper connector={
+            isPreview ? <div> </div> : <StepConnector /> 
+          }
+          activeStep={activeStep} 
+      orientation="vertical">
         {steps.map((step, index) => {
+
+          const sx = {
+            display: isPreview && index !== activeStep && 'none'
+          }
 
           let disabled = false;
           let disabledEl;
@@ -89,7 +96,7 @@ export function VerticalLinearStepperBody({ canSkipStep, onChangeStep, completed
             disabled = !!disabledEl
           }
 
-          if(step.break) return <Step key={step.stepId} >
+          if(step.break) return <Step sx={sx} key={step.stepId} >
             {step.title}
             <StepContent>
               <Button
@@ -107,12 +114,11 @@ export function VerticalLinearStepperBody({ canSkipStep, onChangeStep, completed
             </StepContent>
           </Step>
 
-          return <Step key={step.stepId} >
+          return <Step key={step.stepId} sx={sx}>
             <StepLabel
               onClick={() => {
                 if(canSkipStep) onChangeStep(index)
               }}
-              classes={{root: canSkipStep && "VerticalLinearStepper__step-number"}} 
               optional={
                 index === steps.length-1 ? (
                   <Typography variant="caption">Last step</Typography>
@@ -122,7 +128,7 @@ export function VerticalLinearStepperBody({ canSkipStep, onChangeStep, completed
               {step.title}
             </StepLabel>
             <StepContent>
-             {step.body}
+             {!isPreview && step.body}
               <Box sx={{ mb: 2 }}>
                 <div>
                   <Button
