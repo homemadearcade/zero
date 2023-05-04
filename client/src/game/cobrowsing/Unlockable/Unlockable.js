@@ -8,10 +8,11 @@ import { getInterfaceIdData } from '../../../utils/unlockedInterfaceUtils';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { Fade } from '@mui/material';
 import { setInterfaceIdHovering, selectCobrowsingTool } from '../../../store/actions/game/cobrowsingActions';
-import { APP_ADMIN_ROLE, OPEN_TOOL, UNLOCK_TOOL } from '../../../constants';
+import { APP_ADMIN_ROLE } from '../../../constants';
 import { confetti } from 'tsparticles-confetti'
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGameActions';
+import { COBROWSE_CLICK_TOOL_AID, COBROWSE_UNLOCK_TOOL_AID } from '../../../constants/interfaceActionIds';
 
 const noAnimInterfaces = ['contextMenu/*']
 const Unlockable = ({
@@ -101,7 +102,7 @@ const Unlockable = ({
         )
       }
       onClick={(e) => {
-        if(selectedTool === UNLOCK_TOOL) {
+        if(selectedTool === COBROWSE_UNLOCK_TOOL_AID) {
           updateArcadeGameCharacter({
             experienceModelMongoId: experienceModel.id,
             userMongoId: remoteStateUserMongoId,
@@ -130,10 +131,10 @@ const Unlockable = ({
   if(isObscured) return null
 
   function shouldShowUnlockCover() {
-    if(selectedTool === UNLOCK_TOOL) {
+    if(selectedTool === COBROWSE_UNLOCK_TOOL_AID) {
       return !appAdminOnly && !isUnlocked
     }
-    if(selectedTool === OPEN_TOOL) {
+    if(selectedTool === COBROWSE_CLICK_TOOL_AID) {
       return false
     }
   }
@@ -141,11 +142,11 @@ const Unlockable = ({
   if(isToolInteractable) {
     return <div 
       onClick={(e) => {
-        if(selectedTool === OPEN_TOOL && !e.shiftKey) {
+        if(selectedTool === COBROWSE_CLICK_TOOL_AID && !e.shiftKey) {
           // selectCobrowsingTool(null)
         }
       }}
-      className={classNames(className, "Unlockable", { 'Unlockable--openable': selectedTool=== OPEN_TOOL })}
+      className={classNames(className, "Unlockable", { 'Unlockable--openable': selectedTool=== COBROWSE_CLICK_TOOL_AID })}
     >
       {renderChildren()}
       {shouldShowUnlockCover() && renderUnlockCover()}

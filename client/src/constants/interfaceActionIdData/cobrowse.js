@@ -1,4 +1,14 @@
-export const COBROWSE_SELECT_TOOL_AID = 'COBROWSE_SELECT_TOOL_AID';
-export const COBROWSE_UNLOCK_TOOL_AID = 'COBROWSE_UNLOCK_TOOL_AID';
-export const COBROWSE_WIGGLE_TOOL_AID = 'COBROWSE_WIGGLE_TOOL_AID';
-export const COBROWSE_ACTIVE_TOGGLE_AID = 'COBROWSE_ACTIVE_TOGGLE_AID';
+import { toggleActiveCobrowsing } from "../../store/actions/game/cobrowsingActions";
+import { INTERFACE_ACTION_COBROWSE } from "../interfaceActionIdGroups";
+import { COBROWSE_ACTIVE_TOGGLE_AID } from "../interfaceActionIds";
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+  [COBROWSE_ACTIVE_TOGGLE_AID]: {
+    title: 'Cobrowsing active Toggle',
+    icon: 'faExclamation',
+    interfaceActionGroupId: INTERFACE_ACTION_COBROWSE,
+    onClick: () => (dispatch) => {
+      dispatch(toggleActiveCobrowsing())
+    }
+  }
+}

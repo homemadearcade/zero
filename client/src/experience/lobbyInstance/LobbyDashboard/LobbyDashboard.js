@@ -5,11 +5,10 @@ import { connect } from 'react-redux';
 
 import './LobbyDashboard.scss';
 import ActivitySwitcher from '../../activity/ActivitySwitcher/ActivitySwitcher';
-import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import ActivityView from '../../activity/ActivityView/ActivityView';
 import classNames from 'classnames';
-import { CURRENT_COBROWSING_VIDEO_IID } from '../../../constants/interfaceIds';
 import LobbyInstructions from '../LobbyInstructions/LobbyInstructions';
+import CobrowsingCard from '../../cobrowsing/CobrowsingCard/CobrowsingCard';
 
 const LobbyDashboard = ({
   lobbyInstance: { lobbyInstance, isLobbyDashboardOpen },
@@ -19,18 +18,15 @@ const LobbyDashboard = ({
   const cobrowsingUserMongoId = lobbyInstance.cobrowsingUserMongoId
 
   return (
-    <div className={classNames("LobbyDashboard", { 'LobbyDashboard--preview': isLobbyDashboardOpen, 'LobbyDashboard--view': !isLobbyDashboardOpen})}>
+    <div className={classNames("LobbyDashboard", { 'LobbyDashboard--dashboard': isLobbyDashboardOpen, 'LobbyDashboard--view': !isLobbyDashboardOpen})}>
       <div className="LobbyDashboard__content">
-        <div className="LobbyDashboard__preview">
-          <div className="LobbyDashboard__video-container">
-            <AgoraUserVideo interfaceId={CURRENT_COBROWSING_VIDEO_IID} className="LobbyDashboard__cobrowsing-user-video" myTracks={myTracks} userTracks={userTracks} label="Participant" userMongoId={cobrowsingUserMongoId}/>
-          </div>
+        <div className="LobbyDashboard__controls">
+          <CobrowsingCard myTracks={myTracks} userTracks={userTracks} />
           <ActivityView myTracks={myTracks} userTracks={userTracks}/>
           <ActivitySwitcher myTracks={myTracks} userTracks={userTracks} userMongoId={cobrowsingUserMongoId}/>
         </div>
         <LobbyInstructions myTracks={myTracks} userTracks={userTracks}/>
       </div>
-
     </div>
   );
 };

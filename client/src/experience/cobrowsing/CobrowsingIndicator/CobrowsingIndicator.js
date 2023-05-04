@@ -18,13 +18,13 @@ const CobrowsingIndicator = ({
   return <div
     className="CobrowsingIndicator"
   > 
-    <Icon icon="faPenToSquare"/>
+    <Icon icon="faTowerObservation"/>
     <Switch
       onChange={async () => {
         toggleActiveCobrowsing()
       }}
       size="small"
-      checked={!isActivelyCobrowsing}
+      checked={isActivelyCobrowsing}
       />
   </div>
 };

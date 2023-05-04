@@ -1,25 +1,29 @@
-import snapshotData from "./snapshot";
+import snapshot from "./snapshot";
 import importData from "./import";
-import selectData from "./place";
-import editData from './edit'
-import drawData from './draw'
-import placeData from './place'
-import scriptData from './script'
-import loadData from './load'
-import playData from './play'
-import resizeData from './resize'
-import gridData from './grid'
+import select from "./place";
+import edit from './edit'
+import draw from './draw'
+import place from './place'
+import script from './script'
+import load from './load'
+import play from './play'
+import resize from './resize'
+import grid from './grid'
+import cobrowse from "./cobrowse";
+import tool from "./tool";
 
 export const interfaceActionIdData = {
-  ...snapshotData,
+  ...snapshot,
   ...importData,
-  ...selectData,
-  ...editData,
-  ...drawData,
-  ...placeData,
-  ...scriptData,
-  ...loadData,
-  ...playData,
-  ...resizeData,
-  ...gridData
+  ...select,
+  ...edit,
+  ...draw,
+  ...place,
+  ...script,
+  ...load,
+  ...play,
+  ...resize,
+  ...grid,
+  ...cobrowse,
+  ...tool
 }

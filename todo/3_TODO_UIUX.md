@@ -16,17 +16,7 @@ LOBBY UPDATE
   Lobby Join Sound
   Updated Lobby Card
 
-  Click Step Preview -> Go to Lobby Dashboard
-  Click Join User -> Leave Lobby Dashboard
-
-  COMBINE LOBBY DASHBOARD with ACTIVE COBROWSING?
-
   Scroll in/out of game view WITH the cobrowsing user when cobrowse is active ( in creative mode )
-
-VIDEO INSIDE GAME VIEW UPGRADE
-  The User that you are cobrowsing, have their video in the top center? You can turn on and off active cobrowing in there too. But normally its based on if ur are in lobby dashboard or not
-
-  Animate and Active cobrowse shortcut is on here
 
 --
 

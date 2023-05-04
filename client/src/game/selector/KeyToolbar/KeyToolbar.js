@@ -17,6 +17,7 @@ import { unlockInterfaceId } from '../../../store/actions/game/unlockedInterface
 import { getCurrentGameScene } from '../../../utils';
 import { changeKeyToolbarActionIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
+import IconButton from '../../../ui/IconButton/IconButton';
 
 const KeyToolbar = ({ 
   cobrowsing: {
@@ -128,7 +129,7 @@ const KeyToolbar = ({
       </div>
       <div className="KeyToolbar__node-action">
         {/* {renderLeftClickAction()} */}
-        {effect && <Icon icon={effect.icon}></Icon>}
+        {effect && <IconButton size="small" icon={effect.icon}></IconButton>}
       </div>
     </div>
   }

@@ -1,10 +1,6 @@
 .LobbyDashboard--view {
-  .LobbyDashboard {
-    &__video-container {
-      display: none;
-    }
-  
-    &__preview {
+  .LobbyDashboard {  
+    &__controls {
       width: 100%;
       height: 100%;
       display: flex;
@@ -28,28 +24,15 @@
   }
 }
 
-.LobbyDashboard--preview {
-
+.LobbyDashboard--dashboard {
   .LobbyInstructions{
     width: 40%;
   }
   
   .LobbyDashboard {
-    &__video-container {
-      margin-left: auto;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    &__cobrowsing-user-video {
-      width: 220px;
-    }
-
-    &__preview {
+    &__controls {
       height: 100%;
       width: 60%;
-      display: flex;
-      flex-direction: column;
     }
     
     &__leave {

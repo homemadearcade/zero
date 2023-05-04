@@ -17,8 +17,6 @@ export const LOBBY_USER_PRESENT_DELTA = 15000
 export const noCobrowsingUpdateDelta = 15000
 
 // COBROWSING TOOLS
-export const UNLOCK_TOOL = 'UNLOCK_TOOL'
-export const OPEN_TOOL = 'OPEN_TOOL'
 
 export const GAME_MODEL_DID = 'gm-';
 export const LOBBY_INSTANCE_DID = 'li-';

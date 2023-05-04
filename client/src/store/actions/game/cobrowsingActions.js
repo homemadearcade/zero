@@ -30,7 +30,6 @@ import store from '../..';
 import { getRemoteStatePackage } from '../../../utils/cobrowsingUtils';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { updateArcadeGameCharacter } from './arcadeGameActions';
-import { OPEN_TOOL, UNLOCK_TOOL } from '../../../constants';
 
 const sendCobrowsingStatus = _.debounce((e) =>  {
   const state = store.getState()
@@ -117,30 +116,30 @@ function onSubscriberKeyDown(event) {
   const state = store.getState()
 
   if(state.cobrowsing.isActivelyCobrowsing) {
-    if(event.key.toLowerCase() === 'shift') {
-      if(!state.cobrowsing.selectedTool) {
-        store.dispatch({
-          type: SELECT_COBROWSING_TOOL,
-          payload: {
-            toolId: OPEN_TOOL
-          }
-        })
-      } else if(state.cobrowsing.selectedTool === OPEN_TOOL) {
-        store.dispatch({
-          type: SELECT_COBROWSING_TOOL,
-          payload: {
-            toolId: UNLOCK_TOOL
-          }
-        })
-      } else if(state.cobrowsing.selectedTool === UNLOCK_TOOL) {
-        store.dispatch({
-          type: SELECT_COBROWSING_TOOL,
-          payload: {
-            toolId: null
-          }
-        })
-      }
-    }
+    // if(event.key.toLowerCase() === 'shift') {
+    //   if(!state.cobrowsing.selectedTool) {
+    //     store.dispatch({
+    //       type: SELECT_COBROWSING_TOOL,
+    //       payload: {
+    //         toolId: OPEN_TOOL
+    //       }
+    //     })
+    //   } else if(state.cobrowsing.selectedTool === OPEN_TOOL) {
+    //     store.dispatch({
+    //       type: SELECT_COBROWSING_TOOL,
+    //       payload: {
+    //         toolId: UNLOCK_TOOL
+    //       }
+    //     })
+    //   } else if(state.cobrowsing.selectedTool === UNLOCK_TOOL) {
+    //     store.dispatch({
+    //       type: SELECT_COBROWSING_TOOL,
+    //       payload: {
+    //         toolId: null
+    //       }
+    //     })
+    //   }
+    // }
 
     if(event.key.toLowerCase() === 'esc') {
       store.dispatch({
@@ -152,7 +151,6 @@ function onSubscriberKeyDown(event) {
     }
 
   }
-
 }
 
 window.addEventListener('mouseup', (event) => {

@@ -8,8 +8,20 @@ export const INTERFACE_ACTION_PLAY = 'INTERFACE_ACTION_PLAY'
 export const INTERFACE_ACTION_LOAD = 'INTERFACE_ACTION_LOAD'
 export const INTERFACE_ACTION_RESIZE = 'INTERFACE_ACTION_RESIZE'
 export const INTERFACE_ACTION_GRID = 'INTERFACE_ACTION_GRID'
+export const INTERFACE_ACTION_COBROWSE = 'INTERFACE_ACTION_COBROWSE'
+export const INTERFACE_ACTION_TOOL = 'INTERFACE_ACTION_TOOL'
 
 export const interfaceActionGroupData = {
+  [INTERFACE_ACTION_TOOL]: {
+    displayName: 'Tool',
+    icon: 'faTools',
+    description: 'Select a tool to use'
+  },
+  [INTERFACE_ACTION_COBROWSE]: {
+    displayName: 'Cobrowse',
+    icon: 'faUsers',
+    description: 'Control your cobrowsing users screen'
+  },
   [INTERFACE_ACTION_GRID]: {
     displayName: 'Grid',
     icon: 'faTableCells',

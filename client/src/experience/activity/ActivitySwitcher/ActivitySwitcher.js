@@ -44,13 +44,6 @@ const ActivitySwitcher = ({
         // setValue("gameRoom.gameMetadata", experienceModel.gameRooms[newGameRoomId].gameMetadata)
       }} value={activity.currentViewCategory} />
       </div>
-      <div className="ActivitySwitcher__user">
-          <Button variant="contained" onClick={() => {
-            toggleLobbyDashboard(false)
-          }}>
-            Join Participant
-          </Button>
-      </div>
     </div>
   );
 };

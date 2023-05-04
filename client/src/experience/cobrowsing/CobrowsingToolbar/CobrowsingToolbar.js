@@ -3,18 +3,21 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './CobrowsingToolbar.scss';
-import { selectCobrowsingTool } from '../../../store/actions/game/cobrowsingActions';
-import { OPEN_TOOL, UNLOCK_TOOL } from '../../../constants';
+import { selectCobrowsingTool, toggleActiveCobrowsing } from '../../../store/actions/game/cobrowsingActions';
 import IconButton from '../../../ui/IconButton/IconButton';
+import { COBROWSE_ACTIVE_TOGGLE_AID, COBROWSE_CLICK_TOOL_AID, COBROWSE_UNLOCK_TOOL_AID } from '../../../constants/interfaceActionIds';
 
 const toolToIcon = {
-  [UNLOCK_TOOL]: 'faLockOpen',
-  [OPEN_TOOL]: 'faBullseye'
+  [COBROWSE_UNLOCK_TOOL_AID]: 'faLockOpen',
+  [COBROWSE_CLICK_TOOL_AID]: 'faBullseye',
+  [COBROWSE_ACTIVE_TOGGLE_AID]: 'faWindowRestore'
 }
 
-// faExclamation for notify tool?
-
-const CobrowsingToolbar = ({cobrowsing: { selectedTool }, selectCobrowsingTool }) => {
+const CobrowsingToolbar = ({
+  cobrowsing: { selectedTool, isActivelyCobrowsing },
+  selectCobrowsingTool,
+  toggleActiveCobrowsing
+ }) => {
   const [isOverClose, setIsOverClose] = useState(false)
 
   function renderBody() {
@@ -27,26 +30,35 @@ const CobrowsingToolbar = ({cobrowsing: { selectedTool }, selectCobrowsingTool }
           setIsOverClose(false)
         }} 
       >
-        <IconButton size="large" sx={{backgroundColor: 'red'}} icon={isOverClose ? "faClose" :toolToIcon[selectedTool]} onClick={() => {
+        <IconButton size="small" sx={{backgroundColor: 'red'}} icon={isOverClose ? "faClose" :toolToIcon[selectedTool]} onClick={() => {
             selectCobrowsingTool(null)
         }}/>
       </div>
     }
 
     return <>
-      <IconButton size="large" icon={toolToIcon[OPEN_TOOL]} onClick={() => {
-        selectCobrowsingTool(OPEN_TOOL)
-        setIsOverClose(false)
-      }}/>
-      <IconButton size="large" icon={toolToIcon[UNLOCK_TOOL]} onClick={() => {
-        selectCobrowsingTool(UNLOCK_TOOL)
-        setIsOverClose(false)
-      }}/>
+      <div className='CobrowsingToolbar__tool'>
+        <IconButton size="small" icon={toolToIcon[COBROWSE_CLICK_TOOL_AID]} onClick={() => {
+          if((!isActivelyCobrowsing)) return
+          selectCobrowsingTool(COBROWSE_CLICK_TOOL_AID)
+          setIsOverClose(false)
+        }}/>
+      </div>
+      <div className='CobrowsingToolbar__tool'>
+        <IconButton size="small" icon={toolToIcon[COBROWSE_UNLOCK_TOOL_AID]} onClick={() => {
+          if((!isActivelyCobrowsing)) return
+
+          selectCobrowsingTool(COBROWSE_UNLOCK_TOOL_AID)
+          setIsOverClose(false)
+        }}/>
+      </div>
     </>
   }
 
   return (
-    <div className="CobrowsingToolbar">
+    <div className="CobrowsingToolbar" style={{
+      opacity: isActivelyCobrowsing ? 1 : 0.5
+    }}>
       {renderBody()}
     </div>
   );
@@ -57,5 +69,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { selectCobrowsingTool }),
+  connect(mapStateToProps, { selectCobrowsingTool, toggleActiveCobrowsing }),
 )(CobrowsingToolbar);

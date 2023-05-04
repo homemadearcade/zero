@@ -18,7 +18,6 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import {  APP_ADMIN_ROLE } from '../../constants';
 
-
 function AppBar({ auth }) {
 
   const pages = [

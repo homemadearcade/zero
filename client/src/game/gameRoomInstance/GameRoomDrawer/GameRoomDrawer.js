@@ -31,9 +31,6 @@ const GameRoomDrawer = ({
         }}>
           <Icon icon="faBars"/>
         </div>}
-        <LobbyDashboardToggle/>
-        <CobrowsingIndicator/>
-        <ActivityTransitionToggle/>
       </div>
       <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 
         setIsDrawerOpen(false)

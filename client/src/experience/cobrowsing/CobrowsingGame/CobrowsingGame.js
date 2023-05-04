@@ -36,7 +36,6 @@ const CobrowsingGame = ({ rootFontSize, lobbyInstance: { lobbyInstance }, cobrow
       rightColumn={<>
       </>}
     >
-      {isActivelyCobrowsing && remoteStateUserMongoId && <CobrowsingToolbar/>}
       {isActivelyCobrowsing && remoteStateUserMongoId && <RemoteMouse userMongoId={cobrowsingUser.id}/>}
       {isActivelyCobrowsing && !remoteStateUserMongoId && <div className="CobrowsingGame__no-state">
         <Alert severity="warning">
