@@ -9,10 +9,12 @@
     "start-dev": "node --experimental-modules babel-node server/src/index.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix server && npm install --prefix client && npm run build --prefix client"
   },
+  "engines": {
+    "node": "16.20.0",
+    "npm": "8.19.4"
+  },
   "author": "Nemanja Mitic (https://github.com/nemanjam)",
   "license": "MIT",
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {}
 }
