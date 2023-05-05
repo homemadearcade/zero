@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "12.16.1"
+    "node": "18.9.0",
+    "npm": "8.19.1"
   },
   "scripts": {
     "start-prod": "npm run build && node ./build/index.js",

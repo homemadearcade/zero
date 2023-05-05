@@ -62,6 +62,10 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "engines": {
+    "node": "18.9.0",
+    "npm": "8.19.1"
+  },
   "proxy": "https://localhost:5000/",
   "browserslist": {
     "production": [
