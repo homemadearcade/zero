@@ -10,7 +10,7 @@ const SelectEntityModelClass = ({ onChange, value, formLabel }) => {
   const mapEntityTypeToOption = (entityModelClass) => {
 
     return {
-      label: entityModelClassToDisplayName[entityModelClass],
+      title: entityModelClassToDisplayName[entityModelClass],
       value: entityModelClass
     }
   }

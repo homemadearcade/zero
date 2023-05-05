@@ -34,7 +34,7 @@ const movementBehaviorToLabel = {
 const SelectMovementBehavior = ({ onChange, value, formLabel }) => {
   const mapMovementToOption = (movementBehavior) => {
     return {
-      label: movementBehaviorToLabel[movementBehavior],
+      title: movementBehaviorToLabel[movementBehavior],
       value: movementBehavior
     }
   }

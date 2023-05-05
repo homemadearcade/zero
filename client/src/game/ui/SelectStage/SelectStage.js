@@ -11,7 +11,7 @@ const SelectStage = ({ onChange, value, formLabel, gameModel}) => {
     const stage = gameModel.stages[stageId]
 
     return {
-      label: stage.name,
+      title: stage.name,
       value: stageId,
       isRemoved: stage.isRemoved
     }

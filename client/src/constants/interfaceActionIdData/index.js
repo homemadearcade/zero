@@ -11,8 +11,11 @@ import resize from './resize'
 import grid from './grid'
 import cobrowse from "./cobrowse";
 import tool from "./tool";
+import sprite from "./sprite";
+import stage from "./stage";
 
 export const interfaceActionIdData = {
+  ...sprite,
   ...snapshot,
   ...importData,
   ...select,
@@ -25,5 +28,6 @@ export const interfaceActionIdData = {
   ...resize,
   ...grid,
   ...cobrowse,
-  ...tool
+  ...tool,
+  ...stage,
 }

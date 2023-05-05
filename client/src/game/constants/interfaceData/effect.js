@@ -47,7 +47,8 @@ export const effectInterfaceDatas = {
   // Game State
   [EFFECT_END_GAME]: {
     displayName: 'End Game',
-    icon: 'faAward'
+    icon: 'faAward',
+    customSelectorCategory: 'Game',
   },
   // Graphical
   [EFFECT_CAMERA_SHAKE]: {
@@ -66,11 +67,13 @@ export const effectInterfaceDatas = {
   },
   [EFFECT_PAUSE_GAME]: {
     displayName: 'Pause Game',
-    icon: 'faPause'
+    icon: 'faPause',
+    customSelectorCategory: 'Game',
   },
   [EFFECT_UNPAUSE_GAME]: {
     displayName: 'Unpause Game',
-    icon: 'faPlay'
+    icon: 'faPlay',
+    customSelectorCategory: 'Game',
   },
 
 
@@ -80,7 +83,7 @@ export const effectInterfaceDatas = {
   },
   [EFFECT_CUTSCENE]: {
     displayName: 'Play Dialog/Cutscene',
-    icon: 'faScript'
+    icon: 'faScroll'
   },
   [EFFECT_INTERFACE_UNLOCK]: {
     displayName: 'Unlock Interface',
@@ -88,11 +91,13 @@ export const effectInterfaceDatas = {
   },
   [EFFECT_OPEN_TRANSITION]: {
     displayName: 'Go to stars',
-    icon: 'faStar'
+    icon: 'faStar',
+    customSelectorCategory: 'Transition',
   },
   [EFFECT_CLOSE_TRANSITION]: {
     displayName: 'Return from stars',
-    icon: 'faStar'
+    icon: 'faStar',
+    customSelectorCategory: 'Transition',
   },
 }
 
@@ -192,12 +197,12 @@ export const effectEditInterfaces = {
   [EFFECT_OPEN_TRANSITION]: {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
-    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT]
+    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT],
   },
   [EFFECT_CLOSE_TRANSITION]: {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
-    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT]
+    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT],
   },
 }
 

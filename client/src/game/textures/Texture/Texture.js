@@ -69,8 +69,8 @@ export default function Texture(props) {
 
     const { spriteSheetName } = getTextureMetadata(props.textureId)
     if(spriteSheetName) {
-      const texture = getSpriteSheetData
-(props.textureId) 
+      const texture = getSpriteSheetData(props.textureId) 
+      
       if(!texture) return console.log('something messed up in Texture')
       x = texture.x
       y = texture.y

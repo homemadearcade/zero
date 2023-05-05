@@ -16,7 +16,7 @@ const sideToDisplayName = {
 const SelectSides = ({ formLabel, onChange, value, disabled}) => {
   const mapControlsToOption = (sideId) => {
     return {
-      label: sideToDisplayName[sideId],
+      title: sideToDisplayName[sideId],
       value: sideId
     }
   }

@@ -24,12 +24,14 @@ export default {
     title: 'Playtest Game',
     interfaceActionGroupId: INTERFACE_ACTION_PLAY,
     icon: 'faCirclePlay',
-    subTitle: 'This will open a new window',
+    subTitle: 'This will open a new window to play the game in',
     onClick: () => (dispatch, gameModel) => {
       window.open(window.location.origin + '/play/' + gameModel.id, '_blank');
-    }
+    },
+    isCommonlyUsed: true
   },
   [TOGGLE_PAUSE_PLAY_AID]: {
+    isCommonlyUsed: true,
     title: 'Pause/Resume Game',
     subtitle: 'This will pause or resume the game',
     icon: 'faPause',

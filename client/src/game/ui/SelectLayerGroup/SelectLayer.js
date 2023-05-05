@@ -9,7 +9,7 @@ const SelectLayer = ({ formLabel, onChange, value, disabled, gameModel: { gameMo
   const mapControlsToOption = (layerId) => {
     const layer = gameModel.layers[layerId]
     return {
-      label: layer.name,
+      title: layer.name,
       value: layerId
     }
   }

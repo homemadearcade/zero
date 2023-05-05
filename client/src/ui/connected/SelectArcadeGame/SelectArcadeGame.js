@@ -28,7 +28,7 @@ const SelectArcadeGame = ({ excludedIds, removeFilter, onSelect, label, userMong
     return {
       owner: game.owner,
       firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
-      label: game.metadata.title,
+      title: game.metadata.title,
       value: game.id,
       isRemoved
     }

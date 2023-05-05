@@ -11,7 +11,7 @@ const SelectRole = ({ onSelect, value, formLabel, disabled, experienceModel: { e
   const mapControlsToOption = (roleId) => {
    const role = experienceModel.roles[roleId]
     return {
-      label: role.name,
+      subTitle: role.name,
       icon: roleToInterfaceData[role.roleCategory].icon,
       iconColor: role.color,
       value: role.roleId,

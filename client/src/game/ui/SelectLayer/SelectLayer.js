@@ -13,7 +13,7 @@ const SelectLayer = ({ formLabel, onChange, value, disabled}) => {
   const mapControlsToOption = (layerGroupIID) => {
 
     return {
-      label: layerGroupIIDtoName[layerGroupIID],
+      title: layerGroupIIDtoName[layerGroupIID],
       value: layerGroupIID
     }
   }

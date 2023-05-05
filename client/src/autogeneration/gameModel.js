@@ -57,12 +57,13 @@ export function generateActionEffects(gameModel) {
         effectBehavior: EFFECT_INTERFACE_ACTION,
         interfaceActionId,
         dataSourceIID: DATA_SOURCE_ACTION_IID,
-        customSelectorCategory: interfaceActionUIData.displayName,
+        customSelectorCategory: interfaceActionData.customSelectorCategory || interfaceActionUIData.displayName,
         title: interfaceActionData.title,
         subTitle: interfaceActionData.subTitle,
         onClick: interfaceActionData.onClick(),
         isActive: interfaceActionData.isActive,
         icon: interfaceActionData.icon || interfaceActionUIData.icon,
+        subIcon: interfaceActionData.subIcon,
         isReadOnly: true
       }
     } else {
@@ -87,11 +88,13 @@ export function generateActionEffects(gameModel) {
               textureId: entityModel.textureId,
               textureTint: entityModel.textureTint,
               dataSourceIID: DATA_SOURCE_ACTION_IID,
-              customSelectorCategory: interfaceActionUIData.displayName,
+              customSelectorCategory: interfaceActionData.customSelectorCategory || interfaceActionUIData.displayName,
               subTitle: interfaceActionData.getSubtitle([entityModelId], gameModel),
               title: interfaceActionData.title || interfaceActionData.getTitle([entityModelId], gameModel),
               onClick: interfaceActionData.onClick([entityModelId]),
               icon: interfaceActionUIData.icon,
+              subIcon: interfaceActionData.subIcon,
+              entityModelId,
               isReadOnly: true,
               isRemoved: entityModel.isReadOnly || entityModel.isRemoved || isActionRemoved
             }
@@ -105,11 +108,13 @@ export function generateActionEffects(gameModel) {
               effectBehavior: EFFECT_INTERFACE_ACTION,
               interfaceActionId,
               dataSourceIID: DATA_SOURCE_ACTION_IID,
-              customSelectorCategory: interfaceActionUIData.displayName,
+              customSelectorCategory: interfaceActionData.customSelectorCategory || interfaceActionUIData.displayName,
+              layerId,
               subTitle: interfaceActionData.getSubtitle([layerId], gameModel),
               title: interfaceActionData.title || interfaceActionData.getTitle([layerId], gameModel),
               onClick: interfaceActionData.onClick([layerId]),
               icon: interfaceActionUIData.icon,
+              subIcon: interfaceActionData.subIcon,
               isReadOnly: true
             }
           })
@@ -124,15 +129,17 @@ export function generateActionEffects(gameModel) {
             gameModel.effects[effectId] = {
               effectId,
               effectBehavior: EFFECT_INTERFACE_ACTION,
+              brushId,
               interfaceActionId,
               textureId: brush.textureId,
               textureTint: brush.textureTint,
               dataSourceIID: DATA_SOURCE_ACTION_IID,
-              customSelectorCategory: interfaceActionUIData.displayName,
+              customSelectorCategory: interfaceActionData.customSelectorCategory || interfaceActionUIData.displayName,
               subTitle: interfaceActionData.getSubtitle([brushId], gameModel),
               title:  interfaceActionData.title || interfaceActionData.getTitle([brushId], gameModel),
               onClick: interfaceActionData.onClick([brushId]),
               icon: interfaceActionUIData.icon,
+              subIcon: interfaceActionData.subIcon,
               isReadOnly: true
             }
           })
@@ -148,13 +155,15 @@ export function generateActionEffects(gameModel) {
                 effectId,
                 effectBehavior: EFFECT_INTERFACE_ACTION,
                 interfaceActionId,
+                colorId,
                 textureTint: colorId,
                 dataSourceIID: DATA_SOURCE_ACTION_IID,
-                customSelectorCategory: interfaceActionUIData.displayName,
+                customSelectorCategory: interfaceActionData.customSelectorCategory || interfaceActionUIData.displayName,
                 subTitle: interfaceActionData.getSubtitle([colorId, layerId], gameModel) ,
                 title: interfaceActionData.title || interfaceActionData.getTitle([colorId, layerId], gameModel),
                 onClick: interfaceActionData.onClick([colorId, layerId]),
                 icon: interfaceActionUIData.icon,
+                subIcon: interfaceActionData.subIcon,
                 isReadOnly: true
               }
             })
@@ -169,12 +178,14 @@ export function generateActionEffects(gameModel) {
                 effectId,
                 effectBehavior: EFFECT_INTERFACE_ACTION,
                 interfaceActionId,
+                stageId,
                 dataSourceIID: DATA_SOURCE_ACTION_IID,
-                customSelectorCategory: interfaceActionUIData.displayName,
+                customSelectorCategory: interfaceActionData.customSelectorCategory || interfaceActionUIData.displayName,
                 subTitle:  interfaceActionData.getSubtitle([stageId], gameModel),
                 title: interfaceActionData.title || interfaceActionData.getTitle([stageId], gameModel),
                 onClick: interfaceActionData.onClick([stageId]),
                 icon: interfaceActionUIData.icon,
+                subIcon: interfaceActionData.subIcon,
                 isReadOnly: true
               }
             })
@@ -406,8 +417,9 @@ export function enrichGameModel(gameData) {
         effectId: effectBehavior,
         effectBehavior: effectBehavior,
         dataSourceIID: DATA_SOURCE_SYSTEM_IID,
-        customSelectorCategory: '_General',
-        isReadOnly: true
+        isCommonlyUsed: true,
+        isReadOnly: true,
+        customSelectorCategory: effectEditInterface.customSelectorCategory,
       }
 
       if(effectEditInterface.autogenerateRelationForEvents) {

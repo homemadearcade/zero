@@ -11,7 +11,7 @@ const SelectEffectBehavior = ({ onChange, value, eventType, formLabel, disabled,
     const effectEditInterface = effectEditInterfaces[effectBehavior]
 
     return {
-      label: effectInterfaceDatas[effectBehavior].displayName,
+      title: effectInterfaceDatas[effectBehavior].displayName,
       value: effectBehavior,
       isRemoved: !effectEditInterface.isCustomizeable
     }

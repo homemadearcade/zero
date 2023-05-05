@@ -1,4 +1,4 @@
-import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_DID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, ENTITY_MODEL_DID, PLAYER_ENTITY_TYPE_PREFIX, ZONE_ENTITY_TYPE_PREFIX } from "../game/constants";
+import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_DID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, ENTITY_MODEL_DID, PLAYER_ENTITY_TYPE_PREFIX, ZONE_ENTITY_TYPE_PREFIX, effectInterfaceDatas, getEffectShorthand, EFFECT_INTERFACE_UNLOCK, isUseableEffect, EFFECT_INTERFACE_ACTION } from "../game/constants";
 import { GameClientScene } from "../game/scenes/GameClientScene";
 import { GameHostScene } from "../game/scenes/GameHostScene";
 import { GameLocalScene } from "../game/scenes/GameLocalScene";
@@ -7,7 +7,7 @@ import store from "../store";
 import { getCobrowsingState } from "./cobrowsingUtils";
 import { getCurrentGameScene } from "./editorUtils";
 import Phaser from 'phaser'
-
+import { interfaceActionIdData } from "../constants/interfaceActionIdData";
 
 export const getGameModelSize = (gameModel) => {
   const width = gameModel.size.nodeSize * gameModel.size.gridWidth
@@ -20,6 +20,74 @@ export const getGameModelSize = (gameModel) => {
     aspectRatio
   }
 }
+
+export function getEffectData(effect, eventType, gameModel) {
+  const effectInterfaceData = effectInterfaceDatas[effect.effectBehavior]
+
+  let subTitle = effect.subTitle || getEffectShorthand(effect)
+  if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
+    subTitle = null
+  }
+
+  let icon = effect.icon || effectInterfaceData.icon
+
+  const group = effect.customSelectorCategory || effectInterfaceData.displayName
+
+  let isRemoved = effect.isRemoved || !isUseableEffect(effect, effect.effectBehavior, eventType)
+
+  const subIcon = effect.subIcon || effectInterfaceData.subIcon
+
+  let textureId = effect.textureId
+  let textureTint = effect.textureTint
+
+  const entityModelId = effect.entityModelId ||effect.spawnEntityModelId || effect.zoneEntityModelId
+
+  if(entityModelId) {
+    const entityModel = gameModel.entityModels[entityModelId]
+    if(entityModel) {
+      textureId = entityModel.graphics.textureId
+      textureTint = entityModel.graphics.textureTint
+    }
+  }
+
+  if(effect.remoteEffectedRelationTagIds && !entityModelId) {
+    const relationTagId = effect.remoteEffectedRelationTagIds[0]
+    const relationTag = gameModel.relationTags[relationTagId]
+    if(relationTag) {
+      textureId = relationTag.textureId
+      textureTint = relationTag.textureTint
+    }
+  } 
+
+  let isCommonlyUsed = effect.isCommonlyUsed
+
+  if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
+    const interfaceAction = interfaceActionIdData[effect.interfaceActionId]
+    if(interfaceAction) {
+      isCommonlyUsed = interfaceAction.isCommonlyUsed
+    }
+
+    if(interfaceAction.subscribedCobrowsingRequired || interfaceAction.activeCobrowsingRequired) {
+      const isSubscribedCobrowsing = store.getState().cobrowsing.isSubscribedCobrowsing
+      if(!isSubscribedCobrowsing) {
+        isRemoved = true
+      }
+    }
+  }
+
+  return {
+    title: effect.title,
+    subTitle,
+    icon,
+    subIcon,
+    group,
+    isRemoved,
+    textureId,
+    textureTint,
+    isCommonlyUsed
+  }
+}
+
 
 export function isGameBoundaryWall(world, body) {
   if(body === world.walls.left || body === world.walls.right || body === world.walls.up || body === world.walls.down) {

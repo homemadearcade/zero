@@ -11,7 +11,7 @@ const SelectCutscene = ({ onChange, value, formLabel, gameModel}) => {
     const cutscene = gameModel.cutscenes[cutsceneId]
 
     return {
-      label: cutscene.name,
+      title: cutscene.name,
       value: cutsceneId,
       isRemoved: cutscene.isRemoved
     }

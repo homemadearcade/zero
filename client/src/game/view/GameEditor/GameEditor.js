@@ -45,12 +45,14 @@ import EditRelationSystemDialog from '../../relations/EditRelationSystemDialog/E
 import EditContentDialog from '../../content/EditContentDialog/EditContentDialog';
 import MouseInfo from '../../selector/MouseInfo/MouseInfo';
 import KeyboardInfo from '../../selector/KeyboardInfo/KeyboardInfo';
+import ToolBoxDialog from '../../selector/ToolBoxDialog/ToolBoxDialog';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
   classNames, 
   gameSelector: { 
     isEntityBoxDialogOpen, 
+    isToolBoxDialogOpen,
     isEntityBehaviorLiveEditorOpen, 
     isStageLiveEditorOpen,
     isGameEditDialogOpen, 
@@ -186,6 +188,7 @@ const GameEditor = ({
 
       {/* MISC DIALOGS */}
       {isEntityBoxDialogOpen && <EntityBoxDialog/>}
+      {isToolBoxDialogOpen && <ToolBoxDialog/>}
       {isEffectPromptDialogOpen && <EffectPromptDialog/>}
       {viewingJson && <Dialog onClose={closeJsonViewer} open>
         <Button onClick={() => {

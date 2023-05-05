@@ -11,6 +11,7 @@ import Sprite from '../../game/textures/Texture/Texture';
 import { lighten, darken } from '@mui/system';
 import Typography from '../Typography/Typography';
 import Icon from '../Icon/Icon';
+import Texture from '../../game/textures/Texture/Texture';
 
 const GroupHeader = styled('div')(({ theme }) => ({
   position: 'sticky',
@@ -77,10 +78,10 @@ const InputWrapper = styled('div')(
 );
 
 function Tag(props) {
-  const { label, onDelete, ...other } = props;
+  const { subTitle, onDelete, ...other } = props;
   return (
     <div {...other}>
-      <span>{label}</span>
+      <span>{subTitle}</span>
       <CloseIcon onClick={onDelete} />
     </div>
   );
@@ -209,7 +210,7 @@ export default function SelectChipsAuto({
       })
 
       if(freeSolo) {
-        if(!filtered[0] && val) return { label: val, value: val }
+        if(!filtered[0] && val) return { subTitle: val, value: val }
       }
 
       return filtered[0]
@@ -232,8 +233,8 @@ export default function SelectChipsAuto({
     disabled={disabled} 
     domId={domId}
     inheritedValue={inheritedValue} 
-    options={options.filter(({label, labelTitle}) => {
-      return  !!labelTitle || !!label
+    options={options.filter(({subTitle, title}) => {
+      return  !!title || !!subTitle
     })}
     formLabel={formLabel}
   />
@@ -272,7 +273,7 @@ function SelectChipsAutoForm({
     // disableClearable: !!disabled,
     // disableListWrap: !!disabled,
     // disabledItemsFocusable: !!disabled,
-    getOptionLabel: (option) => option.labelTitle || option.label,
+    getOptionLabel: (option) => option.title || option.subTitle,
     onChange: (event, selected) => {
       document.activeElement.blur();
       onChange(event, selected.map((option) => {
@@ -286,7 +287,7 @@ function SelectChipsAutoForm({
     }
   });
 
-  function renderSprite(option) {
+  function renderPrimaryIcon(option) {
     if(!option) return null
 
     if(option.icon) {
@@ -302,22 +303,37 @@ function SelectChipsAutoForm({
     return null
   }
 
-  function renderLabelText(option) {
-    if(option.labelTitle) {
-      return <div>
-        <Typography sx={{ fontWeight: 'bold', fontSize: '1.25em' }} component="div" varient="subtitle2">{option.labelTitle}</Typography>
-        {option.label && <Typography sx={{ fontSize: '1em' }} component="div">{option.label}</Typography>}
+  function renderSubtitle(option) {
+    if(option.subTitleTextureId || option.subTitleTextureTint) {
+      return <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '.5em'
+      }}>
+        <Texture textureId={option.subTitleTextureId} textureTint={option.subTitleTextureTint} />
+        <Typography sx={{ fontSize: '1em' }} component="div">{option.subTitle}</Typography>
       </div>
     } else {
-      return option.label
+      return <Typography sx={{ fontSize: '1em' }} component="div">{option.subTitle}</Typography>
     }
   }
 
-  function renderLabel(option, index) {
-    return <li {...getOptionProps({ option, index })} key={option.label + option.labelTitle}>
+  function renderTitleAndSubTitle(option) {
+    if(option.title) {
+      return <div>
+        <Typography sx={{ fontWeight: 'bold', fontSize: '1.25em' }} component="div" varient="subtitle2">{option.title}</Typography>
+        {option.subTitle && renderSubtitle(option)}
+      </div>
+    } else {
+      return renderSubtitle(option)
+    }
+  }
+
+  function renderTitleCard(option, index) {
+    return <li {...getOptionProps({ option, index })} key={option.subTitle + option.title}>
         <span>
-          {renderSprite(option)}
-          {renderLabelText(option)}
+          {renderPrimaryIcon(option)}
+          {renderTitleAndSubTitle(option)}
         </span>
       <CheckIcon className='checkmark' fontSize="small" />
     </li>
@@ -327,7 +343,7 @@ function SelectChipsAutoForm({
     if(hideRemoved) {
       if(option.isRemoved) return null
     }
-    return renderLabel(option, index)
+    return renderTitleCard(option, index)
   }
 
   function renderGroup(group, groupIndex) {
@@ -359,9 +375,9 @@ function SelectChipsAutoForm({
           {inheritedValue.map((option, index) => {
             return <StyledTag 
               key={option.value}
-              label={<>
-                {renderSprite(option)}
-                {renderLabelText(option)}
+              subTitle={<>
+                {renderPrimaryIcon(option)}
+                {renderTitleAndSubTitle(option)}
               </>}
               {...getTagProps({ index })}
             />

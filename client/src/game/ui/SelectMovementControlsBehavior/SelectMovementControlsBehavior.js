@@ -26,7 +26,7 @@ const SelectMovementControlsBehavior = ({ onChange, value, formLabel }) => {
   const mapControlsToOption = (controlBehavior) => {
 
     return {
-      label: controlBehaviorToLabel[controlBehavior],
+      title: controlBehaviorToLabel[controlBehavior],
       value: controlBehavior
     }
   }

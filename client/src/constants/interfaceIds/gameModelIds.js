@@ -1,6 +1,2 @@
-export const GAME_OPEN_EDIT_IID = 'game/metadata'
-export const GAME_INTERFACE_COLOR_IID = 'game/primaryColor'
-
-
 export const GAME_PLAYER_START_STAGE_IID = "GAME_PLAYER_START_STAGE_IID";
 export const GAME_PLAYER_START_ENTITY_MODEL_IID = "GAME_PLAYER_START_ENTITY_MODEL_IID";

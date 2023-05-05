@@ -11,7 +11,7 @@ const SelectInstructions = ({ onSelect, arcadeGameMongoId,  value, formLabel, di
   const mapControlsToOption = (instructionId) => {
    const instruction = experienceModel.instructions[instructionId]
     return {
-      label: instruction.name,
+      title: instruction.name,
       icon: instructionToInterfaceData[instruction.instructionCategory].icon,
       value: instruction.instructionId,
       isRemoved: instruction.isRemoved && !instruction.isNotRemoveable

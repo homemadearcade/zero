@@ -33,7 +33,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
       if(!relationTagEntity) {
         console.error('missing entity for relation tag id', relationTagId)
         return {
-          label: relationTag.name,
+          title: relationTag.name,
           value: relationTagId,
           isRemoved: true,
         }
@@ -41,7 +41,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
       const isImportInvisible = relationTagEntity.isImported && relationTagEntity.dataSourceIID !== DATA_SOURCE_GAME_MODEL_IID
 
       return {
-        label: relationTag.name,
+        title: relationTag.name,
         value: relationTagId,
         textureId: relationTag.textureId,
         textureTint: relationTag.textureTint,
@@ -51,7 +51,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
     }
 
     return {
-      label: relationTag.name,
+      title: relationTag.name,
       value: relationTagId,
       textureTint: relationTag.textureTint,
       isRemoved,

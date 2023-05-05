@@ -33,7 +33,7 @@ const projectileValueToLabel = {
 const SelectProjectileBehavior = ({ onChange, value, formLabel }) => {
   const mapControlsToOption = (projectileBehavior) => {
     return {
-      label: projectileValueToLabel[projectileBehavior],
+      title: projectileValueToLabel[projectileBehavior],
       value: projectileBehavior
     }
   }

@@ -10,7 +10,7 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { KEY_TOOLBAR_ACTIONS_IID } from '../../../constants/interfaceIds';
 import { TOOLBAR_MORE_IID } from '../../../constants/interfaceIds/keyToolbarInterfaceIds';
 import Button from '../../../ui/Button/Button';
-import { EIGHT_KID, FIVE_KID, FOUR_KID, keyIdToKeyName, NINE_KID, ONE_KID, SEVEN_KID, SIX_KID, THREE_KID, TWO_KID } from '../../../constants/keyboard/keyIds';
+import { EIGHT_KID, FIVE_KID, FOUR_KID, keyIdToInterfaceData, NINE_KID, ONE_KID, SEVEN_KID, SIX_KID, THREE_KID, TWO_KID } from '../../../constants/keyboard/keyIds';
 import classNames from 'classnames';
 import store from '../../../store';
 import { unlockInterfaceId } from '../../../store/actions/game/unlockedInterfaceActions';
@@ -19,6 +19,7 @@ import { changeKeyToolbarActionIdHovering } from '../../../store/actions/game/ho
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import IconButton from '../../../ui/IconButton/IconButton';
 import { interfaceActionIdData } from '../../../constants/interfaceActionIdData';
+import { openToolBoxDialog } from '../../../store/actions/game/gameSelectorActions';
 
 const KeyToolbar = ({ 
   cobrowsing: {
@@ -31,7 +32,8 @@ const KeyToolbar = ({
   },
   changeKeyToolbarActionIdHovering,
   unlockInterfaceId,
-  keyToolbar
+  keyToolbar,
+  openToolBoxDialog
 }) => {
   const theme = useWishTheme()
 
@@ -51,6 +53,7 @@ const KeyToolbar = ({
       <div className='KeyToolbar__more'>
         <Button size="fit" startIcon={<Icon icon='faToolbox'/>} className="Toolbox__more" onClick={() => {
           // openEntityBoxDialog(PLACE_ENTITY_AID, entityModelClass)
+          openToolBoxDialog()
         }}>
           More
         </Button>
@@ -59,7 +62,7 @@ const KeyToolbar = ({
   }
 
   function renderNumberKey(keyId) {
-    const controlName = keyIdToKeyName[keyId]
+    const controlName = keyIdToInterfaceData[keyId].name
     const keyActionData = keyIdsToKeyActions[keyId]
     const effectId = keyActionData?.effectId
     const effect = gameModel.effects[effectId]
@@ -172,5 +175,6 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 
 export default connect(mapStateToProps, {
   changeKeyToolbarActionIdHovering,
-  unlockInterfaceId
+  unlockInterfaceId,
+  openToolBoxDialog
 })(KeyToolbar);

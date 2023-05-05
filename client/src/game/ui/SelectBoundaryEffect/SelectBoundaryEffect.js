@@ -12,7 +12,7 @@ const SelectBoundaryEffect = ({ entityModelId, onChange, value, formLabel, disab
 
   const mapEffectsToOption = (relation) => {
     return {
-      label: boundaryRelationsDisplayNames[relation],
+      title: boundaryRelationsDisplayNames[relation],
       value: relation
     }
   }

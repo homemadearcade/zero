@@ -11,7 +11,6 @@ const KeySpriteSheetData = [{"name":"esc","x":1,"y":1,"width":17,"height":11},{"
 }, {})
 
 const KeyIndicator = ({
-  keysDown,
   keyName,
   className
 }) => {
@@ -31,7 +30,7 @@ const KeyIndicator = ({
 }
 
 const mapStateToProps = (state) => ({
-  keysDown: state.keysDown
+
 })
 
 

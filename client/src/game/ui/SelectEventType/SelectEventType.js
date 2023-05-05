@@ -9,8 +9,8 @@ import { eventTypeToDisplayNames, eventShortNames } from '../../constants';
 const SelectEventType = ({ onChange, value, formLabel, disabled}) => {
   const mapControlsToOption = (event) => {
     return {
-      labelTitle: eventShortNames[event],
-      label: eventTypeToDisplayNames[event],
+      title: eventShortNames[event],
+      subTitle: eventTypeToDisplayNames[event],
       value: event
     }
   }

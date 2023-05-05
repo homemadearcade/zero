@@ -9,7 +9,7 @@ const SelectInterfacePreset = ({ onChange, disabled, value, formLabel, interface
 
   const mapEntityToOption = (interfacePreset) => {
     return {
-      label: interfacePreset.name,
+      title: interfacePreset.name,
       value: interfacePreset.id,
     }
   }

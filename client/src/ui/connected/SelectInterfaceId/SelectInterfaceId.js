@@ -18,7 +18,7 @@ const SelectInterfaceId = ({ onChange, disabled, value, formLabel, interfaceActi
     if(interfaceActionGroupId === INTERFACE_ACTION_UNLOCK && interfaceData.isDefaultUnlocked) return false
 
     return {
-      label: name,
+      title: name,
       value: interfaceId,
       isRemoved: !name
     }

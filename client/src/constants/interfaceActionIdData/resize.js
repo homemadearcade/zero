@@ -18,7 +18,7 @@ export default  {
     }
   },
   [EDIT_CURRENT_STAGE_BOUNDARIES_AID]: {
-    title: 'Edit Boundaries',
+    title: 'Edit Stage Boundaries',
     subTitle: 'This will open a popup to edit the boundaries',
     interfaceActionGroupId: INTERFACE_ACTION_RESIZE,
     onClick: () => (dispatch) => {
@@ -26,7 +26,8 @@ export default  {
     },
     isActive: (state) => {
       return state.gameViewEditor.isBoundaryEditorOpen
-    }
+    },
+    isCommonlyUsed: true
   },
   [RESIZE_CURRENT_PLAYER_CAMERA_AID]: {
     interfaceActionGroupId: INTERFACE_ACTION_RESIZE,

@@ -1,5 +1,8 @@
 import React from "react";
-import { DRAW_BRUSH_AID, DRAW_COLOR_AID, DRAW_NEW_BRUSH_AID, DRAW_NEW_SPRITE_FOR_CURRENT_PLAYER_AID, DRAW_NEW_COLOR_AID, DRAW_NEW_SPRITE_AID, DRAW_NEW_SPRITE_FOR_ENTITY_AID } from "../interfaceActionIds";
+import { DRAW_BRUSH_AID, DRAW_COLOR_AID, DRAW_NEW_BRUSH_AID,
+    DRAW_NEW_COLOR_AID, 
+   DRAW_NEW_SPRITE_AID
+   } from "../interfaceActionIds";
 import { findColorNameByHex, getLayerIdFromColorId } from "../../utils";
 import { INTERFACE_ACTION_DRAW } from "../interfaceActionIdGroups";
 import { openCreateBrushFlow, openCreateCanvasImageDialog, openCreateColorFlow } from "../../store/actions/game/gameFormEditorActions";
@@ -54,7 +57,6 @@ export default {
       dispatch(selectBrush(brushId, layerId))
     },
     arguments: ['brushId'],
-    icon: 'faPaintbrush',
     interfaceActionGroupId: INTERFACE_ACTION_DRAW
   },
   [DRAW_COLOR_AID]: {
@@ -74,38 +76,6 @@ export default {
       return layer.name + ' Layer'
     },
     arguments: ['colorId'],
-    icon: 'faPaintbrush',
     interfaceActionGroupId: INTERFACE_ACTION_DRAW
   },
-  // [DRAW_NEW_SPRITE_AID]: {
-  //   title: 'Draw New Sprite',
-  //   interfaceActionGroupId: INTERFACE_ACTION_DRAW
-  // },
-  [DRAW_NEW_SPRITE_FOR_ENTITY_AID]: {
-    title: 'Draw New Sprite',
-    getSubtitle: ([entityModelId], gameModel) => {
-      return gameModel.entityModels[entityModelId].name
-    },
-    isRemoved: ([entityModelId], gameModel) => {
-      return gameModel.entityModels[entityModelId].entityIID === ZONE_ENTITY_IID
-    },
-    onClick: ([entityModelId]) => (dispatch, gameModel) => {
-      const entityModel = gameModel.entityModels[entityModelId]
-      const graphics = entityModel.graphics
-      dispatch(openCreateCanvasImageDialog(entityModelId, graphics.textureId, graphics.textureTint))
-    },
-    arguments: ['entityModelId'],
-    interfaceActionGroupId: INTERFACE_ACTION_DRAW
-  },
-  [DRAW_NEW_SPRITE_FOR_CURRENT_PLAYER_AID]: {
-    title: 'Draw New Sprite For Current Player',
-    interfaceActionGroupId: INTERFACE_ACTION_DRAW,
-    onClick: () => (dispatch, gameModel, getState) => {
-      const currentPlayerEntityId = getState().playerInterface.playerEntityModelId
-      const currentPlayerEntityModel = gameModel.entityModels[currentPlayerEntityId]
-      const graphics = currentPlayerEntityModel.graphics
-      dispatch(openCreateCanvasImageDialog(currentPlayerEntityId, graphics.textureId, graphics.textureTint))
-    },
-    higherPriority: true
-  }
 }

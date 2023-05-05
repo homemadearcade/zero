@@ -23,7 +23,7 @@ const SelectExperienceModel = ({ excludedIds, onSelect, label, userMongoId, getE
     return {
       owner: experienceModel.owner,
       firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
-      label: experienceModel.metadata.title,
+      title: experienceModel.metadata.title,
       value: experienceModel.id,
       isRemoved: experienceModel.isRemoved
     }

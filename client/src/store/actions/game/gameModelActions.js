@@ -33,7 +33,7 @@ export const getSpritesheetData  = () => async (dispatch, getState) => {
 
     const visualTagOptions = Object.keys(spritesByDescriptor).map((visualTag) => {
       return {
-        label: visualTag,
+        title: visualTag,
         value: visualTag
       }
     })

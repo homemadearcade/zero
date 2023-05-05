@@ -28,7 +28,7 @@ const SelectJumpControlsBehavior = ({ onChange, value, formLabel }) => {
   const mapControlsToOption = (jumpControlsBehavior) => {
 
     return {
-      label: jumpControlsBehaviorToLabel[jumpControlsBehavior],
+      title: jumpControlsBehaviorToLabel[jumpControlsBehavior],
       value: jumpControlsBehavior
     }
   }

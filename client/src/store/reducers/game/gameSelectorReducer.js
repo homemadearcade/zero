@@ -27,6 +27,8 @@ import {
   TOGGLE_SELECTOR_ENTITY_INVISIBILITY,
   OPEN_STAGE_LIVE_EDITOR,
   CLOSE_STAGE_LIVE_EDITOR,
+  OPEN_TOOL_BOX_DIALOG,
+  CLOSE_TOOL_BOX_DIALOG,
 } from '../../types';
 
 const initialState = {
@@ -50,6 +52,8 @@ const initialState = {
   entityBoxDialogType: null,
   isSelectAggregateColorOpen: null,
   currentSelectorListInterfaceId: SELECTOR_ENTITY_BY_INTERFACE_ID_IID,
+
+  isToolBoxDialogOpen: false,
 };
 
 export const initialGameSelectorState = initialState
@@ -200,6 +204,16 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
         ...state,
         isEntityBoxDialogOpen: false,
         entityBoxDialogType: null
+      }
+    case OPEN_TOOL_BOX_DIALOG: 
+      return {
+        ...state,
+        isToolBoxDialogOpen: true,
+      }
+    case CLOSE_TOOL_BOX_DIALOG:
+      return {
+        ...state,
+        isToolBoxDialogOpen: false,
       }
     case OPEN_JSON_VIEWER: 
       return {

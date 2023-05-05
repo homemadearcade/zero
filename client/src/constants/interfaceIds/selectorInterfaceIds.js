@@ -6,6 +6,8 @@ export const MOUSE_INFO_TITLE_IID = "MOUSE_INFO_TITLE_IID";
 export const KEYBOARD_INFO_TITLE_IID = "KEYBOARD_INFO_TITLE_IID";
 
 
+export const GAME_OPEN_EDIT_IID = 'game/metadata'
+
 // NO DATA BELOW HERE 
 export const SELECTOR_MORE_IID = "selector/more";
 

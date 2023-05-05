@@ -10,7 +10,7 @@ const SelectEvent = ({ onChange, disabled, value, formLabel, gameModel }) => {
   const mapTagToOption = (eventId) => {
     const event = gameModel.events[eventId]
     return {
-      label: event.name,
+      title: event.name,
       value: eventId,
     }
   }

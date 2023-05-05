@@ -23,7 +23,7 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
     const isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromIDs[interfaceId]
 
     return {
-      label: entityModel.name,
+      title: entityModel.name,
       value: entityModelId,
       textureId: entityModel.graphics.textureId,
       textureTint: entityModel.graphics.textureTint,

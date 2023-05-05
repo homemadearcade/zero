@@ -20,7 +20,7 @@ const SelectUsers = ({ userMongoIds, label, onSelect, groupBy, usersSelected = [
 
   const mapUserToOption = (user) => {
     return {
-      label: user.username + ', ' + user.email,
+      title: user.username + ', ' + user.email,
       value: user.id,
       isRemoved: user.isRemoved
     }

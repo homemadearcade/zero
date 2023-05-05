@@ -15,7 +15,8 @@ export default {
     },
     isActive: (state) => {
       return state.gameViewEditor.isSnapshotTakerOpen
-    }
+    },
+    isCommonlyUsed: true
   },
   // [SNAPSHOT_STAGE_ZONE_AID]: {
   //   title: 'Snapshot Game',

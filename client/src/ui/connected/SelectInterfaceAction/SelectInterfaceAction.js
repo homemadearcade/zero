@@ -15,7 +15,7 @@ const SelectInterfaceAction = ({ onChange, disabled, value, formLabel, interface
     if(actionData.interfaceActionGroupId !== interfaceActionGroupId) return false
 
     return {
-      label: name,
+      title: name,
       value: interfaceActionId,
     }
   }

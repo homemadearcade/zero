@@ -1147,7 +1147,8 @@ export class EditorScene extends GameInstance {
 
     const gameViewEditor = store.getState().gameViewEditor
     
-    const cameraZoom = gameViewEditor.isBoundaryEditorOpen ? getCobrowsingState().gameViewEditor.cameraZoom : store.getState().gameViewEditor.cameraZoom
+    // const cameraZoom = gameViewEditor.isBoundaryEditorOpen ? getCobrowsingState().gameViewEditor.cameraZoom : store.getState().gameViewEditor.cameraZoom
+    const cameraZoom = getCobrowsingState().gameViewEditor.cameraZoom
     if(cameraZoom !== this.editorCamera.zoom) {
       this.editorCamera.setZoom(cameraZoom)
       // this.editorCamera.zoomTo(cameraZoom, 100, 'Linear', true)

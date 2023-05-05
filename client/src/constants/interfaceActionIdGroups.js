@@ -10,16 +10,35 @@ export const INTERFACE_ACTION_RESIZE = 'INTERFACE_ACTION_RESIZE'
 export const INTERFACE_ACTION_GRID = 'INTERFACE_ACTION_GRID'
 export const INTERFACE_ACTION_COBROWSE = 'INTERFACE_ACTION_COBROWSE'
 export const INTERFACE_ACTION_TOOL = 'INTERFACE_ACTION_TOOL'
+export const INTERFACE_ACTION_SPRITE = 'INTERFACE_ACTION_SPRITE'
+export const INTERFACE_ACTION_CURRENT_PLAYER = 'INTERFACE_ACTION_CURRENT_PLAYER'
+export const INTERFACE_ACTION_STAGE = 'INTERFACE_ACTION_STAGE'
+
 
 export const interfaceActionGroupData = {
+  [INTERFACE_ACTION_STAGE]: {
+    displayName: 'Edit Stage',
+    icon: 'faMap',
+    description: 'Actions that effect the stage'
+  },
+  [INTERFACE_ACTION_CURRENT_PLAYER]: {
+    displayName: 'Edit Current Player',
+    icon: 'faStreetView',
+    description: 'Actions that effect the current player'
+  },
   [INTERFACE_ACTION_TOOL]: {
     displayName: 'Tool',
     icon: 'faTools',
     description: 'Select a tool to use'
   },
+  [INTERFACE_ACTION_SPRITE]: {
+    displayName: 'Edit Sprite',
+    icon: 'faImage',
+    description: 'Edit a sprite for a class'
+  },
   [INTERFACE_ACTION_COBROWSE]: {
     displayName: 'Cobrowse',
-    icon: 'faUsers',
+    icon: 'faWindowRestore',
     description: 'Control your cobrowsing users screen'
   },
   [INTERFACE_ACTION_GRID]: {

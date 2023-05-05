@@ -24,11 +24,4 @@ GRID MODE == CREATIVE MODE ( no more physics and change arrow key behavior )
 
 KEYBOARD MODE
   Figure out how to register keys?
-
-  Prompt Editor Action
-
-  'More Toolbox' ( More Tools option in Context menu and Hover Preview )
-  Think more about how these are saved and set...
-    Commonly Used Action Tag. Yes its all effects in that box but then we have like the effects are sorted into boxes just like the entity import
-
   Have Keyboard shortcuts actually working

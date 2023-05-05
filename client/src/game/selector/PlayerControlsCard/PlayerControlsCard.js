@@ -86,7 +86,6 @@ const PlayerControlsCard = ({
 }
 
 const mapStateToProps = (state) => ({
-  keysDown: state.keysDown
 })
 
 

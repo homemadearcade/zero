@@ -12,9 +12,9 @@ const SelectEffect = ({ onChange, value, eventType, formLabel, disabled, gameMod
     const effectInterfaceData = effectInterfaceDatas[effect.effectBehavior]
 
     return {
-      label: effect.subTitle,
+      subTitle: effect.subTitle,
       value: effectId,
-      labelTitle: effect.title || getEffectShorthand(effect),
+      title: effect.title || getEffectShorthand(effect),
       icon: effect.icon || effectInterfaceData.icon,
       isRemoved: effect.isRemoved || !isUseableEffect(effect, effect.effectBehavior, eventType),
       group: effect.customSelectorCategory || effectInterfaceData.displayName
@@ -26,10 +26,10 @@ const SelectEffect = ({ onChange, value, eventType, formLabel, disabled, gameMod
   options.sort((a, b) => {
     const value =  -b.group.localeCompare(a.group)
     if(value === 0) {
-      if (a.label < b.label) {
+      if (a.title < b.title) {
         return -1;
       }
-      if (a.label > b.label) {
+      if (a.title > b.title) {
         return 1;
       }
     }

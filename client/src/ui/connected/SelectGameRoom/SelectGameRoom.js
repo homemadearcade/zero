@@ -10,7 +10,7 @@ const SelectGameRoom = ({ onSelect, value, formLabel, disabled, experienceModel:
   const mapControlsToOption = (gameRoomId) => {
    const gameRoom = experienceModel.gameRooms[gameRoomId]
     return {
-      label: gameRoom.name,
+      title: gameRoom.name,
       // icon: 'faDoorOpen',
       value: gameRoom.gameRoomId,
       isRemoved: gameRoom.isRemoved && !gameRoom.isNotRemoveable

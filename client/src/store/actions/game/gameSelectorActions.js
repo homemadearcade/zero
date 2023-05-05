@@ -1,4 +1,4 @@
-import { EDIT_ENTITY_MODEL_TAB_CONTANER_IID, EDIT_GAME_TAB_CONTANER_IID, LIVE_EDIT_STAGE_TAB_CONTAINER_IID, LIVE_ENTITY_EDITOR_TAB_CONTANER_IID } from '../../../constants/interfaceIds';
+import { EDIT_GAME_TAB_CONTANER_IID, LIVE_EDIT_STAGE_TAB_CONTAINER_IID, LIVE_ENTITY_EDITOR_TAB_CONTANER_IID } from '../../../constants/interfaceIds';
 import { getCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { getLayerIdFromColorId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
 import { 
@@ -28,6 +28,8 @@ import {
   TOGGLE_SELECTOR_ENTITY_INVISIBILITY,
   OPEN_STAGE_LIVE_EDITOR,
   CLOSE_STAGE_LIVE_EDITOR,
+  OPEN_TOOL_BOX_DIALOG,
+  CLOSE_TOOL_BOX_DIALOG,
 } from '../../types';
 
 import { saveAllCurrentCanvases } from '../media/codrawingActions';
@@ -170,6 +172,25 @@ export const closeEntityBoxDialog = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_ENTITY_BOX_DIALOG,
+    payload: {}
+  });
+}
+
+export const openToolBoxDialog = (interfaceActionId, entityModelClass) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_TOOL_BOX_DIALOG,
+    payload: {
+      interfaceActionId,
+      entityModelClass
+    }
+  });
+}
+
+export const closeToolBoxDialog = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_TOOL_BOX_DIALOG,
     payload: {}
   });
 }

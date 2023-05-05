@@ -21,24 +21,67 @@ export const NINE_KID = 'NINE_KID';
 
 // map key Id to key name (e.g. 'esc' or 'shift')
 
-export const keyIdToKeyName = {
-  [SHIFT_KID]: 'shift',
-  [ESC_KID]: 'esc',
-  [X_KID]: 'x',
-  [UP_KID]: 'up',
-  [DOWN_KID]: 'down',
-  [LEFT_KID]: 'left',
-  [RIGHT_KID]: 'right',
-  [SPACE_KID]: 'space',
-  [ONE_KID]: '1',
-  [TWO_KID]: '2',
-  [THREE_KID]: '3',
-  [FOUR_KID]: '4',
-  [FIVE_KID]: '5',
-  [SIX_KID]: '6',
-  [SEVEN_KID]: '7',
-  [EIGHT_KID]: '8',
-  [NINE_KID]: '9',
+export const keyIdToInterfaceData = {
+  [SHIFT_KID]: {
+    name: 'shift',
+  },
+  [ESC_KID]: {
+    name: 'esc',
+  },
+  [X_KID]: {
+    name: 'x',
+  },
+  [UP_KID]: {
+    name: 'up',
+  },
+  [DOWN_KID]: {
+    name: 'down',
+  },
+  [LEFT_KID]: {
+   name: 'left',
+  },
+  [RIGHT_KID]: {
+    name: 'right',
+  },
+  [SPACE_KID]: {
+    name: 'space',
+  },
+  [ONE_KID]: {
+    name: '1',
+    isShortcutKey: true,
+  },
+  [TWO_KID]: {
+    name: '2',
+    isShortcutKey: true,
+  },
+  [THREE_KID]: {
+    name: '3',
+    isShortcutKey: true,
+  },
+  [FOUR_KID]: {
+    name: '4',
+    isShortcutKey: true,
+  },
+  [FIVE_KID]: {
+    name: '5',
+    isShortcutKey: true,
+  },
+  [SIX_KID]: {
+    name: '6',
+    isShortcutKey: true,
+  },
+  [SEVEN_KID]: {
+    name: '7',
+    isShortcutKey: true,
+  },
+  [EIGHT_KID]: {
+    name: '8',
+    isShortcutKey: true,
+  },
+  [NINE_KID]: {
+    name: '9',
+    isShortcutKey: true,
+  }
 };
 
 
