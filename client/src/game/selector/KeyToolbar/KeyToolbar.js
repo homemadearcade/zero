@@ -5,7 +5,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import Icon from '../../../ui/Icon/Icon';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
-import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, entityModelClassToDisplayName, RUN_GAME_INSTANCE_ACTION } from '../../constants';
+import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, entityModelClassToDisplayName, ON_STEP_BEGINS, RUN_GAME_INSTANCE_ACTION } from '../../constants';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { KEY_TOOLBAR_ACTIONS_IID } from '../../../constants/interfaceIds';
 import { TOOLBAR_MORE_IID } from '../../../constants/interfaceIds/keyToolbarInterfaceIds';
@@ -14,7 +14,7 @@ import { EIGHT_KID, FIVE_KID, FOUR_KID, keyIdToInterfaceData, NINE_KID, ONE_KID,
 import classNames from 'classnames';
 import store from '../../../store';
 import { unlockInterfaceId } from '../../../store/actions/game/unlockedInterfaceActions';
-import { getCurrentGameScene } from '../../../utils';
+import { getCurrentGameScene, getEffectData } from '../../../utils';
 import { changeKeyToolbarActionIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import IconButton from '../../../ui/IconButton/IconButton';
@@ -89,6 +89,13 @@ const KeyToolbar = ({
       hidden = true
     }
 
+    let icon, subIcon 
+
+    if(effect) {
+      const effectData = getEffectData(effect, ON_STEP_BEGINS, gameModel)
+      icon = effectData?.icon
+    }
+
     return <div key={effectId + keyId} onClick={() => {
       if(disabled) return
 
@@ -123,7 +130,7 @@ const KeyToolbar = ({
         {/* {renderLeftClickAction()} */}
         {!hidden && <IconButton 
           disabled={disabled}
-          size="small" icon={effect.icon}
+          size="small" icon={icon}
         ></IconButton>}
       </div>
     </div>

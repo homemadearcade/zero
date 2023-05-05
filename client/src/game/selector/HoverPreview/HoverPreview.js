@@ -6,7 +6,7 @@ import Typography from '../../../ui/Typography/Typography';
 import Texture from '../../textures/Texture/Texture';
 import { getLayerIdFromColorId, getLayerIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
 import { dataSourceIIDToIcon,
-   layerGroupIIDtoShortName, PAUSED_STATE } from '../../constants';
+   layerGroupIIDtoShortName, ON_STEP_BEGINS, PAUSED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
@@ -31,6 +31,7 @@ import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorAct
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 import { Paper } from '@mui/material';
+import { getEffectData } from '../../../utils';
 
     // <Unlockable interfaceId={CONTEXT_MENU_SNAPSHOT_IID}>
     //   <MenuItem onClick={() => {
@@ -418,9 +419,13 @@ const HoverPreview = ({
       })
     } else if(effectId) {
       const effect = effects[effectId]
-      let title = effect.title
+      const {
+        title,
+        subTitle
+      } = getEffectData(effect, null, gameModel)
+
       return renderTextOnlyDisplay({
-        title
+        title: title || subTitle
       })
     } else if(entityModelIdHovering) {
       return renderEntityDisplay()
