@@ -21,7 +21,3 @@ RELATION TAGS
 ---------------------------------------------------------------------------------------------------- 
 
 GRID MODE == CREATIVE MODE ( no more physics and change arrow key behavior )
-
-KEYBOARD MODE
-  Figure out how to register keys?
-  Have Keyboard shortcuts actually working

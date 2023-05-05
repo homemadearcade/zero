@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 
 // Hook
-export function useKeyPress(targetKey) {
+export function useKeyPress(targetKey, onKeyPress, observe = []) {
   // State for keeping track of whether key is pressed
   const [keyPressed, setKeyPressed] = useState(false);
   // If pressed key is our target key then set to true
   function downHandler({ key }) {
     if (key === targetKey) {
       setKeyPressed(true);
+      if(onKeyPress) onKeyPress()
     }
   }
   // If released key is our target key then set to false
@@ -25,6 +26,6 @@ export function useKeyPress(targetKey) {
       window.removeEventListener("keydown", downHandler);
       window.removeEventListener("keyup", upHandler);
     };
-  }, []); // Empty array ensures that effect is only run on mount and unmount
+  }, observe); // Empty array ensures that effect is only run on mount and unmount
   return keyPressed;
 }

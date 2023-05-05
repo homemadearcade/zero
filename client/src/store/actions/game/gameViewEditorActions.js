@@ -12,6 +12,7 @@ import {
   CHANGE_EDITOR_CAMERA_ZOOM,
   SET_RESIZING_ENTITY_INSTANCE_ID,
   SET_IS_MOUSE_OVER_GAME_VIEW,
+  SET_IS_DIALOG_OVER_GAME_VIEW,
   // UNDO_INSTANCE_CHANGE_FAIL,
   // UNDO_INSTANCE_CHANGE_SUCCESS
 } from '../../types';
@@ -35,6 +36,8 @@ export const changeEditorCameraZoom = (zoom) => (dispatch, getState) => {
     }
   });
 }
+
+
 
 export const openSnapshotTaker = (fileId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
@@ -82,6 +85,15 @@ export const toggleGridView = (value) => (dispatch, getState) => {
       value
     }
   });
+}
+
+export const setIsDialogOverGameView = (value) => (dispatch, getState) => {
+  dispatch({
+    type: SET_IS_DIALOG_OVER_GAME_VIEW,
+    payload: {
+      value: value
+    }
+  })
 }
 
 export const clearGameViewEditor = () => (dispatch, getState) => {

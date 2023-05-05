@@ -12,9 +12,16 @@ import { connect } from 'react-redux';
 import store from '../../../store';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 import { createPortal } from 'react-dom';
+import { setIsDialogOverGameView } from '../../../store/actions/game/gameViewEditorActions';
 
-const CobrowsingDialog = ({ widthModifier, onClose, children, open, zIndexIncrease = 1, width, height, webPage: { gameInstance } }) => {
+const CobrowsingDialog = ({ 
+  widthModifier, onClose, children, 
+  setIsDialogOverGameView,
+  open, zIndexIncrease = 1, width, height, 
+  webPage: { gameInstance } }) => {
   useEffect(() => {
+    setIsDialogOverGameView(true)
+
     const keyStop = setInterval(() => {
       const scene = getCurrentGameScene(gameInstance)
       if(scene) {
@@ -24,6 +31,7 @@ const CobrowsingDialog = ({ widthModifier, onClose, children, open, zIndexIncrea
 
     return () => {
       clearInterval(keyStop)
+      setIsDialogOverGameView(false)
       getCurrentGameScene(store.getState().webPage.gameInstance)?.input?.keyboard.enableGlobalCapture();
     }
   }, [])
@@ -52,5 +60,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, {}),
+  connect(mapStateToProps, { setIsDialogOverGameView }),
 )(CobrowsingDialog);

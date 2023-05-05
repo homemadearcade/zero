@@ -9,7 +9,7 @@ import { closeEffectPromptDialog } from '../../../store/actions/game/gameFormEdi
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import { Fade } from '@mui/material';
-import { getCurrentGameScene } from '../../../utils';
+import { getCurrentGameScene, runEffect } from '../../../utils';
 import store from '../../../store';
 import { interfaceActionGroupData } from '../../../constants';
 import Icon from '../../../ui/Icon/Icon';
@@ -112,14 +112,7 @@ const EffectPromptDialog = ({
             handleClose()
             const effectId = effectIds[effectIds.length-1]
             const effect = gameModel.effects[effectId]
-            if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
-               effect.onClick(store.dispatch, gameModel, store.getState)
-            } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
-              store.dispatch(unlockInterfaceId(effect.interfaceId))
-            } else {
-              const gameInstance = getCurrentGameScene(store.getState().webPage.gameInstance)
-              gameInstance.callGameInstanceEvent({gameRoomInstanceEventType: RUN_GAME_INSTANCE_ACTION, data: { effectId } , hostOnly: true })
-            }
+            runEffect(effect)
             // updateCreateRelation({
             //   effectIds: effectIds,
             // })

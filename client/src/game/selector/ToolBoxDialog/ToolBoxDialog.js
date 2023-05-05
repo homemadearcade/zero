@@ -17,7 +17,7 @@ const ToolBoxDialog = ({
     closeToolBoxDialog()
   }
 
-  return <><CobrowsingDialog open onClose={handleClose}>
+  return <><CobrowsingDialog widthModifier={1} open onClose={handleClose}>
     <div className="ToolBoxDialog">
       <ToolBoxList onSelectTool={(entityModelId) => {
 

@@ -14,12 +14,13 @@ import { EIGHT_KID, FIVE_KID, FOUR_KID, keyIdToInterfaceData, NINE_KID, ONE_KID,
 import classNames from 'classnames';
 import store from '../../../store';
 import { unlockInterfaceId } from '../../../store/actions/game/unlockedInterfaceActions';
-import { getCurrentGameScene, getEffectData } from '../../../utils';
+import { getCurrentGameScene, getEffectData, runEffect } from '../../../utils';
 import { changeKeyToolbarActionIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import IconButton from '../../../ui/IconButton/IconButton';
 import { interfaceActionIdData } from '../../../constants/interfaceActionIdData';
 import { openToolBoxDialog } from '../../../store/actions/game/gameSelectorActions';
+import { useKeyPress } from '../../../hooks/useKeyPress';
 
 const KeyToolbar = ({ 
   cobrowsing: {
@@ -29,6 +30,9 @@ const KeyToolbar = ({
   gameModel: { 
     currentStageId,
     gameModel,
+  },
+  gameViewEditor: {
+    isDialogOverGameView
   },
   changeKeyToolbarActionIdHovering,
   unlockInterfaceId,
@@ -40,6 +44,37 @@ const KeyToolbar = ({
   const keyIdsToKeyActions = {
     ...gameModel.keyToolbar,
     ...keyToolbar
+  }
+
+  const onKeyPress = (keyId) => () => {
+    if(isDialogOverGameView) {
+      return
+    }
+    const action = keyIdsToKeyActions[keyId]
+    const effect = gameModel.effects[action.effectId]
+    runEffect(effect)
+  }
+
+  const isOnePressed = useKeyPress('1', onKeyPress(ONE_KID), [keyIdsToKeyActions])
+  const isTwoPressed = useKeyPress('2', onKeyPress(TWO_KID), [keyIdsToKeyActions])
+  const isThreePressed = useKeyPress('3', onKeyPress(THREE_KID), [keyIdsToKeyActions])
+  const isFourPressed = useKeyPress('4', onKeyPress(FOUR_KID), [keyIdsToKeyActions])
+  const isFivePressed = useKeyPress('5', onKeyPress(FIVE_KID), [keyIdsToKeyActions])
+  const isSixPressed = useKeyPress('6', onKeyPress(SIX_KID), [keyIdsToKeyActions])
+  const isSevenPressed = useKeyPress('7', onKeyPress(SEVEN_KID), [keyIdsToKeyActions])
+  const isEightPressed = useKeyPress('8', onKeyPress(EIGHT_KID), [keyIdsToKeyActions])
+  const isNinePressed = useKeyPress('9', onKeyPress(NINE_KID), [keyIdsToKeyActions])
+
+  const keyIdToIsPressed = {
+    [ONE_KID]: isOnePressed,
+    [TWO_KID]: isTwoPressed,
+    [THREE_KID]: isThreePressed,
+    [FOUR_KID]: isFourPressed,
+    [FIVE_KID]: isFivePressed,
+    [SIX_KID]: isSixPressed,
+    [SEVEN_KID]: isSevenPressed,
+    [EIGHT_KID]: isEightPressed,
+    [NINE_KID]: isNinePressed,
   }
 
   function renderControl(text) {
@@ -99,14 +134,7 @@ const KeyToolbar = ({
     return <div key={effectId + keyId} onClick={() => {
       if(disabled) return
 
-      if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
-        effect.onClick(store.dispatch, gameModel, store.getState)
-      } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
-        store.dispatch(unlockInterfaceId(effect.interfaceId))
-      } else {
-        const gameInstance = getCurrentGameScene(store.getState().webPage.gameInstance)
-        gameInstance.callGameInstanceEvent({gameRoomInstanceEventType: RUN_GAME_INSTANCE_ACTION, data: { effectId } , hostOnly: true })
-      }
+      runEffect(effect)
     }} 
       className={classNames("KeyToolbar__node", {
         "KeyToolbar__node--clickable": !disabled,
@@ -123,7 +151,10 @@ const KeyToolbar = ({
         changeKeyToolbarActionIdHovering(null)
       }}
     >
-      <div className="KeyToolbar__node-control">
+      <div className="KeyToolbar__node-control" style={{
+        backgroundColor: keyIdToIsPressed[keyId] && theme.primaryColor.hexString,
+        color: keyIdToIsPressed[keyId] && 'white',
+      }}>
         {renderControl(controlName)}
       </div>
       <div className="KeyToolbar__node-action">
@@ -175,7 +206,6 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameSelector: state.gameSelector,
   cobrowsing: state.cobrowsing,
-  gameRoomInstance: state.gameRoomInstance,
   gameViewEditor: state.gameViewEditor,
   keyToolbar: state.keyToolbar,
 })

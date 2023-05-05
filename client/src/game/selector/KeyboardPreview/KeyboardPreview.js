@@ -8,6 +8,8 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { KEY_TOOLBAR_ACTIONS_IID } from '../../../constants/interfaceIds';
 import { COBROWSE_CLICK_TOOL_AID, COBROWSE_UNLOCK_TOOL_AID } from '../../../constants/interfaceActionIds';
 import PlayerControlsCard from '../PlayerControlsCard/PlayerControlsCard';
+import { useKeyPress } from '../../../hooks/useKeyPress';
+import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const KeyboardPreview = ({ 
   cobrowsing: {
@@ -48,13 +50,28 @@ const KeyboardPreview = ({
   },
 }) => {
 
+  const isShiftPressed = useKeyPress('Shift')
+  const isEscPressed = useKeyPress('Escape')
+  const isXPressed = useKeyPress('x')
+  const isX2Pressed = useKeyPress('X')
 
-  function renderKey(text) {
-    return <>
+  const theme = useWishTheme()
+
+  const isKeyIdPressed = {
+    'Shift': isShiftPressed,
+    'Esc': isEscPressed,
+    'X': isXPressed || isX2Pressed,
+  }
+
+  function renderKey(key) {
+    return <div className="KeyboardPreview__key" style={{
+      backgroundColor: isKeyIdPressed[key] && theme.primaryColor.hexString,
+      color: isKeyIdPressed[key] && 'white',
+    }}>
       <Typography sx={{fontSize: '.5em', color: '#aaa'}} variant="subtitle2" font="2P">
-        {text}
+        {key}
       </Typography>
-    </>
+    </div>
   }
 
   function renderActionTitle(action) {
@@ -111,25 +128,19 @@ const KeyboardPreview = ({
   return <Unlockable interfaceId={KEY_TOOLBAR_ACTIONS_IID}>
     <div className="KeyboardPreview">
       <div className="KeyboardPreview__row">
-        <div className="KeyboardPreview__key">
-          {renderKey('ESC')}
-        </div>
+        {renderKey('Esc')}
         <div className="KeyboardPreview__action">
           {renderActionTitle(renderEscAction())}
         </div>
       </div>
       <div className="KeyboardPreview__row">
-        <div className="KeyboardPreview__key">
-          {renderKey('SHIFT')}
-        </div>
+        {renderKey('Shift')}
         <div className="KeyboardPreview__action">
           {renderActionTitle(renderShiftAction())}
         </div>
       </div>
       <div className="KeyboardPreview__row">
-        <div className="KeyboardPreview__key">
-          {renderKey('X')}
-        </div>
+        {renderKey('X')}
         <div className="KeyboardPreview__action">
           {interactOppurtunity && renderActionTitle('Interact')}
         </div>

@@ -11,6 +11,7 @@ import {
   SET_RESIZING_ENTITY_INSTANCE_ID,
   CLEAR_EDITOR,
   SET_IS_MOUSE_OVER_GAME_VIEW,
+  SET_IS_DIALOG_OVER_GAME_VIEW,
 } from '../../types';
 
 // these are editor things that take place within the game view
@@ -25,12 +26,19 @@ const initialState = {
   snapshotTextureId: null,
 
   isMouseOverGameView: false,
+  isDialogOverGameView: false,
 };
 
 export const initialGameViewEditorState = initialState
 
 export default function gameViewEditorReducer(state = initialState, { type, payload }) {
   switch (type) {
+
+    case SET_IS_DIALOG_OVER_GAME_VIEW:
+      return {
+        ...state,
+        isDialogOverGameView: payload.value
+      }
     case CHANGE_EDITOR_CAMERA_ZOOM: {
       return {
         ...state,

@@ -1,3 +1,4 @@
+import { INTERFACE_ACTION_PLAY } from "../../../constants";
 import { interfaceIdData } from "../../../constants/interfaceIdData";
 import { NO_RELATION_TAG_EFFECT_IID, SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID } from "../../../constants/interfaceIds";
 import store from "../../../store"
@@ -48,7 +49,6 @@ export const effectInterfaceDatas = {
   [EFFECT_END_GAME]: {
     displayName: 'End Game',
     icon: 'faAward',
-    customSelectorCategory: 'Game',
   },
   // Graphical
   [EFFECT_CAMERA_SHAKE]: {
@@ -68,12 +68,12 @@ export const effectInterfaceDatas = {
   [EFFECT_PAUSE_GAME]: {
     displayName: 'Pause Game',
     icon: 'faPause',
-    customSelectorCategory: 'Game',
+    customSelectorCategory: 'Play',
   },
   [EFFECT_UNPAUSE_GAME]: {
     displayName: 'Unpause Game',
     icon: 'faPlay',
-    customSelectorCategory: 'Game',
+    customSelectorCategory: 'Play',
   },
 
 

@@ -22,6 +22,9 @@ export const NINE_KID = 'NINE_KID';
 // map key Id to key name (e.g. 'esc' or 'shift')
 
 export const keyIdToInterfaceData = {
+  [SPACE_KID]: {
+    name: 'space',
+  },
   [SHIFT_KID]: {
     name: 'shift',
   },

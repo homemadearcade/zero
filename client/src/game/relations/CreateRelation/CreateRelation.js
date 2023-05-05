@@ -34,7 +34,6 @@ import { AlertTitle } from '@mui/material';
 import Alert from '../../../ui/Alert/Alert';
 import SelectSpawnZoneSelectorType from '../../ui/SelectSpawnZoneSelectorType/SelectSpawnZoneSelectorType';
 import ReadOnlyWarning from '../../ui/ReadOnlyWarning/ReadOnlyWarning';
-import SelectEffect from '../../ui/SelectEffect/SelectEffect';
 
 // {event && <SelectGameInstanceEffect
 //         event={event}

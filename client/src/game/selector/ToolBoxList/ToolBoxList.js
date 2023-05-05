@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import './ToolBoxList.scss';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CobrowsingAccordianList from '../../cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
-import { ON_STEP_BEGINS } from '../../constants';
+import { EFFECT_INTERFACE_ACTION, ON_STEP_BEGINS } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import { updateOpenInterfaceId } from '../../../store/actions/game/gameSelectorActions';
 import Icon from '../../../ui/Icon/Icon';
@@ -16,6 +16,7 @@ import ButtonMenu from '../../../ui/ButtonMenu/ButtonMenu';
 import { MenuItem } from '@mui/material';
 import { keyIdToInterfaceData } from '../../../constants/keyboard/keyIds';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
+import Button from '../../../ui/Button/Button';
 
 const ToolBoxList = ({
   updateOpenInterfaceId,
@@ -28,6 +29,110 @@ const ToolBoxList = ({
   const effectList = Object.keys(gameModel.effects).map((effectId) => {
     return gameModel.effects[effectId]
   })
+
+  function renderBody(effectList) {
+    return <div 
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      {effectList.map((effectData, i) => {
+        const {
+          title,
+          subTitle,
+          icon,
+          subIcon,
+          textureId,
+          textureTint
+        } = effectData
+
+        const setToShortcutKey = Object.keys(gameModel.keyToolbar).find((keyId) => {
+          return gameModel.keyToolbar[keyId]?.effectId === effectData.effectId
+        })
+
+        return <div key={i} style={{
+          display: 'flex',
+          position: 'relative',
+          flexDirection: 'column',
+          alignItems: 'center',
+          borderBottom: '1px solid #333',
+          border: setToShortcutKey ? '1px solid #333' : 'none',
+          padding: '1em 0em',
+        }}>
+            {setToShortcutKey && <Typography font="2P" sx={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              padding: '.2em',
+              fontSize: '.5em',
+              backgroundColor: '#333',
+              color: '#aaa',
+              zIndex: 1,
+            }}>
+              {keyIdToInterfaceData[setToShortcutKey]?.name}
+            </Typography>}
+            <div 
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+            <div 
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '.5em',
+                border: '1px solid #333',
+              }}
+            >
+              <Icon icon={icon} />
+              {subIcon && <Icon icon={subIcon} />}
+            </div>
+            <Typography component="div" variant="subtitle1">{title}</Typography>
+          </div>
+          <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '.5em'
+          }}>
+            {(textureId || textureTint) && <div style={{
+              width: '1em',
+              height: '1em',
+            }}>  
+              <Texture textureId={textureId} textureTint={textureTint} />
+            </div>}
+            {subTitle && <Typography component="div" variant="subtitle2">{subTitle}</Typography>}
+          </div>
+
+          <ButtonMenu variant="outlined" text="Set To Shortcut" menu={(handleClose) => {
+            return [Object.keys(keyIdToInterfaceData).map((keyId) => {
+              const key = keyIdToInterfaceData[keyId]
+              if(!key.isShortcutKey) return null
+              
+              
+              return <MenuItem key={keyId} onClick={() => {
+                handleClose()
+                editGameModel({
+                  keyToolbar: {
+                    [keyId]: {
+                      effectId: effectData.effectId
+                    }
+                  }
+                })
+              }}>
+                {'Set to ' + key.name + ' key'}
+              </MenuItem>
+
+            })]
+          }}/>
+        </div>
+      })}
+    </div>
+  }
 
   useEffect(() => {
     const accordians = []
@@ -51,125 +156,9 @@ const ToolBoxList = ({
           {icon && <Icon icon={icon} />}
           <Typography component="div" variant="subtitle1">{effectGroupName} {`(${effectList.length})`}</Typography>
         </div>,
-        body: <div 
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          {effectList.map((effectData, i) => {
-            const {
-              title,
-              subTitle,
-              icon,
-              subIcon,
-              textureId,
-              textureTint
-            } = effectData
-
-            const setToShortcutKey = Object.keys(gameModel.keyToolbar).find((keyId) => {
-              return gameModel.keyToolbar[keyId]?.effectId === effectData.effectId
-            })
-
-            return <div key={i} style={{
-              display: 'flex',
-              position: 'relative',
-              flexDirection: 'column',
-              alignItems: 'center',
-              borderBottom: '1px solid #333',
-              border: setToShortcutKey ? '1px solid #333' : 'none',
-              padding: '1em 0em',
-            }}>
-                {setToShortcutKey && <Typography font="2P" sx={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  padding: '.2em',
-                  fontSize: '.5em',
-                  backgroundColor: '#333',
-                  color: '#aaa',
-                  zIndex: 1,
-                }}>
-                  {keyIdToInterfaceData[setToShortcutKey]?.name}
-                </Typography>}
-                <div 
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                  }}
-                >
-                <div 
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '.5em',
-                    border: '1px solid #333',
-                  }}
-                >
-                  <Icon icon={icon} />
-                  {subIcon && <Icon icon={subIcon} />}
-                </div>
-                <Typography component="div" variant="subtitle1">{title}</Typography>
-              </div>
-              <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '.5em'
-              }}>
-                {(textureId || textureTint) && <div style={{
-                  width: '1em',
-                  height: '1em',
-                }}>  
-                  <Texture textureId={textureId} textureTint={textureTint} />
-                </div>}
-                {subTitle && <Typography component="div" variant="subtitle2">{subTitle}</Typography>}
-              </div>
-
-              <ButtonMenu variant="outlined" text="Set To Shortcut" menu={(handleClose) => {
-                return [Object.keys(keyIdToInterfaceData).map((keyId) => {
-                  const key = keyIdToInterfaceData[keyId]
-                  if(!key.isShortcutKey) return null
-                  
-                  
-                  return <MenuItem key={keyId} onClick={() => {
-                    handleClose()
-                    console.log({
-                      keyToolbar: {
-                        [keyId]: {
-                          effectId: effectData.effectId
-                        }
-                      }
-                    })
-                    editGameModel({
-                      keyToolbar: {
-                        [keyId]: {
-                          effectId: effectData.effectId
-                        }
-                      }
-                    })
-                  }}>
-                    {'Set to ' + key.name + ' key'}
-                  </MenuItem>
-
-                })]
-              }}/>
-            </div>
-          })}
-        </div>
+        body: renderBody(effectList)
       })
     }
-
-    const commonlyUsedEffects = effectList.map((effect) => {
-      const effectData = getEffectData(effect, ON_STEP_BEGINS, gameModel)
-      effectData.effectId = effect.effectId
-      effectData.effectBehavior = effect.effectBehavior
-      if(!effectData.isCommonlyUsed || effectData.isRemoved) return null
-      return effectData
-    }).filter((effectData) => !!effectData)
-
-    renderAccordian(commonlyUsedEffects, 'Commonly Used')
 
     const effectGroups = effectList.reduce((acc, effect) => {
       const { 
@@ -184,7 +173,7 @@ const ToolBoxList = ({
       } = getEffectData(effect, ON_STEP_BEGINS, gameModel)
 
       if(!isRemoved) {
-        if(!acc[group]) {     
+        if(!acc[group]) {   
           acc[group] = {
             list: []
           }
@@ -212,15 +201,18 @@ const ToolBoxList = ({
     setAccordians(accordians.filter((accordian) => !!accordian))
   }, [gameModel.keyToolbar])
 
-  useEffect(() => {
-    if(accordians && accordians.length) {
-      updateOpenInterfaceId('ToolBoxList', accordians[0].interfaceId)
-    }
-  }, [accordians])
-
   if(!accordians) return null
 
+  const commonlyUsedEffects = effectList.map((effect) => {
+    const effectData = getEffectData(effect, ON_STEP_BEGINS, gameModel)
+    effectData.effectId = effect.effectId
+    effectData.effectBehavior = effect.effectBehavior
+    if(!effectData.isCommonlyUsed || effectData.isRemoved) return null
+    return effectData
+  }).filter((effectData) => !!effectData)
+
   return <div className="ToolBoxList">
+    {renderBody(commonlyUsedEffects)}
     <CobrowsingAccordianList
       interfaceGroupId="ToolBoxList"
       accordians={accordians}

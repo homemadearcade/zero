@@ -56,6 +56,10 @@
     background-color: #222;
     border-top: 1px solid #333;
     border-right: 1px solid #333;
+
+    &--active {
+      background-color: #333;
+    }
   }
 
   &__node-action {

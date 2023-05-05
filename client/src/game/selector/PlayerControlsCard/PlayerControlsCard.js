@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { DOWN_KID, LEFT_KID, RIGHT_KID, UP_KID } from '../../../constants/keyboard/keyIds'
+import { DOWN_KID, LEFT_KID, RIGHT_KID, SPACE_KID, UP_KID } from '../../../constants/keyboard/keyIds'
+import { useKeyPress } from '../../../hooks/useKeyPress'
+import { useWishTheme } from '../../../hooks/useWishTheme'
 import Typography from '../../../ui/Typography/Typography'
 import { ADVANCED_DIRECTIONAL_CONTROLS, jumpControlsToKeys } from '../../constants'
 import { movementControlsToKeys } from '../../constants'
@@ -13,6 +15,22 @@ const PlayerControlsCard = ({
   projectileEntityModel,
   entityModel
 }) => {
+
+  const isSpacePressed = useKeyPress(' ')
+  const isLeftPressed = useKeyPress('ArrowLeft')
+  const isRightPressed = useKeyPress('ArrowRight')
+  const isUpPressed = useKeyPress('ArrowUp')
+  const isDownPressed = useKeyPress('ArrowDown')
+
+  const keyIdToIsPressed = {
+    [SPACE_KID]: isSpacePressed,
+    [LEFT_KID]: isLeftPressed,
+    [RIGHT_KID]: isRightPressed,
+    [UP_KID]: isUpPressed,
+    [DOWN_KID]: isDownPressed,
+  }
+
+  const theme = useWishTheme()
 
   let keys = {}
 
@@ -51,9 +69,12 @@ const PlayerControlsCard = ({
     }
   }
 
-  function renderKeyAndAction({keyName, action}) {
+  function renderKeyAndAction({keyName, action, keyId}) {
     return <div key={keyName} className="PlayerControlsCard__row">
-      <div className="PlayerControlsCard__key">
+      <div className="PlayerControlsCard__key" style={{
+        backgroundColor: keyIdToIsPressed[keyId] && theme.primaryColor.hexString,
+        color: keyIdToIsPressed[keyId] && 'white',
+      }}>
         {renderKey(keyName)}
       </div>
       <div className="PlayerControlsCard__action">
@@ -65,21 +86,22 @@ const PlayerControlsCard = ({
   if(projectileEntityModel) {
     list.push(renderKeyAndAction({
       keyName: 'space',
-      action: 'Shoot ' + projectileEntityModel.name
+      action: 'Shoot ' + projectileEntityModel.name,
+      keyId: SPACE_KID
     }))
   }
 
   if(keys[UP_KID]) {
-    list.push(renderKeyAndAction({keyName: 'up', action: keys[UP_KID]}))
+    list.push(renderKeyAndAction({keyName: 'up', action: keys[UP_KID], keyId: UP_KID}))
   }
   if(keys[LEFT_KID]) {
-    list.push(renderKeyAndAction({keyName: 'left', action: keys[LEFT_KID]}))
+    list.push(renderKeyAndAction({keyName: 'left', action: keys[LEFT_KID], keyId: LEFT_KID}))
   }
   if(keys[RIGHT_KID]) {
-    list.push(renderKeyAndAction({keyName: 'right', action: keys[RIGHT_KID]}))
+    list.push(renderKeyAndAction({keyName: 'right', action: keys[RIGHT_KID], keyId: RIGHT_KID}))
   }
   if(keys[DOWN_KID]) {
-    list.push(renderKeyAndAction({keyName: 'down', action: keys[DOWN_KID]}))
+    list.push(renderKeyAndAction({keyName: 'down', action: keys[DOWN_KID], keyId: DOWN_KID}))
   }
 
   return <div className="PlayerControlsCard">{list}</div>

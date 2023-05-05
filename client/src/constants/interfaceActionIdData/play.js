@@ -32,7 +32,7 @@ export default {
   },
   [TOGGLE_PAUSE_PLAY_AID]: {
     isCommonlyUsed: true,
-    title: 'Pause/Resume Game',
+    title: 'Toggle Pause Game',
     subtitle: 'This will pause or resume the game',
     icon: 'faPause',
     isActive: (state) => {

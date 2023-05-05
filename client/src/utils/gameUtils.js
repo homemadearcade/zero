@@ -1,4 +1,4 @@
-import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_DID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, ENTITY_MODEL_DID, PLAYER_ENTITY_TYPE_PREFIX, ZONE_ENTITY_TYPE_PREFIX, effectInterfaceDatas, getEffectShorthand, EFFECT_INTERFACE_UNLOCK, isUseableEffect, EFFECT_INTERFACE_ACTION } from "../game/constants";
+import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_DID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, ENTITY_MODEL_DID, PLAYER_ENTITY_TYPE_PREFIX, ZONE_ENTITY_TYPE_PREFIX, effectInterfaceDatas, getEffectShorthand, EFFECT_INTERFACE_UNLOCK, isUseableEffect, EFFECT_INTERFACE_ACTION, RUN_GAME_INSTANCE_ACTION } from "../game/constants";
 import { GameClientScene } from "../game/scenes/GameClientScene";
 import { GameHostScene } from "../game/scenes/GameHostScene";
 import { GameLocalScene } from "../game/scenes/GameLocalScene";
@@ -8,6 +8,7 @@ import { getCobrowsingState } from "./cobrowsingUtils";
 import { getCurrentGameScene } from "./editorUtils";
 import Phaser from 'phaser'
 import { interfaceActionIdData } from "../constants/interfaceActionIdData";
+import { unlockInterfaceId } from "../store/actions/game/unlockedInterfaceActions";
 
 export const getGameModelSize = (gameModel) => {
   const width = gameModel.size.nodeSize * gameModel.size.gridWidth
@@ -18,6 +19,20 @@ export const getGameModelSize = (gameModel) => {
     width,
     height,
     aspectRatio
+  }
+}
+
+export function runEffect(effect) {
+  const effectId = effect.effectId 
+  if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
+    const state = store.getState()
+    const gameModel = state.gameModel.gameModel
+    effect.onClick(store.dispatch, gameModel, store.getState)
+  } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
+    store.dispatch(unlockInterfaceId(effect.interfaceId))
+  } else {
+    const gameInstance = getCurrentGameScene(store.getState().webPage.gameInstance)
+    gameInstance.callGameInstanceEvent({gameRoomInstanceEventType: RUN_GAME_INSTANCE_ACTION, data: { effectId } , hostOnly: true })
   }
 }
 
