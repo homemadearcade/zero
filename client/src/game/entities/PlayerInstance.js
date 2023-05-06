@@ -6,7 +6,10 @@ import { CameraPreview } from "./behaviors/CameraPreview";
 import { InteractArea } from "./behaviors/InteractArea";
 import { ControlledMovement } from "./behaviors/ControlledMovement";
 import { ControlledProjectileEjector } from "./behaviors/ControlledProjectileEjector";
-import { ON_INTERACT } from "../constants";
+import { GAME_END_STATE, ON_INTERACT, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, PLAY_STATE } from "../constants";
+import { getCobrowsingState } from "../../utils";
+import { changeGameState } from "../../store/actions/game/gameRoomInstanceActions";
+import { progressActiveCutscene } from "../../store/actions/game/playerInterfaceActions";
 
 export class PlayerInstance extends EntityInstance {
   constructor(scene, entityInstanceId, instanceData){
@@ -56,6 +59,8 @@ export class PlayerInstance extends EntityInstance {
     this.controlledMovement = new ControlledMovement(scene, this)
     this.controlledProjectileEjector = new ControlledProjectileEjector(scene, this)
 
+    this.xKey = scene.input.keyboard.addKey('X');  // Get key object
+
     return this
   }
 
@@ -67,10 +72,39 @@ export class PlayerInstance extends EntityInstance {
 
   update(time, delta) {  
     super.update()
-    
+
+    const gameState = store.getState().gameRoomInstance.gameRoomInstance.gameState
+    const playerInterface = getCobrowsingState().playerInterface
+
+    if(this.xKey.isUp) {
+      this.xKey.isPressable = true
+    }
+
+    if(this.xKey.isDown && this.xKey.isPressable) {
+      if(gameState === PLAYTHROUGH_START_STATE || gameState === GAME_END_STATE) {
+        if(this.scene.isPlaythrough) {
+          store.dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
+        } else {
+          store.dispatch(changeGameState(PLAY_STATE))
+        }
+        this.xKey.isPressable = false
+      } else if(playerInterface.cutsceneId) {
+        store.dispatch(progressActiveCutscene())
+        this.xKey.isPressable = false
+      }
+    }
+
+    const isPlayerPaused = getCobrowsingState().playerInterface.isPlayerPaused
+    if(isPlayerPaused) {
+      this.disableBody()
+      return
+    } else {
+      this.enableBody()
+    }
+
     if(!this.lastInteractAreaUpdate || this.lastInteractAreaUpdate + 50 < time) {
       this.lastInteractAreaUpdate = time
-      this.interactArea.update({x: this.phaserInstance.x, y: this.phaserInstance.y, angle: this.phaserInstance.angle})
+      this.interactArea.update({x: this.phaserInstance.x, y: this.phaserInstance.y, angle: this.phaserInstance.angle}, this.xKey)
     }
 
     if(this.scene.isPaused) return

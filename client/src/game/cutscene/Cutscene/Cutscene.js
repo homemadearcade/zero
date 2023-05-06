@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React  from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { progressActiveCutscene } from '../../../store/actions/game/playerInterfaceActions';
@@ -6,20 +6,10 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import KeyIndicator from '../../ui/KeyIndicator/KeyIndicator';
 import './Cutscene.scss';
 
-function CutsceneBody({imageUrl, text, progressActiveCutscene}) {
-  function progressIfX(event) {
-    if(!event.key) return
-    if(event.key.toLowerCase() === 'x'){
-      progressActiveCutscene()
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('keydown', progressIfX)
-    return () => {
-      window.removeEventListener('keydown', progressIfX)
-    }
-  })
+function CutsceneBody({
+  imageUrl,
+  text,
+}) {
 
   return (
     <div className="Cutscene">

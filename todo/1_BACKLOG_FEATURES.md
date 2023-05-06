@@ -15,6 +15,9 @@ UNDO
 EXPERIENCE IMAGES
   Experience Thumbnail, Experience Image, etc
 
+EFFECTS 
+  Remove Tag, Add Tag Effect
+
 TREASURE CHEST UNLOCKS
   --
 

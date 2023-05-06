@@ -21,6 +21,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     this.layerGroupIID = layerGroupIID
     this.layerId = layerId
     this.canvasImageMongoId = null
+    this.setOrigin(0, 0)
 
     this.initialDraw()
 
@@ -43,10 +44,10 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   save = async ()  => {
-    if(!this.isCodrawingHost) return
-    if(!this.strokeHistory.length) return
     return new Promise(async (resolve, reject) => {
-      try {    
+      try {
+        if(!this.isCodrawingHost) reject('not codrawing host')
+        if(!this.strokeHistory.length) reject('no stroke history')
         const textureId = this.textureId
         const { bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
 

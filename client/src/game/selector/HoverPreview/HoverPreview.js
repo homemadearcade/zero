@@ -198,8 +198,11 @@ const HoverPreview = ({
   }
 
 
-  function renderTextOnlyDisplay({title, subtitle, onEdit}) {
+  function renderTextOnlyDisplay({title, icon, subtitle, onEdit}) {
       return <div className="HoverPreview__title">
+        {icon && <div className='HoverPreview__title-icon'>
+          <Icon icon={icon}/>
+        </div>}
         {renderPrimaryTitle(title, onEdit)}
         <Typography 
           variant="div" 
@@ -396,17 +399,23 @@ const HoverPreview = ({
     }
 
     if(isBoundaryEditorOpen) {
-      return renderTextOnlyDisplay({
-        title: 'Editing Boundaries',
-        subtitle: 'Click squares on the map to allow movement into that area',
-      })
+      return <>
+        {renderTextOnlyDisplay({
+          icon: 'faMap',
+          title: 'Editing Boundaries',
+          subtitle: 'Click squares on the map to allow movement into that area',
+        })}
+      </>
     } 
     
     if(isSnapshotTakerOpen) {
-      return renderTextOnlyDisplay({
-        title: 'Taking Snapshot',
-        subtitle: 'Draw a square on the map for where you want to take a photo',
-      })
+      return <>
+        {renderTextOnlyDisplay({
+          icon: 'faCameraRetro',
+          title: 'Taking Snapshot',
+          subtitle: 'Draw a square on the map for where you want to take a photo',
+        })}
+      </>
     }
 
     // hovering 

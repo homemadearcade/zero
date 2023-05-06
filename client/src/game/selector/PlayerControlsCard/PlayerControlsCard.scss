@@ -32,4 +32,11 @@
       flex-grow: 1;
       gap: .5em;
     }
+
+    &__sprite {
+      width: .7em;
+      height: .7em;
+      margin-top: -.4em;
+      margin-left: -.2em
+    }
 }

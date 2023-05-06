@@ -13,9 +13,15 @@ export const INTERFACE_ACTION_TOOL = 'INTERFACE_ACTION_TOOL'
 export const INTERFACE_ACTION_SPRITE = 'INTERFACE_ACTION_SPRITE'
 export const INTERFACE_ACTION_CURRENT_PLAYER = 'INTERFACE_ACTION_CURRENT_PLAYER'
 export const INTERFACE_ACTION_STAGE = 'INTERFACE_ACTION_STAGE'
+export const INTERFACE_ACTION_GAME = 'INTERFACE_ACTION_GAME'
 
 
 export const interfaceActionGroupData = {
+  [INTERFACE_ACTION_GAME]: {
+    displayName: 'Game',
+    icon: 'faGamepad',
+    description: 'Actions that effect the game'
+  },
   [INTERFACE_ACTION_STAGE]: {
     displayName: 'Edit Stage',
     icon: 'faMap',

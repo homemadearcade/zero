@@ -8,6 +8,7 @@ import {
   PROGRESS_CUTSCENE,
   CHANGE_INTERACT_OPPURTUNITY,
   CHANGE_PLAYER_ENTITY,
+  SET_IS_PLAYER_PAUSED,
 } from '../../types';
 import { changeGameState } from './gameRoomInstanceActions';
 
@@ -31,17 +32,17 @@ export const changeInteractOppurtunity = (interactOppurtunity) => (dispatch, get
 };
 
 export const openCutscene = (entityModelId, cutsceneId) => (dispatch, getState) => {
-  dispatch(changeGameState(PAUSED_STATE))
+  // dispatch(changeGameState(PAUSED_STATE))
 
-  const scene = getCurrentGameScene(getState().webPage.gameInstance)
-  if(scene) {
-    if(scene.isPlaythrough) {
-      dispatch(changeGameState(PLAYTHROUGH_PAUSED_STATE))
-    } else {
-      dispatch(changeGameState(PAUSED_STATE))
-    }
-  }
-
+  // const scene = getCurrentGameScene(getState().webPage.gameInstance)
+  // if(scene) {
+  //   if(scene.isPlaythrough) {
+  //     dispatch(changeGameState(PLAYTHROUGH_PAUSED_STATE))
+  //   } else {
+  //     dispatch(changeGameState(PAUSED_STATE))
+  //   }
+  // }
+  dispatch(setIsPlayerPaused(true))
 
   dispatch({
     updateCobrowsing: true,
@@ -59,6 +60,9 @@ export const progressActiveCutscene = () => (dispatch, getState) => {
   const cutscene = getState().gameModel.gameModel.cutscenes[cutsceneId]
 
   if(cutscene.scenes.length <= cutsceneIndex + 1) {
+    const scene = getCurrentGameScene(getState().webPage.gameInstance)
+    scene.onCutsceneEnd(cutsceneId)
+
     dispatch(closeActiveCutscene())
     return
   }
@@ -75,14 +79,15 @@ export const closeActiveCutscene = () => (dispatch, getState) => {
   // const cutscene = getState().gameModel.gameModel.cutscenes[cutsceneId]
   // if(cutscene.pauseGame) {
 
-  const scene = getCurrentGameScene(getState().webPage.gameInstance)
-  if(scene) {
-    if(scene.isPlaythrough) {
-      dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
-    } else {
-      dispatch(changeGameState(PLAY_STATE))
-    }
-  }
+  // const scene = getCurrentGameScene(getState().webPage.gameInstance)
+  // if(scene) {
+  //   if(scene.isPlaythrough) {
+  //     dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
+  //   } else {
+  //     dispatch(changeGameState(PLAY_STATE))
+  //   }
+  // }
+  dispatch(setIsPlayerPaused(false))
 
   dispatch({
     updateCobrowsing: true,
@@ -97,5 +102,16 @@ export const clearCutscenes = () => (dispatch, getState) => {
     type: CLEAR_CUTSCENES,
     // noCobrowsingToolNeeded: true,
     payload: {}
+  });
+}
+
+
+export const setIsPlayerPaused = (isPlayerPaused) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: SET_IS_PLAYER_PAUSED,
+    payload: {
+      isPlayerPaused
+    }
   });
 }

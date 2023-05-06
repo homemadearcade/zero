@@ -35,8 +35,6 @@ export class InteractArea extends PhaserInstance {
 
     this.entityInstance = entityInstance
 
-    this.xKey = scene.input.keyboard.addKey('X');  // Get key object
-
     // this.lineStyle(CAMERA_PREVIEW_BORDER_SIZE, this.color, 1);
     // this.strokeRect(-size/2, -size/2, size - (CAMERA_PREVIEW_BORDER_SIZE), size - (CAMERA_PREVIEW_BORDER_SIZE));
 
@@ -126,7 +124,7 @@ export class InteractArea extends PhaserInstance {
     this.paused = false
   }
 
-  updateInteractions() {
+  updateInteractions({ key }) {
     if(this.previousClosest) this.previousClosest.interactBorder.setVisible(false)
 
     let interactOppurtunity = {
@@ -165,20 +163,14 @@ export class InteractArea extends PhaserInstance {
       store.dispatch(changeInteractOppurtunity(null))
     }
 
-    if(closestInteractable && this.xKey.isDown && this.xKey.isPressable) {
+    if(closestInteractable && key.isPressable && key.isDown) {
       interactOppurtunity.relations.forEach((relation) => {
         this.entityInstance.runRelation(
           relation, 
           closestInteractable
         )
-        this.xKey.isPressable = false
+        key.isPressable = false
       })
-    }
-
-
-
-    if(closestInteractable && this.xKey.isUp) {
-      this.xKey.isPressable = true
     }
 
     this.previousClosest = closestInteractable
@@ -190,10 +182,10 @@ export class InteractArea extends PhaserInstance {
     super.destroy()
   }
 
-  update(followingEntity) {
+  update(followingEntity, key) {
     if(!this.scene) return console.error('interact area not destroyed again')
 
-    this.updateInteractions()
+    this.updateInteractions({ key })
     
     let cornerX = followingEntity.x
     let cornerY = followingEntity.y

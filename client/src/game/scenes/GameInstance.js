@@ -2,13 +2,13 @@ import Phaser from 'phaser';
 
 import { PLAYER_INSTANCE_DID,
     UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH,
-     GAME_START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, 
+     PLAYTHROUGH_START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, 
      GAME_END_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI,
       EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID, 
       NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth, noRemoteEffectedTagEffects, EFFECT_SPAWN, effectEditInterfaces, 
       EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_DESTROY, EFFECT_TRANSFORM, SPAWNED_INSTANCE_DID, SPAWN_ZONE_A_SELECT, 
       SPAWN_ZONE_B_SELECT, EFFECT_CUTSCENE, EFFECT_CAMERA_SHAKE, EFFECT_END_GAME, EFFECT_SWITCH_STAGE, RUN_GAME_INSTANCE_ACTION,
-       ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_UNPAUSE_GAME } from '../constants';
+       ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_UNPAUSE_GAME, ON_CUTSCENE_END } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerEntity, clearCutscenes, openCutscene } from '../../store/actions/game/playerInterfaceActions';
@@ -799,13 +799,14 @@ export class GameInstance extends Phaser.Scene {
   }
 
   onStateChange(oldGameState, gameState) {
-    if(gameState === GAME_START_STATE) {
+    if(gameState === PLAYTHROUGH_START_STATE) {
       this.isPaused = true
       this.isPlaythrough = true
       if(this.hasLoadedOnce) {
         this.sendResetGameEvent()
       }
     }
+
     if(gameState === PLAYTHROUGH_PAUSED_STATE) {
       this.isPaused = true
     }
@@ -847,10 +848,14 @@ export class GameInstance extends Phaser.Scene {
         gameResetDate: Date.now()
       }))
     } else {
-      this.reset()
+      setTimeout(() => {
+        this.reset()
+      })
     }
 
-    this.startPlaythroughStartEffects()
+    setTimeout(() => {
+      this.startPlaythroughStartEffects()
+    })
   } 
 
   getRandomPosition(x, y, w, h) {
@@ -915,7 +920,6 @@ export class GameInstance extends Phaser.Scene {
     if(effect.remoteEffectedRelationTagIdsExtension) {
       remoteEffectedRelationTagIds.push(...effect.remoteEffectedRelationTagIdsExtension)
     }
-    
 
     if(remoteEffectedRelationTagIds && !noRemoteEffectedTagEffects[effect.effectBehavior]) {
       remoteEffectedRelationTagIds?.forEach((relationTagId) => {
@@ -1103,5 +1107,14 @@ export class GameInstance extends Phaser.Scene {
         entityInstance.transformEntityModelId = effect.entityModelId
       }
     }
+  }
+
+  onCutsceneEnd(cutsceneId) {
+    this.relationsByEventType[ON_CUTSCENE_END]?.forEach((relation) => {
+      if(relation.event.cutsceneId !== cutsceneId) return
+      this.playerInstance.runRelation(
+        relation,
+      )
+    })
   }
 }

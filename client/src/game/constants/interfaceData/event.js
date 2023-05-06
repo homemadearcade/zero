@@ -1,5 +1,5 @@
-import {  PLAYER_AND_RELATION_TAG_EVENT_IID, PLAYER_RELATION_TAG_EVENT_IID, SINGLE_RELATION_TAG_EVENT_IID, TWO_RELATION_TAG_EVENT_IID  } from "../../../constants/interfaceIds"
-import { ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_PLAYTHROUGH, ON_SPAWN, ON_TOUCH_ACTIVE, ON_TOUCH_START,
+import {  CUTSCENE_EVENT_IID, PLAYER_AND_RELATION_TAG_EVENT_IID, PLAYER_RELATION_TAG_EVENT_IID, SINGLE_RELATION_TAG_EVENT_IID, TWO_RELATION_TAG_EVENT_IID  } from "../../../constants/interfaceIds"
+import { ON_CUTSCENE_END, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_PLAYTHROUGH, ON_SPAWN, ON_TOUCH_ACTIVE, ON_TOUCH_START,
    } from "../core"
 
 export const eventShortNames = {
@@ -15,7 +15,7 @@ export const eventShortNames = {
   [ON_DESTROY_ALL]: 'All Destroyed',
   [ON_INTERACT]: 'Interact',
 
-  // [ON_CUTSCENE_END]: 'Cutscene Ends'
+  [ON_CUTSCENE_END]: 'Cutscene Ends'
 }
 
 export const eventTypeToDisplayNames = {
@@ -31,7 +31,7 @@ export const eventTypeToDisplayNames = {
   [ON_DESTROY_ALL]: 'When all instances of Tag A are destroyed',
   [ON_INTERACT]: 'When a player presses X near Interactable Tag',
 
-  // [ON_CUTSCENE_END]: 'Cutscene Ends'
+  [ON_CUTSCENE_END]: 'When a cutscene ends'
 }
 
 export const eventTypeInterfaces = {
@@ -71,4 +71,10 @@ export const eventTypeInterfaces = {
     onlyOnce: true,
     effectCooldown: true
   },
+  [ON_CUTSCENE_END]: {
+    relationTagSelectType: CUTSCENE_EVENT_IID,
+    effectDelay: true,
+    effectCooldown: true,
+    onlyOnce: true
+  }
 }

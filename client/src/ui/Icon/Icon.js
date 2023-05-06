@@ -134,13 +134,13 @@ const iconMap = {
 }
 
 const Icon = (props) => {
-  const { icon, size, color, onClick } = props
+  const { icon, size, color, onClick, sx } = props
 
   if(!iconMap[icon]) {
     console.error(icon)
   }
 
-  return <FontAwesomeIcon {...props}  icon={iconMap[icon]} onClick={onClick} size={size} color={color}  />
+  return <FontAwesomeIcon {...props} sx={sx}  icon={iconMap[icon]} onClick={onClick} size={size} color={color}  />
 }
 
 export default Icon

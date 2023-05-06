@@ -18,7 +18,12 @@
     align-self: flex-end;
     margin-bottom: 10%;
     max-width: 60%;
+    display: flex;
+        justify-content: center;
+          align-items: center;
+    gap: .3em;
   }
+
 
   &__key {
     margin-left: .8em;

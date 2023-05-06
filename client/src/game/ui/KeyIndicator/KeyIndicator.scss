@@ -1,3 +1,11 @@
 .KeyIndicator {
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #555;
+  // width: 1.4em;
+  // height: 1.4em;
+  padding: 0em .4em;
+  background-color: #333;
 }

@@ -1,4 +1,5 @@
 import store from "../../../store"
+import { getCobrowsingState, snapFreeXY, snapObjectXY } from "../../../utils"
 import { ADVANCED_DIRECTIONAL_CONTROLS, CAR_CONTROLS, DIRECTIONAL_CONTROLS, JUMP_AIR, JUMP_COMBO, JUMP_CONSTANT, JUMP_GROUND, JUMP_NONE, VEHICLE_CONTROLS } from "../../constants"
 
 export class ControlledMovement {
@@ -18,6 +19,16 @@ export class ControlledMovement {
     const mod = (1/(delta * 5))
     const speed = entityModel.movement.speed * 100 * mod
 
+    const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
+    if(isGridViewOn) {
+      const editorCamera = this.scene.editorCamera 
+      const x = editorCamera.midPoint.x
+      const y = editorCamera.midPoint.y
+      const { boundaryX, boundaryY } = snapObjectXY({x, y, entityModel})
+      this.entityInstance.setPosition(boundaryX, boundaryY)
+      return
+    }
+    
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // VEHICLE/CAR

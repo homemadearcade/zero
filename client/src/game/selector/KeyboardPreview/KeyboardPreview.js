@@ -10,6 +10,7 @@ import { COBROWSE_CLICK_TOOL_AID, COBROWSE_UNLOCK_TOOL_AID } from '../../../cons
 import PlayerControlsCard from '../PlayerControlsCard/PlayerControlsCard';
 import { useKeyPress } from '../../../hooks/useKeyPress';
 import { useWishTheme } from '../../../hooks/useWishTheme';
+import { toggleGridView } from '../../../store/actions/game/gameViewEditorActions';
 
 const KeyboardPreview = ({ 
   cobrowsing: {
@@ -48,9 +49,24 @@ const KeyboardPreview = ({
     isMouseOverGameView,
     resizingEntityInstanceId,
   },
+  toggleGridView,
+  isExpanded
 }) => {
 
-  const isShiftPressed = useKeyPress('Shift')
+  const isShiftPressed = useKeyPress('Shift', () => {
+    if(selectedTool) {
+      return
+    }
+    if(brushIdSelectedBrushList) {
+      return
+    }
+    if(entityModelIdSelectedEntityList) {
+      return
+    }
+    
+    toggleGridView()
+  }, [selectedTool, brushIdSelectedBrushList, entityModelIdSelectedEntityList])
+
   const isEscPressed = useKeyPress('Escape')
   const isXPressed = useKeyPress('x')
   const isX2Pressed = useKeyPress('X')
@@ -120,10 +136,14 @@ const KeyboardPreview = ({
     if(selectedTool === COBROWSE_CLICK_TOOL_AID) {
       return 'Click Multiple'
     }
+
+    return 'Toggle Grid View'
   }
 
   const playerEntityModel = gameModel.entityModels[playerEntityModelId]
   const projectileEntityModel = gameModel.entityModels[playerEntityModel?.projectile.entityModelId]
+
+  if(!isExpanded) return
 
   return <Unlockable interfaceId={KEY_TOOLBAR_ACTIONS_IID}>
     <div className="KeyboardPreview">
@@ -167,5 +187,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default connect(mapStateToProps, {
-
+  toggleGridView
 })(KeyboardPreview);

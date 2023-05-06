@@ -61,6 +61,8 @@ export const closeSnapshotTaker = () => (dispatch, getState) => {
 
 export const openBoundaryEditor= () => (dispatch, getState) => {
   saveAllCurrentCanvases()
+  
+  dispatch(toggleGridView(true))
 
   dispatch({
     updateCobrowsing: true,
@@ -70,6 +72,7 @@ export const openBoundaryEditor= () => (dispatch, getState) => {
 }
 
 export const closeBoundaryEditor= () => (dispatch, getState) => {
+  dispatch(toggleGridView(false))
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_SECTION_EDITOR,

@@ -86,8 +86,12 @@ export function snapObjectXY({x, y, entityModel, boundaries = store.getState().g
   const clampedX =  Phaser.Math.Clamp(snappedX, gridx + (entityModel.graphics.width/2), width - (entityModel.graphics.width/2))
   const snappedY = Phaser.Math.Snap.To(y, nodeSize)
   const clampedY = Phaser.Math.Clamp(snappedY, gridy + (entityModel.graphics.height/2), height - (entityModel.graphics.height/2))
-  
+  const boundaryX = Phaser.Math.Clamp(x, boundaries.x, boundaries.x + boundaries.width)
+  const boundaryY = Phaser.Math.Clamp(y, boundaries.y, boundaries.x + boundaries.width)
+
   return {
+    boundaryX,
+    boundaryY,
     clampedX,
     clampedY,
     snappedX,

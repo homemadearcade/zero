@@ -5,7 +5,7 @@ import './GameStateToolbar.scss';
 import ToolbarIcon from '../../../ui/ToolbarIcon/ToolbarIcon';
 import { toggleGridView } from '../../../store/actions/game/gameViewEditorActions'
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, GAME_START_STATE } from '../../constants';
+import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, PLAYTHROUGH_START_STATE } from '../../constants';
 import { INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TOOLBAR_PLAYTHROUGH_IID, INSTANCE_TOOLBAR_PLAY_IID, INSTANCE_TOOLBAR_RESET_IID } from '../../../constants/interfaceIds';
 import { changeGameState, editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
@@ -13,7 +13,7 @@ import { useWishTheme } from '../../../hooks/useWishTheme';
 const GameStateToolbar = ({ editGameRoom, changeGameState, toggleGridView, gameRoomInstance: { gameRoomInstance: { gameState }, gameRoomInstance } }) => {
   const color = useWishTheme().primaryColor.hexString
 
-  if(gameState === GAME_START_STATE || gameState === PLAYTHROUGH_PLAY_STATE) {
+  if(gameState === PLAYTHROUGH_START_STATE || gameState === PLAYTHROUGH_PLAY_STATE) {
     return <div className="GameStateToolbar">
       <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_RESET_IID}>
           <ToolbarIcon 
@@ -76,10 +76,10 @@ const GameStateToolbar = ({ editGameRoom, changeGameState, toggleGridView, gameR
     <ToolbarIcon 
       size="lg"
       icon="faCirclePlay"
-      color={(gameState === GAME_START_STATE || gameState === PLAYTHROUGH_PLAY_STATE) ? color: null}
+      color={(gameState === PLAYTHROUGH_START_STATE || gameState === PLAYTHROUGH_PLAY_STATE) ? color: null}
       onClick={() => {
         toggleGridView(false)
-        changeGameState(GAME_START_STATE)
+        changeGameState(PLAYTHROUGH_START_STATE)
       }}
     />
   </Unlockable>

@@ -26,7 +26,7 @@ const KeyboardInfo = ({
     }}>
       <Icon icon="faKeyboard" color="#aaa" size="xs"/>
     </div></Unlockable>
-    {isExpanded && <KeyboardPreview/>}
+    <KeyboardPreview isExpanded={isExpanded}/>
     <KeyToolbar/>
   </div>
 };

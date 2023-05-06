@@ -1045,7 +1045,21 @@ export class EditorScene extends GameInstance {
     })
 
     this.editorCamera = this.cameras.getCamera('editor')
-  
+
+    // const keys = this.input.keyboard.addKeys({ up: 'W', left: 'A', down: 'S', right: 'D' });
+    const keys = this.input.keyboard.addKeys({ up: 'Up', left: 'Left', down: 'Down', right: 'Right' });
+    const controlConfig = {
+      camera: this.editorCamera,
+      left: keys.left,
+      right: keys.right,
+      up: keys.up,
+      down: keys.down,
+      acceleration: 0.03,
+      drag: 0.001,
+      maxSpeed: 0.5
+    };
+    this.editorCameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
+
     this.input.on('pointerover', this.onPointerOver);
     this.input.on('pointerout', this.onPointerOut);
     this.input.on('pointerdown', this.onPointerDown, this);
@@ -1087,8 +1101,6 @@ export class EditorScene extends GameInstance {
 
   update(time, delta) {
     super.update(time, delta)
-
-    // this.cameraControls.update(delta)
 
     if(this.escKey.isDown) {
       if(this.readyForNextEscapeKey) {
@@ -1193,6 +1205,7 @@ export class EditorScene extends GameInstance {
 
     const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
     if(isGridViewOn) {
+      this.editorCameraControls.update(delta)
       this.isGridViewOn = true
     } else {
       this.isGridViewOn = false

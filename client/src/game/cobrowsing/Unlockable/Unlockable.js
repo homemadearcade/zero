@@ -23,6 +23,7 @@ const Unlockable = ({
   experienceModel: { experienceModel },
   updateArcadeGameCharacter,
   interfaceId,
+  passThrough,
   children,
   isSlider,
   cobrowsing: { interfaceIdHovering, selectedTool, remoteStateUserMongoId, isSubscribedCobrowsing }, 
@@ -44,7 +45,7 @@ const Unlockable = ({
     if(!remoteStateUserMongoId && isSubscribedCobrowsing) return 
 
     if(wasComponentLockedUserMongoId === remoteStateUserMongoId && isUnlocked) {
-      var rect = unlockableRef.current.getBoundingClientRect();
+      var rect = unlockableRef.current?.getBoundingClientRect();
       if(noAnimInterfaces.includes(interfaceId)) return 
       // console.log('conffetti for', interfaceId)
       confetti({
@@ -72,12 +73,23 @@ const Unlockable = ({
   }
 
   function renderChildren() {
+
+    if(passThrough) {
+      return React.Children.map(children, (child, index) => {
+        return React.cloneElement(child, {width: width ? width: null, height: height ? height : null, ref: unlockableRef})
+      })
+    }
+
     return React.Children.map(children, (child, index) => {
       return <Fade in><div ref={unlockableRef}>{React.cloneElement(child, {width: width ? width: null, height: height ? height : null})}</div></Fade>
     })
   }
 
   function renderUnlockedChildren() {
+    if(passThrough) {
+      return renderChildren()
+    }
+    
     return <div 
       className={classNames(className)}
       onMouseEnter={() => {

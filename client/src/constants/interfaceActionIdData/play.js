@@ -1,6 +1,6 @@
 import { openCutscene } from "../../store/actions/game/playerInterfaceActions"
 import { PLAY_CUTSCENE_AID, PLAY_TEST_GAME_AID, TOGGLE_PAUSE_PLAY_AID } from "../interfaceActionIds/play"
-import { INTERFACE_ACTION_PLAY } from "../interfaceActionIdGroups"
+import { INTERFACE_ACTION_GAME, INTERFACE_ACTION_PLAY } from "../interfaceActionIdGroups"
 import store from "../../store"
 import { PAUSED_STATE, PLAY_STATE } from "../../game/constants"
 import { changeGameState } from "../../store/actions/game/gameRoomInstanceActions"
@@ -22,7 +22,7 @@ export default {
   },
   [PLAY_TEST_GAME_AID]: {
     title: 'Playtest Game',
-    interfaceActionGroupId: INTERFACE_ACTION_PLAY,
+    interfaceActionGroupId: INTERFACE_ACTION_GAME,
     icon: 'faCirclePlay',
     subTitle: 'This will open a new window to play the game in',
     onClick: () => (dispatch, gameModel) => {
@@ -38,7 +38,7 @@ export default {
     isActive: (state) => {
       return state.gameRoomInstance.gameRoomInstance.gameState === PAUSED_STATE
     },
-    interfaceActionGroupId: INTERFACE_ACTION_PLAY,
+    interfaceActionGroupId: INTERFACE_ACTION_GAME,
     onClick: () => (dispatch, gameModel) => {
       const gameState = store.getState().gameRoomInstance.gameRoomInstance.gameState 
       if(gameState === PAUSED_STATE) {

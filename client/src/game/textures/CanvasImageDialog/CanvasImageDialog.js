@@ -112,20 +112,26 @@ const CanvasImageDialog = ({
           onClick={async () => {
             const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
             const textureId = imageCanvasScene.backgroundCanvasLayer.textureId
-            await imageCanvasScene.backgroundCanvasLayer.save()
-            const gameInstanceScene = getCurrentGameScene(gameInstance)
-            if(!gameInstanceScene) {
-              handleSave(textureId)
-              return
+
+            try {
+              await imageCanvasScene.backgroundCanvasLayer.save()
+              const gameInstanceScene = getCurrentGameScene(gameInstance)
+              if(!gameInstanceScene) {
+                handleSave(textureId)
+                return
+              }
+              gameInstanceScene.load.image(textureId, getImageUrlFromTextureId(textureId));
+              gameInstanceScene.load.once('complete', () => {
+                handleSave(textureId)
+              });
+              gameInstanceScene.load.start();
+              editCanvasImage(canvasImage.id, {
+                visualTags: canvasImage.visualTags
+              })
+            } catch(e) {
+              console.error(e)
+              handleSave(canvasImageTextureId)
             }
-            gameInstanceScene.load.image(textureId, getImageUrlFromTextureId(textureId));
-            gameInstanceScene.load.once('complete', () => {
-              handleSave(textureId)
-            });
-            gameInstanceScene.load.start();
-            editCanvasImage(canvasImage.id, {
-              visualTags: canvasImage.visualTags
-            })
           }}>
           {isSaving ? 'Saving...' : 'Save'}
         </Button>

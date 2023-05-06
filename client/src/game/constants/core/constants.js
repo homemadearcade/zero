@@ -40,7 +40,7 @@ export const DIRECTION_UP = 'DIRECTION_UP'
 /////////////////////////////////////
 /////////////////////////////////////
 // GAME STATE
-export const GAME_START_STATE = 'GAME_START_STATE'
+export const PLAYTHROUGH_START_STATE = 'PLAYTHROUGH_START_STATE'
 
 export const PAUSED_STATE = 'PAUSED_STATE'
 export const PLAYTHROUGH_PAUSED_STATE = 'PLAYTHROUGH_PAUSED_STATE'
@@ -96,6 +96,9 @@ export const initialStageZoneEntityId = ENTITY_MODEL_DID+ZONE_ENTITY_TYPE_PREFIX
 export const initialStageZoneInstanceId = ENTITY_MODEL_DID+ENTITY_INSTANCE_DID+'stagezone'
 
 export const initialPlayerEntityId = directionalPlayerEntityId
+
+export const playthroughStartCutsceneId = CUTSCENE_DID+'start'
+export const endGameCutsceneId = CUTSCENE_DID+'end'
 
 
 

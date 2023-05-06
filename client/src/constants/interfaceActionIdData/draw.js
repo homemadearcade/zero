@@ -16,6 +16,7 @@ export default {
   [DRAW_NEW_COLOR_AID]: {
     arguments: ['layerId'],
     title: 'Draw New Color',
+    subIcon: 'faPlus',
     getSubtitle: ([layerId], gameModel) => {
       return gameModel.layers[layerId].name + ' Layer'
     },
@@ -27,6 +28,7 @@ export default {
   },
   [DRAW_NEW_BRUSH_AID]: {
     title: 'Draw New Brush',
+    subIcon: 'faPlus',
     getSubtitle: ([layerId], gameModel) => {
       return gameModel.layers[layerId].name + ' Layer'
     },
@@ -47,6 +49,9 @@ export default {
       // </>
       // + gameModel.brushes[brushId].name
     },
+    // isActive: (store) => {
+    //   return store.gameSelector.brushIdSelectedBrushList 
+    // },
     getSubtitle: ([brushId], gameModel) => {
       const layerId = gameModel.brushes[brushId].layerId
       const layer = gameModel.layers[layerId]

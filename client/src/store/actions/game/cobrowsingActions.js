@@ -19,7 +19,6 @@ import {
   ON_COBROWSING_STATUS_UPDATE,
   ON_COBROWSING_REMOTE_DISPATCH,
   TOGGLE_COBROWSING,
-  TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
   LOCK_INTERFACE,
   UNLOCK_INTERFACE,
   SET_MOUSE_OVER_INTERFACE_ID,
@@ -447,15 +446,6 @@ export const toggleMinimizeCobrowsingCard = (value) => (dispatch, getState) => {
     type: TOGGLE_MINIMIZE_COBROWSING_CARD,
     payload: {
       value: value !== undefined ? value : !getState().cobrowsing.isCobrowsingCardMinimized
-    }
-  })
-}
-
-export const toggleUnlockableInterfaceLocks = (value) => (dispatch, getState) => {
-  store.dispatch({
-    type: TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
-    payload: {
-      value: value === undefined ? !getState().cobrowsing.showUnlockableInterfaceLocks : value
     }
   })
 }

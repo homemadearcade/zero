@@ -70,6 +70,14 @@
     flex-grow: 1;
   }
 
+  &__node-sprite {
+    position: absolute;
+    bottom: .5em;
+    right: .5em;
+    width: 1em;
+    height: 1em;
+  }
+
   &__more {
     border-bottom: 1px solid #333;
     border-left: 1px solid #333;

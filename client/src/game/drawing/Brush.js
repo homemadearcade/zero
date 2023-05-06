@@ -44,7 +44,7 @@ export class Brush extends Phaser.GameObjects.Image {
   }
 
   update(pointer) {
-    const { clampedX, clampedY } = this.snapMethod({x: pointer.worldX, y: pointer.worldY, boundaries: this.scene.boundaries})
+    const { clampedX, clampedY } = this.snapMethod({x: pointer.worldX, y: pointer.worldY})
     this.setPosition(clampedX, clampedY)
   }
 
@@ -53,7 +53,7 @@ export class Brush extends Phaser.GameObjects.Image {
       return false
     }
     
-    const { clampedX, clampedY } = this.snapMethod({x: pointer.worldX, y: pointer.worldY, boundaries: this.scene.boundaries})
+    const { clampedX, clampedY } = this.snapMethod({x: pointer.worldX, y: pointer.worldY})
     if(clampedX === this.lastStrokeX && clampedY === this.lastStrokeY) return
 
     this.lastStrokeX = clampedX

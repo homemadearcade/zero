@@ -20,6 +20,7 @@ export default {
   },
   [SCRIPT_CUTSCENE_NEW_AID]: {
     title: 'Script New Cutscene',
+    subIcon: 'faPlus',
     subTitle: 'This will open a popup to write your cutscene',
     interfaceActionGroupId: INTERFACE_ACTION_SCRIPT,
     higherPriority: true,
@@ -31,6 +32,7 @@ export default {
   },
   [SCRIPT_DIALOGUE_NEW_AID]: {
     title: 'Script New Dialogue',
+    subIcon: 'faPlus',
     subTitle: 'This will open a popup to write your dialogue',
     interfaceActionGroupId: INTERFACE_ACTION_SCRIPT,
     higherPriority: true,

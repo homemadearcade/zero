@@ -21,6 +21,7 @@ import IconButton from '../../../ui/IconButton/IconButton';
 import { interfaceActionIdData } from '../../../constants/interfaceActionIdData';
 import { openToolBoxDialog } from '../../../store/actions/game/gameSelectorActions';
 import { useKeyPress } from '../../../hooks/useKeyPress';
+import Texture from '../../textures/Texture/Texture';
 
 const KeyToolbar = ({ 
   cobrowsing: {
@@ -124,21 +125,25 @@ const KeyToolbar = ({
       hidden = true
     }
 
-    let icon, subIcon 
+    let icon, subIcon, textureId, textureTint
 
     if(effect) {
       const effectData = getEffectData(effect, ON_STEP_BEGINS, gameModel)
       icon = effectData?.icon
+      subIcon = effectData?.subIcon
+      textureId = effectData?.textureId
+      textureTint = effectData?.textureTint
     }
 
-    return <div key={effectId + keyId} onClick={() => {
+    return <Unlockable passThrough key={effectId + keyId} interfaceId={keyId}>
+      <div onClick={() => {
       if(disabled) return
 
       runEffect(effect)
     }} 
       className={classNames("KeyToolbar__node", {
         "KeyToolbar__node--clickable": !disabled,
-      })} 
+      })}
       style={{
         backgroundColor: isActive && theme.primaryColor.hexString
       }}
@@ -159,12 +164,22 @@ const KeyToolbar = ({
       </div>
       <div className="KeyToolbar__node-action">
         {/* {renderLeftClickAction()} */}
-        {!hidden && <IconButton 
-          disabled={disabled}
-          size="small" icon={icon}
-        ></IconButton>}
+        {!hidden && <>
+          <IconButton 
+            disabled={disabled}
+            sx={{
+              fontSize: '1.2em'
+            }}
+            size="small" icon={icon}
+          ></IconButton>
+          {subIcon && <Icon icon={subIcon} />}
+          {(textureId || textureTint) && <div className="KeyToolbar__node-sprite">
+            <Texture textureId={textureId} textureTint={textureTint} />
+           </div>}
+        </>}
       </div>
     </div>
+    </Unlockable>
   }
 
   // function renderActions() {

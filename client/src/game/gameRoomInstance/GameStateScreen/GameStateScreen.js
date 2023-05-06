@@ -5,12 +5,12 @@ import { compose } from 'redux';
 import { Constellation } from '../../../marketing/homemadeArcade/Constellation/Constellation';
 import Link from '../../../ui/Link/Link';
 import Typography from '../../../ui/Typography/Typography';
-import { GAME_END_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, GAME_START_STATE } from '../../constants';
+import { GAME_END_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE,
+PLAYTHROUGH_START_STATE } from '../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import KeyIndicator from '../../ui/KeyIndicator/KeyIndicator';
 import './GameStateScreen.scss';
 import PlayerControlsCard from '../../selector/PlayerControlsCard/PlayerControlsCard';
-import { getCurrentGameScene } from '../../../utils/editorUtils';
 import store from '../../../store';
 import useFitText from "use-fit-text";
 import { changeGameState } from '../../../store/actions/game/gameRoomInstanceActions';
@@ -20,27 +20,8 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
   const { fontSize, ref } = useFitText();
   const { gameEditorWidth, gameEditorHeight } = useGameEditorSize()
 
-  useEffect(() => {
-    window.addEventListener('keydown', progressIfX)
-    return () => {
-      window.removeEventListener('keydown', progressIfX)
-    }
-  })
-
-  function progressIfX(event) {
-    if(!event.key) return
-    if(event.key.toLowerCase() === 'x'){
-      const scene = getCurrentGameScene(store.getState().webPage.gameInstance)
-      if(scene.isPlaythrough) {
-        changeGameState(PLAYTHROUGH_PLAY_STATE)
-      } else {
-        changeGameState(PLAY_STATE)
-      }
-    }
-  }
-
   function renderGameStateScreen() {
-    if(gameState === GAME_START_STATE) {
+    if(gameState === PLAYTHROUGH_START_STATE) {
       const playerEntityModel = gameModel.entityModels[gameModel.stages[gameModel.player.startingStageId].playerEntityModelId]
       const projectileEntityModel = gameModel.entityModels[playerEntityModel?.projectile.entityModelId]
       return <Constellation width={gameEditorWidth} height={gameEditorHeight} notInteractive>
@@ -49,10 +30,9 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
               {gameModel.metadata.title}
           </div></Typography>
           <div className="GameStateScreen__press">
-            <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h5" variant="h5">To Start</Typography>
+            <Typography component="h5" variant="h5">Press</Typography><KeyIndicator blink keyName="x"></KeyIndicator> <Typography component="h5" variant="h5">To Start</Typography>
           </div>
           <div className="GameStateScreen__controls">
-            <Typography component="h5" variant="h5">Controls</Typography>
             {playerEntityModel && <PlayerControlsCard showInteract entityModel={playerEntityModel} projectileEntityModel={projectileEntityModel} movementControlBehavior={playerEntityModel.movement.movementControlsBehavior} jumpControlsBehavior={playerEntityModel.jump.jumpControlsBehavior}></PlayerControlsCard>}
           </div>
         </div></Fade>
@@ -83,7 +63,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
 }
 
 function GameStateScreen({gameRoomInstance: { gameRoomInstance: { gameState, gameStateMessage }}, changeGameState, gameModel}) {
-  if(gameState !== GAME_START_STATE && gameState !== GAME_END_STATE) {
+  if(gameState !== PLAYTHROUGH_START_STATE && gameState !== GAME_END_STATE) {
     return null
   }
 

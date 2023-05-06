@@ -49,6 +49,7 @@ export const effectInterfaceDatas = {
   [EFFECT_END_GAME]: {
     displayName: 'End Game',
     icon: 'faAward',
+    customSelectorCategory: 'Game',
   },
   // Graphical
   [EFFECT_CAMERA_SHAKE]: {
@@ -68,12 +69,12 @@ export const effectInterfaceDatas = {
   [EFFECT_PAUSE_GAME]: {
     displayName: 'Pause Game',
     icon: 'faPause',
-    customSelectorCategory: 'Play',
+    customSelectorCategory: 'Game',
   },
   [EFFECT_UNPAUSE_GAME]: {
     displayName: 'Unpause Game',
     icon: 'faPlay',
-    customSelectorCategory: 'Play',
+    customSelectorCategory: 'Game',
   },
 
 

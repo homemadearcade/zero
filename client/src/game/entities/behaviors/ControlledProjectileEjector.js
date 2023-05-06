@@ -1,4 +1,5 @@
 import store from "../../../store"
+import { getCobrowsingState } from "../../../utils"
 import { generateUniqueId } from "../../../utils/webPageUtils"
 import { PROJECTILE_INSTANCE_DID } from "../../constants"
 

@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../../store/actions/game/gameViewEditorActions';
 import BoundaryEditor from '../../stages/BoundaryEditor/BoundaryEditor';
 import SnapshotTaker from '../../textures/SnapshotTaker/SnapshotTaker';
-import { BRUSH_DID, PLAYTHROUGH_PLAY_STATE, GAME_START_STATE, COLOR_BRUSH_ID } from '../../constants';
+import { BRUSH_DID, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, COLOR_BRUSH_ID } from '../../constants';
 import GameEditDialog from '../../selector/GameEditDialog/GameEditDialog';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
 import EditEntityDialog from '../../entityModel/EditEntityDialog/EditEntityDialog';
@@ -23,7 +23,6 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CreateBrushFlow from '../../brush/CreateBrushFlow/CreateBrushFlow';
 import { copyToClipboard, generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
-import GridViewArrows from '../GridViewArrows/GridViewArrows';
 import {  EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID,
    INSTANCE_TOOLBAR_CONTAINER_IID, LAYER_CREATE_COLOR_DIALOG_IID, 
    SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
@@ -114,7 +113,7 @@ const GameEditor = ({
     }
   }, [])
 
-  const showColumns = !cutsceneId && !isBoundaryEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== GAME_START_STATE) && !isSnapshotTakerOpen
+  const showColumns = !cutsceneId && !isBoundaryEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== PLAYTHROUGH_START_STATE) && !isSnapshotTakerOpen
 
   function renderSelectorColumn() {
     if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID) {
@@ -126,7 +125,7 @@ const GameEditor = ({
     return <>
       {isBoundaryEditorOpen && <BoundaryEditor/>}
       {isSnapshotTakerOpen && <SnapshotTaker/>}
-      {isGridViewOn && !isBoundaryEditorOpen && !isSnapshotTakerOpen && <GridViewArrows/>}
+      {/* {isGridViewOn && !isBoundaryEditorOpen && !isSnapshotTakerOpen && <GridViewArrows/>} */}
     </>
   }
 
@@ -155,9 +154,9 @@ const GameEditor = ({
       </GameView>}
       {children}
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
-        {showColumns && <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}>
+         <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}>
           <GameStateToolbar/>
-        </Unlockable>}
+        </Unlockable>
         <MouseInfo hoverPreviewOnly={!gameModel || !showColumns}/>
         {showColumns && gameModel && <>
           {renderSelectorColumn()}

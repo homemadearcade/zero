@@ -9,7 +9,7 @@ import { DRAW_NEW_SPRITE_FOR_CURRENT_PLAYER_AID, DRAW_NEW_SPRITE_FOR_ENTITY_AID 
 export default {
   [EDIT_ENTITY_GRAPHICS_AID]: {
     getTitle([entityModelId], gameModel) {
-      return 'Edit Graphics for ' + gameModel.entityModels[entityModelId].name
+      return 'Edit Sprite for ' + gameModel.entityModels[entityModelId].name
     },
     getSubtitle: ([entityModelId], gameModel) => {
       return gameModel.entityModels[entityModelId].name

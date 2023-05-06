@@ -146,7 +146,8 @@ const ToolBoxList = ({
       //   </Button>
       // </Unlockable>)
 
-      const icon = effectList[0]?.icon
+      let icon = effectList[0]?.icon
+      if(effectGroupName === 'Game') icon = 'faGamepad'
 
       accordians.push({
         interfaceId: effectGroupName,

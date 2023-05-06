@@ -10,13 +10,13 @@ import GameView from '../../game/view/GameView/GameView';
 import { unloadArcadeGame } from '../../store/actions/game/arcadeGameActions';
 import { changeGameState } from '../../store/actions/game/gameRoomInstanceActions';
 import LocalGameRoomContext from '../../hoc/LocalGameRoomContext';
-import { GAME_START_STATE } from '../../game/constants';
+import { PLAYTHROUGH_START_STATE } from '../../game/constants';
 import { withRouter } from 'react-router-dom';
 
 const PlayGamePage = ({ match }) => {
   return (
     <div className="PlayGamePage">
-      <LocalGameRoomContext room={{gameState: GAME_START_STATE, arcadeGameMongoId: match.params.arcadeGameMongoId}}>
+      <LocalGameRoomContext room={{gameState: PLAYTHROUGH_START_STATE, arcadeGameMongoId: match.params.arcadeGameMongoId}}>
         <GameView/>
       </LocalGameRoomContext>
     </div>

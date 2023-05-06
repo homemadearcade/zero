@@ -11,7 +11,6 @@ import {
   UNSUBSCRIBE_COBROWSING_LOADING,
   ON_COBROWSING_UPDATE,
   TOGGLE_COBROWSING,
-  TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
   SET_MOUSE_OVER_INTERFACE_ID,
   SELECT_COBROWSING_TOOL,
   ON_CLEAR_COBROWSING_STATUS,
@@ -40,7 +39,6 @@ const initialState = {
   isActivelyCobrowsing: getDefaultIsActiveCobrowsing(),
   isSubscribingCobrowsing: false,
   isCobrowsingCardMinimized: false,
-  showUnlockableInterfaceLocks: false,
   error: null,
   cobrowsingUser: false,
   selectedTool: null,
@@ -131,11 +129,6 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         ...state,
         selectedTool: null,
         isActivelyCobrowsing: payload.value
-      }
-    case TOGGLE_UNLOCKABLE_INTERFACE_LOCKS: 
-      return {
-        ...state,
-        showUnlockableInterfaceLocks: payload.value
       }
     case SET_MOUSE_OVER_INTERFACE_ID:
       return {

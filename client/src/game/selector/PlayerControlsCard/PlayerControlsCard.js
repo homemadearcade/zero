@@ -7,6 +7,7 @@ import { useWishTheme } from '../../../hooks/useWishTheme'
 import Typography from '../../../ui/Typography/Typography'
 import { ADVANCED_DIRECTIONAL_CONTROLS, jumpControlsToKeys } from '../../constants'
 import { movementControlsToKeys } from '../../constants'
+import Texture from '../../textures/Texture/Texture'
 import './PlayerControlsCard.scss'
 
 const PlayerControlsCard = ({
@@ -69,7 +70,7 @@ const PlayerControlsCard = ({
     }
   }
 
-  function renderKeyAndAction({keyName, action, keyId}) {
+  function renderKeyAndAction({keyName, action, keyId, textureId, textureTint}) {
     return <div key={keyName} className="PlayerControlsCard__row">
       <div className="PlayerControlsCard__key" style={{
         backgroundColor: keyIdToIsPressed[keyId] && theme.primaryColor.hexString,
@@ -79,6 +80,9 @@ const PlayerControlsCard = ({
       </div>
       <div className="PlayerControlsCard__action">
         {renderActionTitle(renderKeyAction(action))}
+        {(textureId || textureTint) && <div className="PlayerControlsCard__sprite">
+            <Texture textureId={textureId} textureTint={textureTint} />
+        </div>}
       </div>
     </div>
   }
@@ -86,7 +90,9 @@ const PlayerControlsCard = ({
   if(projectileEntityModel) {
     list.push(renderKeyAndAction({
       keyName: 'space',
-      action: 'Shoot ' + projectileEntityModel.name,
+      action: 'Shoot',
+      textureId: projectileEntityModel.graphics.textureId,
+      textureTint: projectileEntityModel.graphics.textureTint,
       keyId: SPACE_KID
     }))
   }

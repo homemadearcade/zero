@@ -92,6 +92,18 @@ export class PhaserInstance {
     this.phaserInstance.setAngularAcceleration(acceleration)
   }
 
+  enableBody() {
+    // if(this.phaserInstance.body) {
+      this.phaserInstance.enableBody()
+    // }
+  }
+
+  disableBody() {
+    // if(this.phaserInstance.body) {
+      this.phaserInstance.disableBody()
+    // }
+  }
+
   setAngularDrag(drag) {
     if(this.physicsType === MATTER_PHYSICS) {
       console.log('setting angular drag under matter')
