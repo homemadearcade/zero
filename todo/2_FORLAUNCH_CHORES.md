@@ -20,6 +20,8 @@ Gotta clean all that SHT UP
 Should the model container IIDs be GROUP Ids?
 Unlock tabs....
 
+Clean up Effect Data. How the fuck are these effect icons, textures found?
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

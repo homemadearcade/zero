@@ -1,9 +1,6 @@
 
 ---
 
-SPRITE EDITOR
-  Flip sides Horizontal/Vertical in sprite editor 
-
 ENTITY INSTANCE UPGRADE
   Compound Static Body for Entities
 
