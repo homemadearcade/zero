@@ -2,7 +2,7 @@ import { connect } from "react-redux"
 import { compose } from "redux"
 import Typography from "../../../ui/Typography/Typography"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
-import { effectInterfaceDatas, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_SWITCH_STAGE,
+import { effectInterfaceDatas, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_SWITCH_STAGE, EFFECT_TRANSFORM_TEMPORARY_START,
 } from "../../constants"
 import Sprite from "../../textures/Texture/Texture"
 
@@ -65,6 +65,15 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
         {renderEntity(entityModels[effect.entityModelId])}
       </>
     }
+
+    if(effectBehavior === EFFECT_TRANSFORM_TEMPORARY_START) {
+      return <>
+        {renderEffect(effect)}
+        {/* {` into`} */}
+        {renderEntity(entityModels[effect.entityModelId])}
+      </>
+    }
+
 
     if(effectBehavior === EFFECT_SPAWN) {
       return <>

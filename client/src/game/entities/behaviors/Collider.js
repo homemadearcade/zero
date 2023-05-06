@@ -1,5 +1,12 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, EFFECT_STICK_TO, PLAYER_INSTANCE_DID, MATTER_PHYSICS, ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START, EFFECT_TRANSFORM, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, EFFECT_INVISIBLE, EFFECT_IGNORE_GRAVITY } from "../../constants";
+import { 
+  ARCADE_PHYSICS,
+  EFFECT_STICK_TO,
+  MATTER_PHYSICS,
+  ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START, 
+  SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN,
+  EFFECT_INVISIBLE, EFFECT_IGNORE_GRAVITY, 
+} from "../../constants";
 import { areBSidesHit, isEventMatch } from "../../../utils/gameUtils";
 import store from "../../../store";
 
@@ -117,6 +124,8 @@ export class Collider {
     const effect = relation.effect
     const scene = this.scene
 
+    
+
     const [phaserInstances, alternatePhaserInstanceData] = this.scene.getEffectedPhaserInstances({
       phaserInstanceA,
       phaserInstanceB,
@@ -125,11 +134,8 @@ export class Collider {
       effect: relation.effect
     })
 
-    phaserInstances.forEach((phaserInstance) => {
-      runEffect(phaserInstance)
-    })
 
-    function runEffect(phaserInstance) {
+    const runEffect = (phaserInstance) => {
       const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
       if(effect.effectBehavior === EFFECT_INVISIBLE && !this.isVisibilityModified) {
         this.isVisibilityModified = true
@@ -149,6 +155,11 @@ export class Collider {
         entityInstance.setIgnoreGravity(true)
       }
     }
+
+    phaserInstances.forEach((phaserInstance) => {
+      runEffect(phaserInstance)
+    })
+
   }
 
 

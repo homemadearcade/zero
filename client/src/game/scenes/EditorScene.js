@@ -689,7 +689,7 @@ export class EditorScene extends GameInstance {
     return gameModel.stages[this.stage.stageId].entityInstances[entityInstanceId]
   }
 
-  addEntityInstanceData(entityModelId, {spawnX, spawnY}) {
+  addEntityInstanceToStageModel(entityModelId, {spawnX, spawnY}) {
     const entityInstanceId = ENTITY_INSTANCE_DID+generateUniqueId()
 
     const entityInstanceData = {
@@ -1076,27 +1076,27 @@ export class EditorScene extends GameInstance {
     if(!isLocalHost()) this.input.mouse.disableContextMenu()
     this.escKey = this.input.keyboard.addKey('esc');  // Get key object
 
-    const lobbyInstance = store.getState().lobbyInstance.lobbyInstance
-    if(lobbyInstance.id) {
-      const me = store.getState().auth.me
-      const participantRoleIds = Object.keys(lobbyInstance.roles).reduce((roleIds, key) => {
-        if(lobbyInstance.roles[key].roleCategory  === EXPERIENCE_ROLE_PARTICIPANT) {
-          roleIds.push(key)
-        }
-        return roleIds
-      }, [])
-      participantRoleIds.forEach((participantRoleId) => {
-        const userMongoIds = lobbyInstance.roleIdToUserMongoIds[participantRoleId]
-        const role = lobbyInstance.roles[participantRoleId]
-        userMongoIds.forEach((userMongoId) => {
-          if(userMongoId !== me.id) {
-            this.remoteEditors.push(
-              new RemoteEditor(this, { userMongoId, role: role, color: role.color})
-            )
-          }
-        })
-      })
-    }
+    // const lobbyInstance = store.getState().lobbyInstance.lobbyInstance
+    // if(lobbyInstance.id) {
+    //   const me = store.getState().auth.me
+    //   const participantRoleIds = Object.keys(lobbyInstance.roles).reduce((roleIds, key) => {
+    //     if(lobbyInstance.roles[key].roleCategory  === EXPERIENCE_ROLE_PARTICIPANT) {
+    //       roleIds.push(key)
+    //     }
+    //     return roleIds
+    //   }, [])
+    //   participantRoleIds.forEach((participantRoleId) => {
+    //     const userMongoIds = lobbyInstance.roleIdToUserMongoIds[participantRoleId]
+    //     const role = lobbyInstance.roles[participantRoleId]
+    //     userMongoIds.forEach((userMongoId) => {
+    //       if(userMongoId !== me.id) {
+    //         this.remoteEditors.push(
+    //           new RemoteEditor(this, { userMongoId, role: role, color: role.color})
+    //         )
+    //       }
+    //     })
+    //   })
+    // }
   }
 
   update(time, delta) {
@@ -1138,17 +1138,17 @@ export class EditorScene extends GameInstance {
       this.readyForNextEscapeKey = true
     }
 
-    this.remoteEditors.forEach((remoteEditor) => {
-      const phaserView = store.getState().status.phaserViews[remoteEditor.userMongoId]
-      if(!remoteEditor.cameraPreview && phaserView) {
-        remoteEditor.onPhaserViewFound()
-      } else if(remoteEditor.cameraPreview && phaserView) {
-        if(remoteEditor.cameraPreview.zoom !== phaserView.cameraZoom) {
-          remoteEditor.cameraPreview.setZoom(phaserView.cameraZoom)
-        }
-        remoteEditor.update()
-      }
-    })
+    // this.remoteEditors.forEach((remoteEditor) => {
+    //   const phaserView = store.getState().status.phaserViews[remoteEditor.userMongoId]
+    //   if(!remoteEditor.cameraPreview && phaserView) {
+    //     remoteEditor.onPhaserViewFound()
+    //   } else if(remoteEditor.cameraPreview && phaserView) {
+    //     if(remoteEditor.cameraPreview.zoom !== phaserView.cameraZoom) {
+    //       remoteEditor.cameraPreview.setZoom(phaserView.cameraZoom)
+    //     }
+    //     remoteEditor.update()
+    //   }
+    // })
 
     const gameRoomInstance = store.getState().gameRoomInstance.gameRoomInstance
     const gameResetDate = gameRoomInstance.gameResetDate
@@ -1205,7 +1205,19 @@ export class EditorScene extends GameInstance {
 
     const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
     if(isGridViewOn) {
-      this.editorCameraControls.update(delta)
+      const cobrowsing = store.getState().cobrowsing
+      const isActivelyCobrowsing = cobrowsing.isActivelyCobrowsing
+      if(isActivelyCobrowsing) {
+        const phaserViews = store.getState().status.phaserViews
+        const phaserView = phaserViews[cobrowsing.remoteStateUserMongoId]
+        if(phaserView) {
+          this.editorCamera.scrollX = phaserView.cameraX
+          this.editorCamera.scrollY = phaserView.cameraY
+          // this.editorCamera.pan(phaserView.cameraX, phaserView.cameraY, 0, true)
+        }
+      } else {
+        this.editorCameraControls.update(delta)
+      }
       this.isGridViewOn = true
     } else {
       this.isGridViewOn = false
@@ -1240,9 +1252,9 @@ export class EditorScene extends GameInstance {
     this.input.off('drag', this.onDragStart);
     this.input.off('dragend', this.onDragEnd);
     this.input.off('wheel', this.onMouseWheel);
-    this.remoteEditors.forEach((remoteEditor) => {
-      remoteEditor.destroy()
-    })
+    // this.remoteEditors.forEach((remoteEditor) => {
+    //   remoteEditor.destroy()
+    // })
   }
 }
 

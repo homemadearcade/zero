@@ -1,10 +1,6 @@
 BUGS
   Dont set Agora to a device if that device isn’t found this time.
 
-  Step titles are currently undefined without the game model 
-
-  Edit Scroll bar style to be non existent 
-
 EXPERIENCE ROLES
   If you switch roles the camera breaks 
 
@@ -23,12 +19,6 @@ Look up x, y, on phaser instance should be... getPosition(). Overall use Get Met
 
 Try to remove getState() and getCobrowsingState() from inside of game... standardize this better
 
-in preloader
-  only load spritesheets that are added for 'play game' mode
-
-EXPERIENCE CREATOR
-  create reducer for experience creator so that we can at least change the selected is when we remove something
-
 Update all name forms 
   Make the class name form thing into a reusable component and add to stage, cutscene, tag, etc
 
@@ -38,9 +28,6 @@ Only Once should be on relation model
 
 SELECT CHIPS AUTO 
   Asynchronous and FreeSolo MUI Autocomplete is now in the docs
-
-REMOVE ENTITY INSTANCE RELATIONS
-  Dont redo ALL relations when this happens, just relevant ones. Same with player, etc
 
 MIGRATE TO TYPESCRIPT?
   https://github.com/airbnb/ts-migrate

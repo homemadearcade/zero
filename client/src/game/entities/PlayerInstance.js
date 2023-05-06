@@ -122,9 +122,14 @@ export class PlayerInstance extends EntityInstance {
     this.interactArea.unregister()
   }
 
-  reclass(entityModelId) {
+  transformEntityModel(entityModelId) {
     const phaserInstance = this.phaserInstance
-    const modifiedEntityData = { spawnX: phaserInstance.x, spawnY: phaserInstance.y, entityModelId }
+    const modifiedEntityData = { 
+      spawnX: phaserInstance.x,
+      spawnY: phaserInstance.y,
+      entityModelId,
+      transformCancelEntityModelId: this.transformCancelEntityModelId
+    }
 
     const scene = this.scene
     this.scene.removePlayerInstance()

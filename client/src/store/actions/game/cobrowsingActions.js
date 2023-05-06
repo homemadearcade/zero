@@ -76,7 +76,6 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
   // }
 
   if(state.webPage.gameInstance && window.pointer) {
-    
     const cameraZoom = state.gameViewEditor.cameraZoom
 
     const scene = getCurrentGameScene(state.webPage.gameInstance)
@@ -88,8 +87,8 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
       isGridViewOn: state.gameViewEditor.isGridViewOn,
       mouseWorldX: window.pointer.worldX,
       mouseWorldY: window.pointer.worldY,
-      cameraX: camera.worldView.x,
-      cameraY: camera.worldView.y,
+      cameraX: camera.scrollX,
+      cameraY: camera.scrollY,
       cameraZoom
     }
   }

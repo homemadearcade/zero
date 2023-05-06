@@ -1,10 +1,9 @@
-import { INTERFACE_ACTION_PLAY } from "../../../constants";
 import { interfaceIdData } from "../../../constants/interfaceIdData";
 import { NO_RELATION_TAG_EFFECT_IID, SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID } from "../../../constants/interfaceIds";
 import store from "../../../store"
 import { EFFECT_CAMERA_SHAKE, EFFECT_CLOSE_TRANSITION, EFFECT_CUTSCENE, EFFECT_DESTROY,
     EFFECT_END_GAME, EFFECT_IGNORE_GRAVITY, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EFFECT_INVISIBLE, EFFECT_OPEN_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_SPAWN, 
-  EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_UNPAUSE_GAME, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_STEP_BEGINS, ON_TOUCH_ACTIVE,
+  EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_TRANSFORM_TEMPORARY_END, EFFECT_TRANSFORM_TEMPORARY_START, EFFECT_UNPAUSE_GAME, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_STEP_BEGINS, ON_TOUCH_ACTIVE,
  ON_TOUCH_START,
  SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, 
    SPAWN_ZONE_RANDOM_SELECT } from "../core";
@@ -43,6 +42,14 @@ export const effectInterfaceDatas = {
   [EFFECT_DESTROY]: {
     displayName: 'Destroy',
     icon: 'faSkullCrossbones'
+  },
+  [EFFECT_TRANSFORM_TEMPORARY_START]: {
+    displayName: 'Transform Temporarily',
+    icon: 'faRightLeft'
+  },
+  [EFFECT_TRANSFORM_TEMPORARY_END]: {
+    displayName: 'End Temporary Transform',
+    icon: 'faRightLeft'
   },
 
   // Game State
@@ -129,6 +136,17 @@ export const effectEditInterfaces = {
     entityModelId: 'Transform into which object?',
     targetableType: TWO_RELATION_TAG_EFFECT_IID,
   },
+  [EFFECT_TRANSFORM_TEMPORARY_START]: {
+    entityModelId: 'Transform into which object?',
+    targetableType: TWO_RELATION_TAG_EFFECT_IID,
+    // autogenerateEffect: true,
+    // autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT]
+  },
+  [EFFECT_TRANSFORM_TEMPORARY_END]: {
+    targetableType: TWO_RELATION_TAG_EFFECT_IID,
+    autogenerateEffect: true,
+    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT]
+  },
   [EFFECT_SPAWN]: {
     zoneEntityModelId: 'Spawn in which Zone?',
     effectCooldown: true,
@@ -213,11 +231,14 @@ export const touchActiveEffects  = {
   [EFFECT_TELEPORT]: false,
   [EFFECT_IGNORE_GRAVITY]: true,
   [EFFECT_STICK_TO]: true,
+  
 
   // Lifecycle
   [EFFECT_TRANSFORM]: false,
   [EFFECT_SPAWN]: false,
   [EFFECT_DESTROY]: false,
+  [EFFECT_TRANSFORM_TEMPORARY_START]: false,
+  [EFFECT_TRANSFORM_TEMPORARY_END]: false,
 
   // Game State
   [EFFECT_END_GAME]: false,
@@ -249,6 +270,8 @@ export const noRemoteEffectedTagEffects = {
   [EFFECT_TRANSFORM]: false,
   [EFFECT_SPAWN]: true,
   [EFFECT_DESTROY]: false,
+  [EFFECT_TRANSFORM_TEMPORARY_START]: false,
+  [EFFECT_TRANSFORM_TEMPORARY_END]: false,
 
   // Game State
   [EFFECT_END_GAME]: true,
@@ -280,6 +303,8 @@ export const nonStepEffectBehaviors = {
   [EFFECT_TRANSFORM]: false,
   [EFFECT_SPAWN]: false,
   [EFFECT_DESTROY]: false,
+  [EFFECT_TRANSFORM_TEMPORARY_START]: false,
+  [EFFECT_TRANSFORM_TEMPORARY_END]: false,
 
   // Game State
   [EFFECT_END_GAME]: false,
@@ -331,6 +356,14 @@ export function getEffectShorthand(effect) {
 
   if(effectBehavior === EFFECT_TRANSFORM) {
     return displayName + ` into  ${entityModels[effect.entityModelId].name}`
+  }
+
+  if(effectBehavior === EFFECT_TRANSFORM_TEMPORARY_START) {
+    return displayName + ` into  ${entityModels[effect.entityModelId].name} temporarily`
+  }
+
+  if(effectBehavior === EFFECT_TRANSFORM_TEMPORARY_END) {
+    return displayName + ` for ${entityModels[effect.entityModelId].name}`
   }
 
   if(effectBehavior === EFFECT_SPAWN) {

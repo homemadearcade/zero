@@ -7,9 +7,6 @@ KNOWN BUGS
 --------------------------------------------------------------------------------------
 
 
-
-
-
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -33,3 +30,11 @@ CHORES
 
 BETTER REDIRECT ( cuz its broken sometimes )
   So for the redirect its possible we can just pass it as a prop to the 'login' component and the 'register' component. As well as have the 'onREgisterClick' button be a prop
+
+REMOVE ENTITY INSTANCE RELATIONS
+  Dont redo ALL relations when this happens, just relevant ones. Same with player, etc
+
+in preloader
+  only load spritesheets that are added for 'play game' mode
+
+Step titles are currently undefined without the game model 

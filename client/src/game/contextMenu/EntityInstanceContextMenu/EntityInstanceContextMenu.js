@@ -83,6 +83,7 @@ const EntityInstanceContextMenu = ({
           x: entityInstance.phaserInstance.x,
           y: entityInstance.phaserInstance.y, 
           transformEntityModelId: entityInstance.transformEntityModelId,
+          transformCancelEntityModelId: entityInstance.transformCancelEntityModelId,
           destroyAfterUpdate: entityInstance.destroyAfterUpdate,
           entityInstanceId: entityInstance.entityInstanceId,
           entityModelId: entityInstance.entityModelId,

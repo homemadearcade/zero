@@ -498,7 +498,6 @@ export const editArcadeGame = (id, gameData) => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.put(`/api/arcadeGames/${id}`, { gameUpdate : gameData }, options);
 
-    console.log(response.data.game)
     dispatch({
       type: EDIT_ARCADE_GAME_SUCCESS,
       payload: { arcadeGame: response.data.game },

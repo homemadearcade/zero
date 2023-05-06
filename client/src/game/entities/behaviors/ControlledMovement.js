@@ -20,15 +20,19 @@ export class ControlledMovement {
     const speed = entityModel.movement.speed * 100 * mod
 
     const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
+    const playerEntityModelId = store.getState().playerInterface.playerEntityModelId
     if(isGridViewOn) {
-      const editorCamera = this.scene.editorCamera 
-      const x = editorCamera.midPoint.x
-      const y = editorCamera.midPoint.y
-      const { boundaryX, boundaryY } = snapObjectXY({x, y, entityModel})
-      this.entityInstance.setPosition(boundaryX, boundaryY)
-      return
+      if(playerEntityModelId === entityModelId) {
+        console.log('dooin this')
+        const editorCamera = this.scene.editorCamera 
+        const x = editorCamera.midPoint.x
+        const y = editorCamera.midPoint.y
+        const { boundaryX, boundaryY } = snapObjectXY({x, y, entityModel})
+        this.entityInstance.setPosition(boundaryX, boundaryY)
+        return
+      }
     }
-    
+
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // VEHICLE/CAR

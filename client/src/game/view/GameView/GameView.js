@@ -119,8 +119,17 @@ const PhaserGame = ({
       gameInstance.scene?.scenes?.forEach(scene => {
         scene.unload()
       })
-      gameInstance.destroy(true);      
-      setGameInstance(null, null)
+
+      gameInstance.loop.destroy()
+      gameInstance.renderer.destroy()
+
+      // theres a bad bug for some reason where theres a recursive issue here. 
+      // its definitely the game instance destroy line
+      // gameInstance.destroy(true);    
+
+      setTimeout(() => {
+        setGameInstance(null, null)
+      });
     }
   }, []);
 

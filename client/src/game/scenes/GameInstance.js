@@ -8,7 +8,7 @@ import { PLAYER_INSTANCE_DID,
       NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth, noRemoteEffectedTagEffects, EFFECT_SPAWN, effectEditInterfaces, 
       EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_DESTROY, EFFECT_TRANSFORM, SPAWNED_INSTANCE_DID, SPAWN_ZONE_A_SELECT, 
       SPAWN_ZONE_B_SELECT, EFFECT_CUTSCENE, EFFECT_CAMERA_SHAKE, EFFECT_END_GAME, EFFECT_SWITCH_STAGE, RUN_GAME_INSTANCE_ACTION,
-       ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_UNPAUSE_GAME, ON_CUTSCENE_END } from '../constants';
+       ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_UNPAUSE_GAME, ON_CUTSCENE_END, EFFECT_TRANSFORM_TEMPORARY_START, EFFECT_TRANSFORM_TEMPORARY_END } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerEntity, clearCutscenes, openCutscene } from '../../store/actions/game/playerInterfaceActions';
@@ -85,9 +85,10 @@ export class GameInstance extends Phaser.Scene {
       });
     } else {
 
-      const {entityModelId, spawnX, spawnY} = classData
+      const {entityModelId, spawnX, spawnY, transformCancelEntityModelId} = classData
 
       this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_DID, {
+        transformCancelEntityModelId,
         entityModelId,
         spawnX,
         spawnY
@@ -336,19 +337,15 @@ export class GameInstance extends Phaser.Scene {
     const entityInstances = currentStage.entityInstances
     Object.keys(entityInstances).forEach((entityInstanceId) => {
       const entityInstanceData = entityInstances[entityInstanceId]
+
       if(!entityInstanceData) {
-        // LEGACY
-        // if(entityInstanceId === 'oi/playspawnzone' || entityInstanceId === 'oi-playspawnzone') {
-        //   console.log('ding this thing?')
-        //   this.initializeEntityInstance(entityInstanceId, initialPlayerSpawnZone)
-        //   return
-        // } else {
           return console.error('Object missing!', entityInstanceId)
-        // }
       } 
+
       if(entityInstanceId === PLAYER_INSTANCE_DID) {
         return console.error('hero got in?!')
       }
+
       if(!entityInstanceData.entityModelId) {
         return console.error('missing entityModelId!!', entityInstanceData)
       }
@@ -695,7 +692,6 @@ export class GameInstance extends Phaser.Scene {
 
     const currentStageId = this.getCurrentStage().stageId
     if(this.stage.stageId !== currentStageId) {
-      console.log('changing stage', Date.now())
       this.scene.start(currentStageId, this.props)
     }
 
@@ -720,14 +716,14 @@ export class GameInstance extends Phaser.Scene {
     
     [...this.temporaryInstances, ...this.entityInstances].forEach((entityInstance) => {
       if(entityInstance.transformEntityModelId && entityInstance.transformEntityModelId !== entityInstance.entityModelId) {
-        entityInstance.reclass(entityInstance.transformEntityModelId)
+        entityInstance.transformEntityModel(entityInstance.transformEntityModelId)
       } else if(entityInstance.destroyAfterUpdate) {
         entityInstance.destroyInGame()
       }
     })
 
     if(this.playerInstance.transformEntityModelId && this.playerInstance.entityModelId !== this.playerInstance.transformEntityModelId) {
-      this.playerInstance.reclass(this.playerInstance.transformEntityModelId)
+      this.playerInstance.transformEntityModel(this.playerInstance.transformEntityModelId)
     }
   }
 
@@ -1081,11 +1077,7 @@ export class GameInstance extends Phaser.Scene {
       effect
     })
 
-    phaserInstances.forEach((phaserInstance) => {
-      runEffect(phaserInstance)
-    })
-
-    function runEffect(phaserInstance) {
+    const runEffect = (phaserInstance) =>  {
       if(effect.effectBehavior === EFFECT_STICK_TO) {
         phaserInstance.body.setVelocityY(0)
         phaserInstance.body.setVelocityX(0)
@@ -1106,7 +1098,28 @@ export class GameInstance extends Phaser.Scene {
         const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
         entityInstance.transformEntityModelId = effect.entityModelId
       }
+
+      if(effect.effectBehavior === EFFECT_TRANSFORM_TEMPORARY_START) {
+        const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
+        if(!entityInstance.transformCancelEntityModelId) {
+          entityInstance.transformEntityModelId = effect.entityModelId
+          entityInstance.transformCancelEntityModelId = entityInstance.entityModelId
+        }
+      }
+
+      if(effect.effectBehavior === EFFECT_TRANSFORM_TEMPORARY_END) {
+        const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
+        if(!entityInstance.transformCancelEntityModelId) return
+        entityInstance.transformEntityModelId = entityInstance.transformCancelEntityModelId
+        entityInstance.transformCancelEntityModelId = null
+      }
     }
+
+    phaserInstances.forEach((phaserInstance) => {
+      runEffect(phaserInstance)
+    })
+
+
   }
 
   onCutsceneEnd(cutsceneId) {

@@ -40,7 +40,7 @@ export class EntityStamper extends Phaser.GameObjects.Image {
 
   stamp(pointer) {
     const { clampedX, clampedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, entityModel: this.entityModel})
-    this.scene.addEntityInstanceData(this.entityModelId, {
+    this.scene.addEntityInstanceToStageModel(this.entityModelId, {
       spawnX: clampedX, 
       spawnY: clampedY
     })

@@ -1,27 +1,30 @@
 
 ---
 
-VIDEO CALL FEATURES
-  End Call for everyone in lobby, End call for self also
-  You lost your video please refresh page 
-  Popup when someone loses video 
-
-PARTICLE EFFECT ON INSTANCES WHEN YOU CHANGE A ENTITY_MODEL
-  Explode on Destroy Tag
+SPRITE EDITOR
+  Flip sides Horizontal/Vertical in sprite editor 
 
 ENTITY INSTANCE UPGRADE
   Compound Static Body for Entities
 
 DALL E GENERATOR
 
-USER SPEED TESTS FULL FEATURE
-
-AUDIO EFFECTS
-
 PUSH UI STATE ( Envelope Icon )
-
---
 
 Animate.css wiggle when you import class, when class is added, etc
 
 ---
+
+EMAILS
+  Forgot Password - email Flow
+  All sorts of emails for tickets
+
+TICKETING
+  Checkout page
+    Integrate authorize
+    Create Lobby with sold ticket
+  Ticket Receipt Page
+  Open Ticket Dialog effect
+  when a ticketing service makes a game, name it ( guest name + date )
+  https://www.authorize.net/en-us/sign-up/pricing.html
+  Test speed test optional when buying tickets 

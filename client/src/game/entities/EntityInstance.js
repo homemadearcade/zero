@@ -8,7 +8,7 @@ import { Movement } from "./behaviors/Movement";
 import { ProjectileEjector } from "./behaviors/ProjectileEjector";
 
 export class EntityInstance extends PhaserInstance {
-  constructor(scene, entityInstanceId, {spawnX, spawnY, entityModelId}, effectSpawned){
+  constructor(scene, entityInstanceId, {spawnX, spawnY, entityModelId, transformCancelEntityModelId}, effectSpawned){
     const gameModel = store.getState().gameModel.gameModel
     const entityModel = gameModel.entityModels[entityModelId]
 
@@ -21,6 +21,7 @@ export class EntityInstance extends PhaserInstance {
     // STORE
     this.entityInstanceId = entityInstanceId
     this.entityModelId = entityModelId
+    this.transformCancelEntityModelId = transformCancelEntityModelId
     this.scene = scene
     this.width = entityModel.graphics.width
     this.height = entityModel.graphics.height
@@ -182,9 +183,14 @@ export class EntityInstance extends PhaserInstance {
     return [x, y, width, height]
   }
 
-  reclass(entityModelId) {
+  transformEntityModel(entityModelId) {
     const phaserInstance = this.phaserInstance
-    const modifiedEntityData = { spawnX: phaserInstance.x, spawnY: phaserInstance.y, entityModelId }
+    const modifiedEntityData = { 
+      spawnX: phaserInstance.x,
+      spawnY: phaserInstance.y,
+      entityModelId,
+      transformCancelEntityModelId: this.transformCancelEntityModelId
+    }
 
     //issue because as soon as we destroy it, we lose acces to 'this'!
     const entityInstanceId = this.entityInstanceId

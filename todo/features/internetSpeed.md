@@ -44,3 +44,4 @@ They passed the test, they postponed the test, they failed the test
 Add a dope Graphic for this
 —
 
+If internet speed failed, give a shared snackbar. LOBBY EVENT or just messages for now...
