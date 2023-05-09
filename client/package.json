@@ -44,7 +44,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "sass": "^1.45.2",
-    "socket.io-client": "^4.4.1",
+    "socket.io-client": "^4.6.1",
     "tinycolor2": "^1.4.2",
     "tsparticles-confetti": "^2.9.3",
     "use-fit-text": "^2.4.0",
@@ -62,8 +62,8 @@
     "extends": "react-app"
   },
   "engines": {
-    "node": "18.9.0",
-    "npm": "8.19.1"
+    "node": "16.20.0",
+    "npm": "8.19.4"
   },
   "proxy": "https://localhost:5000/",
   "browserslist": {

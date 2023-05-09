@@ -20,6 +20,7 @@ const StepEditTitle = ({
 
   const cobrowsingRoleId = step.cobrowsingRoleId
   const role = experienceModel.roles[cobrowsingRoleId]
+  const instruction = experienceModel.instructions[instructionId]
 
   if(isEditing) {
     return <div className='StepEditTitle'>
@@ -65,12 +66,30 @@ const StepEditTitle = ({
     <StepTitle step={step}/>
     </Typography>
       {isHovering && <IconButton 
-      icon="faPen"
-      color="primary"
-      onClick={() => {
-        setIsEditing(true)
-      }}
-    />}
+        icon="faPen"
+        color="primary"
+        onClick={() => {
+          setIsEditing(true)
+        }}
+      />}
+
+      {isHovering && <IconButton
+        icon="faClose"
+        color="primary"
+        onClick={() => {
+          const newStepOrder = instruction.stepOrder.filter((stepId) => stepId !== step.stepId)
+          editExperienceModel(experienceModel.id, {
+            instructions: {
+              [instructionId]: {
+                stepOrder: newStepOrder,
+                steps: {
+                  [step.stepId]: null
+                }
+              },
+            },
+          })
+        }}
+      />}
     {role && <RoleChip role={role} iconOnly />}
   </div>
 };

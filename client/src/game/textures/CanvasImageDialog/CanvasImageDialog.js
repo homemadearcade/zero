@@ -74,7 +74,8 @@ const CanvasImageDialog = ({
 
 
   function renderBody() {
-    if(isCanvasImageDialogLoading || !canvasImage) return <Loader></Loader>
+    if(isCanvasImageDialogLoading) return <Loader text="Loading..."></Loader>
+    if(!canvasImage) return <Loader text="Loading Image.."></Loader>
     
     const isSaving = !!textureIdSaving[canvasImage.textureId]
 

@@ -105,7 +105,7 @@ export function instructionSteps({
               {gameModel?.id === instruction.arcadeGameMongoId && <>
                 <Divider/>
                   <SelectGameInstanceEffect
-                    disabled
+                    disabled={true}
                     formLabel="These changes occured when this step was loaded" value={step.effectIds} />
                 <Divider/>
               </>}

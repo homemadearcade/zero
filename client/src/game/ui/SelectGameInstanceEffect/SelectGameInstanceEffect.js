@@ -38,6 +38,8 @@ const SelectGameInstanceEffect = ({ onChange, value, eventType, formLabel, disab
     return -b.group.localeCompare(a.group)
   })
 
+  console.log(disabled)
+
   return <SelectChipsAuto 
     disabled={disabled}
     onChange={onChange}

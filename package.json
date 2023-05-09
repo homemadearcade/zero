@@ -10,8 +10,8 @@
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix server && npm install --prefix client && npm run build --prefix client"
   },
   "engines": {
-    "node": "18.9.0",
-    "npm": "8.19.1"
+    "node": "16.20.0",
+    "npm": "8.19.4"
   },
   "author": "Nemanja Mitic (https://github.com/nemanjam)",
   "license": "MIT",

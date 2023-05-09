@@ -25,6 +25,8 @@ const StepEditBody = ({
   const activity = experienceModel.activitys[step.activityId]
   
   function renderStepBehaviorForm(step) {
+
+    return step.effectIds.toString()
     return <Controller
       {...register(`steps.${step.stepId}.effectIds`, {
         // required: true,
