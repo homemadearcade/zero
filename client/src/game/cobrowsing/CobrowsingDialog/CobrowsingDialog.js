@@ -25,6 +25,7 @@ const CobrowsingDialog = ({
     const keyStop = setInterval(() => {
       const scene = getCurrentGameScene(gameInstance)
       if(scene) {
+        console.log('disableGlobalCapture')
         scene.input.keyboard.disableGlobalCapture()
       }
     }, 1000)

@@ -324,7 +324,7 @@ export const updateCreateCutscene = (cutscene) => (dispatch, getState) => {
 export const openCreateRelation = (initialRelation) => (dispatch, getState) => {
   const gameModel = getState().gameModel.gameModel
 
-  let event = null 
+  let event = initialRelation?.event
   if(initialRelation?.eventId) {
     event = gameModel.events[initialRelation.eventId]
   }

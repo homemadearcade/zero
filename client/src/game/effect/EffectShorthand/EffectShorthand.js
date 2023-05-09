@@ -74,7 +74,6 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
       </>
     }
 
-
     if(effectBehavior === EFFECT_SPAWN) {
       return <>
         {renderEffect(effect)}

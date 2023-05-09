@@ -13,6 +13,7 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CobrowsingMenuIconButton from '../../cobrowsing/CobrowsingMenuIconButton/CobrowsingMenuIconButton';
 
 const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, value, formLabel, gameModel, gameSelector: { selectorInterfaceListInvisibility } }) => {
+  const dataSourceFilterInterfaceId = interfaceId || SELECT_RELATION_TAG_IID
 
   const mapTagToOption = (relationTagId) => {
     const relationTag = gameModel.relationTags[relationTagId]
@@ -23,8 +24,8 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
       relationTagIID = relationTagTypeToDisplayName[relationTag.relationTagIID]
     }
     
-    const isDataSourceInvisible = selectorInterfaceListInvisibility[SELECT_RELATION_TAG_IID][relationTag.dataSourceIID]
-    const isRemovedInvisible = relationTag.isRemoved && selectorInterfaceListInvisibility[SELECT_RELATION_TAG_IID][IS_DATA_REMOVED_IID]
+    const isDataSourceInvisible = selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][relationTag.dataSourceIID]
+    const isRemovedInvisible = relationTag.isRemoved && selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][IS_DATA_REMOVED_IID]
 
     const isRemoved = isDataSourceInvisible || isRemovedInvisible || relationTag.editorInterface.hiddenFromIDs[interfaceId]
 
@@ -90,7 +91,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
         menu={() => {
           return <MenuList>
             <MenuItem key="visible in dropdown" dense>Visible in Dropdown:</MenuItem>
-            <DataSourceVisibilityMenu interfaceId={SELECT_RELATION_TAG_IID} />
+            <DataSourceVisibilityMenu interfaceId={dataSourceFilterInterfaceId} />
           </MenuList>
         }}/>
     </Unlockable>

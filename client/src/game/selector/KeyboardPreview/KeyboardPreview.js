@@ -48,6 +48,7 @@ const KeyboardPreview = ({
     isSnapshotTakerOpen,
     isMouseOverGameView,
     resizingEntityInstanceId,
+    isDialogOverGameView
   },
   toggleGridView,
   isExpanded
@@ -57,10 +58,11 @@ const KeyboardPreview = ({
     if(selectedTool) {
       return
     }
-    if(brushIdSelectedBrushList) {
+
+    if(entityModelIdSelectedEntityList) {
       return
     }
-    if(entityModelIdSelectedEntityList) {
+    if(isDialogOverGameView) {
       return
     }
     

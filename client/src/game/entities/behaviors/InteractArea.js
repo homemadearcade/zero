@@ -78,7 +78,7 @@ export class InteractArea extends PhaserInstance {
           if(this.paused) return
           if(this.scene.timeToTriggerAgain[relation.relationId] > Date.now()) return
           // console.log('event triggered')
-          this.interactables.push({entitySprite: b, relation})
+          this.interactables.push({phaserInstance: b, relation})
         })
       )
     })
@@ -133,21 +133,21 @@ export class InteractArea extends PhaserInstance {
       relations: []
     }
 
-    this.interactables.forEach(({entitySprite}) => {
-      // entitySprite.interactBorder.setVisible(false)
-      const distance = Phaser.Math.Distance.Between(entitySprite.x, entitySprite.y, this.phaserInstance.x, this.phaserInstance.y)
+    this.interactables.forEach(({phaserInstance}) => {
+      // phaserInstance.interactBorder.setVisible(false)
+      const distance = Phaser.Math.Distance.Between(phaserInstance.x, phaserInstance.y, this.phaserInstance.x, this.phaserInstance.y)
       const { closestDistance } = interactOppurtunity
       if(distance < closestDistance) {
         interactOppurtunity.closestDistance = distance
-        interactOppurtunity.closestInteractable = entitySprite
+        interactOppurtunity.closestInteractable = phaserInstance
       }
     })
     
     const { closestInteractable } = interactOppurtunity
     if(closestInteractable) {
       closestInteractable.interactBorder.setVisible(true)
-      this.interactables.forEach(({entitySprite, relation}) => {
-        if(entitySprite === closestInteractable) {
+      this.interactables.forEach(({phaserInstance, relation}) => {
+        if(phaserInstance === closestInteractable) {
           interactOppurtunity.relations.push(relation)
         }
       })

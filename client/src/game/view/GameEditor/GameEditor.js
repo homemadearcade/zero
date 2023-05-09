@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './GameEditor.scss';
 import ReactJson from 'react-json-view'
 
-import { clearEditor, closeJsonViewer, selectBrush } from '../../../store/actions/game/gameSelectorActions';
+import { clearEditor, closeJsonViewer, closeSelectAggregateColor, selectBrush } from '../../../store/actions/game/gameSelectorActions';
 import { clearGameFormEditor, closeEditEntityGraphics, updateCreateBrush } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../../store/actions/game/gameViewEditorActions';
@@ -24,7 +24,7 @@ import CreateBrushFlow from '../../brush/CreateBrushFlow/CreateBrushFlow';
 import { copyToClipboard, generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import {  EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID,
-   INSTANCE_TOOLBAR_CONTAINER_IID, LAYER_CREATE_COLOR_DIALOG_IID, 
+   INSTANCE_TOOLBAR_CONTAINER_IID, LAYER_AGGREGATE_COLOR_SELECT_IID, LAYER_CREATE_COLOR_DIALOG_IID, 
    SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
 import EntityBoxDialog from '../../entityModel/EntityBoxDialog/EntityBoxDialog';
 import EntityBehaviorLiveEditor from '../../behaviors/EntityBehaviorLiveEditor/EntityBehaviorLiveEditor';
@@ -45,6 +45,7 @@ import EditContentDialog from '../../content/EditContentDialog/EditContentDialog
 import MouseInfo from '../../selector/MouseInfo/MouseInfo';
 import KeyboardInfo from '../../selector/KeyboardInfo/KeyboardInfo';
 import ToolBoxDialog from '../../selector/ToolBoxDialog/ToolBoxDialog';
+import AggregateColorSelectDialog from '../../color/AggregateColorSelectDialog/AggregateColorSelectDialog';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -56,6 +57,8 @@ const GameEditor = ({
     isStageLiveEditorOpen,
     isGameEditDialogOpen, 
     currentSelectorListInterfaceId,
+    isSelectAggregateColorOpen,
+    aggregateColorSelectLayerId,
     viewingJson }, 
   gameViewEditor: { 
     isBoundaryEditorOpen, 
@@ -87,6 +90,7 @@ const GameEditor = ({
   clearEditor, 
   clearGameFormEditor, 
   closeEditEntityGraphics,
+  closeSelectAggregateColor,
   clearGameViewEditor,
   closeJsonViewer,
   isObscurable,
@@ -197,6 +201,19 @@ const GameEditor = ({
       </Dialog>}
 
       {/* GRAPHICS DIALOGS */}
+      {isSelectAggregateColorOpen === LAYER_AGGREGATE_COLOR_SELECT_IID && <AggregateColorSelectDialog
+        onSelectColor={(hex) => {
+          closeSelectAggregateColor()
+          editGameModel({
+            colors: {
+              [hex]: {
+                [aggregateColorSelectLayerId]: Date.now()
+              }
+            }
+          })
+          selectBrush(COLOR_BRUSH_ID + '/' + aggregateColorSelectLayerId + '/' + hex, aggregateColorSelectLayerId)
+        }}
+      />}
       {isCreateColorFlowOpen === LAYER_CREATE_COLOR_DIALOG_IID && <CreateColorFlow
         onComplete={(color) => {
         editGameModel({
@@ -288,6 +305,7 @@ export default connect(mapStateToProps, {
   clearGameFormEditor, 
   clearGameViewEditor, 
   closeJsonViewer,
+  closeSelectAggregateColor,
   updateCreateBrush,
   closeEditEntityGraphics,
   editGameModel,

@@ -8,7 +8,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import EntityNameForm from '../EntityNameForm/EntityNameForm';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Button from '../../../ui/Button/Button';
-import { closeEditEntityDialog, openEditEntityGraphics, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
+import { closeEditEntityDialog, openCreateRelation, openEditEntityGraphics, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
 import SelectEntityModelClass from '../../ui/SelectEntityModelClass/SelectEntityModelClass';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { CHANGE_ENTITY_INTERFACE_IID, 
@@ -18,10 +18,10 @@ import { CHANGE_ENTITY_INTERFACE_IID,
   ENTITY_RELATION_TAGS_IID, 
    ENTITY_SPAWN_ZONE_ENTITY_IID, LIVE_ENTITY_EDITOR_CAMERA_TAB_IID, LIVE_ENTITY_EDITOR_COLLISIONS_TAB_IID, 
    LIVE_ENTITY_EDITOR_JUMP_TAB_IID, LIVE_ENTITY_EDITOR_MOVEMENT_TAB_IID, 
-   LIVE_ENTITY_EDITOR_PROJECTILE_TAB_IID, PLAYER_ENTITY_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
+   LIVE_ENTITY_EDITOR_PROJECTILE_TAB_IID, PLAYER_AND_RELATION_TAG_EVENT_IID, PLAYER_ENTITY_IID, SINGLE_RELATION_TAG_EVENT_IID, TWO_RELATION_TAG_EVENT_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
-import { entityModelClassToDisplayName, entityModelClassToPrefix, ENTITY_MODEL_DID } from '../../constants';
+import { entityModelClassToDisplayName, entityModelClassToPrefix, ENTITY_MODEL_DID, eventTypeInterfaces, eventShortNames, RELATION_DID } from '../../constants';
 import { copyToClipboard, generateUniqueId } from '../../../utils';
 import Typography from '../../../ui/Typography/Typography';
 import TextureStage from '../../textures/TextureStage/TextureStage';
@@ -30,6 +30,8 @@ import CobrowsingTabs from '../../cobrowsing/CobrowsingTabs/CobrowsingTabs';
 import { openEntityBehaviorLiveEditor } from '../../../store/actions/game/gameSelectorActions';
 import ReactJson from 'react-json-view';
 import Divider from '../../../ui/Divider/Divider';
+import { MenuItem } from '@mui/material';
+import ButtonMenu from '../../../ui/ButtonMenu/ButtonMenu';
 
 const EditEntityDialog = ({ 
   openEditEntityGraphics, 
@@ -37,6 +39,7 @@ const EditEntityDialog = ({
   closeEditEntityDialog, 
   editGameModel, 
   openEntityBehaviorLiveEditor,
+  openCreateRelation,
   gameFormEditor: { entityModel }, 
   gameModel: { gameModel } }) => {
   function handleClose() {
@@ -94,6 +97,45 @@ const EditEntityDialog = ({
           updateCreateEntity({
             relationTags: newTags
           })
+        }}/>
+        <ButtonMenu variant="outlined" text={"Add New Relationship for " + entityModel.name} menu={(handleClose) => {
+          return [Object.keys(eventTypeInterfaces).map((eventType) => {
+            const eventInterface = eventTypeInterfaces[eventType]
+            if(
+              eventInterface.relationTagSelectType !== PLAYER_AND_RELATION_TAG_EVENT_IID &&
+              eventInterface.relationTagSelectType !== SINGLE_RELATION_TAG_EVENT_IID && 
+              eventInterface.relationTagSelectType !== TWO_RELATION_TAG_EVENT_IID
+            ) return null
+
+            const eventName = eventShortNames[eventType]
+            
+            return <MenuItem key={eventType} onClick={() => {
+              console.log('???')
+              const event = {
+                eventType,
+              }
+
+              if(eventInterface.relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT_IID) {
+                event.relationTagIdA = PLAYER_ENTITY_IID
+                event.relationTagIdB = entityModel.entityModelId
+              } else if(eventInterface.relationTagSelectType === SINGLE_RELATION_TAG_EVENT_IID) {
+                event.relationTagIdA = entityModel.entityModelId
+              } else if(eventInterface.relationTagSelectType === TWO_RELATION_TAG_EVENT_IID) {
+                event.relationTagIdA = entityModel.entityModelId
+              }
+
+              openCreateRelation({
+                // relationId: RELATION_DID+generateUniqueId(),
+                event,
+              })
+              
+              handleClose()
+
+            }}>
+              {'On ' + eventName + ' Event'}
+            </MenuItem>
+
+          })]
         }}/>
       </Unlockable>
   }
@@ -162,21 +204,26 @@ const EditEntityDialog = ({
     label: 'Behaviors',
     body: <>
         <Button onClick={() => {
+          handleClose()
           openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_MOVEMENT_TAB_IID, entityModel.entityModelId)
         }}>Edit Movement</Button>
         <Button onClick={() => {
+          handleClose()
           openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_COLLISIONS_TAB_IID, entityModel.entityModelId)
         }}>Edit Collisions</Button>
         {entityModel.entityIID === PLAYER_ENTITY_IID &&
           <Button onClick={() => {
+            handleClose()
             openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_CAMERA_TAB_IID, entityModel.entityModelId)
           }}>Edit Camera</Button>
         }
         <Button onClick={() => {
+          handleClose()
           openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_PROJECTILE_TAB_IID, entityModel.entityModelId)
         }}>Edit Projectile</Button>
       {entityModel.entityIID === PLAYER_ENTITY_IID && 
         <Button onClick={() => {
+          handleClose()
           openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_JUMP_TAB_IID, entityModel.entityModelId)
         }}>Edit Jump</Button>
       }
@@ -241,5 +288,11 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { openEditEntityGraphics, openEntityBehaviorLiveEditor, closeEditEntityDialog, editGameModel, updateCreateEntity }),
+  connect(mapStateToProps, { 
+    openEditEntityGraphics, 
+    openEntityBehaviorLiveEditor, 
+    closeEditEntityDialog, 
+    openCreateRelation,
+    editGameModel, 
+    updateCreateEntity }),
 )(EditEntityDialog);

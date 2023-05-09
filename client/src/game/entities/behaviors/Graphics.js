@@ -27,7 +27,7 @@ export class Graphics {
     phaserInstance.setDisplaySize(entityModel.graphics.width, entityModel.graphics.height)
     this.setSize(entityModel.graphics.width, entityModel.graphics.height)
 
-    if(entityModel.editorInterface.notSelectableInStage) return
+    // if(entityModel.editorInterface.notSelectableInStage) return
 
     if(entityModel.graphics.textureTint) entityInstance.setTint(entityModel.graphics.textureTint)
     this.setDepth()
@@ -155,6 +155,7 @@ export class Graphics {
     const entityModel = gameModel.entityModels[this.entityInstance.entityModelId]
 
     if(phaserInstance.invisibleIndicator) phaserInstance.invisibleIndicator.destroy()
+
     const width = phaserInstance.displayWidth
     const height = phaserInstance.displayHeight
     const cornerX = -width/2
@@ -177,13 +178,13 @@ export class Graphics {
     // if the instance can be hovered over and then selected
     phaserInstance.isSelectable = false
 
-    if(entityModel.editorInterface.notSelectableInStage) {
-      phaserInstance.invisibleIndicator?.setVisible(false)
-      phaserInstance.interactBorder?.setVisible(false)
-      phaserInstance.editorHighlight?.setVisible(false)
-      phaserInstance.setVisible(false)
-      return
-    }
+    // if(entityModel.editorInterface.notSelectableInStage) {
+    //   phaserInstance.invisibleIndicator?.setVisible(false)
+    //   phaserInstance.interactBorder?.setVisible(false)
+    //   phaserInstance.editorHighlight?.setVisible(false)
+    //   phaserInstance.setVisible(false)
+    //   return
+    // }
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
     const layerInvisibility = gameViewEditor.layerInvisibility
@@ -226,6 +227,11 @@ export class Graphics {
 
     phaserInstance.interactBorder.setPosition(phaserInstance.x, phaserInstance.y)
     phaserInstance.interactBorder.setRotation(phaserInstance.rotation)
+
+    if(entityModel.editorInterface.notSelectableInStage) {
+      this.entityInstance.setVisible(false)
+      phaserInstance.isSelectable = false 
+    }
   }
 
   destroy() {

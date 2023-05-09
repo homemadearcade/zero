@@ -23,12 +23,29 @@ export class ControlledMovement {
     const playerEntityModelId = store.getState().playerInterface.playerEntityModelId
     if(isGridViewOn) {
       if(playerEntityModelId === entityModelId) {
-        console.log('dooin this')
-        const editorCamera = this.scene.editorCamera 
-        const x = editorCamera.midPoint.x
-        const y = editorCamera.midPoint.y
-        const { boundaryX, boundaryY } = snapObjectXY({x, y, entityModel})
-        this.entityInstance.setPosition(boundaryX, boundaryY)
+        if(this.cursors.left.isDown) {
+          this.entityInstance.setPosition(phaserInstance.x - speed/10, phaserInstance.y)
+        } else if(this.cursors.right.isDown) {
+          this.entityInstance.setPosition(phaserInstance.x + speed/10, phaserInstance.y)
+        } else {
+          this.entityInstance.setVelocityX(0)
+          // phaserInstance.setX(phaserInstance.body.prev.x)
+        }
+        
+        if(this.cursors.up.isDown) {
+          this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y - speed/10)
+        } else if(this.cursors.down.isDown) {
+          this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y + speed/10)
+        } else {
+          this.entityInstance.setVelocityY(0)
+          // phaserInstance.setY(phaserInstance.body.prev.y)
+        }
+
+        // const editorCamera = this.scene.editorCamera 
+        // const x = editorCamera.midPoint.x
+        // const y = editorCamera.midPoint.y
+        // const { boundaryX, boundaryY } = snapObjectXY({x, y, entityModel})
+        // this.entityInstance.setPosition(boundaryX, boundaryY)
         return
       }
     }

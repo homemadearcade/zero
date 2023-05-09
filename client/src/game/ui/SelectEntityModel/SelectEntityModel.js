@@ -12,13 +12,14 @@ import { MenuItem, MenuList } from '@mui/material';
 import DataSourceVisibilityMenu from '../../../ui/connected/DataSourceVisibilityMenu/DataSourceVisibilityMenu';
 import CobrowsingMenuIconButton from '../../cobrowsing/CobrowsingMenuIconButton/CobrowsingMenuIconButton';
 
-const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameModel, entityModelClass, gameSelector: { selectorInterfaceListInvisibility } }) => {
+const SelectEntityModel = ({ onChange, disabled, value, interfaceId, formLabel, gameModel, entityModelClass, gameSelector: { selectorInterfaceListInvisibility } }) => {
+  const dataSourceFilterInterfaceId = interfaceId || SELECT_ENTITY_MODEL_IID
 
   const mapEntityToOption = (entityModelId) => {
     const entityModel = gameModel.entityModels[entityModelId]
 
-    const isDataSourceInvisible = selectorInterfaceListInvisibility[SELECT_ENTITY_MODEL_IID][entityModel.dataSourceIID]
-    const isRemovedInvisible = entityModel.isRemoved && selectorInterfaceListInvisibility[SELECT_ENTITY_MODEL_IID][IS_DATA_REMOVED_IID]
+    const isDataSourceInvisible = selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][entityModel.dataSourceIID]
+    const isRemovedInvisible = entityModel.isRemoved && selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][IS_DATA_REMOVED_IID]
 
     const isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromIDs[interfaceId]
 
@@ -61,7 +62,7 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
         menu={() => {
           return <MenuList>
             <MenuItem key="visible in dropdown" dense>Visible in Dropdown:</MenuItem>
-            <DataSourceVisibilityMenu interfaceId={SELECT_ENTITY_MODEL_IID} />
+            <DataSourceVisibilityMenu interfaceId={dataSourceFilterInterfaceId} />
           </MenuList>
         }}/>
     </Unlockable>
@@ -77,4 +78,4 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, { }),
-)(SelectEntity);
+)(SelectEntityModel);

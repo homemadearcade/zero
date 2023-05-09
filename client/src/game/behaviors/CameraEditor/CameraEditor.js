@@ -7,8 +7,21 @@ import './CameraEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { CAMERA_LERP_X_IID, CAMERA_LERP_Y_IID, CAMERA_ZOOM_IID } from '../../../constants/interfaceIds';
+import Button from '../../../ui/Button/Button';
+import { initialCameraZoneInstanceId } from '../../constants';
+import { setResizingEntityInstance, toggleGridView } from '../../../store/actions/game/gameViewEditorActions';
+import Typography from '../../../ui/Typography/Typography';
 
-const CameraEditor = ({ entityModelId, gameModel: { gameModel, currentStageId }, editGameModel }) => {
+const CameraEditor = ({ 
+  entityModelId, 
+  gameModel: { gameModel, currentStageId },
+  gameViewEditor: {
+    resizingEntityInstanceId
+  },
+  editGameModel,
+  setResizingEntityInstance,
+  toggleGridView
+  }) => {
   const entitySelected = gameModel.entityModels[entityModelId]
 
   if(!entitySelected?.camera) {
@@ -40,6 +53,15 @@ const CameraEditor = ({ entityModelId, gameModel: { gameModel, currentStageId },
   ].filter((num) => {
     return !!num
   })
+
+  if(initialCameraZoneInstanceId === resizingEntityInstanceId) {
+    return <div className="CameraEditor">
+      <Typography variant="h6">Put your cursor on the map to resize the Players Camera</Typography>
+      <Button onClick={() => {
+        setResizingEntityInstance(null)
+      }}>Cancel</Button>
+    </div>
+  }
 
   return (
     <div className="CameraEditor">
@@ -76,12 +98,17 @@ const CameraEditor = ({ entityModelId, gameModel: { gameModel, currentStageId },
           value={entitySelected.camera.lerpY}
       />
       </Unlockable>
+      <Button onClick={() => {
+        setResizingEntityInstance(initialCameraZoneInstanceId)
+        toggleGridView(true)
+      }}>Resize Player Camera</Button>
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
+  gameViewEditor: state.gameViewEditor
 });
 
-export default connect(mapStateToProps, { editGameModel })(CameraEditor);
+export default connect(mapStateToProps, { editGameModel, toggleGridView, setResizingEntityInstance })(CameraEditor);

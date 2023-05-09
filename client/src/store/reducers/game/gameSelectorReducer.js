@@ -51,6 +51,8 @@ const initialState = {
   isEntityBoxDialogOpen: false,
   entityBoxDialogType: null,
   isSelectAggregateColorOpen: null,
+  aggregateColorSelectLayerId: null,
+
   currentSelectorListInterfaceId: SELECTOR_ENTITY_BY_INTERFACE_ID_IID,
 
   isToolBoxDialogOpen: false,
@@ -166,6 +168,7 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       return {
         ...state,
         isSelectAggregateColorOpen: payload.componentName,
+        aggregateColorSelectLayerId: payload.layerId
       }
     case CLOSE_SELECT_AGGREGATE_COLOR:
       return {

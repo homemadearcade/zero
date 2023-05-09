@@ -55,13 +55,6 @@ export function TabsBody({ obscureInterfaceIds, tabs, currentTabInterfaceId, onC
   const theme = useTheme();
 
   const tabsVisible = tabs.filter(tab => {
-    if(obscureInterfaceIds) {
-      const { isObscured } = getInterfaceIdData(tab.interfaceId)
-      if(isObscured) {
-        return false
-      }
-    }
-
     if(tab.appAdminOnly) {
       const me = store.getState().auth.me
       if(!me?.roles[APP_ADMIN_ROLE]) {
@@ -76,7 +69,6 @@ export function TabsBody({ obscureInterfaceIds, tabs, currentTabInterfaceId, onC
     const interfaceId = tabsVisible[tabIndex].interfaceId
     onChange(interfaceId);
   };
-
 
   let value = tabsVisible.findIndex(tab => tab.interfaceId === currentTabInterfaceId)
 
@@ -95,7 +87,13 @@ export function TabsBody({ obscureInterfaceIds, tabs, currentTabInterfaceId, onC
           aria-label="scrollabe tabs"
         >
           {tabsVisible.map((tab, index) => {
-            return <Tab key={tab.label} label={tab.label} {...a11yProps(index)} />
+            let labelEl = tab.label
+            if(obscureInterfaceIds) {
+              labelEl = <Unlockable key={tab.label} interfaceId={tab.interfaceId}>
+                <div>{tab.label}</div>
+              </Unlockable>
+            }
+            return <Tab key={tab.label} label={labelEl} {...a11yProps(index)} />
           })}
         </Tabs>
       </AppBar>

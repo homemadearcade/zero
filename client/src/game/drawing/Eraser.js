@@ -47,6 +47,7 @@ export class Eraser extends Brush {
   }
 
   updatePreviews() {
+    if(!this.scene) return console.error('no scene for eraser')
     this.lastTime = Date.now()
 
     this.lastUpdateX = this.x
@@ -55,14 +56,18 @@ export class Eraser extends Brush {
     const borderSize = 0
 
     this.lowerLayerPreviews.forEach((preview, index) => {
+      // if(!preview.data) return console.error('no data')
       preview.setCrop(this.x - borderSize, this.y - borderSize, this.width + (borderSize * 2), this.height + (borderSize * 2))
     })
     if(this.lowerInstancePreviews.length) {
       this.lowerInstancePreviews.forEach((preview) => {
+        // if(!preview.data) return console.error('no data')
         preview.destroy()
       })
       this.lowerInstancePreviews = this.createLowerInstancePreviews()
       this.lowerInstancePreviews.forEach((preview) => {
+        // if(!preview.data) return console.error('no data')
+        preview.setOrigin(0, 0)
         this.scene.add.existing(preview)
         preview.setCrop(this.x - borderSize, this.y - borderSize, this.width + (borderSize * 2), this.height + (borderSize * 2))
       })
@@ -121,9 +126,11 @@ export class Eraser extends Brush {
     }
 
     this.lowerLayerPreviews.forEach((preview) => {
+      preview.setOrigin(0, 0)
       this.scene.add.existing(preview)
     })
     this.lowerInstancePreviews.forEach((preview) => {
+      preview.setOrigin(0, 0)
       this.scene.add.existing(preview)
     })
   }

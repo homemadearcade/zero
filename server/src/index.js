@@ -20,8 +20,11 @@ import { ON_COBROWSING_STATUS_UPDATE,
     ON_CODRAWING_INITIALIZE, SOCKET_IO_STORE, 
     SOCKET_SESSIONS_STORE, LOBBY_INSTANCE_STORE, CODRAWING_ROOM_PREFIX, 
     GAME_ROOMS_STORE, ON_GAME_ROOM_INSTANCE_MEMBER_STATUS_UPDATE, 
-    ON_LOBBY_INSTANCE_EVENT } from './constants';
-import { onSocketAuthenticate, onSocketDisconnect } from './socket';
+    ON_LOBBY_INSTANCE_EVENT, 
+    ON_SOCKET_DISCONNECT,
+    ON_LOBBY_INSTANCE_UPDATE,
+    ON_GAME_ROOM_INSTANCE_UPDATE} from './constants';
+import { onSocketAuthenticate } from './socket';
 import { onMongoDBConnected } from './onMongoDBConnected';
 import { uploadTest } from './services/uploadTest';
 
@@ -206,5 +209,45 @@ io.on("connection", (socket) => {
     console.log('disconnecting', socket.id, socket.user, reason)
   });
 
-  socket.on('disconnect', onSocketDisconnect(io, socket, app))
+  socket.on('disconnect', (reason) => {
+    if(socket.user?.userMongoId) {
+    // connected ==
+      const lobbyInstances = app.get(LOBBY_INSTANCE_STORE)
+      lobbyInstances.forEach((lobbyInstance) => {
+        lobbyInstance.members.forEach((member) => {
+          if(member.userMongoId === socket.user.userMongoId) {
+            socket.emit(ON_SOCKET_DISCONNECT)
+            lobbyInstance.messages.push({
+              user: {
+                userMongoId: member.userMongoId,
+                username: member.username
+              },
+              message: 'has disconnected',
+              automated: true
+            })
+            io.to(lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance});
+          }
+        })
+      })
+    
+      const gameRoomInstances = app.get(GAME_ROOMS_STORE)
+      gameRoomInstances.forEach((gameRoomInstance) => {
+        gameRoomInstance.members.forEach((member) => {
+          if(member.userMongoId === socket.user.userMongoId) {
+            // if(reason === 'ping timeout') user.loadedGameMongoId = null
+            socket.emit(ON_SOCKET_DISCONNECT)
+            gameRoomInstance.messages.push({
+              user: {
+                userMongoId: member.userMongoId,
+                username: member.username
+              },
+              message: 'has disconnected',
+              automated: true
+            })
+            io.to(gameRoomInstance.id).emit(ON_GAME_ROOM_INSTANCE_UPDATE, {gameRoomInstance});
+          }
+        })
+      })
+    }
+  })
 });

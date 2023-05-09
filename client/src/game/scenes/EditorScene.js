@@ -61,20 +61,20 @@ export class EditorScene extends GameInstance {
     this.isDragFromContext = true
   }
 
-  onDragStart = (pointer, entitySprite, dragX, dragY) => {
+  onDragStart = (pointer, phaserInstance, dragX, dragY) => {
     // const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
     // if(isObscured) {
     //   return
     // }
 
-    // if(entitySprite.effectSpawned) return
+    // if(phaserInstance.effectSpawned) return
 
     this.isDragFromContext = false
 
     if(this.draggingEntityInstanceId) {
-      this.continueDrag(entitySprite, {x: dragX, y: dragY})
+      this.continueDrag(phaserInstance, {x: dragX, y: dragY})
     } else if(!this.brush && !this.stamper){
-      this.draggingEntityInstanceId = entitySprite.entityInstanceId
+      this.draggingEntityInstanceId = phaserInstance.entityInstanceId
     }
   }
 
@@ -86,14 +86,14 @@ export class EditorScene extends GameInstance {
     phaserInstance.y = clampedY;
   }
 
-  finishDrag(entitySprite) {
-    if(entitySprite.effectSpawned) {
+  finishDrag(phaserInstance) {
+    if(phaserInstance.effectSpawned) {
       this.callGameInstanceEvent({
         gameRoomInstanceEventType: EVENT_SPAWN_MODEL_DRAG_FINISH,
         data: {
-          x: entitySprite.x,
-          y: entitySprite.y,
-          entityInstanceId: entitySprite.entityInstanceId,
+          x: phaserInstance.x,
+          y: phaserInstance.y,
+          entityInstanceId: phaserInstance.entityInstanceId,
           hostOnly: true
         }
       })
@@ -101,11 +101,11 @@ export class EditorScene extends GameInstance {
       return
     }
 
-    if(entitySprite.entityInstanceId === PLAYER_INSTANCE_DID) {
+    if(phaserInstance.entityInstanceId === PLAYER_INSTANCE_DID) {
       // store.dispatch(editGameModel({ 
       //   player: {
-      //     spawnX: entitySprite.x,
-      //     spawnY: entitySprite.y
+      //     spawnX: phaserInstance.x,
+      //     spawnY: phaserInstance.y
       //   }
       // }))
     } else {
@@ -113,9 +113,9 @@ export class EditorScene extends GameInstance {
         stages: {
           [this.stage.stageId]: {
             entityInstances: {
-              [entitySprite.entityInstanceId]: {
-                spawnX: entitySprite.x,
-                spawnY: entitySprite.y
+              [phaserInstance.entityInstanceId]: {
+                spawnX: phaserInstance.x,
+                spawnY: phaserInstance.y
               }
             }
           }
@@ -124,8 +124,8 @@ export class EditorScene extends GameInstance {
     }
   }
 
-  onDragEnd = (pointer, entitySprite) => {
-    this.finishDrag(entitySprite)
+  onDragEnd = (pointer, phaserInstance) => {
+    this.finishDrag(phaserInstance)
   }
 
 
@@ -229,7 +229,7 @@ export class EditorScene extends GameInstance {
   ////////////////////////////////////////////////////////////
   // POINTER
   ////////////////////////////////////////////////////////////
-  onPointerMove = (pointer)  => {
+  onPointerMove = (pointer, phaserInstances)  => {
     window.pointer = pointer
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
@@ -306,24 +306,24 @@ export class EditorScene extends GameInstance {
     }
   }
 
-  onPointerOver = (pointer, entitySprite) => {
+  onPointerOver = (pointer, phaserInstances) => {
     if(this.draggingEntityInstanceId) return
     // const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
     //isObscured ||
 
-    // if(this.brush || this.stamper || this.snapshotSquare || this.getEntityModel(entitySprite[0].entityModelId).editorInterface.notSelectableInStage) {
+    // if(this.brush || this.stamper || this.snapshotSquare || this.getEntityModel(phaserInstance[0].entityModelId).editorInterface.notSelectableInStage) {
     //   return
     // }
 
     const entityInstanceIdHovering = store.getState().hoverPreview.entityInstanceIdHovering
-    const phaserInstance = entitySprite[0]
+    const phaserInstance = phaserInstances[0]
 
     if(phaserInstance.entityInstanceId !== entityInstanceIdHovering && phaserInstance?.isSelectable) {
       store.dispatch(changeInstanceHovering(phaserInstance.entityInstanceId, phaserInstance.entityModelId, { isSpawned: phaserInstance.effectSpawned }))
     }
 
-    phaserInstance.isMouseOver = true
-    // if(entitySprite.effectSpawned) return
+    if(phaserInstance.isSelectable) phaserInstance.isMouseOver = true
+    // if(phaserInstance.effectSpawned) return
     // if(!document.body.style.cursor) document.body.style.cursor = 'grab'
   }
 
@@ -426,11 +426,11 @@ export class EditorScene extends GameInstance {
 
     const clickDelay = this.time.now - this.lastClick;
     this.lastClick = this.time.now;
-    if(clickDelay < 200 && !pointer.event.shiftKey) {
+    if(clickDelay < 350 && !pointer.event.shiftKey) {
       this.doubleClicked = true
       setTimeout(() => {
         this.doubleClicked = false
-      }, 350)
+      }, 400)
       this.onDoubleClick(pointer, hoveringInstances)
       return
     }
@@ -530,10 +530,10 @@ export class EditorScene extends GameInstance {
           } else {
             // const { isObscured } = getInterfaceIdData(STAGE_OPEN_EDIT_IID)
             // if(!isObscured) {
-              store.dispatch(openStageLiveEditor())
+              // store.dispatch(openStageLiveEditor())
             // }
           }
-        }, 350)
+        }, 400)
       }
     }
   }
@@ -592,8 +592,8 @@ export class EditorScene extends GameInstance {
     this.isMouseOverGame = false
   }
 
-  onPointerOut = (pointer, entitySprite) => {
-    const phaserInstance = entitySprite[0]
+  onPointerOut = (pointer, phaserInstances) => {
+    const phaserInstance = phaserInstances[0]
     phaserInstance.isMouseOver = false
     store.dispatch(changeInstanceHovering(null, null))
     // const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
@@ -1047,18 +1047,18 @@ export class EditorScene extends GameInstance {
     this.editorCamera = this.cameras.getCamera('editor')
 
     // const keys = this.input.keyboard.addKeys({ up: 'W', left: 'A', down: 'S', right: 'D' });
-    const keys = this.input.keyboard.addKeys({ up: 'Up', left: 'Left', down: 'Down', right: 'Right' });
-    const controlConfig = {
-      camera: this.editorCamera,
-      left: keys.left,
-      right: keys.right,
-      up: keys.up,
-      down: keys.down,
-      acceleration: 0.03,
-      drag: 0.001,
-      maxSpeed: 0.5
-    };
-    this.editorCameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
+    // const keys = this.input.keyboard.addKeys({ up: 'Up', left: 'Left', down: 'Down', right: 'Right' });
+    // const controlConfig = {
+    //   camera: this.editorCamera,
+    //   left: keys.left,
+    //   right: keys.right,
+    //   up: keys.up,
+    //   down: keys.down,
+    //   acceleration: 0.03,
+    //   drag: 0.001,
+    //   maxSpeed: 0.5
+    // };
+    // this.editorCameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
 
     this.input.on('pointerover', this.onPointerOver);
     this.input.on('pointerout', this.onPointerOut);
@@ -1204,26 +1204,16 @@ export class EditorScene extends GameInstance {
     // }
 
     const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
+
     if(isGridViewOn) {
-      const cobrowsing = store.getState().cobrowsing
-      const isActivelyCobrowsing = cobrowsing.isActivelyCobrowsing
-      if(isActivelyCobrowsing) {
-        const phaserViews = store.getState().status.phaserViews
-        const phaserView = phaserViews[cobrowsing.remoteStateUserMongoId]
-        if(phaserView) {
-          this.editorCamera.scrollX = phaserView.cameraX
-          this.editorCamera.scrollY = phaserView.cameraY
-          // this.editorCamera.pan(phaserView.cameraX, phaserView.cameraY, 0, true)
-        }
-      } else {
-        this.editorCameraControls.update(delta)
-      }
       this.isGridViewOn = true
     } else {
       this.isGridViewOn = false
     }
 
     if(this.isGridViewOn) {
+      this.editorCamera.startFollow(this.playerInstance.phaserInstance, false, 0.4, 0.4)
+
       this.grid.setVisible(true)
       this.grid2.setVisible(true)
       this.cameras.main.setVisible(false)

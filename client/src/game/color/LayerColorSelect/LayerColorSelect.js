@@ -40,7 +40,7 @@ const LayerColorSelect = ({
   
   function onAddColor() {
     if(Object.keys(colors).length) {
-      openSelectAggregateColor(LAYER_AGGREGATE_COLOR_SELECT_IID)
+      openSelectAggregateColor(LAYER_AGGREGATE_COLOR_SELECT_IID, layerId)
     } else {
       openCreateColorFlow(LAYER_CREATE_COLOR_DIALOG_IID, layerId)
     }
@@ -88,19 +88,6 @@ const LayerColorSelect = ({
 
   return <>
     {renderColorSelect()}
-    {isSelectAggregateColorOpen === LAYER_AGGREGATE_COLOR_SELECT_IID && <AggregateColorSelectDialog
-      onSelectColor={(hex) => {
-        closeSelectAggregateColor()
-        editGameModel({
-          colors: {
-            [hex]: {
-              [layerId]: Date.now()
-            }
-          }
-        })
-        selectBrush(COLOR_BRUSH_ID + '/' + layerId + '/' + hex, layerId)
-      }}
-    />}
   </>
 };
 

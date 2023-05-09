@@ -6,7 +6,7 @@ import './CreateEffect.scss';
 import { closeCreateEffect } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
-import SelectEntity from '../../ui/SelectEntityModel/SelectEntityModel';
+import SelectEntityModel from '../../ui/SelectEntityModel/SelectEntityModel';
 import { defaultEffect, effectEditInterfaces } from '../../constants';
 import { TextField } from '@mui/material';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
@@ -72,7 +72,7 @@ const CreateEffect = ({ onUpdateEffect, eventType, effect}) => {
     }
 
     if(effectForms.entityModelId) {
-      forms.push(<SelectEntity 
+      forms.push(<SelectEntityModel
         key={'entityModelId'}
         interfaceId={RELATION_ENTITY_MODEL_IID}
         formLabel={effectForms.entityModelId}
@@ -85,7 +85,7 @@ const CreateEffect = ({ onUpdateEffect, eventType, effect}) => {
     }
 
     if(effectForms.spawnEntityModelId) {
-      forms.push(<SelectEntity
+      forms.push(<SelectEntityModel
         key={'spawnEntityModelId'}
         interfaceId={RELATION_SPAWN_ENTITY_MODEL_IID}
         formLabel={effectForms.spawnEntityModelId}
@@ -97,7 +97,7 @@ const CreateEffect = ({ onUpdateEffect, eventType, effect}) => {
     }
 
     if(effectForms.zoneEntityModelId) {
-      forms.push(<SelectEntity 
+      forms.push(<SelectEntityModel
         key={'zoneEntityModelId'}
         entityModelClass={ZONE_ENTITY_IID}
         interfaceId={RELATION_SPAWN_ZONE_ENTITY_IID}

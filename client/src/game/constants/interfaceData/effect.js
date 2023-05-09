@@ -362,10 +362,6 @@ export function getEffectShorthand(effect) {
     return displayName + ` into  ${entityModels[effect.entityModelId].name} temporarily`
   }
 
-  if(effectBehavior === EFFECT_TRANSFORM_TEMPORARY_END) {
-    return displayName + ` for ${entityModels[effect.entityModelId].name}`
-  }
-
   if(effectBehavior === EFFECT_SPAWN) {
     return displayName + ` ${entityModels[effect.spawnEntityModelId].name}  onto  ${entityModels[effect.zoneEntityModelId].name}`
   }

@@ -91,12 +91,12 @@ export const defaultGameModel = {
     [FIVE_KID]: {
       effectId: EFFECT_DID + TOGGLE_PAUSE_PLAY_AID
     },
-    [SIX_KID]: {
-      effectId: EFFECT_DID + COBROWSE_CLICK_TOOL_AID
-    },
-    [SEVEN_KID]: {
-      effectId: EFFECT_DID + COBROWSE_UNLOCK_TOOL_AID
-    }
+    // [SIX_KID]: {
+    //   effectId: EFFECT_DID + COBROWSE_CLICK_TOOL_AID
+    // },
+    // [SEVEN_KID]: {
+    //   effectId: EFFECT_DID + COBROWSE_UNLOCK_TOOL_AID
+    // }
   },
   layers: {},
   "entityModels": {
@@ -144,6 +144,7 @@ export const defaultGameModel = {
           [PROJECTILE_ENTITY_SELECTOR_IID]: true,
         },
         fixedAspectRatio: true,
+        notSelectableInStage: true,
       },
       autogeneration: {
         transformIntoEffect: false,

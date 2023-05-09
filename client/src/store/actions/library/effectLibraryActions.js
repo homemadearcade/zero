@@ -19,7 +19,7 @@ import {
   EDIT_EFFECT_FAIL,
   CLEAR_EFFECT,
 } from '../../types';
-import { DATA_SOURCE_IMPORTED_GAME_MODE_IID } from '../../../game/constants';
+import { DATA_SOURCE_IMPORTED_GAME_MODEL_IID } from '../../../game/constants';
 
 export const getEffectLibrary = () => async (dispatch, getState) => {
   dispatch({
@@ -100,7 +100,7 @@ export const addEffectToLibrary = (effect) => async (dispatch, getState) => {
   try {
     const userMongoId = getState().auth.me.id
     effect.userMongoId = userMongoId
-    effect.dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODE_IID
+    effect.dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODEL_IID
     
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/effect', effect, options);
