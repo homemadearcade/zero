@@ -55,10 +55,10 @@ export class PlayerInstance extends EntityInstance {
     this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: entityModel.graphics.width + (nodeSize * 4), height: entityModel.graphics.height + (nodeSize * 4) }) 
     this.lastInteractAreaUpdate = 0
 
+    this.registerKeys()
+
     this.controlledMovement = new ControlledMovement(scene, this)
     this.controlledProjectileEjector = new ControlledProjectileEjector(scene, this)
-
-    this.registerKeys()
 
     return this
   }

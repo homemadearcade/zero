@@ -50,7 +50,7 @@ export function instructionSteps({
             </>
           }
           if(gameRoomInstance?.arcadeGameMongoId !== instruction.arcadeGameMongoId) {
-            console.log('incorrect game loaded', gameRoomInstance?.arcadeGameMongoId, instruction.arcadeGameMongoId)
+            // console.log('incorrect game loaded', gameRoomInstance?.arcadeGameMongoId, instruction.arcadeGameMongoId)
             return <>
               Incorrect game loaded!
               <Button onClick={async () => {

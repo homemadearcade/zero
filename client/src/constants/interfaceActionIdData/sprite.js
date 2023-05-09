@@ -4,6 +4,7 @@ import { INTERFACE_ACTION_CURRENT_PLAYER, INTERFACE_ACTION_SPRITE } from "../int
 import { EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, 
   ZONE_ENTITY_IID } from "../interfaceIds";
 import { DRAW_NEW_SPRITE_FOR_CURRENT_PLAYER_AID, DRAW_NEW_SPRITE_FOR_ENTITY_AID } from "../interfaceActionIds";
+import store from "../../store";
 
  // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -59,7 +60,7 @@ export default {
       const currentPlayerEntityId = getState().playerInterface.playerEntityModelId
       const currentPlayerEntityModel = gameModel.entityModels[currentPlayerEntityId]
       const graphics = currentPlayerEntityModel.graphics
-      dispatch(openCreateCanvasImageDialog(currentPlayerEntityId, graphics.textureId, graphics.textureTint))
+      store.dispatch(openCreateCanvasImageDialog(currentPlayerEntityId, graphics.textureId, graphics.textureTint))
     },
     higherPriority: true
   }
