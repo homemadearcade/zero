@@ -59,7 +59,6 @@ export default {
       const currentPlayerEntityId = getState().playerInterface.playerEntityModelId
       const currentPlayerEntityModel = gameModel.entityModels[currentPlayerEntityId]
       const graphics = currentPlayerEntityModel.graphics
-      console.log('graphics', graphics, currentPlayerEntityModel)
       dispatch(openCreateCanvasImageDialog(currentPlayerEntityId, graphics.textureId, graphics.textureTint))
     },
     higherPriority: true

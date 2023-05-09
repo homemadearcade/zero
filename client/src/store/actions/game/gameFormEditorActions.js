@@ -102,7 +102,6 @@ export const openCreateCanvasImageDialog= (entityModelId, textureId, textureTint
   const state = getState()
   const newTextureId = state.gameModel.gameModel.id + '/' +CANVAS_IMAGE_DID + generateUniqueId()
 
-  console.log('openCreateCanvasImageDialog', newTextureId)
   try {
     dispatch({
       updateCobrowsing: true,
@@ -120,6 +119,8 @@ export const openCreateCanvasImageDialog= (entityModelId, textureId, textureTint
       imageType: IMAGE_TYPE_SPRITE,
       userMongoId: state.gameModel.gameModel.owner.id,
     }))
+
+    console.log('canvasImage', canvasImage)
 
     dispatch({
       updateCobrowsing: true,

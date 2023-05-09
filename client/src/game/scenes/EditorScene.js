@@ -1242,6 +1242,7 @@ export class EditorScene extends GameInstance {
     this.input.off('drag', this.onDragStart);
     this.input.off('dragend', this.onDragEnd);
     this.input.off('wheel', this.onMouseWheel);
+    this.input.keyboard.disableGlobalCapture()
     // this.remoteEditors.forEach((remoteEditor) => {
     //   remoteEditor.destroy()
     // })

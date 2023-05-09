@@ -50,7 +50,6 @@ export class PlayerInstance extends EntityInstance {
       console.error('no player class for entityModelId:' + entityModelId)
     }
 
-    this.cursors = scene.input.keyboard.createCursorKeys();
 
     const nodeSize = store.getState().gameModel.gameModel.size.nodeSize
     this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: entityModel.graphics.width + (nodeSize * 4), height: entityModel.graphics.height + (nodeSize * 4) }) 
@@ -59,9 +58,14 @@ export class PlayerInstance extends EntityInstance {
     this.controlledMovement = new ControlledMovement(scene, this)
     this.controlledProjectileEjector = new ControlledProjectileEjector(scene, this)
 
-    this.xKey = scene.input.keyboard.addKey('X');  // Get key object
+    this.registerKeys()
 
     return this
+  }
+
+  registerKeys() {
+    this.cursors = this.scene.input.keyboard.createCursorKeys();
+    this.xKey = this.scene.input.keyboard.addKey('X');  // Get key object
   }
 
   setSize(width, height) {

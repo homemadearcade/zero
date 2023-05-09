@@ -118,8 +118,10 @@ export const addCanvasImage = (canvasImage) => async (dispatch, getState) => {
 
   try {
     const options = attachTokenToHeaders(getState);
+    console.log('adding canvas image')
     const response = await axios.post('/api/canvasImages', canvasImage, options);
-
+    console.log('added canvas image', response)
+    
     dispatch({
       type: ADD_CANVAS_IMAGE_SUCCESS,
       payload: { canvasImage: response.data.canvasImage },
