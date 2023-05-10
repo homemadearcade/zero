@@ -8,7 +8,7 @@ import { getOppositeColliderRelationTagId } from '../../../utils/gameUtils';
 import { entityModelClassToDisplayName } from '../../constants';
 import { RELATION_TAG_ENTITY_IID } from '../../../constants/interfaceIds';
 
-const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
+const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel: { gameModel } }) => {
   const mapTagToOption = (collidingRelationTagId) => {
     const relationTag = gameModel.relationTags[collidingRelationTagId]
 
@@ -68,7 +68,7 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
 
 const mapStateToProps = (state) => {
   return {
-    gameModel: state.gameModel.gameModel,
+    gameModel: state.gameModel,
   }
 };
 

@@ -16,7 +16,7 @@ import { closeGameTexturesDialog, openGameTexturesDialog } from '../../../store/
 import SceneCard from '../SceneCard/SceneCard';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
-import { DIALOGUE_SHORTCUT_IID, IMAGE_AND_TEXT_CUTSCENE_IID, IMAGE_CUTSCENE_IID, TEXT_CUTSCENE_IID } from '../../../constants/interfaceIds';
+import { SCRIPT_SHORTCUT_IID, IMAGE_AND_TEXT_CUTSCENE_IID, IMAGE_CUTSCENE_IID, TEXT_CUTSCENE_IID } from '../../../constants/interfaceIds';
 import { getImageUrlFromTextureId } from '../../../utils';
 import { CUTSCENE_DID, SCENE_DID } from '../../constants';
 
@@ -78,7 +78,7 @@ const CreateCutscene = ({
 
   function renderActionButtons() {
 
-    if(cutscene.isDialogue) {
+    if(cutscene.isScript) {
       return <Button onClick={() => {
         addScene(TEXT_CUTSCENE_IID)
       }}>
@@ -107,15 +107,15 @@ const CreateCutscene = ({
 
   return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="CreateCutscene">
-       <Unlockable interfaceId={DIALOGUE_SHORTCUT_IID}>
+       <Unlockable interfaceId={SCRIPT_SHORTCUT_IID}>
         <Switch
-          labels={['Is Cutscene', 'Is Dialogue']}
+          labels={['Is Cutscene', 'Is Script']}
           size="small"
           onChange={(e) => {
-              updateCreateCutscene({ isDialogue: e.target.checked
+              updateCreateCutscene({ isScript: e.target.checked
             })          
           }}
-          checked={cutscene.isDialogue}
+          checked={cutscene.isScript}
          />
       </Unlockable>
       <Typography component="h2" variant="h2">{cutscene.name}</Typography>

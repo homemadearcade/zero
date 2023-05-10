@@ -12,7 +12,7 @@ import { MenuItem, MenuList } from '@mui/material';
 import DataSourceVisibilityMenu from '../../../ui/connected/DataSourceVisibilityMenu/DataSourceVisibilityMenu';
 import CobrowsingMenuIconButton from '../../cobrowsing/CobrowsingMenuIconButton/CobrowsingMenuIconButton';
 
-const SelectEntityModel = ({ onChange, disabled, value, interfaceId, formLabel, gameModel, entityModelClass, gameSelector: { selectorInterfaceListInvisibility } }) => {
+const SelectEntityModel = ({ onChange, disabled, value, interfaceId, formLabel, gameModel: { gameModel }, entityModelClass, gameSelector: { selectorInterfaceListInvisibility } }) => {
   const dataSourceFilterInterfaceId = interfaceId || SELECT_ENTITY_MODEL_IID
 
   const mapEntityToOption = (entityModelId) => {
@@ -21,7 +21,11 @@ const SelectEntityModel = ({ onChange, disabled, value, interfaceId, formLabel, 
     const isDataSourceInvisible = selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][entityModel.dataSourceIID]
     const isRemovedInvisible = entityModel.isRemoved && selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][IS_DATA_REMOVED_IID]
 
-    const isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromIDs[interfaceId]
+    const isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromIDs[interfaceId] || !entityModel.entityIID
+
+    if(!entityModel.entityIID) {
+      console.log("entityModel.entityIID", entityModel)
+    }
 
     return {
       title: entityModel.name,
@@ -41,7 +45,7 @@ const SelectEntityModel = ({ onChange, disabled, value, interfaceId, formLabel, 
     return false
   }).map(mapEntityToOption)
 
-  options.sort((a, b) => -b.entityIID.localeCompare(a.entityIID))
+  options.sort((a, b) => -b.entityIID?.localeCompare(a.entityIID))
 
   return <div className="SelectEntityModel">
     <SelectChipsAuto 
@@ -71,7 +75,7 @@ const SelectEntityModel = ({ onChange, disabled, value, interfaceId, formLabel, 
 
 const mapStateToProps = (state) => {
   return {
-    gameModel: state.gameModel.gameModel,
+    gameModel: state.gameModel,
     gameSelector: state.gameSelector,
   }
 };

@@ -21,7 +21,7 @@ import Button from '../../../ui/Button/Button';
 const ToolBoxList = ({
   updateOpenInterfaceId,
   onSelectTool,
-  gameModel: { gameModel },
+  gameModel: { gameModel, currentStageId },
   editGameModel
 }) => {
   const [accordians, setAccordians] = useState()
@@ -29,6 +29,9 @@ const ToolBoxList = ({
   const effectList = Object.keys(gameModel.effects).map((effectId) => {
     return gameModel.effects[effectId]
   })
+
+  const currentStage = gameModel.stages[currentStageId]
+  const keyboardShortcuts = currentStage.keyboardShortcuts
 
   function renderBody(effectList) {
     return <div 
@@ -49,8 +52,9 @@ const ToolBoxList = ({
           textureTint
         } = effectData
 
-        const setToShortcutKey = Object.keys(gameModel.keyToolbar).find((keyId) => {
-          return gameModel.keyToolbar[keyId]?.effectId === effectData.effectId
+        const keyboardShortcuts = gameModel.stages[currentStageId].keyboardShortcuts
+        const setToShortcutKey = Object.keys(keyboardShortcuts).find((keyId) => {
+          return keyboardShortcuts[keyId]?.effectId === effectData.effectId
         })
 
         return <div key={i} style={{
@@ -117,9 +121,13 @@ const ToolBoxList = ({
               return <MenuItem key={keyId} onClick={() => {
                 handleClose()
                 editGameModel({
-                  keyToolbar: {
-                    [keyId]: {
-                      effectId: effectData.effectId
+                  stages: {
+                    [currentStageId]: {
+                      keyboardShortcuts: {
+                        [keyId]: {
+                          effectId: effectData.effectId
+                        }
+                      }
                     }
                   }
                 })
@@ -173,7 +181,15 @@ const ToolBoxList = ({
         textureTint
       } = getEffectData(effect, ON_STEP_BEGINS, gameModel)
 
-      if(!isRemoved) {
+      let wrongLayer = false
+      if(effect.layerId) {
+        const layer = gameModel.layers[effect.layerId]
+        if(layer.stageId !== currentStageId) {
+          wrongLayer = true
+        }
+      }
+
+      if(!isRemoved && !wrongLayer) {
         if(!acc[group]) {   
           acc[group] = {
             list: []
@@ -200,7 +216,7 @@ const ToolBoxList = ({
     })
 
     setAccordians(accordians.filter((accordian) => !!accordian))
-  }, [gameModel.keyToolbar])
+  }, [keyboardShortcuts])
 
   if(!accordians) return null
 

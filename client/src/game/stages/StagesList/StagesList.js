@@ -41,7 +41,7 @@ const StagesList = ({  openCreateStageDialog, changeCurrentStage, gameModel: { g
         {currentStageId !== stageId && <Button startIcon={<Icon icon="faShuffle"/>} onClick={() => {
           changeCurrentStage(stageId)
         }}>Switch to {stage.name}</Button>}
-        <Unlockable interfaceId={STAGE_ADD_IID}>
+        {/* <Unlockable interfaceId={STAGE_ADD_IID}>
           <Button startIcon={<Icon icon="faPlus"/>} onClick={() => {
             const newStageId = STAGE_DID + generateUniqueId()
             openCreateStageDialog({
@@ -51,16 +51,17 @@ const StagesList = ({  openCreateStageDialog, changeCurrentStage, gameModel: { g
             })
             // changeCurrentStage(newStageId)
           }}>New stage from {stage.name}</Button>
-        </Unlockable>
+        </Unlockable> */}
       </div>
     })}
     <Divider/>
     <Unlockable interfaceId={STAGE_ADD_IID}>
       <Button startIcon={<Icon icon="faPlus"/>} onClick={() => {
-        const newStageId = STAGE_DID + generateUniqueId()
+        // const newStageId = STAGE_DID + generateUniqueId()
         openCreateStageDialog({
           ...initialStage,
-          stageId: newStageId,
+          // stageId: newStageId,
+          // isNew: true,
           name: 'Stage #' + (Object.keys(stages).length + 1).toString(),
         })
         // changeCurrentStage(newStageId)

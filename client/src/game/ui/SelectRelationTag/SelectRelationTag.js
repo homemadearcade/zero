@@ -12,7 +12,7 @@ import { MenuItem, MenuList } from '@mui/material';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CobrowsingMenuIconButton from '../../cobrowsing/CobrowsingMenuIconButton/CobrowsingMenuIconButton';
 
-const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, value, formLabel, gameModel, gameSelector: { selectorInterfaceListInvisibility } }) => {
+const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, value, formLabel, gameModel: { gameModel, currentStageId }, gameSelector: { selectorInterfaceListInvisibility } }) => {
   const dataSourceFilterInterfaceId = interfaceId || SELECT_RELATION_TAG_IID
 
   const mapTagToOption = (relationTagId) => {
@@ -39,7 +39,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
           isRemoved: true,
         }
       }
-      const isImportInvisible = relationTagEntity.isImported && relationTagEntity.dataSourceIID !== DATA_SOURCE_GAME_MODEL_IID
+      const isImportInvisible = relationTagEntity.importedStageIds[currentStageId] && relationTagEntity.dataSourceIID !== DATA_SOURCE_GAME_MODEL_IID
 
       return {
         title: relationTag.name,
@@ -100,7 +100,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
 
 const mapStateToProps = (state) => {
   return {
-    gameModel: state.gameModel.gameModel,
+    gameModel: state.gameModel,
     gameSelector: state.gameSelector,
   }
 };

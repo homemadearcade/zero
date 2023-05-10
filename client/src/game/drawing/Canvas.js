@@ -36,11 +36,30 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
   rotate() {
     const renderTexture = new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, this.boundaries.maxWidth, this.boundaries.maxHeight);
+    renderTexture.setOrigin(0, 0)
     renderTexture.draw(this, 0,0)
     this.camera.setAngle(90);
     this.clear()
     super.draw(renderTexture, 0, 0)
     this.camera.setAngle(0)
+  }
+
+  flipHorizontal () {
+    const renderTexture = new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, this.boundaries.maxWidth, this.boundaries.maxHeight);
+    renderTexture.setOrigin(0, 0)
+    renderTexture.draw(this, 0,0)
+    renderTexture.flipX = !renderTexture.flipX
+    this.clear()
+    super.draw(renderTexture, 0, 0)
+  }
+
+  flipVertical () {
+    const renderTexture = new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, this.boundaries.maxWidth, this.boundaries.maxHeight);
+    renderTexture.setOrigin(0, 0)
+    renderTexture.draw(this, 0,0)
+    renderTexture.flipY = !renderTexture.flipY
+    this.clear()
+    super.draw(renderTexture, 0, 0)
   }
 
   save = async ()  => {

@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { editLobby, toggleLobbyDashboard} from '../../store/actions/experience/lobbyInstanceActions';
+import { editLobby } from '../../store/actions/experience/lobbyInstanceActions';
 import requireAuth from '../../hoc/requireAuth';
 import requireChrome from '../../hoc/requireChrome';
 
@@ -27,15 +27,10 @@ const LobbyPage = ({
   auth: { me },
   myTracks,
   userTracks,
-  toggleLobbyDashboard,
 }) => {
   // let { path } = useRouteMatch();
 
   useEffect(() => {
-    if(me.roles[APP_ADMIN_ROLE]) {
-      toggleLobbyDashboard(true)
-    }
-
     window.socket.on(ON_LOBBY_INSTANCE_EVENT, async ({lobbyInstanceEventType, data}) => {
       console.log('lobbyInstanceEventType', lobbyInstanceEventType, data)
       switch(lobbyInstanceEventType) {
@@ -96,5 +91,5 @@ export default compose(
   LobbyInstanceContext,
   withSpeedTest,
   withAgoraVideoCall,
-  connect(mapStateToProps, { editLobby, toggleLobbyDashboard }),
+  connect(mapStateToProps, { editLobby }),
 )(LobbyPage);

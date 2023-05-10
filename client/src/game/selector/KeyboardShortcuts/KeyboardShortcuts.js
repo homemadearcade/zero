@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import './KeyToolbar.scss'
+import './KeyboardShortcuts.scss'
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import Icon from '../../../ui/Icon/Icon';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
 import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, entityModelClassToDisplayName, ON_STEP_BEGINS, RUN_GAME_INSTANCE_ACTION } from '../../constants';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { KEY_TOOLBAR_ACTIONS_IID } from '../../../constants/interfaceIds';
-import { TOOLBAR_MORE_IID } from '../../../constants/interfaceIds/keyToolbarInterfaceIds';
+import { KEYBOARD_ACTIONS_IID } from '../../../constants/interfaceIds';
+import { TOOLBAR_MORE_IID } from '../../../constants/interfaceIds/keyboard';
 import Button from '../../../ui/Button/Button';
 import { EIGHT_KID, FIVE_KID, FOUR_KID, keyIdToInterfaceData, NINE_KID, ONE_KID, SEVEN_KID, SIX_KID, THREE_KID, TWO_KID } from '../../../constants/keyboard/keyIds';
 import classNames from 'classnames';
 import store from '../../../store';
 import { unlockInterfaceId } from '../../../store/actions/game/unlockedInterfaceActions';
 import { getCurrentGameScene, getEffectData, runEffect } from '../../../utils';
-import { changeKeyToolbarActionIdHovering } from '../../../store/actions/game/hoverPreviewActions';
+import { changeKeyboardShortcutActionIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import IconButton from '../../../ui/IconButton/IconButton';
 import { interfaceActionIdData } from '../../../constants/interfaceActionIdData';
@@ -23,7 +23,7 @@ import { openToolBoxDialog } from '../../../store/actions/game/gameSelectorActio
 import { useKeyPress } from '../../../hooks/useKeyPress';
 import Texture from '../../textures/Texture/Texture';
 
-const KeyToolbar = ({ 
+const KeyboardShortcuts = ({ 
   cobrowsing: {
     isActivelyCobrowsing,
     isSubscribedCobrowsing,
@@ -35,7 +35,7 @@ const KeyToolbar = ({
   gameViewEditor: {
     isDialogOverGameView
   },
-  changeKeyToolbarActionIdHovering,
+  changeKeyboardShortcutActionIdHovering,
   unlockInterfaceId,
   keyToolbar,
   openToolBoxDialog
@@ -43,7 +43,7 @@ const KeyToolbar = ({
   const theme = useWishTheme()
 
   const keyIdsToKeyActions = {
-    ...gameModel.keyToolbar,
+    ...gameModel.stages[currentStageId].keyboardShortcuts,
     ...keyToolbar
   }
 
@@ -56,15 +56,15 @@ const KeyToolbar = ({
     runEffect(effect)
   }
 
-  const isOnePressed = useKeyPress('1', onKeyPress(ONE_KID), [keyIdsToKeyActions])
-  const isTwoPressed = useKeyPress('2', onKeyPress(TWO_KID), [keyIdsToKeyActions])
-  const isThreePressed = useKeyPress('3', onKeyPress(THREE_KID), [keyIdsToKeyActions])
-  const isFourPressed = useKeyPress('4', onKeyPress(FOUR_KID), [keyIdsToKeyActions])
-  const isFivePressed = useKeyPress('5', onKeyPress(FIVE_KID), [keyIdsToKeyActions])
-  const isSixPressed = useKeyPress('6', onKeyPress(SIX_KID), [keyIdsToKeyActions])
-  const isSevenPressed = useKeyPress('7', onKeyPress(SEVEN_KID), [keyIdsToKeyActions])
-  const isEightPressed = useKeyPress('8', onKeyPress(EIGHT_KID), [keyIdsToKeyActions])
-  const isNinePressed = useKeyPress('9', onKeyPress(NINE_KID), [keyIdsToKeyActions])
+  const isOnePressed = useKeyPress('1', onKeyPress(ONE_KID), [keyIdsToKeyActions, isDialogOverGameView])
+  const isTwoPressed = useKeyPress('2', onKeyPress(TWO_KID), [keyIdsToKeyActions, isDialogOverGameView])
+  const isThreePressed = useKeyPress('3', onKeyPress(THREE_KID), [keyIdsToKeyActions, isDialogOverGameView])
+  const isFourPressed = useKeyPress('4', onKeyPress(FOUR_KID), [keyIdsToKeyActions, isDialogOverGameView])
+  const isFivePressed = useKeyPress('5', onKeyPress(FIVE_KID), [keyIdsToKeyActions, isDialogOverGameView])
+  const isSixPressed = useKeyPress('6', onKeyPress(SIX_KID), [keyIdsToKeyActions, isDialogOverGameView])
+  const isSevenPressed = useKeyPress('7', onKeyPress(SEVEN_KID), [keyIdsToKeyActions, isDialogOverGameView])
+  const isEightPressed = useKeyPress('8', onKeyPress(EIGHT_KID), [keyIdsToKeyActions, isDialogOverGameView])
+  const isNinePressed = useKeyPress('9', onKeyPress(NINE_KID), [keyIdsToKeyActions, isDialogOverGameView])
 
   const keyIdToIsPressed = {
     [ONE_KID]: isOnePressed,
@@ -86,7 +86,7 @@ const KeyToolbar = ({
 
   function renderMore() {
     return <Unlockable interfaceId={TOOLBAR_MORE_IID}>
-      <div className='KeyToolbar__more'>
+      <div className='KeyboardShortcuts__more'>
         <Button size="fit" startIcon={<Icon icon='faToolbox'/>} className="Toolbox__more" onClick={() => {
           // openEntityBoxDialog(PLACE_ENTITY_AID, entityModelClass)
           openToolBoxDialog()
@@ -141,28 +141,28 @@ const KeyToolbar = ({
 
       runEffect(effect)
     }} 
-      className={classNames("KeyToolbar__node", {
-        "KeyToolbar__node--clickable": !disabled,
+      className={classNames("KeyboardShortcuts__node", {
+        "KeyboardShortcuts__node--clickable": !disabled,
       })}
       style={{
         backgroundColor: isActive && theme.primaryColor.hexString
       }}
       onMouseEnter={() => {
         if(disabled) return
-        changeKeyToolbarActionIdHovering(effectId)
+        changeKeyboardShortcutActionIdHovering(effectId)
       }}
       onMouseLeave={() => {
         if(disabled) return
-        changeKeyToolbarActionIdHovering(null)
+        changeKeyboardShortcutActionIdHovering(null)
       }}
     >
-      <div className="KeyToolbar__node-control" style={{
+      <div className="KeyboardShortcuts__node-control" style={{
         backgroundColor: keyIdToIsPressed[keyId] && theme.primaryColor.hexString,
         color: keyIdToIsPressed[keyId] && 'white',
       }}>
         {renderControl(controlName)}
       </div>
-      <div className="KeyToolbar__node-action">
+      <div className="KeyboardShortcuts__node-action">
         {/* {renderLeftClickAction()} */}
         {!hidden && <>
           <IconButton 
@@ -173,7 +173,7 @@ const KeyToolbar = ({
             size="small" icon={icon}
           ></IconButton>
           {subIcon && <Icon icon={subIcon} />}
-          {(textureId || textureTint) && <div className="KeyToolbar__node-sprite">
+          {(textureId || textureTint) && <div className="KeyboardShortcuts__node-sprite">
             <Texture textureId={textureId} textureTint={textureTint} />
            </div>}
         </>}
@@ -206,9 +206,9 @@ const KeyToolbar = ({
     NINE_KID
   ]
  
-  return <Unlockable interfaceId={KEY_TOOLBAR_ACTIONS_IID}>
-    <div className="KeyToolbar">
-      <div className="KeyToolbar__grid">
+  return <Unlockable interfaceId={KEYBOARD_ACTIONS_IID}>
+    <div className="KeyboardShortcuts">
+      <div className="KeyboardShortcuts__grid">
         {keyActions.map(renderNumberKey)}
       </div>
       {renderMore()}
@@ -226,7 +226,7 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default connect(mapStateToProps, {
-  changeKeyToolbarActionIdHovering,
+  changeKeyboardShortcutActionIdHovering,
   unlockInterfaceId,
   openToolBoxDialog
-})(KeyToolbar);
+})(KeyboardShortcuts);

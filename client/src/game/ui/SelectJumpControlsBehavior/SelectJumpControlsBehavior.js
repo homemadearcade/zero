@@ -50,7 +50,7 @@ const SelectJumpControlsBehavior = ({ onChange, value, formLabel }) => {
 
 const mapStateToProps = (state) => {
   return {
-    // gameModel: state.gameModel.gameModel,
+
   }
 };
 

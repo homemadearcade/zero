@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './SelectCutscene.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 
-const SelectCutscene = ({ onChange, value, formLabel, gameModel}) => {
+const SelectCutscene = ({ onChange, value, formLabel, gameModel: { gameModel }}) => {
 
   const mapEntityToOption = (cutsceneId) => {
     const cutscene = gameModel.cutscenes[cutsceneId]
@@ -32,7 +32,7 @@ const SelectCutscene = ({ onChange, value, formLabel, gameModel}) => {
 
 const mapStateToProps = (state) => {
   return {
-    gameModel: state.gameModel.gameModel,
+    gameModel: state.gameModel,
   }
 };
 

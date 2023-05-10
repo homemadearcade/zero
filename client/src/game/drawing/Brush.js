@@ -38,13 +38,17 @@ export class Brush extends Phaser.GameObjects.Image {
     this.lastSnapY = null
     this.strokeMemory = []
 
-    this.canvas = null
+    this.brushingCanvas = null
 
     return this
   }
 
-  update(pointer) {
-    const { clampedX, clampedY } = this.snapMethod({x: pointer.worldX, y: pointer.worldY})
+  update(pointer, canvas) {
+    const { clampedX, clampedY } = this.snapMethod({
+      x: pointer.worldX, 
+      y: pointer.worldY,
+      boundaries: canvas.boundaries
+    })
     this.setPosition(clampedX, clampedY)
   }
 
@@ -52,8 +56,11 @@ export class Brush extends Phaser.GameObjects.Image {
     if(!canvas.strokeHistory) {
       return false
     }
-    
-    const { clampedX, clampedY } = this.snapMethod({x: pointer.worldX, y: pointer.worldY})
+
+    const { clampedX, clampedY } = this.snapMethod({
+      x: pointer.worldX, y: pointer.worldY,
+      boundaries: canvas.boundaries
+    })
     if(clampedX === this.lastStrokeX && clampedY === this.lastStrokeY) return
 
     this.lastStrokeX = clampedX
@@ -83,13 +90,13 @@ export class Brush extends Phaser.GameObjects.Image {
     } else {
       canvas.draw(this, x, y);
     }
-    this.canvas = canvas
+    this.brushingCanvas = canvas
   }
 
   releaseStroke() {
     const strokeData = { 
       strokeId: STROKE_DID + generateUniqueId(),
-      textureId: this.canvas.textureId,
+      textureId: this.brushingCanvas.textureId,
       time: Date.now(),
       brushId: this.brushId,
       stroke: this.strokeMemory
@@ -97,15 +104,15 @@ export class Brush extends Phaser.GameObjects.Image {
     
     if(this.scene.gameRoomInstance.isOnlineMultiplayer) {
       store.dispatch(publishCodrawingStrokes(strokeData))
-      if(!this.canvas.isCodrawingHost) {
-        this.canvas.addPendingStrokes(strokeData)
+      if(!this.brushingCanvas.isCodrawingHost) {
+        this.brushingCanvas.addPendingStrokes(strokeData)
       }
     } else {
-      this.canvas.addStrokeHistory(strokeData)
+      this.brushingCanvas.addStrokeHistory(strokeData)
     }
     
-    this.canvas.onStrokeReleased()
-    this.canvas = null
+    this.brushingCanvas.onStrokeReleased()
+    this.brushingCanvas = null
     this.strokeMemory = []
   }
 }

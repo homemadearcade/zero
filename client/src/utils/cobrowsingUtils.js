@@ -81,7 +81,6 @@ export function getCobrowsingState(options) {
       unlockedInterfaceIds: remoteState.unlockedInterfaceIds,
       errors: remoteState.errors,
       snackbar: remoteState.snackbar,
-      keyToolbar: remoteState.keyToolbar,
     }
   }
 

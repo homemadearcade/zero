@@ -21,7 +21,7 @@ const EntityBoxDialog = ({
   closeEntityBoxDialog, 
   gameSelector: { entityBoxDialogType, entityBoxDialogActionId }, 
   gameFormEditor: { isEditEntityGraphicsOpen },
-  gameModel : { gameModel, gameModel : { entityModels }},
+  gameModel : { gameModel, currentStageId, gameModel : { entityModels }},
   editGameModel
  }) => {
 
@@ -50,7 +50,9 @@ const EntityBoxDialog = ({
           editGameModel({
             entityModels: {
               [entityModelId]: {
-                isImported: true,
+                importedStageIds: {
+                  [currentStageId]: true
+                },
                 entityModelId
               }
             }
@@ -67,7 +69,9 @@ const EntityBoxDialog = ({
             [entityModel.entityModelId]: {
               ...entityModel,
               isNew: false,
-              isImported: false
+              importedStageIds: {
+                [currentStageId]: false
+              },
             }
           }
         })

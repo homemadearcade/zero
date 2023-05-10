@@ -3,7 +3,7 @@ export const INTERFACE_ACTION_PLACE = 'INTERFACE_ACTION_PLACE'
 export const INTERFACE_ACTION_CAMERA = 'INTERFACE_ACTION_CAMERA'
 export const INTERFACE_ACTION_DRAW = 'INTERFACE_ACTION_DRAW'
 export const INTERFACE_ACTION_IMPORT = 'INTERFACE_ACTION_IMPORT'
-export const INTERFACE_ACTION_SCRIPT = 'INTERFACE_ACTION_SCRIPT'
+export const INTERFACE_ACTION_WRITE = 'INTERFACE_ACTION_WRITE'
 export const INTERFACE_ACTION_PLAY = 'INTERFACE_ACTION_PLAY'
 export const INTERFACE_ACTION_LOAD = 'INTERFACE_ACTION_LOAD'
 export const INTERFACE_ACTION_RESIZE = 'INTERFACE_ACTION_RESIZE'
@@ -82,10 +82,10 @@ export const interfaceActionGroupData = {
     icon: 'faBoxArchive',
     description: 'Import game assets'
   },
-  [INTERFACE_ACTION_SCRIPT]: {
-    displayName: 'Script',
+  [INTERFACE_ACTION_WRITE]: {
+    displayName: 'Write',
     icon: 'faScroll',
-    description: 'Write dialogues and cutscenes'
+    description: 'Write scripts and cutscenes'
   },
   [INTERFACE_ACTION_LOAD]: {
     displayName: 'Load',
@@ -96,6 +96,6 @@ export const interfaceActionGroupData = {
   [INTERFACE_ACTION_PLAY]: {
     displayName: 'Play',
     icon: 'faPlay',
-    description: 'Play cutscenes, dialogues, audio, and other game content'
+    description: 'Play cutscenes, scripts, audio, and other game content'
   },
 }

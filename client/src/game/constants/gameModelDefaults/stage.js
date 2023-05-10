@@ -1,4 +1,6 @@
-import { gameGridWidth, initialCameraZoneEntityId, initialCameraZoneInstanceId, initialPlayerEntityId, initialPlayerSpawnZoneEntityId, initialPlayerSpawnZoneInstanceId, initialStageZoneEntityId, initialStageZoneInstanceId, nodeSize } from "..";
+import { EFFECT_DID, gameGridWidth, initialCameraZoneEntityId, initialCameraZoneInstanceId, initialPlayerEntityId, initialPlayerSpawnZoneEntityId, initialPlayerSpawnZoneInstanceId, initialStageZoneEntityId, initialStageZoneInstanceId, nodeSize } from "..";
+import { EDIT_CURRENT_STAGE_BOUNDARIES_AID, PLAY_TEST_GAME_AID, SNAPSHOT_GAME_AREA_AID, TOGGLE_GRID_VIEW_AID, TOGGLE_PAUSE_PLAY_AID } from "../../../constants/interfaceActionIds";
+import { FIVE_KID, FOUR_KID, ONE_KID, THREE_KID, TWO_KID } from "../../../constants/keyboard/keyIds";
 
 const gameWidth = nodeSize * gameGridWidth
 const gameHeight = nodeSize * gameGridWidth
@@ -10,12 +12,12 @@ export const initialPlayerSpawnZoneInstance = {
   spawnY: gameHeight/2,
 }
 
-export const initialPlayerCameraZoneInstance = {
-  id: initialCameraZoneInstanceId,
-  entityModelId: initialCameraZoneEntityId,
-  spawnX: 0,
-  spawnY: 0,
-}
+// export const initialPlayerCameraZoneInstance = {
+//   id: initialCameraZoneInstanceId,
+//   entityModelId: initialCameraZoneEntityId,
+//   spawnX: 0,
+//   spawnY: 0,
+// }
 
 export const initialStageZoneInstance = {
   id: initialStageZoneInstanceId,
@@ -35,12 +37,30 @@ export const defaultStage = {
     [initialPlayerSpawnZoneInstanceId]: {
       ...initialPlayerSpawnZoneInstance
     },
-    [initialCameraZoneInstanceId]: {
-      ...initialPlayerCameraZoneInstance
-    },
+    // [initialCameraZoneInstanceId]: {
+    //   ...initialPlayerCameraZoneInstance
+    // },
     [initialStageZoneInstanceId]: {
       ...initialStageZoneInstance
     }
+  },
+  keyboardShortcuts: {
+        // EFFECT_DID + interfaceActionId
+    [ONE_KID]: {
+      effectId: EFFECT_DID + TOGGLE_GRID_VIEW_AID
+    },
+    [TWO_KID]: {
+      effectId: EFFECT_DID + PLAY_TEST_GAME_AID,
+    },
+    [THREE_KID]: {
+      effectId: EFFECT_DID + SNAPSHOT_GAME_AREA_AID
+    },
+    [FOUR_KID]: {
+      effectId: EFFECT_DID + EDIT_CURRENT_STAGE_BOUNDARIES_AID
+    },
+    [FIVE_KID]: {
+      effectId: EFFECT_DID + TOGGLE_PAUSE_PLAY_AID
+    },
   },
   "boundaries": {
     loop: false,

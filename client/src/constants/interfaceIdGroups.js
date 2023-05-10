@@ -1,6 +1,6 @@
 
 export const CUTSCENE_IGID = 'CUTSCENE_IGID';
-export const DIALOGUE_IGID = 'DIALOGUE_IGID';
+export const SCRIPT_IGID = 'SCRIPT_IGID';
 export const EFFECT_IGID = 'EFFECT_IGID';
 export const RELATION_IGID = 'RELATION_IGID';
 export const RELATION_TAG_IGID = 'RELATION_TAG_IGID';
@@ -31,9 +31,9 @@ export const interfaceGroupData = {
     name: 'Cutscene',
     icon: 'cutscene'
   },
-  [DIALOGUE_IGID]: {
-    name: 'Dialogue',
-    icon: 'dialogue'
+  [SCRIPT_IGID]: {
+    name: 'Script',
+    icon: 'script'
   },
   [EFFECT_IGID]: {
     name: 'Relation',

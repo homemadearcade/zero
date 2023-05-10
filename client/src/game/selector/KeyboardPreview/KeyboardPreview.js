@@ -5,7 +5,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import Icon from '../../../ui/Icon/Icon';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { KEY_TOOLBAR_ACTIONS_IID } from '../../../constants/interfaceIds';
+import { KEYBOARD_ACTIONS_IID } from '../../../constants/interfaceIds';
 import { COBROWSE_CLICK_TOOL_AID, COBROWSE_UNLOCK_TOOL_AID } from '../../../constants/interfaceActionIds';
 import PlayerControlsCard from '../PlayerControlsCard/PlayerControlsCard';
 import { useKeyPress } from '../../../hooks/useKeyPress';
@@ -67,7 +67,7 @@ const KeyboardPreview = ({
     }
     
     toggleGridView()
-  }, [selectedTool, brushIdSelectedBrushList, entityModelIdSelectedEntityList])
+  }, [selectedTool, isDialogOverGameView, entityModelIdSelectedEntityList])
 
   const isEscPressed = useKeyPress('Escape')
   const isXPressed = useKeyPress('x')
@@ -147,7 +147,7 @@ const KeyboardPreview = ({
 
   if(!isExpanded) return
 
-  return <Unlockable interfaceId={KEY_TOOLBAR_ACTIONS_IID}>
+  return <Unlockable interfaceId={KEYBOARD_ACTIONS_IID}>
     <div className="KeyboardPreview">
       <div className="KeyboardPreview__row">
         {renderKey('Esc')}

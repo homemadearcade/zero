@@ -60,7 +60,7 @@ export default {
       const currentPlayerEntityId = getState().playerInterface.playerEntityModelId
       const currentPlayerEntityModel = gameModel.entityModels[currentPlayerEntityId]
       const graphics = currentPlayerEntityModel.graphics
-      store.dispatch(openCreateCanvasImageDialog(currentPlayerEntityId, graphics.textureId, graphics.textureTint))
+      dispatch(openCreateCanvasImageDialog(currentPlayerEntityId, graphics.textureId, graphics.textureTint))
     },
     higherPriority: true
   }

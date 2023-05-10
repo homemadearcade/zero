@@ -62,7 +62,7 @@ const EntityInstanceContextMenu = ({
       <MenuItem onClick={() => {
         setResizingEntityInstance(entityInstanceId)
         onMenuItemClick()
-      }}><ListItemIcon><Icon icon="faUpRightAndDownLeftFromCenter"/></ListItemIcon>Resize{entityInstanceId === PLAYER_INSTANCE_DID ? '' : ' All'}</MenuItem>
+      }}><ListItemIcon><Icon icon="faUpRightAndDownLeftFromCenter"/></ListItemIcon>Resize</MenuItem>
     </Unlockable>
     {entityInstanceId !== PLAYER_INSTANCE_DID && <Unlockable interfaceId={ENTITY_INSTANCE_DELETE_IID}>
       <MenuItem onClick={() => {

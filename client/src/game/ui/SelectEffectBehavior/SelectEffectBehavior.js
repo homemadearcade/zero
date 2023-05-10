@@ -6,7 +6,7 @@ import './SelectEffectBehavior.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { effectEditInterfaces, effectInterfaceDatas, isUseableEffect } from '../../constants';
 
-const SelectEffectBehavior = ({ onChange, value, eventType, formLabel, disabled, gameModel}) => {
+const SelectEffectBehavior = ({ onChange, value, eventType, formLabel, disabled}) => {
   const mapEffectsToOption = (effectBehavior) => {
     const effectEditInterface = effectEditInterfaces[effectBehavior]
 
@@ -39,7 +39,7 @@ const SelectEffectBehavior = ({ onChange, value, eventType, formLabel, disabled,
 
 const mapStateToProps = (state) => {
   return {
-    gameModel: state.gameModel.gameModel
+
   }
 };
 

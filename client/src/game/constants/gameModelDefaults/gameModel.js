@@ -74,30 +74,6 @@ export const defaultGameModel = {
   interfacePresets: {
 
   },
-  keyToolbar: {
-    // EFFECT_DID + interfaceActionId
-    [ONE_KID]: {
-      effectId: EFFECT_DID + TOGGLE_GRID_VIEW_AID
-    },
-    [TWO_KID]: {
-      effectId: EFFECT_DID + PLAY_TEST_GAME_AID,
-    },
-    [THREE_KID]: {
-      effectId: EFFECT_DID + SNAPSHOT_GAME_AREA_AID
-    },
-    [FOUR_KID]: {
-      effectId: EFFECT_DID + EDIT_CURRENT_STAGE_BOUNDARIES_AID
-    },
-    [FIVE_KID]: {
-      effectId: EFFECT_DID + TOGGLE_PAUSE_PLAY_AID
-    },
-    // [SIX_KID]: {
-    //   effectId: EFFECT_DID + COBROWSE_CLICK_TOOL_AID
-    // },
-    // [SEVEN_KID]: {
-    //   effectId: EFFECT_DID + COBROWSE_UNLOCK_TOOL_AID
-    // }
-  },
   layers: {},
   "entityModels": {
     [vehiclePlayerEntityId]: vehicleEntity,

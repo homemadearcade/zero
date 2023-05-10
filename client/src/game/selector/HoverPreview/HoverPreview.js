@@ -69,7 +69,7 @@ const HoverPreview = ({
     entityInstanceIdHovering,
     instanceDataHovering,
     effectIdHovering,
-    keyToolbarActionIdHovering,
+    keyboardShortcutActionIdHovering,
     relationIdHovering,
     relationTagIdHovering
   },
@@ -141,7 +141,7 @@ const HoverPreview = ({
     }
   }
 
-  const effectId = effectIdHovering || keyToolbarActionIdHovering
+  const effectId = effectIdHovering || keyboardShortcutActionIdHovering
 
   const interfaceData = interfaceIdData[interfaceIdHovering]
 

@@ -99,7 +99,7 @@ const GameEditor = ({
   selectBrush,
   updateCreateBrush,
   gameRoomInstance: { gameRoomInstance: { gameState } },
-  gameModel: { gameModel },
+  gameModel: { gameModel, currentStageId },
   playerInterface: { cutsceneId }
 }) => {
   useEffect(() => {   
@@ -254,7 +254,9 @@ const GameEditor = ({
                 // must be a spread operator here because when this is opened it has a lot of properties brought in from some defaults
                 ...entityModel,
                 isNew: false,
-                isImported: true
+                importedStageIds: {
+                  [currentStageId]: true
+                }
                 // graphics: entityModel.graphics,
                 // editorInterface: entityModel.editorInterface,
                 // visualTags: entityModel.visualTags,

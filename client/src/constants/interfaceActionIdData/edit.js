@@ -1,9 +1,17 @@
-import { openCreateStageDialog, openEditEntityDialog, openEditEntityGraphics } from "../../store/actions/game/gameFormEditorActions";
-import { openGameEditDialog, openEntityBehaviorLiveEditor, openSelectStageColorDialog, openStageLiveEditor } from "../../store/actions/game/gameSelectorActions";
-import { openBoundaryEditor } from "../../store/actions/game/gameViewEditorActions";
-import { EDIT_CURRENT_PLAYER_CAMERA_AID, EDIT_CURRENT_PLAYER_GRAPHICS_AID, EDIT_CURRENT_STAGE_AID, EDIT_CURRENT_STAGE_BACKGROUND_COLOR_AID, EDIT_CURRENT_STAGE_BOUNDARIES_AID, EDIT_CURRENT_STAGE_PERSPECTIVE_AID, EDIT_ENTITY_AID, EDIT_ENTITY_GRAPHICS_AID, EDIT_GAME_METADATA_AID } from "../interfaceActionIds";
-import { INTERFACE_ACTION_CURRENT_PLAYER, INTERFACE_ACTION_EDIT, INTERFACE_ACTION_GAME } from "../interfaceActionIdGroups";
-import { CAMERA_EDITOR_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, EDIT_GAME_METADATA_TAB_IID, LIVE_EDIT_STAGE_COLOR_TAB_IID, LIVE_EDIT_STAGE_PERSPECTIVE_TAB_IID, LIVE_ENTITY_EDITOR_CAMERA_TAB_IID, ZONE_ENTITY_IID } from "../interfaceIds";
+import { openEditEntityDialog } from "../../store/actions/game/gameFormEditorActions";
+import { openGameEditDialog, openEntityBehaviorLiveEditor } from "../../store/actions/game/gameSelectorActions";
+import { 
+  EDIT_CURRENT_PLAYER_CAMERA_AID, 
+  EDIT_ENTITY_AID, 
+  EDIT_GAME_METADATA_AID } from "../interfaceActionIds";
+import { 
+  INTERFACE_ACTION_CURRENT_PLAYER, 
+  INTERFACE_ACTION_EDIT,
+  INTERFACE_ACTION_GAME } from "../interfaceActionIdGroups";
+import { 
+  EDIT_GAME_METADATA_TAB_IID, 
+  LIVE_ENTITY_EDITOR_CAMERA_TAB_IID, 
+} from "../interfaceIds";
 
  // eslint-disable-next-line import/no-anonymous-default-export
 export default {

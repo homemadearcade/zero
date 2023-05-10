@@ -57,7 +57,7 @@ const userSchema = new Schema(
       type: Object,
       default: {}
     },
-    keyToolbarActionIds: {
+    keyboardShortcutActionIds: {
       type: Object,
       default: {}
     },

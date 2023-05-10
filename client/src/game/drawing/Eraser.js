@@ -36,8 +36,8 @@ export class Eraser extends Brush {
     return this
   }
 
-  update(pointer) {
-    super.update(pointer)
+  update(pointer, canvas) {
+    super.update(pointer, canvas)
 
     this.border.setPosition(this.x, this.y)
 

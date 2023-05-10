@@ -1,6 +1,7 @@
 import { editGameModel } from "../../store/actions/game/gameModelActions";
 import { IMPORT_DATA_SOURCE_AID } from "../interfaceActionIds";
 import { INTERFACE_ACTION_IMPORT } from "../interfaceActionIdGroups";
+import store from "../../store";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -12,13 +13,15 @@ export default {
       return gameModel.entityModels[entityModelId].name
     },
     isRemoved: ([entityModelId], gameModel) => {
-      return gameModel.entityModels[entityModelId].isImported || gameModel.entityModels[entityModelId].editorInterface.hiddenFromIDs[IMPORT_DATA_SOURCE_AID]
+      return gameModel.entityModels[entityModelId].importedStageIds[store.getState().gameModel.currentStageId] || gameModel.entityModels[entityModelId].editorInterface.hiddenFromIDs[IMPORT_DATA_SOURCE_AID]
     },
-    onClick: ([entityModelId]) => (dispatch, gameModel) => {
+    onClick: ([entityModelId]) => (dispatch, gameModel, getState) => {
       dispatch(editGameModel({
         entityModels: {
           [entityModelId]: {
-            isImported: true
+            importedStageIds: {
+              [getState().gameModel.currentStageId]: true
+            }
           }
         }
       }))

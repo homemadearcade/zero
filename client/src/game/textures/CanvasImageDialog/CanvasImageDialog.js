@@ -104,9 +104,23 @@ const CanvasImageDialog = ({
         /></Unlockable> 
         <Button onClick={() => {
             const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
+            // imageCanvasScene.backgroundCanvasLayer.setOrigin(0.5, 0.5)
             imageCanvasScene.backgroundCanvasLayer.rotate()
           }}>
             Rotate
+        </Button>
+        <Button onClick={() => {
+            const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
+            imageCanvasScene.backgroundCanvasLayer.flipHorizontal()
+            // imageCanvasScene.backgroundCanvasLayer = imageCanvasScene.backgroundCanvasLayer.clone()
+          }}>
+            Flip ⇆
+        </Button>
+        <Button onClick={() => {
+            const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
+            imageCanvasScene.backgroundCanvasLayer.flipVertical()
+          }}>
+            Flip ⇵
         </Button>
         <Button 
           disabled={isSaving}

@@ -22,20 +22,21 @@ export class ControlledMovement {
     const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
     const playerEntityModelId = store.getState().playerInterface.playerEntityModelId
     if(isGridViewOn) {
+      const speed = 500 * mod 
       if(playerEntityModelId === entityModelId) {
         if(this.cursors.left.isDown) {
-          this.entityInstance.setPosition(phaserInstance.x - speed/10, phaserInstance.y)
+          this.entityInstance.setPosition(phaserInstance.x - speed, phaserInstance.y)
         } else if(this.cursors.right.isDown) {
-          this.entityInstance.setPosition(phaserInstance.x + speed/10, phaserInstance.y)
+          this.entityInstance.setPosition(phaserInstance.x + speed, phaserInstance.y)
         } else {
           this.entityInstance.setVelocityX(0)
           // phaserInstance.setX(phaserInstance.body.prev.x)
         }
         
         if(this.cursors.up.isDown) {
-          this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y - speed/10)
+          this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y - speed)
         } else if(this.cursors.down.isDown) {
-          this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y + speed/10)
+          this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y + speed)
         } else {
           this.entityInstance.setVelocityY(0)
           // phaserInstance.setY(phaserInstance.body.prev.y)

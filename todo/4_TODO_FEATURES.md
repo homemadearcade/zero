@@ -13,12 +13,13 @@ AUDIO EFFECTS
 PARTICLE EFFECT ON INSTANCES WHEN YOU CHANGE A ENTITY_MODEL
   Explode on Destroy Tag
 
-SPRITE EDITOR
-  Flip sides Horizontal/Vertical in sprite editor 
-
-Toolbar different actions, ( run action in the toolbar )
+Toolbar dialog different actions, ( run action in the toolbar )
 
 Holding Player was at 2x speed?
+
+---
+
+ignore boundaries and ignore gravity when grid is on
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -32,3 +33,11 @@ VIDEO CALL FEATURES
   Popup when someone loses video 
 
 USER SPEED TESTS FULL FEATURE
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------
+DATA
+--------------------------------------------------------------------------------------
+
+All Data should be cloned. No merged, imported data. No!
+Better clone deep when applying default player? Default jumper?

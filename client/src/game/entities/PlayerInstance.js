@@ -6,10 +6,11 @@ import { CameraPreview } from "./behaviors/CameraPreview";
 import { InteractArea } from "./behaviors/InteractArea";
 import { ControlledMovement } from "./behaviors/ControlledMovement";
 import { ControlledProjectileEjector } from "./behaviors/ControlledProjectileEjector";
-import { GAME_END_STATE, ON_INTERACT, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, PLAY_STATE } from "../constants";
+import { GAME_END_STATE, ON_INTERACT, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, PLAY_STATE, initialCameraZoneEntityId, initialCameraZoneInstanceId } from "../constants";
 import { getCobrowsingState } from "../../utils";
 import { changeGameState } from "../../store/actions/game/gameRoomInstanceActions";
 import { progressActiveCutscene } from "../../store/actions/game/playerInterfaceActions";
+import { editGameModel } from "../../store/actions/game/gameModelActions";
 
 export class PlayerInstance extends EntityInstance {
   constructor(scene, entityInstanceId, instanceData){
@@ -60,6 +61,26 @@ export class PlayerInstance extends EntityInstance {
     this.controlledMovement = new ControlledMovement(scene, this)
     this.controlledProjectileEjector = new ControlledProjectileEjector(scene, this)
 
+    setTimeout(() => {
+      this.camera = this.scene.addEntityInstance(initialCameraZoneInstanceId, {
+        entityModelId: initialCameraZoneEntityId,
+        spawnX: 0,
+        spawnY: 0,
+      })
+      this.camera.onResizeComplete = ({ width, height }) => {
+        store.dispatch(editGameModel({
+          entityModels: {
+            [this.entityModelId]: {
+              camera: {
+                width,
+                height,
+              }
+            }
+          }
+        }))
+      }
+    })
+
     return this
   }
 
@@ -70,7 +91,6 @@ export class PlayerInstance extends EntityInstance {
 
   setSize(width, height) {
     super.setSize(width, height)
-
     this.interactArea.setSize(width, height)
   }
 
@@ -112,6 +132,7 @@ export class PlayerInstance extends EntityInstance {
     }
 
     if(this.scene.isPaused) return
+    // this.camera.update(time, delta)
     this.controlledMovement.update(time, delta)
     this.controlledProjectileEjector.update(time, delta)
   }

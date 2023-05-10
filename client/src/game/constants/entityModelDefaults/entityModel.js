@@ -10,7 +10,7 @@ export const defaultEntity = {
   // lastSelectedDate: 0,
   lastEditedDate: 0,
   isRemoved: false,
-  isImported: false,
+  importedStageIds: {},
   boundaryRelation: BOUNDARY_COLLIDE,
   entityModelId: null,
   spawnZoneEntityModelIds: [],
@@ -44,7 +44,8 @@ export const defaultEntity = {
     ...defaultProjectile
   },
   camera: {
-    zoom: 3,
+    width: nodeSize * 30,
+    height: nodeSize * 30,
     lerpX: 0.09,
     lerpY: 0.09,
   },

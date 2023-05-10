@@ -28,7 +28,7 @@ const SelectStageDefaultType = ({ onChange, value, formLabel }) => {
 
 const mapStateToProps = (state) => {
   return {
-    // gameModel: state.gameModel.gameModel,
+
   }
 };
 

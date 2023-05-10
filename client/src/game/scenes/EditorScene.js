@@ -35,7 +35,7 @@ export class EditorScene extends GameInstance {
     this.gameRoomInstance = props.gameRoomInstance
 
     this.draggingEntityInstanceId = null
-    this.canvas = null
+    this.brushingCanvas = null
     this.brush = null 
     this.stamper = null
     this.gameResetDate = Date.now()
@@ -165,9 +165,11 @@ export class EditorScene extends GameInstance {
       height = width
     }
 
-    this.forAllEntityInstancesMatchingEntityId(phaserInstance.entityModelId, (object) => {
-      object.setSize(width, height)
-    })
+    const entityInstance = this.getEntityInstance(phaserInstance.entityInstanceId)
+    entityInstance.setSize(width, height)
+    // this.forAllEntityInstancesMatchingEntityId(phaserInstance.entityModelId, (object) => {
+    //   object.setSize(width, height)
+    // })
   }
 
   clearResize() {
@@ -179,8 +181,20 @@ export class EditorScene extends GameInstance {
     this.resizingEntityInstance = null
   }
 
-  onResizeEnd = (pointer) => {
+  onResizeComplete = (pointer) => {
     const phaserInstance = this.resizingEntityInstance.phaserInstance
+
+    const width = phaserInstance.displayWidth
+    const height = phaserInstance.displayHeight
+
+    const entityInstance = this.getEntityInstance(phaserInstance.entityInstanceId)
+    if(entityInstance.onResizeComplete) {
+      entityInstance.onResizeComplete({width, height})
+      this.resizingEntityInstance = null
+      store.dispatch(setResizingEntityInstance(null))
+      return
+    }
+
     if(phaserInstance.entityInstanceId === PLAYER_INSTANCE_DID) {
       store.dispatch(editGameModel({ 
         // player: {
@@ -190,8 +204,8 @@ export class EditorScene extends GameInstance {
         entityModels: {
           [phaserInstance.entityModelId]: {
             graphics: {
-              width: phaserInstance.displayWidth,
-              height: phaserInstance.displayHeight
+              width,
+              height
             }
           }
         }
@@ -203,19 +217,21 @@ export class EditorScene extends GameInstance {
             entityInstances: {
               [phaserInstance.entityInstanceId]: {
                 spawnX: phaserInstance.x,
-                spawnY: phaserInstance.y
+                spawnY: phaserInstance.y,
+                width,
+                height
               }
             },
           }
         },
-        entityModels: {
-          [phaserInstance.entityModelId]: {
-            graphics: {
-              width: phaserInstance.displayWidth,
-              height: phaserInstance.displayHeight
-            }
-          } 
-        }
+        // entityModels: {
+        //   [phaserInstance.entityModelId]: {
+        //     graphics: {
+        //       width,
+        //       height
+        //     }
+        //   } 
+        // }
       }))
     }
 
@@ -281,10 +297,11 @@ export class EditorScene extends GameInstance {
     }
 
     if(this.brush) {
-      this.brush.update(pointer)
+      const brushingCanvas = this.getLayerInstanceByLayerId(this.brush.getLayerId())
+      this.brush.update(pointer, brushingCanvas)
     }
-    if(this.canvas && pointer.isDown) {
-      this.brush.stroke(pointer, this.canvas)
+    if(this.brushingCanvas && pointer.isDown) {
+      this.brush.stroke(pointer, this.brushingCanvas)
     }
 
     ////////////////////////////////////////////////////////////
@@ -330,7 +347,7 @@ export class EditorScene extends GameInstance {
   onPointerDownOutside = (pointer) => {
     if(pointer.leftButtonDown()) {
       if(this.resizingEntityInstance) {
-        this.onResizeEnd()
+        this.onResizeComplete()
       }
     }
   }
@@ -467,7 +484,7 @@ export class EditorScene extends GameInstance {
       }
 
       if(this.resizingEntityInstance) {
-        this.onResizeEnd()
+        this.onResizeComplete()
         return
       }
 
@@ -502,10 +519,10 @@ export class EditorScene extends GameInstance {
       // BRUSH
       ////////////////////////////////////////////////////////////
       if(this.brush) {
-        const canvas = this.getLayerInstanceByLayerId(this.brush.getLayerId())
-        if(!canvas) return console.error('this is when that error happens')
-        this.canvas = canvas
-        this.brush.stroke(pointer, this.canvas)
+        const brushingCanvas = this.getLayerInstanceByLayerId(this.brush.getLayerId())
+        if(!brushingCanvas) return console.error('this is when that error happens')
+        this.brushingCanvas = brushingCanvas
+        this.brush.stroke(pointer, this.brushingCanvas)
         return
       }
 
@@ -525,7 +542,7 @@ export class EditorScene extends GameInstance {
           if(hoveringInstances.length) {
             // const { isObscured } = getInterfaceIdData(ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID)
             // if(!isObscured) {
-              store.dispatch(openEntityBehaviorLiveEditor(null, hoveringInstances[0].entityModelId))
+              // store.dispatch(openEntityBehaviorLiveEditor(null, hoveringInstances[0].entityModelId))
             // }
           } else {
             // const { isObscured } = getInterfaceIdData(STAGE_OPEN_EDIT_IID)
@@ -572,7 +589,7 @@ export class EditorScene extends GameInstance {
     
     this.draggingEntityInstanceId = null
 
-    if(this.canvas) {
+    if(this.brushingCanvas) {
       this.onStrokeComplete()
     }
   }
@@ -585,8 +602,8 @@ export class EditorScene extends GameInstance {
   onPointerLeaveGame = () => {
     store.dispatch(setIsMouseOverGameView(false))
 
-    // without !this.canvas check we end up with discrepencies in codrawing
-    if(this.brush && !this.canvas) this.destroyBrush()
+    // without !this.brushingCanvas check we end up with discrepencies in codrawing
+    if(this.brush && !this.brushingCanvas) this.destroyBrush()
     if(this.stamper) this.destroyStamper()
     store.dispatch(changeInstanceHovering(null, null))
     this.isMouseOverGame = false
@@ -611,7 +628,7 @@ export class EditorScene extends GameInstance {
       return
     }
 
-    if(this.canvas) {
+    if(this.brushingCanvas) {
       this.onStrokeComplete()
     }
   }
@@ -676,8 +693,8 @@ export class EditorScene extends GameInstance {
 
   onStrokeComplete = async () => {
     this.brush.releaseStroke()
-    if(this.canvas.createCollisionBody) this.canvas.createCollisionBody()
-    this.canvas = null;
+    if(this.brushingCanvas.createCollisionBody) this.brushingCanvas.createCollisionBody()
+    this.brushingCanvas = null;
   }
 
   getEntityInstanceData(entityInstanceId) {
@@ -944,17 +961,10 @@ export class EditorScene extends GameInstance {
       }
 
       if(entityModelUpdate.graphics?.width && entityModelUpdate.graphics?.height) {
-        if(entityModelId === initialCameraZoneEntityId) {
-          this.setPlayerZoom({...entityModelUpdate.graphics})
-        }
         this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
           entityInstance.setSize(entityModelUpdate.graphics?.width, entityModelUpdate.graphics?.height)
         })
       } else if(entityModelUpdate.graphics?.width) {
-        if(entityModelId === initialCameraZoneEntityId) {
-          this.setPlayerZoom({width: entityModelUpdate.graphics.width, height: entityModel.graphics?.height})
-        }
-
         this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
           entityInstance.setSize(entityModelUpdate.graphics?.width, entityModel.graphics?.height)
         })
@@ -981,6 +991,10 @@ export class EditorScene extends GameInstance {
             // this.cameras.main.startFollow(this.playerInstance.phaserInstance, false, entityModelUpdate.camera.lerpX ? entityModelUpdate.camera.lerpX : entityModel.camera.lerpX, entityModelUpdate.camera.lerpY ? entityModelUpdate.camera.lerpY : entityModel.camera.lerpY);
           }
         } 
+        if(entityModelUpdate.camera.width) {
+          this.setPlayerZoom(entityModelUpdate.camera)
+        }
+
       }
     })
   }
@@ -1105,7 +1119,7 @@ export class EditorScene extends GameInstance {
     if(this.escKey.isDown) {
       if(this.readyForNextEscapeKey) {
         this.readyForNextEscapeKey = false
-        const gameViewEditor = store.getState().gameViewEditor
+        const gameViewEditor = getCobrowsingState().gameViewEditor
         if(gameViewEditor.isSnapshotTakerOpen) {
           store.dispatch(closeSnapshotTaker())
         }
@@ -1132,7 +1146,7 @@ export class EditorScene extends GameInstance {
           // }))
         }
 
-        this.canvas = null
+        this.brushingCanvas = null
       }
     } else {
       this.readyForNextEscapeKey = true
@@ -1157,11 +1171,12 @@ export class EditorScene extends GameInstance {
       this.reset()
     }
 
-    const gameViewEditor = store.getState().gameViewEditor
+    const gameViewEditor = getCobrowsingState().gameViewEditor
     
     // const cameraZoom = gameViewEditor.isBoundaryEditorOpen ? getCobrowsingState().gameViewEditor.cameraZoom : store.getState().gameViewEditor.cameraZoom
-    const cameraZoom = getCobrowsingState().gameViewEditor.cameraZoom
+    const cameraZoom = gameViewEditor.cameraZoom
     if(cameraZoom !== this.editorCamera.zoom) {
+      console.log('setting zoom')
       this.editorCamera.setZoom(cameraZoom)
       // this.editorCamera.zoomTo(cameraZoom, 100, 'Linear', true)
     }
@@ -1230,6 +1245,7 @@ export class EditorScene extends GameInstance {
 
   unload() {
     super.unload()
+    console.log('unloading game view')
     this.input.off('pointerover', this.onPointerOver);
     this.input.off('pointerout', this.onPointerOut);
     this.input.off('pointerdown', this.onPointerDown, this);

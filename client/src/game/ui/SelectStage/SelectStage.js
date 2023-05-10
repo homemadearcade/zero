@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './SelectStage.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 
-const SelectStage = ({ onChange, value, formLabel, gameModel}) => {
+const SelectStage = ({ onChange, value, formLabel, gameModel: { gameModel }}) => {
 
   const mapEntityToOption = (stageId) => {
     const stage = gameModel.stages[stageId]
@@ -32,7 +32,7 @@ const SelectStage = ({ onChange, value, formLabel, gameModel}) => {
 
 const mapStateToProps = (state) => {
   return {
-    gameModel: state.gameModel.gameModel,
+    gameModel: state.gameModel,
   }
 };
 

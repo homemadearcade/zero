@@ -6,7 +6,7 @@ import {
   CHANGE_EVENT_ID_HOVERING,
   CHANGE_EFFECT_ID_HOVERING,
   CHANGE_RELATION_ID_HOVERING,
-  CHANGE_KEY_TOOLBAR_ACTION_ID_HOVERING,
+  CHANGE_KEYBOARD_SHORTCUT_ACTION_ID_HOVERING,
 } from '../../types';
 
 // these are editor things that take place within the game view
@@ -18,7 +18,7 @@ const initialState = {
   relationIdHovering: null,
   eventIdHovering: null,
   effectIdHovering: null,
-  keyToolbarActionIdHovering: null,
+  keyboardShortcutActionIdHovering: null,
 };
 
 export const initialGameViewEditorState = initialState
@@ -35,10 +35,10 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
         ...state,
         effectIdHovering: payload.effectId
       }
-    case CHANGE_KEY_TOOLBAR_ACTION_ID_HOVERING:
+    case CHANGE_KEYBOARD_SHORTCUT_ACTION_ID_HOVERING:
       return {
         ...state,
-        keyToolbarActionIdHovering: payload.effectId
+        keyboardShortcutActionIdHovering: payload.effectId
       }
     case CHANGE_RELATION_ID_HOVERING:
       return {

@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import KeyboardPreview from '../KeyboardPreview/KeyboardPreview';
-import KeyToolbar from '../KeyToolbar/KeyToolbar';
+import KeyboardShortcuts from '../KeyboardShortcuts/KeyboardShortcuts';
 import './KeyboardInfo.scss'
 import Icon from '../../../ui/Icon/Icon';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
@@ -27,7 +27,7 @@ const KeyboardInfo = ({
       <Icon icon="faKeyboard" color="#aaa" size="xs"/>
     </div></Unlockable>
     <KeyboardPreview isExpanded={isExpanded}/>
-    <KeyToolbar/>
+    <KeyboardShortcuts/>
   </div>
 };
 

@@ -8,8 +8,6 @@ SELECT FORMS
   Also For Select Relation Tag. Switch between visibility for Tag Interface Id vs Data Source
   For Select Entity, Switch between Data Source vs Entity Interface Id
 
-POPUP - When there is a SAVE required, before closing ask if you are certain to close
-
 Popup that says - you do not have a role in this game, Join as Audience?
 
 WARNING

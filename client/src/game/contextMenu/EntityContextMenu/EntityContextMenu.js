@@ -131,14 +131,16 @@ const EntityContextMenu = ({
               editGameModel({
                 entityModels: {
                   [entityModelId]: {
-                    isImported: !entityModel.isImported
+                    importedStageIds: {
+                      [currentStageId] : !entityModel.importedStageIds[currentStageId]
+                    }
                   }
                 },
               })
               onMenuItemClick()
             }}>
               <ListItemIcon><Icon icon="faBoxArchive"/></ListItemIcon>
-              {entityModel.isImported ? 'Unimport' : 'Import'}</MenuItem>
+              {entityModel.importedStageIds[currentStageId] ? 'Unimport' : 'Import'}</MenuItem>
         </Unlockable>}
   </>
 };

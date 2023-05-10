@@ -18,7 +18,7 @@ const CreateColorFlow = ({ onComplete, closeCreateColorFlow, toggleEyeDropper, g
     closeCreateColorFlow()
   }
 
-  return <CobrowsingDialog open={!isEyeDropping} onClose={handleClose}>
+  return <CobrowsingDialog open={!isEyeDropping} zIndexIncrease={100} onClose={handleClose}>
     <div className="CreateColorFlow">
       <Icon icon="faEyeDropper" onClick={() => {
         const eyeDropper = new window.EyeDropper();

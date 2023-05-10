@@ -1,6 +1,8 @@
 
 TO RESEARCH
 
+https://omgovich.github.io/react-colorful/
+
 NLP
 https://winkjs.org/
 
@@ -21,7 +23,7 @@ https://codepen.io/shubniggurath/pen/OEeMOd
 https://codepen.io/soulwire/pen/mEMPrK
 https://codepen.io/mimikos/pen/QMjjzy
 https://codepen.io/jcoulterdesign/pen/vYyzZdo
-https://github.com/mnbroatch/react-dialogue-tree
+https://github.com/mnbroatch/react-script-tree
 https://codepen.io/tigt/pen/aZYqrg
 
 --

@@ -23,7 +23,7 @@ import { IMPORT_DATA_SOURCE_AID, PLACE_ENTITY_AID } from '../../../constants/int
 const ENTITY_MAX = 16
 
 const EntityList = ({
-  gameModel: { gameModel },
+  gameModel: { gameModel, currentStageId },
   gameViewEditor: {layerInvisibility},
   openEntityBoxDialog,
 }) => {
@@ -63,7 +63,7 @@ const EntityList = ({
     const currentEntityModel = entityModels[currentEntityModelId]
     if(currentEntityModel.isRemoved) return 
     if(currentEntityModel.editorInterface.hiddenFromIDs[SELECTOR_ENTITY_BY_INTERFACE_ID_IID]) return false
-    if(!currentEntityModel.isImported) return false 
+    if(!currentEntityModel.importedStageIds[currentStageId]) return false 
     if(currentEntityModel.entityIID === entityModelClass) {
       return true
     }

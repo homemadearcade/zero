@@ -4,7 +4,7 @@ import select from "./place";
 import edit from './edit'
 import draw from './draw'
 import place from './place'
-import script from './script'
+import script from './write'
 import load from './load'
 import play from './play'
 import resize from './resize'

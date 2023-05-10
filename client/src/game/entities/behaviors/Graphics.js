@@ -19,13 +19,13 @@ export class Graphics {
       this.entityInstance.setPosition(boundaries.x + (boundaries.width/2), boundaries.y + (boundaries.height/2))
       this.setSize(boundaries.width, boundaries.height)
       phaserInstance.setDisplaySize(boundaries.width, boundaries.height)
-      entityModel.graphics.width = boundaries.width 
-      entityModel.graphics.height = boundaries.height
+      entityInstance.width = boundaries.width 
+      entityInstance.height = boundaries.height
     }
 
     entityInstance.isVisible = !entityModel.graphics.invisible
-    phaserInstance.setDisplaySize(entityModel.graphics.width, entityModel.graphics.height)
-    this.setSize(entityModel.graphics.width, entityModel.graphics.height)
+    phaserInstance.setDisplaySize(entityInstance.width, entityInstance.height)
+    this.setSize(entityInstance.width, entityInstance.height)
 
     // if(entityModel.editorInterface.notSelectableInStage) return
 

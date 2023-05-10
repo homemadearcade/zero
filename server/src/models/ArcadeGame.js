@@ -121,10 +121,6 @@ const arcadeGameSchema = new Schema(
       type: Object,
       default: {}
     },
-    keyToolbar: {
-      type: Object,
-      default: {}
-    },
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true },
@@ -140,7 +136,6 @@ export const validateArcadeGame = (game) => {
     metadata: Joi.object({
 
     }),
-    keyToolbar: Joi.object(),
     gameModelId: Joi.string(),
     size: Joi.object(),
     stages: Joi.object(),
@@ -176,7 +171,6 @@ arcadeGameSchema.methods.toJSON = function () {
     entityModels: this.entityModels,
     brushes: this.brushes,
     colors: this.colors,
-    keyToolbar: this.keyToolbar,
     importedArcadeGames: this.importedArcadeGames?.map((arcadeGame) => {
       return arcadeGame?.toJSON()
     }).filter((arcadeGame) => !!arcadeGame),

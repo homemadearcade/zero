@@ -18,7 +18,7 @@ const EntityBoxList = ({
   entityModels,
   updateOpenInterfaceId,
   onSelectEntity,
-  gameModel: { gameModel }
+  gameModel: { gameModel, currentStageId }
 }) => {
   const [accordians, setAccordians] = useState()
 
@@ -104,7 +104,7 @@ const EntityBoxList = ({
     }
     if(isHidden) return false
 
-    if(currentEntityModel.isImported) return false
+    if(currentEntityModel.importedStageIds[currentStageId]) return false
 
     if(currentEntityModel.dataSourceIID === dataSourceIID) {
       return true

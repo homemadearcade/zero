@@ -108,7 +108,7 @@ export const openCreateCanvasImageDialog= (entityModelId, textureId, textureTint
       type: OPEN_CREATE_CANVAS_IMAGE_DIALOG_LOADING,
     });
 
-    console.log('waiting for canvsa Image')
+    console.log('waiting for canvsa Image', dispatch)
     const canvasImage = await dispatch(addCanvasImage({
       textureId: newTextureId, 
       visualTags: [],

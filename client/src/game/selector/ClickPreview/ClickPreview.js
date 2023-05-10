@@ -17,7 +17,7 @@ const ClickPreview = ({
     brushIdHovering, 
     entityModelIdHovering,
     entityInstanceIdHovering,
-    keyToolbarActionIdHovering,
+    keyboardShortcutActionIdHovering,
     instanceDataHovering,
     effectIdHovering,
     relationIdHovering,
@@ -81,9 +81,9 @@ const ClickPreview = ({
       return renderActionTitle('Select ' + getEntityClassName(), 'faArrowPointer')
     }
 
-    if(entityInstanceIdHovering && isMouseOverGameView) {
-      return renderActionTitle('Edit Behavior', 'faDna')
-    }
+    // if(entityInstanceIdHovering && isMouseOverGameView) {
+    //   return renderActionTitle('Edit Behavior', 'faDna')
+    // }
 
     if(entityModelIdSelectedEntityList && isMouseOverGameView) {
       return renderActionTitle('Place ' + getEntityClassName(), 'faArrowPointer')
@@ -94,17 +94,16 @@ const ClickPreview = ({
     }
 
 
-    if(isMouseOverGameView) {
-      return renderActionTitle('Edit Stage', 'faMap')
-    }
+    // if(isMouseOverGameView) {
+    //   return renderActionTitle('Edit Stage', 'faMap')
+    // }
 
-    if(keyToolbarActionIdHovering) {
-      const effect = gameModel.effects[keyToolbarActionIdHovering]
+    if(keyboardShortcutActionIdHovering) {
+      const effect = gameModel.effects[keyboardShortcutActionIdHovering]
       return renderActionTitle('Do Action', effect.icon)
     }
 
     if(interfaceIdHovering) {
-
       const interfaceData = interfaceIdData[interfaceIdHovering]
       if(interfaceData) {
         return renderActionTitle(interfaceData.leftClickAction, interfaceData.leftClickIcon ? interfaceData.leftClickIcon : null)

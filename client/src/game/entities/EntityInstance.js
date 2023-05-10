@@ -8,7 +8,10 @@ import { Movement } from "./behaviors/Movement";
 import { ProjectileEjector } from "./behaviors/ProjectileEjector";
 
 export class EntityInstance extends PhaserInstance {
-  constructor(scene, entityInstanceId, {spawnX, spawnY, entityModelId, transformCancelEntityModelId}, effectSpawned){
+  constructor(scene, entityInstanceId, entityInstanceData, effectSpawned){
+
+    const {spawnX, spawnY, entityModelId, transformCancelEntityModelId} = entityInstanceData
+
     const gameModel = store.getState().gameModel.gameModel
     const entityModel = gameModel.entityModels[entityModelId]
 
@@ -23,8 +26,9 @@ export class EntityInstance extends PhaserInstance {
     this.entityModelId = entityModelId
     this.transformCancelEntityModelId = transformCancelEntityModelId
     this.scene = scene
-    this.width = entityModel.graphics.width
-    this.height = entityModel.graphics.height
+
+    this.width = entityInstanceData.width || entityModel.graphics.width
+    this.height = entityInstanceData.height || entityModel.graphics.height
     this.phaserInstance.entityInstanceId = entityInstanceId
     this.phaserInstance.effectSpawned = effectSpawned
     this.effectSpawned = effectSpawned

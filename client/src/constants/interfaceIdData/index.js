@@ -19,7 +19,7 @@ import dataSourceInterfaceIdData from "./dataSourceInterfaceIdData";
 import graphicsInterfaceIdData from "./graphicsInterfaceIdData";
 import entityModelBehaviorInterfaceIdData from "./entityModelBehaviorInterfaceIdData";
 import dialogInterfaceIdData from "./dialogInterfaceIdData";
-import keyToolbarInterfaceIdData from "./keyToolbarInterfaceIdData";
+import keyboardInterfaceIdData from "./keyboard";
 import cobrowsing from "./cobrowsing";
 
 export * from './hideableInterfaceIds'
@@ -46,6 +46,6 @@ export const interfaceIdData = {
   ...graphicsInterfaceIdData,
   ...entityModelBehaviorInterfaceIdData,
   ...dialogInterfaceIdData,
-  ...keyToolbarInterfaceIdData,
+  ...keyboardInterfaceIdData,
   ...cobrowsing
 }

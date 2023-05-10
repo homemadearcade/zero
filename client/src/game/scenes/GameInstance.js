@@ -347,7 +347,7 @@ export class GameInstance extends Phaser.Scene {
       }
 
       if(!entityInstanceData.entityModelId) {
-        return console.error('missing entityModelId!!', entityInstanceData)
+        return console.error('missing entityModelId!!', entityInstanceId, entityInstanceData)
       }
 
       this.initializeEntityInstance(entityInstanceId, entityInstanceData)
@@ -410,6 +410,7 @@ export class GameInstance extends Phaser.Scene {
     this.entityInstancesById[entityInstanceId] = newPhaserObject
     return newPhaserObject
   }
+
   addEntityInstance(entityInstanceId, entityInstanceData, effectSpawned) {
     const instance = this.initializeEntityInstance(entityInstanceId, entityInstanceData, effectSpawned)
 
@@ -589,8 +590,8 @@ export class GameInstance extends Phaser.Scene {
 
     this.cameras.main.setBounds(stageX, stageY, stageWidth, stageHeight);
     this.cameras.main.pan(this.playerInstance.phaserInstance.x, this.playerInstance.phaserInstance.y, 0)
-    const playerCameraZone = gameModel.entityModels[initialCameraZoneEntityId]
-    this.setPlayerZoom({...playerCameraZone.graphics});
+    const playerCamera = gameModel.entityModels[this.playerInstance.entityModelId].camera
+    this.setPlayerZoom(playerCamera);
 
     this.startPlaythroughStartEffects()
 
@@ -692,7 +693,7 @@ export class GameInstance extends Phaser.Scene {
 
     const currentStageId = this.getCurrentStage().stageId
     if(this.stage.stageId !== currentStageId) {
-      this.scene.start(currentStageId, this.props)
+      this.scene.switch(currentStageId)
     }
 
     if(this.getState().cobrowsing.isActivelyCobrowsing === false) {
@@ -1118,8 +1119,6 @@ export class GameInstance extends Phaser.Scene {
     phaserInstances.forEach((phaserInstance) => {
       runEffect(phaserInstance)
     })
-
-
   }
 
   onCutsceneEnd(cutsceneId) {

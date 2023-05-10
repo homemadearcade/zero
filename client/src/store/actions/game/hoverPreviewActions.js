@@ -6,7 +6,7 @@ import {
   CHANGE_EVENT_ID_HOVERING,
   CHANGE_RELATION_TAG_ID_HOVERING,
   CHANGE_RELATION_ID_HOVERING,
-  CHANGE_KEY_TOOLBAR_ACTION_ID_HOVERING,
+  CHANGE_KEYBOARD_SHORTCUT_ACTION_ID_HOVERING,
 } from '../../types';
 
 
@@ -57,9 +57,9 @@ export const changeEffectIdHovering = (effectId) => (dispatch, getState) => {
 }
 
 
-export const changeKeyToolbarActionIdHovering = (effectId) => (dispatch, getState) => {
+export const changeKeyboardShortcutActionIdHovering = (effectId) => (dispatch, getState) => {
   dispatch({
-    type: CHANGE_KEY_TOOLBAR_ACTION_ID_HOVERING,
+    type: CHANGE_KEYBOARD_SHORTCUT_ACTION_ID_HOVERING,
     updateCobrowsing: true,
     cobrowsingPublisherOnly: true,
     payload: {

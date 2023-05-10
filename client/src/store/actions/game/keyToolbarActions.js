@@ -6,11 +6,11 @@ import {
 } from '../../types';
 import { updateCobrowsing } from './cobrowsingActions';
 
-export const initializeKeyToolbarActionIds = (keyToolbarActionIds = {}) => async (dispatch, getState) => {
+export const initializeKeyboardShortcutActionIds = (keyboardShortcutActionIds = {}) => async (dispatch, getState) => {
   dispatch({
     type: INITIALIZE_KEY_TOOLBAR_ACTION_IDS,
     payload: { 
-      keyToolbarActionIds,
+      keyboardShortcutActionIds,
      },
   });
   
@@ -19,7 +19,7 @@ export const initializeKeyToolbarActionIds = (keyToolbarActionIds = {}) => async
   }
 };
 
-export const setKeyToolbarActionId = (interfaceActionId, keyId) => async (dispatch, getState) => {
+export const setKeyboardShortcutActionId = (interfaceActionId, keyId) => async (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     forceCobrowsingUpdate: true,

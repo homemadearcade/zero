@@ -6,7 +6,7 @@ import './SelectGameInstanceEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { getEffectData } from '../../../utils';
 
-const SelectGameInstanceEffect = ({ onChange, value, eventType, formLabel, disabled, gameModel}) => {
+const SelectGameInstanceEffect = ({ onChange, value, eventType, formLabel, disabled, gameModel: { gameModel }}) => {
   const mapControlsToOption = (effectId) => {
     const effect = gameModel.effects[effectId]
 
@@ -56,7 +56,7 @@ const SelectGameInstanceEffect = ({ onChange, value, eventType, formLabel, disab
 
 const mapStateToProps = (state) => {
   return {
-    gameModel: state.gameModel.gameModel
+    gameModel: state.gameModel
   }
 };
 

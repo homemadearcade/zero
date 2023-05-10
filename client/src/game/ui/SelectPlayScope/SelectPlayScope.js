@@ -36,7 +36,6 @@ const SelectPlayScope = ({ onChange, value, formLabel, auth: { me } }) => {
 const mapStateToProps = (state) => {
   return {
     auth: state.auth,
-    // gameModel: state.gameModel.gameModel,
   }
 };
 

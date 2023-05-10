@@ -9,7 +9,7 @@ import { openEditEntityGraphics, openCreateCutscene, openCreateEffect, openCreat
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import {  DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, EFFECT_LIST_IID, EFFECT_ADD_IID, EFFECT_CONTAINER_IID, EVENT_LIST_IID, EVENT_ADD_IID, EVENT_CONTAINER_IID, EVENT_SELECT_IID, IS_DATA_REMOVED_IID, RELATION_LIST_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, RELATION_TAG_LIST_IID, RELATION_TAG_ADD_IID, RELATION_TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
+import {  SCRIPT_ADD_IID, SCRIPT_CONTAINER_IID, SCRIPT_SELECT_IID, EFFECT_LIST_IID, EFFECT_ADD_IID, EFFECT_CONTAINER_IID, EVENT_LIST_IID, EVENT_ADD_IID, EVENT_CONTAINER_IID, EVENT_SELECT_IID, IS_DATA_REMOVED_IID, RELATION_LIST_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, RELATION_TAG_LIST_IID, RELATION_TAG_ADD_IID, RELATION_TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openEntityBoxDialog } from '../../../store/actions/game/gameSelectorActions';
 import { NestedListContainer, NestedListItem, NestedListItemButton } from '../../../ui/NestedList/NestedList';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
@@ -46,7 +46,7 @@ const RelationSystemList = ({
   // const cutscenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
   //   const currentCutscene = gameModel.cutscenes[currentCutsceneId]
   //   if(currentCutscene.isRemoved) return false
-  //   if(currentCutscene.isDialogue) return false
+  //   if(currentCutscene.isScript) return false
   //   return true
   // }).map((currentCutsceneId, i) => {
   //   const currentCutscene = gameModel.cutscenes[currentCutsceneId]
@@ -59,7 +59,7 @@ const RelationSystemList = ({
   //   <NestedListItemButton>
   //     <Button onClick={() => {
   //       openCreateCutscene({
-  //         isDialogue: false
+  //         isScript: false
   //       })
   //     }}>+</Button>
   //   </NestedListItemButton>
@@ -73,33 +73,33 @@ const RelationSystemList = ({
   // })
 
 
-  // const dialogueScenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
+  // const scriptScenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
   //   const currentCutscene = gameModel.cutscenes[currentCutsceneId]
   //   if(currentCutscene.isRemoved) return false
-  //   if(!currentCutscene.isDialogue) return false
+  //   if(!currentCutscene.isScript) return false
   //   return true
   // }).map((currentCutsceneId, i) => {
   //   const currentCutscene = gameModel.cutscenes[currentCutsceneId]
-  //   return <Unlockable key={currentCutsceneId} interfaceId={DIALOGUE_SELECT_IID}>
+  //   return <Unlockable key={currentCutsceneId} interfaceId={SCRIPT_SELECT_IID}>
   //     <NestedListItem title={currentCutscene.name} onClick={() => {openCreateCutscene(currentCutscene)}}/>
   //   </Unlockable>
   // })
 
-  // dialogueScenes.push(<Unlockable key="add dialog" interfaceId={DIALOGUE_ADD_IID}>
+  // scriptScenes.push(<Unlockable key="add dialog" interfaceId={SCRIPT_ADD_IID}>
   //   <NestedListItemButton>
   //     <Button onClick={() => {
   //       openCreateCutscene({
-  //         isDialogue: true
+  //         isScript: true
   //       })
   //     }}>+</Button>
   //   </NestedListItemButton>
   // </Unlockable>)
 
   // nestedLists.push({
-  //   interfaceId: DIALOGUE_CONTAINER_IID,
-  //   title: 'Dialogues',
-  //   children: dialogueScenes,
-  //   // moreMenu: <SelectorMoreMenu interfaceId={DIALOGUE_IID}/>
+  //   interfaceId: SCRIPT_CONTAINER_IID,
+  //   title: 'Scripts',
+  //   children: scriptScenes,
+  //   // moreMenu: <SelectorMoreMenu interfaceId={SCRIPT_IID}/>
   // })
 
   const relationTags = Object.keys(gameModel.relationTags).filter((currentRelationTagId) => {

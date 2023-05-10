@@ -18,7 +18,7 @@ export class CodrawingScene extends Phaser.Scene {
     });
 
     this.brush = null 
-    this.canvas= null
+    this.brushingCanvas= null
 
     this.size = size
     this.textureTint = textureTint
@@ -73,11 +73,12 @@ export class CodrawingScene extends Phaser.Scene {
     }
 
     if(this.brush) {
-      this.brush.update(pointer)
+      const canvas = this.getLayerInstanceByTextureId(this.brush.getLayerId())
+      this.brush.update(pointer, canvas)
     }
 
-    if(this.canvas && pointer.isDown) {
-      this.brush.stroke(pointer, this.canvas)
+    if(this.brushingCanvas && pointer.isDown) {
+      this.brush.stroke(pointer, this.brushingCanvas)
     }
   }
 
@@ -90,29 +91,29 @@ export class CodrawingScene extends Phaser.Scene {
       ////////////////////////////////////////////////////////////
       if(this.brush) {
         const canvas = this.getLayerInstanceByTextureId(this.brush.getLayerId())
-        this.canvas = canvas
-        this.brush.stroke(pointer, this.canvas)
+        this.brushingCanvas = canvas
+        this.brush.stroke(pointer, this.brushingCanvas)
       }
     }
   }
 
   onPointerUp = (pointer) => {
-    if(this.canvas) {
+    if(this.brushingCanvas && this.brush) {
       this.onStrokeComplete()
     }
   }
 
   onPointerLeaveGame = () => {
-    // without !this.canvas check we end up with discrepencies in codrawing
-    if(this.brush && !this.canvas) this.destroyBrush()
-    if(this.canvas) {
+    if(this.brushingCanvas && this.brush) {
       this.onStrokeComplete()
       this.destroyBrush()
     }
+    // without !this.brushingCanvas check we end up with discrepencies in codrawing
+    if(this.brush && !this.brushingCanvas) this.destroyBrush()
   }
 
   onPointerUpOutside = (pointer)  => {
-    if(this.canvas) {
+    if(this.brushingCanvas && this.brush) {
       this.onStrokeComplete()
     }
   }
@@ -153,7 +154,7 @@ export class CodrawingScene extends Phaser.Scene {
 
   onStrokeComplete = async () => {
     this.brush.releaseStroke()
-    this.canvas = null;
+    this.brushingCanvas = null;
   }
 
   initialDraw = () => {
@@ -162,7 +163,13 @@ export class CodrawingScene extends Phaser.Scene {
     if(!this.initialTextureId && !this.textureTint) {
       return 
     }
-    const brush = new Brush(this, { textureTint: this.textureTint, brushId: this.initialTextureId, textureId: this.initialTextureId, spriteSheetName: this.spriteSheetName, spriteIndex: this.spriteIndex })
+    const brush = new Brush(this, { 
+      textureTint: this.textureTint, 
+      brushId: this.initialTextureId, 
+      textureId: this.initialTextureId, 
+      spriteSheetName: this.spriteSheetName, 
+      depth: 1,
+      spriteIndex: this.spriteIndex })
     brush.setDisplaySize(this.size, this.size)
     this.backgroundCanvasLayer.draw(brush, 0, 0)
     this.backgroundCanvasLayer.addCanvasToUndoStack()
@@ -277,7 +284,10 @@ export class CodrawingScene extends Phaser.Scene {
 
   unload() {
     // We want to keep the assets in the cache and leave the renderer for reuse.
-    this.game.destroy(true);
+    // const game = this.game
+    this.game.destroy(true)
+    // game.loop.destroy()
+    // game.renderer.destroy()
   }
 }
 

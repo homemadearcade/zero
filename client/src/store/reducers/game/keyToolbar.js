@@ -8,7 +8,7 @@ const initialState = {
 
 };
 
-export const initialKeyToolbarState = initialState
+export const initialKeyboardShortcutState = initialState
 
 export default function keyToolbarReducer(state = initialState, { type, payload }) {
   switch (type) {

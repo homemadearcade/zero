@@ -1,28 +1,28 @@
 import { openCreateCutscene } from "../../store/actions/game/gameFormEditorActions";
-import { SCRIPT_CUTSCENE_AID, SCRIPT_CUTSCENE_NEW_AID, SCRIPT_DIALOGUE_NEW_AID } from "../interfaceActionIds/script";
-import { INTERFACE_ACTION_SCRIPT } from "../interfaceActionIdGroups";
+import { WRITE_CUTSCENE_AID, WRITE_CUTSCENE_NEW_AID, WRITE_SCRIPT_NEW_AID } from "../interfaceActionIds/write";
+import { INTERFACE_ACTION_WRITE } from "../interfaceActionIdGroups";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  [SCRIPT_CUTSCENE_AID]: {
+  [WRITE_CUTSCENE_AID]: {
     getTitle: ([cutsceneId], gameModel) => {
-      return 'Script ' + gameModel.cutscenes[cutsceneId].name
+      return 'Write ' + gameModel.cutscenes[cutsceneId].name
     },
     getSubtitle: ([cutsceneId], gameModel) => {
       return gameModel.cutscenes[cutsceneId].name
     },
     arguments: ['cutsceneId'],
-    interfaceActionGroupId: INTERFACE_ACTION_SCRIPT,
+    interfaceActionGroupId: INTERFACE_ACTION_WRITE,
     onClick: ([cutsceneId]) => (dispatch, gameModel) => {
       const cutscene = gameModel.cutscenes[cutsceneId]
       dispatch(openCreateCutscene(cutscene))
     }
   },
-  [SCRIPT_CUTSCENE_NEW_AID]: {
-    title: 'Script New Cutscene',
+  [WRITE_CUTSCENE_NEW_AID]: {
+    title: 'Write New Cutscene',
     subIcon: 'faPlus',
     subTitle: 'This will open a popup to write your cutscene',
-    interfaceActionGroupId: INTERFACE_ACTION_SCRIPT,
+    interfaceActionGroupId: INTERFACE_ACTION_WRITE,
     higherPriority: true,
     onClick: () => (dispatch, gameModel) => {
       dispatch(openCreateCutscene({
@@ -30,15 +30,15 @@ export default {
       }))
     }
   },
-  [SCRIPT_DIALOGUE_NEW_AID]: {
-    title: 'Script New Dialogue',
+  [WRITE_SCRIPT_NEW_AID]: {
+    title: 'Write New Script',
     subIcon: 'faPlus',
-    subTitle: 'This will open a popup to write your dialogue',
-    interfaceActionGroupId: INTERFACE_ACTION_SCRIPT,
+    subTitle: 'This will open a popup to write your script',
+    interfaceActionGroupId: INTERFACE_ACTION_WRITE,
     higherPriority: true,
     onClick: () => (dispatch, gameModel) => {
       dispatch(openCreateCutscene({
-        name: 'Dialogue #' + (Object.keys(gameModel.cutscenes).length + 1).toString()
+        name: 'Script #' + (Object.keys(gameModel.cutscenes).length + 1).toString()
       }))
     }
   },

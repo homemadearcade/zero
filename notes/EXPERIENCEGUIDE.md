@@ -26,7 +26,7 @@ Make two zones! One for transitioning in, one for transitioning out
 
 Top down view
 
-You have to write tons of dialogue and draw
+You have to write tons of script and draw
 
 --
 
