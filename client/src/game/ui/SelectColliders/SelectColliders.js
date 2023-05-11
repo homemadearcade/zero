@@ -49,7 +49,7 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel: { game
     return !!option
   }).
   sort((a, b) => {
-    return -b.relationTagIID.localeCompare(a.relationTagIID)
+    return -b.relationTagIID?.localeCompare(a?.relationTagIID)
   })
 
   return <SelectChipsAuto 
