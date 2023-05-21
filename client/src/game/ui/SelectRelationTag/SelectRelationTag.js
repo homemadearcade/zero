@@ -12,7 +12,7 @@ import { MenuItem, MenuList } from '@mui/material';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CobrowsingMenuIconButton from '../../cobrowsing/CobrowsingMenuIconButton/CobrowsingMenuIconButton';
 
-const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, value, formLabel, gameModel: { gameModel, currentStageId }, gameSelector: { selectorInterfaceListInvisibility } }) => {
+const SelectRelationTag = ({ removeEntityTags, relationTagIID, interfaceId, onChange, disabled, value, formLabel, gameModel: { gameModel, currentStageId }, gameSelector: { selectorInterfaceListInvisibility } }) => {
   const dataSourceFilterInterfaceId = interfaceId || SELECT_RELATION_TAG_IID
 
   const mapTagToOption = (relationTagId) => {
@@ -27,7 +27,13 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
     const isDataSourceInvisible = selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][relationTag.dataSourceIID]
     const isRemovedInvisible = relationTag.isRemoved && selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][IS_DATA_REMOVED_IID]
 
-    const isRemoved = isDataSourceInvisible || isRemovedInvisible || relationTag.editorInterface.hiddenFromIDs[interfaceId]
+    let isRemoved = isDataSourceInvisible || isRemovedInvisible || relationTag.editorInterface.hiddenFromIDs[interfaceId]
+
+    if(relationTagIID) {
+      if(relationTag.relationTagIID === relationTagIID) {
+        isRemoved = true
+      }
+    }
 
     if(relationTag.relationTagIID === RELATION_TAG_ENTITY_IID) {
       const relationTagEntity = gameModel.entityModels[relationTag.relationTagId]
@@ -43,6 +49,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
 
       return {
         title: relationTag.name,
+        subTitle: relationTag.description,
         value: relationTagId,
         textureId: relationTag.textureId,
         textureTint: relationTag.textureTint,
@@ -53,7 +60,9 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
 
     return {
       title: relationTag.name,
+      subTitle: relationTag.description,
       value: relationTagId,
+      icon: relationTag.icon,
       textureTint: relationTag.textureTint,
       isRemoved,
       relationTagIID
@@ -72,6 +81,14 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
     return  -b.relationTagIID.localeCompare(a.relationTagIID)
   })
 
+  let filteredValue = value
+  if(relationTagIID) {
+    filteredValue = value.filter(value => {
+      const relationTag = gameModel.relationTags[value]
+      return relationTag.relationTagIID === relationTagIID
+    })
+  }
+
   return <div className="SelectRelationTag">
     <SelectChipsAuto 
       disabled={disabled}
@@ -83,7 +100,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
       }}
       hideRemoved
       formLabel={formLabel}
-      value={value}
+      value={filteredValue}
       options={options}
     />
     <Unlockable className="SelectRelationTag__more-menu-icon" interfaceId={SELECTOR_MORE_IID}>

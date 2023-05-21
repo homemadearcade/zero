@@ -5,12 +5,16 @@ import { PLAYER_AND_RELATION_TAG_EVENT_IID, SINGLE_RELATION_TAG_EVENT_IID, TWO_R
 import Typography from "../../../ui/Typography/Typography"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { eventShortNames, eventTypeInterfaces } from "../../constants"
-import Sprite from "../../textures/Texture/Texture"
+import Texture from "../../textures/Texture/Texture"
 
 function renderRelationTag(relationTag) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2rem'}}>
-    <span style={{width: '.6em', height: '.6em'}}>
-      <Sprite textureId={relationTag.textureId} textureTint={relationTag.textureTint}/>
+    <span style={{
+            justifyContent: 'center',
+      alignItems: 'center',
+      display: 'flex',
+      width: '.6em', height: '.6em'}}>
+      <Texture textureId={relationTag.textureId} textureTint={relationTag.textureTint}/>
     </span>
     <span>{relationTag.name}</span>
   </span>
@@ -18,7 +22,7 @@ function renderRelationTag(relationTag) {
 
 function renderEventName(event) {
   const displayName = eventShortNames[event.eventType]
-  return  <Typography sx={{ fontWeight: 'bold' }} component="span">{displayName}</Typography>
+  return  <Typography sx={{ fontWeight: 'bold' }} component="span">{'On ' + displayName}</Typography>
 }
 
 function EventShorthand({event, onClick, gameModel: { gameModel }}) {

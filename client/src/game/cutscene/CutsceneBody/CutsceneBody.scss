@@ -1,0 +1,78 @@
+.CutsceneBody {
+  // background-color: #0a0a0a;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__text-dialog {
+    font-size: 1.5em;
+    background: #222;
+    padding: 1em;
+    margin: 0.1em;
+    align-self: flex-end;
+    max-width: 90%;
+  }
+
+  &--with-image {
+    .CutsceneBody__text-dialog {
+      position: absolute;
+      margin-bottom: 3%;
+    }
+  }
+
+  &__text-container {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+  }
+
+  &__text-key {
+    display: none;
+    // display: flex;
+    // justify-content: flex-end;
+    // padding-top: 1em;
+    // div {
+    //   transform: scale(1.5);
+    // }
+    margin-top: 1em;
+  }
+
+  &__text {
+    flex: 5;
+  }
+
+  &__speaker {
+    flex: 1;
+    display: flex;
+    gap: 0.5em;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #222;
+  }
+
+  &__speaker-image {
+    background-color: #222;
+    width: 2.5em;
+    height: 2.5em;
+  }
+
+  &__speaker-name {
+    font-weight: bold;
+    font-size: 0.8em;
+  }
+
+  &__image {
+    width: 100%;
+  }
+
+  &__next {
+    display: none;
+    position: absolute;
+    right: 2em;
+    bottom: 2em;
+  }
+}

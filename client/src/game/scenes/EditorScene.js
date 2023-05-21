@@ -49,6 +49,9 @@ export class EditorScene extends GameInstance {
     this.isEditor = true
     this.readyForNextEscapeKey = true
     this.isMouseOverGame = false
+
+    this.editorCameraKeys = null
+    this.editorCamera = null
   }
   
   ////////////////////////////////////////////////////////////
@@ -78,12 +81,22 @@ export class EditorScene extends GameInstance {
     }
   }
 
+  isPixelPerfectModeOn = () => {
+    return getCobrowsingState().gameViewEditor.isPixelPerfectModeOn
+  }
+
   continueDrag(phaserInstance, {x, y}) {
     const entityModelId = this.getEntityInstance(this.draggingEntityInstanceId).entityModelId
     const entityModel= store.getState().gameModel.gameModel.entityModels[entityModelId]
-    const { clampedX, clampedY } = snapObjectXY({x, y,  entityModel})
-    phaserInstance.x = clampedX;
-    phaserInstance.y = clampedY;
+    const { clampedX, clampedY, freeX, freeY } = snapObjectXY({x, y,  entityModel})
+    const isPixelPerfectModeOn = this.isPixelPerfectModeOn()
+    if(isPixelPerfectModeOn) {
+      phaserInstance.x = freeX
+      phaserInstance.y = freeY
+    } else {  
+      phaserInstance.x = clampedX;
+      phaserInstance.y = clampedY;
+    }
   }
 
   finishDrag(phaserInstance) {
@@ -809,6 +822,15 @@ export class EditorScene extends GameInstance {
           entityInstance.phaserInstance.x = objectUpdate.spawnX
           entityInstance.phaserInstance.y = objectUpdate.spawnY
         }
+
+        if(objectUpdate.width && objectUpdate.height) {
+            entityInstance.setSize(objectUpdate.width, objectUpdate.height)
+        } else if(objectUpdate.width) {
+            entityInstance.setSize(objectUpdate.width, entityInstance.height)
+        } else if(objectUpdate.height) {
+            entityInstance.setSize(entityInstance.width, objectUpdate.height)
+        }
+
       })
 
       if(stageUpdate?.playerEntityModelId) {
@@ -937,7 +959,7 @@ export class EditorScene extends GameInstance {
       }
 
       if(
-        entityModelUpdate.editor ||
+        entityModelUpdate.editorInterface ||
         entityModelUpdate.graphics?.invisibile !== undefined ||
         entityModelUpdate.boundaryRelation || 
         entityModelUpdate.graphics?.textureId ||
@@ -1060,19 +1082,21 @@ export class EditorScene extends GameInstance {
 
     this.editorCamera = this.cameras.getCamera('editor')
 
-    // const keys = this.input.keyboard.addKeys({ up: 'W', left: 'A', down: 'S', right: 'D' });
-    // const keys = this.input.keyboard.addKeys({ up: 'Up', left: 'Left', down: 'Down', right: 'Right' });
-    // const controlConfig = {
-    //   camera: this.editorCamera,
-    //   left: keys.left,
-    //   right: keys.right,
-    //   up: keys.up,
-    //   down: keys.down,
-    //   acceleration: 0.03,
-    //   drag: 0.001,
-    //   maxSpeed: 0.5
-    // };
-    // this.editorCameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
+    if(!this.gameRoomInstance.isHost) {
+      // const keys = this.input.keyboard.addKeys({ up: 'W', left: 'A', down: 'S', right: 'D' });
+      this.editorCameraKeys = this.input.keyboard.addKeys({ up: 'Up', left: 'Left', down: 'Down', right: 'Right' });
+      const controlConfig = {
+        camera: this.editorCamera,
+        left: this.editorCameraKeys.left,
+        right: this.editorCameraKeys.right,
+        up: this.editorCameraKeys.up,
+        down: this.editorCameraKeys.down,
+        acceleration: 0.03,
+        drag: 0.001,
+        maxSpeed: 0.5
+      };
+      this.editorCameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
+    }
 
     this.input.on('pointerover', this.onPointerOver);
     this.input.on('pointerout', this.onPointerOut);
@@ -1176,7 +1200,6 @@ export class EditorScene extends GameInstance {
     // const cameraZoom = gameViewEditor.isBoundaryEditorOpen ? getCobrowsingState().gameViewEditor.cameraZoom : store.getState().gameViewEditor.cameraZoom
     const cameraZoom = gameViewEditor.cameraZoom
     if(cameraZoom !== this.editorCamera.zoom) {
-      console.log('setting zoom')
       this.editorCamera.setZoom(cameraZoom)
       // this.editorCamera.zoomTo(cameraZoom, 100, 'Linear', true)
     }
@@ -1227,7 +1250,11 @@ export class EditorScene extends GameInstance {
     }
 
     if(this.isGridViewOn) {
-      this.editorCamera.startFollow(this.playerInstance.phaserInstance, false, 0.4, 0.4)
+      if(this.gameRoomInstance.isHost) {
+        this.editorCamera.startFollow(this.playerInstance.phaserInstance, false, 0.4, 0.4)
+      } else {
+        this.editorCameraControls.update(delta)
+      }
 
       this.grid.setVisible(true)
       this.grid2.setVisible(true)
@@ -1243,7 +1270,7 @@ export class EditorScene extends GameInstance {
     }
   }
 
-  unload() {
+  unload = () => {
     super.unload()
     console.log('unloading game view')
     this.input.off('pointerover', this.onPointerOver);
@@ -1259,6 +1286,15 @@ export class EditorScene extends GameInstance {
     this.input.off('dragend', this.onDragEnd);
     this.input.off('wheel', this.onMouseWheel);
     this.input.keyboard.disableGlobalCapture()
+    
+    if(this.editorCameraKeys) {
+      this.input.keyboard.removeKey(this.editorCameraKeys.up)
+      this.input.keyboard.removeKey(this.editorCameraKeys.down)
+      this.input.keyboard.removeKey(this.editorCameraKeys.left)
+      this.input.keyboard.removeKey(this.editorCameraKeys.right)
+    }
+
+    this.input.keyboard.removeKey(this.escKey)
     // this.remoteEditors.forEach((remoteEditor) => {
     //   remoteEditor.destroy()
     // })

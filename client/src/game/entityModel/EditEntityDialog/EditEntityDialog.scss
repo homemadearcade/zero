@@ -7,6 +7,13 @@
 
   }
 
+  &__read-only-tags {
+    display: flex;
+    flex-direction: row;
+    gap: .5em;
+    align-items: center;
+  }
+
   &__tabs {
     .Tabs__panel {
       min-height: 25em;
@@ -22,7 +29,19 @@
 
   &__primary-options {
     flex: 2;
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+    max-width: 85%;
   }
+
+  &__secondary-options {
+    flex: 1;
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+  }
+
   &__texture-stage {
     width: 10em;
     height: 10em;

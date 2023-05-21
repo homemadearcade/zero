@@ -26,6 +26,12 @@ export const CHANGE_ENTITY_INTERFACE_IID = "entity/changeEntityInterface";
 export const ENTITY_MODEL_REMOVE_IID= 'contextMenu/entity/remove'
 export const ENTITY_MODEL_IMPORT_IID= 'contextMenu/entity/import'
 
+//IIDs for PROJECTILE_ENTITY 
+export const PROJECTILE_ENTITY_CONTAINER_IID = "PROJECTILE_ENTITY_IID/*";
+export const PROJECTILE_ENTITY_ADD_IID = "PROJECTILE_ENTITY_IID/addProjectile";
+export const PROJECTILE_ENTITY_SELECT_IID = "PROJECTILE_ENTITY_IID/select";
+
+
 export const ENTITY_MODEL_BOUNDARY_RELATION_IID = 'ENTITY_MODEL_BOUNDARY_RELATION_IID'
 
 export function getSelectEntityFromEntityType(entityIID) {
@@ -34,6 +40,7 @@ export function getSelectEntityFromEntityType(entityIID) {
   if(entityIID === BASIC_ENTITY_IID) return BASIC_ENTITY_SELECT_IID
   if(entityIID === NPC_ENTITY_IID) return NPC_ENTITY_SELECT_IID
   // if(entityIID === POWERUP_ENTITY_IID) return POWERUP_ENTITY_SELECT_IID
+  if(entityIID === PROJECTILE_ENTITY_IID) return PROJECTILE_ENTITY_SELECT_IID
 }
 
 /////////////////////////////////////
@@ -45,3 +52,4 @@ export const BASIC_ENTITY_IID = 'BASIC_ENTITY_IID'
 export const NPC_ENTITY_IID = 'NPC_ENTITY_IID'
 export const ZONE_ENTITY_IID = 'ZONE_ENTITY_IID'
 export const POWERUP_ENTITY_IID = 'POWERUP_ENTITY_IID'
+export const PROJECTILE_ENTITY_IID = 'PROJECTILE_ENTITY_IID'

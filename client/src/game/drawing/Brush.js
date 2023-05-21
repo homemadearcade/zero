@@ -44,12 +44,24 @@ export class Brush extends Phaser.GameObjects.Image {
   }
 
   update(pointer, canvas) {
-    const { clampedX, clampedY } = this.snapMethod({
+    const isPixelPerfectModeOn = this.scene.isPixelPerfectModeOn()
+
+    let x, y;
+    const { clampedX, clampedY, freeX, freeY } = this.snapMethod({
       x: pointer.worldX, 
       y: pointer.worldY,
       boundaries: canvas.boundaries
     })
-    this.setPosition(clampedX, clampedY)
+
+    if(isPixelPerfectModeOn) {
+      x = freeX
+      y = freeY
+    } else {
+      x = clampedX
+      y = clampedY
+    }
+
+    this.setPosition(x, y)
   }
 
   stroke(pointer, canvas) {
@@ -57,22 +69,34 @@ export class Brush extends Phaser.GameObjects.Image {
       return false
     }
 
-    const { clampedX, clampedY } = this.snapMethod({
+    let x, y;
+    
+    const { clampedX, clampedY, freeX, freeY } = this.snapMethod({
       x: pointer.worldX, y: pointer.worldY,
       boundaries: canvas.boundaries
     })
-    if(clampedX === this.lastStrokeX && clampedY === this.lastStrokeY) return
 
-    this.lastStrokeX = clampedX
-    this.lastStrokeY = clampedY
+    const isPixelPerfectModeOn = this.scene.isPixelPerfectModeOn()
+    if(isPixelPerfectModeOn) {
+      x = freeX
+      y = freeY
+    } else {
+      x = clampedX
+      y = clampedY
+    }
 
-    this.executeStroke(clampedX, clampedY, canvas)
+    if(x === this.lastStrokeX && y === this.lastStrokeY) return
+
+    this.lastStrokeX = x
+    this.lastStrokeY = y
+
+    this.executeStroke(x, y, canvas)
 
     this.strokeMemory.push({
       width: this.width,
       height: this.height,
-      x: clampedX,
-      y: clampedY
+      x: x,
+      y: y
     })
 
     if(this.strokeMemory.length > 20) {

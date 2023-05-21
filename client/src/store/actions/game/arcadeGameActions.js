@@ -38,7 +38,7 @@ import {
     PLAY_GAME_SCOPE_UNLISTED, 
     TEXTURE_DID, 
     UNDO_MEMORY_MAX } from '../../../game/constants';
-import { changeCurrentStage } from './gameModelActions';
+import { changeCurrentStage, editGameModel } from './gameModelActions';
 import { generateUniqueId, getImageUrlFromTextureId } from '../../../utils';
 import { addCanvasImage } from '../media/canvasImageActions';
 import { IMAGE_TYPE_LAYER } from '../../../constants';
@@ -306,6 +306,22 @@ export async function addLayersForArcadeGameStage(arcadeGameMongoId, userMongoId
   const playgroundTextureId = TEXTURE_DID + generateUniqueId()
   const foregroundTextureId = TEXTURE_DID + generateUniqueId()
 
+  const colors = {
+    '#FFFFFF': {},
+    '#000000': {},
+    '#EE4035': {},
+    '#F37736': {},
+    '#FDF498': {},
+    '#7BC043': {},
+    '#0392CF': {}
+  }
+  const layerIds = [backgroundLayerId, playgroundLayerId, foregroundLayerId]
+  layerIds.forEach((layerId) => {
+    Object.keys(colors).forEach((colorId) => {
+      colors[colorId][layerId] = 1
+    })
+  })
+
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
     imageUrl: getImageUrlFromTextureId(backgroundTextureId),
@@ -370,14 +386,18 @@ export async function addLayersForArcadeGameStage(arcadeGameMongoId, userMongoId
     }
   }
 
-  store.dispatch(editArcadeGame(arcadeGameMongoId, {
+  const gameData = {
     layers,
-    stages: {
-      [stageId]: {
-        stageId,
-      }
-    },
-  })) 
+    colors,
+  }
+
+  // so that it live updates
+  const gameModelId = store.getState().gameModel.gameModel?.id
+  if(gameModelId === arcadeGameMongoId) {
+    store.dispatch(editGameModel(gameData))
+  } else {
+    store.dispatch(editArcadeGame(arcadeGameMongoId, gameData)) 
+  }
 
   return layers
 }

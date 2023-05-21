@@ -45,7 +45,6 @@ class LocalGameRoomContext extends Component {
 
   componentWillUnmount() {
     const { endGameRoom } = this.props
-    console.log('????')
     endGameRoom()
   }
 

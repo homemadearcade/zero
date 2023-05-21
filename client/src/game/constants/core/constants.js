@@ -63,6 +63,7 @@ export const BASIC_ENTITY_TYPE_PREFIX = 'o-'
 export const NPC_ENTITY_TYPE_PREFIX = 'n-'
 export const ZONE_ENTITY_TYPE_PREFIX = 'z-'
 export const POWERUP_ENTITY_TYPE_PREFIX = 'pw-'
+export const PROJECTILE_ENTITY_TYPE_PREFIX = 'pr-'
 
 export const CUTSCENE_DID = 'cutscene-'
 export const RELATION_DID = 'relation-'

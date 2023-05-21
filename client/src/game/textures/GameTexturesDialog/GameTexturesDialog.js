@@ -10,12 +10,12 @@ import Typography from '../../../ui/Typography/Typography';
 import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorActions';
 import Button from '../../../ui/Button/Button';
 
-const GameTexturesDialog = ({ openSnapshotTaker, closeGameTexturesDialog, onClickTexture, gameViewEditor: { isSnapshotTakerOpen } }) => {
+const GameTexturesDialog = ({ openSnapshotTaker, closeGameTexturesDialog, onClickTexture }) => {
   function handleClose() {
     closeGameTexturesDialog()
   }
 
-  return <CobrowsingDialog open={!isSnapshotTakerOpen} onClose={handleClose}>
+  return <CobrowsingDialog open={true} onClose={handleClose}>
     <Typography component="h2" variant="h2">My Images</Typography>
     <div className="GameTexturesDialog">
       <GameTextures onClickTexture={onClickTexture}/>
@@ -27,7 +27,7 @@ const GameTexturesDialog = ({ openSnapshotTaker, closeGameTexturesDialog, onClic
 }
 
 const mapStateToProps = (state) => ({
-  gameViewEditor: state.gameViewEditor
+
 })
 
 export default compose(

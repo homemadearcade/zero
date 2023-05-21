@@ -18,7 +18,11 @@ const CobrowsingDialog = ({
   widthModifier, onClose, children, 
   setIsDialogOverGameView,
   open, zIndexIncrease = 1, width, height, 
-  webPage: { gameInstance } }) => {
+  webPage: { gameInstance },
+  gameViewEditor: {
+    isSnapshotTakerOpen
+  }
+}) => {
   useEffect(() => {
     setIsDialogOverGameView(true)
 
@@ -35,13 +39,22 @@ const CobrowsingDialog = ({
       getCurrentGameScene(store.getState().webPage.gameInstance)?.input?.keyboard.enableGlobalCapture();
     }
   }, [])
+  
+
+  function isOpen() {
+    if(isSnapshotTakerOpen) {
+      return false
+    }
+
+    return open
+  }
 
   const { gameEditorHeight, gameEditorWidth } = useGameEditorSize()
   if(gameEditorHeight) {
     //z-index
     return createPortal(<Backdrop
       sx={{ color: '#fff', zIndex: 1000 + zIndexIncrease}}
-      open={open}
+      open={isOpen()}
     >
       <div className="CobrowsingDialog__safe-area" style={{width: gameEditorHeight * (widthModifier ? widthModifier : .7) }}>
         <div className="CobrowsingDialog__body" style={{width: width, height: height}} onClick={stopPropagation}>
@@ -56,7 +69,8 @@ const CobrowsingDialog = ({
 };
 
 const mapStateToProps = (state) => ({
-  webPage: state.webPage
+  webPage: state.webPage,
+  gameViewEditor: state.gameViewEditor,
 });
 
 export default compose(

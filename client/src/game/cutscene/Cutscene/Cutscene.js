@@ -3,24 +3,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { progressActiveCutscene } from '../../../store/actions/game/playerInterfaceActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import KeyIndicator from '../../ui/KeyIndicator/KeyIndicator';
 import './Cutscene.scss';
-
-function CutsceneBody({
-  imageUrl,
-  text,
-}) {
-
-  return (
-    <div className="Cutscene">
-      {imageUrl && <img className="Cutscene__image" src={imageUrl} alt={text}/>}
-      <div className="Cutscene__text-container">
-        <div className="Cutscene__text">{text}</div>
-        <KeyIndicator className="Cutscene__text-key blink" keyName="x"/>
-      </div>
-    </div>
-  );
-}
+import CutsceneBody from '../CutsceneBody/CutsceneBody';
 
 const Cutscene = ({ gameModel: { gameModel }, playerInterface: { cutsceneId, cutsceneIndex }, progressActiveCutscene}) => {
   if(!cutsceneId) return null
@@ -29,12 +13,16 @@ const Cutscene = ({ gameModel: { gameModel }, playerInterface: { cutsceneId, cut
   const { cutscenes } = gameModel
 
   if(!cutscenes[cutsceneId].scenes[cutsceneIndex]) {
-    return <CutsceneBody text={'Hello World'} progressActiveCutscene={progressActiveCutscene} />
+    return <CutsceneBody scene={{
+      text: 'Hello World'
+    }} progressActiveCutscene={progressActiveCutscene} />
   }
   
-  const { imageUrl, text } = cutscenes[cutsceneId].scenes[cutsceneIndex]
+  const scene = cutscenes[cutsceneId].scenes[cutsceneIndex]
 
-  return <CutsceneBody imageUrl={imageUrl} text={text} progressActiveCutscene={progressActiveCutscene} />
+  return <div className="Cutscene">
+    <CutsceneBody scene={scene} progressActiveCutscene={progressActiveCutscene} />
+  </div>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

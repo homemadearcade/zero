@@ -27,7 +27,6 @@ import { openEditEntityDialog } from '../../../store/actions/game/gameFormEditor
 
 const GameEditDialog = ({ 
   editGameModel, closeGameEditDialog, 
-  gameViewEditor: { isSnapshotTakerOpen },
   gameModel: { gameModel },
   addImportedArcadeGame,
   openCreateStageDialog,
@@ -77,11 +76,11 @@ const GameEditDialog = ({
       }}/>
       <FormLabel>Imported Games</FormLabel>
       <div className="GameEditDialog__imported-games">{gameModel.importedArcadeGames?.map((gameModel) => {
-        if(gameModel.importedArcadeGames?.length) return <>
+        if(gameModel.importedArcadeGames?.length) return <div key={gameModel.id}>
           <Alert severity="error">
             {gameModel.metadata.title + ' also has imported games and cannot be imported'}
           </Alert>
-        </>
+        </div>
         return <GameCard game={gameModel}/>
       })}
       </div>
@@ -141,7 +140,7 @@ const GameEditDialog = ({
 
   const tabs = [metadataTab, playersTab, themeTab, libraryTab, sizeTab]
 
-  return <CobrowsingDialog widthModifier={1} open={!isSnapshotTakerOpen} onClose={handleClose}>
+  return <CobrowsingDialog widthModifier={1} open={true} onClose={handleClose}>
     <div className="GameEditDialog">
       <CobrowsingTabs className="GameEditDialog__tabs" interfaceGroupId={EDIT_GAME_TAB_CONTANER_IID} tabs={tabs}/>
     </div>
@@ -149,7 +148,6 @@ const GameEditDialog = ({
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameViewEditor: state.gameViewEditor,
   gameModel: state.gameModel,
 })
 

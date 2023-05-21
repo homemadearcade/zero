@@ -34,15 +34,31 @@ export class EntityStamper extends Phaser.GameObjects.Image {
   }
 
   update(pointer) {
-    const { clampedX, clampedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, entityModel: this.entityModel})
-    this.setPosition(clampedX, clampedY)
+    const { clampedX, clampedY, freeX, freeY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, entityModel: this.entityModel})
+    const isPixelPerfectModeOn = this.scene.isPixelPerfectModeOn()
+    if(isPixelPerfectModeOn) {
+      this.setPosition(freeX, freeY)
+    } else {
+      this.setPosition(clampedX, clampedY)
+    }
   }
 
   stamp(pointer) {
-    const { clampedX, clampedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, entityModel: this.entityModel})
+    const { clampedX, clampedY, freeX, freeY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, entityModel: this.entityModel})
+
+    const isPixelPerfectModeOn = this.scene.isPixelPerfectModeOn()
+    let x, y;
+    if(isPixelPerfectModeOn) {
+      x = freeX
+      y = freeY
+    } else {
+      x = clampedX
+      y = clampedY
+    }
+
     this.scene.addEntityInstanceToStageModel(this.entityModelId, {
-      spawnX: clampedX, 
-      spawnY: clampedY
+      spawnX: x, 
+      spawnY: y
     })
   }
 }

@@ -81,7 +81,11 @@ export function NestedListContainer({children, title}) {
 }
 
 function TextureSquare({textureId, textureTint}) {
-  return  <span style={{width: '.6em', height: '.6em'}}>
+  return  <span style={{
+          justifyContent: 'center',
+      alignItems: 'center',
+      display: 'flex',
+    width: '.6em', height: '.6em'}}>
       <Texture textureId={textureId} textureTint={textureTint}/>
     </span>
 }

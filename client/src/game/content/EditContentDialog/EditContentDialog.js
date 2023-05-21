@@ -45,7 +45,7 @@ const EditContentDialog = ({
 
   const tabs = [stagesTab, cutscenesTab, texturesTab]
   
-  return <CobrowsingDialog widthModifier={1} open onClose={handleClose}>
+  return <CobrowsingDialog widthModifier={1} open={true} onClose={handleClose}>
     <div className="EditContentDialog">
       <CobrowsingTabs className="EditContentDialog__tabs" interfaceGroupId={EDIT_CONTENT_TAB_CONTANER_IID} tabs={tabs}/>
     </div>

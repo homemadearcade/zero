@@ -1,5 +1,5 @@
 import { openCreateCutscene } from "../../store/actions/game/gameFormEditorActions";
-import { WRITE_CUTSCENE_AID, WRITE_CUTSCENE_NEW_AID, WRITE_SCRIPT_NEW_AID } from "../interfaceActionIds/write";
+import { WRITE_CUTSCENE_AID, WRITE_CUTSCENE_NEW_AID, WRITE_TEXT_SCENE_NEW_AID } from "../interfaceActionIds/write";
 import { INTERFACE_ACTION_WRITE } from "../interfaceActionIdGroups";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -30,15 +30,15 @@ export default {
       }))
     }
   },
-  [WRITE_SCRIPT_NEW_AID]: {
-    title: 'Write New Script',
+  [WRITE_TEXT_SCENE_NEW_AID]: {
+    title: 'Write New Text Scene',
     subIcon: 'faPlus',
-    subTitle: 'This will open a popup to write your script',
+    subTitle: 'This will open a popup to write your text scene',
     interfaceActionGroupId: INTERFACE_ACTION_WRITE,
     higherPriority: true,
     onClick: () => (dispatch, gameModel) => {
       dispatch(openCreateCutscene({
-        name: 'Script #' + (Object.keys(gameModel.cutscenes).length + 1).toString()
+        name: 'Text Scene #' + (Object.keys(gameModel.cutscenes).length + 1).toString()
       }))
     }
   },

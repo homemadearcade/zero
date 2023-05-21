@@ -8,7 +8,9 @@ DALL E GENERATOR
 
 PUSH UI STATE ( Envelope Icon )
 
-Animate.css wiggle when you import class, when class is added, etc
+Wiggle An Object Or highlight When its hovered over - WHY NOT!
+Highlight on the map
+https://www.react-spring.dev/examples wiggle when you import class, when class is added, etc
 
 Speed Boost Relationship
 Gravitational Pull effect

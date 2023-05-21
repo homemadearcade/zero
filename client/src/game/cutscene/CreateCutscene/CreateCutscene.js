@@ -16,9 +16,10 @@ import { closeGameTexturesDialog, openGameTexturesDialog } from '../../../store/
 import SceneCard from '../SceneCard/SceneCard';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
-import { SCRIPT_SHORTCUT_IID, IMAGE_AND_TEXT_CUTSCENE_IID, IMAGE_CUTSCENE_IID, TEXT_CUTSCENE_IID } from '../../../constants/interfaceIds';
+import { TEXT_SCENE_SHORTCUT_IID, IMAGE_AND_TEXT_SCENE_IID, IMAGE_CUTSCENE_IID, TEXT_SCENE_IID } from '../../../constants/interfaceIds';
 import { getImageUrlFromTextureId } from '../../../utils';
 import { CUTSCENE_DID, SCENE_DID } from '../../constants';
+import Divider from '../../../ui/Divider/Divider';
 
 const CreateCutscene = ({ 
   closeCreateCutscene, 
@@ -28,7 +29,6 @@ const CreateCutscene = ({
   updateCreateCutscene, 
   gameFormEditor: { cutscene },
   gameSelector: { isGameTexturesDialogOpen },
-  gameModel: { gameModel },
 }) => {
   const [editScene, setEditScene] = useState(null)
   function handleClose() {
@@ -78,9 +78,9 @@ const CreateCutscene = ({
 
   function renderActionButtons() {
 
-    if(cutscene.isScript) {
+    if(cutscene.isTextSceneOnly) {
       return <Button onClick={() => {
-        addScene(TEXT_CUTSCENE_IID)
+        addScene(TEXT_SCENE_IID)
       }}>
         Add Line
       </Button>
@@ -88,7 +88,7 @@ const CreateCutscene = ({
 
     return <>
       <Button onClick={() => {
-        addScene(TEXT_CUTSCENE_IID)
+        addScene(TEXT_SCENE_IID)
       }}>
         Add Text Scene
       </Button>
@@ -98,7 +98,7 @@ const CreateCutscene = ({
         Add Image Scene
       </Button>
       <Button onClick={() => {
-        addScene(IMAGE_AND_TEXT_CUTSCENE_IID)
+        addScene(IMAGE_AND_TEXT_SCENE_IID)
       }}>
         Add Image and Text Scene
       </Button>
@@ -107,24 +107,33 @@ const CreateCutscene = ({
 
   return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="CreateCutscene">
-       <Unlockable interfaceId={SCRIPT_SHORTCUT_IID}>
+       <Unlockable interfaceId={TEXT_SCENE_SHORTCUT_IID}>
         <Switch
-          labels={['Is Cutscene', 'Is Script']}
+          labels={['Is Cutscene', 'Is Text Scene']}
           size="small"
           onChange={(e) => {
-              updateCreateCutscene({ isScript: e.target.checked
+              updateCreateCutscene({ isTextSceneOnly: e.target.checked
             })          
           }}
-          checked={cutscene.isScript}
+          checked={cutscene.isTextSceneOnly}
          />
       </Unlockable>
       <Typography component="h2" variant="h2">{cutscene.name}</Typography>
       <CutsceneNameForm initialName={cutscene.name}/>
+      <Divider/>
       {cutscene.scenes.map((scene, index) => {
         return <div key={index} className='CreateCutscene__scene'>   
            <SceneCard 
             isEditing={index === editScene}
             index={index}
+            onSelectEntityModelId={(entityModelId) => {
+              const scenes = cutscene.scenes.slice()
+              scenes[index].entityModelId = entityModelId
+
+              updateCreateCutscene({
+                scenes,
+              })
+            }}
             onRemoveScene={() => {
               removeScene(index)
             }} 
@@ -145,6 +154,7 @@ const CreateCutscene = ({
             }}
             scene={scene}>
           </SceneCard>
+          <Divider/>
         </div>
       })}
       {renderActionButtons()}
@@ -203,7 +213,6 @@ const CreateCutscene = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
   gameSelector: state.gameSelector,
-  gameModel: state.gameModel,
 })
 
 export default compose(

@@ -107,7 +107,7 @@ const StyledTag = styled(Tag)(
 
   & span {
     overflow: hidden;
-    white-space: nowrap;
+    // white-space: nowrap;
     text-overflow: ellipsis;
     display: flex;
     align-items:center;

@@ -9,6 +9,8 @@ export const defaultRelationTag = {
   dataSourceIID: DATA_SOURCE_GAME_MODEL_IID,
   relationTagId: null,
   name: null,
+  icon: null,
+  description: null,
   textureTint: '#AAAAAA',
   textureId: null,
   editorInterface: {

@@ -8,20 +8,20 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import EntityNameForm from '../EntityNameForm/EntityNameForm';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Button from '../../../ui/Button/Button';
-import { closeEditEntityDialog, openCreateRelation, openEditEntityGraphics, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
+import { closeEditEntityDialog,  openEditEntityGraphics, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
 import SelectEntityModelClass from '../../ui/SelectEntityModelClass/SelectEntityModelClass';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { CHANGE_ENTITY_INTERFACE_IID, 
    EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, EDIT_ENTITY_MODEL_ADVANCED_TAB_CONTANER_IID, EDIT_ENTITY_MODEL_AUTOGENERATION_TAB_IID, 
-   EDIT_ENTITY_MODEL_BEHAVIORS_TAB_IID, EDIT_ENTITY_MODEL_GENERAL_TAB_IID, EDIT_ENTITY_MODEL_JSON_TAB_IID, 
+   EDIT_ENTITY_MODEL_BEHAVIORS_TAB_IID, EDIT_ENTITY_MODEL_CUTSCENES_IID, EDIT_ENTITY_MODEL_GENERAL_TAB_IID, EDIT_ENTITY_MODEL_JSON_TAB_IID, 
+   EDIT_ENTITY_MODEL_RELATIONS_TAB_IID, 
    EDIT_ENTITY_MODEL_TAB_CONTANER_IID, ENTITY_MODEL_BOUNDARY_RELATION_IID, 
-  ENTITY_RELATION_TAGS_IID, 
    ENTITY_SPAWN_ZONE_ENTITY_IID, LIVE_ENTITY_EDITOR_CAMERA_TAB_IID, LIVE_ENTITY_EDITOR_COLLISIONS_TAB_IID, 
    LIVE_ENTITY_EDITOR_JUMP_TAB_IID, LIVE_ENTITY_EDITOR_MOVEMENT_TAB_IID, 
-   LIVE_ENTITY_EDITOR_PROJECTILE_TAB_IID, PLAYER_AND_RELATION_TAG_EVENT_IID, PLAYER_ENTITY_IID, SINGLE_RELATION_TAG_EVENT_IID, TWO_RELATION_TAG_EVENT_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
-import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
+   LIVE_ENTITY_EDITOR_PROJECTILE_TAB_IID, PLAYER_ENTITY_IID, 
+   ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
-import { entityModelClassToDisplayName, entityModelClassToPrefix, ENTITY_MODEL_DID, eventTypeInterfaces, eventShortNames, RELATION_DID } from '../../constants';
+import { entityModelClassToDisplayName, entityModelClassToPrefix, ENTITY_MODEL_DID } from '../../constants';
 import { copyToClipboard, generateUniqueId } from '../../../utils';
 import Typography from '../../../ui/Typography/Typography';
 import TextureStage from '../../textures/TextureStage/TextureStage';
@@ -30,8 +30,9 @@ import CobrowsingTabs from '../../cobrowsing/CobrowsingTabs/CobrowsingTabs';
 import { openEntityBehaviorLiveEditor } from '../../../store/actions/game/gameSelectorActions';
 import ReactJson from 'react-json-view';
 import Divider from '../../../ui/Divider/Divider';
-import { MenuItem } from '@mui/material';
-import ButtonMenu from '../../../ui/ButtonMenu/ButtonMenu';
+import EntityModelRelations from '../EntityModelRelations/EntityModelRelations';
+import EntityModelRelationTags from '../EntityModelRelationTags/EntityModelRelationTags';
+import EntityModelCutscenes from '../EntityModelCutscenes/EntityModelCutscenes';
 
 const EditEntityDialog = ({ 
   openEditEntityGraphics, 
@@ -39,9 +40,10 @@ const EditEntityDialog = ({
   closeEditEntityDialog, 
   editGameModel, 
   openEntityBehaviorLiveEditor,
-  openCreateRelation,
   gameFormEditor: { entityModel }, 
-  gameModel: { gameModel } }) => {
+  gameModel: { gameModel }
+}) => {
+
   function handleClose() {
     closeEditEntityDialog()
   }
@@ -67,77 +69,6 @@ const EditEntityDialog = ({
       }
     })
     handleClose()
-  }
-
-  function renderTagSelect() {
-    return <Unlockable interfaceId={ENTITY_RELATION_TAGS_IID}>
-        <SelectRelationTag interfaceId={ENTITY_RELATION_TAGS_IID} removeEntityTags formLabel="Relationship Tags" value={entityModel.relationTags ? Object.keys(entityModel.relationTags).filter((relationTagId) => {
-          return !!entityModel.relationTags[relationTagId]
-        }) : []} onChange={(event, relationTags) => {
-
-          const currentTags = Object.keys(entityModel.relationTags).filter((relationTagId) => !!entityModel.relationTags[relationTagId]).reduce((prev, relationTagId) => {
-            const relationTag = entityModel.relationTags[relationTagId]
-            // this purely helps with the UI so that it doesnt APPEAR delated at the end.
-            // these relationTags will always come back through the game model update event
-            if(relationTag.isReadOnly) {
-              prev[relationTagId] = {
-                isReadOnly: true
-              }
-            } else {
-              prev[relationTagId] = null
-            }
-            return prev
-          }, {})
-
-          const newTags = relationTags.reduce((prev, relationTagId) => {
-              prev[relationTagId] = {}
-              return prev
-          }, currentTags)
-
-          updateCreateEntity({
-            relationTags: newTags
-          })
-        }}/>
-        <ButtonMenu variant="outlined" text={"Add New Relationship for " + entityModel.name} menu={(handleClose) => {
-          return [Object.keys(eventTypeInterfaces).map((eventType) => {
-            const eventInterface = eventTypeInterfaces[eventType]
-            if(
-              eventInterface.relationTagSelectType !== PLAYER_AND_RELATION_TAG_EVENT_IID &&
-              eventInterface.relationTagSelectType !== SINGLE_RELATION_TAG_EVENT_IID && 
-              eventInterface.relationTagSelectType !== TWO_RELATION_TAG_EVENT_IID
-            ) return null
-
-            const eventName = eventShortNames[eventType]
-            
-            return <MenuItem key={eventType} onClick={() => {
-              console.log('???')
-              const event = {
-                eventType,
-              }
-
-              if(eventInterface.relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT_IID) {
-                event.relationTagIdA = PLAYER_ENTITY_IID
-                event.relationTagIdB = entityModel.entityModelId
-              } else if(eventInterface.relationTagSelectType === SINGLE_RELATION_TAG_EVENT_IID) {
-                event.relationTagIdA = entityModel.entityModelId
-              } else if(eventInterface.relationTagSelectType === TWO_RELATION_TAG_EVENT_IID) {
-                event.relationTagIdA = entityModel.entityModelId
-              }
-
-              openCreateRelation({
-                // relationId: RELATION_DID+generateUniqueId(),
-                event,
-              })
-              
-              handleClose()
-
-            }}>
-              {'On ' + eventName + ' Event'}
-            </MenuItem>
-
-          })]
-        }}/>
-      </Unlockable>
   }
 
   function renderSelectInterfaceId() {
@@ -180,21 +111,34 @@ const EditEntityDialog = ({
           </TextureStage>
         </div>
         <div className="EditEntityDialog__primary-options">
+          <div className="EditEntityDialog__name"><Typography variant="h5">
+            {entityModel.isNew && 'New ' + entityModelClassToDisplayName[entityModel.entityIID]}
+            {!entityModel.isNew && <div>
+              <EntityNameForm
+                initialName={entityModel.name}
+              />
+            </div>}
+            </Typography>
+          </div>
           {renderSelectInterfaceId()}
-          {renderTagSelect()}
         </div>
       </div>
-      {renderSpawnZoneGeneration('Potential Spawn Zones')}
-      <Unlockable interfaceId={ENTITY_MODEL_BOUNDARY_RELATION_IID}>
-        <SelectBoundaryEffect
-          entityModelId={entityModel.entityModelId}
-          formLabel={`What happens when touching the world boundary?`}
-          value={entityModel.boundaryRelation ? [entityModel.boundaryRelation] : []}
-          onChange={(event, BoundaryRelations) => {
-            const boundaryRelation = BoundaryRelations[BoundaryRelations.length-1]
-            updateCreateEntity({ boundaryRelation })
+      <div className="EditEntityDialog__secondary-options">
+        <EntityModelRelationTags entityModel={entityModel} onUpdate={(entityModelUpdate) => {
+          updateCreateEntity(entityModelUpdate)
         }}/>
-      </Unlockable>
+        {renderSpawnZoneGeneration('Potential Spawn Zones')}
+        <Unlockable interfaceId={ENTITY_MODEL_BOUNDARY_RELATION_IID}>
+          <SelectBoundaryEffect
+            entityModelId={entityModel.entityModelId}
+            formLabel={`What happens when touching the world boundary?`}
+            value={entityModel.boundaryRelation ? [entityModel.boundaryRelation] : []}
+            onChange={(event, BoundaryRelations) => {
+              const boundaryRelation = BoundaryRelations[BoundaryRelations.length-1]
+              updateCreateEntity({ boundaryRelation })
+          }}/>
+        </Unlockable>
+      </div>
       <Button disabled={entityModel.error} type="submit" onClick={handleSubmit}>Save</Button>
     </>
   }
@@ -230,6 +174,22 @@ const EditEntityDialog = ({
     </>
   }
 
+  const relationsTab = {
+    interfaceId: EDIT_ENTITY_MODEL_RELATIONS_TAB_IID,
+    label: 'Relationships',
+    body: <>
+      <EntityModelRelations entityModel={entityModel} />
+    </>
+  }
+
+  const textScenesTab = {
+    interfaceId: EDIT_ENTITY_MODEL_CUTSCENES_IID,
+    label: 'Text Scenes',
+    body: <>
+      <EntityModelCutscenes entityModel={entityModel} />
+    </>
+  }
+
   const autogenerationTab = {
     interfaceId: EDIT_ENTITY_MODEL_AUTOGENERATION_TAB_IID,
     label: 'Autogeneration',
@@ -261,19 +221,11 @@ const EditEntityDialog = ({
     </>
   }
 
-  const tabs = [generalTab, behaviorsTab, advancedTab]
+  const tabs = [generalTab, relationsTab, textScenesTab, behaviorsTab, advancedTab]
   
   return <CobrowsingDialog widthModifier={1} open onClose={handleClose}>
     <div className="EditEntityDialog">
-       <div className="EditEntityDialog__name"><Typography variant="h5">
-        {entityModel.isNew && 'New ' + entityModelClassToDisplayName[entityModel.entityIID]}
-        {!entityModel.isNew && <div>
-          <EntityNameForm
-            initialName={entityModel.name}
-          />
-        </div>}
-        </Typography>
-      </div>
+
 
       <CobrowsingTabs className="EditEntityDialog__tabs" interfaceGroupId={EDIT_ENTITY_MODEL_TAB_CONTANER_IID} tabs={tabs}/>
 
@@ -292,7 +244,6 @@ export default compose(
     openEditEntityGraphics, 
     openEntityBehaviorLiveEditor, 
     closeEditEntityDialog, 
-    openCreateRelation,
     editGameModel, 
     updateCreateEntity }),
 )(EditEntityDialog);

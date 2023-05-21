@@ -256,6 +256,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermi
     const { error } = validateArcadeGame(updatedGame);
     if (error) return res.status(400).json({ message: error.details[0].message });
   
+    console.log(req.body.gameUpdate)
     const update = { 
       metadata: updatedGame.metadata, 
       theme: updatedGame.theme, 

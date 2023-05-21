@@ -23,6 +23,7 @@ export function getCurrentGameScene(gameInstance) {
 export function snapFreeXY({x, y, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {
   const gameModel = store.getState().gameModel.gameModel
   const nodeSize = gameModel.size.nodeSize
+  const halfNodeSize = nodeSize / 2
   const brushSize = getCobrowsingState().gameSelector.brushSize
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
 
@@ -33,12 +34,16 @@ export function snapFreeXY({x, y, boundaries = store.getState().gameModel.gameMo
   const width = isGridViewOn ?  boundaries.maxWidth : gridx + boundaries.width
   const height = isGridViewOn ? boundaries.maxHeight : gridy + boundaries.height
 
-  const snappedX = Phaser.Math.Snap.To(x - (blockSize/2), nodeSize)
+  const freeX = x - (blockSize/2)
+  const freeY = y - (blockSize/2)
+  const snappedX = Phaser.Math.Snap.To(x - (blockSize/2), halfNodeSize)
   const clampedX = Phaser.Math.Clamp(snappedX, gridx, width)
-  const snappedY = Phaser.Math.Snap.To(y - (blockSize/2), nodeSize)
+  const snappedY = Phaser.Math.Snap.To(y - (blockSize/2), halfNodeSize)
   const clampedY = Phaser.Math.Clamp(snappedY, gridy, height)
 
   return {
+    freeX,
+    freeY,
     clampedX,
     clampedY,
     snappedX,
@@ -74,7 +79,7 @@ export function snapSectionalXY({x, y, boundaries = store.getState().gameModel.g
 
 export function snapObjectXY({x, y, entityModel, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {
   const gameModel = store.getState().gameModel.gameModel
-  const nodeSize = gameModel.size.nodeSize
+  const halfNodeSize = gameModel.size.nodeSize/2
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
 
   const gridx = isGridViewOn ? 0 : boundaries.x
@@ -82,14 +87,18 @@ export function snapObjectXY({x, y, entityModel, boundaries = store.getState().g
   const width = isGridViewOn ?  boundaries.maxWidth : gridx + boundaries.width
   const height = isGridViewOn ? boundaries.maxHeight : gridy + boundaries.height
 
-  const snappedX = Phaser.Math.Snap.To(x, nodeSize)
+  const snappedX = Phaser.Math.Snap.To(x, halfNodeSize)
   const clampedX =  Phaser.Math.Clamp(snappedX, gridx + (entityModel.graphics.width/2), width - (entityModel.graphics.width/2))
-  const snappedY = Phaser.Math.Snap.To(y, nodeSize)
+  const snappedY = Phaser.Math.Snap.To(y, halfNodeSize)
   const clampedY = Phaser.Math.Clamp(snappedY, gridy + (entityModel.graphics.height/2), height - (entityModel.graphics.height/2))
   const boundaryX = Phaser.Math.Clamp(x, boundaries.x, boundaries.x + boundaries.width)
   const boundaryY = Phaser.Math.Clamp(y, boundaries.y, boundaries.x + boundaries.width)
+  const freeX = x
+  const freeY = y
 
   return {
+    freeX,
+    freeY,
     boundaryX,
     boundaryY,
     clampedX,

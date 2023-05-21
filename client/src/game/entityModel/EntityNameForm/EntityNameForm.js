@@ -79,12 +79,12 @@ const EntityNameForm = ({ isEditingInitially, initialName, updateCreateEntity, g
         setIsHovering(false)
       }}
     >
-      <Typography variant="h4">
+      <Typography variant="h5">
         {entityModel.name}
       </Typography>
-      <IconButton icon="faPen" color="primary" onClick={() => {
+      {isHovering && <IconButton icon="faPen" size="small" color="primary" onClick={() => {
         setIsEditing(true)
-      }}></IconButton>
+      }}></IconButton>}
     </div>
   }
 };

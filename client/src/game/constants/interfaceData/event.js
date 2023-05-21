@@ -18,20 +18,42 @@ export const eventShortNames = {
   [ON_CUTSCENE_END]: 'Cutscene Ends'
 }
 
-export const eventTypeToDisplayNames = {
-  [ON_TOUCH_START]: 'When Tag A starts touching Tag B',
+export const eventTypeDescriptions = {
+  [ON_TOUCH_START]: {
+    general: 'When Tag A starts touching Tag B',
+    this: 'When Player starts touching this',
+  },
   // [ON_COLLIDE_END]: 'stop touching',
-  [ON_TOUCH_ACTIVE]: 'While Tag A is touching Tag B',
-  [ON_PLAYTHROUGH]: 'When game playthrough begins',
+  [ON_TOUCH_ACTIVE]: {
+    general: 'While Tag A is touching Tag B',
+    this: 'While Player is touching this',
+  },
+  [ON_PLAYTHROUGH]: {
+    general: 'When game playthrough begins',
+  },
   //  [ON_TOUCH_START]: 'ON_TOUCH_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_TOUCH_ACTIVE]: 'ON_TOUCH_ACTIVE',
-  [ON_SPAWN]: 'When Tag A is spawned',
-  [ON_DESTROY_ONE]: 'When Tag A is destroyed',
-  [ON_DESTROY_ALL]: 'When all instances of Tag A are destroyed',
-  [ON_INTERACT]: 'When a player presses X near Interactable Tag',
-
-  [ON_CUTSCENE_END]: 'When a cutscene ends'
+  [ON_SPAWN]: {
+    general: 'When Tag A is spawned',
+    this: 'When this is spawned',
+  },
+  [ON_DESTROY_ONE]: {
+    general: 'When Tag A is destroyed',
+    this: 'When this is destroyed',
+  },
+  [ON_DESTROY_ALL]: {
+    general: 'When all instances of Tag A are destroyed',
+    this: 'When all instances of this are destroyed',
+  },
+  [ON_INTERACT]: {
+    general: 'When a player presses X near Interactable Tag',
+    this: 'When a player presses X near this',
+  },
+  [ON_CUTSCENE_END]: {
+    general: 'When a cutscene ends',
+    this: 'When this cutscene ends',
+  }
 }
 
 export const eventTypeInterfaces = {

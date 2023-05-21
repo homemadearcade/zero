@@ -42,6 +42,13 @@ export const openCutscene = (entityModelId, cutsceneId) => (dispatch, getState) 
   //     dispatch(changeGameState(PAUSED_STATE))
   //   }
   // }
+  const cutscene = getState().gameModel.gameModel.cutscenes[cutsceneId]
+  const scene = cutscene.scenes[0]
+  if(!scene) {
+    console.error('No scene found for cutscene', cutsceneId)
+    return
+  }
+
   dispatch(setIsPlayerPaused(true))
 
   dispatch({

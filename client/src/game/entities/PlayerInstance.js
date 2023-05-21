@@ -62,12 +62,12 @@ export class PlayerInstance extends EntityInstance {
     this.controlledProjectileEjector = new ControlledProjectileEjector(scene, this)
 
     setTimeout(() => {
-      this.camera = this.scene.addEntityInstance(initialCameraZoneInstanceId, {
+      this.cameraInstance = this.scene.addEntityInstance(initialCameraZoneInstanceId, {
         entityModelId: initialCameraZoneEntityId,
         spawnX: 0,
         spawnY: 0,
       })
-      this.camera.onResizeComplete = ({ width, height }) => {
+      this.cameraInstance.onResizeComplete = ({ width, height }) => {
         store.dispatch(editGameModel({
           entityModels: {
             [this.entityModelId]: {
@@ -106,6 +106,7 @@ export class PlayerInstance extends EntityInstance {
 
     if(this.xKey.isDown && this.xKey.isPressable) {
       if(gameState === PLAYTHROUGH_START_STATE || gameState === GAME_END_STATE) {
+        console.log('playthrough start state', this.scene.isPlaythrough)
         if(this.scene.isPlaythrough) {
           store.dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
         } else {
@@ -187,7 +188,15 @@ export class PlayerInstance extends EntityInstance {
 
   destroy() {
     // this.particles.destroy()
+    this.cameraInstance?.destroy()
     this.interactArea.destroy()
+    this.scene.input.keyboard.removeKey(this.cursors.up) 
+    this.scene.input.keyboard.removeKey(this.cursors.down)
+    this.scene.input.keyboard.removeKey(this.cursors.left)
+    this.scene.input.keyboard.removeKey(this.cursors.right)
+    this.scene.input.keyboard.removeKey(this.cursors.space)
+    this.scene.input.keyboard.removeKey(this.cursors.shift)
+    this.scene.input.keyboard.removeKey(this.xKey)
     super.destroy()
   }
 }

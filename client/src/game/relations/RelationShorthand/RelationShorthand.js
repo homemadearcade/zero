@@ -11,7 +11,11 @@ import Texture from "../../textures/Texture/Texture"
 
 function renderRelationTag(relationTag) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2em'}}>
-    <span style={{width: '.6em', height: '.6em'}}>
+    <span style={{
+            justifyContent: 'center',
+      alignItems: 'center',
+      display: 'flex',
+      width: '.6em', height: '.6em'}}>
       <Texture textureId={relationTag.textureId} textureTint={relationTag.textureTint}/>
     </span>
     <span>{relationTag.name}</span>

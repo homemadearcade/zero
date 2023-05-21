@@ -10,7 +10,7 @@ import { COBROWSE_CLICK_TOOL_AID, COBROWSE_UNLOCK_TOOL_AID } from '../../../cons
 import PlayerControlsCard from '../PlayerControlsCard/PlayerControlsCard';
 import { useKeyPress } from '../../../hooks/useKeyPress';
 import { useWishTheme } from '../../../hooks/useWishTheme';
-import { toggleGridView } from '../../../store/actions/game/gameViewEditorActions';
+import { toggleGridView, togglePixelPerfectMode } from '../../../store/actions/game/gameViewEditorActions';
 
 const KeyboardPreview = ({ 
   cobrowsing: {
@@ -51,6 +51,7 @@ const KeyboardPreview = ({
     isDialogOverGameView
   },
   toggleGridView,
+  togglePixelPerfectMode,
   isExpanded
 }) => {
 
@@ -66,8 +67,27 @@ const KeyboardPreview = ({
       return
     }
     
-    toggleGridView()
   }, [selectedTool, isDialogOverGameView, entityModelIdSelectedEntityList])
+
+  function isGridViewTogglePressed() {
+    if(isDialogOverGameView) {
+      return
+    }
+    toggleGridView()
+  }
+
+  function isPixelPerfectModeTogglePressed() {
+    if(isDialogOverGameView) {
+      return
+    }
+    togglePixelPerfectMode()
+  }
+
+  const isForwardSlashPressed = useKeyPress('/', isGridViewTogglePressed, [isDialogOverGameView])
+  const isQuestionMarkPressed = useKeyPress('?', isGridViewTogglePressed, [isDialogOverGameView])
+
+  const isGreaterThanPressed = useKeyPress('>', isPixelPerfectModeTogglePressed, [isDialogOverGameView])
+  const isPeriodPressed = useKeyPress('.', isPixelPerfectModeTogglePressed, [isDialogOverGameView])
 
   const isEscPressed = useKeyPress('Escape')
   const isXPressed = useKeyPress('x')
@@ -79,12 +99,21 @@ const KeyboardPreview = ({
     'Shift': isShiftPressed,
     'Esc': isEscPressed,
     'X': isXPressed || isX2Pressed,
+    '/': isForwardSlashPressed,
+    '?': isQuestionMarkPressed,
+    '>': isGreaterThanPressed,
+    '.': isPeriodPressed,
   }
 
-  function renderKey(key) {
+  function renderKey(key, key2) {
+    let isPressed = isKeyIdPressed[key]
+    if(key2) {
+      isPressed = isPressed || isKeyIdPressed[key2]
+    }
+
     return <div className="KeyboardPreview__key" style={{
-      backgroundColor: isKeyIdPressed[key] && theme.primaryColor.hexString,
-      color: isKeyIdPressed[key] && 'white',
+      backgroundColor: isPressed && theme.primaryColor.hexString,
+      color: isPressed && 'white',
     }}>
       <Typography sx={{fontSize: '.5em', color: '#aaa'}} variant="subtitle2" font="2P">
         {key}
@@ -139,7 +168,7 @@ const KeyboardPreview = ({
       return 'Click Multiple'
     }
 
-    return 'Toggle Grid View'
+    return null
   }
 
   const playerEntityModel = gameModel.entityModels[playerEntityModelId]
@@ -159,6 +188,18 @@ const KeyboardPreview = ({
         {renderKey('Shift')}
         <div className="KeyboardPreview__action">
           {renderActionTitle(renderShiftAction())}
+        </div>
+      </div>
+      <div className="KeyboardPreview__row">
+        {renderKey('?', '/')}
+        <div className="KeyboardPreview__action">
+          {renderActionTitle('Toggle Grid View')}
+        </div>
+      </div>
+      <div className="KeyboardPreview__row">
+        {renderKey('.', '>')}
+        <div className="KeyboardPreview__action">
+          {renderActionTitle('Toggle Pixel Perfect Mode')}
         </div>
       </div>
       <div className="KeyboardPreview__row">
@@ -189,5 +230,6 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default connect(mapStateToProps, {
+  togglePixelPerfectMode,
   toggleGridView
 })(KeyboardPreview);

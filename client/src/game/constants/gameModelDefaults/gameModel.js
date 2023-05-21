@@ -7,7 +7,7 @@ import { directionalPlayerEntityId, initialCameraZoneEntityId, initialPlayerSpaw
 import { mirrorPlayerDefaults } from "../entityModelPropertyDefaults";
 import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { nodeSize } from "../core";
-import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, DATA_SOURCE_SYSTEM_IID, ENTITY_SPAWN_ZONE_ENTITY_IID, PROJECTILE_ENTITY_SELECTOR_IID, COLLIDER_RELATION_TAG_IID, GRID_VIEW_TOGGLE_IID } from "../../../constants/interfaceIds";
+import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, DATA_SOURCE_SYSTEM_IID, ENTITY_SPAWN_ZONE_ENTITY_IID, PROJECTILE_ENTITY_SELECTOR_IID, COLLIDER_RELATION_TAG_IID, GRID_VIEW_TOGGLE_IID, SELECT_SPEAKER_ENTITY_MODEL_IID, PROJECTILE_ENTITY_TARGET_SELECTOR_IID, IMAGE_AND_TEXT_SCENE_IID } from "../../../constants/interfaceIds";
 import { COBROWSE_CLICK_TOOL_AID, COBROWSE_UNLOCK_TOOL_AID, EDIT_CURRENT_STAGE_BOUNDARIES_AID, EDIT_ENTITY_AID, IMPORT_DATA_SOURCE_AID, PLACE_ENTITY_AID, PLAY_TEST_GAME_AID, SNAPSHOT_GAME_AREA_AID, TOGGLE_GRID_VIEW_AID, TOGGLE_PAUSE_PLAY_AID } from "../../../constants/interfaceActionIds";
 import { EDIT_GAME_SCOPE_ONLY_ME, PLAY_GAME_SCOPE_UNLISTED } from "./scope";
 import { FIVE_KID, FOUR_KID, ONE_KID, SEVEN_KID, SIX_KID, THREE_KID, TWO_KID } from "../../../constants/keyboard/keyIds";
@@ -49,6 +49,12 @@ export const defaultGameModel = {
     },
     [endGameCutsceneId]: {
       ...cloneDeep(defaultCutscene),
+      scenes: [
+        { 
+          sceneInterfaceType: IMAGE_AND_TEXT_SCENE_IID,
+          text: 'Congratulations! You have completed the game!'
+        }
+      ],
       name: 'End Game',
       cutsceneId: endGameCutsceneId
     }
@@ -113,6 +119,7 @@ export const defaultGameModel = {
       },
       editorInterface: {
         hiddenFromIDs: {
+          [SELECT_SPEAKER_ENTITY_MODEL_IID]: true,
           [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true,
           [RELATION_SPAWN_ENTITY_MODEL_IID]: true,
           [IMPORT_DATA_SOURCE_AID]: true,
@@ -150,6 +157,7 @@ export const defaultGameModel = {
       ...defaultZoneEntity,
       editorInterface: {
         hiddenFromIDs: {
+          [SELECT_SPEAKER_ENTITY_MODEL_IID]: true,
           [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true,
           [RELATION_SPAWN_ENTITY_MODEL_IID]: true,
           [ENTITY_SPAWN_ZONE_ENTITY_IID]: true,
@@ -157,6 +165,7 @@ export const defaultGameModel = {
           [IMPORT_DATA_SOURCE_AID]: true,
           [PLACE_ENTITY_AID]: true,
           [PROJECTILE_ENTITY_SELECTOR_IID]: true,
+          [PROJECTILE_ENTITY_TARGET_SELECTOR_IID]: true,
           [COLLIDER_RELATION_TAG_IID]: true
         },
         notSelectableInStage: true,

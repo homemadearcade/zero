@@ -6,7 +6,6 @@ FEATURES TODO
 
 GAME
 --------------------------------------------------------------------------------------
-I think projectiles dont do anything right now, register relations with them please :) or SOEMTHING. Perhaps actually put them on the object instances?? hmm?
 
 AUDIO EFFECTS
 
@@ -18,8 +17,6 @@ Toolbar dialog different actions, ( run action in the toolbar )
 Holding Player was at 2x speed?
 
 ---
-
-ignore boundaries and ignore gravity when grid is on
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -41,3 +38,5 @@ DATA
 
 All Data should be cloned. No merged, imported data. No!
 Better clone deep when applying default player? Default jumper?
+
+Do one piece of data at a time. Start with brushes or something?

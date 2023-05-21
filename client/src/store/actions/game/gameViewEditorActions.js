@@ -13,6 +13,7 @@ import {
   SET_RESIZING_ENTITY_INSTANCE_ID,
   SET_IS_MOUSE_OVER_GAME_VIEW,
   SET_IS_DIALOG_OVER_GAME_VIEW,
+  TOGGLE_PIXEL_PERFECT_MODE,
   // UNDO_INSTANCE_CHANGE_FAIL,
   // UNDO_INSTANCE_CHANGE_SUCCESS
 } from '../../types';
@@ -89,6 +90,17 @@ export const toggleGridView = (value) => (dispatch, getState) => {
     }
   });
 }
+
+export const togglePixelPerfectMode = (value) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: TOGGLE_PIXEL_PERFECT_MODE,
+    payload: {
+      value
+    }
+  });
+}
+
 
 export const setIsDialogOverGameView = (value) => (dispatch, getState) => {
   dispatch({

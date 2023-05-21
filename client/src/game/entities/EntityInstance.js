@@ -113,6 +113,8 @@ export class EntityInstance extends PhaserInstance {
   }
 
   setSize(w, h) {
+    this.width = w
+    this.height = h
     super.setSize(w, h)
     this.graphics.setSize(w, h)
   }

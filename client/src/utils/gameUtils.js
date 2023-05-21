@@ -1,4 +1,4 @@
-import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_DID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, ENTITY_MODEL_DID, PLAYER_ENTITY_TYPE_PREFIX, ZONE_ENTITY_TYPE_PREFIX, effectInterfaceDatas, getEffectShorthand, EFFECT_INTERFACE_UNLOCK, isUseableEffect, EFFECT_INTERFACE_ACTION, RUN_GAME_INSTANCE_ACTION } from "../game/constants";
+import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_DID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, ENTITY_MODEL_DID, PLAYER_ENTITY_TYPE_PREFIX, ZONE_ENTITY_TYPE_PREFIX, effectInterfaceDatas, getEffectShorthand, EFFECT_INTERFACE_UNLOCK, isUseableEffect, EFFECT_INTERFACE_ACTION, RUN_GAME_INSTANCE_ACTION, EFFECT_CUTSCENE } from "../game/constants";
 import { GameClientScene } from "../game/scenes/GameClientScene";
 import { GameHostScene } from "../game/scenes/GameHostScene";
 import { GameLocalScene } from "../game/scenes/GameLocalScene";
@@ -9,6 +9,7 @@ import { getCurrentGameScene } from "./editorUtils";
 import Phaser from 'phaser'
 import { interfaceActionIdData } from "../constants/interfaceActionIdData";
 import { unlockInterfaceId } from "../store/actions/game/unlockedInterfaceActions";
+import { RELATION_TAG_CUTSCENE_IID } from "../constants/interfaceIds";
 
 export const getGameModelSize = (gameModel) => {
   const width = gameModel.size.nodeSize * gameModel.size.gridWidth
@@ -243,6 +244,97 @@ export function createGameSceneInstance(key, gameRoomInstance) {
     return new GamePlayScene({ gameRoomInstance: gameRoomInstance, key})
   }
 }
+
+export function getRelationsForEntityModel({entityModel, gameModel, showUnregisteredRelations = false}) {
+  const entityModelRelationTags = Object.keys(entityModel.relationTags).filter(relationTagId => {
+    const entityModelRelationTag = entityModel.relationTags[relationTagId]
+    return !!entityModelRelationTag
+  })
+
+  const relationTagIdsRegistered = Object.values(gameModel.entityModels).reduce((acc, entityModel) => {
+    const entityModelRelationTags = Object.keys(entityModel.relationTags).filter(relationTagId => {
+      const entityModelRelationTag = entityModel.relationTags[relationTagId]
+      return !!entityModelRelationTag
+    })
+
+    return acc.concat(entityModelRelationTags)
+  }, [])
+
+  const relationsForEachTag = entityModelRelationTags.map(entityModelRelationTagId => {
+    const relationTag = gameModel.relationTags[entityModelRelationTagId]
+    const relations = Object.values(gameModel.relations).filter(relation => {
+      const event = gameModel.events[relation.eventId]
+
+      const hasTagA = (event.relationTagIdA && event.relationTagIdA === relationTag.relationTagId)
+      const hasTagB = (event.relationTagIdB && event.relationTagIdB === relationTag.relationTagId)
+      
+      const isTagARegistered = relationTagIdsRegistered.includes(event.relationTagIdA)
+      const isTagBRegistered = relationTagIdsRegistered.includes(event.relationTagIdB)
+
+      return (hasTagA || hasTagB) && (showUnregisteredRelations || (isTagARegistered && isTagBRegistered))
+    })
+
+    return {
+      relationTag,
+      relations
+    }
+  })
+
+  return relationsForEachTag
+}
+
+export function getCutscenesForEntityModel({entityModel, gameModel}) {
+  const entityModelCutscenesInvolved = Object.keys(gameModel.cutscenes).filter(cutsceneId => {
+    const entityModelCutscene = gameModel.cutscenes[cutsceneId]
+    return entityModelCutscene.scenes.some(scene => {
+      return scene.entityModelId === entityModel.entityModelId
+    })
+  })
+
+  const { cutsceneRelationTags, cutsceneIdsByEventType }  = Object.keys(entityModel.relationTags).reduce((acc, relationTagId) => {
+    const relationTag = gameModel.relationTags[relationTagId]
+    if(relationTag.relationTagIID === RELATION_TAG_CUTSCENE_IID) {
+
+
+      Object.values(gameModel.relations).forEach(relation => {
+        const event = gameModel.events[relation.eventId]
+        if(event.relationTagIdA === relationTag.relationTagId || event.relationTagIdB === relationTag.relationTagId) {
+
+          const eventType = event.eventType
+          const effectCutsceneIds = relation.effectIds.reduce((acc, effectId) => {
+            const effect = gameModel.effects[effectId]
+            if(effect.effectBehavior=== EFFECT_CUTSCENE) {
+              const cutscene = gameModel.cutscenes[effect.cutsceneId]
+              return acc.concat(cutscene.cutsceneId)
+            }
+            return acc
+          }, [])
+
+          acc.cutsceneRelationTags.push({
+            relationTag,
+            cutsceneIds: effectCutsceneIds
+          })
+
+          if(!acc.cutsceneIdsByEventType[eventType]) {
+            acc.cutsceneIdsByEventType[eventType] = effectCutsceneIds
+          } else {
+            acc.cutsceneIdsByEventType[eventType].push(...effectCutsceneIds)
+          }
+        }
+      })
+    }
+    
+    return acc
+  }, { cutsceneRelationTags: [], cutsceneIdsByEventType: {} })
+
+
+  return {
+    entityModelCutscenesInvolved,
+    cutsceneIdsByEventType,
+    cutsceneRelationTags
+  }
+}
+
 
 window.consoleTools = {
   getCurrentScene: () => { return getCurrentGameScene(store.getState().webPage.gameInstance) },

@@ -1,4 +1,4 @@
-import { BASIC_ENTITY_IID, FOREGROUND_LAYER_GROUP_IID, NPC_ENTITY_IID, PLAYER_ENTITY_IID, POWERUP_ENTITY_IID, ZONE_ENTITY_IID } from "../../../constants/interfaceIds";
+import { BASIC_ENTITY_IID, FOREGROUND_LAYER_GROUP_IID, NPC_ENTITY_IID, PLAYER_ENTITY_IID, POWERUP_ENTITY_IID, PROJECTILE_ENTITY_IID, ZONE_ENTITY_IID } from "../../../constants/interfaceIds";
 import { initialPlayerSpawnZoneEntityId, playerDepthModifier } from "../core";
 import { DIRECTIONAL_CONTROLS } from "../core";
 import { MOVEMENT_NONE } from "../entityModelPropertyDefaults";
@@ -114,11 +114,16 @@ export const defaultBasicEntity = {
   }
 }
 
+export const defaultProjectileEntity = {
+  entityIID: PROJECTILE_ENTITY_IID,
+}
+
 //mapping from class type to default class  
 export const defaultEntityByCategory = {
   [BASIC_ENTITY_IID]: defaultBasicEntity,
   [PLAYER_ENTITY_IID]: defaultPlayerEntity,
   [NPC_ENTITY_IID]: defaultNpcEntity,
   [ZONE_ENTITY_IID]: defaultZoneEntity,
+  [PROJECTILE_ENTITY_IID]: defaultProjectileEntity,
   // [POWERUP_ENTITY_IID]: defaultPowerupEntity
 }

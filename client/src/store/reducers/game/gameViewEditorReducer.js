@@ -12,6 +12,7 @@ import {
   CLEAR_EDITOR,
   SET_IS_MOUSE_OVER_GAME_VIEW,
   SET_IS_DIALOG_OVER_GAME_VIEW,
+  TOGGLE_PIXEL_PERFECT_MODE,
 } from '../../types';
 
 // these are editor things that take place within the game view
@@ -20,10 +21,14 @@ const initialState = {
     [ZONE_ENTITY_IID]: true,
   },
   cameraZoom: 3,
+
   isGridViewOn: false,
+  isPixelPerfectModeOn: false,
   isBoundaryEditorOpen: false,
   isSnapshotTakerOpen: false,
   snapshotTextureId: null,
+
+  resizingEntityInstanceId: null,
 
   isMouseOverGameView: false,
   isDialogOverGameView: false,
@@ -80,6 +85,17 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isGridViewOn: !state.isGridViewOn,
+      }
+    case TOGGLE_PIXEL_PERFECT_MODE: 
+      if(payload.value !== undefined) {
+        return {
+          ...state,
+          isPixelPerfectModeOn: payload.value
+        }
+      }
+      return {
+        ...state,
+        isPixelPerfectModeOn: !state.isPixelPerfectModeOn,
       }
     case SET_RESIZING_ENTITY_INSTANCE_ID: 
       return {

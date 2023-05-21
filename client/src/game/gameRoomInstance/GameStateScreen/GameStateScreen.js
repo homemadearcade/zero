@@ -47,7 +47,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
           {gameStateMessage}
         </div></Typography>}
           <div className="GameStateScreen__press">
-            <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Play Again</Typography>
+            <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h5" variant="h5">To Play Again</Typography>
           </div>
           {!store.getState().gameRoomInstance.gameRoomInstance.isOnlineMultiplayer && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
         </div></Fade>

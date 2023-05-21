@@ -7,39 +7,29 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 
 // import './SceneCard.scss';
-import { CardActions, TextField } from '@mui/material';
-import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
-import { IMAGE_CUTSCENE_IID, TEXT_CUTSCENE_IID } from '../../../constants/interfaceIds';
+import CutsceneBody from '../CutsceneBody/CutsceneBody';
+import CutsceneBodyEdit from '../CutsceneBodyEdit/CutsceneBodyEdit';
+import Button from '../../../ui/Button/Button';
+import './SceneCard.scss'
+import { Paper } from '@mui/material';
 
-const SceneCard = ({isEditing, scene, onDoneEditing, onChooseNewImage, onChangeText, onRemoveScene, onEditScene, index}) => {
- return <Card sx={{ width: 200 }}>
-      <Typography gutterBottom variant="h5" component="div">
-      #{index+1}
-    </Typography>
-    {scene.sceneInterfaceType != TEXT_CUTSCENE_IID && 
-      <>
-      <CardMedia
-        component="img"
-        image={scene.imageUrl ? scene.imageUrl : ""}
-        alt={scene.title}
-      />
-      {isEditing && <Button onClick={onChooseNewImage}>Choose Image</Button>}
-    </>}
-    {scene.sceneInterfaceType != IMAGE_CUTSCENE_IID && <CardContent>
-      {scene.text && !isEditing && <Typography variant="body2" color="text.secondary">
-        {scene.text}
-      </Typography>}
-      {isEditing &&  <TextField multiline value={scene.text} onChange={onChangeText}/>}
-    </CardContent>}
-    <CardActions>
-      {isEditing ? <Button onClick={onDoneEditing}>Done Editing</Button> : <>
-            <Button onClick={onEditScene}>Edit</Button>
+const SceneCard = ({isEditing, scene, onSelectEntityModelId, onDoneEditing, onChooseNewImage, onChangeText, onRemoveScene, onEditScene, index}) => {
+ return <div className="SceneCard">
+    <Paper sx={{
+      width: 'max-content',
+      padding: '.4em',
+    }} elevation={1}>
+      <Typography variant="h5" component="div">
+        #{index+1}
+      </Typography>
+    </Paper>  
+    {isEditing ? <CutsceneBodyEdit onSelectEntityModelId={onSelectEntityModelId} onDoneEditing={onDoneEditing} onChooseNewImage={onChooseNewImage} onChangeText={onChangeText} scene={scene} /> : <CutsceneBody scene={scene} />} 
+    {!isEditing && <>
+      <Button onClick={onEditScene}>Edit</Button>
       <Button onClick={onRemoveScene}>Remove</Button>
-      </>}
-
-    </CardActions>
-  </Card>
+    </>}
+  </div>
 };
 
 const mapStateToProps = (state) => ({

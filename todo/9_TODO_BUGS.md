@@ -10,6 +10,8 @@ TEXTURE ID WHEN GOING THROUGH STEPS??
 
 Load correct game needs to like SWITCH ACTIVITY. Thats the right problem to fix. Changing the game id changes the game rooms game which can be confusing for folks
 
+Space bar is getting captured on the accordions 
+
 --
 
 Instances were not getting deleted on the client

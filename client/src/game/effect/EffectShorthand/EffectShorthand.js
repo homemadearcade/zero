@@ -4,12 +4,17 @@ import Typography from "../../../ui/Typography/Typography"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { effectInterfaceDatas, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_SWITCH_STAGE, EFFECT_TRANSFORM_TEMPORARY_START,
 } from "../../constants"
-import Sprite from "../../textures/Texture/Texture"
+import Texture from "../../textures/Texture/Texture"
 
 function renderRelationTag(relationTag) {
   return <span key={relationTag.relationTagId} style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2em'}}>
-    <span style={{width: '.6em', height: '.6em'}}>
-      <Sprite textureId={relationTag.textureId} textureTint={relationTag.textureTint}/>
+    <span style={{
+      justifyContent: 'center',
+      alignItems: 'center',
+      display: 'flex',
+      width: '.6em', height: '.6em'
+      }}>
+      <Texture textureId={relationTag.textureId} textureTint={relationTag.textureTint}/>
     </span>
     <span>{relationTag.name}</span>
   </span>
@@ -17,8 +22,12 @@ function renderRelationTag(relationTag) {
 
 function renderEntity(entityModel) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2em'}}>
-    <span style={{width: '.6em', height: '.6em'}}>
-      <Sprite textureId={entityModel.graphics.textureId} textureTint={entityModel.graphics.textureTint}/>
+    <span style={{
+            justifyContent: 'center',
+      alignItems: 'center',
+      display: 'flex',
+      width: '.6em', height: '.6em'}}>
+      <Texture textureId={entityModel.graphics.textureId} textureTint={entityModel.graphics.textureTint}/>
     </span>
     <span>{entityModel.name}</span>
   </span>
@@ -27,7 +36,7 @@ function renderEntity(entityModel) {
 function renderStage(stage) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2em'}}>
     {stage.backgroundColor && <span style={{width: '.6em', height: '.6em'}}>
-      <Sprite textureTint={stage.backgroundColor}/>
+      <Texture textureTint={stage.backgroundColor}/>
     </span>}
     <span>{stage.name}</span>
   </span>
