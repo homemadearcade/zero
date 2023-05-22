@@ -8,6 +8,7 @@ import StepTitle from "../../../app/experienceModel/step/StepTitle/StepTitle";
 import { GAME_ROOM_ACTIVITY } from "../../../constants";
 import SelectGameInstanceEffect from "../../../game/ui/SelectGameInstanceEffect/SelectGameInstanceEffect";
 import store from "../../../store";
+import { editLobby } from "../../../store/actions/experience/lobbyInstanceActions";
 import { editGameRoom } from "../../../store/actions/game/gameRoomInstanceActions";
 import Button from "../../../ui/Button/Button";
 import Divider from "../../../ui/Divider/Divider";
@@ -49,8 +50,17 @@ export function instructionSteps({
               Game is loading..
             </>
           }
+          if(lobbyInstance.currentActivityId !== step.activityId) {
+            return <>
+              Incorrect activity!
+              <Button onClick={async () => {
+                await store.dispatch(editLobby(lobbyInstance.id, {
+                  currentActivityId: step.activityId
+                }))
+              }}>Switch to correct activity</Button>
+            </>
+          }
           if(gameRoomInstance?.arcadeGameMongoId !== instruction.arcadeGameMongoId) {
-            // console.log('incorrect game loaded', gameRoomInstance?.arcadeGameMongoId, instruction.arcadeGameMongoId)
             return <>
               Incorrect game loaded!
               <Button onClick={async () => {

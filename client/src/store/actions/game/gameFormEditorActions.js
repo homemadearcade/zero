@@ -90,11 +90,14 @@ export const closeEditEntityGraphics = () => (dispatch, getState) => {
 }
 
 export const updateCreateEntity = (entityModel) => (dispatch, getState) => {
+  console.log('updateCreateEntity', entityModel)
   dispatch({
     updateCobrowsing: true,
     noCobrowsingToolNeeded: true,
     type: UPDATE_CREATE_ENTITY_MODEL,
-    payload: { entityModel }
+    payload: { entityModel: {
+      ...entityModel, isDirty: true
+    }}
   });
 }
 

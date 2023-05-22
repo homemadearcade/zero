@@ -4,7 +4,7 @@ import { DEFAULT_TEXTURE_ID } from "../constants";
 import { getHexIntFromHexString, snapObjectXY } from "../../utils/editorUtils";
 
 export class EntityStamper extends Phaser.GameObjects.Image {
-  constructor(scene, entityModelId, entityModel){
+  constructor(scene, entityModel, entityInstanceData){
 
     const textureId = entityModel.graphics.textureId || DEFAULT_TEXTURE_ID
 
@@ -17,12 +17,15 @@ export class EntityStamper extends Phaser.GameObjects.Image {
     }
 
     this.scene = scene
-    this.entityModelId = entityModelId
+    this.entityModelId = entityModel.entityModelId
     this.entityModel = entityModel
     this.scene.add.existing(this)
     
-    this.setDisplaySize(this.entityModel.graphics.width, this.entityModel.graphics.height)
-    const depth = this.scene.getEntityModelDepth(entityModelId)
+    this.setDisplaySize(
+      entityInstanceData?.width || this.entityModel.graphics.width, 
+      entityInstanceData?.height || this.entityModel.graphics.height
+    )
+    const depth = this.scene.getEntityModelDepth(entityModel.entityModelId)
     this.setDepth(depth)
 
     if(entityModel.graphics.textureTint) {

@@ -6,8 +6,8 @@ import { CameraPreview } from "./behaviors/CameraPreview";
 import { InteractArea } from "./behaviors/InteractArea";
 import { ControlledMovement } from "./behaviors/ControlledMovement";
 import { ControlledProjectileEjector } from "./behaviors/ControlledProjectileEjector";
-import { GAME_END_STATE, ON_INTERACT, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, PLAY_STATE, initialCameraZoneEntityId, initialCameraZoneInstanceId } from "../constants";
-import { getCobrowsingState } from "../../utils";
+import { ENTITY_INSTANCE_DID, GAME_END_STATE, ON_INTERACT, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, PLAY_STATE, initialCameraZoneEntityId, initialCameraZoneInstanceId } from "../constants";
+import { generateUniqueId, getCobrowsingState } from "../../utils";
 import { changeGameState } from "../../store/actions/game/gameRoomInstanceActions";
 import { progressActiveCutscene } from "../../store/actions/game/playerInterfaceActions";
 import { editGameModel } from "../../store/actions/game/gameModelActions";
@@ -61,11 +61,11 @@ export class PlayerInstance extends EntityInstance {
     this.controlledProjectileEjector = new ControlledProjectileEjector(scene, this)
 
     setTimeout(() => {
-      console.log(entityInstanceData)
+      // this.cameraZoneInstanceId = ENTITY_INSTANCE_DID + generateUniqueId()
       this.cameraInstance = this.scene.addEntityInstance(initialCameraZoneInstanceId, {
         entityModelId: initialCameraZoneEntityId,
-        spawnX: entityInstanceData.cameraX || 0,
-        spawnY: entityInstanceData.cameraY || 0,
+        spawnX: 0,
+        spawnY: 0,
       })
       this.cameraInstance.onResizeComplete = ({ width, height }) => {
         store.dispatch(editGameModel({
@@ -106,7 +106,6 @@ export class PlayerInstance extends EntityInstance {
 
     if(this.xKey.isDown && this.xKey.isPressable) {
       if(gameState === PLAYTHROUGH_START_STATE || gameState === GAME_END_STATE) {
-        console.log('playthrough start state', this.scene.isPlaythrough)
         if(this.scene.isPlaythrough) {
           store.dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
         } else {
@@ -150,8 +149,7 @@ export class PlayerInstance extends EntityInstance {
 
   transformEntityModel(entityModelId) {
 
-    console.log('this', this.scene.cameras.main.worldView.x)
-    console.log(this.cameraInstance.phaserInstance.x)
+    const playerCamera = this.scene.cameras.main
     const phaserInstance = this.phaserInstance
     const modifiedEntityData = { 
       spawnX: phaserInstance.x,
@@ -160,8 +158,8 @@ export class PlayerInstance extends EntityInstance {
       transformCancelEntityModelId: this.transformCancelEntityModelId,
       velocityX: phaserInstance.body.velocity.x,
       velocityY: phaserInstance.body.velocity.y,
-      cameraX: this.scene.cameras.main.scrollX,
-      cameraY: this.scene.cameras.main.scrollY,
+      cameraScrollX: playerCamera.scrollX,
+      cameraScrollY: playerCamera.scrollY,
     }
 
     const scene = this.scene
@@ -169,33 +167,38 @@ export class PlayerInstance extends EntityInstance {
     scene.addPlayerInstance(modifiedEntityData)
   }
 
-  setLerp() {
+  setLerp(
+    cameraScrollX,
+    cameraScrollY,
+  ) {
     const entityModelId = this.entityModelId
     const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
-    let lerpX = entityModel.camera.lerpX
-    let lerpY = entityModel.camera.lerpY
+    let lerpX = entityModel.camera.lerpX || 0.001
+    let lerpY = entityModel.camera.lerpY || 0.001
     this.scene.cameras.main.startFollow(this.phaserInstance, false, lerpX, lerpY)
+    if(cameraScrollX === undefined || cameraScrollY === undefined) return
+    this.scene.cameras.main.setScroll(cameraScrollX, cameraScrollY)
   }
 
   destroyInGame() {
     this.setCollideable(false);
     // this.particles.setVisible(false)
     this.destroyed = true
-    this.isVisible = false
+    this.phaserInstance.invisibleOverride = true
     this.interactArea.pause()
   }
 
   respawn() {
     this.setCollideable(true);
     this.destroyed = false
-    this.isVisible = true
+    this.phaserInstance.invisibleOverride = false
     this.interactArea.resume()
     // this.particles.setVisible(true)
   }
 
   destroy() {
     // this.particles.destroy()
-    this.cameraInstance?.destroy()
+    this.scene.removeEntityInstance(initialCameraZoneInstanceId)
     this.interactArea.destroy()
     this.scene.input.keyboard.removeKey(this.cursors.up) 
     this.scene.input.keyboard.removeKey(this.cursors.down)

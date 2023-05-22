@@ -36,7 +36,7 @@ import { saveAllCurrentCanvases } from '../media/codrawingActions';
 import { editGameModel } from './gameModelActions';
 import { toggleLayerVisibility } from './gameViewEditorActions';
 
-export const selectEntity = (entityModelId) => (dispatch, getState) => {
+export const selectEntity = (entityModelId, entityInstanceId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
   // dispatch(editGameModel({
@@ -52,6 +52,7 @@ export const selectEntity = (entityModelId) => (dispatch, getState) => {
     type: SELECT_ENTITY_MODEL,
     payload: {
       entityModelIdSelectedEntityList: entityModelId, 
+      entityInstanceIdSelected: entityInstanceId
     }
   });
 }

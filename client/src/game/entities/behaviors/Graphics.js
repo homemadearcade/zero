@@ -23,7 +23,6 @@ export class Graphics {
       entityInstance.height = boundaries.height
     }
 
-    entityInstance.isVisible = !entityModel.graphics.invisible
     phaserInstance.setDisplaySize(entityInstance.width, entityInstance.height)
     this.setSize(entityInstance.width, entityInstance.height)
 
@@ -56,14 +55,12 @@ export class Graphics {
     }
     if(entityModel.graphics.invisible && this.scene.isEditor) {
       this.createInvisiblilityIndicator()
-      this.setInvisible()
     }
 
     this.createInteractBorder()
   }
 
   setInvisible() {
-    this.entityInstance.isVisible = true
     this.entityInstance.setAlpha(0.02)
   }
 
@@ -186,6 +183,21 @@ export class Graphics {
     //   return
     // }
 
+
+    if(entityModel.graphics.invisible) {
+      if(this.scene.isEditor) {
+        this.entityInstance.isVisible = false
+      } else if(this.scene.isPlaythrough) {
+        this.entityInstance.isVisible = false 
+      } else {
+        this.entityInstance.isVisible = true
+      }
+    } else if(phaserInstance.invisibleOverride) {
+      this.entityInstance.isVisible = false 
+    } else {
+      this.entityInstance.isVisible = true
+    }
+
     const gameViewEditor = getCobrowsingState().gameViewEditor
     const layerInvisibility = gameViewEditor.layerInvisibility
     const isLayerInvisible = layerInvisibility[entityModel.entityIID]
@@ -210,7 +222,6 @@ export class Graphics {
     if(phaserInstance.invisibleIndicator) {
       if(this.scene.isPlaythrough) {
         phaserInstance.invisibleIndicator.setVisible(false)
-        this.entityInstance.isVisible = false
       } else {
         phaserInstance.invisibleIndicator.setPosition(phaserInstance.x, phaserInstance.y)
         phaserInstance.invisibleIndicator.setRotation(phaserInstance.rotation)
@@ -218,9 +229,9 @@ export class Graphics {
         // for invisible entity instances, we want to show the invisible indicator when they are being resized
         // if theres no special action like resizing, we will show the indicator if the layer is visible
         const isResizing = store.getState().gameViewEditor.resizingEntityInstanceId === this.entityInstance.entityInstanceId
-        const isVisible =  isResizing || !isLayerInvisible
-        if(isVisible) phaserInstance.isSelectable = true 
-        phaserInstance.invisibleIndicator.setVisible(isVisible)
+        const isIndicatorVisible = isResizing || !isLayerInvisible
+        if(isIndicatorVisible) phaserInstance.isSelectable = true 
+        phaserInstance.invisibleIndicator.setVisible(isIndicatorVisible)
         this.setInvisible()
       }
     }

@@ -8,7 +8,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import EntityNameForm from '../EntityNameForm/EntityNameForm';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Button from '../../../ui/Button/Button';
-import { closeEntityNameDialog, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
+import { closeEntityNameDialog } from '../../../store/actions/game/gameFormEditorActions';
 
 const EntityNameDialog = ({ closeEntityNameDialog, editGameModel, gameFormEditor: { entityModel }}) => {
   function handleClose() {
@@ -42,5 +42,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { closeEntityNameDialog, editGameModel, updateCreateEntity }),
+  connect(mapStateToProps, { closeEntityNameDialog, editGameModel }),
 )(EntityNameDialog);

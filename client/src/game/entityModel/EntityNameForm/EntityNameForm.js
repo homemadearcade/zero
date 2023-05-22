@@ -11,7 +11,7 @@ import TextField from '../../../ui/TextField/TextField';
 
 const EntityNameForm = ({ isEditingInitially, initialName, updateCreateEntity, gameModel: { gameModel }, gameFormEditor: { entityModel } }) => {
   const [nameList, setNameList] = useState([])
-  const [ignoreName, setIgnoreName] = useState([])
+  const [ignoreName, setIgnoreName] = useState(null)
   const [isEditing, setIsEditing] = useState(isEditingInitially)
   const [isHovering, setIsHovering] = useState(false)
 
@@ -25,6 +25,7 @@ const EntityNameForm = ({ isEditingInitially, initialName, updateCreateEntity, g
   }, [])
 
   useEffect(() => {
+    if(entityModel.name === initialName) return
     testName(entityModel.name)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityModel.name])
@@ -61,14 +62,14 @@ const EntityNameForm = ({ isEditingInitially, initialName, updateCreateEntity, g
 
   if(isEditing) {
     return (
-        <div className="EntityNameForm">
-          <TextField onChange={handleChange} label="Name" value={entityModel.name} />
-          {entityModel.error && <Alert severity="error">{entityModel.error}</Alert>}
-          {!isEditingInitially && <IconButton color="primary" icon="faCheck" onClick={() => {
-            setIsEditing(false)
-        }}></IconButton>}
-        </div>
-       );
+      <div className="EntityNameForm">
+        <TextField onChange={handleChange} label="Name" value={entityModel.name} />
+        {entityModel.error && <Alert severity="error">{entityModel.error}</Alert>}
+        {!isEditingInitially && <IconButton color="primary" icon="faCheck" onClick={() => {
+          setIsEditing(false)
+      }}></IconButton>}
+      </div>
+    );
   } else {
     return <div
       className="EntityNameForm"

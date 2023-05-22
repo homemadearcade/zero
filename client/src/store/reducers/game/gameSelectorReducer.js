@@ -36,7 +36,10 @@ const initialState = {
   selectorInterfaceListInvisibility: defaultSelectorClassDataSourceInvisibility,
   colorIdSelected: null,
   brushIdSelectedBrushList: null,
+
   entityModelIdSelectedEntityList: null,
+  entityInstanceIdSelected: null,
+
   brushSize: 3,
   entityModelIdSelectedLiveEditor: null,
   isEntityBehaviorLiveEditorOpen: null,
@@ -77,17 +80,20 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       return {
         ...state,
         brushIdSelectedBrushList: null,
-        entityModelIdSelectedEntityList: payload.entityModelIdSelectedEntityList
+        entityModelIdSelectedEntityList: payload.entityModelIdSelectedEntityList,
+        entityInstanceIdSelected: payload.entityInstanceIdSelected
       }
     case CLEAR_SELECTED_ENTITY_MODEL:
        return {
          ...state,
-          entityModelIdSelectedEntityList: null
+        entityModelIdSelectedEntityList: null,
+        entityInstanceIdSelected: null
        }
     case SELECT_BRUSH: 
       return {
         ...state,
         entityModelIdSelectedEntityList: null,
+        entityInstanceIdSelected: null,
         brushIdSelectedBrushList: payload.brushIdSelectedBrushList
       }
     case CLEAR_BRUSH:
@@ -121,6 +127,7 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       return {
           ...state,
         entityModelIdSelectedLiveEditor: null,
+        entityInstanceIdSelected: null,
         isEntityBehaviorLiveEditorOpen: false
       };
     case OPEN_STAGE_LIVE_EDITOR:

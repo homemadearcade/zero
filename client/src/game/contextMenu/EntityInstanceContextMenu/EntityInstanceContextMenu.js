@@ -51,7 +51,7 @@ const EntityInstanceContextMenu = ({
     </Unlockable>
     {entityInstanceId !== PLAYER_INSTANCE_DID && <Unlockable interfaceId={ENTITY_INSTANCE_SELECT_ENTITY_IID}>
       <MenuItem onClick={() => {
-        selectEntity(entityModelId)
+        selectEntity(entityModelId, entityInstanceId)
         onMenuItemClick()
       }}>
         <ListItemIcon><Icon icon="faCopy"/></ListItemIcon>

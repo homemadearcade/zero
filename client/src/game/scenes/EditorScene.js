@@ -328,7 +328,15 @@ export class EditorScene extends GameInstance {
     if(entityModelId && !this.stamper) {
       const entityModel = gameModel.entityModels[entityModelId]
       if(entityModel.entityIID !== PLAYER_ENTITY_IID) {
-        this.stamper = new EntityStamper(this, entityModelId, entityModel)
+        const entityInstanceId = gameSelector.entityInstanceIdSelected
+        if(entityInstanceId) {
+          const entityInstanceData = gameModel.stages[this.stage.stageId].entityInstances[entityInstanceId]
+          this.stamper = new EntityStamper(this, entityModel, entityInstanceData)
+          return
+        } else {
+          this.stamper = new EntityStamper(this, entityModel)
+        }
+
       }
     }
     if(this.stamper) {
@@ -728,6 +736,13 @@ export class EditorScene extends GameInstance {
       spawnY,
     }
 
+    const copyingEntityInstanceId = getCobrowsingState().gameSelector.entityInstanceIdSelected
+    if(copyingEntityInstanceId) {
+      const copyingEntityInstanceData = this.getEntityInstanceData(copyingEntityInstanceId)
+      entityInstanceData.width = copyingEntityInstanceData.width
+      entityInstanceData.height = copyingEntityInstanceData.height
+    }
+    
     store.dispatch(editGameModel({
       stages: {
         [this.stage.stageId]: {
@@ -1012,10 +1027,11 @@ export class EditorScene extends GameInstance {
             this.cameras.main.setLerp(lerpX, lerpY)
             // this.cameras.main.startFollow(this.playerInstance.phaserInstance, false, entityModelUpdate.camera.lerpX ? entityModelUpdate.camera.lerpX : entityModel.camera.lerpX, entityModelUpdate.camera.lerpY ? entityModelUpdate.camera.lerpY : entityModel.camera.lerpY);
           }
+          if(entityModelUpdate.camera.width) {
+            this.setPlayerZoom(entityModelUpdate.camera)
+          }
         } 
-        if(entityModelUpdate.camera.width) {
-          this.setPlayerZoom(entityModelUpdate.camera)
-        }
+
 
       }
     })

@@ -116,6 +116,11 @@ export const defaultBasicEntity = {
 
 export const defaultProjectileEntity = {
   entityIID: PROJECTILE_ENTITY_IID,
+  graphics: {
+    width: 12,
+    height: 12,
+    layerGroupIID: FOREGROUND_LAYER_GROUP_IID
+  },
 }
 
 //mapping from class type to default class  

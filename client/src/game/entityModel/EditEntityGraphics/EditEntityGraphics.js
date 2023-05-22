@@ -40,7 +40,10 @@ const EditEntityGraphics = ({
     }
   }, [])
 
-  return <CobrowsingDialog open={true} onClose={handleClose}>
+  return <CobrowsingDialog open={true} onClose={() => {
+    // onComplete(entityModel)
+    handleClose()
+  }}>
     <div className="EditEntityGraphics">
       {entityModel.isNew === true && <Typography component="h2" variant="h2">New {entityModelClassToDisplayName[entityModel.entityIID]}</Typography>}
       {entityModel.isNew === false && <EntityMemberTitle entityModelId={entityModel.entityModelId} title="Sprite"></EntityMemberTitle>}
@@ -119,9 +122,10 @@ const EditEntityGraphics = ({
       <Button
         disabled={!!entityModel.error || !entityModel.name.length}
         onClick={() => {
-        onComplete(entityModel)
-        handleClose()
-      }}>
+          onComplete(entityModel)
+          handleClose()
+        }}
+      >
         Save
       </Button>
       <Button onClick={handleClose}>

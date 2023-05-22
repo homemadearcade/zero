@@ -2,18 +2,14 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { openCreateCutscene, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
+import { openCreateCutscene } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { RelationTagChip } from '../../tags/RelationTagChip/RelationTagChip';
 import './EntityModelCutscenes.scss';
 import { getCutscenesForEntityModel} from '../../../utils';
 import Divider from '../../../ui/Divider/Divider';
 import Button from '../../../ui/Button/Button';
-import { ENTITY_RELATION_TAGS_IID, RELATION_TAG_CUTSCENE_IID } from '../../../constants/interfaceIds';
-import SelectRelationTagFiltered from '../../ui/SelectRelationTagFiltered/SelectRelationTagFiltered';
-import Typography from '../../../ui/Typography/Typography';
 import CutsceneChip from '../../cutscene/CutsceneChip/CutsceneChip';
-import FormLabel from '../../../ui/FormLabel/FormLabel';
 
 const EntityModelCutscenes = ({ 
   gameFormEditor: { entityModel },
@@ -83,5 +79,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateEntity, openCreateCutscene }),
+  connect(mapStateToProps, { openCreateCutscene }),
 )(EntityModelCutscenes);

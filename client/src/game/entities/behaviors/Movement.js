@@ -1,4 +1,5 @@
 import store from "../../../store"
+import { getCobrowsingState } from "../../../utils"
 import { isPlayerId } from "../../../utils/gameUtils"
 import { MOVEMENT_FOLLOW_RELATION_TAG, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_TURN_RANDOMLY, MOVEMENT_MIRROR_PLAYER } from "../../constants"
 
@@ -32,6 +33,15 @@ export class Movement {
     const entityModel = store.getState().gameModel.gameModel.entityModels[this.entityInstance.entityModelId]
     const movementBehavior = entityModel.movement.movementBehavior 
     const phaserInstance = this.entityInstance.phaserInstance
+
+    const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
+    if(isGridViewOn) {
+      this.entityInstance.setIgnoreGravity(true)
+    } else if(phaserInstance.ignoreGravityOverride) {
+      this.entityInstance.setIgnoreGravity(true)
+    } else {
+      this.entityInstance.setIgnoreGravity(entityModel.movement.ignoreGravity)
+    }
 
     if(movementBehavior === MOVEMENT_TURN_ON_COLLIDE) {
       if(phaserInstance.body.blocked.none === false || phaserInstance.justCollided) {

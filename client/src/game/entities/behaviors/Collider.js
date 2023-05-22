@@ -22,10 +22,6 @@ export class Collider {
     this.lastCollidingWith = null
 
 
-    this.isVisibilityModified = null
-    this.isIgnoreGravityModified = null
-    this.wasIgnoreGravityModified = null 
-    this.wasVisibilityModified = null
 
     // this.onCollideEndRelations = {}
 
@@ -37,23 +33,16 @@ export class Collider {
     const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
     const phaserInstance = this.entityInstance.phaserInstance
 
+    // if(phaserInstance.previousIgnoreGravityOverrideFlag && !phaserInstance.ignoreGravityOverrideFlag) {
+    //   phaserInstance.ignoreGravityOverride = false
+    // }
+
+    // phaserInstance.previousIgnoreGravityOverrideFlag = phaserInstance.ignoreGravityOverrideFlag
+    // phaserInstance.ignoreGravityOverrideFlag = false
+
     ////////////////////////////////////////
     ////////////////////////////////////////
     // VISIBLITY AND IGNORE GRAVITY EFFECTS
-    if(this.wasIgnoreGravityModified && !this.isIgnoreGravityModified) {
-      this.entityInstance.setIgnoreGravity(entityModel.movement.ignoreGravity)
-    }
-
-    this.wasIgnoreGravityModified = this.isIgnoreGravityModified
-    this.isIgnoreGravityModified = false
-
-    if(this.wasVisibilityModified && !this.isVisibilityModified) {
-      this.entityInstance.isVisible = !entityModel.graphics.invisible
-    }
-
-    this.wasVisibilityModified = this.isVisibilityModified
-    this.isVisibilityModified = false
-
     ////////////////////////////////////////
     ////////////////////////////////////////
     // STICK TO EFFECT
@@ -65,7 +54,6 @@ export class Collider {
     if (phaserInstance.lockedTo && this.fallenOff(phaserInstance, phaserInstance.lockedTo, phaserInstance.lockedReleaseSides)) {
       phaserInstance.lockedTo = null;   
       phaserInstance.lockedReleaseSides = null
-      this.entityInstance.setIgnoreGravity(entityModel.movement.ignoreGravity);
     }
 
     // if(this.lastCollidingWith) {
@@ -82,6 +70,11 @@ export class Collider {
     // this.testRelationsList.forEach(() => {
 
     // })
+
+    setTimeout(() => {
+      phaserInstance.invisibleOverride = false 
+      phaserInstance.ignoreGravityOverride = false
+    }, 0)
 
     this.lastCollidingWith = this.collidingWith
     this.collidingWith = []
@@ -122,10 +115,7 @@ export class Collider {
     sidesB = []
   }) => {
     const effect = relation.effect
-    const scene = this.scene
-
-    
-
+  
     const [phaserInstances, alternatePhaserInstanceData] = this.scene.getEffectedPhaserInstances({
       phaserInstanceA,
       phaserInstanceB,
@@ -134,25 +124,22 @@ export class Collider {
       effect: relation.effect
     })
 
-
     const runEffect = (phaserInstance) => {
-      const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
       if(effect.effectBehavior === EFFECT_INVISIBLE && !this.isVisibilityModified) {
-        this.isVisibilityModified = true
-        entityInstance.isVisible = false
+        phaserInstance.invisibleOverride = true
       }
 
-      if(effect.effectBehavior === EFFECT_IGNORE_GRAVITY && !this.isIgnoreGravityModified) {
-        this.isIgnoreGravityModified = true
-        entityInstance.setIgnoreGravity(true)
+      if(effect.effectBehavior === EFFECT_IGNORE_GRAVITY && !this.ignoreGravityOverrideFlag) {
+        phaserInstance.ignoreGravityOverride = true
       }
 
       if(effect.effectBehavior === EFFECT_STICK_TO) {
         if(!alternatePhaserInstanceData.phaserInstance) console.error('bad!, stick to will not work here')
+
         phaserInstance.lockedTo = alternatePhaserInstanceData.phaserInstance;   
         phaserInstance.lockedReleaseSides = alternatePhaserInstanceData.sides
-        this.isIgnoreGravityModified = true
-        entityInstance.setIgnoreGravity(true)
+
+        phaserInstance.ignoreGravityOverride = true
       }
     }
 

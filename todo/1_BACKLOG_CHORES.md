@@ -19,9 +19,6 @@ Look up x, y, on phaser instance should be... getPosition(). Overall use Get Met
 
 Try to remove getState() and getCobrowsingState() from inside of game... standardize this better
 
-Update all name forms 
-  Make the class name form thing into a reusable component and add to stage, cutscene, tag, etc
-
 Utils that use state should be hooks
 
 Only Once should be on relation model

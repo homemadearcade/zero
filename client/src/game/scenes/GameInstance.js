@@ -83,11 +83,16 @@ export class GameInstance extends Phaser.Scene {
         spawnX:x,
         spawnY:y
       });
+      
+      this.playerInstance.setLerp()
     } else {
       this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_DID, entityInstanceData);
+      this.playerInstance.setLerp(
+        entityInstanceData.cameraScrollX,
+        entityInstanceData.cameraScrollY,
+      )
     }
 
-    this.playerInstance.setLerp()
   }
 
   addPlayerInstance(entityInstanceData) {
@@ -170,6 +175,7 @@ export class GameInstance extends Phaser.Scene {
   registerRelations(entityInstances) {
     if(!entityInstances) entityInstances = this.entityInstances
     const entityInstancesByTag = this.sortInstancesIntoTags(entityInstances)
+    
     /// RELATIONS
     this.playerInstance.registerRelations(entityInstancesByTag)
 
@@ -177,9 +183,9 @@ export class GameInstance extends Phaser.Scene {
       instance.registerRelations(entityInstancesByTag)
     })
 
-    // this.temporaryInstances.forEach((instance) => {
-    //   instance.registerRelations()
-    // })
+    this.temporaryInstances.forEach((instance) => {
+      instance.registerRelations(entityInstancesByTag)
+    })
 
     /// COLLIDERS
     this.playerInstance.registerColliders(entityInstancesByTag)
@@ -221,9 +227,9 @@ export class GameInstance extends Phaser.Scene {
       instance.unregister()
     })
 
-    // this.temporaryInstances.forEach((instance) => {
-    //   instance.unregister()
-    // })
+    this.temporaryInstances.forEach((instance) => {
+      instance.unregister()
+    })
 
     this.colliderRegistrations.forEach((collider) =>  {
       // this.physics.world.removeCollider(collider)
@@ -352,10 +358,12 @@ export class GameInstance extends Phaser.Scene {
 
   
   sortInstancesIntoTags(entityInstances) {
-    if(!entityInstances) entityInstances = this.entityInstances.slice()
+    if(!entityInstances) {
+      entityInstances = this.entityInstances.slice()
+      entityInstances.push(this.playerInstance)
+    }
     const entityInstancesByTag = {}
     const entityModels = this.getGameModel().entityModels
-    entityInstances.push(this.playerInstance)
     entityInstances.forEach((entityInstance) => {
       const entityModel = entityModels[entityInstance.entityModelId]
       Object.keys(entityModel.relationTags).forEach((relationTagId) => {
@@ -383,8 +391,7 @@ export class GameInstance extends Phaser.Scene {
     const temporaryInstance = new ProjectileInstance(this, entityInstanceId, { entityModelId })
     this.temporaryInstances.push(temporaryInstance)
     this.temporaryInstancesById[entityInstanceId] = temporaryInstance
-    // this.unregisterRelations()
-    // this.registerRelations()
+    this.registerRelations([temporaryInstance])
     return temporaryInstance
   }
 
@@ -394,6 +401,7 @@ export class GameInstance extends Phaser.Scene {
     })
     this.temporaryInstancesById[entityInstanceId].destroy()
     this.temporaryInstancesById[entityInstanceId] = null
+    // this.registerRelations()
   }
 
   initializeEntityInstance(entityInstanceId, entityInstanceData, effectSpawned) {
@@ -441,6 +449,9 @@ export class GameInstance extends Phaser.Scene {
   }
 
   destroyInstances() {
+    this.playerInstance?.destroy()
+    this.playerInstance = null
+
     this.entityInstances.forEach((instance) => {
       instance.destroy()
     })
@@ -448,14 +459,13 @@ export class GameInstance extends Phaser.Scene {
       instance.destroyAfterUpdate = true
       instance.destroy()
     })
+
     this.temporaryInstances = []
     this.temporaryInstancesById = {}
     this.temporaryInstancesByTag = {}
     this.entityInstances= []
     this.entityInstancesById = {}
     this.entityInstancesByTag = {}
-    this.playerInstance?.destroy()
-    this.playerInstance = null
 }
 
 // --------------------------------------------------------------------------------------

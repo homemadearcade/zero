@@ -69,6 +69,7 @@ const EntityBoxDialog = ({
             [entityModel.entityModelId]: {
               ...entityModel,
               isNew: false,
+              isDirty: false,
               importedStageIds: {
                 [currentStageId]: false
               },

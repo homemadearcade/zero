@@ -23,7 +23,7 @@ export function getCurrentGameScene(gameInstance) {
 export function snapFreeXY({x, y, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {
   const gameModel = store.getState().gameModel.gameModel
   const nodeSize = gameModel.size.nodeSize
-  const halfNodeSize = nodeSize / 2
+  const halfNodeSize = nodeSize /// 2
   const brushSize = getCobrowsingState().gameSelector.brushSize
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
 
@@ -79,7 +79,7 @@ export function snapSectionalXY({x, y, boundaries = store.getState().gameModel.g
 
 export function snapObjectXY({x, y, entityModel, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {
   const gameModel = store.getState().gameModel.gameModel
-  const halfNodeSize = gameModel.size.nodeSize/2
+  const halfNodeSize = gameModel.size.nodeSize ///2
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
 
   const gridx = isGridViewOn ? 0 : boundaries.x

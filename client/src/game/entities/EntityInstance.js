@@ -56,10 +56,8 @@ export class EntityInstance extends PhaserInstance {
       this.setCollideWorldBounds(true)
     }
     this.setCollideIgnoreSides(entityModel.collisionResponse.ignoreSides)
-    console.log('entityInstanceData.velocityX', entityInstanceData)
     if(entityInstanceData.velocityX) {
       this.setVelocityX(entityInstanceData.velocityX)
-      console.log('setVelocityX', entityInstanceData.velocityX)
     }
     if(entityInstanceData.velocityY) {
       this.setVelocityY(entityInstanceData.velocityY)
@@ -76,6 +74,10 @@ export class EntityInstance extends PhaserInstance {
     })
 
     this.projectileEjector = new ProjectileEjector(scene, this)
+
+    this.ignoreGravityOverride = null
+
+    this.invisibleOverride = null
 
     return this
   }

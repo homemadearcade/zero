@@ -65,6 +65,7 @@ const EditEntityDialog = ({
           entityIID: entityModel.entityIID,
           boundaryRelation: entityModel.boundaryRelation,
           spawnZoneEntityModelIds: entityModel.spawnZoneEntityModelIds,
+          isDirty: false
         }
       }
     })

@@ -14,6 +14,7 @@ https://www.react-spring.dev/examples wiggle when you import class, when class i
 
 Speed Boost Relationship
 Gravitational Pull effect
+Ladder Effect 
 
 ---
 
