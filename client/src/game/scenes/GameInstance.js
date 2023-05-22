@@ -429,13 +429,13 @@ export class GameInstance extends Phaser.Scene {
     return instance
   }
 
-  removeEntityInstance(entityInstanceId) {
+  removeEntityInstance(entityInstanceId, skipReregisterRelationships) {
     this.entityInstances = this.entityInstances.filter((object) => {
       return entityInstanceId !== object.entityInstanceId
     })
     this.getEntityInstance(entityInstanceId).destroy()
     this.entityInstancesById[entityInstanceId] = null
-    this.reregisterRelationships()
+    if(!skipReregisterRelationships) this.reregisterRelationships()
   }
 
   updateEntityInstance(entityInstance, {x, y, rotation, isVisible, destroyAfterUpdate, transformEntityModelId}) {
@@ -449,7 +449,7 @@ export class GameInstance extends Phaser.Scene {
   }
 
   destroyInstances() {
-    this.playerInstance?.destroy()
+    this.playerInstance.destroy()
     this.playerInstance = null
 
     this.entityInstances.forEach((instance) => {

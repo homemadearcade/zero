@@ -6,8 +6,8 @@ import { CameraPreview } from "./behaviors/CameraPreview";
 import { InteractArea } from "./behaviors/InteractArea";
 import { ControlledMovement } from "./behaviors/ControlledMovement";
 import { ControlledProjectileEjector } from "./behaviors/ControlledProjectileEjector";
-import { ENTITY_INSTANCE_DID, GAME_END_STATE, ON_INTERACT, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, PLAY_STATE, initialCameraZoneEntityId, initialCameraZoneInstanceId } from "../constants";
-import { generateUniqueId, getCobrowsingState } from "../../utils";
+import { GAME_END_STATE, ON_INTERACT, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, PLAY_STATE, initialCameraZoneEntityId, initialCameraZoneInstanceId } from "../constants";
+import { getCobrowsingState } from "../../utils";
 import { changeGameState } from "../../store/actions/game/gameRoomInstanceActions";
 import { progressActiveCutscene } from "../../store/actions/game/playerInterfaceActions";
 import { editGameModel } from "../../store/actions/game/gameModelActions";
@@ -196,9 +196,10 @@ export class PlayerInstance extends EntityInstance {
     // this.particles.setVisible(true)
   }
 
+
   destroy() {
     // this.particles.destroy()
-    this.scene.removeEntityInstance(initialCameraZoneInstanceId)
+    this.scene.removeEntityInstance(this.cameraInstance.entityInstanceId, true)
     this.interactArea.destroy()
     this.scene.input.keyboard.removeKey(this.cursors.up) 
     this.scene.input.keyboard.removeKey(this.cursors.down)
@@ -207,6 +208,7 @@ export class PlayerInstance extends EntityInstance {
     this.scene.input.keyboard.removeKey(this.cursors.space)
     this.scene.input.keyboard.removeKey(this.cursors.shift)
     this.scene.input.keyboard.removeKey(this.xKey)
+
     super.destroy()
   }
 }
