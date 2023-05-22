@@ -66,8 +66,8 @@ export class GameInstance extends Phaser.Scene {
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
-  initializePlayerInstance(classData) {
-    if(!classData) {
+  initializePlayerInstance(entityInstanceData) {
+    if(!entityInstanceData) {
       const gameModel = this.getGameModel()
       const playerInterface = getCobrowsingState().playerInterface
       const currentStage = this.getCurrentStage()
@@ -81,25 +81,17 @@ export class GameInstance extends Phaser.Scene {
       this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_DID, {
         entityModelId: currentStage.playerEntityModelId ? currentStage.playerEntityModelId : lastPlayerEntityId,
         spawnX:x,
-        spawnY: y
+        spawnY:y
       });
     } else {
-
-      const {entityModelId, spawnX, spawnY, transformCancelEntityModelId} = classData
-
-      this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_DID, {
-        transformCancelEntityModelId,
-        entityModelId,
-        spawnX,
-        spawnY
-      });
+      this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_DID, entityInstanceData);
     }
 
     this.playerInstance.setLerp()
   }
 
-  addPlayerInstance(classData) {
-    this.initializePlayerInstance(classData)
+  addPlayerInstance(entityInstanceData) {
+    this.initializePlayerInstance(entityInstanceData)
     this.reregisterRelationships()
   }
 

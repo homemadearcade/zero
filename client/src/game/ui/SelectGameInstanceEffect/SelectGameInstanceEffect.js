@@ -5,10 +5,12 @@ import { connect } from 'react-redux';
 import './SelectGameInstanceEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { getEffectData } from '../../../utils';
+import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK } from '../../constants';
 
-const SelectGameInstanceEffect = ({ onChange, value, eventType, formLabel, disabled, gameModel: { gameModel }}) => {
+const SelectGameInstanceEffect = ({ onChange, removeInterfaceActions, value, eventType, formLabel, disabled, gameModel: { gameModel }}) => {
   const mapControlsToOption = (effectId) => {
     const effect = gameModel.effects[effectId]
+
 
     const { 
       title, 
@@ -20,6 +22,14 @@ const SelectGameInstanceEffect = ({ onChange, value, eventType, formLabel, disab
       textureTint
     } = getEffectData(effect, eventType, gameModel)
 
+    let isEffectRemoved = isRemoved
+
+    if(removeInterfaceActions) {
+      if(effect.effectBehavior === EFFECT_INTERFACE_ACTION || effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
+        isEffectRemoved = true
+      }
+    }
+
     return {
       subTitle: subTitle,
       title: title,
@@ -27,7 +37,7 @@ const SelectGameInstanceEffect = ({ onChange, value, eventType, formLabel, disab
       subTitleTextureId: textureId,
       subTitleTextureTint: textureTint,
       icon: icon,
-      isRemoved,
+      isRemoved: isEffectRemoved,
       group
     }
   }
@@ -37,8 +47,6 @@ const SelectGameInstanceEffect = ({ onChange, value, eventType, formLabel, disab
   options.sort((a, b) => {
     return -b.group.localeCompare(a.group)
   })
-
-  console.log(disabled)
 
   return <SelectChipsAuto 
     disabled={disabled}

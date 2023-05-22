@@ -13,8 +13,8 @@ import { progressActiveCutscene } from "../../store/actions/game/playerInterface
 import { editGameModel } from "../../store/actions/game/gameModelActions";
 
 export class PlayerInstance extends EntityInstance {
-  constructor(scene, entityInstanceId, instanceData){
-    super(scene, entityInstanceId, instanceData)
+  constructor(scene, entityInstanceId, entityInstanceData){
+    super(scene, entityInstanceId, entityInstanceData)
 
     // this.particles = scene.add.particles('blue');
 
@@ -45,12 +45,11 @@ export class PlayerInstance extends EntityInstance {
 
     this.scene = scene
 
-    const { entityModelId } = instanceData
+    const { entityModelId } = entityInstanceData
     const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
     if(!entityModel) {
       console.error('no player class for entityModelId:' + entityModelId)
     }
-
 
     const nodeSize = store.getState().gameModel.gameModel.size.nodeSize
     this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: entityModel.graphics.width + (nodeSize * 4), height: entityModel.graphics.height + (nodeSize * 4) }) 
@@ -62,10 +61,11 @@ export class PlayerInstance extends EntityInstance {
     this.controlledProjectileEjector = new ControlledProjectileEjector(scene, this)
 
     setTimeout(() => {
+      console.log(entityInstanceData)
       this.cameraInstance = this.scene.addEntityInstance(initialCameraZoneInstanceId, {
         entityModelId: initialCameraZoneEntityId,
-        spawnX: 0,
-        spawnY: 0,
+        spawnX: entityInstanceData.cameraX || 0,
+        spawnY: entityInstanceData.cameraY || 0,
       })
       this.cameraInstance.onResizeComplete = ({ width, height }) => {
         store.dispatch(editGameModel({
@@ -149,12 +149,19 @@ export class PlayerInstance extends EntityInstance {
   }
 
   transformEntityModel(entityModelId) {
+
+    console.log('this', this.scene.cameras.main.worldView.x)
+    console.log(this.cameraInstance.phaserInstance.x)
     const phaserInstance = this.phaserInstance
     const modifiedEntityData = { 
       spawnX: phaserInstance.x,
       spawnY: phaserInstance.y,
       entityModelId,
-      transformCancelEntityModelId: this.transformCancelEntityModelId
+      transformCancelEntityModelId: this.transformCancelEntityModelId,
+      velocityX: phaserInstance.body.velocity.x,
+      velocityY: phaserInstance.body.velocity.y,
+      cameraX: this.scene.cameras.main.scrollX,
+      cameraY: this.scene.cameras.main.scrollY,
     }
 
     const scene = this.scene

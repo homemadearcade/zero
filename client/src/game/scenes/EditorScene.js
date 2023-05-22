@@ -1270,9 +1270,8 @@ export class EditorScene extends GameInstance {
     }
   }
 
-  unload = () => {
+  unload () {
     super.unload()
-    console.log('unloading game view')
     this.input.off('pointerover', this.onPointerOver);
     this.input.off('pointerout', this.onPointerOut);
     this.input.off('pointerdown', this.onPointerDown, this);

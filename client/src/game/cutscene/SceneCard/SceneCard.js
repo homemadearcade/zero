@@ -21,7 +21,7 @@ const SceneCard = ({isEditing, scene, onSelectEntityModelId, onDoneEditing, onCh
       padding: '.4em',
     }} elevation={1}>
       <Typography variant="h5" component="div">
-        #{index+1}
+        Scene #{index+1}
       </Typography>
     </Paper>  
     {isEditing ? <CutsceneBodyEdit onSelectEntityModelId={onSelectEntityModelId} onDoneEditing={onDoneEditing} onChooseNewImage={onChooseNewImage} onChangeText={onChangeText} scene={scene} /> : <CutsceneBody scene={scene} />} 

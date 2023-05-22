@@ -352,6 +352,7 @@ const CreateRelation = ({
       <Typography variant="h4">{'Relationship'}</Typography>
       <CreateEvent/>
       {event.eventType && <SelectGameInstanceEffect
+        removeInterfaceActions
         eventType={event.eventType}
         formLabel={"Effects"}
         value={relation.effectIds.filter((effectId) => {

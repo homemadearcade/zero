@@ -56,6 +56,15 @@ export class EntityInstance extends PhaserInstance {
       this.setCollideWorldBounds(true)
     }
     this.setCollideIgnoreSides(entityModel.collisionResponse.ignoreSides)
+    console.log('entityInstanceData.velocityX', entityInstanceData)
+    if(entityInstanceData.velocityX) {
+      this.setVelocityX(entityInstanceData.velocityX)
+      console.log('setVelocityX', entityInstanceData.velocityX)
+    }
+    if(entityInstanceData.velocityY) {
+      this.setVelocityY(entityInstanceData.velocityY)
+    }
+
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -195,7 +204,9 @@ export class EntityInstance extends PhaserInstance {
       spawnX: phaserInstance.x,
       spawnY: phaserInstance.y,
       entityModelId,
-      transformCancelEntityModelId: this.transformCancelEntityModelId
+      transformCancelEntityModelId: this.transformCancelEntityModelId,
+      velocityX: phaserInstance.body.velocity.x,
+      velocityY: phaserInstance.body.velocity.y,
     }
 
     //issue because as soon as we destroy it, we lose acces to 'this'!
