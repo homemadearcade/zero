@@ -279,8 +279,8 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermi
       layers: updatedGame.layers,
       version: updatedGame.version,
       appLocation: updatedGame.appLocation,
-      playScope: updatedGame.playScope,
-      editScope: updatedGame.editScope,
+      playScope: updatedGame.playScope || 'PLAY_GAME_SCOPE_UNLISTED',
+      editScope: updatedGame.editScope || 'EDIT_GAME_SCOPE_ONLY_ME',
       // user: tempGame.owner ? tempGame.owner.id : Math.random()
     }
 
