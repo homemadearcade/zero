@@ -51,3 +51,4 @@ in preloader
   only load spritesheets that are added for 'play game' mode
 
 Step titles are currently undefined without the game model 
+  Load up all game models WITH the experience model like population style... hmm yes I think so

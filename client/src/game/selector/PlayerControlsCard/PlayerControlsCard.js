@@ -22,10 +22,10 @@ const PlayerControlsCard = ({
 
   useGamepads(gamepads => setGamepads(gamepads));
 
-  const gamePadButtonIndexToPressed = gamepads.buttons.reduce((acc, button, index) => {
-    acc[index] = button.pressed
-    return acc
-  }, {})
+  // const gamePadButtonIndexToPressed = gamepads.buttons.reduce((acc, button, index) => {
+  //   acc[index] = button.pressed
+  //   return acc
+  // }, {})
 
   const isSpacePressed = useKeyPress(' ')
   const isLeftPressed = useKeyPress('ArrowLeft')
