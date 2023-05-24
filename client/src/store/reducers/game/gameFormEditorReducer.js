@@ -46,6 +46,7 @@ import {
   CLOSE_EDIT_RELATION_SYSTEM_DIALOG,
   OPEN_EDIT_CONTENT_DIALOG,
   CLOSE_EDIT_CONTENT_DIALOG,
+  UPDATE_GAME_MODEL_FORM_EDITOR,
 } from '../../types';
 
 // game create editor
@@ -129,6 +130,11 @@ const initialState = {
 
   isEditRelationSystemDialogOpen: false,
   isEditContentDialogOpen: false,
+
+
+  gameModelFormEditor: {
+
+  },
 };
 
 export const initialGameFormEditorState = initialState
@@ -193,6 +199,11 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         entityModel: mergeDeep(state.entityModel, payload.entityModel)
+      }
+    case UPDATE_GAME_MODEL_FORM_EDITOR: 
+      return {
+        ...state,
+        gameModelFormEditor: mergeDeep(state.gameModelFormEditor, payload.gameModelFormEditor)
       }
     case OPEN_EDIT_ENTITY_GRAPHICS: 
       return {

@@ -3,25 +3,26 @@ import { connect } from 'react-redux';
 
 import './GameMetadataForm.scss';
 import { TextField } from '@mui/material';
-import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '../../../ui/Button/Button';
-import Typography from '../../../ui/Typography/Typography';
 import GameTexturesDialog from '../../../game/textures/GameTexturesDialog/GameTexturesDialog';
 import { closeGameTexturesDialog, openGameTexturesDialog } from '../../../store/actions/game/gameSelectorActions';
 import { getImageUrlFromTextureId } from '../../../utils';
-import SelectPlayScope from '../../../game/ui/SelectPlayScope/SelectPlayScope';
-import SelectEditScope from '../../../game/ui/SelectEditScope/SelectEditScope';
-import Divider from '../../../ui/Divider/Divider';
+import { updateFormEditorGameModel } from '../../../store/actions/game/gameFormEditorActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
 
-const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, openGameTexturesDialog, closeGameTexturesDialog, gameSelector: { isGameTexturesDialogOpen} }) => {
-  const metadata = gameModel.metadata
+const GameMetadataForm = ({ 
+  gameModel: { gameModel }, 
+  gameFormEditor: { gameModelFormEditor }, 
+  openGameTexturesDialog, 
+  closeGameTexturesDialog, 
+  gameSelector: { isGameTexturesDialogOpen}, 
+  updateFormEditorGameModel,
+  editGameModel
+}) => {
+  const { title, description, authorPseudonym, imageUrl} = gameModel.metadata
 
-  const { title, description, authorPseudonym } = metadata
-
-  const [imageUrl, setImageUrl] = useState(metadata.imageUrl)
-
-  const { handleSubmit, reset, control } = useForm({
+  const { control } = useForm({
     defaultValues: {
       metadata: {
         title,
@@ -34,37 +35,44 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
     },
   });
 
-  const submit = async (data) => {
-    editGameModel({
-      metadata: {
-        ...data.metadata,
-        imageUrl
-      },
-      playScope: data.playScope,
-      editScope: data.editScope,
+  useEffect(() => {
+    updateFormEditorGameModel({
+      metadata: gameModel.metadata,
     })
-    reset();
-    onSubmit()
-  }
 
-  function renderImageSelect() {
-    return <>
-      {imageUrl  && <img className="GameMetadataForm__image" alt={title + ' image'} src={imageUrl}/>}
-      <Button onClick={() => {
-        openGameTexturesDialog()
-      }}>Select Image</Button>
-    </>
-  }
+    return () => {
+      editGameModel({
+        metadata: {
+          ...gameModelFormEditor.metadata,
+        },
+      })
+    }
+  }, [])
+
+  if(!gameModelFormEditor.metadata) return
 
   return (
-    <div className="GameMetadataform">
-        {renderImageSelect()}
+    <div className="GameMetadataForm">
+      <div className="GameMetadataForm__stage">
+        {gameModelFormEditor.metadata.imageUrl  && <img className="GameMetadataForm__image" alt={title + ' image'} src={gameModelFormEditor.metadata.imageUrl}/>}
+        <Button onClick={() => {
+          openGameTexturesDialog()
+        }}>Select Image</Button>
+      </div>
+      <div className="GameMetadataForm__details">
         <div>
           <Controller
             name={"metadata.title"}
             control={control}
             render={({ field: { onChange, value } }) => (
-              <TextField onChange={onChange} value={value} label={"Title"} />
+              <TextField fullWidth onChange={(event) => {
+                updateFormEditorGameModel({
+                  metadata: {
+                    title: event.target.value
+                  }
+                })
+                onChange(event)
+              }} value={value} label={"Title"} />
             )}
           />
         </div>
@@ -73,7 +81,14 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
             name={"metadata.authorPseudonym"}
             control={control}
             render={({ field: { onChange, value } }) => (
-              <TextField onChange={onChange} value={value} label={"Author"} />
+              <TextField fullWidth onChange={(event) => {
+                updateFormEditorGameModel({
+                  metadata: {
+                    authorPseudonym: event.target.value
+                  }
+                })
+                onChange(event)
+              }} value={value} label={"Author"} />
             )}
           />
         </div>
@@ -82,33 +97,29 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
             name={"metadata.description"}
             control={control}
             render={({ field: { onChange, value } }) => (
-              <TextField multiline onChange={onChange} value={value} label={"Description"} />
+              <TextField multiline minRows={3} fullWidth onChange={(event) => {
+                updateFormEditorGameModel({
+                  metadata: {
+                    description: event.target.value
+                  }
+                })
+                onChange(event)
+              }} value={value} label={"Description"} />
             )}
           />
         </div>
-        <div>
-          <Controller
-            name={"playScope"}
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <SelectPlayScope formLabel="Who can play this game?" onChange={onChange} value={value} />
-            )}
-          />
-        </div>
-        {/* <div>
-          <Controller
-            name={"editScope"}
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <SelectEditScope formLabel="Who can edit this game?" onChange={onChange} value={value} />
-            )}
-          />
-        </div> */}
-      <Divider/>
-      <Button type="submit" onClick={handleSubmit(submit)}>Save</Button>
-      <Button type="submit" onClick={handleSubmit(submit)}>Cancel</Button>
+      </div>
       {isGameTexturesDialogOpen && <GameTexturesDialog onClickTexture={(textureId) => {
-        setImageUrl(getImageUrlFromTextureId(textureId))
+        console.log(textureId, {
+          metadata: {
+            imageUrl: getImageUrlFromTextureId(textureId)
+          }
+        })
+        updateFormEditorGameModel({
+          metadata: {
+            imageUrl: getImageUrlFromTextureId(textureId)
+          }
+        })
         closeGameTexturesDialog()
       }}/>}
     </div>
@@ -117,7 +128,8 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
 
 const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
-  gameSelector: state.gameSelector
+  gameSelector: state.gameSelector,
+  gameFormEditor: state.gameFormEditor
 });
 
-export default connect(mapStateToProps, { editGameModel, closeGameTexturesDialog, openGameTexturesDialog })(GameMetadataForm);
+export default connect(mapStateToProps, { editGameModel, closeGameTexturesDialog, openGameTexturesDialog, updateFormEditorGameModel })(GameMetadataForm);

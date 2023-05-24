@@ -29,8 +29,6 @@ VIDEO CALL FEATURES
   You lost your video please refresh page 
   Popup when someone loses video 
 
-USER SPEED TESTS FULL FEATURE
-
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -------------------------------
 DATA

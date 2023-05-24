@@ -59,7 +59,7 @@ export class GameInstance extends Phaser.Scene {
   }
 
 
-  // --------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
 // PLAYER
@@ -243,7 +243,7 @@ export class GameInstance extends Phaser.Scene {
     })
   }
 
-  // --------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
 // LAYERS
@@ -337,7 +337,7 @@ export class GameInstance extends Phaser.Scene {
       const entityInstanceData = entityInstances[entityInstanceId]
 
       if(!entityInstanceData) {
-          return console.error('Object missing!', entityInstanceId)
+        return console.error('Object missing!', entityInstanceId)
       } 
 
       if(entityInstanceId === PLAYER_INSTANCE_DID) {
@@ -449,7 +449,7 @@ export class GameInstance extends Phaser.Scene {
   }
 
   destroyInstances() {
-    this.playerInstance.destroy()
+    this.playerInstance?.destroy()
     this.playerInstance = null
 
     this.entityInstances.forEach((instance) => {

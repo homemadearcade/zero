@@ -25,6 +25,7 @@ import { copyToClipboard, generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import {  EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID,
    INSTANCE_TOOLBAR_CONTAINER_IID, LAYER_AGGREGATE_COLOR_SELECT_IID, LAYER_CREATE_COLOR_DIALOG_IID, 
+   SELECTOR_CREATE_CUTSCENE_IID, 
    SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
 import EntityBoxDialog from '../../entityModel/EntityBoxDialog/EntityBoxDialog';
 import EntityBehaviorLiveEditor from '../../behaviors/EntityBehaviorLiveEditor/EntityBehaviorLiveEditor';
@@ -46,6 +47,8 @@ import MouseInfo from '../../selector/MouseInfo/MouseInfo';
 import KeyboardInfo from '../../selector/KeyboardInfo/KeyboardInfo';
 import ToolBoxDialog from '../../selector/ToolBoxDialog/ToolBoxDialog';
 import AggregateColorSelectDialog from '../../color/AggregateColorSelectDialog/AggregateColorSelectDialog';
+import CreateCutsceneButton from '../../cutscene/CreateCutsceneButton/CreateCutsceneButton';
+import Divider from '../../../ui/Divider/Divider';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -121,7 +124,14 @@ const GameEditor = ({
 
   function renderSelectorColumn() {
     if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID) {
-      return <EntityList/>
+      return <>
+        <EntityList/>
+        <Unlockable interfaceId={SELECTOR_CREATE_CUTSCENE_IID}>
+          <Divider/>
+          <CreateCutsceneButton/>
+        </Unlockable>
+     
+      </>
     } 
   }
 

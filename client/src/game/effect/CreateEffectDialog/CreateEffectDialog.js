@@ -51,7 +51,7 @@ const CreateEffectDialog = ({
           })
           handleClose()
       }}>
-        Save
+        {effect.isNew ? 'Create' : 'Save'}
       </Button>
       <Button onClick={handleClose}>
         Cancel
@@ -69,7 +69,7 @@ const CreateEffectDialog = ({
       </div>
   }
 
-  return <CobrowsingDialog open={true} onClose={handleClose}>
+  return <CobrowsingDialog open={true}>
         <CreateEffect onUpdateEffect={updateCreateEffect} effect={effect} eventType={event.eventType}/>
         {renderButtons()}
     </CobrowsingDialog>

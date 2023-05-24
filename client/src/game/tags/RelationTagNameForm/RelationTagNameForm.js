@@ -1,63 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { Alert, TextField } from '@mui/material';
 import { updateCreateRelationTag } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
+import NameForm from '../../ui/NameForm/NameForm';
 
 const RelationTagNameForm = ({ initialName, updateCreateRelationTag, gameModel: { gameModel }, gameFormEditor: { relationTag } }) => {
-  const [nameList, setNameList] = useState([])
-  const [ignoreName, setIgnoreName] = useState([])
-
-  useEffect(() => {
-    const list = []
-    Object.keys(gameModel.relationTags).forEach((relationTagId) => {
-      list.push(gameModel.relationTags[relationTagId].name)
-    })
-    setNameList(list)
-    setIgnoreName(initialName)
-  }, [])
-
-  useEffect(() => {
-    testName(relationTag.name)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [relationTag.name])
-
-  function testName(name) {
-    if(!name || !name.length) {
-      updateCreateRelationTag({
-        error: 'Name must not be empty'
-      })
-      return false
-    }
-    if(ignoreName && name === ignoreName) return true
-    if(nameList.indexOf(name) >= 0) {
-      updateCreateRelationTag({
-        error: 'That name is already in use'
-      })
-      return false
-    }
-
-    updateCreateRelationTag({
-      error: null
-    })
-    return true
-  }
-
-  function handleChange(e) {
-    const newVal = e.target.value
-    updateCreateRelationTag({
-      name: newVal,
-      error: null
-    })
-  }
-
-  return (
-    <div className="RelationTagNameForm">
-      <TextField onChange={handleChange} value={relationTag.name} label={"Name"} />
-      {relationTag.error && <Alert severity="error">{relationTag.error}</Alert>}
-    </div>
-  );
+  return <NameForm
+    initialName={relationTag.name}
+    name={relationTag.name}
+    error={relationTag.error}
+    nameList={Object.keys(gameModel.relationTags).map((relationTagId) => {
+      return gameModel.relationTags[relationTagId].name
+    })}
+    onUpdateName={(name) => {
+      updateCreateRelationTag({ name })
+    }}
+    onUpdateError={(error) => {
+      updateCreateRelationTag({ error })
+    }}
+  />
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

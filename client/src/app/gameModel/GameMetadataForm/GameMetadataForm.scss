@@ -1,5 +1,25 @@
 .GameMetadataForm {
+    display: flex;
+      gap: 1em;
+      padding: 1em;
+
+  &__details {
+    flex: 2;
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+    max-width: 85%;
+  }
+
+  &__stage {
+    display: flex;
+    flex-direction: column;
+    min-width: 10em;
+    min-height: 10em;
+  }
+
   &__image {
-    width: 30%;
+    width: 10em;
+    height: 10em;
   }
 }

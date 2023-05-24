@@ -38,14 +38,17 @@ const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreate
     closeCreateStageDialog()
   }
 
+  const defaultStageName = 'Stage #' + (Object.keys(gameModel.stages).length + 1).toString()
   useEffect(() => {
     if(!stage.stageId) {
-      updateCreateStage({ stageId: STAGE_DID+generateUniqueId(), isNew: true })
+      updateCreateStage({ 
+        name: defaultStageName,
+        stageId: STAGE_DID+generateUniqueId(), isNew: true
+       })
     }
   }, [])
 
   function isSaveDisabled() {
-    if(stage.error) return false
     if(!stage.playerSpawnZoneEntityId) return true
     return false 
   }
@@ -68,8 +71,8 @@ const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreate
     }}/>
   }
 
-  return <CobrowsingDialog open={true} onClose={handleClose}>
-    <StageNameForm initialName={stage.name}/>
+  return <CobrowsingDialog open={true}>
+    <StageNameForm initialName={stage.name || defaultStageName}/>
     {/* {renderSelectSpawn()} */}
     <div className="CreateStageDialog__buttons">
       <Button 
@@ -97,7 +100,7 @@ const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreate
         }
         handleClose()
       }}>
-        Save
+        {stage.isNew ? 'Create' : 'Save'}
       </Button>
       <Button onClick={handleClose}>
         Cancel

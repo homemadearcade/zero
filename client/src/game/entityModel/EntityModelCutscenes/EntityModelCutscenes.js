@@ -25,8 +25,6 @@ const EntityModelCutscenes = ({
 
   function renderCutscenes(cutsceneIds) {
 
-    console.log('renderCutscenes', cutsceneIds)
-
     return <>
         {cutsceneIds.map(cutsceneId => {
           const cutscene = gameModel.cutscenes[cutsceneId]
@@ -34,7 +32,7 @@ const EntityModelCutscenes = ({
             <Button onClick={() => {
               openCreateCutscene(cutscene)
             }} key={cutsceneId} className="EntityModelCutscenes__cutscene">
-              Edit {cutscene.name}
+              Edit {cutscene.name} Scenes
             </Button></>
         })}
         <Divider/>
@@ -53,7 +51,7 @@ const EntityModelCutscenes = ({
     /> */}
     {/* <Divider/> */}
     <Divider>
-      Relation Tags
+      By Relation Tags
     </Divider>
 
     {cutsceneRelationTags.map(({relationTag, cutsceneIds}) => {
@@ -65,7 +63,7 @@ const EntityModelCutscenes = ({
     })}
 
     <Divider>
-      Speaking Role
+      By Speaking Role
     </Divider>
     {entityModelCutscenesInvolved.map(cutsceneId => {
       return renderCutscenes([cutsceneId])

@@ -17,7 +17,10 @@ const WaitingActivity = ({
 }) => {
   function renderView() {
     if(currentViewCategory === ACTIVITY_VIEW_TEXT) {
-      return <Typography variant="h5">Your experience will start shortly. For the best experience please spend this time closing all other browser tabs, closing other applications, and putting your notifications on quiet.</Typography>
+      return <>
+          <Typography variant="h5">Your experience will start shortly.</Typography>
+          <Typography variant="h5">For the best experience please spend this time closing all other browser tabs, closing other applications, and putting your notifications on quiet.</Typography>
+        </>
     }
 
     if(currentViewCategory === ACTIVITY_VIEW_MY_INFORMATION) {
@@ -27,7 +30,9 @@ const WaitingActivity = ({
     }
   }
 
-  return <Container><div className="WaitingActivity">
+  return <Container sx={{
+    height: '100%',
+  }}><div className="WaitingActivity">
     {renderView()}
   </div>
   </Container>

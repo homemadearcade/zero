@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { DOWN_KID, LEFT_KID, RIGHT_KID, SPACE_KID, UP_KID } from '../../../constants/keyboard/keyIds'
@@ -9,6 +9,7 @@ import { ADVANCED_DIRECTIONAL_CONTROLS, jumpControlsToKeys } from '../../constan
 import { movementControlsToKeys } from '../../constants'
 import Texture from '../../textures/Texture/Texture'
 import './PlayerControlsCard.scss'
+import useGamepads from '../../../hooks/useGamepads'
 
 const PlayerControlsCard = ({
   movementControlBehavior = {},
@@ -16,6 +17,15 @@ const PlayerControlsCard = ({
   projectileEntityModel,
   entityModel
 }) => {
+
+  const [gamepads, setGamepads] = useState({});
+
+  useGamepads(gamepads => setGamepads(gamepads));
+
+  const gamePadButtonIndexToPressed = gamepads.buttons.reduce((acc, button, index) => {
+    acc[index] = button.pressed
+    return acc
+  }, {})
 
   const isSpacePressed = useKeyPress(' ')
   const isLeftPressed = useKeyPress('ArrowLeft')
@@ -32,7 +42,7 @@ const PlayerControlsCard = ({
   }
 
   const theme = useWishTheme()
-
+  
   let keys = {}
 
   if(entityModel.movement.movementControlsBehavior !== ADVANCED_DIRECTIONAL_CONTROLS || entityModel.movement.ignoreGravity) {

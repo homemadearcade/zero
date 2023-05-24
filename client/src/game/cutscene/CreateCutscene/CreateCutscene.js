@@ -29,15 +29,22 @@ const CreateCutscene = ({
   updateCreateCutscene, 
   gameFormEditor: { cutscene },
   gameSelector: { isGameTexturesDialogOpen },
+  gameModel: { gameModel },
 }) => {
   const [editScene, setEditScene] = useState(null)
   function handleClose() {
     closeCreateCutscene()
   }
   
+  const defaultCutsceneName = 'Cutscene #' + (Object.keys(gameModel.cutscenes).length + 1).toString()
+
   useEffect(() => {
     if(!cutscene.cutsceneId) {
-      updateCreateCutscene({ cutsceneId: CUTSCENE_DID+generateUniqueId(), isNew: true })
+      updateCreateCutscene({ 
+        cutsceneId: CUTSCENE_DID+generateUniqueId(), 
+        isNew: true,
+        name: defaultCutsceneName,
+     })
     }
   }, [])
 
@@ -105,9 +112,10 @@ const CreateCutscene = ({
     </>
   }
 
-  return <CobrowsingDialog open={true} onClose={handleClose}>
+  return <CobrowsingDialog open={true}>
     <div className="CreateCutscene">
-       <Unlockable interfaceId={TEXT_SCENE_SHORTCUT_IID}>
+      <CutsceneNameForm initialName={cutscene.name || defaultCutsceneName}/>
+      <Unlockable interfaceId={TEXT_SCENE_SHORTCUT_IID}>
         <Switch
           labels={['Is Cutscene', 'Is Text Scene']}
           size="small"
@@ -118,8 +126,6 @@ const CreateCutscene = ({
           checked={cutscene.isTextSceneOnly}
          />
       </Unlockable>
-      <Typography component="h2" variant="h2">{cutscene.name}</Typography>
-      <CutsceneNameForm initialName={cutscene.name}/>
       <Divider/>
       {cutscene.scenes.map((scene, index) => {
         return <div key={index} className='CreateCutscene__scene'>   
@@ -160,7 +166,6 @@ const CreateCutscene = ({
       {renderActionButtons()}
       <div className="CreateCutscene__buttons">
         <Button 
-          disabled={!!cutscene.error || !cutscene.name.length}
           onClick={() => {
             editGameModel({
               cutscenes: {
@@ -172,7 +177,7 @@ const CreateCutscene = ({
             })
             handleClose()
           }}>
-          Save
+          {cutscene.isNew ? 'Create' : 'Save'}
         </Button>
         <Button onClick={handleClose}>
           Cancel
@@ -213,6 +218,7 @@ const CreateCutscene = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
   gameSelector: state.gameSelector,
+  gameModel: state.gameModel,
 })
 
 export default compose(

@@ -11,6 +11,7 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
 import { REMOVED_DATA_SHOW_IID } from '../../../constants/interfaceIds';
 import Divider from '../../../ui/Divider/Divider';
+import CutsceneChip from '../CutsceneChip/CutsceneChip';
 
 const CutscenesList = ({ openCreateCutscene, gameModel: { gameModel }}) => {
   const [showRemovedCutscenes, setShowRemovedCutscenes] = useState()
@@ -19,10 +20,11 @@ const CutscenesList = ({ openCreateCutscene, gameModel: { gameModel }}) => {
 
   function renderCutscene(cutscene) {
      return <div key={cutscene.cutsceneId} className="CutscenesList__cutscene">
-      <Typography component="h5" variant="h5">{cutscene.name}</Typography>
+      <CutsceneChip cutscene={cutscene}/>
       <Button onClick={() => {
         openCreateCutscene(cutscene)
-      }}>Edit</Button>
+      }}>Edit {cutscene.name}</Button>
+      <Divider/>
     </div>
   }
 
@@ -32,11 +34,8 @@ const CutscenesList = ({ openCreateCutscene, gameModel: { gameModel }}) => {
         if(cutscene.isRemoved && !showRemovedCutscenes) return null
         return renderCutscene(cutscene)
       })}
-      <Divider/>
       <Button onClick={() => {
-        openCreateCutscene({
-          name: 'Cutscene #' + (Object.keys(cutscenes).length + 1).toString()
-        })
+        openCreateCutscene()
       }}><Icon icon="faPlus"/> New Cutscene</Button>
       {!showRemovedCutscenes && <Unlockable interfaceId={REMOVED_DATA_SHOW_IID}>
         <Button onClick={() => {

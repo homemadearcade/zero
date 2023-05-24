@@ -105,6 +105,7 @@ export function isObscuringInterfaces(interfaceId) {
   const state = getCobrowsingState()
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
   const isActivelyCobrowsing = state.cobrowsing.isActivelyCobrowsing
+  const cobrowsingUser = state.cobrowsing.cobrowsingUser
   const me = state.auth.me
   
   if(isSubscribedCobrowsing) {
@@ -112,7 +113,11 @@ export function isObscuringInterfaces(interfaceId) {
     else return false
   }
 
-  if(me?.roles[GAME_EDITOR_EXPERT_ROLE]) return false
+  if(cobrowsingUser) {
+    if(cobrowsingUser.roles[GAME_EDITOR_EXPERT_ROLE]) return false
+  } else {
+    if(me?.roles[GAME_EDITOR_EXPERT_ROLE]) return false
+  }
   
   return true
 }

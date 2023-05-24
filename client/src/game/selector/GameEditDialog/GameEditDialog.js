@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './GameEditDialog.scss';
@@ -9,8 +9,7 @@ import { closeGameEditDialog } from '../../../store/actions/game/gameSelectorAct
 import GameMetadataForm from '../../../app/gameModel/GameMetadataForm/GameMetadataForm';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
-import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { GAME_MODEL_IMPORT_IID, EDIT_GAME_TAB_CONTANER_IID, EDIT_GAME_METADATA_TAB_IID, EDIT_GAME_LIBRARY_TAB_IID, EDIT_GAME_THEME_TAB_IID, EDIT_GAME_SIZE_TAB_IID, EDIT_GAME_PLAYERS_TAB_IID, PLAYER_ENTITY_IID, GAME_PLAYER_START_ENTITY_MODEL_IID } from '../../../constants/interfaceIds';
+import { EDIT_GAME_TAB_CONTANER_IID, EDIT_GAME_METADATA_TAB_IID, EDIT_GAME_LIBRARY_TAB_IID, EDIT_GAME_THEME_TAB_IID, EDIT_GAME_SIZE_TAB_IID, EDIT_GAME_PLAYERS_TAB_IID, PLAYER_ENTITY_IID, EDIT_GAME_PRIVACY_TAB_IID } from '../../../constants/interfaceIds';
 import FormLabel from '../../../ui/FormLabel/FormLabel';
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import GameCard from '../../../app/gameModel/GameCard/GameCard';
@@ -18,19 +17,17 @@ import { addImportedArcadeGame } from '../../../store/actions/game/arcadeGameAct
 import Alert from '../../../ui/Alert/Alert';
 import CobrowsingTabs from '../../cobrowsing/CobrowsingTabs/CobrowsingTabs';
 import GameSizeEditor from '../../../app/gameModel/GameSizeEditor/GameSizeEditor';
-import SelectEntityModel from '../../ui/SelectEntityModel/SelectEntityModel';
 import SelectStage from '../../ui/SelectStage/SelectStage';
 import Button from '../../../ui/Button/Button';
-import Divider from '../../../ui/Divider/Divider';
 import { openCreateStageDialog } from '../../../store/actions/game/gameFormEditorActions';
-import { openEditEntityDialog } from '../../../store/actions/game/gameFormEditorActions';
+import GamePrivacyForm from '../../../app/gameModel/GamePrivacyForm/GamePrivacyForm';
 
 const GameEditDialog = ({ 
   editGameModel, closeGameEditDialog, 
   gameModel: { gameModel },
+  gameFormEditor: { gameModelFormEditor },
   addImportedArcadeGame,
   openCreateStageDialog,
-  openEditEntityDialog
 }) => {
   function handleClose() {
     closeGameEditDialog()
@@ -40,7 +37,15 @@ const GameEditDialog = ({
     interfaceId: EDIT_GAME_METADATA_TAB_IID,
     label: 'General',
     body: <>
-      <GameMetadataForm onSubmit={handleClose}/>
+      <GameMetadataForm/>
+    </>
+  }
+
+  const privacyTab = {
+    interfaceId: EDIT_GAME_PRIVACY_TAB_IID,
+    label: 'Privacy',
+    body: <>
+      <GamePrivacyForm/>
     </>
   }
 
@@ -138,7 +143,7 @@ const GameEditDialog = ({
     </>
   }
 
-  const tabs = [metadataTab, playersTab, themeTab, libraryTab, sizeTab]
+  const tabs = [metadataTab, privacyTab, playersTab, themeTab, libraryTab, sizeTab]
 
   return <CobrowsingDialog widthModifier={1} open={true} onClose={handleClose}>
     <div className="GameEditDialog">
@@ -149,8 +154,9 @@ const GameEditDialog = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
+  gameFormEditor: state.gameFormEditor,
 })
 
 export default compose(
-  connect(mapStateToProps, { closeGameEditDialog, openEditEntityDialog, editGameModel, openCreateStageDialog, addImportedArcadeGame }),
+  connect(mapStateToProps, { closeGameEditDialog, editGameModel, openCreateStageDialog, addImportedArcadeGame }),
 )(GameEditDialog);

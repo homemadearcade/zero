@@ -44,7 +44,7 @@ export const defaultGameModel = {
   cutscenes: {
     [playthroughStartCutsceneId]: {
       ...cloneDeep(defaultCutscene),
-      'name': 'Playthrough Start',
+      'name': 'Game Start',
       cutsceneId: playthroughStartCutsceneId
     },
     [endGameCutsceneId]: {
@@ -55,7 +55,7 @@ export const defaultGameModel = {
           text: 'Congratulations! You have completed the game!'
         }
       ],
-      name: 'End Game',
+      name: 'Game Ending',
       cutsceneId: endGameCutsceneId
     }
   },

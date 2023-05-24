@@ -25,9 +25,7 @@ export default {
     interfaceActionGroupId: INTERFACE_ACTION_WRITE,
     higherPriority: true,
     onClick: () => (dispatch, gameModel) => {
-      dispatch(openCreateCutscene({
-        name: 'Cutscene #' + (Object.keys(gameModel.cutscenes).length + 1).toString()
-      }))
+      dispatch(openCreateCutscene())
     }
   },
   [WRITE_TEXT_SCENE_NEW_AID]: {
@@ -38,7 +36,7 @@ export default {
     higherPriority: true,
     onClick: () => (dispatch, gameModel) => {
       dispatch(openCreateCutscene({
-        name: 'Text Scene #' + (Object.keys(gameModel.cutscenes).length + 1).toString()
+        isTextSceneOnly: true,
       }))
     }
   },

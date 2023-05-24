@@ -1,19 +1,24 @@
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
 BUGS
-  Dont set Agora to a device if that device isn’t found this time.
+--------------------------------------------------------------------------------------
 
-EXPERIENCE ROLES
-  If you switch roles the camera breaks 
+WHEN STROKING
+  Texture id on canvas that is undefined?? 
 
-  When I switched participant with admin things got messed up when trying to join
+IN EXPERIENCE
+  When we switched the color of an entity, it didnt have the instance data, spawnX of undefined
+  
+TEXTURE ID WHEN GOING THROUGH STEPS??
+  .textureId is not defined on the Codrawing Canvas anymore? - in lobbies. Maybe cuz someone aint the host
+  Must be because of draw player 
 
-  ( currently you are not allowed to switch roles mid lobby )
-
-GAME HOST CHANGE
-  Changing Game host requires you to reload the game doesnt it. Because host is decided in PreloaderScene
-
------
-
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
 CHORES
+--------------------------------------------------------------------------------------
 
 Look up x, y, on phaser instance should be... getPosition(). Overall use Get Methods instead of .x, .y, .rotation
 
@@ -39,6 +44,7 @@ entityIID -> entityClassIID
 --------------------------------------------------------------------------------------
 IMAGE SECURITY
 --------------------------------------------------------------------------------------
+
 ALSO security is still a problem. If I send in a texture id I want to replace then I CAN
 
 

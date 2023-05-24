@@ -29,7 +29,9 @@ const ActivityEditForm = ({ editExperienceModel, activityId, experienceModel: { 
       <form>
         <ActivityForm trigger={trigger} setValue={setValue} isEdit control={control} register={register} />
         <br/>
-        <Button disabled={isSaving || !isValid} type="submit" onClick={handleSubmit(submit)}>Save</Button>
+        <Button disabled={isSaving || !isValid} type="submit" onClick={handleSubmit(submit)}>
+          Save
+        </Button>
         <Button disabled={activity.isNotRemoveable} onClick={() => {
           editExperienceModel(experienceModel.id, {
             activitys: {

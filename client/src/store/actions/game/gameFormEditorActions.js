@@ -48,6 +48,7 @@ import {
   CLOSE_EDIT_RELATION_SYSTEM_DIALOG,
   OPEN_EDIT_CONTENT_DIALOG,
   CLOSE_EDIT_CONTENT_DIALOG,
+  UPDATE_GAME_MODEL_FORM_EDITOR,
 } from '../../types';
 import { addCanvasImage } from '../media/canvasImageActions';
 import { saveAllCurrentCanvases } from '../media/codrawingActions';
@@ -90,13 +91,24 @@ export const closeEditEntityGraphics = () => (dispatch, getState) => {
 }
 
 export const updateCreateEntity = (entityModel) => (dispatch, getState) => {
-  console.log('updateCreateEntity', entityModel)
   dispatch({
     updateCobrowsing: true,
     noCobrowsingToolNeeded: true,
     type: UPDATE_CREATE_ENTITY_MODEL,
     payload: { entityModel: {
       ...entityModel, isDirty: true
+    }}
+  });
+}
+
+
+export const updateFormEditorGameModel = (gameModel) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    noCobrowsingToolNeeded: true,
+    type: UPDATE_GAME_MODEL_FORM_EDITOR,
+    payload: { gameModelFormEditor: {
+      ...gameModel, isDirty: true 
     }}
   });
 }
@@ -123,8 +135,6 @@ export const openCreateCanvasImageDialog= (entityModelId, textureId, textureTint
       imageType: IMAGE_TYPE_SPRITE,
       userMongoId: state.gameModel.gameModel.owner.id,
     }))
-
-    console.log('canvasImage', canvasImage)
 
     dispatch({
       updateCobrowsing: true,

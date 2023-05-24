@@ -19,7 +19,7 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, c
     // clearGameFormEditor()
   }
 
-  return <CobrowsingDialog open={true} onClose={handleClose}>
+  return <CobrowsingDialog open={true}>
     <div className="CreateBrushFlow">
       <Typography component="h2" variant="h2">Create Brush</Typography>
       <Unlockable interfaceId={ENTITY_VISUAL_TAGS_IID}><SelectVisualTags 

@@ -48,6 +48,7 @@ const SelectGameInstanceEffect = ({ onChange, removeInterfaceActions, value, eve
     return -b.group.localeCompare(a.group)
   })
 
+  console.log('SelectGameInstanceEffect disabled', disabled)
   return <SelectChipsAuto 
     disabled={disabled}
     onChange={onChange}

@@ -62,7 +62,6 @@ const StagesList = ({  openCreateStageDialog, changeCurrentStage, gameModel: { g
           ...initialStage,
           // stageId: newStageId,
           // isNew: true,
-          name: 'Stage #' + (Object.keys(stages).length + 1).toString(),
         })
         // changeCurrentStage(newStageId)
       }}>New Stage</Button>

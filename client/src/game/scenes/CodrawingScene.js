@@ -82,6 +82,10 @@ export class CodrawingScene extends Phaser.Scene {
     }
   }
 
+  isPixelPerfectModeOn = () => {
+    return true
+  }
+
   onPointerDown = (pointer, entityInstances) => {
     if(pointer.leftButtonDown()) {
       ////////////////////////////////////////////////////////////

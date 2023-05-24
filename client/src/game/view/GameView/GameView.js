@@ -20,6 +20,7 @@ import { changeErrorState, clearErrorState } from '../../../store/actions/errors
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
 import { updateTheme } from '../../../store/actions/themeActions';
 import { getGameModelSize } from '../../../utils';
+import MergedInput from 'phaser3-merged-input'
 
 const config= {
   type: Phaser.WEBGL,
@@ -48,7 +49,17 @@ const config= {
       // debugShowVelocity: true,
     }
   },
+  input: {
+		gamepad: true
+	},
   plugins: {
+    scene: [
+        {
+            key: "mergedInput",
+            plugin: MergedInput,
+            mapping: "mergedInput",
+        },
+    ],
     // global: [
     //   {
     //     key: 'WaterBodyPlugin',

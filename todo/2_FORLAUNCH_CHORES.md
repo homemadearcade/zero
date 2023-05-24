@@ -6,6 +6,17 @@ KNOWN BUGS
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
+Dont set Agora to a device if that device isn’t found this time.
+
+EXPERIENCE ROLES
+  If you switch roles the camera breaks 
+
+  When I switched participant with admin things got messed up when trying to join
+
+  ( currently you are not allowed to switch roles mid lobby )
+
+GAME HOST CHANGE
+  Changing Game host requires you to reload the game doesnt it. Because host is decided in PreloaderScene
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

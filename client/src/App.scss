@@ -8,3 +8,11 @@
 .agora_video_player {
   position: static !important;
 }
+
+.MuiButton-startIcon > *:nth-of-type(1) {
+  font-size: 1.2em !important;
+}
+   
+.MuiButton-endIcon>*:nth-of-type(1) {
+  font-size: 1.2em !important;
+}

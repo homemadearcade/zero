@@ -29,10 +29,9 @@ const EntityNameDialog = ({ closeEntityNameDialog, editGameModel, gameFormEditor
   return <CobrowsingDialog open onClose={handleClose}>
       <div className="EntityNameDialog">    
       <EntityNameForm
-        isEditingInitially
         initialName={entityModel.name}
       />
-      <Button disabled={entityModel.error} type="submit" onClick={handleSubmit}>Save</Button>
+      <Button type="submit" onClick={handleSubmit}>Save</Button>
     </div>
   </CobrowsingDialog>
 }

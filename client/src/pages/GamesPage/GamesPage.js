@@ -17,12 +17,35 @@ import Button from '../../ui/Button/Button';
 import { PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE, 
   PLAY_GAME_SCOPE_UNLISTED, PLAY_GAME_SCOPE_USER_PROFILE
  } from '../../game/constants';
+import useGamepads from '../../hooks/useGamepads';
+import Divider from '../../ui/Divider/Divider';
 
 const GamesPage = ({ getArcadeGames}) => {
   const [showRemovedGames, setShowRemovedGames] = useState()
+  
+  const [gamepads, setGamepads] = useState({});
 
+  useGamepads(gamepads => setGamepads(gamepads));
+
+  const gamepadDisplay = Object.keys(gamepads).map(gamepadId => {
+    // console.log("displaying gamepad", gamepads[gamepadId]);
+    return (
+      <div>
+        <h2>{gamepads[gamepadId].id}</h2>
+        {gamepads[gamepadId].buttons &&
+          gamepads[gamepadId].buttons.map((button, index) => (
+            <div>
+              {index}: {button.pressed ? 'True' : 'False'}
+            </div>
+          ))}
+      </div>
+    );
+  });
+  
   return (
     <Layout>
+      {gamepadDisplay}
+      <Divider/>
       <div className="GamesPage">
         <PageHeader 
           title="Games page"

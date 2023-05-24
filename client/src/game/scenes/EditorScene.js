@@ -742,7 +742,7 @@ export class EditorScene extends GameInstance {
       entityInstanceData.width = copyingEntityInstanceData.width
       entityInstanceData.height = copyingEntityInstanceData.height
     }
-    
+
     store.dispatch(editGameModel({
       stages: {
         [this.stage.stageId]: {
@@ -826,6 +826,7 @@ export class EditorScene extends GameInstance {
 
         if(objectUpdate === null && entityInstance) {
           this.removeEntityInstance(entityInstanceId)
+          this._recentlyRemovedEntityInstanceId = entityInstanceId
           return
         }
         if(!entityInstance && objectUpdate) {

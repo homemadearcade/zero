@@ -21,7 +21,13 @@ const SelectEntityModel = ({ onChange, disabled, value, interfaceId, formLabel, 
     const isDataSourceInvisible = selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][entityModel.dataSourceIID]
     const isRemovedInvisible = entityModel.isRemoved && selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][IS_DATA_REMOVED_IID]
 
-    const isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromIDs[interfaceId] || !entityModel.entityIID
+    let isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromIDs[interfaceId] || !entityModel.entityIID
+
+    if(entityModelClass) {
+      if(entityModel.entityIID !== entityModelClass) {
+        isRemoved = true
+      }
+    }
 
     if(!entityModel.entityIID) {
       console.log("entityModel.entityIID", entityModel)
@@ -37,13 +43,7 @@ const SelectEntityModel = ({ onChange, disabled, value, interfaceId, formLabel, 
     }
   }
 
-  const options = Object.keys(gameModel.entityModels).filter((entityModelId) => {
-    const entityModel = gameModel.entityModels[entityModelId]
-    // if(entityModel.isRemoved) return false
-    if(!entityModelClass) return true
-    if(entityModelClass === entityModel.entityIID) return true
-    return false
-  }).map(mapEntityToOption)
+  const options = Object.keys(gameModel.entityModels).map(mapEntityToOption)
 
   options.sort((a, b) => -b.entityIID?.localeCompare(a.entityIID))
 

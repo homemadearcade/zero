@@ -26,7 +26,7 @@ async function requireArcadeGameEditPermissions(req, res, next) {
 
 router.get('/', async (req, res) => {
   try {
-    const games = await ArcadeGame.find().sort({ createdAt: 'desc' }).select('owner createdAt isRemoved updatedAt metadata').populate('owner');
+    const games = await ArcadeGame.find().sort({ createdAt: 'desc' }).select('owner createdAt isRemoved updatedAt metadata playScope editScope').populate('owner');
 
     res.json({
       games: games.map((m) => {
@@ -135,6 +135,8 @@ router.post('/', requireJwtAuth, async (req, res) => {
       size: req.body.size, 
       owner: req.body.userMongoId,
       appLocation: req.body.appLocation,
+      playScope: req.body.playScope,
+      editScope: req.body.editScope,
       gameModelId: GAME_MODEL_DID + generateUniqueId()
     });
 
@@ -256,7 +258,6 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermi
     const { error } = validateArcadeGame(updatedGame);
     if (error) return res.status(400).json({ message: error.details[0].message });
   
-    console.log(req.body.gameUpdate)
     const update = { 
       metadata: updatedGame.metadata, 
       theme: updatedGame.theme, 
@@ -278,6 +279,8 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermi
       layers: updatedGame.layers,
       version: updatedGame.version,
       appLocation: updatedGame.appLocation,
+      playScope: updatedGame.playScope,
+      editScope: updatedGame.editScope,
       // user: tempGame.owner ? tempGame.owner.id : Math.random()
     }
 

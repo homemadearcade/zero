@@ -55,6 +55,12 @@ export class GameClientScene extends EditorScene {
       }
       const entityInstance = this.getEntityInstance(entityInstanceId)
       if(!entityInstance) {
+
+        //bug fix: if we just removed this entity, don't add it back. This happens often
+        if(entityInstanceId === this._recentlyRemovedEntityInstanceId) {
+          console.info('successfully prevented adding back entity instance that was just removed')
+          return 
+        }
         const modifiedEntityData = { spawnX: instanceUpdate.x, spawnY: instanceUpdate.y, entityModelId: instanceUpdate.entityModelId }
         this.addEntityInstance(entityInstanceId, modifiedEntityData, true)
         return

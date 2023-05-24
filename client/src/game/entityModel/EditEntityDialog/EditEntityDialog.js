@@ -33,6 +33,7 @@ import Divider from '../../../ui/Divider/Divider';
 import EntityModelRelations from '../EntityModelRelations/EntityModelRelations';
 import EntityModelRelationTags from '../EntityModelRelationTags/EntityModelRelationTags';
 import EntityModelCutscenes from '../EntityModelCutscenes/EntityModelCutscenes';
+import NameForm from '../../ui/NameForm/NameForm';
 
 const EditEntityDialog = ({ 
   openEditEntityGraphics, 
@@ -46,6 +47,9 @@ const EditEntityDialog = ({
 
   function handleClose() {
     closeEditEntityDialog()
+    if(entityModel.isDirty) {
+      handleSubmit()
+    }
   }
 
   useEffect(() => {
@@ -69,7 +73,6 @@ const EditEntityDialog = ({
         }
       }
     })
-    handleClose()
   }
 
   function renderSelectInterfaceId() {
@@ -114,11 +117,7 @@ const EditEntityDialog = ({
         <div className="EditEntityDialog__primary-options">
           <div className="EditEntityDialog__name"><Typography variant="h5">
             {entityModel.isNew && 'New ' + entityModelClassToDisplayName[entityModel.entityIID]}
-            {!entityModel.isNew && <div>
-              <EntityNameForm
-                initialName={entityModel.name}
-              />
-            </div>}
+            {!entityModel.isNew && <EntityNameForm/>}
             </Typography>
           </div>
           {renderSelectInterfaceId()}
@@ -140,7 +139,6 @@ const EditEntityDialog = ({
           }}/>
         </Unlockable>
       </div>
-      <Button disabled={entityModel.error} type="submit" onClick={handleSubmit}>Save</Button>
     </>
   }
 
@@ -196,7 +194,6 @@ const EditEntityDialog = ({
     label: 'Autogeneration',
     body: <>
       {renderSpawnZoneGeneration('Generate spawn effect for zones:')}
-      <Button disabled={entityModel.error} type="submit" onClick={handleSubmit}>Save</Button>
     </>
   }
 

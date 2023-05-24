@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { compose } from 'redux';
@@ -260,6 +260,16 @@ const themeDefaults = {
         text: {
           fontSize: '.875em'
         },
+        // startIcon: {
+        //   fontSize: '.0875em !important'
+        // },
+        // endIcon: {
+        //   fontSize: '.0875em !important'
+        // },
+        
+        outlined: {
+          fontSize: '.875em'
+        },
         root: ({ ownerState, theme }) => ({
           ...(ownerState.size === 'wide' && {
             width: '100%',
@@ -338,6 +348,27 @@ const App = ({ theme: { primaryColor } }) => {
       </AppPage>
     } return <Component {...props}/>
   }
+
+  // useEffect(() => {
+  //   let gamepadIndex;
+  //   window.addEventListener('gamepadconnected', (event) => {
+  //     gamepadIndex = event.gamepad.index;
+  //   });
+
+  //   setInterval(() => {
+  //     if(gamepadIndex !== undefined) {
+  //       // a gamepad is connected and has an index
+  //       const myGamepad = navigator.getGamepads()[gamepadIndex];
+  //       document.body.innerHTML = ""; // reset page
+  //       myGamepad.buttons.map(e => e.pressed).forEach((isPressed, buttonIndex) => {
+  //         if(isPressed) {
+  //           console.log(`Button ${buttonIndex} is pressed`)
+  //           // button is pressed; indicate this on the page
+  //         }
+  //       })
+  //     }
+  //   }, 100) // print buttons that are pressed 10 times per second
+  // }, [])
 
   return (
     <ThemeProvider theme={theme}>

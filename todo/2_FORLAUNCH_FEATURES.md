@@ -6,8 +6,6 @@ ENTITY INSTANCE UPGRADE
 
 DALL E GENERATOR
 
-PUSH UI STATE ( Envelope Icon )
-
 Wiggle An Object Or highlight When its hovered over - WHY NOT!
 Highlight on the map
 https://www.react-spring.dev/examples wiggle when you import class, when class is added, etc

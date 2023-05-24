@@ -44,7 +44,7 @@ const CreateEventDialog = ({ closeCreateEvent, editGameModel, updateCreateEvent,
             })
             handleClose()
           }}>
-            Save
+            {event.isNew ? 'Create' : 'Save'}
           </Button>
           <Button onClick={handleClose}>
             Cancel
@@ -52,15 +52,17 @@ const CreateEventDialog = ({ closeCreateEvent, editGameModel, updateCreateEvent,
           {!event.isNew && <Button onClick={() => {
             editGameModel({
               events: {
-                [event.eventId]: null
+                [event.eventId]:{
+                  isRemoved: true,
+                }
               }
             })
             handleClose()
-          }}>Delete</Button>}
+          }}>Remove</Button>}
       </div>
   }
   
-  return <CobrowsingDialog open={true} onClose={handleClose}>
+  return <CobrowsingDialog open={true}>
         <CreateEvent/>
         {renderButtons()}
     </CobrowsingDialog>

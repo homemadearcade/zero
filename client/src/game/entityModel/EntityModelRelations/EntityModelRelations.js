@@ -60,7 +60,6 @@ const EntityModelRelations = ({
           <Divider/>
         </div>
       })}
-
     </div>
 
     return {
@@ -70,7 +69,7 @@ const EntityModelRelations = ({
     }
   }
   
-    const entityModelRelationTag = gameModel.relationTags[entityModel.entityModelId]
+  const entityModelRelationTag = gameModel.relationTags[entityModel.entityModelId]
 
   return <div className="EntityModelRelations">
     <Divider>

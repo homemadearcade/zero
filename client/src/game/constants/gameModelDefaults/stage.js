@@ -30,7 +30,7 @@ export const defaultStage = {
   name: '',
   color: '#000000',
   "playerEntityModelId": null,
-  'playerSpawnZoneEntityId': null,
+  'playerSpawnZoneEntityId': initialPlayerSpawnZoneEntityId,
   "imageUrl": "",
   stageId: null,
   entityInstances: {

@@ -17,7 +17,6 @@ const GameSizeEditor = ({ editGameModel, gameModel: { gameModel }, onSubmit }) =
   });
 
   const submit = async (data) => {
-    console.log(data)
     editGameModel({
       size: data.size,
     })

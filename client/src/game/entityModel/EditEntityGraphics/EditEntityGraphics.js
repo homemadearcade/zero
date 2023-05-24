@@ -8,10 +8,8 @@ import SelectVisualTags from '../../ui/SelectVisualTags/SelectVisualTags';
 import { clearGameFormEditor, closeEditEntityGraphics, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
 import CreateTexture from '../../textures/CreateTexture/CreateTexture';
 import Button from '../../../ui/Button/Button';
-import Typography from '../../../ui/Typography/Typography';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { getEntityDisplayName } from '../../../utils/gameUtils';
-import EntityMemberTitle from '../EntityMemberTitle/EntityMemberTitle';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { entityModelClassToDisplayName } from '../../constants';
 import Switch from '../../../ui/Switch/Switch';
@@ -28,25 +26,27 @@ const EditEntityGraphics = ({
   updateCreateEntity,
   closeEditEntityGraphics,
   gameFormEditor: { entityModel },
+  gameModel: { gameModel },
 }) => {
   function handleClose() {
     closeEditEntityGraphics()
     clearGameFormEditor()
   }
-  
+
+  const defaultEntityModelName = `New ${entityModelClassToDisplayName[entityModel.entityIID]} #${Object.keys(gameModel.entityModels).length + 1}`
   useEffect(() => {
     if(!entityModel.entityModelId) {
-      updateCreateEntity({ entityModelId: ENTITY_MODEL_DID+entityModelClassToPrefix[entityModel.entityIID]+generateUniqueId(), isNew: true })
+      updateCreateEntity({ 
+        entityModelId: ENTITY_MODEL_DID+entityModelClassToPrefix[entityModel.entityIID]+generateUniqueId(), 
+        isNew: true,
+        name: defaultEntityModelName,
+       })
     }
   }, [])
 
-  return <CobrowsingDialog open={true} onClose={() => {
-    // onComplete(entityModel)
-    handleClose()
-  }}>
+  return <CobrowsingDialog open={true}>
     <div className="EditEntityGraphics">
-      {entityModel.isNew === true && <Typography component="h2" variant="h2">New {entityModelClassToDisplayName[entityModel.entityIID]}</Typography>}
-      {entityModel.isNew === false && <EntityMemberTitle entityModelId={entityModel.entityModelId} title="Sprite"></EntityMemberTitle>}
+      <EntityNameForm initialName={entityModel.name || defaultEntityModelName} />
       <Unlockable interfaceId={ENTITY_INVISIBLE_IID}>
         <Switch
           labels={['Visible', 'Invisible']}
@@ -65,7 +65,7 @@ const EditEntityGraphics = ({
             let newName = entityModel.name || ''
             const nameFromDesc = getEntityDisplayName(visualTags)
 
-            if(!newName && nameFromDesc) {
+            if((!newName || newName === defaultEntityModelName) && nameFromDesc) {
               newName = nameFromDesc
             }
             
@@ -118,15 +118,13 @@ const EditEntityGraphics = ({
           }})
         }}/>
       </Unlockable>}
-      {entityModel.isNew && <EntityNameForm isEditingInitially></EntityNameForm>}
       <Button
-        disabled={!!entityModel.error || !entityModel.name.length}
         onClick={() => {
           onComplete(entityModel)
           handleClose()
         }}
       >
-        Save
+        {entityModel.isNew ? 'Create' : 'Save'}
       </Button>
       <Button onClick={handleClose}>
         Cancel
@@ -137,6 +135,7 @@ const EditEntityGraphics = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
+  gameModel: state.gameModel,
 })
 
 export default compose(

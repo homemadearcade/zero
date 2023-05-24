@@ -225,6 +225,7 @@ const CreateRelation = ({
     }
 
     if(!noRemoteEffectedTagEffects[effect.effectBehavior] && !effect.remoteEffectedRelationTagIds?.length) {
+      
       forms.push(<Unlockable interfaceId={EFFECT_REMOTE_IID}>
         <SelectRelationTag
           interfaceId={EFFECT_REMOTE_IID}
@@ -331,7 +332,7 @@ const CreateRelation = ({
           })
           handleClose()
         }}>
-          Save
+          {relation.isNew ? 'Create' : 'Save'}
         </Button>
         <Button onClick={handleClose}>
           Cancel
@@ -347,7 +348,7 @@ const CreateRelation = ({
       </div>
   }
 
-  return <CobrowsingDialog open={true} onClose={handleClose}>
+  return <CobrowsingDialog open={true}>
     <div className="CreateRelation">
       <Typography variant="h4">{'Relationship'}</Typography>
       <CreateEvent/>
