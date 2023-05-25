@@ -392,6 +392,7 @@ export class GameInstance extends Phaser.Scene {
     this.temporaryInstances.push(temporaryInstance)
     this.temporaryInstancesById[entityInstanceId] = temporaryInstance
     this.registerRelations([temporaryInstance])
+    this.addInstancesToEntityInstanceByTag([temporaryInstance])
     return temporaryInstance
   }
 
@@ -416,16 +417,7 @@ export class GameInstance extends Phaser.Scene {
 
     // this is written the way it is because spawning causes issues when you rereregister ALL of the relations
     this.registerRelations([instance])
-    const entityModel = this.getGameModel().entityModels[instance.entityModelId]
-    Object.keys(entityModel.relationTags).forEach((relationTagId) => {
-      if(this.entityInstancesByTag[relationTagId]) {
-        if(!this.entityInstancesByTag[relationTagId].includes(instance)) {
-          this.entityInstancesByTag[relationTagId].push(instance)
-        }
-      } else {
-        this.entityInstancesByTag[relationTagId] = [instance]
-      }
-    })
+    this.addInstancesToEntityInstanceByTag([instance])
     return instance
   }
 
@@ -467,6 +459,21 @@ export class GameInstance extends Phaser.Scene {
     this.entityInstancesById = {}
     this.entityInstancesByTag = {}
 }
+
+addInstancesToEntityInstanceByTag(instances) {
+  instances.forEach((instance) => {
+    const entityModel = this.getGameModel().entityModels[instance.entityModelId]
+    Object.keys(entityModel.relationTags).forEach((relationTagId) => {
+      if(this.entityInstancesByTag[relationTagId]) {
+        if(!this.entityInstancesByTag[relationTagId].includes(instance)) {
+          this.entityInstancesByTag[relationTagId].push(instance)
+        }
+      } else {
+        this.entityInstancesByTag[relationTagId] = [instance]
+      }
+      })
+    })
+  }
 
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------

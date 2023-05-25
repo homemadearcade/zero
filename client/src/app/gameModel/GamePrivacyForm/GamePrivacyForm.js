@@ -26,7 +26,7 @@ const GamePrivacyForm = ({
     }
   }, [])
 
-  if(!gameModelFormEditor.playScope) return
+  if(!gameModelFormEditor) return
 
   return <>
     <SelectPlayScope formLabel="Who can play this game?" onChange={(value) => {

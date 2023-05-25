@@ -83,7 +83,7 @@ export class CodrawingScene extends Phaser.Scene {
   }
 
   isPixelPerfectModeOn = () => {
-    return true
+    return false
   }
 
   onPointerDown = (pointer, entityInstances) => {

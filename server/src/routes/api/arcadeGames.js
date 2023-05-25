@@ -255,8 +255,6 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermi
       }
     });
 
-    console.log('updatedGame', updatedGame, updatedGame.playScope || 'PLAY_GAME_SCOPE_UNLISTED')
-
     const { error } = validateArcadeGame(updatedGame);
     if (error) return res.status(400).json({ message: error.details[0].message });
   
