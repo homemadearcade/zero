@@ -137,7 +137,7 @@ export class PlayerInstance extends EntityInstance {
     // console.log('merged input buttons_mapped', this.mergedInput.direction)
     // console.log('merged input', this.mergedInput.direction_secondary)
 
-    console.log('merged input', this.mergedInput.interaction.lastPressed)
+    // console.log('merged input', this.mergedInput.interaction.lastPressed)
 
     const gameState = store.getState().gameRoomInstance.gameRoomInstance.gameState
     const playerInterface = getCobrowsingState().playerInterface
