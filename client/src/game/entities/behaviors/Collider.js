@@ -229,7 +229,9 @@ export class Collider {
     relations?.forEach((relation) => {
       const {event, sidesA, sidesB} = relation
       const releventInstances = entityInstancesByTag[event.relationTagIdB]
+
       if(!releventInstances || !releventInstances.length) return
+
       const releventSprites = releventInstances.map(({phaserInstance}) => phaserInstance)
       this.overlaps.push(
         this.scene.physics.add.overlap(this.sensor.phaserInstance, releventSprites, (phaserInstanceA, phaserInstanceB) => {

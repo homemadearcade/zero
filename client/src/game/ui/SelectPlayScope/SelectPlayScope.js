@@ -27,7 +27,7 @@ const SelectPlayScope = ({ onChange, value, formLabel, auth: { me } }) => {
       onChange(playScopes[playScopes.length - 1])
     }}
     formLabel={formLabel}
-    value={[value]}
+    value={value ? [value] : []}
     hideRemoved
     options={options}
   />

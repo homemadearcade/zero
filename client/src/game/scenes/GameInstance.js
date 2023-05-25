@@ -172,35 +172,57 @@ export class GameInstance extends Phaser.Scene {
     this.registerRelations()
   }
 
-  registerRelations(entityInstances) {
-    if(!entityInstances) entityInstances = this.entityInstances
-    const entityInstancesByTag = this.sortInstancesIntoTags(entityInstances)
+  registerRelations(newEntityInstances) {
+    if(!newEntityInstances) newEntityInstances = this.entityInstances
+    const newEntityInstancesByTag = this.sortInstancesIntoTags(newEntityInstances)
     
+    // we cant reregister all relations, because a lot of them are already registered
+    // but we can register 
+    // 1) the relations that the new entity isntances are mentioned in
+    // 2) the relation that the new entity instance has ON ALL CURRENT INSTANCES
+            // because THOSE relations have DEFINITELY NOT been registered yet. Cuz the instnace just showed up
+
     /// RELATIONS
-    this.playerInstance.registerRelations(entityInstancesByTag)
+    this.playerInstance.registerRelations(newEntityInstancesByTag)
 
     this.entityInstances.forEach((instance) => {
-      instance.registerRelations(entityInstancesByTag)
+      if(newEntityInstances.includes(instance)) {
+        instance.registerRelations(this.entityInstancesByTag)
+      } else {
+        instance.registerRelations(newEntityInstancesByTag)
+      }
     })
 
     this.temporaryInstances.forEach((instance) => {
-      instance.registerRelations(entityInstancesByTag)
+      if(newEntityInstances.includes(instance)) {
+        instance.registerRelations(this.entityInstancesByTag)
+      } else {
+        instance.registerRelations(newEntityInstancesByTag)
+      }
     })
 
     /// COLLIDERS
-    this.playerInstance.registerColliders(entityInstancesByTag)
+    this.playerInstance.registerColliders(newEntityInstancesByTag)
 
     this.entityInstances.forEach((instance) => {
-      instance.registerColliders(entityInstancesByTag)
+      if(newEntityInstances.includes(instance)) {
+        instance.registerRelations(this.entityInstancesByTag)
+      } else {
+        instance.registerColliders(newEntityInstancesByTag)
+      }
     })
 
     this.temporaryInstances.forEach((instance) => {
-      instance.registerColliders(entityInstancesByTag)
+      if(newEntityInstances.includes(instance)) {
+        instance.registerRelations(this.entityInstancesByTag)
+      } else {
+        instance.registerColliders(newEntityInstancesByTag)
+      }
     })
 
     // all phaserInstances on playground layer collide with the player
     const gameModel = this.getGameModel()
-    const releventInstances = entityInstances.filter((entityInstance) => {
+    const releventInstances = newEntityInstances.filter((entityInstance) => {
       const entityModel = gameModel.entityModels[entityInstance.entityModelId]
       const layerGroupIID = entityModel.graphics.layerGroupIID
       return layerGroupIID === PLAYGROUND_LAYER_GROUP_IID
@@ -215,7 +237,7 @@ export class GameInstance extends Phaser.Scene {
 
     Object.keys(this.layerInstancesById).forEach((layerId) => {
       const layerInstance = this.layerInstancesById[layerId]
-      if(layerInstance.isCollisionCanvas) layerInstance.registerColliders(entityInstances)
+      if(layerInstance.isCollisionCanvas) layerInstance.registerColliders(newEntityInstances)
     })
   }
 
@@ -391,8 +413,9 @@ export class GameInstance extends Phaser.Scene {
     const temporaryInstance = new ProjectileInstance(this, entityInstanceId, { entityModelId })
     this.temporaryInstances.push(temporaryInstance)
     this.temporaryInstancesById[entityInstanceId] = temporaryInstance
-    this.registerRelations([temporaryInstance])
+    
     this.addInstancesToEntityInstanceByTag([temporaryInstance])
+    this.registerRelations([temporaryInstance])
     return temporaryInstance
   }
 
@@ -415,9 +438,9 @@ export class GameInstance extends Phaser.Scene {
   addEntityInstance(entityInstanceId, entityInstanceData, effectSpawned) {
     const instance = this.initializeEntityInstance(entityInstanceId, entityInstanceData, effectSpawned)
 
+    this.addInstancesToEntityInstanceByTag([instance])
     // this is written the way it is because spawning causes issues when you rereregister ALL of the relations
     this.registerRelations([instance])
-    this.addInstancesToEntityInstanceByTag([instance])
     return instance
   }
 
@@ -462,18 +485,18 @@ export class GameInstance extends Phaser.Scene {
 
 addInstancesToEntityInstanceByTag(instances) {
   instances.forEach((instance) => {
-    const entityModel = this.getGameModel().entityModels[instance.entityModelId]
-    Object.keys(entityModel.relationTags).forEach((relationTagId) => {
-      if(this.entityInstancesByTag[relationTagId]) {
-        if(!this.entityInstancesByTag[relationTagId].includes(instance)) {
-          this.entityInstancesByTag[relationTagId].push(instance)
-        }
-      } else {
-        this.entityInstancesByTag[relationTagId] = [instance]
+  const entityModel = this.getGameModel().entityModels[instance.entityModelId]
+  Object.keys(entityModel.relationTags).forEach((relationTagId) => {
+    if(this.entityInstancesByTag[relationTagId]) {
+      if(!this.entityInstancesByTag[relationTagId].includes(instance)) {
+        this.entityInstancesByTag[relationTagId].push(instance)
       }
-      })
+    } else {
+      this.entityInstancesByTag[relationTagId] = [instance]
+    }
     })
-  }
+  })
+}
 
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
@@ -495,7 +518,7 @@ addInstancesToEntityInstanceByTag(instances) {
       return this.playerInstance
     }
     
-    return this.entityInstancesById[entityInstanceId]
+    return this.entityInstancesById[entityInstanceId] || this.temporaryInstancesById[entityInstanceId]
   }
 
   getAllEntityInstancesOfEntityId(entityModelId) {
