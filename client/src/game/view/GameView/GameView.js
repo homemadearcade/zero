@@ -54,11 +54,11 @@ const config= {
 	},
   plugins: {
     scene: [
-        {
-            key: "mergedInput",
-            plugin: MergedInput,
-            mapping: "mergedInput",
-        },
+        // {
+        //     key: "mergedInput",
+        //     plugin: MergedInput,
+        //     mapping: "mergedInput",
+        // },
     ],
     // global: [
     //   {

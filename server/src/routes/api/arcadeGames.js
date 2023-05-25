@@ -255,10 +255,11 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermi
       }
     });
 
+    console.log('updatedGame', updatedGame, updatedGame.playScope || 'PLAY_GAME_SCOPE_UNLISTED')
+
     const { error } = validateArcadeGame(updatedGame);
     if (error) return res.status(400).json({ message: error.details[0].message });
   
-    console.log('updatedGame', updatedGame, updatedGame.playScope || 'PLAY_GAME_SCOPE_UNLISTED')
     const update = { 
       metadata: updatedGame.metadata, 
       theme: updatedGame.theme, 
@@ -280,8 +281,8 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermi
       layers: updatedGame.layers,
       version: updatedGame.version,
       appLocation: updatedGame.appLocation,
-      playScope: updatedGame.playScope || 'PLAY_GAME_SCOPE_UNLISTED',
-      editScope: updatedGame.editScope || 'EDIT_GAME_SCOPE_ONLY_ME',
+      playScope: updatedGame.playScope,
+      editScope: updatedGame.editScope,
       // user: tempGame.owner ? tempGame.owner.id : Math.random()
     }
 

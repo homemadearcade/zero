@@ -85,41 +85,41 @@ export class PlayerInstance extends EntityInstance {
   }
 
   registerKeys() {
-    this.mergedInput = this.scene.mergedInput.addPlayer(0)
+    // this.mergedInput = this.scene.mergedInput.addPlayer(0)
 
     this.scene.input.gamepad.on('down', (pad, button, value) =>{
       console.log('gamepad down', pad, button, value)         
     });
 
-    this.scene.mergedInput
-      .defineKey(0, 'UP', 'UP')
-      .defineKey(0, 'DOWN', 'DOWN')
-      .defineKey(0, 'LEFT', 'LEFT')
-      .defineKey(0, 'RIGHT', 'RIGHT')
+    // this.scene.mergedInput
+    //   .defineKey(0, 'UP', 'UP')
+    //   .defineKey(0, 'DOWN', 'DOWN')
+    //   .defineKey(0, 'LEFT', 'LEFT')
+    //   .defineKey(0, 'RIGHT', 'RIGHT')
 
-      // We can define keys using friendly names - These map to button numbers behind the scenes, and attempt to do so for different types of gamepad
-      .defineKey(0, 'RC_S', 'ONE')
-      .defineKey(0, 'RC_E', 'TWO')
-      .defineKey(0, 'RC_W', 'THREE')
-      .defineKey(0, 'RC_N', 'FOUR')
-      .defineKey(0, 'LB', 'FIVE')
-      .defineKey(0, 'RB', 'SIX')
-      .defineKey(0, 'LT', 'SEVEN')
-      .defineKey(0, 'RT', 'EIGHT')
-      .defineKey(0, 'START', 'NINE')
-      .defineKey(0, 'SELECT', 'ZERO')
-      // Or we can use the button numbers from our gamepad
-      .defineKey(0, 'B0', 'NUMPAD_ONE')
-      .defineKey(0, 'B1', 'NUMPAD_TWO')
-      .defineKey(0, 'B2', 'NUMPAD_THREE')
-      .defineKey(0, 'B3', 'NUMPAD_FOUR')
-      .defineKey(0, 'B4', 'NUMPAD_FIVE')
-      .defineKey(0, 'B5', 'NUMPAD_SIX')
-      .defineKey(0, 'B6', 'NUMPAD_SEVEN')
-      .defineKey(0, 'B7', 'NUMPAD_EIGHT')
-      .defineKey(0, 'B8', 'NUMPAD_NINE')
-      .defineKey(0, 'B9', 'NUMPAD_ZERO')
-      .defineKey(0, 'B12', 'ESC') // Debug key
+    //   // We can define keys using friendly names - These map to button numbers behind the scenes, and attempt to do so for different types of gamepad
+    //   .defineKey(0, 'RC_S', 'ONE')
+    //   .defineKey(0, 'RC_E', 'TWO')
+    //   .defineKey(0, 'RC_W', 'THREE')
+    //   .defineKey(0, 'RC_N', 'FOUR')
+    //   .defineKey(0, 'LB', 'FIVE')
+    //   .defineKey(0, 'RB', 'SIX')
+    //   .defineKey(0, 'LT', 'SEVEN')
+    //   .defineKey(0, 'RT', 'EIGHT')
+    //   .defineKey(0, 'START', 'NINE')
+    //   .defineKey(0, 'SELECT', 'ZERO')
+    //   // Or we can use the button numbers from our gamepad
+    //   .defineKey(0, 'B0', 'NUMPAD_ONE')
+    //   .defineKey(0, 'B1', 'NUMPAD_TWO')
+    //   .defineKey(0, 'B2', 'NUMPAD_THREE')
+    //   .defineKey(0, 'B3', 'NUMPAD_FOUR')
+    //   .defineKey(0, 'B4', 'NUMPAD_FIVE')
+    //   .defineKey(0, 'B5', 'NUMPAD_SIX')
+    //   .defineKey(0, 'B6', 'NUMPAD_SEVEN')
+    //   .defineKey(0, 'B7', 'NUMPAD_EIGHT')
+    //   .defineKey(0, 'B8', 'NUMPAD_NINE')
+    //   .defineKey(0, 'B9', 'NUMPAD_ZERO')
+    //   .defineKey(0, 'B12', 'ESC') // Debug key
     this.cursors = this.scene.input.keyboard.createCursorKeys();
     this.xKey = this.scene.input.keyboard.addKey('X');  // Get key object
   }

@@ -154,8 +154,8 @@ export const validateArcadeGame = (game) => {
     isRemoved: Joi.bool(),
     relationTags: Joi.object(),
     version: Joi.string(),
-    playScope: Joi.string(),
-    editScope: Joi.string(),
+    // playScope: Joi.string(),
+    // editScope: Joi.string(),
   };
   return Joi.validate(game, schema, { allowUnknown: true });
 };
