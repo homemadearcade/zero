@@ -173,6 +173,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       value={event.eventType ? [event.eventType] : []}
       onChange={(event, eventTypes) => {
         const eventType = eventTypes[eventTypes.length-1]
+        if(!eventType) return
         const { relationTagSelectType } = eventTypeInterfaces[eventType]
         if(relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT_IID || relationTagSelectType === PLAYER_RELATION_TAG_EVENT_IID) {
           updateCreateEvent({

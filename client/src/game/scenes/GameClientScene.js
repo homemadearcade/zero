@@ -58,10 +58,16 @@ export class GameClientScene extends EditorScene {
 
         //bug fix: if we just removed this entity, don't add it back. This happens often
         if(entityInstanceId === this._recentlyRemovedEntityInstanceId) {
+          // its possible this is where IC an check like... ok is it part of the game model or not?? 
+          // if its not part of the game model then it can be created from this. Buuuut if its not - its spawned!
           console.info('successfully prevented adding back entity instance that was just removed')
           return 
         }
-        const modifiedEntityData = { spawnX: instanceUpdate.x, spawnY: instanceUpdate.y, entityModelId: instanceUpdate.entityModelId }
+        const modifiedEntityData = { 
+          spawnX: instanceUpdate.x, 
+          spawnY: instanceUpdate.y, 
+          entityModelId: instanceUpdate.entityModelId
+        }
         this.addEntityInstance(entityInstanceId, modifiedEntityData, true)
         return
       };

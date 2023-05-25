@@ -993,6 +993,7 @@ export class EditorScene extends GameInstance {
             }
             const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
             this.removeEntityInstance(entityInstance.entityInstanceId)
+            console.log('entityInstanceData', entityInstanceData)
             this.addEntityInstance(entityInstance.entityInstanceId, entityInstanceData)
           })
         // })
@@ -1270,6 +1271,7 @@ export class EditorScene extends GameInstance {
       if(this.gameRoomInstance.isHost) {
         this.editorCamera.startFollow(this.playerInstance.phaserInstance, false, 0.4, 0.4)
       } else {
+        console.log('updating editor camera controls')
         this.editorCameraControls.update(delta)
       }
 

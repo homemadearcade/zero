@@ -5,7 +5,7 @@ import {
   MATTER_PHYSICS,
   ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START, 
   SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN,
-  EFFECT_INVISIBLE, EFFECT_IGNORE_GRAVITY, EFFECT_GRAVITY_PULL, EFFECT_GRAVITY_PUSH, EFFECT_CLIMBABLE, 
+  EFFECT_INVISIBLE, EFFECT_IGNORE_GRAVITY, EFFECT_GRAVITY_PULL, EFFECT_GRAVITY_PUSH, EFFECT_ALLOW_CLIMB, 
 } from "../../constants";
 import { areBSidesHit, isEventMatch } from "../../../utils/gameUtils";
 import store from "../../../store";
@@ -143,7 +143,7 @@ export class Collider {
         phaserInstance.ignoreGravityOverride = true
       }
 
-      if(effect.effectBehavior === EFFECT_CLIMBABLE) {
+      if(effect.effectBehavior === EFFECT_ALLOW_CLIMB) {
         phaserInstance.upKeyClimbOverride = true
       }
 

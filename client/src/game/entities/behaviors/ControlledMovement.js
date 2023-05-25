@@ -19,9 +19,9 @@ export class ControlledMovement {
     const mod = (1/(delta * 5))
     const speed = entityModel.movement.speed * 100 * mod
 
-    if(phaserInstance.upKeyClimbOverride) {
+    if(phaserInstance.upKeyClimbOverride && this.cursors.up.isDown) {
       // a bit of a hack...
-      this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y - (speed/2))
+      this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y - (1000 * mod))
       this.cursors.up.isDown = false
     }
 

@@ -12,6 +12,8 @@ EXPERIENCE IMAGES
 EFFECTS 
   Remove Tag, Add Tag Effect
 
+CIRCLE COLLIDERS
+
 TREASURE CHEST UNLOCKS
 
 Toolbar dialog different actions, ( run action in the toolbar )

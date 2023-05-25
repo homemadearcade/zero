@@ -207,7 +207,7 @@ export class GameInstance extends Phaser.Scene {
 
     this.entityInstances.forEach((instance) => {
       if(newEntityInstances.includes(instance)) {
-        instance.registerRelations(this.entityInstancesByTag)
+        instance.registerColliders(this.entityInstancesByTag)
       } else {
         instance.registerColliders(newEntityInstancesByTag)
       }
@@ -215,7 +215,7 @@ export class GameInstance extends Phaser.Scene {
 
     this.temporaryInstances.forEach((instance) => {
       if(newEntityInstances.includes(instance)) {
-        instance.registerRelations(this.entityInstancesByTag)
+        instance.registerColliders(this.entityInstancesByTag)
       } else {
         instance.registerColliders(newEntityInstancesByTag)
       }

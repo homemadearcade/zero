@@ -60,3 +60,9 @@ I think that Errors should just simualte a refresh of almost essnetially the ent
 
 If theres a problem with cobrowsing connection there could easily be a problem with lobby, game instance, etc. 
 
+
+----
+
+POSSIBLE fix to space bar issues. Is that you can can blur the focus on to the accordian after a set timeout of the expanded variable being changed
+
+--

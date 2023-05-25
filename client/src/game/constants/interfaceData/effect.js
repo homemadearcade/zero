@@ -1,7 +1,7 @@
 import { interfaceIdData } from "../../../constants/interfaceIdData";
 import { NO_RELATION_TAG_EFFECT_IID, SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID } from "../../../constants/interfaceIds";
 import store from "../../../store"
-import { EFFECT_CAMERA_SHAKE, EFFECT_CLIMBABLE, EFFECT_CLOSE_TRANSITION, EFFECT_CUTSCENE, EFFECT_DESTROY,
+import { EFFECT_CAMERA_SHAKE, EFFECT_ALLOW_CLIMB, EFFECT_CLOSE_TRANSITION, EFFECT_CUTSCENE, EFFECT_DESTROY,
     EFFECT_END_GAME, EFFECT_GRAVITY_PULL, EFFECT_GRAVITY_PUSH, EFFECT_IGNORE_GRAVITY, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EFFECT_INVISIBLE, EFFECT_OPEN_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_SPAWN, 
   EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_TRANSFORM_TEMPORARY_END, EFFECT_TRANSFORM_TEMPORARY_START, EFFECT_UNPAUSE_GAME, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_STEP_BEGINS, ON_TOUCH_ACTIVE,
  ON_TOUCH_START,
@@ -37,8 +37,8 @@ export const effectInterfaceDatas = {
     displayName: 'Gravity Push',
     icon: 'faUpLong'
   },
-  [EFFECT_CLIMBABLE]: {
-    displayName: 'Climbable',
+  [EFFECT_ALLOW_CLIMB]: {
+    displayName: 'Allow Climb',
     icon: 'faWaterLadder'
   },
 
@@ -152,7 +152,7 @@ export const effectEditInterfaces = {
     autogenerateEffect: true,
     autogenerateRelationForEvents: [ON_TOUCH_ACTIVE]
   },
-  [EFFECT_CLIMBABLE]: {
+  [EFFECT_ALLOW_CLIMB]: {
     targetableType: SINGLE_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
     autogenerateRelationForEvents: [ON_TOUCH_ACTIVE]
@@ -260,7 +260,7 @@ export const touchActiveEffects  = {
   [EFFECT_STICK_TO]: true,
   [EFFECT_GRAVITY_PULL]: true,
   [EFFECT_GRAVITY_PUSH]: true,
-  [EFFECT_CLIMBABLE]: true,
+  [EFFECT_ALLOW_CLIMB]: true,
   
 
   // Lifecycle
@@ -297,7 +297,7 @@ export const noRemoteEffectedTagEffects = {
   [EFFECT_STICK_TO]: true,
   [EFFECT_GRAVITY_PULL]: true,
   [EFFECT_GRAVITY_PUSH]: true,
-  [EFFECT_CLIMBABLE]: true,
+  [EFFECT_ALLOW_CLIMB]: true,
 
   // Lifecycle
   [EFFECT_TRANSFORM]: false,
@@ -333,7 +333,7 @@ export const nonStepEffectBehaviors = {
   [EFFECT_STICK_TO]: true,
   [EFFECT_GRAVITY_PULL]: true,
   [EFFECT_GRAVITY_PUSH]: true,
-  [EFFECT_CLIMBABLE]: true,
+  [EFFECT_ALLOW_CLIMB]: true,
 
   // Lifecycle
   [EFFECT_TRANSFORM]: false,
