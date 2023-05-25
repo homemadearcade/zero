@@ -26,6 +26,8 @@ import CanvasImageView from '../CanvasImageView/CanvasImageView';
 import SelectVisualTags from '../../ui/SelectVisualTags/SelectVisualTags';
 import { editCanvasImage } from '../../../store/actions/media/canvasImageActions';
 import { onCanvasImageDialogUndo } from '../../../store/actions/game/gameRoomInstanceActions';
+import ButtonMenu from '../../../ui/ButtonMenu/ButtonMenu';
+import { MenuItem } from '@mui/material';
 
 const CanvasImageDialog = ({
   clearBrush,
@@ -102,26 +104,39 @@ const CanvasImageDialog = ({
           formLabel="Descriptors"
           value={canvasImage.visualTags}
         /></Unlockable> 
-        <Button onClick={() => {
-            const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
-            // imageCanvasScene.backgroundCanvasLayer.setOrigin(0.5, 0.5)
-            imageCanvasScene.backgroundCanvasLayer.rotate()
-          }}>
-            Rotate
-        </Button>
-        <Button onClick={() => {
-            const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
-            imageCanvasScene.backgroundCanvasLayer.flipHorizontal()
-            // imageCanvasScene.backgroundCanvasLayer = imageCanvasScene.backgroundCanvasLayer.clone()
-          }}>
-            Flip ⇆
-        </Button>
-        <Button onClick={() => {
-            const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
-            imageCanvasScene.backgroundCanvasLayer.flipVertical()
-          }}>
-            Flip ⇵
-        </Button>
+        <ButtonMenu 
+          text="Edit"
+          variant="outlined"
+          menu={(handleClose) => {
+            return [
+                <MenuItem onClick={() => {
+                  handleClose()
+                  const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
+                  // imageCanvasScene.backgroundCanvasLayer.setOrigin(0.5, 0.5)
+                  imageCanvasScene.backgroundCanvasLayer.rotate()
+                }}>
+                  Rotate
+              </MenuItem>,
+              <MenuItem onClick={() => {
+                  handleClose()
+                  const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
+                  imageCanvasScene.backgroundCanvasLayer.flipHorizontal()
+                  // imageCanvasScene.backgroundCanvasLayer = imageCanvasScene.backgroundCanvasLayer.clone()
+                }}>
+                  Flip ⇆
+              </MenuItem>,
+              <MenuItem onClick={() => {
+                  handleClose()
+                  const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
+                  imageCanvasScene.backgroundCanvasLayer.flipVertical()
+                }}>
+                  Flip ⇵
+              </MenuItem>
+            ]
+          }}
+        >
+          
+        </ButtonMenu>
         <Button 
           disabled={isSaving}
           onClick={async () => {
@@ -150,11 +165,12 @@ const CanvasImageDialog = ({
           }}>
           {isSaving ? 'Saving...' : 'Save'}
         </Button>
+        <Button onClick={handleClose}>Cancel</Button>
       </div>
     </>
   }
 
-  return <CobrowsingDialog widthModifier={1.2} open={true} zIndexIncrease={10}  onClose={handleClose}>
+  return <CobrowsingDialog widthModifier={1.2} open={true} zIndexIncrease={10}>
     <div className="CanvasImageDialog" style={{height: gameEditorHeight * 0.8}}>
       {renderBody()}
     </div>

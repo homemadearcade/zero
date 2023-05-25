@@ -40,7 +40,6 @@ const CobrowsingDialog = ({
     }
   }, [])
   
-
   function isOpen() {
     if(isSnapshotTakerOpen) {
       return false

@@ -1,7 +1,7 @@
 import store from "../../store";
 import { Canvas } from "./Canvas";
 
-import { ON_CODRAWING_STROKE, ON_CODRAWING_SUBSCRIBED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, MARK_CANVAS_IMAGE_STROKES_PENDING } from "../../store/types";
+import { ON_CODRAWING_STROKE, ON_CODRAWING_SUBSCRIBED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, MARK_CANVAS_IMAGE_STROKES_PENDING, ON_CODRAWING_IMAGE_UPDATE } from "../../store/types";
 import { subscribeCodrawing, unsubscribeCodrawing } from "../../store/actions/media/codrawingActions";
 import { noCodrawingStrokeUpdateDelta} from "../constants";
 import { changeErrorState, clearErrorState } from "../../store/actions/errorsActions";
@@ -35,7 +35,7 @@ export class CodrawingCanvas extends Canvas {
 
     // event that is triggered if codrawing has been registered
     window.socket.on(ON_CODRAWING_STROKE, (strokeData) => {
-      const {userMongoId, textureId, strokeId } = strokeData
+      const { userMongoId, textureId, strokeId } = strokeData
       const state = store.getState()
       const me = state.auth.me 
 
@@ -56,6 +56,15 @@ export class CodrawingCanvas extends Canvas {
         window.socket.emit(ON_CODRAWING_STROKE_ACKNOWLEDGED, { strokeId, userMongoId, textureId })
       }
     });
+
+    // window.socket.on(ON_CODRAWING_IMAGE_UPDATE, ({textureId}) => {
+    //   if(textureId !== this.textureId) return
+    //   console.log('ON_CODRAWING_IMAGE_UPDATE')
+    //   this.updateTexture({ callback: () => {
+    //     this.initialDraw()
+    //   }})
+      
+    // })
 
     return this
   }

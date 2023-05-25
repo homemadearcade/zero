@@ -54,6 +54,7 @@ export class GameInstance extends Phaser.Scene {
     this.gameRoomInstance = props.gameRoomInstance
 
     this.lastUpdate = null
+    this.lastDelta = null
 
     this.timeToTriggerAgain = {}
   }
@@ -698,6 +699,7 @@ addInstancesToEntityInstanceByTag(instances) {
 
   update(time, delta) {
     this.lastUpdate = Date.now()
+    this.lastDelta = delta
     
     // FOR CLIENTS
     if(!this.isPaused) super.update(time, delta)

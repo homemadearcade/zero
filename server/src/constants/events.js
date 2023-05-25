@@ -126,6 +126,10 @@ export const ON_CODRAWING_STROKE_ACKNOWLEDGED = 'ON_CODRAWING_STROKE_ACKNOWLEDGE
 // TO: A Subscriber Client
 export const ON_CODRAWING_INITIALIZE = 'ON_CODRAWING_INITIALIZE'
 
+// FROM: server
+// TO: Subscriber Host and Subscriber Clients
+export const ON_CODRAWING_IMAGE_UPDATE = 'ON_CODRAWING_IMAGE_UPDATE';
+
 //////////////////////////////////////////////
 //////////////////////////////////////////////
 //////////////////////////////////////////////

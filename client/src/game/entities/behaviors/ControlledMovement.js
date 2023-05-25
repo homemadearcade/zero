@@ -19,6 +19,12 @@ export class ControlledMovement {
     const mod = (1/(delta * 5))
     const speed = entityModel.movement.speed * 100 * mod
 
+    if(phaserInstance.upKeyClimbOverride) {
+      // a bit of a hack...
+      this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y - (speed/2))
+      this.cursors.up.isDown = false
+    }
+
     const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
     const playerEntityModelId = store.getState().playerInterface.playerEntityModelId
     if(isGridViewOn) {

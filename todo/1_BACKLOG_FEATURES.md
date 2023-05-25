@@ -13,3 +13,5 @@ EFFECTS
   Remove Tag, Add Tag Effect
 
 TREASURE CHEST UNLOCKS
+
+Toolbar dialog different actions, ( run action in the toolbar )

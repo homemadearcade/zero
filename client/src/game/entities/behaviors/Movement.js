@@ -1,7 +1,7 @@
 import store from "../../../store"
 import { getCobrowsingState } from "../../../utils"
 import { isPlayerId } from "../../../utils/gameUtils"
-import { MOVEMENT_FOLLOW_RELATION_TAG, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_TURN_RANDOMLY, MOVEMENT_MIRROR_PLAYER } from "../../constants"
+import { MOVEMENT_FOLLOW_RELATION_TAG, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_TURN_RANDOMLY, MOVEMENT_MIRROR_PLAYER, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_UP_AND_DOWN } from "../../constants"
 
 export class Movement {
   constructor(scene, entityInstance){
@@ -35,7 +35,7 @@ export class Movement {
     const phaserInstance = this.entityInstance.phaserInstance
 
     const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
-    if(isGridViewOn) {
+    if(isGridViewOn && this.entityInstance.isPlayerInstance) {
       this.entityInstance.setIgnoreGravity(true)
     } else if(phaserInstance.ignoreGravityOverride) {
       this.entityInstance.setIgnoreGravity(true)
@@ -88,7 +88,7 @@ export class Movement {
       }
     }
 
-    if(!this.followingInstance || this.followingInstance.destroyed || ( movementBehavior === MOVEMENT_FOLLOW_RELATION_TAG && this.followingInstance.entityModelId !== entityModel.movement.relationTagId ) || (movementBehavior === MOVEMENT_FOLLOW_PLAYER && !isPlayerId(this.followingInstance.entityInstanceId) ) ) {
+    if(!this.followingInstance || this.followingInstance.destroyed || ( movementBehavior === MOVEMENT_FOLLOW_RELATION_TAG && this.followingInstance.entityModelId !== entityModel.movement.relationTagId ) || (movementBehavior === MOVEMENT_FOLLOW_PLAYER && !this.followingInstance.isPlayerInstance ) ) {
       if(movementBehavior === MOVEMENT_FOLLOW_PLAYER) {
         this.followingInstance = this.scene.playerInstance
       } else if(movementBehavior === MOVEMENT_FOLLOW_RELATION_TAG && entityModel.movement.relationTagId) {
@@ -97,6 +97,14 @@ export class Movement {
       } else {
         this.followingInstance = null
       }
+    }
+
+    if(movementBehavior === MOVEMENT_SIDE_TO_SIDE && phaserInstance.body.velocityX === 0) {
+      phaserInstance.setVelocityX(entityModel.movement.velocityX)
+    }
+
+    if(movementBehavior === MOVEMENT_UP_AND_DOWN && !phaserInstance.body.velocityY === 0) {
+      phaserInstance.setVelocityY(entityModel.movement.velocityY)
     }
 
     if(this.mirroringInstance) {

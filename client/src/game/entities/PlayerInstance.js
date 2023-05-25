@@ -81,6 +81,9 @@ export class PlayerInstance extends EntityInstance {
       }
     })
 
+    this.isPlayerInstance = true
+    this.phaserInstance.isPlayerInstance = true
+
     return this
   }
 
@@ -122,6 +125,7 @@ export class PlayerInstance extends EntityInstance {
     //   .defineKey(0, 'B12', 'ESC') // Debug key
     this.cursors = this.scene.input.keyboard.createCursorKeys();
     this.xKey = this.scene.input.keyboard.addKey('X');  // Get key object
+    this.zKey = this.scene.input.keyboard.addKey('Z');  // Get key object
   }
 
   setSize(width, height) {
@@ -254,6 +258,7 @@ export class PlayerInstance extends EntityInstance {
     this.scene.input.keyboard.removeKey(this.cursors.space)
     this.scene.input.keyboard.removeKey(this.cursors.shift)
     this.scene.input.keyboard.removeKey(this.xKey)
+    this.scene.input.keyboard.removeKey(this.zKey)
 
     super.destroy()
   }

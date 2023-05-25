@@ -62,6 +62,7 @@ export class Graphics {
 
   setInvisible() {
     this.entityInstance.setAlpha(0.02)
+    this.entityInstance.setVisible(true)
   }
 
   setDepth() {
@@ -202,7 +203,12 @@ export class Graphics {
     const layerInvisibility = gameViewEditor.layerInvisibility
     const isLayerInvisible = layerInvisibility[entityModel.entityIID]
     // sets visible to false if layer is invisible, but if the layer is visible, then visibility is determined by the entitys visibility state
-    if(!isLayerInvisible && this.entityInstance.isVisible) {
+
+    if(entityModel.graphics.invisible && !isLayerInvisible) {
+      this.entityInstance.isVisible = true
+      phaserInstance.isSelectable = true
+      this.setInvisible()
+    } else if(!isLayerInvisible && this.entityInstance.isVisible) {
       this.entityInstance.setVisible(true)
       phaserInstance.isSelectable = true
     } else {
@@ -230,9 +236,7 @@ export class Graphics {
         // if theres no special action like resizing, we will show the indicator if the layer is visible
         const isResizing = store.getState().gameViewEditor.resizingEntityInstanceId === this.entityInstance.entityInstanceId
         const isIndicatorVisible = isResizing || !isLayerInvisible
-        if(isIndicatorVisible) phaserInstance.isSelectable = true 
         phaserInstance.invisibleIndicator.setVisible(isIndicatorVisible)
-        this.setInvisible()
       }
     }
 

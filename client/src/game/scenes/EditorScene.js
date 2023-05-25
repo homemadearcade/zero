@@ -114,7 +114,7 @@ export class EditorScene extends GameInstance {
       return
     }
 
-    if(phaserInstance.entityInstanceId === PLAYER_INSTANCE_DID) {
+    if(phaserInstance.isPlayerInstance) {
       // store.dispatch(editGameModel({ 
       //   player: {
       //     spawnX: phaserInstance.x,
@@ -208,7 +208,7 @@ export class EditorScene extends GameInstance {
       return
     }
 
-    if(phaserInstance.entityInstanceId === PLAYER_INSTANCE_DID) {
+    if(phaserInstance.isPlayerInstance) {
       store.dispatch(editGameModel({ 
         // player: {
         //   spawnX: phaserInstance.x,
@@ -986,7 +986,7 @@ export class EditorScene extends GameInstance {
       ) {
         // setTimeout(() => {
           this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
-            if(entityInstance.entityInstanceId === PLAYER_INSTANCE_DID) {
+            if(entityInstance.isPlayerInstance) {
               this.removePlayerInstance()
               this.addPlayerInstance()
               return

@@ -3,7 +3,7 @@ import requireJwtAuth from '../../middleware/requireJwtAuth';
 import requireSocketAuth from '../../middleware/requireSocketAuth';
 import ArcadeGame, { validateArcadeGame } from '../../models/ArcadeGame';
 import { mergeDeep } from '../../utils/utils';
-import { ON_GAME_CHARACTER_UPDATE, ON_GAME_MODEL_UPDATE, GAME_MODEL_DID } from '../../constants';
+import { ON_GAME_CHARACTER_UPDATE, ON_GAME_MODEL_UPDATE, GAME_MODEL_DID, ON_CODRAWING_IMAGE_UPDATE, CODRAWING_ROOM_PREFIX } from '../../constants';
 import User from '../../models/User';
 import { generateUniqueId } from '../../utils/utils';
 import { recordS3Upload, s3Multer } from '../../services/aws';
@@ -180,6 +180,9 @@ router.post('/:id/importedArcadeGame', requireJwtAuth, requireSocketAuth, requir
 });
 
 router.put('/texture/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermissions, s3Multer, recordS3Upload, async (req, res) => {
+  req.io.to(CODRAWING_ROOM_PREFIX+req.query.Key).emit(ON_CODRAWING_IMAGE_UPDATE, {
+    textureId: req.query.Key
+  });
   res.status(200).send()
 })
 

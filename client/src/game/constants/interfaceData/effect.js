@@ -1,8 +1,8 @@
 import { interfaceIdData } from "../../../constants/interfaceIdData";
 import { NO_RELATION_TAG_EFFECT_IID, SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID } from "../../../constants/interfaceIds";
 import store from "../../../store"
-import { EFFECT_CAMERA_SHAKE, EFFECT_CLOSE_TRANSITION, EFFECT_CUTSCENE, EFFECT_DESTROY,
-    EFFECT_END_GAME, EFFECT_IGNORE_GRAVITY, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EFFECT_INVISIBLE, EFFECT_OPEN_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_SPAWN, 
+import { EFFECT_CAMERA_SHAKE, EFFECT_CLIMBABLE, EFFECT_CLOSE_TRANSITION, EFFECT_CUTSCENE, EFFECT_DESTROY,
+    EFFECT_END_GAME, EFFECT_GRAVITY_PULL, EFFECT_GRAVITY_PUSH, EFFECT_IGNORE_GRAVITY, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EFFECT_INVISIBLE, EFFECT_OPEN_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_SPAWN, 
   EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_TRANSFORM_TEMPORARY_END, EFFECT_TRANSFORM_TEMPORARY_START, EFFECT_UNPAUSE_GAME, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_STEP_BEGINS, ON_TOUCH_ACTIVE,
  ON_TOUCH_START,
  SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, 
@@ -22,12 +22,24 @@ export const effectInterfaceDatas = {
     icon: 'faBullseye',
   },
   [EFFECT_IGNORE_GRAVITY]: {
-    displayName: 'Remove gravity',
+    displayName: 'Remove Gravity',
     icon: 'faUpLong'
   },
   [EFFECT_STICK_TO]: {
     displayName: 'Hold',
     icon: 'faHandsHolding'
+  },
+  [EFFECT_GRAVITY_PULL]: {
+    displayName: 'Gravity Pull',
+    icon: 'faUpLong'
+  },
+  [EFFECT_GRAVITY_PUSH]: {
+    displayName: 'Gravity Push',
+    icon: 'faUpLong'
+  },
+  [EFFECT_CLIMBABLE]: {
+    displayName: 'Climbable',
+    icon: 'faWaterLadder'
   },
 
   // Lifecycle
@@ -126,6 +138,21 @@ export const effectEditInterfaces = {
     autogenerateRelationForEvents: [ON_TOUCH_ACTIVE]
   },
   [EFFECT_STICK_TO]: {
+    targetableType: SINGLE_RELATION_TAG_EFFECT_IID,
+    autogenerateEffect: true,
+    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE]
+  },
+  [EFFECT_GRAVITY_PULL]: {
+    targetableType: SINGLE_RELATION_TAG_EFFECT_IID,
+    autogenerateEffect: true,
+    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE]
+  },
+  [EFFECT_GRAVITY_PUSH]: {
+    targetableType: SINGLE_RELATION_TAG_EFFECT_IID,
+    autogenerateEffect: true,
+    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE]
+  },
+  [EFFECT_CLIMBABLE]: {
     targetableType: SINGLE_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
     autogenerateRelationForEvents: [ON_TOUCH_ACTIVE]
@@ -231,6 +258,9 @@ export const touchActiveEffects  = {
   [EFFECT_TELEPORT]: false,
   [EFFECT_IGNORE_GRAVITY]: true,
   [EFFECT_STICK_TO]: true,
+  [EFFECT_GRAVITY_PULL]: true,
+  [EFFECT_GRAVITY_PUSH]: true,
+  [EFFECT_CLIMBABLE]: true,
   
 
   // Lifecycle
@@ -265,6 +295,9 @@ export const noRemoteEffectedTagEffects = {
   [EFFECT_TELEPORT]: false,
   [EFFECT_IGNORE_GRAVITY]: false,
   [EFFECT_STICK_TO]: true,
+  [EFFECT_GRAVITY_PULL]: true,
+  [EFFECT_GRAVITY_PUSH]: true,
+  [EFFECT_CLIMBABLE]: true,
 
   // Lifecycle
   [EFFECT_TRANSFORM]: false,
@@ -298,6 +331,9 @@ export const nonStepEffectBehaviors = {
   [EFFECT_TELEPORT]: false,
   [EFFECT_IGNORE_GRAVITY]: true,
   [EFFECT_STICK_TO]: true,
+  [EFFECT_GRAVITY_PULL]: true,
+  [EFFECT_GRAVITY_PUSH]: true,
+  [EFFECT_CLIMBABLE]: true,
 
   // Lifecycle
   [EFFECT_TRANSFORM]: false,
@@ -353,6 +389,10 @@ export function getEffectShorthand(effect) {
   if(effectBehavior === EFFECT_TELEPORT) {
     return displayName + ` to  ${entityModels[effect.zoneEntityModelId].name}` 
   }
+
+  // if(effectBehavior === EFFECT_GRAVITY_PULL) {
+  //   return displayName + ` to  ${entityModels[effect.zoneEntityModelId].name}`
+  // }
 
   if(effectBehavior === EFFECT_TRANSFORM) {
     return displayName + ` into  ${entityModels[effect.entityModelId].name}`

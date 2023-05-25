@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { DOWN_KID, LEFT_KID, RIGHT_KID, SPACE_KID, UP_KID } from '../../../constants/keyboard/keyIds'
+import { DOWN_KID, LEFT_KID, RIGHT_KID, UP_KID, Z_KID } from '../../../constants/keyboard/keyIds'
 import { useKeyPress } from '../../../hooks/useKeyPress'
 import { useWishTheme } from '../../../hooks/useWishTheme'
 import Typography from '../../../ui/Typography/Typography'
@@ -27,14 +27,15 @@ const PlayerControlsCard = ({
   //   return acc
   // }, {})
 
-  const isSpacePressed = useKeyPress(' ')
+  const isZPressed = useKeyPress('z')
+  const iszPressed = useKeyPress('Z')
   const isLeftPressed = useKeyPress('ArrowLeft')
   const isRightPressed = useKeyPress('ArrowRight')
   const isUpPressed = useKeyPress('ArrowUp')
   const isDownPressed = useKeyPress('ArrowDown')
 
   const keyIdToIsPressed = {
-    [SPACE_KID]: isSpacePressed,
+    [Z_KID]: isZPressed || iszPressed,
     [LEFT_KID]: isLeftPressed,
     [RIGHT_KID]: isRightPressed,
     [UP_KID]: isUpPressed,
@@ -99,11 +100,11 @@ const PlayerControlsCard = ({
 
   if(projectileEntityModel) {
     list.push(renderKeyAndAction({
-      keyName: 'space',
+      keyName: 'Z',
       action: 'Shoot',
       textureId: projectileEntityModel.graphics.textureId,
       textureTint: projectileEntityModel.graphics.textureTint,
-      keyId: SPACE_KID
+      keyId: Z_KID
     }))
   }
 

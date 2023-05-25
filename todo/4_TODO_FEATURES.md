@@ -12,11 +12,8 @@ AUDIO EFFECTS
 PARTICLE EFFECT ON INSTANCES WHEN YOU CHANGE A ENTITY_MODEL
   Explode on Destroy Tag
 
-Toolbar dialog different actions, ( run action in the toolbar )
-
-Holding Player was at 2x speed?
-
----
+Speed Boost Relationship
+Ladder Effect
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -28,13 +25,3 @@ VIDEO CALL FEATURES
   End Call for everyone in lobby, End call for self also
   You lost your video please refresh page 
   Popup when someone loses video 
-
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------
-DATA
---------------------------------------------------------------------------------------
-
-All Data should be cloned. No merged, imported data. No!
-Better clone deep when applying default player? Default jumper?
-
-Do one piece of data at a time. Start with brushes or something?

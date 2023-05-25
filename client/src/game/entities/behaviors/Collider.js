@@ -5,7 +5,7 @@ import {
   MATTER_PHYSICS,
   ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START, 
   SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN,
-  EFFECT_INVISIBLE, EFFECT_IGNORE_GRAVITY, 
+  EFFECT_INVISIBLE, EFFECT_IGNORE_GRAVITY, EFFECT_GRAVITY_PULL, EFFECT_GRAVITY_PUSH, EFFECT_CLIMBABLE, 
 } from "../../constants";
 import { areBSidesHit, isEventMatch } from "../../../utils/gameUtils";
 import store from "../../../store";
@@ -46,14 +46,14 @@ export class Collider {
     ////////////////////////////////////////
     ////////////////////////////////////////
     // STICK TO EFFECT
-    if (phaserInstance.lockedTo) {
-      phaserInstance.body.position.x += phaserInstance.lockedTo.body.deltaX();
-      phaserInstance.body.position.y += phaserInstance.lockedTo.body.deltaY();   
+    if (phaserInstance.heldByInstance) {
+      phaserInstance.body.position.x += phaserInstance.heldByInstance.body.deltaXFinal();
+      phaserInstance.body.position.y += phaserInstance.heldByInstance.body.deltaYFinal();   
     }
     
-    if (phaserInstance.lockedTo && this.fallenOff(phaserInstance, phaserInstance.lockedTo, phaserInstance.lockedReleaseSides)) {
-      phaserInstance.lockedTo = null;   
-      phaserInstance.lockedReleaseSides = null
+    if (phaserInstance.heldByInstance && this.fallenOff(phaserInstance, phaserInstance.heldByInstance, phaserInstance.heldReleaseSides)) {
+      phaserInstance.heldByInstance = null;   
+      phaserInstance.heldReleaseSides = null
     }
 
     // if(this.lastCollidingWith) {
@@ -74,34 +74,35 @@ export class Collider {
     setTimeout(() => {
       phaserInstance.invisibleOverride = false 
       phaserInstance.ignoreGravityOverride = false
+      phaserInstance.upKeyClimbOverride = false
     }, 0)
 
     this.lastCollidingWith = this.collidingWith
     this.collidingWith = []
   }
 
-  fallenOff(player, platform, sides) {
+  fallenOff(holder, heldByInstance, sides) {
     // if turns out to be annoying
-    if(Phaser.Math.Distance.Between(player.body.x, player.body.y, platform.body.x, platform.body.y) > 100) {
+    if(Phaser.Math.Distance.Between(holder.body.x, holder.body.y, heldByInstance.body.x, heldByInstance.body.y) > 100) {
       return true
     }
 
     if(sides[SIDE_LEFT] || sides[SIDE_RIGHT]) {
       return (
-        player.body.bottom <= platform.body.position.y ||
-        player.body.position.y >= platform.body.bottom 
+        holder.body.bottom <= heldByInstance.body.position.y ||
+        holder.body.position.y >= heldByInstance.body.bottom 
       );
     } else if(sides[SIDE_UP] >= 0 || sides[SIDE_DOWN] >= 0) {
       return (
-        player.body.right <= platform.body.position.x ||
-        player.body.position.x >= platform.body.right 
+        holder.body.right <= heldByInstance.body.position.x ||
+        holder.body.position.x >= heldByInstance.body.right 
       );
     } else {
       return (
-        (player.body.right <= platform.body.position.x ||
-        player.body.position.x >= platform.body.right) && (
-          player.body.bottom <= platform.body.position.y ||
-          player.body.position.y >= platform.body.bottom 
+        (holder.body.right <= heldByInstance.body.position.x ||
+        holder.body.position.x >= heldByInstance.body.right) && (
+          holder.body.bottom <= heldByInstance.body.position.y ||
+          holder.body.position.y >= heldByInstance.body.bottom 
         )
       );
     }
@@ -136,10 +137,42 @@ export class Collider {
       if(effect.effectBehavior === EFFECT_STICK_TO) {
         if(!alternatePhaserInstanceData.phaserInstance) console.error('bad!, stick to will not work here')
 
-        phaserInstance.lockedTo = alternatePhaserInstanceData.phaserInstance;   
-        phaserInstance.lockedReleaseSides = alternatePhaserInstanceData.sides
+        phaserInstance.heldByInstance = alternatePhaserInstanceData.phaserInstance;   
+        phaserInstance.heldReleaseSides = alternatePhaserInstanceData.sides
 
         phaserInstance.ignoreGravityOverride = true
+      }
+
+      if(effect.effectBehavior === EFFECT_CLIMBABLE) {
+        phaserInstance.upKeyClimbOverride = true
+      }
+
+      if(effect.effectBehavior === EFFECT_GRAVITY_PULL || effect.effectBehavior === EFFECT_GRAVITY_PUSH) {
+        phaserInstance.ignoreGravityOverride = true
+        const center = alternatePhaserInstanceData.phaserInstance.body.center
+        const x = phaserInstance.body.position.x + phaserInstance.body.width / 2
+        const currentVelocityX = phaserInstance.body.velocity.x
+        const currentVelocityY = phaserInstance.body.velocity.y
+
+        let deltaVelocity = .01 * this.scene.lastDelta
+
+        if(effect.effectBehavior === EFFECT_GRAVITY_PUSH) {
+          deltaVelocity *= -1
+        }
+
+        if(center.x > x) {
+          phaserInstance.setVelocityX(currentVelocityX + deltaVelocity)
+        } else {
+          phaserInstance.setVelocityX(currentVelocityX - deltaVelocity)
+        }
+
+        const y = phaserInstance.body.position.y + phaserInstance.body.height / 2
+        if(center.y > y) {
+          phaserInstance.setVelocityY(currentVelocityY + deltaVelocity)
+        } else {
+          phaserInstance.setVelocityY(currentVelocityY - deltaVelocity)
+        }
+
       }
     }
 
@@ -318,7 +351,7 @@ export class Collider {
       this.colliders = []
 
       const phaserInstance = this.entityInstance.phaserInstance
-      phaserInstance.lockedTo = null
+      phaserInstance.heldByInstance = null
       // this.onCollideEndRelations = {}
     } 
 

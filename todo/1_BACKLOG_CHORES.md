@@ -39,17 +39,24 @@ RENAME ACTIVITYS?
 
 entityIID -> entityClassIID
 
+DATA
+  All Data should be cloned. No merged, imported data. No!
+  Better clone deep when applying default player? Default jumper?
+
+  Do one piece of data at a time. Start with brushes or something?
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 IMAGE SECURITY
 --------------------------------------------------------------------------------------
 
-ALSO security is still a problem. If I send in a texture id I want to replace then I CAN
-
+ALSO security is still a problem. If I send in a texture id I want to replace then I CAN. Maybe canvas images dtermine their own permissions instead of arcades...
+So its like yes you gotta be in da lobby but also you gotta be allowed to edit the canvas image
 
 /////
 
 I think that Errors should just simualte a refresh of almost essnetially the entire page ( except the video call ? ). 
 
 If theres a problem with cobrowsing connection there could easily be a problem with lobby, game instance, etc. 
+

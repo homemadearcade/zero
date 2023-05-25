@@ -1,13 +1,13 @@
 export const SHIFT_KID = 'SHIFT_KID';
 export const ESC_KID = 'ESC_KID';
 export const X_KID = 'X_KID';
+export const Z_KID = 'Z_KID';
 
 export const UP_KID = 'UP_KID';
 export const DOWN_KID = 'DOWN_KID';
 export const LEFT_KID = 'LEFT_KID';
 export const RIGHT_KID = 'RIGHT_KID';
 
-export const SPACE_KID = 'SPACE_KID';
 
 export const ONE_KID = 'ONE_KID';
 export const TWO_KID = 'TWO_KID';
@@ -22,7 +22,7 @@ export const NINE_KID = 'NINE_KID';
 // map key Id to key name (e.g. 'esc' or 'shift')
 
 export const keyIdToInterfaceData = {
-  [SPACE_KID]: {
+  [Z_KID]: {
     name: 'space',
   },
   [SHIFT_KID]: {
@@ -46,7 +46,7 @@ export const keyIdToInterfaceData = {
   [RIGHT_KID]: {
     name: 'right',
   },
-  [SPACE_KID]: {
+  [Z_KID]: {
     name: 'space',
   },
   [ONE_KID]: {

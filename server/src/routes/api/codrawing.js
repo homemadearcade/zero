@@ -10,7 +10,7 @@ router.post('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
     req.socket.join(CODRAWING_ROOM_PREFIX+req.params.id);
     req.io.to(CODRAWING_ROOM_PREFIX+req.params.id).emit(ON_CODRAWING_SUBSCRIBED, { userMongoId: req.user.id, textureId: req.params.id });
-    
+
     res.status(200).json({ });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });

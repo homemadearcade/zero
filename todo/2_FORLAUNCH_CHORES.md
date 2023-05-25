@@ -26,12 +26,6 @@ WATCHING THESE BUGS
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-Interface Group Ids?? Interface Ids??
-Gotta clean all that SHT UP
-Should the model container IIDs be GROUP Ids?
-Unlock tabs....
-
-Clean up Effect Data. How the fuck are these effect icons, textures found?
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -52,3 +46,18 @@ in preloader
 
 Step titles are currently undefined without the game model 
   Load up all game models WITH the experience model like population style... hmm yes I think so
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+-----------------------------
+DATA
+--------------------------------------------------------------------------------------
+
+Interface Group Ids?? Interface Ids??
+Gotta clean all that SHT UP
+Should the model container IIDs be GROUP Ids?
+Unlock tabs....
+
+Clean up Effect Data. How the fuck are these effect icons, textures found?
+
+Autogeneration seperated into parts
