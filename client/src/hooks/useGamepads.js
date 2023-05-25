@@ -6,6 +6,11 @@ export default function useGamepads(callback) {
 
   var haveEvents = 'ongamepadconnected' in window;
 
+  useEffect(() => {
+
+    
+  }, [gamepads]);
+
   const addGamepad = (gamepad) => {
     gamepads.current = {
       ...gamepads.current,
