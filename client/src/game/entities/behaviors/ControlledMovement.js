@@ -17,7 +17,7 @@ export class ControlledMovement {
     
     const isJumpAllowed = !entityModel.movement.ignoreGravity && entityModel.movement.movementControlsBehavior === ADVANCED_DIRECTIONAL_CONTROLS
 
-    const gamePad = this.scene.input.gamepad.pad1
+    const gamePad = this.entityInstance.gamePad
     let downPressed = this.cursors.down.isDown
     let upPressed = this.cursors.up.isDown
     let leftPressed = this.cursors.left.isDown

@@ -169,6 +169,7 @@ export class InteractArea extends PhaserInstance {
           relation, 
           closestInteractable
         )
+        
         key.isPressable = false
       })
     }

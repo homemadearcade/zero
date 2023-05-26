@@ -110,11 +110,6 @@ const GameMetadataForm = ({
         </div>
       </div>
       {isGameTexturesDialogOpen && <GameTexturesDialog onClickTexture={(textureId) => {
-        console.log(textureId, {
-          metadata: {
-            imageUrl: getImageUrlFromTextureId(textureId)
-          }
-        })
         updateFormEditorGameModel({
           metadata: {
             imageUrl: getImageUrlFromTextureId(textureId)

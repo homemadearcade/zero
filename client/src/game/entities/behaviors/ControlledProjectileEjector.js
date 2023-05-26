@@ -6,17 +6,16 @@ import { PROJECTILE_INSTANCE_DID } from "../../constants"
 export class ControlledProjectileEjector {
   constructor(scene, entityInstance){
     this.entityInstance = entityInstance
-    this.zKey = entityInstance.zKey
     this.cursors = entityInstance.cursors
     this.scene = scene
     this.nextFire = 0
   }
 
-  update(time, delta) {
+  update(time, delta, projectileKey) {
     const entityModelId = this.entityInstance.entityModelId
     const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
 
-    if(this.zKey.isDown && entityModel.projectile?.entityModelId) {
+    if(projectileKey.isDown && entityModel.projectile?.entityModelId) {
       if(time < this.nextFire) { 
         return
       }

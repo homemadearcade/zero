@@ -94,6 +94,16 @@ export class PlayerInstance extends EntityInstance {
       console.log('gamepad down', pad, button, value)         
     });
 
+    this.interactKey = {
+      isDown: false,
+      isPressable: false,
+    }
+
+    this.projectileKey = {
+      isDown: false,
+      isPressable: false,
+    }
+
     // this.scene.mergedInput
     //   .defineKey(0, 'UP', 'UP')
     //   .defineKey(0, 'DOWN', 'DOWN')
@@ -136,6 +146,11 @@ export class PlayerInstance extends EntityInstance {
   update(time, delta) {  
     super.update()
 
+    this.gamePad = this.scene.input.gamepad.pad1
+
+    this.interactKey.isDown = this.xKey.isDown || (this.gamePad && this.gamePad.buttons[1].pressed)
+    this.projectileKey.isDown = this.zKey.isDown || (this.gamePad && this.gamePad.buttons[0].pressed)
+
     // console.log('merged input', this.mergedInput)
     // console.log('merged input buttons', this.mergedInput.buttons)
     // console.log('merged input buttons_mapped', this.mergedInput.direction)
@@ -146,21 +161,29 @@ export class PlayerInstance extends EntityInstance {
     const gameState = store.getState().gameRoomInstance.gameRoomInstance.gameState
     const playerInterface = getCobrowsingState().playerInterface
 
-    if(this.xKey.isUp) {
-      this.xKey.isPressable = true
-    }
-
-    if(this.xKey.isDown && this.xKey.isPressable) {
+    if(this.interactKey.isDown && this.interactKey.isPressable) {
       if(gameState === PLAYTHROUGH_START_STATE || gameState === GAME_END_STATE) {
         if(this.scene.isPlaythrough) {
           store.dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
         } else {
           store.dispatch(changeGameState(PLAY_STATE))
         }
-        this.xKey.isPressable = false
+        this.interactKey.isPressable = false
       } else if(playerInterface.cutsceneId) {
         store.dispatch(progressActiveCutscene())
-        this.xKey.isPressable = false
+        this.interactKey.isPressable = false
+      }
+    }
+
+    if(!this.interactKey.isPressable) {
+      if(this.gamePad) {
+        if(!this.gamePad.buttons[1].pressed) {
+          this.interactKey.isPressable = true
+        }
+      } else {
+        if(this.xKey.isUp) {
+          this.interactKey.isPressable = true
+        }
       }
     }
 
@@ -174,13 +197,18 @@ export class PlayerInstance extends EntityInstance {
 
     if(!this.lastInteractAreaUpdate || this.lastInteractAreaUpdate + 50 < time) {
       this.lastInteractAreaUpdate = time
-      this.interactArea.update({x: this.phaserInstance.x, y: this.phaserInstance.y, angle: this.phaserInstance.angle}, this.xKey)
+      this.interactArea.update(
+        {
+          x: this.phaserInstance.x, y: this.phaserInstance.y, angle: this.phaserInstance.angle
+        },
+        this.interactKey
+      )
     }
 
     if(this.scene.isPaused) return
     // this.camera.update(time, delta)
     this.controlledMovement.update(time, delta)
-    this.controlledProjectileEjector.update(time, delta)
+    this.controlledProjectileEjector.update(time, delta, this.projectileKey)
   }
 
   registerRelations(entityInstancesByTag) {
