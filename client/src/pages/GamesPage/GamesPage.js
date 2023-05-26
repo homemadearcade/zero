@@ -27,8 +27,6 @@ const GamesPage = ({ getArcadeGames}) => {
 
   useGamepads(gamepads => setGamepads(gamepads));
 
-  console.log("gamepads", gamepads)
-
   const gamepadDisplay = Object.keys(gamepads).map(gamepadId => {
     // console.log("displaying gamepad", gamepads[gamepadId]);
     return (

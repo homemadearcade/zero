@@ -5,7 +5,7 @@ import './GameEditor.scss';
 import ReactJson from 'react-json-view'
 
 import { clearEditor, closeJsonViewer, closeSelectAggregateColor, selectBrush } from '../../../store/actions/game/gameSelectorActions';
-import { clearGameFormEditor, closeEditEntityGraphics, updateCreateBrush } from '../../../store/actions/game/gameFormEditorActions';
+import { clearGameFormEditor, closeCreateCanvasImageDialog, closeEditEntityGraphics, updateCreateBrush, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../../store/actions/game/gameViewEditorActions';
 import BoundaryEditor from '../../stages/BoundaryEditor/BoundaryEditor';
@@ -96,11 +96,13 @@ const GameEditor = ({
   closeSelectAggregateColor,
   clearGameViewEditor,
   closeJsonViewer,
+  closeCreateCanvasImageDialog,
   isObscurable,
   rootFontSize,
   children,
   selectBrush,
   updateCreateBrush,
+  updateCreateEntity,
   gameRoomInstance: { gameRoomInstance: { gameState } },
   gameModel: { gameModel, currentStageId },
   playerInterface: { cutsceneId }
@@ -278,7 +280,7 @@ const GameEditor = ({
         }}
       />}
       {isCanvasImageDialogOpen && <CanvasImageDialog onSaveCanvasImage={(textureId) => {
-        if(canvasImageEntityModelId) {
+        if(canvasImageEntityModelId && gameModel.entityModels[canvasImageEntityModelId]) {
           closeEditEntityGraphics()
           editGameModel({
             entityModels: {
@@ -293,6 +295,13 @@ const GameEditor = ({
         } else if(isCreateBrushFlowOpen) {
           updateCreateBrush({
             textureId,
+          })
+        } else {
+          closeCreateCanvasImageDialog()
+          updateCreateEntity({
+            graphics: {
+              textureId,
+            }
           })
         }
       }} />}
@@ -319,7 +328,9 @@ export default connect(mapStateToProps, {
   clearGameViewEditor, 
   closeJsonViewer,
   closeSelectAggregateColor,
+  closeCreateCanvasImageDialog,
   updateCreateBrush,
+  updateCreateEntity,
   closeEditEntityGraphics,
   editGameModel,
   selectBrush,

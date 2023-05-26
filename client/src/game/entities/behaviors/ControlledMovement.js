@@ -14,15 +14,29 @@ export class ControlledMovement {
     const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
     const phaserInstance = this.entityInstance.phaserInstance
 
+    
     const isJumpAllowed = !entityModel.movement.ignoreGravity && entityModel.movement.movementControlsBehavior === ADVANCED_DIRECTIONAL_CONTROLS
+
+    const gamePad = this.scene.input.gamepad.pad1
+    let downPressed = this.cursors.down.isDown
+    let upPressed = this.cursors.up.isDown
+    let leftPressed = this.cursors.left.isDown
+    let rightPressed = this.cursors.right.isDown
+
+    if(gamePad) {
+      leftPressed = leftPressed || gamePad.leftStick.x === -1
+      rightPressed = rightPressed || gamePad.leftStick.x === 1
+      upPressed = upPressed || gamePad.leftStick.y === -1
+      downPressed = downPressed || gamePad.leftStick.y === 1
+    }
 
     const mod = (1/(delta * 5))
     const speed = entityModel.movement.speed * 100 * mod
 
-    if(phaserInstance.upKeyClimbOverride && this.cursors.up.isDown) {
+    if(phaserInstance.upKeyClimbOverride && upPressed) {
       // a bit of a hack...
       this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y - (1000 * mod))
-      this.cursors.up.isDown = false
+      upPressed = false
     }
 
     const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
@@ -30,18 +44,18 @@ export class ControlledMovement {
     if(isGridViewOn) {
       const speed = 500 * mod 
       if(playerEntityModelId === entityModelId) {
-        if(this.cursors.left.isDown) {
+        if(leftPressed) {
           this.entityInstance.setPosition(phaserInstance.x - speed, phaserInstance.y)
-        } else if(this.cursors.right.isDown) {
+        } else if(rightPressed) {
           this.entityInstance.setPosition(phaserInstance.x + speed, phaserInstance.y)
         } else {
           this.entityInstance.setVelocityX(0)
           // phaserInstance.setX(phaserInstance.body.prev.x)
         }
         
-        if(this.cursors.up.isDown) {
+        if(upPressed) {
           this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y - speed)
-        } else if(this.cursors.down.isDown) {
+        } else if(downPressed) {
           this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y + speed)
         } else {
           this.entityInstance.setVelocityY(0)
@@ -62,16 +76,16 @@ export class ControlledMovement {
     // VEHICLE/CAR
     // || entityModel.movement.movementControlsBehavior === CAR_CONTROLS
     if(entityModel.movement.movementControlsBehavior === VEHICLE_CONTROLS) {
-      if(this.cursors.left.isDown) {
+      if(leftPressed) {
         this.entityInstance.setAngularVelocity(-entityModel.movement.speedAngular);
-      } else if(this.cursors.right.isDown) {
+      } else if(rightPressed) {
         this.entityInstance.setAngularVelocity(entityModel.movement.speedAngular);
       }
 
-      if(this.cursors.up.isDown) {
+      if(upPressed) {
           this.entityInstance.thrust(speed * 4);
       } else {
-        if(this.cursors.down.isDown && !entityModel.movement.disableDownKey) {
+        if(downPressed && !entityModel.movement.disableDownKey) {
           this.entityInstance.thrust(-(speed * 4));
         } else {
           this.entityInstance.setAcceleration(0)
@@ -86,22 +100,22 @@ export class ControlledMovement {
       let xTouched = false 
       let yTouched = false
 
-      if(this.cursors.left.isDown) {
+      if(leftPressed) {
         this.entityInstance.setVelocityX(-speed * 5)
         xTouched = true
       }
       
-      if(this.cursors.right.isDown) {
+      if(rightPressed) {
         this.entityInstance.setVelocityX(speed * 5)
         xTouched = true
       }
       
-      if(this.cursors.up.isDown) {
+      if(upPressed) {
         this.entityInstance.setVelocityY(-speed * 5)
         yTouched = true
       }
 
-      if(this.cursors.down.isDown) {
+      if(downPressed) {
         this.entityInstance.setVelocityY(speed * 5)
         yTouched = true
       }
@@ -117,22 +131,22 @@ export class ControlledMovement {
       let xTouched = false 
       let yTouched = false
 
-      if(this.cursors.left.isDown) {
+      if(leftPressed) {
         this.entityInstance.setAccelerationX(-speed * 4)
         xTouched = true
       }
       
-      if(this.cursors.right.isDown) {
+      if(rightPressed) {
         this.entityInstance.setAccelerationX(speed * 4)
         xTouched = true
       }
       
-      if((entityModel.jump.jumpControlsBehavior === JUMP_NONE || !isJumpAllowed) && this.cursors.up.isDown) {
+      if((entityModel.jump.jumpControlsBehavior === JUMP_NONE || !isJumpAllowed) && upPressed) {
         this.entityInstance.setAccelerationY(-speed * 4)
         yTouched = true
       }
 
-      if(this.cursors.down.isDown) {
+      if(downPressed) {
         this.entityInstance.setAccelerationY(speed * 4)
         yTouched = true
       }
@@ -147,7 +161,7 @@ export class ControlledMovement {
     // JUMP
     if(isJumpAllowed) {
       if(entityModel.jump.jumpControlsBehavior === JUMP_GROUND) {
-        if(this.cursors.up.isDown) {
+        if(upPressed) {
           if(phaserInstance.body.blocked.down) {
             this.entityInstance.setVelocityY(-entityModel.jump.ground)
           }
@@ -155,7 +169,7 @@ export class ControlledMovement {
       }
 
       if(entityModel.jump.jumpControlsBehavior === JUMP_COMBO) {
-        if(this.cursors.up.isDown) {
+        if(upPressed) {
           if(this.cursors.up.isPressable) {
             this.cursors.up.isPressable = false
             if(phaserInstance.body.blocked.down) {
@@ -171,7 +185,7 @@ export class ControlledMovement {
       }
 
       if(entityModel.jump.jumpControlsBehavior === JUMP_AIR) {
-        if(this.cursors.up.isDown) {
+        if(upPressed) {
           if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
             this.entityInstance.setVelocityY(-entityModel.jump.air * 5)
             this.doubleJumpCoolDown = time + entityModel.jump.cooldown
@@ -180,10 +194,10 @@ export class ControlledMovement {
       }
 
       if(entityModel.jump.jumpControlsBehavior === JUMP_CONSTANT) {
-        if(this.cursors.up.isDown) {
+        if(upPressed) {
             this.entityInstance.thrust(entityModel.jump.ground * 4);
         } else {
-          // if(this.cursors.down.isDown && !entityModel.jump.disableDownKey) {
+          // if(downPressed && !entityModel.jump.disableDownKey) {
           //   this.entityInstance.thrust(-(entityModel.jump.ground * 4));
           // } else {
           //   this.entityInstance.setAccelerationY(0)
@@ -193,13 +207,13 @@ export class ControlledMovement {
     }
 
     // if(entityModel.movement.rotationFollowKeys) {
-    //   if(this.cursors.left.isDown) {
+    //   if(leftPressed) {
     //     this.entityInstance.setAngle(270)
-    //   } else if(this.cursors.right.isDown) {
+    //   } else if(rightPressed) {
     //     this.entityInstance.setAngle(90)
-    //   } else if(this.cursors.up.isDown) {
+    //   } else if(upPressed) {
     //     this.entityInstance.setAngle(0)
-    //   } else if(this.cursors.down.isDown) {
+    //   } else if(downPressed) {
     //     this.entityInstance.setAngle(180)
     //   }
     // }

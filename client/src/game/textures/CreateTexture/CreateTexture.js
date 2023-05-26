@@ -40,7 +40,8 @@ const CreateTexture = ({
         }}>
           <Icon size="lg" icon="faClose"></Icon>
         </div>}
-      </TextureStage></div>
+        </TextureStage>
+      </div>
 
       {!isCanvasImageDialogOpen && <Unlockable interfaceId={TEXTURE_EDITOR_OPEN_IID}>
         <Button onClick={() => {
@@ -49,6 +50,9 @@ const CreateTexture = ({
           Draw New Sprite
         </Button>
       </Unlockable>}
+      <FormLabel>
+        {entityModel.graphics.textureId ? 'Tint' : 'Color'}
+      </FormLabel>
       <AggregateColorSelect
         selectedColor={textureTintSelected} 
         onSelectColor={onSelectTint} 

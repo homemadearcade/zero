@@ -1,14 +1,17 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function useGamepads(callback) {
   const gamepads = useRef([]);
   const requestRef = useRef();
+  const [buttonsPressed, setButtonsPressed] = useState([]);
 
   var haveEvents = 'ongamepadconnected' in window;
 
   useEffect(() => {
-
-    
+    console.log('oi', gamepads.current)
+    setButtonsPressed(gamepads.current.map((gamepad) => {
+      return  gamepad.buttons
+    }));
   }, [gamepads]);
 
   const addGamepad = (gamepad) => {
