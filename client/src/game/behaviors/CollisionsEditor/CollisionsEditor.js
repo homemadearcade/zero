@@ -107,7 +107,7 @@ const CollisionsEditor = ({ entityModelId, gameModel: { gameModel }, editGameMod
           value={entitySelected.collisionResponse.bounciness}
         />
       </Unlockable>
-      <Unlockable isSlider interfaceId={COLLISIONS_FRICTION_IID}>
+      {false && <Unlockable isSlider interfaceId={COLLISIONS_FRICTION_IID}>
         <SliderNotched
           formLabel="Friction"
           step={0.05}
@@ -117,8 +117,8 @@ const CollisionsEditor = ({ entityModelId, gameModel: { gameModel }, editGameMod
           }}
           value={entitySelected.collisionResponse.friction}
         />
-      </Unlockable>
-      <Unlockable isSlider interfaceId={COLLISIONS_MASS_IID}>
+      </Unlockable>}
+      {false && <Unlockable isSlider interfaceId={COLLISIONS_MASS_IID}>
         <SliderNotched
           formLabel="Weight"
           step={0.1}
@@ -128,7 +128,7 @@ const CollisionsEditor = ({ entityModelId, gameModel: { gameModel }, editGameMod
           }}
           value={entitySelected.collisionResponse.mass}
         />
-      </Unlockable>
+      </Unlockable>}
       <Unlockable interfaceId={COLLISIONS_PUSHABLE_IID}>
         <Switch
           labels={['Not Pushable', 'Pushable']}

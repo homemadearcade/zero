@@ -993,7 +993,6 @@ export class EditorScene extends GameInstance {
             }
             const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
             this.removeEntityInstance(entityInstance.entityInstanceId)
-            console.log('entityInstanceData', entityInstanceData)
             this.addEntityInstance(entityInstance.entityInstanceId, entityInstanceData)
           })
         // })
@@ -1001,15 +1000,24 @@ export class EditorScene extends GameInstance {
 
       if(entityModelUpdate.graphics?.width && entityModelUpdate.graphics?.height) {
         this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
-          entityInstance.setSize(entityModelUpdate.graphics?.width, entityModelUpdate.graphics?.height)
+          const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
+          const width =  entityInstanceData.width || entityModelUpdate.graphics?.width
+          const height = entityInstanceData.height || entityModelUpdate.graphics?.height
+          entityInstance.setSize(width, height)
         })
       } else if(entityModelUpdate.graphics?.width) {
         this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
-          entityInstance.setSize(entityModelUpdate.graphics?.width, entityModel.graphics?.height)
+          const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
+          const width =  entityInstanceData.width || entityModelUpdate.graphics?.width
+          const height = entityInstanceData.height || entityModelUpdate.graphics?.height
+          entityInstance.setSize(width, height)
         })
       } else if(entityModelUpdate.graphics?.height) {
         this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
-          entityInstance.setSize(entityModel.graphics?.width, entityModelUpdate.graphics?.height)
+          const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
+          const width =  entityInstanceData.width || entityModelUpdate.graphics?.width
+          const height = entityInstanceData.height || entityModelUpdate.graphics?.height
+          entityInstance.setSize(width, height)
         })
       }
       

@@ -79,7 +79,7 @@ const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreate
         disabled={isSaveDisabled()}
         onClick={async () => {
         if(stage.isNew) {
-           await addLayersForArcadeGameStage(gameModel.id, gameModel.owner.id, stage.stageId)
+          await addLayersForArcadeGameStage(gameModel.id, gameModel.owner.id, stage.stageId)
           editGameModel({
             stages: {
               [stage.stageId] : {

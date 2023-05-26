@@ -57,6 +57,8 @@ export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
   const arcadeGameMongoId = getState().gameModel.gameModel.id
   const gameRoomInstance = getState().gameRoomInstance.gameRoomInstance
 
+  console.log('edit Game model', gameUpdate)
+
   dispatch({
     type: EDIT_GAME_MODEL_LOADING,
   });

@@ -9,7 +9,6 @@ import { ProjectileEjector } from "./behaviors/ProjectileEjector";
 
 export class EntityInstance extends PhaserInstance {
   constructor(scene, entityInstanceId, entityInstanceData, effectSpawned){
-
     const {spawnX, spawnY, entityModelId, transformCancelEntityModelId} = entityInstanceData
 
     const gameModel = store.getState().gameModel.gameModel
@@ -45,10 +44,10 @@ export class EntityInstance extends PhaserInstance {
     // PHYSICS
     this.movement = new Movement(scene, this)
     this.setBounce(entityModel.collisionResponse.bounciness)
-    this.setImmovable(entityModel.collisionResponse.immovable)
+    // this.setImmovable(entityModel.collisionResponse.immovable)
     this.setPushable(!entityModel.collisionResponse.notPushable)
-    this.setMass(entityModel.collisionResponse.mass)
-    this.setFriction(entityModel.collisionResponse.friction)
+    // this.setMass(entityModel.collisionResponse.mass)
+    // this.setFriction(entityModel.collisionResponse.friction)
     const boundaryRelation = entityModel.boundaryRelation
     if(entityModel.collisionResponse.ignoreStageBoundaries) {
       this.setCollideWorldBounds(false)

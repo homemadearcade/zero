@@ -40,6 +40,7 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.image('ship2', '/assets/images/x2kship.png');
     this.load.image('blue', '/assets/images/blue.png');
     this.load.image('brush', '/assets/images/brush.png')
+    this.load.image('arrowkeys', '/assets/images/arrowkeys.png')
     this.load.image(DEFAULT_TEXTURE_ID, '/assets/images/square10x10.png')
     this.load.image(DEFAULT_CLEAR_TEXTURE_ID, '/assets/images/eraser10x10.png')
 

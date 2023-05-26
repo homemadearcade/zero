@@ -99,12 +99,21 @@ export class Movement {
       }
     }
 
-    if(movementBehavior === MOVEMENT_SIDE_TO_SIDE && phaserInstance.body.velocityX === 0) {
-      phaserInstance.setVelocityX(entityModel.movement.velocityX)
+
+    if(movementBehavior === MOVEMENT_SIDE_TO_SIDE && phaserInstance.body.velocity.x === 0) {
+      if(phaserInstance.body.blocked.right) {
+        phaserInstance.setVelocityX(-entityModel.movement.velocityX)
+      } else if(phaserInstance.body.blocked.left || phaserInstance.body.blocked.none) {
+        phaserInstance.setVelocityX(entityModel.movement.velocityX)
+      }
     }
 
-    if(movementBehavior === MOVEMENT_UP_AND_DOWN && !phaserInstance.body.velocityY === 0) {
-      phaserInstance.setVelocityY(entityModel.movement.velocityY)
+    if(movementBehavior === MOVEMENT_UP_AND_DOWN && !phaserInstance.body.velocity.y === 0) {
+      if(phaserInstance.body.blocked.down) {
+        phaserInstance.setVelocityY(-entityModel.movement.velocityY)
+      } else if(phaserInstance.body.blocked.up || phaserInstance.body.blocked.none) {
+        phaserInstance.setVelocityY(entityModel.movement.velocityY)
+      }
     }
 
     if(this.mirroringInstance) {

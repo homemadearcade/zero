@@ -2,7 +2,7 @@ import store from "../../../store"
 import { getCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { getHexIntFromHexString } from "../../../utils/editorUtils"
 import { getThemePrimaryColor } from "../../../utils/webPageUtils"
-import { editorHighlightDepthModifier, initialStageZoneEntityId, invisibleIndicatorDepthModifer } from "../../constants"
+import { UI_LAYER_DEPTH, editorHighlightDepthModifier, initialStageZoneEntityId, invisibleIndicatorDepthModifer } from "../../constants"
 
 
 export class Graphics {
@@ -25,6 +25,7 @@ export class Graphics {
 
     phaserInstance.setDisplaySize(entityInstance.width, entityInstance.height)
     this.setSize(entityInstance.width, entityInstance.height)
+    console.log('entityInstance', entityInstance.width, entityInstance.height)
 
     // if(entityModel.editorInterface.notSelectableInStage) return
 
@@ -175,7 +176,8 @@ export class Graphics {
     
     // if the instance can be hovered over and then selected
     phaserInstance.isSelectable = false
-
+    
+    const isInvisible = entityModel.graphics.invisible
     // if(entityModel.editorInterface.notSelectableInStage) {
     //   phaserInstance.invisibleIndicator?.setVisible(false)
     //   phaserInstance.interactBorder?.setVisible(false)
@@ -184,8 +186,32 @@ export class Graphics {
     //   return
     // }
 
+    if(phaserInstance.isPlayerInstance) {
+      const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
+      if(isGridViewOn) {
+        if(!this.arrowKeyIcon) {
+          this.arrowKeyIcon = this.scene.add.image(0, 0, 'arrowkeys').setOrigin(0.5, 0.5)
+          const size = gameModel.size.nodeSize * 1.5
+          this.arrowKeyIcon.setDisplaySize(size, size * 0.7)
+          this.arrowKeyIcon.setAlpha(0.5)
+          this.arrowKeyIcon.setDepth(UI_LAYER_DEPTH)
+        }
+        this.arrowKeyIcon.setPosition(phaserInstance.x, phaserInstance.y)
+        phaserInstance.setAlpha(0.5)
+      } else {
+        if(this.arrowKeyIcon) {
+          this.arrowKeyIcon.destroy()
+          this.arrowKeyIcon = null
+        }
+        if(isInvisible) {
+          this.setInvisible()
+        } else {
+          phaserInstance.setAlpha(1)
+        }
+      }
+    }
 
-    if(entityModel.graphics.invisible) {
+    if(isInvisible) {
       if(this.scene.isEditor) {
         this.entityInstance.isVisible = false
       } else if(this.scene.isPlaythrough) {
@@ -204,7 +230,7 @@ export class Graphics {
     const isLayerInvisible = layerInvisibility[entityModel.entityIID]
     // sets visible to false if layer is invisible, but if the layer is visible, then visibility is determined by the entitys visibility state
 
-    if(entityModel.graphics.invisible && !isLayerInvisible) {
+    if(isInvisible && !isLayerInvisible) {
       this.entityInstance.isVisible = true
       phaserInstance.isSelectable = true
       this.setInvisible()

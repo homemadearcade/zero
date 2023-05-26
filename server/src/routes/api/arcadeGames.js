@@ -188,8 +188,9 @@ router.put('/texture/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameE
 
 router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermissions, async (req, res) => {
   try {
-    const tempGame = req.tempGame
-
+    const tempGame = await ArcadeGame.findById(req.params.id).populate('owner')
+    if (!tempGame) return res.status(404).json({ message: 'No such Game.' });
+    
     const updatedGame = mergeDeep(tempGame, req.body.gameUpdate)
 
     Object.keys(updatedGame.stages).forEach((stageId) => {
@@ -260,7 +261,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermi
 
     const { error } = validateArcadeGame(updatedGame);
     if (error) return res.status(400).json({ message: error.details[0].message });
-  
+    
     const update = { 
       metadata: updatedGame.metadata, 
       theme: updatedGame.theme, 
