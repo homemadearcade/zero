@@ -6,7 +6,7 @@ import { mergeDeep } from '../../utils/utils';
 import { ON_GAME_CHARACTER_UPDATE, ON_GAME_MODEL_UPDATE, GAME_MODEL_DID, ON_CODRAWING_IMAGE_UPDATE, CODRAWING_ROOM_PREFIX } from '../../constants';
 import User from '../../models/User';
 import { generateUniqueId } from '../../utils/utils';
-import { recordS3Upload, s3Multer } from '../../services/aws';
+import { generatePutUrl, recordS3Upload, s3Multer } from '../../services/aws';
 import { APP_ADMIN_ROLE } from "../../constants/index";
 
 const router = Router();
@@ -179,11 +179,14 @@ router.post('/:id/importedArcadeGame', requireJwtAuth, requireSocketAuth, requir
   }
 });
 
-router.put('/texture/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermissions, s3Multer, recordS3Upload, async (req, res) => {
-  req.io.to(CODRAWING_ROOM_PREFIX+req.query.Key).emit(ON_CODRAWING_IMAGE_UPDATE, {
-    textureId: req.query.Key
+router.put('/texture/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermissions, async (req, res) => {
+  const { url, fields } = await generatePutUrl(req.query.Key)
+  .catch(err => {
+    console.log('error', err)
+    res.send(err);
   });
-  res.status(200).send()
+  
+  res.status(200).json({ url, fields});
 })
 
 router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermissions, async (req, res) => {

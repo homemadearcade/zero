@@ -1,5 +1,6 @@
-import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 const { getSignedUrl} = require("@aws-sdk/s3-request-presigner");
+import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
 
 import dotenv from 'dotenv'; // Loading dotenv to have access to env variables
 dotenv.config()
@@ -81,18 +82,69 @@ export function generateGetUrl(Key) {
 }
 
 // PUT URL Generator
-export function generatePutUrl(Key, ContentType) {
-  return new Promise((resolve, reject) => {
-    // Note Bucket is retrieved from the env variable above.
-    const params = { Bucket, Key, ContentType };
-    // Note operation in this case is putObject
-    s3.getSignedUrl('putObject', params, function(err, url) {
-      if (err) {
-        console.log('ERROR', err)
-        reject(err);
-      }
-      // If there is no errors we can send back the pre-signed PUT URL
-      resolve(url);
-    });
+// export function generatePutUrl(Key) {
+//   return new Promise(async (resolve, reject) => {
+//     const params = {
+//       Body: Key,
+//       Bucket,
+//       Key,
+//       ContentType: 'image/png',
+//     };
+
+//     const command = new PutObjectCommand(params);
+
+//     // Note operation in this case is getObject
+//     try {
+//       const unhoistableHeaders = new Set([ 'x-amz-content-sha256', 'x-amz-algorithm', 'X-Amz-Credential', 'X-Amz-Date', 'X-Amz-Expires', 'X-Amz-Signature']);
+//       const url = await getSignedUrl(s3, command, { expiresIn: 3600,  unhoistableHeaders });
+//       resolve(url);
+//     } catch(err) {
+//       console.log('ERROR', err)
+//       reject(err);
+//     }
+
+//   });
+// }
+
+
+export async function generatePutUrl(Key) {
+  return new Promise(async (resolve, reject) => {
+
+    // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/modules/_aws_sdk_s3_presigned_post.html
+
+    const Conditions = [
+      { acl: "public-read" },
+      { bucket: Bucket },
+      ["eq", "$acl", "public-read"],
+      // 1048576 = 1MB
+      // [("content-length-range", 0, 1048576 * 2)],
+      ["content-length-range", 1, 1024 * 1024 * 2],
+      ["starts-with", "$Content-Type", "image/"],
+      // ["starts-with", "$key", "user/example/"]
+    ];
+
+    const Fields = {
+      acl: "public-read",
+    };
+
+    const params = {
+      Body: Key,
+      Bucket,
+      Key,
+      Conditions,
+      Fields,
+      // number of seconds for which the pre-signed policy should be valid
+      Expires: 100000, // 15min
+    };
+
+    try {
+      const { url, fields } = await createPresignedPost(s3, params);
+      resolve({url, fields});
+      // return { uploadUrl: url, fields };
+    } catch (error) {
+      console.log(error);
+            reject(err);
+
+    }
   });
-}
+};

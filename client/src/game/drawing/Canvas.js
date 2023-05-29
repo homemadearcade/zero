@@ -70,6 +70,18 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
         const textureId = this.textureId
         const { bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
 
+        try {
+          const imageFile = await urlToFile(bufferCanvas.toDataURL(), textureId, 'image/png')
+          if(!this.strokeHistory.length) this.markSaved()
+
+          const arcadeGameMongoId = store.getState().gameModel.gameModel.id
+          await store.dispatch(uploadCanvasImageAndAddToGameModel({imageFile, arcadeGameMongoId, textureId, imageType: this.imageType || IMAGE_TYPE_CANVAS}))
+        } catch(e) {
+          console.error(e)
+          reject(e)
+          return
+        }
+
         if(this.canvasImageMongoId) {
           store.dispatch(editCanvasImage(this.canvasImageMongoId, {
             strokeHistory: [],
@@ -77,11 +89,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
           }))
         }
         this.strokeHistory = []
-        const imageFile = await urlToFile(bufferCanvas.toDataURL(), textureId, 'image/png')
-        if(!this.strokeHistory.length) this.markSaved()
-
-        const arcadeGameMongoId = store.getState().gameModel.gameModel.id
-        await store.dispatch(uploadCanvasImageAndAddToGameModel({imageFile, arcadeGameMongoId, textureId, imageType: this.imageType || IMAGE_TYPE_CANVAS}))
 
         resolve(textureId)
       } catch(e) {

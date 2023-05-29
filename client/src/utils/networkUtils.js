@@ -88,29 +88,60 @@ export const testInternetSpeed = async () => {
 export const uploadToAws = async ({url = '/api/aws/post', imageUrl, imageFile}) => {
   const contentType = imageFile.type; // eg. image/jpeg or image/svg+xml
   // imageFile.name = 'imageFile'
-  let formData = new FormData();
-  formData.append('imageFile', imageFile);
 
   const options = attachTokenToHeaders(store.getState);
 
   console.log('uploadToAws', url)
 
   try {
-    return await axios({
+    const response = await axios({
       method: 'put',
       url,
       headers: {
+        ...options.headers,
         'Content-Type': contentType || 'image/png',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-        ...options.headers
       },
-      data: formData,
       params: {
         Key: imageUrl,
         ContentType: contentType || 'image/png'
       }
     });
+    
+
+    let formData = new FormData();
+
+    const postUrl = response.data.url;
+    const fields = response.data.fields;
+    Object.keys(fields).forEach((key) => {
+      formData.append(key, fields[key]);
+    });
+
+    formData.append("Content-Type", 'image/png');
+    formData.append('file', imageFile);
+
+  //     const parseProgress = (progressEvent) => {
+  //   const progressPercentage =
+  //     (progressEvent.loaded / progressEvent.total) * 100;
+  //   onProgressChange(progressPercentage);
+  // };
+
+    console.log(fields, postUrl)
+
+    const uploadResponse = await axios({
+      method: 'post',
+      url: postUrl,
+      headers: {
+        'Content-Type': contentType || 'image/png',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      },
+      data: formData,
+    });
+
+    console.log('uploadResponse', uploadResponse)
+      
   } catch(e) {
     console.error(e)
   }
