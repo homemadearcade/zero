@@ -93,6 +93,8 @@ export const uploadToAws = async ({url = '/api/aws/post', imageUrl, imageFile}) 
 
   const options = attachTokenToHeaders(store.getState);
 
+  console.log('uploadToAws', url)
+
   try {
     return await axios({
       method: 'put',
