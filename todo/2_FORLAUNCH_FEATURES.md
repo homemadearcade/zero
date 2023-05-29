@@ -10,6 +10,8 @@ Wiggle An Object Or highlight When its hovered over - WHY NOT!
 Highlight on the map
 https://www.react-spring.dev/examples wiggle when you import class, when class is added, etc
 
+https://blog.ourcade.co/posts/2020/phaser3-detect-overlap-sprites-selection-box/
+
 Live Editor Update, Perhaps Behaviors tab whole situation
   Like maybe do you create a behavior in the live editor and then you can like add it to the entityModel???
 
@@ -20,10 +22,10 @@ Live Editor Update, Perhaps Behaviors tab whole situation
   Also like a sims-like system for choosing the number. Number selection is never good.the sliders suck. A lot of effects need numbers. Camera Shake, Gravity Pull/Push
 
 EDIT GRAPHICS
-Recommended, Recent, Drawings
+  Recommended, Recent, Drawings
 
 Tint Label 
-for the colors in Edit Graphics
+  for the colors in Edit Graphics
 
 ---
 

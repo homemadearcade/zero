@@ -57,7 +57,7 @@ const NameForm = ({ initialName, onUpdateName, onUpdateError, error, nameList, n
       </Typography>
       <Button icon="faPen" size="small" color="primary" onClick={() => {
         setIsEditingName(name)
-      }}>Edit</Button>
+      }}>Edit Name</Button>
     </div>
   }
 

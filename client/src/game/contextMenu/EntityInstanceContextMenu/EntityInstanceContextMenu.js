@@ -27,7 +27,7 @@ const EntityInstanceContextMenu = ({
 }) => {
   const entityInstanceData = gameModel.stages[currentStageId].entityInstances[entityInstanceId]
 
-  const hasInstanceBeenResized = !!(entityInstanceData.width || entityInstanceData.height)
+  const hasInstanceBeenResized = !!(entityInstanceData?.width || entityInstanceData?.height)
 
   return <>
     <ContextMenuTitle onClick={() => {

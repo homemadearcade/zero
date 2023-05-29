@@ -386,9 +386,33 @@ export class EditorScene extends GameInstance {
       store.dispatch(changeInstanceHovering(phaserInstance.entityInstanceId, phaserInstance.entityModelId, { isSpawned: phaserInstance.effectSpawned }))
     }
 
-    if(phaserInstance.isSelectable) phaserInstance.isMouseOver = true
+    // const phaserInstancesOver = this.physics.overlapRect(
+    //   pointer.worldX - 5,
+    //   pointer.worldY - 5,
+    //   10,
+    //   10
+    // )
+    // console.log('phaserInstancesOver', phaserInstancesOver)
+    
+    // let smallestWidth = 10000
+    // let smallestInstance = null
+    // phaserInstancesOver.forEach((phaserInstance) => {
+    //   console.log('phaserInstance', phaserInstance.entityInstanceId)
+    //   const entityInstance = this.getEntityInstance(phaserInstance.entityInstanceId)
+
+    //   console.log('phaserInstance', phaserInstance.width, entityInstance, smallestWidth)
+    //   if(entityInstance.isSelectable && phaserInstance.width < smallestWidth) {
+    //     smallestWidth = phaserInstance.width
+    //     smallestInstance = phaserInstance
+    //   }
+    // })
+
+    // console.log('smallestInstance', smallestInstance)
+    // if(smallestInstance) smallestInstance.isMouseOver = true
     // if(phaserInstance.effectSpawned) return
     // if(!document.body.style.cursor) document.body.style.cursor = 'grab'
+
+    if(phaserInstance.isSelectable) phaserInstance.isMouseOver = true
   }
 
   onPointerDownOutside = (pointer) => {

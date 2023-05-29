@@ -781,6 +781,8 @@ addInstancesToEntityInstanceByTag(instances) {
     // this.events.off(); // disable all active events
     // this.scene.restart(); // restart current scene
     // this.unregisterEvents()
+    this.timeToTriggerAgain = {}
+
     this.destroyInstances()
 
     this.initializeEntityInstances()
@@ -1071,18 +1073,8 @@ addInstancesToEntityInstanceByTag(instances) {
       }
     }
 
-    if(relation.event.onlyOnce) {
-      this.timeToTriggerAgain[relation.relationId] = Date.now() + 10000000000000
-    } else {
-      if(relation.effect.effectBehavior === EFFECT_SPAWN) {
-        const effectCooldown = relation.effect.effectCooldown || 200
-        this.timeToTriggerAgain[relation.relationId] = Date.now() + effectCooldown
-      } else if(relation.effect.effectCooldown) {
-        this.timeToTriggerAgain[relation.relationId] = Date.now() + relation.effect.effectCooldown
-      }
-    }
-    
-
+    // order matters here!! 
+    // if the only once is triggered before this then the delay counts as one
     if(relation.effect.effectDelay) {
       setTimeout(() => {
         const delayedRelation = _.cloneDeep(relation)
@@ -1096,6 +1088,17 @@ addInstancesToEntityInstanceByTag(instances) {
         })
       }, relation.effect.effectDelay)
       return
+    }
+
+    if(relation.event.onlyOnce) {
+      this.timeToTriggerAgain[relation.relationId] = Date.now() + 10000000000000
+    } else {
+      if(relation.effect.effectBehavior === EFFECT_SPAWN) {
+        const effectCooldown = relation.effect.effectCooldown || 200
+        this.timeToTriggerAgain[relation.relationId] = Date.now() + effectCooldown
+      } else if(relation.effect.effectCooldown) {
+        this.timeToTriggerAgain[relation.relationId] = Date.now() + relation.effect.effectCooldown
+      }
     }
 
     if(effectEditInterfaces[effect.effectBehavior].targetableType === NO_RELATION_TAG_EFFECT_IID) {

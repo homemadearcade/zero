@@ -43,7 +43,12 @@ const CreateRelationTag = ({ updateCreateRelationTag, closeCreateRelationTag, ed
   }
 
   function renderButtons() {
-    if(relationTag.isReadOnly) return <ReadOnlyWarning text={'This Relation Tag is Read only'} />
+    if(relationTag.isReadOnly) return <>
+      <ReadOnlyWarning text={'This Relation Tag is Read only'} />
+      <Button onClick={handleClose}>
+        Cancel
+      </Button>
+    </>
     return <>
       <Button disabled={!relationTag.textureTint || relationTag.isReadOnly} type="submit" onClick={handleSubmit}>
         {relationTag.isNew ? 'Create' : 'Save'}

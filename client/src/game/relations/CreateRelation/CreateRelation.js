@@ -310,7 +310,12 @@ const CreateRelation = ({
   }
 
   function renderButtons() {
-    if(relation.isReadOnly) return <ReadOnlyWarning text={"This Relation is Read Only"}/>
+    if(relation.isReadOnly) return <>
+      <ReadOnlyWarning text={"This Relation is Read Only"}/>
+      <Button onClick={handleClose}>
+        Cancel
+      </Button>
+    </>
 
     return <div className="CreateRelation__buttons">
       <Button 

@@ -35,7 +35,13 @@ const CreateEffectDialog = ({
   if(!effect) return
 
   function renderButtons() {
-    if(effect.isReadOnly) return <ReadOnlyWarning text={'This Effect is Read only'} />
+    if(effect.isReadOnly) return <>
+    
+      <ReadOnlyWarning text={'This Effect is Read only'} />
+            <Button onClick={handleClose}>
+        Cancel
+      </Button>
+    </>
 
     return <div className="CreateEffect__buttons">
       <Button 

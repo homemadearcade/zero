@@ -28,7 +28,12 @@ const CreateEventDialog = ({ closeCreateEvent, editGameModel, updateCreateEvent,
   const isEventSaveable = useIsEventSaveable(event)
 
   function renderButtons() {
-    if(event.isReadOnly) return <ReadOnlyWarning text={'This Event is Read only'} />
+    if(event.isReadOnly) return <>
+        <ReadOnlyWarning text={'This Event is Read only'} />
+              <Button onClick={handleClose}>
+            Cancel
+          </Button>
+    </>
     
      return <div className="CreateEvent__buttons">
           <Button 
