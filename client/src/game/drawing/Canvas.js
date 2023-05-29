@@ -65,8 +65,8 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   save = async ()  => {
     return new Promise(async (resolve, reject) => {
       try {
-        if(!this.isCodrawingHost) reject('not codrawing host')
-        if(!this.strokeHistory.length) reject('no stroke history')
+        if(!this.isCodrawingHost) return reject('not codrawing host')
+        if(!this.strokeHistory.length) return reject('no stroke history')
         const textureId = this.textureId
         const { bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
 

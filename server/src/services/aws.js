@@ -113,9 +113,9 @@ export async function generatePutUrl(Key) {
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/modules/_aws_sdk_s3_presigned_post.html
 
     const Conditions = [
-      { acl: "public-read" },
+      // { acl: "public-read" },
       { bucket: Bucket },
-      ["eq", "$acl", "public-read"],
+      // ["eq", "$acl", "public-read"],
       // 1048576 = 1MB
       // [("content-length-range", 0, 1048576 * 2)],
       ["content-length-range", 1, 1024 * 1024 * 2],
@@ -124,7 +124,7 @@ export async function generatePutUrl(Key) {
     ];
 
     const Fields = {
-      acl: "public-read",
+      // acl: "public-read",
     };
 
     const params = {

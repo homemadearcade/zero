@@ -119,7 +119,7 @@ export const uploadToAws = async ({url = '/api/aws/post', imageUrl, imageFile}) 
     });
 
     formData.append("Content-Type", 'image/png');
-    formData.append('file', imageFile);
+    formData.append('file', imageFile, imageUrl);
 
   //     const parseProgress = (progressEvent) => {
   //   const progressPercentage =
