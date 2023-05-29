@@ -25,7 +25,6 @@ export class Graphics {
 
     phaserInstance.setDisplaySize(entityInstance.width, entityInstance.height)
     this.setSize(entityInstance.width, entityInstance.height)
-    console.log('entityInstance', entityInstance.width, entityInstance.height)
 
     // if(entityModel.editorInterface.notSelectableInStage) return
 
@@ -281,5 +280,6 @@ export class Graphics {
     if(phaserInstance.invisibleIndicator) phaserInstance.invisibleIndicator.destroy()
     if(phaserInstance.editorHighlight) phaserInstance.editorHighlight.destroy()
     if(phaserInstance.interactBorder) phaserInstance.interactBorder.destroy()
+    if(phaserInstance.arrowKeyIcon) phaserInstance.arrowKeyIcon.destroy()
   }
 }

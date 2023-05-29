@@ -82,66 +82,66 @@ const EntityContextMenu = ({
     </Unlockable>
 
     {!insideEntityInstanceContextMenu && <Unlockable interfaceId={ENTITY_MODEL_DUPLICATE_IID}>
-        <MenuItem onClick={() => {  
-          const newEntityId = ENTITY_MODEL_DID+entityModelClassToPrefix[entityModel.entityIID]+generateUniqueId()
+      <MenuItem onClick={() => {  
+        const newEntityId = ENTITY_MODEL_DID+entityModelClassToPrefix[entityModel.entityIID]+generateUniqueId()
 
-          const newRelationTags =  Object.keys(entityModel.relationTags).filter(relationTagId => {
-            const relationTag = gameModel.relationTags[relationTagId]
-            return relationTag.dataSourceIID !== DATA_SOURCE_ENTITY_MODEL_IID
-          }).reduce((newRelationTags, relationTagId) => {
-            newRelationTags[relationTagId] = entityModel.relationTags[relationTagId]
-            return newRelationTags
-          }, {})
+        const newRelationTags =  Object.keys(entityModel.relationTags).filter(relationTagId => {
+          const relationTag = gameModel.relationTags[relationTagId]
+          return relationTag.dataSourceIID !== DATA_SOURCE_ENTITY_MODEL_IID
+        }).reduce((newRelationTags, relationTagId) => {
+          newRelationTags[relationTagId] = entityModel.relationTags[relationTagId]
+          return newRelationTags
+        }, {})
 
-          const newEntityModel = {
-            ...entityModel,
-            relationTags:newRelationTags
+        const newEntityModel = {
+          ...entityModel,
+          relationTags:newRelationTags
+        }
+
+        editGameModel({
+          entityModels: {
+            [newEntityId]: {
+              ...newEntityModel,
+              dataSourceIID: DATA_SOURCE_GAME_MODEL_IID,
+              entityModelId: newEntityId,
+              name: entityModel.name + ' Duplicate',
+              isNew: false
+            }
           }
-
+        })
+        onMenuItemClick()
+      }}><ListItemIcon><Icon icon="faClone"/></ListItemIcon>Duplicate {entityModelClassToDisplayName[entityModel.entityIID]}</MenuItem>
+    </Unlockable>}
+    {!insideEntityInstanceContextMenu && 
+      <Unlockable interfaceId={ENTITY_MODEL_REMOVE_IID}>
+        <MenuItem onClick={() => {
           editGameModel({
             entityModels: {
-              [newEntityId]: {
-                ...newEntityModel,
-                dataSourceIID: DATA_SOURCE_GAME_MODEL_IID,
-                entityModelId: newEntityId,
-                name: entityModel.name + ' Duplicate',
-                isNew: false
+              [entityModelId]: {
+                isRemoved: !entityModel.isRemoved
               }
-            }
+            },
           })
           onMenuItemClick()
-        }}><ListItemIcon><Icon icon="faClone"/></ListItemIcon>Duplicate {entityModelClassToDisplayName[entityModel.entityIID]}</MenuItem>
-      </Unlockable>}
-      {!insideEntityInstanceContextMenu && 
-        <Unlockable interfaceId={ENTITY_MODEL_REMOVE_IID}>
-          <MenuItem onClick={() => {
-            editGameModel({
-              entityModels: {
-                [entityModelId]: {
-                  isRemoved: !entityModel.isRemoved
+        }}><ListItemIcon><Icon icon="faSquareMinus"/></ListItemIcon>{entityModel.isRemoved ? 'Restore' : 'Remove'}</MenuItem>
+    </Unlockable>}
+    {!insideEntityInstanceContextMenu && 
+      <Unlockable interfaceId={ENTITY_MODEL_IMPORT_IID}>
+        <MenuItem onClick={() => {
+          editGameModel({
+            entityModels: {
+              [entityModelId]: {
+                importedStageIds: {
+                  [currentStageId] : !entityModel.importedStageIds[currentStageId]
                 }
-              },
-            })
-            onMenuItemClick()
-          }}><ListItemIcon><Icon icon="faSquareMinus"/></ListItemIcon>{entityModel.isRemoved ? 'Restore' : 'Remove'}</MenuItem>
-        </Unlockable>}
-        {!insideEntityInstanceContextMenu && 
-          <Unlockable interfaceId={ENTITY_MODEL_IMPORT_IID}>
-            <MenuItem onClick={() => {
-              editGameModel({
-                entityModels: {
-                  [entityModelId]: {
-                    importedStageIds: {
-                      [currentStageId] : !entityModel.importedStageIds[currentStageId]
-                    }
-                  }
-                },
-              })
-              onMenuItemClick()
-            }}>
-              <ListItemIcon><Icon icon="faBoxArchive"/></ListItemIcon>
-              {entityModel.importedStageIds[currentStageId] ? 'Unimport' : 'Import'}</MenuItem>
-        </Unlockable>}
+              }
+            },
+          })
+          onMenuItemClick()
+        }}>
+          <ListItemIcon><Icon icon="faBoxArchive"/></ListItemIcon>
+          {entityModel.importedStageIds[currentStageId] ? 'Unimport' : 'Import'}</MenuItem>
+    </Unlockable>}
   </>
 };
 

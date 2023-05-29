@@ -25,6 +25,10 @@ const EntityInstanceContextMenu = ({
   openJsonViewer,
   setResizingEntityInstance
 }) => {
+  const entityInstanceData = gameModel.stages[currentStageId].entityInstances[entityInstanceId]
+
+  const hasInstanceBeenResized = !!(entityInstanceData.width || entityInstanceData.height)
+
   return <>
     <ContextMenuTitle onClick={() => {
       openEditEntityDialog(gameModel.entityModels[entityModelId])
@@ -55,7 +59,7 @@ const EntityInstanceContextMenu = ({
       }}><ListItemIcon><Icon icon="faUpRightAndDownLeftFromCenter"/></ListItemIcon>Resize</MenuItem>
     </Unlockable>
     <Unlockable interfaceId={ENTITY_INSTANCE_RESIZE_ENTITY_IID}>
-      <MenuItem onClick={() => {
+      <MenuItem disabled={hasInstanceBeenResized} onClick={() => {
         setResizingEntityInstance(entityInstanceId, entityModelId)
         onMenuItemClick()
       }}><ListItemIcon><Icon icon="faUpRightAndDownLeftFromCenter"/></ListItemIcon>Resize All</MenuItem>

@@ -180,8 +180,13 @@ export class EditorScene extends GameInstance {
 
     const resizingEntityModelId = getCobrowsingState().gameViewEditor.resizingEntityModelId
     if(resizingEntityModelId) {
-      this.forAllEntityInstancesMatchingEntityId(phaserInstance.entityModelId, (object) => {
-        object.setSize(width, height)
+      this.forAllEntityInstancesMatchingEntityId(phaserInstance.entityModelId, (entityInstance) => {
+        const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
+        if(entityInstanceData.width || entityInstanceData.height) {
+          // dont resize this one cuz it wont be effected
+        } else {
+          entityInstance.setSize(width, height)
+        }
       })
     } else {
       const entityInstance = this.getEntityInstance(phaserInstance.entityInstanceId)

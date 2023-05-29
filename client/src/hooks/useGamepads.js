@@ -8,10 +8,21 @@ export default function useGamepads(callback) {
   var haveEvents = 'ongamepadconnected' in window;
 
   useEffect(() => {
-    console.log('oi', gamepads.current)
-    setButtonsPressed(gamepads.current.map((gamepad) => {
-      return  gamepad.buttons
-    }));
+    const buttonCheckInterval = setInterval(() => {
+      if(!gamepads.current[0]) return
+      console.log('gamepads.current', gamepads.current)
+      setButtonsPressed(gamepads.current[0].buttons.reduce((prev, button, index) => {
+        console.log('button', button)
+        return {
+          ...prev,
+          [button.value]: button.pressed
+        }
+      }), {});
+    }, 100)
+
+    return () => {
+     clearInterval(buttonCheckInterval)
+    }
   }, [gamepads]);
 
   const addGamepad = (gamepad) => {
@@ -21,7 +32,7 @@ export default function useGamepads(callback) {
     };
 
     // Send data to external callback (like React state)
-    callback(gamepads.current);
+    // callback(gamepads.current);
 
     // Handle controller input before render
     // @TODO: Add API to hook callback into this
@@ -75,5 +86,7 @@ export default function useGamepads(callback) {
     return () => cancelAnimationFrame(requestRef.current);
   });
 
-  return gamepads.current;
+  return {
+    buttonsPressed
+  }
 }

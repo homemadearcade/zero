@@ -1,7 +1,7 @@
 import store from "../../../store"
 import { getCobrowsingState } from "../../../utils"
 import { isPlayerId } from "../../../utils/gameUtils"
-import { MOVEMENT_FOLLOW_RELATION_TAG, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_TURN_RANDOMLY, MOVEMENT_MIRROR_PLAYER, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_UP_AND_DOWN } from "../../constants"
+import { MOVEMENT_FOLLOW_RELATION_TAG, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_TURN_RANDOMLY, MOVEMENT_MIRROR_PLAYER, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_UP_AND_DOWN, MOVEMENT_JUMP } from "../../constants"
 
 export class Movement {
   constructor(scene, entityInstance){
@@ -115,6 +115,10 @@ export class Movement {
         phaserInstance.setVelocityY(entityModel.movement.velocityY)
       }
     }
+
+    // if(movementBehavior === MOVEMENT_JUMP && phaserInstance.body.blocked.down) {
+    //   phaserInstance.setVelocityY(entityModel.movement.velocityY)
+    // }
 
     if(this.mirroringInstance) {
       const mirroringPhaserInstance = this.mirroringInstance.phaserInstance
