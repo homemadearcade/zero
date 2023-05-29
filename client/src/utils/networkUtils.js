@@ -91,8 +91,6 @@ export const uploadToAws = async ({url = '/api/aws/post', imageUrl, imageFile}) 
 
   const options = attachTokenToHeaders(store.getState);
 
-  console.log('uploadToAws', url)
-
   try {
     const response = await axios({
       method: 'put',
@@ -127,8 +125,6 @@ export const uploadToAws = async ({url = '/api/aws/post', imageUrl, imageFile}) 
   //   onProgressChange(progressPercentage);
   // };
 
-    console.log(fields, postUrl)
-
     const uploadResponse = await axios({
       method: 'post',
       url: postUrl,
@@ -139,8 +135,6 @@ export const uploadToAws = async ({url = '/api/aws/post', imageUrl, imageFile}) 
       },
       data: formData,
     });
-
-    console.log('uploadResponse', uploadResponse)
       
   } catch(e) {
     console.error(e)
