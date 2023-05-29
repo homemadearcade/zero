@@ -33,7 +33,8 @@ router.put('/stroke/:id', requireJwtAuth, requireSocketAuth, async (req, res) =>
       textureId: req.params.id,
       brushId: req.body.brushId,
       stroke: req.body.stroke,
-      strokeId: req.body.strokeId
+      strokeId: req.body.strokeId,
+      operationType: req.body.operationType
     });
 
     res.status(200).send();

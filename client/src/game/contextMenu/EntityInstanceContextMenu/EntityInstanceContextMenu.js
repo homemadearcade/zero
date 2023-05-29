@@ -25,16 +25,6 @@ const EntityInstanceContextMenu = ({
   openJsonViewer,
   setResizingEntityInstance
 }) => {
-  if(entityModelId === initialCameraZoneEntityId) {
-    return <Unlockable interfaceId={ENTITY_INSTANCE_RESIZE_ENTITY_IID}>
-      <MenuItem onClick={() => {
-        setResizingEntityInstance(entityInstanceId)
-        // getCurrentGameScene(gameInstance).onResizeStart(entityInstanceId)
-        onMenuItemClick()
-      }}><ListItemIcon><Icon icon="faUpRightAndDownLeftFromCenter"/></ListItemIcon>Resize</MenuItem>
-    </Unlockable>
-  }
-
   return <>
     <ContextMenuTitle onClick={() => {
       openEditEntityDialog(gameModel.entityModels[entityModelId])
@@ -63,6 +53,12 @@ const EntityInstanceContextMenu = ({
         setResizingEntityInstance(entityInstanceId)
         onMenuItemClick()
       }}><ListItemIcon><Icon icon="faUpRightAndDownLeftFromCenter"/></ListItemIcon>Resize</MenuItem>
+    </Unlockable>
+    <Unlockable interfaceId={ENTITY_INSTANCE_RESIZE_ENTITY_IID}>
+      <MenuItem onClick={() => {
+        setResizingEntityInstance(entityInstanceId, entityModelId)
+        onMenuItemClick()
+      }}><ListItemIcon><Icon icon="faUpRightAndDownLeftFromCenter"/></ListItemIcon>Resize All</MenuItem>
     </Unlockable>
     {entityInstanceId !== PLAYER_INSTANCE_DID && <Unlockable interfaceId={ENTITY_INSTANCE_DELETE_IID}>
       <MenuItem onClick={() => {

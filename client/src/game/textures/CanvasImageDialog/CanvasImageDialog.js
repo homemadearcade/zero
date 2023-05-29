@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import './CanvasImageDialog.scss';
-import { CANVAS_IMAGE_LAYER_ID,  COLOR_BRUSH_ID } from '../../constants';
+import { CANVAS_IMAGE_LAYER_ID,  CODRAWING_FLIP_X_OP,  CODRAWING_FLIP_Y_OP,  CODRAWING_ROTATE_OP,  COLOR_BRUSH_ID } from '../../constants';
 
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import CobrowsingDialog from '../../cobrowsing/CobrowsingDialog/CobrowsingDialog';
@@ -109,18 +109,18 @@ const CanvasImageDialog = ({
           variant="outlined"
           menu={(handleClose) => {
             return [
-                <MenuItem onClick={() => {
+              <MenuItem onClick={() => {
                   handleClose()
                   const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
                   // imageCanvasScene.backgroundCanvasLayer.setOrigin(0.5, 0.5)
-                  imageCanvasScene.backgroundCanvasLayer.rotate()
+                  imageCanvasScene.backgroundCanvasLayer.publishSpecialOperation(CODRAWING_ROTATE_OP)
                 }}>
                   Rotate
               </MenuItem>,
               <MenuItem onClick={() => {
                   handleClose()
                   const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
-                  imageCanvasScene.backgroundCanvasLayer.flipHorizontal()
+                  imageCanvasScene.backgroundCanvasLayer.publishSpecialOperation(CODRAWING_FLIP_X_OP)
                   // imageCanvasScene.backgroundCanvasLayer = imageCanvasScene.backgroundCanvasLayer.clone()
                 }}>
                   Flip ⇆
@@ -128,7 +128,7 @@ const CanvasImageDialog = ({
               <MenuItem onClick={() => {
                   handleClose()
                   const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
-                  imageCanvasScene.backgroundCanvasLayer.flipVertical()
+                  imageCanvasScene.backgroundCanvasLayer.publishSpecialOperation(CODRAWING_FLIP_Y_OP)
                 }}>
                   Flip ⇵
               </MenuItem>

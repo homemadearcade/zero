@@ -21,7 +21,7 @@ const initialState = {
     [ZONE_ENTITY_IID]: true,
   },
   cameraZoom: 3,
-
+  
   isGridViewOn: false,
   isPixelPerfectModeOn: false,
   isBoundaryEditorOpen: false,
@@ -29,6 +29,7 @@ const initialState = {
   snapshotTextureId: null,
 
   resizingEntityInstanceId: null,
+  resizingEntityModelId: null,
 
   isMouseOverGameView: false,
   isDialogOverGameView: false,
@@ -100,7 +101,8 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
     case SET_RESIZING_ENTITY_INSTANCE_ID: 
       return {
         ...state,
-        resizingEntityInstanceId: payload.entityInstanceId
+        resizingEntityInstanceId: payload.entityInstanceId,
+        resizingEntityModelId: payload.entityModelId
       }
     case TOGGLE_LAYER_VISIBILITY:
       return {

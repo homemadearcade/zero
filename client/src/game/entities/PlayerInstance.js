@@ -90,9 +90,9 @@ export class PlayerInstance extends EntityInstance {
   registerKeys() {
     // this.mergedInput = this.scene.mergedInput.addPlayer(0)
 
-    this.scene.input.gamepad.on('down', (pad, button, value) =>{
-      console.log('gamepad down', pad, button, value)         
-    });
+    // this.scene.input.gamepad.on('down', (pad, button, value) =>{
+    //   console.log('gamepad down', pad, button, value)         
+    // });
 
     this.interactKey = {
       isDown: false,

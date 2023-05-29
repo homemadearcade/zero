@@ -2,11 +2,12 @@ import store from "../../store";
 import { Canvas } from "./Canvas";
 
 import { ON_CODRAWING_STROKE, ON_CODRAWING_SUBSCRIBED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, MARK_CANVAS_IMAGE_STROKES_PENDING, ON_CODRAWING_IMAGE_UPDATE } from "../../store/types";
-import { subscribeCodrawing, unsubscribeCodrawing } from "../../store/actions/media/codrawingActions";
-import { noCodrawingStrokeUpdateDelta} from "../constants";
+import { publishCodrawingStrokes, subscribeCodrawing, unsubscribeCodrawing } from "../../store/actions/media/codrawingActions";
+import { CODRAWING_FLIP_X_OP, CODRAWING_FLIP_Y_OP, CODRAWING_ROTATE_OP, CODRAWING_STROKE_OP, STROKE_DID, noCodrawingStrokeUpdateDelta} from "../constants";
 import { changeErrorState, clearErrorState } from "../../store/actions/errorsActions";
 import { CODRAWING_CONNECTION_LOST } from "../../constants";
 import { editCanvasImage, getCanvasImageByTextureId } from "../../store/actions/media/canvasImageActions";
+import { generateUniqueId } from "../../utils";
 
 export class CodrawingCanvas extends Canvas {
   constructor(scene, props){
@@ -93,7 +94,7 @@ export class CodrawingCanvas extends Canvas {
         pending: true
       }
     })
-  } 
+  }
 
   addStrokeHistory(strokeData) {
     this.strokeHistory.push(strokeData)
@@ -101,6 +102,36 @@ export class CodrawingCanvas extends Canvas {
     store.dispatch(editCanvasImage(this.canvasImageMongoId, {
       strokeHistory: this.strokeHistory
     }))
+  }
+
+  publishSpecialOperation(operationType) {
+    const strokeData = { 
+      strokeId: STROKE_DID + generateUniqueId(),
+      textureId: this.textureId,
+      time: Date.now(),
+      operationType: operationType
+    }
+
+    this.runSpecialOperation(operationType)
+  
+    if(this.isOnlineMultiplayer) {
+      store.dispatch(publishCodrawingStrokes(strokeData))
+      if(!this.isCodrawingHost) {
+        this.addPendingStrokes(strokeData)
+      }
+    } else {
+      this.addStrokeHistory(strokeData)
+    }
+  }
+
+  runSpecialOperation(operationType) {
+    if(operationType === CODRAWING_FLIP_X_OP) {
+      this.flipHorizontal()
+    } else if(operationType === CODRAWING_FLIP_Y_OP) {
+      this.flipVertical()
+    } else if(operationType === CODRAWING_ROTATE_OP) {
+      this.rotate()
+    }
   }
 
   async initializeStrokeHistory() {
@@ -154,17 +185,21 @@ export class CodrawingCanvas extends Canvas {
     }
   }
 
-  executeRemoteStroke({textureId, brushId, stroke}) {
-    const canvas = this.scene.getLayerInstanceByTextureId(textureId)
-    const brush = this.scene.createBrushFromBrushId(brushId)
-    brush.setVisible(false)
+  executeRemoteStroke({textureId, brushId, stroke, operationType}) {
+    if(operationType === CODRAWING_STROKE_OP) {
+      const canvas = this.scene.getLayerInstanceByTextureId(textureId)
+      const brush = this.scene.createBrushFromBrushId(brushId)
+      brush.setVisible(false)
 
-    stroke.forEach(({x, y, width, height}) => {
-      brush.setSize(width, height)
-      brush.executeStroke(x, y, canvas)
-    })
+      stroke.forEach(({x, y, width, height}) => {
+        brush.setSize(width, height)
+        brush.executeStroke(x, y, canvas)
+      })
 
-    brush.destroy()
+      brush.destroy()
+    } else {
+      this.runSpecialOperation(operationType)
+    }
   }
 
   destroy() {

@@ -42,7 +42,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     this.clear()
     super.draw(renderTexture, 0, 0)
     this.camera.setAngle(0)
-    this.save()
   }
 
   flipHorizontal () {
@@ -52,7 +51,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     renderTexture.flipX = !renderTexture.flipX
     this.clear()
     super.draw(renderTexture, 0, 0)
-    this.save()
   }
 
   flipVertical () {
@@ -62,7 +60,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     renderTexture.flipY = !renderTexture.flipY
     this.clear()
     super.draw(renderTexture, 0, 0)
-    this.save()
   }
 
   save = async ()  => {
@@ -192,7 +189,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   onStrokeReleased() {
-    this.addCanvasToUndoStack()
+    // this.addCanvasToUndoStack()
     if(this.autoSave) this.debouncedSave()
   }
 

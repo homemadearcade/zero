@@ -178,11 +178,16 @@ export class EditorScene extends GameInstance {
       height = width
     }
 
-    const entityInstance = this.getEntityInstance(phaserInstance.entityInstanceId)
-    entityInstance.setSize(width, height)
-    // this.forAllEntityInstancesMatchingEntityId(phaserInstance.entityModelId, (object) => {
-    //   object.setSize(width, height)
-    // })
+    const resizingEntityModelId = getCobrowsingState().gameViewEditor.resizingEntityModelId
+    if(resizingEntityModelId) {
+      this.forAllEntityInstancesMatchingEntityId(phaserInstance.entityModelId, (object) => {
+        object.setSize(width, height)
+      })
+    } else {
+      const entityInstance = this.getEntityInstance(phaserInstance.entityInstanceId)
+      entityInstance.setSize(width, height)
+    }
+
   }
 
   clearResize() {
@@ -224,28 +229,44 @@ export class EditorScene extends GameInstance {
         }
       }))
     } else {
-      store.dispatch(editGameModel({ 
-        stages: {
-          [this.stage.stageId]: {
-            entityInstances: {
-              [phaserInstance.entityInstanceId]: {
-                spawnX: phaserInstance.x,
-                spawnY: phaserInstance.y,
+      const resizingEntityModelId = getCobrowsingState().gameViewEditor.resizingEntityModelId
+      if(resizingEntityModelId) {
+        store.dispatch(editGameModel({ 
+          entityModels: {
+            [phaserInstance.entityModelId]: {
+              graphics: {
                 width,
                 height
               }
-            },
+            } 
+          },
+          stages: {
+            [this.stage.stageId]: {
+              entityInstances: {
+                [phaserInstance.entityInstanceId]: {
+                  spawnX: phaserInstance.x,
+                  spawnY: phaserInstance.y,
+                }
+              },
+            }
           }
-        },
-        // entityModels: {
-        //   [phaserInstance.entityModelId]: {
-        //     graphics: {
-        //       width,
-        //       height
-        //     }
-        //   } 
-        // }
-      }))
+        }))
+      } else {
+        store.dispatch(editGameModel({ 
+          stages: {
+            [this.stage.stageId]: {
+              entityInstances: {
+                [phaserInstance.entityInstanceId]: {
+                  spawnX: phaserInstance.x,
+                  spawnY: phaserInstance.y,
+                  width,
+                  height
+                }
+              },
+            }
+          },
+        }))
+      }
     }
 
     this.resizingEntityInstance = null

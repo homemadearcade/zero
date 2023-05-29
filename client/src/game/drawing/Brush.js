@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { getCobrowsingState } from "../../utils/cobrowsingUtils";
-import { DEFAULT_TEXTURE_ID, STROKE_DID } from "../constants";
+import { CODRAWING_STROKE_OP, DEFAULT_TEXTURE_ID, STROKE_DID } from "../constants";
 import { publishCodrawingStrokes } from "../../store/actions/media/codrawingActions";
 import { generateUniqueId } from "../../utils/webPageUtils";
 
@@ -123,7 +123,8 @@ export class Brush extends Phaser.GameObjects.Image {
       textureId: this.brushingCanvas.textureId,
       time: Date.now(),
       brushId: this.brushId,
-      stroke: this.strokeMemory
+      stroke: this.strokeMemory,
+      operationType: CODRAWING_STROKE_OP
     }
     
     if(this.scene.gameRoomInstance.isOnlineMultiplayer) {
