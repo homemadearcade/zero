@@ -63,7 +63,7 @@
     "extends": "react-app"
   },
   "engines": {
-    "node": "18.9.0",
+    "node": "18.15.0",
     "npm": "8.19.4"
   },
   "proxy": "https://localhost:5000/",
