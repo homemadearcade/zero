@@ -64,27 +64,27 @@ export class EditorScene extends GameInstance {
     this.isDragFromContext = true
   }
 
-  onDragStart (entityInstanceId) {
-    this.draggingEntityInstanceId = entityInstanceId
+  onDragStart = (pointer, phaserInstance, dragX, dragY) => {
+    // const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
+    // if(isObscured) {
+    //   return
+    // }
+
+    // if(phaserInstance.effectSpawned) return
+
+
     this.isDragFromContext = false
+
+    if(this.draggingEntityInstanceId === phaserInstance.entityInstanceId) {
+      this.continueDrag(phaserInstance, {x: dragX, y: dragY})
+    } else if(!this.brush && !this.stamper){
+      if(phaserInstance.entityInstanceId !== this.hoveringInstanceId) {
+        return 
+      }
+      console.log('onDragStart', phaserInstance.entityInstanceId, this.hoveringInstanceId)
+      this.draggingEntityInstanceId = phaserInstance.entityInstanceId
+    }
   }
-
-  // onDragStart = (pointer, phaserInstance, dragX, dragY) => {
-  //   // const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
-  //   // if(isObscured) {
-  //   //   return
-  //   // }
-
-  //   // if(phaserInstance.effectSpawned) return
-
-  //   this.isDragFromContext = false
-
-  //   if(this.draggingEntityInstanceId) {
-  //     this.continueDrag(phaserInstance, {x: dragX, y: dragY})
-  //   } else if(!this.brush && !this.stamper){
-  //     this.draggingEntityInstanceId = phaserInstance.entityInstanceId
-  //   }
-  // }
 
   isPixelPerfectModeOn = () => {
     return getCobrowsingState().gameViewEditor.isPixelPerfectModeOn
@@ -142,9 +142,9 @@ export class EditorScene extends GameInstance {
     }
   }
 
-  // onDragEnd = (pointer, phaserInstance) => {
-  //   this.finishDrag(phaserInstance)
-  // }
+  onDragEnd = (pointer, phaserInstance) => {
+    this.finishDrag(phaserInstance)
+  }
 
 
   ////////////////////////////////////////////////////////////
@@ -372,11 +372,9 @@ export class EditorScene extends GameInstance {
     if(this.stamper) {
       this.stamper.update(pointer)
     }
-
-    this.selectPhaserInstance(pointer, phaserInstances)
   }
 
-  selectPhaserInstance = (pointer, phaserInstances) => {
+  onPointerOver = (pointer, phaserInstances) => {
     if(this.draggingEntityInstanceId) return
     // const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
     //isObscured ||
@@ -385,33 +383,41 @@ export class EditorScene extends GameInstance {
     //   return
     // }
 
-    const phaserInstancesOver = this.physics.overlapRect(
-      pointer.worldX - 5,
-      pointer.worldY - 5,
-      10,
-      10
-    )
-    
-    let smallestWidth = 10000
-    let smallestInstance = null
-    phaserInstancesOver.forEach((phaserInstanceBody) => {
-      const phaserInstance = phaserInstanceBody.entityInstance.phaserInstance
-      if(phaserInstance.isSelectable && phaserInstanceBody.width < smallestWidth) {
-        smallestWidth = phaserInstanceBody.width
-        smallestInstance = phaserInstance
-      }
-    })
+    const entityInstanceIdHovering = store.getState().hoverPreview.entityInstanceIdHovering
+    const phaserInstance = phaserInstances[0]
 
-    if(smallestInstance) {
-      this.hoveringInstance = smallestInstance
-      const entityInstanceIdHovering = store.getState().hoverPreview.entityInstanceIdHovering
-      if(smallestInstance.entityInstanceId !== entityInstanceIdHovering) {
-        store.dispatch(changeInstanceHovering(smallestInstance.entityInstanceId, smallestInstance.entityModelId, { isSpawned: smallestInstance.effectSpawned }))
-      }
-    } else {
-      this.hoveringInstance = null
-      store.dispatch(changeInstanceHovering(null, null))
+    if(phaserInstance.entityInstanceId !== entityInstanceIdHovering && phaserInstance?.isSelectable) {
+      store.dispatch(changeInstanceHovering(phaserInstance.entityInstanceId, phaserInstance.entityModelId, { isSpawned: phaserInstance.effectSpawned }))
     }
+
+    // const phaserInstancesOver = this.physics.overlapRect(
+    //   pointer.worldX - 5,
+    //   pointer.worldY - 5,
+    //   10,
+    //   10
+    // )
+    // console.log('phaserInstancesOver', phaserInstancesOver)
+    
+    // let smallestWidth = 10000
+    // let smallestInstance = null
+    // phaserInstancesOver.forEach((phaserInstance) => {
+    //   console.log('phaserInstance', phaserInstance.entityInstanceId)
+    //   const entityInstance = this.getEntityInstance(phaserInstance.entityInstanceId)
+
+    //   console.log('phaserInstance', phaserInstance.width, entityInstance, smallestWidth)
+    //   if(entityInstance.isSelectable && phaserInstance.width < smallestWidth) {
+    //     smallestWidth = phaserInstance.width
+    //     smallestInstance = phaserInstance
+    //   }
+    // })
+
+    // console.log('smallestInstance', smallestInstance)
+    // if(smallestInstance) smallestInstance.isMouseOver = true
+    // if(phaserInstance.effectSpawned) return
+    // if(!document.body.style.cursor) document.body.style.cursor = 'grab'
+
+    this.hoveringInstanceId = phaserInstance.entityInstanceId
+    if(phaserInstance.isSelectable) phaserInstance.isMouseOver = true
   }
 
   onPointerDownOutside = (pointer) => {
@@ -679,16 +685,16 @@ export class EditorScene extends GameInstance {
     this.isMouseOverGame = false
   }
 
-  // onPointerOut = (pointer, phaserInstances) => {
-  //   // const phaserInstance = phaserInstances[0]
-  //   // phaserInstance.isMouseOver = false
-  //   store.dispatch(changeInstanceHovering(null, null))
-  //   // const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
-  //   // if(isObscured) {
-  //   //   return
-  //   // }
-  //   // if(document.body.style.cursor === 'grab') document.body.style.cursor = null
-  // }
+  onPointerOut = (pointer, phaserInstances) => {
+    const phaserInstance = phaserInstances[0]
+    phaserInstance.isMouseOver = false
+    store.dispatch(changeInstanceHovering(null, null))
+    // const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
+    // if(isObscured) {
+    //   return
+    // }
+    // if(document.body.style.cursor === 'grab') document.body.style.cursor = null
+  }
 
   onPointerUpOutside = (pointer)  => {
     this.draggingEntityInstanceId = null
@@ -1173,8 +1179,8 @@ export class EditorScene extends GameInstance {
       this.editorCameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
     }
 
-    // this.input.on('pointerover', this.onPointerOver);
-    // this.input.on('pointerout', this.onPointerOut);
+    this.input.on('pointerover', this.onPointerOver);
+    this.input.on('pointerout', this.onPointerOut);
     this.input.on('pointerdown', this.onPointerDown, this);
     this.input.on('pointerup', this.onPointerUp);
     this.input.on('pointerupoutside', this.onPointerUpOutside);
@@ -1186,6 +1192,7 @@ export class EditorScene extends GameInstance {
     this.input.on('drag', this.onDragStart);
     this.input.on('dragend', this.onDragEnd);
     this.input.on('wheel', this.onMouseWheel);
+    this.input.setTopOnly(false)
     if(!isLocalHost()) this.input.mouse.disableContextMenu()
     this.escKey = this.input.keyboard.addKey('esc');  // Get key object
 
@@ -1348,8 +1355,8 @@ export class EditorScene extends GameInstance {
 
   unload () {
     super.unload()
-    // this.input.off('pointerover', this.onPointerOver);
-    // this.input.off('pointerout', this.onPointerOut);
+    this.input.off('pointerover', this.onPointerOver);
+    this.input.off('pointerout', this.onPointerOut);
     this.input.off('pointerdown', this.onPointerDown, this);
     this.input.off('pointerup', this.onPointerUp);
     this.input.off('pointerupoutside', this.onPointerUpOutside);

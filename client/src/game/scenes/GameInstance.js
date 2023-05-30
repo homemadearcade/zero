@@ -162,8 +162,6 @@ export class GameInstance extends Phaser.Scene {
         relationsByEvent[populatedEvent.eventType] = [populatedRelation]
       }
       
-      
-
       return relationsByEvent
     }, {})
   }
@@ -712,12 +710,14 @@ addInstancesToEntityInstanceByTag(instances) {
   }
 
   runOnStageSwitchEffects() {
-    const stageId = this.getCurrentStage().stageId
-    this.relationsByEventType[ON_STAGE_LOADED]?.forEach((relation) => {
-      if(relation.event.stageId === stageId) {
-        this.runRelation(relation)
-      }
-    })
+    if(this.isPlaythrough) {
+      const stageId = this.getCurrentStage().stageId
+      this.relationsByEventType[ON_STAGE_LOADED]?.forEach((relation) => {
+        if(relation.event.stageId === stageId) {
+          this.runRelation(relation)
+        }
+      })
+    }
   }
 
   runOnPlaythroughStartEffects() {
