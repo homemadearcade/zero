@@ -7,6 +7,9 @@ import {
   GET_SPRITESHEET_DATA_FAIL,
   GET_SPRITESHEET_DATA_SUCCESS,
   CHANGE_CURRENT_STAGE,
+  ADD_STAGE_TO_GAME_MODEL_FAIL,
+  ADD_STAGE_TO_GAME_MODEL_LOADING,
+  ADD_STAGE_TO_GAME_MODEL_SUCCESS,
 } from '../../types';
 
 const initialState = {
@@ -16,6 +19,8 @@ const initialState = {
   error: null,
   gameModel: null,
   spritesByDescriptor: null,
+
+  isStageAddLoading: false,
 };
 
 export default function gameReducer(state = initialState, { type, payload }) {
@@ -74,6 +79,22 @@ export default function gameReducer(state = initialState, { type, payload }) {
         ...state,
         isLoading: false,
         gameModel: null
+      };
+    case ADD_STAGE_TO_GAME_MODEL_LOADING: 
+      return {
+        ...state,
+        isStageAddLoading: true,
+      };
+    case ADD_STAGE_TO_GAME_MODEL_FAIL:
+      return {
+        ...state,
+        isStageAddLoading: false,
+        error: payload.error,
+      };
+    case ADD_STAGE_TO_GAME_MODEL_SUCCESS:
+      return {
+        ...state,
+        isStageAddLoading: false,
       };
     default:
       return state;

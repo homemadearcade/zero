@@ -9,10 +9,13 @@ import {
   GET_SPRITESHEET_DATA_SUCCESS,
   GET_SPRITESHEET_DATA_FAIL,
   CHANGE_CURRENT_STAGE,
+  ADD_STAGE_TO_GAME_MODEL_LOADING,
+  ADD_STAGE_TO_GAME_MODEL_SUCCESS,
+  ADD_STAGE_TO_GAME_MODEL_FAIL,
 } from '../../types';
 import _ from 'lodash';
 import { getSpritesByDescriptor } from '../../../game/constants';
-import { onArcadeGameModelUpdate } from './arcadeGameActions';
+import { addLayersForArcadeGameStage, onArcadeGameModelUpdate } from './arcadeGameActions';
 
 export const changeCurrentStage = (stageId) => (dispatch, getState) => {
   dispatch({
@@ -90,6 +93,36 @@ export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
       payload: { error: err?.response?.data.message || err.message },
     });
   }
+}
+
+export const addStageToGameModel = (stage, gameModel) => async (dispatch, getState) => {
+  dispatch({
+    type: ADD_STAGE_TO_GAME_MODEL_LOADING
+  })
+
+  try {
+    await addLayersForArcadeGameStage(gameModel.id, gameModel.owner.id, stage.stageId)
+    await dispatch(editGameModel({
+      stages: {
+        [stage.stageId] : {
+          ...stage,
+          isNew: false,
+        }
+      },
+    }))
+
+    dispatch({
+      type: ADD_STAGE_TO_GAME_MODEL_SUCCESS
+    })
+  } catch(e) {
+    console.error(e)
+    dispatch({
+      type: ADD_STAGE_TO_GAME_MODEL_FAIL,
+      payload: { error: e?.response?.data.message || e.message },
+    })
+  }
+
+
 }
 
 // export const unloadArcadeGameModel = () => (dispatch, getState) => {

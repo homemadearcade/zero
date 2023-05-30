@@ -8,9 +8,8 @@ import { closeCreateStageDialog, updateCreateStage } from '../../../store/action
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
-import { editGameModel } from '../../../store/actions/game/gameModelActions';
+import { addStageToGameModel, editGameModel } from '../../../store/actions/game/gameModelActions';
 import {  STAGE_DID} from '../../constants';
-import { addLayersForArcadeGameStage } from '../../../store/actions/game/arcadeGameActions';
 import StageNameForm from '../StageNameForm/StageNameForm';
 import SelectEntityModel from '../../ui/SelectEntityModel/SelectEntityModel';
 import { STAGE_SPAWN_ZONE_SELECT_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
@@ -33,7 +32,12 @@ import { STAGE_SPAWN_ZONE_SELECT_IID, ZONE_ENTITY_IID } from '../../../constants
         //     },
         //   ]}
         // /> */}
-const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreateStage, gameFormEditor: { stage }, gameModel: { gameModel, currentStageId } }) => {
+const CreateStageDialog = ({ 
+  closeCreateStageDialog, editGameModel,
+  updateCreateStage, gameFormEditor: { stage }, 
+  gameModel: { gameModel, currentStageId, isStageAddLoading }, 
+  addStageToGameModel
+}) => {
   function handleClose() {
     closeCreateStageDialog()
   }
@@ -50,6 +54,7 @@ const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreate
 
   function isSaveDisabled() {
     if(!stage.playerSpawnZoneEntityId) return true
+    if(isStageAddLoading) return true
     return false 
   }
 
@@ -79,15 +84,7 @@ const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreate
         disabled={isSaveDisabled()}
         onClick={async () => {
         if(stage.isNew) {
-          await addLayersForArcadeGameStage(gameModel.id, gameModel.owner.id, stage.stageId)
-          editGameModel({
-            stages: {
-              [stage.stageId] : {
-                ...stage,
-                isNew: false,
-              }
-            },
-          })
+          await addStageToGameModel(stage, gameModel)
         } else {
           editGameModel({
             stages: {
@@ -137,5 +134,5 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-  connect(mapStateToProps, { updateCreateStage, closeCreateStageDialog, editGameModel }),
+  connect(mapStateToProps, { addStageToGameModel, updateCreateStage, closeCreateStageDialog, editGameModel }),
 )(CreateStageDialog);

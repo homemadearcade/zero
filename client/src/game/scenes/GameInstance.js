@@ -643,7 +643,6 @@ addInstancesToEntityInstanceByTag(instances) {
         this.runOnStageSwitchEffects()
       })
     })
-    this.runOnStageSwitchEffects()
   }
 
   runGameInstanceEvent({gameRoomInstanceEventType, data}) {
@@ -726,6 +725,7 @@ addInstancesToEntityInstanceByTag(instances) {
         this.runRelation(relation)
       })
     }
+    this.runOnStageSwitchEffects()
   }
 
   update(time, delta) {
