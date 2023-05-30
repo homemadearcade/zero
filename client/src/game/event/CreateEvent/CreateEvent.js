@@ -10,11 +10,12 @@ import { defaultEvent, eventTypeInterfaces, playerRelationTagId } from '../../co
 import { ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START } from '../../constants';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import Switch from '../../../ui/Switch/Switch';
-import { CUTSCENE_EVENT_IID, EVENT_ADD_RELATION_TAG_A_IID, EVENT_ADD_RELATION_TAG_B_IID, EVENT_ADVANCED_CONTAINER_IID, EVENT_IGNORE_SIDES_IID, EVENT_ONLY_ONCE_IID,  PLAYER_AND_RELATION_TAG_EVENT_IID, PLAYER_RELATION_TAG_EVENT_IID, SINGLE_RELATION_TAG_EVENT_IID, TWO_RELATION_TAG_EVENT_IID  } from '../../../constants/interfaceIds';
+import { CUTSCENE_EVENT_IID, EVENT_ADD_RELATION_TAG_A_IID, EVENT_ADD_RELATION_TAG_B_IID, EVENT_ADVANCED_CONTAINER_IID, EVENT_IGNORE_SIDES_IID, EVENT_ONLY_ONCE_IID,  PLAYER_AND_RELATION_TAG_EVENT_IID, PLAYER_RELATION_TAG_EVENT_IID, SINGLE_RELATION_TAG_EVENT_IID, STAGE_EVENT_IID, TWO_RELATION_TAG_EVENT_IID  } from '../../../constants/interfaceIds';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 import SelectEventType from '../../ui/SelectEventType/SelectEventType';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
+import SelectStage from '../../ui/SelectStage/SelectStage';
 
 /*
 
@@ -103,6 +104,19 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
           const newCutsceneId = cutscenes[cutscenes.length-1]
           updateCreateEvent({
             cutsceneId: newCutsceneId,
+          })
+        }}/>
+    }
+
+    if(eventTypeInterface.relationTagSelectType === STAGE_EVENT_IID) {
+      return <SelectStage
+        key={'stageId'}
+        formLabel={'Stage'}
+        value={event.stageId ? [event.stageId] : []}
+        onChange={(event, stages) => {
+          const newstageId = stages[stages.length-1]
+          updateCreateEvent({
+            stageId: newstageId,
           })
         }}/>
     }

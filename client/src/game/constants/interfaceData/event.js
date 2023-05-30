@@ -1,12 +1,12 @@
-import {  CUTSCENE_EVENT_IID, PLAYER_AND_RELATION_TAG_EVENT_IID, PLAYER_RELATION_TAG_EVENT_IID, SINGLE_RELATION_TAG_EVENT_IID, TWO_RELATION_TAG_EVENT_IID  } from "../../../constants/interfaceIds"
-import { ON_CUTSCENE_END, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_PLAYTHROUGH, ON_SPAWN, ON_TOUCH_ACTIVE, ON_TOUCH_START,
+import {  CUTSCENE_EVENT_IID, PLAYER_AND_RELATION_TAG_EVENT_IID, PLAYER_RELATION_TAG_EVENT_IID, SINGLE_RELATION_TAG_EVENT_IID, STAGE_EVENT_IID, TWO_RELATION_TAG_EVENT_IID  } from "../../../constants/interfaceIds"
+import { ON_CUTSCENE_END, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_PLAYTHROUGH, ON_SPAWN, ON_STAGE_LOADED, ON_TOUCH_ACTIVE, ON_TOUCH_START,
    } from "../core"
 
 export const eventShortNames = {
   [ON_TOUCH_START]: 'Touch Start',
   // [ON_COLLIDE_END]: 'stop touching',
   [ON_TOUCH_ACTIVE]: 'Touching',
-  [ON_PLAYTHROUGH]: 'Start',
+  [ON_PLAYTHROUGH]: 'Start Game',
   //  [ON_TOUCH_START]: 'ON_TOUCH_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_TOUCH_ACTIVE]: 'ON_TOUCH_ACTIVE',
@@ -15,7 +15,8 @@ export const eventShortNames = {
   [ON_DESTROY_ALL]: 'All Destroyed',
   [ON_INTERACT]: 'Interact',
 
-  [ON_CUTSCENE_END]: 'Cutscene Ends'
+  [ON_CUTSCENE_END]: 'Cutscene Ends',
+  [ON_STAGE_LOADED]: 'Stage Loaded',
 }
 
 export const eventTypeDescriptions = {
@@ -53,7 +54,10 @@ export const eventTypeDescriptions = {
   [ON_CUTSCENE_END]: {
     general: 'When a cutscene ends',
     this: 'When this cutscene ends',
-  }
+  },
+  [ON_STAGE_LOADED]: {
+    general: 'When a stage is loaded',
+  },
 }
 
 export const eventTypeInterfaces = {
@@ -98,5 +102,10 @@ export const eventTypeInterfaces = {
     effectDelay: true,
     effectCooldown: true,
     onlyOnce: true
-  }
+  },
+  [ON_STAGE_LOADED]: {
+    relationTagSelectType: STAGE_EVENT_IID,
+    effectDelay: true,
+    onlyOnce: true
+  },
 }

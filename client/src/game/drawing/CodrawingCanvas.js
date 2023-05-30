@@ -150,9 +150,14 @@ export class CodrawingCanvas extends Canvas {
 
       const initialTextureId = canvasImage.initialTextureId
       if(initialTextureId) {
+        // console.log('initialTextureId', initialTextureId, this.scene.textures.exists(initialTextureId))
         if(this.scene.textures.exists(initialTextureId)) {
           super.draw(initialTextureId, 0, 0)
         }
+      }
+
+      if(this.isCollisionCanvas) {
+        this.createCollisionBody()
       }
     } catch(e) {
       console.log(e, 'couldnt find image')

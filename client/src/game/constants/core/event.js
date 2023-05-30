@@ -9,4 +9,5 @@ export const ON_DESTROY_ALL = 'ON_DESTROY_ALL'
 export const ON_INTERACT = 'ON_INTERACT'
 export const ON_CUTSCENE_END = 'ON_CUTSCENE_END'
 export const ON_STEP_BEGINS = 'ON_STEP_BEGINS'
+export const ON_STAGE_LOADED = 'ON_STAGE_LOADED'
 

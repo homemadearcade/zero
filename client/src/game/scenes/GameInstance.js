@@ -8,7 +8,7 @@ import { PLAYER_INSTANCE_DID,
       NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth, noRemoteEffectedTagEffects, EFFECT_SPAWN, effectEditInterfaces, 
       EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_DESTROY, EFFECT_TRANSFORM, SPAWNED_INSTANCE_DID, SPAWN_ZONE_A_SELECT, 
       SPAWN_ZONE_B_SELECT, EFFECT_CUTSCENE, EFFECT_CAMERA_SHAKE, EFFECT_END_GAME, EFFECT_SWITCH_STAGE, RUN_GAME_INSTANCE_ACTION,
-       ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_UNPAUSE_GAME, ON_CUTSCENE_END, EFFECT_TRANSFORM_TEMPORARY_START, EFFECT_TRANSFORM_TEMPORARY_END } from '../constants';
+       ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_UNPAUSE_GAME, ON_CUTSCENE_END, EFFECT_TRANSFORM_TEMPORARY_START, EFFECT_TRANSFORM_TEMPORARY_END, ON_STAGE_LOADED } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerEntity, clearCutscenes, openCutscene } from '../../store/actions/game/playerInterfaceActions';
@@ -24,7 +24,7 @@ import JSConfetti from 'js-confetti'
 import { directionalPlayerEntityId } from '../constants';
 import { generateUniqueId, getGameModelSize, getLayerIdFromEraserId, isZoneEntityId } from '../../utils';
 import { NO_RELATION_TAG_EFFECT_IID, PLAYGROUND_LAYER_GROUP_IID } from '../../constants/interfaceIds';
-import _ from 'lodash';
+import _, { set } from 'lodash';
 import { updateLobbyMember } from '../../store/actions/experience/lobbyInstanceActions';
 
 export class GameInstance extends Phaser.Scene {
@@ -628,7 +628,7 @@ addInstancesToEntityInstanceByTag(instances) {
     const playerCamera = gameModel.entityModels[this.playerInstance.entityModelId].camera
     this.setPlayerZoom(playerCamera);
 
-    this.startPlaythroughStartEffects()
+    this.runOnPlaythroughStartEffects()
 
     setTimeout(() => {
       if(this.gameRoomInstance.isOnlineMultiplayer) {
@@ -636,6 +636,16 @@ addInstancesToEntityInstanceByTag(instances) {
       }
       this.hasLoadedOnce = true
     })
+
+    this.events.on('wake', () => {
+      if(this.gameRoomInstance.isHost) {
+        this.reset()
+      }
+      setTimeout(() => {
+        this.runOnStageSwitchEffects()
+      })
+    })
+    this.runOnStageSwitchEffects()
   }
 
   runGameInstanceEvent({gameRoomInstanceEventType, data}) {
@@ -689,12 +699,31 @@ addInstancesToEntityInstanceByTag(instances) {
     }
   }
 
-  startPlaythroughStartEffects() {
+  switchStage(stageId) {
+    this.scene.switch(stageId)
+    // this.scene.wake(stageId)
+    // this.scene.sleep(this.scene.key)
+
+    // its not able to run on the loaded stage if its run right away but I dont know how to 
+    // fix it even with a timeout
+    // setTimeout(() => {
+    //   this.runOnStageSwitchEffects()
+    // })
+  }
+
+  runOnStageSwitchEffects() {
+    const stageId = this.getCurrentStage().stageId
+    this.relationsByEventType[ON_STAGE_LOADED]?.forEach((relation) => {
+      if(relation.event.stageId === stageId) {
+        this.runRelation(relation)
+      }
+    })
+  }
+
+  runOnPlaythroughStartEffects() {
     if(this.isPlaythrough && this.firstStage) {
       this.relationsByEventType[ON_PLAYTHROUGH]?.forEach((relation) => {
-        this.playerInstance.runRelation(
-          relation,
-        )
+        this.runRelation(relation)
       })
     }
   }
@@ -729,7 +758,7 @@ addInstancesToEntityInstanceByTag(instances) {
 
     const currentStageId = this.getCurrentStage().stageId
     if(this.stage.stageId !== currentStageId) {
-      this.scene.switch(currentStageId)
+      this.switchStage(currentStageId)
     }
 
     if(this.getState().cobrowsing.isActivelyCobrowsing === false) {
@@ -889,7 +918,7 @@ addInstancesToEntityInstanceByTag(instances) {
     }
 
     setTimeout(() => {
-      this.startPlaythroughStartEffects()
+      this.runOnPlaythroughStartEffects()
     })
   } 
 
@@ -1057,6 +1086,22 @@ addInstancesToEntityInstanceByTag(instances) {
     }
   }
 
+  runRelation(relation) {
+    Object.keys(relation.effects).forEach((effectId) => {
+      const effect = relation.effects[effectId]
+      if(!effect) return
+
+      this.runAccuteEffect({
+        relation: {
+          ...relation,
+          effect,
+          effects: undefined
+        },
+        phaserInstanceA: this.playerInstance.phaserInstance,
+      })
+    })
+  }
+
   runAccuteEffect({
     relation,
     phaserInstanceA,
@@ -1163,9 +1208,7 @@ addInstancesToEntityInstanceByTag(instances) {
   onCutsceneEnd(cutsceneId) {
     this.relationsByEventType[ON_CUTSCENE_END]?.forEach((relation) => {
       if(relation.event.cutsceneId !== cutsceneId) return
-      this.playerInstance.runRelation(
-        relation,
-      )
+      this.runRelation(relation)
     })
   }
 }

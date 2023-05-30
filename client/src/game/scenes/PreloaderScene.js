@@ -57,6 +57,7 @@ export class PreloaderScene extends Phaser.Scene {
         }
       }
     })
+    
     Object.keys(gameModel.brushes).forEach((brushId) => {
       const brush = gameModel.brushes[brushId]
       if(brush.textureId) {

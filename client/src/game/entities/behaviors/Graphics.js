@@ -243,9 +243,10 @@ export class Graphics {
     if(phaserInstance.editorHighlight) {
       phaserInstance.editorHighlight.setPosition(phaserInstance.x, phaserInstance.y)
       phaserInstance.editorHighlight.setRotation(phaserInstance.rotation)
+      const instanceIdHovering = store.getState().hoverPreview.entityInstanceIdHovering
       this.setEditorHighlightVisibility(
         this.entityInstance.entityModelId === entityModelIdHovering ||
-         phaserInstance.isMouseOver
+        instanceIdHovering === phaserInstance.entityInstanceId
       )
     }
 

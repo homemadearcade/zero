@@ -8,11 +8,6 @@ export class CollisionCanvas extends CodrawingCanvas {
   constructor(scene, props){
     super(scene, props)
 
-    //for some reasion the initial draw in the super is the Layer version
-    if(this.scene.textures.exists(this.textureId)) {
-      this.createCollisionBody()
-    }
-
     this.isCollisionCanvas = true
     this.collisionBody = null
     this.scene = scene

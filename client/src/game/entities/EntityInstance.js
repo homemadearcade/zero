@@ -194,7 +194,7 @@ export class EntityInstance extends PhaserInstance {
     const x = phaserInstance.x - (phaserInstance.displayWidth/2) +  entityModel.graphics.width/4
     const y = phaserInstance.y - (phaserInstance.displayHeight/2) + entityModel.graphics.height/4
     const width = phaserInstance.displayWidth -  entityModel.graphics.width/2
-    const height = phaserInstance.displayHeight-  entityModel.graphics.height/2
+    const height = phaserInstance.displayHeight -  entityModel.graphics.height/2
 
     return [x, y, width, height]
   }

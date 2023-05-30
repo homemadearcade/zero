@@ -45,6 +45,8 @@ export class PhaserInstance {
 
     // scene.physics.add.existing(this);   
 
+    this.phaserInstance.body.entityInstance = this
+
     return this
   }
 
