@@ -479,6 +479,7 @@ export class GameInstance extends Phaser.Scene {
       instance.destroyAfterUpdate = true
       instance.destroy()
     })
+    console.log('destroying all', this.temporaryInstances.length)
 
     this.temporaryInstances = []
     this.temporaryInstancesById = {}

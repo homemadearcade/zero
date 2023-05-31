@@ -14,6 +14,8 @@ PARTICLE EFFECT ON INSTANCES WHEN YOU CHANGE A ENTITY_MODEL
 
 Speed Boost Relationship
 
+Layers are like ALL collision layers except they only collide with objects that have the layer checkbox selected
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 -----------------------------

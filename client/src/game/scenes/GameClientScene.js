@@ -78,6 +78,7 @@ export class GameClientScene extends EditorScene {
       const entityInstanceId = instanceUpdate.entityInstanceId
       const temporaryInstance = this.temporaryInstancesById[entityInstanceId]
       if(!temporaryInstance) {
+        console.log('adding back in cuz of the network')
         this.addTemporaryInstance(entityInstanceId, instanceUpdate.entityModelId)
         return
       };

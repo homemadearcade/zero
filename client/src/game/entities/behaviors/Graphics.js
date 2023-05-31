@@ -25,6 +25,10 @@ export class Graphics {
 
     phaserInstance.setDisplaySize(entityInstance.width, entityInstance.height)
     this.setSize(entityInstance.width, entityInstance.height)
+    const isInvisble = entityModel.graphics.invisible
+    if(isInvisble) {
+      this.setInvisible()
+    }
 
     // if(entityModel.editorInterface.notSelectableInStage) return
 

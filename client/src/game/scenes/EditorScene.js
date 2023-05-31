@@ -1279,6 +1279,7 @@ export class EditorScene extends GameInstance {
     if(gameResetDate > this.gameResetDate) {
       this.gameResetDate = gameResetDate
       this.reset()
+      console.log('resetting', gameResetDate)
     }
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
