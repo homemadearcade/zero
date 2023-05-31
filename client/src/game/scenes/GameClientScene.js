@@ -35,10 +35,12 @@ export class GameClientScene extends EditorScene {
       // this.gameInstanceId = gameInstanceId
       return
     }
+
+    console.log(updateDate, this.gameResetDate)
     if(updateDate < this.gameResetDate) {
+      console.error('not updating because updateDate is before gameResetDate')
       return 
     }
-
 
     this.updateNetworkStatus()
     this.upsHost = upsHost
@@ -68,6 +70,8 @@ export class GameClientScene extends EditorScene {
           console.info('successfully prevented adding back entity instance that was just removed')
           return 
         }
+
+        console.log('adding in because its not in',instanceUpdate.entityModelId)
         const modifiedEntityData = { 
           spawnX: instanceUpdate.x, 
           spawnY: instanceUpdate.y, 
