@@ -1089,7 +1089,7 @@ addInstancesToEntityInstanceByTag(instances) {
       // } else
       }
 
-      console.log('spawning zone', effect.spawnEntityModelId, zone)
+      console.log('spawning into zone', effect.spawnEntityModelId, zone.phaserInstance.x)
 
       if(!zone) return console.log('no zone exists for that')
       const gameModel = store.getState().gameModel.gameModel
@@ -1097,6 +1097,7 @@ addInstancesToEntityInstanceByTag(instances) {
       const spawnedEntityInstance =  this.addEntityInstance(SPAWNED_INSTANCE_DID+generateUniqueId(), modifiedEntityData, true)
       const { x, y } = zone.getInnerCoordinates(entityModel)
       spawnedEntityInstance.setPosition(x, y)
+      console.log('spawned', x, y, modifiedEntityData)
     }
   }
 

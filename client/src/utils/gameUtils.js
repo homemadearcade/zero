@@ -295,42 +295,34 @@ export function getCutscenesForEntityModel({entityModel, gameModel}) {
     })
   })
 
-  const { cutsceneRelationTags, cutsceneIdsByEventType }  = Object.keys(entityModel.relationTags).reduce((acc, relationTagId) => {
-    const relationTag = gameModel.relationTags[relationTagId]
-    if(relationTag.relationTagIID === RELATION_TAG_CUTSCENE_IID) {
+  const cutsceneRelationTags = []
+  const cutsceneIdsByEventType = {}
 
+  const relationsForEachTag = getRelationsForEntityModel({entityModel, gameModel, showUnregisteredRelations: true})
 
-      Object.values(gameModel.relations).forEach(relation => {
-        const event = gameModel.events[relation.eventId]
-        if(event.relationTagIdA === relationTag.relationTagId || event.relationTagIdB === relationTag.relationTagId) {
+  relationsForEachTag.forEach(({relationTag, relations}) => {
+    relations.forEach(relation => {
+      relation.effectIds.forEach(effectId => {
+        const effect = gameModel.effects[effectId]
+        if(effect.effectBehavior === EFFECT_CUTSCENE) {
+          const cutscene = gameModel.cutscenes[effect.cutsceneId]
+          if(cutscene) {
+            cutsceneRelationTags.push({
+              relationTag,
+              cutsceneIds: [cutscene.cutsceneId]
+            })
 
-          const eventType = event.eventType
-          const effectCutsceneIds = relation.effectIds.reduce((acc, effectId) => {
-            const effect = gameModel.effects[effectId]
-            if(effect.effectBehavior=== EFFECT_CUTSCENE) {
-              const cutscene = gameModel.cutscenes[effect.cutsceneId]
-              return acc.concat(cutscene.cutsceneId)
+            const eventType = relation.event.eventType
+            if(!cutsceneIdsByEventType[eventType]) {
+              cutsceneIdsByEventType[eventType] = cutscene.cutsceneId
+            } else {
+              cutsceneIdsByEventType[eventType].push(cutscene.cutsceneId)
             }
-            return acc
-          }, [])
-
-          acc.cutsceneRelationTags.push({
-            relationTag,
-            cutsceneIds: effectCutsceneIds
-          })
-
-          if(!acc.cutsceneIdsByEventType[eventType]) {
-            acc.cutsceneIdsByEventType[eventType] = effectCutsceneIds
-          } else {
-            acc.cutsceneIdsByEventType[eventType].push(...effectCutsceneIds)
           }
         }
       })
-    }
-    
-    return acc
-  }, { cutsceneRelationTags: [], cutsceneIdsByEventType: {} })
-
+    })
+  })
 
   return {
     entityModelCutscenesInvolved,

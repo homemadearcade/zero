@@ -37,7 +37,7 @@ export class GameClientScene extends EditorScene {
     }
 
     if(gameResetVersion < this.gameResetVersion) {
-      console.error('not updating because gameResetVersion is before gameResetVersion')
+      console.info('not updating because gameResetVersion is before gameResetVersion')
       return 
     }
 
@@ -70,7 +70,6 @@ export class GameClientScene extends EditorScene {
           return 
         }
 
-        console.log('adding in because its not in',instanceUpdate.entityModelId)
         const modifiedEntityData = { 
           spawnX: instanceUpdate.x, 
           spawnY: instanceUpdate.y, 
