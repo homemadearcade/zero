@@ -276,7 +276,11 @@ export class PlayerInstance extends EntityInstance {
     if(this.cameraInstance) {
       this.scene.removeEntityInstance(this.cameraInstance.entityInstanceId, true)
     } else {
-      console.error('no camera instance to destroy', this.scene?.stage.stageId, this.entityModelId)
+      try {
+        this.scene.removeEntityInstance(this.cameraInstance.entityInstanceId, true)
+      } catch(e) {
+        console.error('no camera instance to destroy', this.scene?.stage.stageId, this.entityModelId)
+      }
     }
     this.interactArea.destroy()
     this.scene.input.keyboard.removeKey(this.cursors.up) 

@@ -376,8 +376,6 @@ export class GameInstance extends Phaser.Scene {
         return console.error('missing entityModelId!!', entityInstanceId, entityInstanceData)
       }
 
-      console.log('initializing entity instance', entityInstanceId, entityInstanceData)
-
       this.initializeEntityInstance(entityInstanceId, entityInstanceData)
     });
 

@@ -10,7 +10,6 @@ Wiggle An Object Or highlight When its hovered over - WHY NOT!
 Highlight on the map
 https://www.react-spring.dev/examples wiggle when you import class, when class is added, etc
 
-
 Live Editor Update, Perhaps Behaviors tab whole situation
   Like maybe do you create a behavior in the live editor and then you can like add it to the entityModel???
 

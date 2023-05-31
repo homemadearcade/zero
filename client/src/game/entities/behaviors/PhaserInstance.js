@@ -378,7 +378,7 @@ export class PhaserInstance {
   }
 
   destroy() {
-    console.log('neing destroyed', this.entityInstanceId)
+    // console.log('neing destroyed', this.entityInstanceId)
     this.phaserInstance.destroy()
   }
 }
