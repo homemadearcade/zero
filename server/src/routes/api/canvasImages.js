@@ -34,7 +34,11 @@ router.post('/', requireJwtAuth, async (req, res) => {
   try {
     const tempUser = await User.findById(req.body.userMongoId);
     if (!tempUser) return res.status(404).json({ message: 'No such user.' });
-    if (!(tempUser.id === req.user.id || req.user.roles[APP_ADMIN_ROLE])) {
+    if (!(
+        tempUser.id === req.user.id
+        || req.user.roles[APP_ADMIN_ROLE]
+        || tempUser.appLocation?.experienceInstanceId === req.user.appLocation?.experienceInstanceId
+      )) {
       return res.status(400).json({ message: 'Not updated by the user themself or an admin.' });
     }
     

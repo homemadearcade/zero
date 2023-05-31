@@ -1093,9 +1093,9 @@ addInstancesToEntityInstanceByTag(instances) {
       const { x, y } = zone.getInnerCoordinates(entityModel)
       
       const modifiedEntityData = { spawnX: x, spawnY: y, entityModelId: spawningEntityId }
-      const spawnedEntityInstance =  this.addEntityInstance(SPAWNED_INSTANCE_DID+generateUniqueId(), modifiedEntityData, true)
+      this.addEntityInstance(SPAWNED_INSTANCE_DID+generateUniqueId(), modifiedEntityData, true)
+      // const modifiedEntityData = { spawnX: null, spawnY: null, entityModelId: spawningEntityId }
 
-      console.log('spawned', x, y, modifiedEntityData, spawnedEntityInstance.phaserInstance.x)
     }
   }
 
