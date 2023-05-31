@@ -39,7 +39,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
         || req.user.roles[APP_ADMIN_ROLE]
         || tempUser.appLocation?.experienceInstanceId === req.user.appLocation?.experienceInstanceId
       )) {
-      return res.status(400).json({ message: 'Not updated by the user themself or an admin.' });
+      return res.status(400).json({ message: 'Not updated by the user themself or an admin or someone in the same experience.' });
     }
     
     let canvasImage = await CanvasImage.create({
@@ -73,8 +73,13 @@ router.put('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempImage = await CanvasImage.findById(req.params.id).populate('owner');
     if (!tempImage) return res.status(404).json({ message: 'No canvasImage found.' });
-    // if (!(tempImage.owner?.id === req.user.id || req.user.roles[APP_ADMIN_ROLE]))
-    //   return res.status(400).json({ message: 'Not updated by the canvasImage owner or admin.' });
+    if (!(
+        tempImage.owner.id === req.user.id
+        || req.user.roles[APP_ADMIN_ROLE]
+        || tempImage.owner.appLocation?.experienceInstanceId === req.user.appLocation?.experienceInstanceId
+      )) {
+      return res.status(400).json({ message: 'Not updated by the user themself or an admin or someone in the same experience.' });
+    }
     const updatedImage = mergeDeep(tempImage, req.body)
 
     await CanvasImage.findByIdAndUpdate(
