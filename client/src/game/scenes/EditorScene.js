@@ -1289,9 +1289,7 @@ export class EditorScene extends GameInstance {
 
     const gameRoomInstance = store.getState().gameRoomInstance.gameRoomInstance
     const gameResetVersion = gameRoomInstance.gameResetVersion
-    if(!this.gameResetVersion) {
-      this.gameResetVersion = gameResetVersion
-    } else if(gameResetVersion > this.gameResetVersion) {
+    if(gameResetVersion > this.gameResetVersion) {
       this.gameResetVersion = gameResetVersion
       this.reset()
     }

@@ -1071,11 +1071,9 @@ addInstancesToEntityInstanceByTag(instances) {
 
     if(effect.effectBehavior === EFFECT_SPAWN) {
       const spawningEntityId = effect.spawnEntityModelId
-      const modifiedEntityData = { spawnX: null, spawnY: null, entityModelId: spawningEntityId }
       let zone 
 
-
-    if(effect.spawnZoneSelectorType === SPAWN_ZONE_A_SELECT && phaserInstanceA) {
+      if(effect.spawnZoneSelectorType === SPAWN_ZONE_A_SELECT && phaserInstanceA) {
         if(isZoneEntityId(phaserInstanceA.entityModelId)) {
           zone = phaserInstanceA
         } 
@@ -1089,15 +1087,15 @@ addInstancesToEntityInstanceByTag(instances) {
       // } else
       }
 
-      console.log('spawning into zone', effect.spawnEntityModelId, zone.phaserInstance.x)
-
       if(!zone) return console.log('no zone exists for that')
       const gameModel = store.getState().gameModel.gameModel
       const entityModel = gameModel.entityModels[spawningEntityId]
-      const spawnedEntityInstance =  this.addEntityInstance(SPAWNED_INSTANCE_DID+generateUniqueId(), modifiedEntityData, true)
       const { x, y } = zone.getInnerCoordinates(entityModel)
-      spawnedEntityInstance.setPosition(x, y)
-      console.log('spawned', x, y, modifiedEntityData)
+      
+      const modifiedEntityData = { spawnX: x, spawnY: y, entityModelId: spawningEntityId }
+      const spawnedEntityInstance =  this.addEntityInstance(SPAWNED_INSTANCE_DID+generateUniqueId(), modifiedEntityData, true)
+
+      console.log('spawned', x, y, modifiedEntityData, spawnedEntityInstance.phaserInstance.x)
     }
   }
 

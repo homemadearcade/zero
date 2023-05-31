@@ -153,6 +153,7 @@ export class CodrawingCanvas extends Canvas {
         // console.log('initialTextureId', initialTextureId, this.scene.textures.exists(initialTextureId))
         if(this.scene.textures.exists(initialTextureId)) {
           super.draw(initialTextureId, 0, 0)
+          this.save(true)
         }
       }
 

@@ -14,6 +14,8 @@ TEXTURE ID WHEN GOING THROUGH STEPS??
   .textureId is not defined on the Codrawing Canvas anymore? - in lobbies. Maybe cuz someone aint the host
   Must be because of draw player 
 
+Sometimes when switching to a game room when the host isnt logged on yet and then trying to load it again later leads to all sorts of bugs of it not loading
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

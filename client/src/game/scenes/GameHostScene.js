@@ -6,6 +6,7 @@ import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE, ON_GAME_INSTANCE_EVENT, 
 import { EditorScene } from './EditorScene';
 import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
 import { GAME_ROOM_CONNECTION_LOST } from '../../constants';
+import { editGameRoom } from '../../store/actions/game/gameRoomInstanceActions';
 
 export class GameHostScene extends EditorScene {
   constructor(props) {
@@ -25,6 +26,12 @@ export class GameHostScene extends EditorScene {
     console.log('gameInstanceId', this.gameInstanceId)
 
     this.registerEvents()
+
+    const newGameResetVersion = this.gameResetVersion + 1
+    store.dispatch(editGameRoom(this.gameRoomInstance.id, {
+      gameResetVersion: newGameResetVersion
+    }))
+    this.gameResetVersion = newGameResetVersion
   }
   
   callGameInstanceEvent({gameRoomInstanceEventType, data, hostOnly}) {
