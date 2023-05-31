@@ -1279,7 +1279,6 @@ export class EditorScene extends GameInstance {
     if(gameResetDate > this.gameResetDate) {
       this.gameResetDate = gameResetDate
       this.reset()
-      console.log('resetting', gameResetDate)
     }
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
@@ -1340,7 +1339,6 @@ export class EditorScene extends GameInstance {
       if(this.gameRoomInstance.isHost) {
         this.editorCamera.startFollow(this.playerInstance.phaserInstance, false, 0.4, 0.4)
       } else {
-        console.log('updating editor camera controls')
         this.editorCameraControls.update(delta)
       }
 

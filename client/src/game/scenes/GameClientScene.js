@@ -28,17 +28,22 @@ export class GameClientScene extends EditorScene {
     this.registerEvents()
   }
 
-  onGameInstanceUpdate = ({gameInstanceId, entityInstances, playerInstance, temporaryInstances, stageId, upsHost, upsServer}) => {
+  onGameInstanceUpdate = ({gameInstanceId, entityInstances, playerInstance, temporaryInstances, stageId, upsHost, upsServer, updateDate}) => {
     if(gameInstanceId !== this.gameInstanceId) {
       console.error('Incorrect game instance', gameInstanceId, 'should be', this.gameInstanceId)
       // this.unload()
       // this.gameInstanceId = gameInstanceId
       return
     }
+    if(updateDate < this.gameResetDate) {
+      return 
+    }
+
 
     this.updateNetworkStatus()
     this.upsHost = upsHost
     this.upsServer = upsServer
+
 
     if(!this.stage) return 
     if(this.stage.stageId !== stageId) {
@@ -68,8 +73,6 @@ export class GameClientScene extends EditorScene {
           spawnY: instanceUpdate.y, 
           entityModelId: instanceUpdate.entityModelId
         }
-
-        console.log('adding back in cuz of the network', instanceUpdate.entityModelId)
 
         this.addEntityInstance(entityInstanceId, modifiedEntityData, true)
         return

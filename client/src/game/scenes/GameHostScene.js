@@ -103,7 +103,8 @@ export class GameHostScene extends EditorScene {
           playerInstance, 
           temporaryInstances, 
           stageId: currentStageId, 
-          upsHost: this.upsHost
+          upsHost: this.upsHost,
+          updateDate: Date.now(),
         }
       )
       this.afterGameInstanceUpdateEffects() 

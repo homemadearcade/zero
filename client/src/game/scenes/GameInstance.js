@@ -473,7 +473,6 @@ export class GameInstance extends Phaser.Scene {
     this.playerInstance = null
 
     this.entityInstances.forEach((instance) => {
-      if(instance.entityModelId === "oc-pw-oc-pl-jumper") console.log('destroying', instance.entityInstanceId, instance.entityModelId)
       instance.destroy()
     })
 
