@@ -68,6 +68,9 @@ export class GameClientScene extends EditorScene {
           spawnY: instanceUpdate.y, 
           entityModelId: instanceUpdate.entityModelId
         }
+
+        console.log('adding back in cuz of the network', instanceUpdate.entityModelId)
+
         this.addEntityInstance(entityInstanceId, modifiedEntityData, true)
         return
       };
@@ -78,7 +81,6 @@ export class GameClientScene extends EditorScene {
       const entityInstanceId = instanceUpdate.entityInstanceId
       const temporaryInstance = this.temporaryInstancesById[entityInstanceId]
       if(!temporaryInstance) {
-        console.log('adding back in cuz of the network')
         this.addTemporaryInstance(entityInstanceId, instanceUpdate.entityModelId)
         return
       };
