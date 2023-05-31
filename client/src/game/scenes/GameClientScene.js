@@ -28,7 +28,7 @@ export class GameClientScene extends EditorScene {
     this.registerEvents()
   }
 
-  onGameInstanceUpdate = ({gameInstanceId, entityInstances, playerInstance, temporaryInstances, stageId, upsHost, upsServer, updateDate}) => {
+  onGameInstanceUpdate = ({gameInstanceId, entityInstances, playerInstance, temporaryInstances, stageId, upsHost, upsServer, gameResetVersion}) => {
     if(gameInstanceId !== this.gameInstanceId) {
       console.error('Incorrect game instance', gameInstanceId, 'should be', this.gameInstanceId)
       // this.unload()
@@ -36,9 +36,8 @@ export class GameClientScene extends EditorScene {
       return
     }
 
-    console.log(updateDate, this.gameResetDate)
-    if(updateDate < this.gameResetDate) {
-      console.error('not updating because updateDate is before gameResetDate')
+    if(gameResetVersion < this.gameResetVersion) {
+      console.error('not updating because gameResetVersion is before gameResetVersion')
       return 
     }
 

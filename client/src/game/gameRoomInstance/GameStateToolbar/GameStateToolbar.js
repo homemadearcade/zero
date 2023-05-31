@@ -10,7 +10,7 @@ import { INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TOOLBAR_PLAYTHROUGH_IID, INSTANCE_
 import { changeGameState, editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 
-const GameStateToolbar = ({ editGameRoom, changeGameState, toggleGridView, gameRoomInstance: { gameRoomInstance: { gameState }, gameRoomInstance } }) => {
+const GameStateToolbar = ({ editGameRoom, changeGameState, toggleGridView, gameRoomInstance: { gameRoomInstance: { gameState, gameResetVersion }, gameRoomInstance } }) => {
   const color = useWishTheme().primaryColor.hexString
 
   if(gameState === PLAYTHROUGH_START_STATE || gameState === PLAYTHROUGH_PLAY_STATE) {
@@ -21,7 +21,7 @@ const GameStateToolbar = ({ editGameRoom, changeGameState, toggleGridView, gameR
             icon="faStop"
             onClick={() => {
               editGameRoom(gameRoomInstance.id, {
-                gameResetDate: Date.now()
+                gameResetVersion: gameResetVersion + 1
               })
               changeGameState(PLAY_STATE)
             }}
@@ -47,7 +47,7 @@ const GameStateToolbar = ({ editGameRoom, changeGameState, toggleGridView, gameR
       icon="faRepeat"
       onClick={() => {
         editGameRoom(gameRoomInstance.id, {
-          gameResetDate: Date.now()
+          gameResetVersion: gameResetVersion + 1
         })
       }}
     />

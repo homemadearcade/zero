@@ -104,7 +104,7 @@ export class GameHostScene extends EditorScene {
           temporaryInstances, 
           stageId: currentStageId, 
           upsHost: this.upsHost,
-          updateDate: Date.now(),
+          gameResetVersion: this.gameResetVersion
         }
       )
       this.afterGameInstanceUpdateEffects() 

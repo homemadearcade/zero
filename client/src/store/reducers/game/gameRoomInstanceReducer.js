@@ -21,6 +21,7 @@ import {
 const initialState = {
   gameRoomInstance: {
     members: [],
+    gameResetVersion: 1,
     gameInstanceIds: {},
   },
   isLoading: false,
@@ -56,11 +57,11 @@ export default function gameRoomInstanceReducer(state = initialState, { type, pa
         gameRoomInstance: {...payload.gameRoomInstance, members: payload.gameRoomInstance.members?.slice()}
       };
     case LEAVE_GAME_ROOM_SUCCESS:
-    return {
-      ...state,
-      isJoining: false,
-      gameRoomInstance: initialState.gameRoomInstance,
-    };
+      return {
+        ...state,
+        isJoining: false,
+        gameRoomInstance: initialState.gameRoomInstance,
+      };
     case EDIT_GAME_ROOM_SUCCESS:
       return {
         ...state,

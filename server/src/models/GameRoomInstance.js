@@ -38,11 +38,15 @@ const gameRoomInstanceSchema = new Schema(
       type: String,
       required: true,
     },
+    gameResetVersion: {
+      type: Number,
+      required: false,
+      default: 1
+    },
     invitedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   },
   { timestamps: true },
 );
-
 
 gameRoomInstanceSchema.methods.toJSON = function () {
   return {
@@ -54,6 +58,7 @@ gameRoomInstanceSchema.methods.toJSON = function () {
     invitedUsers: this.invitedUsers ? this.invitedUsers.map((user) => {
       return user?.toJSON()
     }) : [],
+    gameResetVersion: this.gameResetVersion,
     experienceInstanceId: this.experienceInstanceId,
     arcadeGameMongoId: this.arcadeGameMongoId,
     gameRoomInstanceId: this.gameRoomInstanceId,

@@ -912,9 +912,10 @@ addInstancesToEntityInstanceByTag(instances) {
     const startingStageId = this.getGameModel().player.startingStageId
     store.dispatch(changeCurrentStage(startingStageId))
 
-    if(this.getState().gameRoomInstance.gameRoomInstance?.id) {
-      store.dispatch(editGameRoom(this.getState().gameRoomInstance.gameRoomInstance.id, {
-        gameResetDate: Date.now()
+    const gameRoomInstance = this.getState().gameRoomInstance.gameRoomInstance
+    if(gameRoomInstance?.id) {
+      store.dispatch(editGameRoom(gameRoomInstance.id, {
+        gameResetVersion: gameRoomInstance.gameResetVersion + 1
       }))
     } else {
       setTimeout(() => {

@@ -38,7 +38,7 @@ export class EditorScene extends GameInstance {
     this.brushingCanvas = null
     this.brush = null 
     this.stamper = null
-    this.gameResetDate = Date.now()
+    this.gameResetVersion = null
     this.isGridViewOn = true
     this.editorCamera = null
     this.remoteEditors = []
@@ -1275,9 +1275,11 @@ export class EditorScene extends GameInstance {
     // })
 
     const gameRoomInstance = store.getState().gameRoomInstance.gameRoomInstance
-    const gameResetDate = gameRoomInstance.gameResetDate
-    if(gameResetDate > this.gameResetDate) {
-      this.gameResetDate = gameResetDate
+    const gameResetVersion = gameRoomInstance.gameResetVersion
+    if(!this.gameResetVersion) {
+      this.gameResetVersion = gameResetVersion
+    } else if(gameResetVersion > this.gameResetVersion) {
+      this.gameResetVersion = gameResetVersion
       this.reset()
     }
 
