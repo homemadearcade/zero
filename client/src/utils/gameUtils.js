@@ -263,13 +263,17 @@ export function getRelationsForEntityModel({entityModel, gameModel, showUnregist
   const relationsForEachTag = entityModelRelationTags.map(entityModelRelationTagId => {
     const relationTag = gameModel.relationTags[entityModelRelationTagId]
     const relations = Object.values(gameModel.relations).filter(relation => {
+      if(relation.isRemoved) {
+        return false
+      }
+
       const event = gameModel.events[relation.eventId]
 
       const hasTagA = (event.relationTagIdA && event.relationTagIdA === relationTag.relationTagId)
       const hasTagB = (event.relationTagIdB && event.relationTagIdB === relationTag.relationTagId)
       
       const isTagARegistered = relationTagIdsRegistered.includes(event.relationTagIdA)
-      const isTagBRegistered = relationTagIdsRegistered.includes(event.relationTagIdB)
+      const isTagBRegistered = !event.relationTagIdB || relationTagIdsRegistered.includes(event.relationTagIdB)
 
       return (hasTagA || hasTagB) && (showUnregisteredRelations || (isTagARegistered && isTagBRegistered))
     })

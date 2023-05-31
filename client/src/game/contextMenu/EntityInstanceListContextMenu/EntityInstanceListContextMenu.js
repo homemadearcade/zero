@@ -5,6 +5,8 @@ import MenuItem from '@mui/material/MenuItem';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { openContextMenuFromEntityInstanceId } from '../../../store/actions/game/contextMenuActions';
+import { ListItemIcon } from '@mui/material';
+import Icon from '../../../ui/Icon/Icon';
 
 const EntityInstanceListContextMenu = ({ openContextMenuFromEntityInstanceId, onMenuItemClick, selectableEntityInstances, gameModel: { gameModel }}) => {
   return <>
@@ -14,6 +16,7 @@ const EntityInstanceListContextMenu = ({ openContextMenuFromEntityInstanceId, on
         onMenuItemClick()
         openContextMenuFromEntityInstanceId(objectId, entityModelId, event)
       }}>
+        <ListItemIcon><Icon icon="faArrowPointer"/></ListItemIcon> 
         {name}
       </MenuItem>
     })}

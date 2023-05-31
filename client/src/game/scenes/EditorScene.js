@@ -396,6 +396,9 @@ export class EditorScene extends GameInstance {
     //   10,
     //   10
     // )
+    // if(!phaserInstancesOver.length) {
+    //   store.dispatch(changeInstanceHovering(null, null))
+    // }
     // console.log('phaserInstancesOver', phaserInstancesOver)
     
     // let smallestWidth = 10000
@@ -686,6 +689,7 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerOut = (pointer, phaserInstances) => {
+    console.log('onPointerOut', phaserInstances[0].entityInstanceId)
     const phaserInstance = phaserInstances[0]
     phaserInstance.isMouseOver = false
     store.dispatch(changeInstanceHovering(null, null))

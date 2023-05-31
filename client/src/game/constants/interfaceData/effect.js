@@ -202,11 +202,13 @@ export const effectEditInterfaces = {
     // number: 'How intense is the camera shake?',
     // effectCooldown: true,
     targetableType: NO_RELATION_TAG_EFFECT_IID,
-    autogenerateEffect: true
+    autogenerateEffect: true,
+    runOnClient: true,
   },
   [EFFECT_INVISIBLE]: {
     targetableType: TWO_RELATION_TAG_EFFECT_IID,
-    autogenerateEffect: true
+    autogenerateEffect: true,
+    runOnClient: true,
   },
 
   // Meta
@@ -215,7 +217,8 @@ export const effectEditInterfaces = {
     // zoneEntityModelId: 'Spawn in which Zone?',
     // entityModelId: 'Transform into which object? (Optional)',
     targetableType: NO_RELATION_TAG_EFFECT_IID,
-    isCustomizeable: false
+    isCustomizeable: false,
+    runOnClient: true,
   },
   [EFFECT_PAUSE_GAME]: {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
@@ -230,25 +233,30 @@ export const effectEditInterfaces = {
   [EFFECT_INTERFACE_ACTION]: {
     // interfaceActionId: 'Which interface action?',
     targetableType: NO_RELATION_TAG_EFFECT_IID,
-    // isCustomizeable: true
+    // isCustomizeable: true,
+    runOnClient: true,
   },
   [EFFECT_CUTSCENE]: {
     cutsceneId: 'Which cutscene?',
-    targetableType: NO_RELATION_TAG_EFFECT_IID
+    targetableType: NO_RELATION_TAG_EFFECT_IID,
+    runOnClient: true,
   },
   [EFFECT_INTERFACE_UNLOCK]: {
     interfaceId: 'Which interface?',
-    targetableType: NO_RELATION_TAG_EFFECT_IID
+    targetableType: NO_RELATION_TAG_EFFECT_IID,
+    runOnClient: true,
   },
   [EFFECT_OPEN_TRANSITION]: {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
     autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT],
+    runOnClient: true,
   },
   [EFFECT_CLOSE_TRANSITION]: {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
     autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT],
+    runOnClient: true,
   },
 }
 

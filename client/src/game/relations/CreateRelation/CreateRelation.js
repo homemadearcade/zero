@@ -317,6 +317,8 @@ const CreateRelation = ({
       </Button>
     </>
 
+    console.log(!relation.isNew && !relation.isRemoved)
+
     return <div className="CreateRelation__buttons">
       <Button 
           disabled={isSaveDisabled()}
@@ -342,6 +344,28 @@ const CreateRelation = ({
         <Button onClick={handleClose}>
           Cancel
         </Button>
+        {!relation.isNew && !relation.isRemoved && <Button onClick={() => {
+          editGameModel({
+            relations: {
+              [relation.relationId]: {
+                ...relation,
+                isRemoved: true,
+              }
+            }
+          })
+          handleClose()
+        }}>Remove</Button>}
+        {relation.isRemoved && <Button onClick={() => {
+          editGameModel({
+            relations: {
+              [relation.relationId]: {
+                ...relation,
+                isRemoved: false,
+              }
+            }
+          })
+          handleClose()
+        }}>Restore</Button>}
         {!relation.isNew && relation.isRemoved && <Button onClick={() => {
           editGameModel({
             relations: {

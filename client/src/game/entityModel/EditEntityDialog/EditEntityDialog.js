@@ -135,6 +135,7 @@ const EditEntityDialog = ({
             value={entityModel.boundaryRelation ? [entityModel.boundaryRelation] : []}
             onChange={(event, BoundaryRelations) => {
               const boundaryRelation = BoundaryRelations[BoundaryRelations.length-1]
+              if(!boundaryRelation) return
               updateCreateEntity({ boundaryRelation })
           }}/>
         </Unlockable>

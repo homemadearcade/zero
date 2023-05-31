@@ -164,6 +164,7 @@ export class EntityInstance extends PhaserInstance {
     if(collideActiveRelations) relations.push(...collideActiveRelations.filter(({event: { relationTagIdA }}) => {
       return this.hasTag(relationTagIdA)
     }))
+
     return relations
   }
 

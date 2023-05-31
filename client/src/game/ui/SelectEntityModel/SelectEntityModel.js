@@ -30,7 +30,7 @@ const SelectEntityModel = ({ onChange, disabled, value, interfaceId, formLabel, 
     }
 
     if(!entityModel.entityIID) {
-      console.log("entityModel.entityIID", entityModel)
+      console.error("missing entityIID for entityId", entityModel.entityModelId)
     }
 
     return {

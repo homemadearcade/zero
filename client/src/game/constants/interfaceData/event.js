@@ -5,7 +5,7 @@ import { ON_CUTSCENE_END, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_PLAYTH
 export const eventShortNames = {
   [ON_TOUCH_START]: 'Touch Start',
   // [ON_COLLIDE_END]: 'stop touching',
-  [ON_TOUCH_ACTIVE]: 'Touching',
+  [ON_TOUCH_ACTIVE]: 'While Touching',
   [ON_PLAYTHROUGH]: 'Start Game',
   //  [ON_TOUCH_START]: 'ON_TOUCH_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',

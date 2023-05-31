@@ -135,6 +135,10 @@ export class GameInstance extends Phaser.Scene {
     this.relationsByEventType = Object.keys(relations).reduce((relationsByEvent, relationId) => {
       const relation = relations[relationId]
 
+      if(relation.isRemoved) {
+        return relationsByEvent
+      }
+
       const populatedEvent = events[relation.eventId]
       const populatedEffects = relation.effectIds.map((effectId) => {
         let effect 
@@ -1112,6 +1116,9 @@ addInstancesToEntityInstanceByTag(instances) {
     const effect = relation.effect
     const scene = this
 
+    const effectInterface = effectEditInterfaces[effect.effectBehavior]
+    if(!this.gameRoomInstance.isHost && !effectInterface.runOnClient) return
+
     if(this.timeToTriggerAgain[relation.relationId]) {
       if(this.timeToTriggerAgain[relation.relationId] > Date.now()) {
         return
@@ -1146,7 +1153,7 @@ addInstancesToEntityInstanceByTag(instances) {
       }
     }
 
-    if(effectEditInterfaces[effect.effectBehavior].targetableType === NO_RELATION_TAG_EFFECT_IID) {
+    if(effectInterface.targetableType === NO_RELATION_TAG_EFFECT_IID) {
       return this.runTargetlessAccuteEffect({
         relation,
         phaserInstanceA,

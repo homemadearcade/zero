@@ -309,7 +309,12 @@ function SelectChipsAutoForm({
         alignItems: 'center',
         gap: '.5em'
       }}>
-        <Texture textureId={option.subTitleTextureId} textureTint={option.subTitleTextureTint} />
+        <div style={{
+          maxWwidth: '1.2em',
+          maxHeight: '1.2em',
+        }}>
+          <Texture textureId={option.subTitleTextureId} textureTint={option.subTitleTextureTint} />
+        </div>
         <Typography sx={{ fontSize: '1em' }} component="div">{option.subTitle}</Typography>
       </div>
     } else {
