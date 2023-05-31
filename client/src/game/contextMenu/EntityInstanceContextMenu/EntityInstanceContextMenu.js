@@ -17,7 +17,10 @@ import Icon from '../../../ui/Icon/Icon';
 import { ListItemIcon } from '@mui/material';
 
 const EntityInstanceContextMenu = ({ 
-  editGameModel, entityModelId, onMenuItemClick,
+  editGameModel, 
+  entityModelId, 
+  entityEffectSpawned,
+  onMenuItemClick,
   entityInstanceId, webPage: { gameInstance }, 
   gameModel: { gameModel, currentStageId }, 
   openEditEntityDialog, 
@@ -28,6 +31,21 @@ const EntityInstanceContextMenu = ({
   const entityInstanceData = gameModel.stages[currentStageId].entityInstances[entityInstanceId]
 
   const hasInstanceBeenResized = !!(entityInstanceData?.width || entityInstanceData?.height)
+
+  if(entityEffectSpawned) {
+    return <>
+      <ContextMenuTitle onClick={() => {
+      openEditEntityDialog(gameModel.entityModels[entityModelId])
+      onMenuItemClick()
+    }}>{gameModel.entityModels[entityModelId].name} (Spawned)</ContextMenuTitle>
+      <MenuItem onClick={() => {
+        onMenuItemClick()
+      }}>
+        Spawned objects cannot be edited
+      </MenuItem>
+    </>
+  }
+
 
   return <>
     <ContextMenuTitle onClick={() => {

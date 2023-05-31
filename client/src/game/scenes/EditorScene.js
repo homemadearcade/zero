@@ -38,7 +38,7 @@ export class EditorScene extends GameInstance {
     this.brushingCanvas = null
     this.brush = null 
     this.stamper = null
-    this.gameResetVersion = null
+    this.gameResetVersion = props.gameRoomInstance.gameResetVersion
     this.isGridViewOn = true
     this.editorCamera = null
     this.remoteEditors = []
@@ -93,7 +93,11 @@ export class EditorScene extends GameInstance {
   continueDrag(phaserInstance, {x, y}) {
     const entityModelId = this.getEntityInstance(this.draggingEntityInstanceId).entityModelId
     const entityModel= store.getState().gameModel.gameModel.entityModels[entityModelId]
-    const { clampedX, clampedY, freeX, freeY } = snapObjectXY({x, y,  entityModel})
+    const { clampedX, clampedY, freeX, freeY } = snapObjectXY({
+      x, y,  
+      entityModel,
+      entityInstance: phaserInstance.entityInstance
+    })
     const isPixelPerfectModeOn = this.isPixelPerfectModeOn()
     if(isPixelPerfectModeOn) {
       phaserInstance.x = freeX
@@ -203,8 +207,14 @@ export class EditorScene extends GameInstance {
   clearResize() {
     const phaserInstance = this.resizingEntityInstance.phaserInstance
     const entityModel = store.getState().gameModel.gameModel.entityModels[phaserInstance.entityModelId];
-    this.forAllEntityInstancesMatchingEntityId(phaserInstance.entityModelId, (object) => {
-      object.setSize(entityModel.graphics.width, entityModel.graphics.height)
+
+    this.forAllEntityInstancesMatchingEntityId(phaserInstance.entityModelId, (entityInstance) => {
+      const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
+      if(entityInstanceData.width || entityInstanceData.height) {
+        entityInstance.setSize(entityInstanceData.width, entityInstanceData.height)
+      } else {
+        entityInstance.setSize(entityModel.graphics.width, entityModel.graphics.height)
+      }
     })
     this.resizingEntityInstance = null
   }
@@ -689,10 +699,13 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerOut = (pointer, phaserInstances) => {
-    console.log('onPointerOut', phaserInstances[0].entityInstanceId)
     const phaserInstance = phaserInstances[0]
     phaserInstance.isMouseOver = false
-    store.dispatch(changeInstanceHovering(null, null))
+
+    const entityInstanceIdHovering = store.getState().hoverPreview.entityInstanceIdHovering
+    if(entityInstanceIdHovering === phaserInstance.entityInstanceId) {
+      store.dispatch(changeInstanceHovering(null, null))
+    }
     // const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
     // if(isObscured) {
     //   return

@@ -9,11 +9,19 @@ import StageContextMenu from '../StageContextMenu/StageContextMenu';
 import EntityInstanceListContextMenu from '../EntityInstanceListContextMenu/EntityInstanceListContextMenu';
 import { PLAYER_INSTANCE_DID } from '../../constants';
 
-const GameContextMenuBody = ({ selectableEntityInstances, entityInstanceIdSelectedContextMenu, entityModelIdSelectedContextMenu, closeContextMenu }) => { 
+const GameContextMenuBody = ({ selectableEntityInstances, entityInstanceIdSelectedContextMenu, entityModelIdSelectedContextMenu, entityEffectSpawnedContextMenu, closeContextMenu }) => { 
   if(selectableEntityInstances) {
-    return <EntityInstanceListContextMenu selectableEntityInstances={selectableEntityInstances} onMenuItemClick={closeContextMenu}/>
+    return <EntityInstanceListContextMenu 
+      selectableEntityInstances={selectableEntityInstances} 
+      onMenuItemClick={closeContextMenu}
+    />
   } else if(entityInstanceIdSelectedContextMenu) {
-    return <EntityInstanceContextMenu onMenuItemClick={closeContextMenu} entityInstanceId={entityInstanceIdSelectedContextMenu} entityModelId={entityModelIdSelectedContextMenu} />
+    return <EntityInstanceContextMenu 
+      onMenuItemClick={closeContextMenu} 
+      entityInstanceId={entityInstanceIdSelectedContextMenu} 
+      entityModelId={entityModelIdSelectedContextMenu} 
+      entityEffectSpawned={entityEffectSpawnedContextMenu}
+    />
   } else if(entityModelIdSelectedContextMenu || entityInstanceIdSelectedContextMenu === PLAYER_INSTANCE_DID) {
     return <EntityContextMenu entityModelId={entityModelIdSelectedContextMenu} onMenuItemClick={closeContextMenu}/>
   }

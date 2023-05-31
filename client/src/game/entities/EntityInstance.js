@@ -143,7 +143,13 @@ export class EntityInstance extends PhaserInstance {
     ////////////////////////////////////////
     // RELATIONS
     if(entityModel.boundaryRelation === BOUNDARY_WRAP) {
-      this.scene.physics.world.wrap(this.phaserInstance.body, entityModel.graphics.width)
+      const width = this.phaserInstance.displayWidth
+      const height = this.phaserInstance.displayHeight
+
+      let highestSize = width
+      if(height > width) highestSize = height
+
+      this.scene.physics.world.wrap(this.phaserInstance.body, highestSize)
     }
 
     if(this.scene.isPaused) return 
@@ -189,15 +195,46 @@ export class EntityInstance extends PhaserInstance {
     this.collider.unregister()
   }
 
-  getInnerCoordinateBoundaries(entityModel) {
+  getInnerCoordinateBoundaries(entityModel, entityInstance) {
     const phaserInstance = this.phaserInstance   
 
-    const x = phaserInstance.x - (phaserInstance.displayWidth/2) +  entityModel.graphics.width/4
-    const y = phaserInstance.y - (phaserInstance.displayHeight/2) + entityModel.graphics.height/4
-    const width = phaserInstance.displayWidth -  entityModel.graphics.width/2
-    const height = phaserInstance.displayHeight -  entityModel.graphics.height/2
+    let foreignWidth = entityModel.graphics.width
+    let foreignHeight = entityModel.graphics.height
+
+    if(entityInstance) {
+      foreignWidth = entityInstance.phaserInstance.displayWidth
+      foreignHeight = entityInstance.phaserInstance.displayHeight
+    }
+
+    const x = phaserInstance.x - (phaserInstance.displayWidth/2) +  foreignWidth/4
+    const y = phaserInstance.y - (phaserInstance.displayHeight/2) + foreignHeight/4
+    const width = phaserInstance.displayWidth -  foreignWidth/2
+    const height = phaserInstance.displayHeight -  foreignHeight/2
 
     return [x, y, width, height]
+  }
+
+  getInnerCoordinates(entityModel, entityInstance) {
+    let x, y;
+    
+    let entityWidth = entityModel.graphics.width
+    let entityHeight = entityModel.graphics.height
+    if(entityInstance) {
+      entityWidth = entityInstance.phaserInstance.displayWidth
+      entityHeight = entityInstance.phaserInstance.displayHeight
+    }
+
+    if(entityWidth === this.width && entityHeight === this.height) {
+      x = this.phaserInstance.x
+      y = this.phaserInstance.y
+    } else {
+      const coordinateBoundaries = this.getInnerCoordinateBoundaries(entityModel, entityInstance)
+      const position = this.scene.getRandomPosition(...coordinateBoundaries)
+      x = position.x
+      y = position.y
+    }
+
+    return { x, y }
   }
 
   transformEntityModel(entityModelId) {

@@ -77,7 +77,7 @@ export function snapSectionalXY({x, y, boundaries = store.getState().gameModel.g
   }
 }
 
-export function snapObjectXY({x, y, entityModel, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {
+export function snapObjectXY({x, y, entityModel, entityInstance, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {
   const gameModel = store.getState().gameModel.gameModel
   const halfNodeSize = gameModel.size.nodeSize ///2
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
@@ -87,10 +87,17 @@ export function snapObjectXY({x, y, entityModel, boundaries = store.getState().g
   const width = isGridViewOn ?  boundaries.maxWidth : gridx + boundaries.width
   const height = isGridViewOn ? boundaries.maxHeight : gridy + boundaries.height
 
+  let entityWidth = entityModel.graphics.width
+  let entityHeight = entityModel.graphics.height
+  if(entityInstance) {
+    entityWidth = entityInstance.width
+    entityHeight = entityInstance.height
+  }
+
   const snappedX = Phaser.Math.Snap.To(x, halfNodeSize)
-  const clampedX =  Phaser.Math.Clamp(snappedX, gridx + (entityModel.graphics.width/2), width - (entityModel.graphics.width/2))
+  const clampedX =  Phaser.Math.Clamp(snappedX, gridx + (entityWidth/2), width - (entityWidth/2))
   const snappedY = Phaser.Math.Snap.To(y, halfNodeSize)
-  const clampedY = Phaser.Math.Clamp(snappedY, gridy + (entityModel.graphics.height/2), height - (entityModel.graphics.height/2))
+  const clampedY = Phaser.Math.Clamp(snappedY, gridy + (entityHeight/2), height - (entityHeight/2))
   const boundaryX = Phaser.Math.Clamp(x, boundaries.x, boundaries.x + boundaries.width)
   const boundaryY = Phaser.Math.Clamp(y, boundaries.y, boundaries.x + boundaries.width)
   const freeX = x

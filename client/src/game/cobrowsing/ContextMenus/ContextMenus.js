@@ -13,10 +13,22 @@ const ContextMenus = ({ contextMenu, remoteContextMenu, cobrowsing : { isActivel
     const contextMenus = []
 
     if(contextMenu.isContextMenuOpen) {
-      const { isContextMenuOpen, entityInstanceIdSelectedContextMenu, entityModelIdSelectedContextMenu, selectableEntityInstances, contextMenuX, contextMenuY } = contextMenu
+      const { 
+        isContextMenuOpen,
+        entityInstanceIdSelectedContextMenu,
+        entityModelIdSelectedContextMenu,
+        entityEffectSpawnedContextMenu,
+        selectableEntityInstances,
+        contextMenuX,
+        contextMenuY
+      } = contextMenu
   
       contextMenus.push(<ContextMenu  key="contextmenu"  contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
-        <GameContextMenuBody entityInstanceIdSelectedContextMenu={entityInstanceIdSelectedContextMenu} entityModelIdSelectedContextMenu={entityModelIdSelectedContextMenu} selectableEntityInstances={selectableEntityInstances}/>
+        <GameContextMenuBody 
+          entityEffectSpawnedContextMenu={entityEffectSpawnedContextMenu}
+          entityInstanceIdSelectedContextMenu={entityInstanceIdSelectedContextMenu}
+          entityModelIdSelectedContextMenu={entityModelIdSelectedContextMenu}
+          selectableEntityInstances={selectableEntityInstances}/>
       </ContextMenu>)
     }
   

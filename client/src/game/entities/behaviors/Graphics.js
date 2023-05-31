@@ -284,6 +284,6 @@ export class Graphics {
     if(phaserInstance.invisibleIndicator) phaserInstance.invisibleIndicator.destroy()
     if(phaserInstance.editorHighlight) phaserInstance.editorHighlight.destroy()
     if(phaserInstance.interactBorder) phaserInstance.interactBorder.destroy()
-    if(phaserInstance.arrowKeyIcon) phaserInstance.arrowKeyIcon.destroy()
+    if(this.arrowKeyIcon) this.arrowKeyIcon.destroy()
   }
 }

@@ -10,11 +10,11 @@ import Icon from '../../../ui/Icon/Icon';
 
 const EntityInstanceListContextMenu = ({ openContextMenuFromEntityInstanceId, onMenuItemClick, selectableEntityInstances, gameModel: { gameModel }}) => {
   return <>
-    {selectableEntityInstances.map(({objectId, entityModelId}) => {
+    {selectableEntityInstances.map(({entityInstanceId, entityModelId, effectSpawned }) => {
       const name = gameModel.entityModels[entityModelId].name
-      return <MenuItem key={objectId} onClick={(event) => {
+      return <MenuItem key={entityInstanceId} onClick={(event) => {
         onMenuItemClick()
-        openContextMenuFromEntityInstanceId(objectId, entityModelId, event)
+        openContextMenuFromEntityInstanceId({entityInstanceId, entityModelId, effectSpawned }, event)
       }}>
         <ListItemIcon><Icon icon="faArrowPointer"/></ListItemIcon> 
         {name}

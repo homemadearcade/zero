@@ -11,7 +11,7 @@ import { updateTheme } from '../../store/actions/themeActions';
 import { getImageUrlFromTextureId, getSpriteSheetData, getTextureMetadata } from '../../utils';
 
 export class PreloaderScene extends Phaser.Scene {
-  constructor({ isOnlineMultiplayer, isEdit, hostUserMongoId, gameInstanceIds, id, arcadeGameMongoId}) {
+  constructor({ isOnlineMultiplayer, isEdit, hostUserMongoId, gameResetVersion, gameInstanceIds, id, arcadeGameMongoId}) {
     super({
       key: PRELOADER_SCENE,
     });
@@ -22,6 +22,7 @@ export class PreloaderScene extends Phaser.Scene {
       isOnlineMultiplayer,
       isEdit,
       arcadeGameMongoId,
+      gameResetVersion,
       gameInstanceId,
       id: id
     }

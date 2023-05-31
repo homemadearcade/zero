@@ -52,7 +52,7 @@ export class PlayerInstance extends EntityInstance {
     }
 
     const nodeSize = store.getState().gameModel.gameModel.size.nodeSize
-    this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: entityModel.graphics.width + (nodeSize * 4), height: entityModel.graphics.height + (nodeSize * 4) }) 
+    this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: this.width + (nodeSize * 4), height: this.height + (nodeSize * 4) }) 
     this.lastInteractAreaUpdate = 0
 
     this.registerKeys()

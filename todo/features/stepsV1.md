@@ -47,8 +47,6 @@ So instructions go linearly by role.
 
 ----
 
-
-
 PARTICIPANT STEP BUILDER
  - A whole timer interface like at the bottom like an editor?
   It would be awesome to also be able to have a timer for the properties of an object. Where u can morph their property over time.

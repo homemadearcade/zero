@@ -31,17 +31,15 @@ export const openStageContextMenu = (event) => (dispatch, getState) => {
 
 export const openContextMenuFromEntityInstance = (entityInstances, event) => (dispatch, getState) => {
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
-
-  if(entityInstances[0].effectSpawned) return
-
   dispatch({
     // updateCobrowsing: true,
     // cobrowsingPublisherOnly: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
       entityModelIdSelectedContextMenu: entityInstances[0].entityModelId, 
+      entityEffectSpawnedContextMenu: entityInstances[0].effectSpawned,
       entityInstanceIdSelectedContextMenu: entityInstances.length === 1 ? entityInstances[0].entityInstanceId : null, 
-      selectableEntityInstances: entityInstances.length > 1 ? entityInstances.map(({entityInstanceId, entityModelId}) => { return {objectId: entityInstanceId, entityModelId}}) : null, 
+      selectableEntityInstances: entityInstances.length > 1 ? entityInstances.map(({entityInstanceId, entityModelId, effectSpawned}) => { return { entityInstanceId, entityModelId, effectSpawned}}) : null, 
       contextMenuX: event.pageX,
       contextMenuY: event.pageY
     }
@@ -64,7 +62,7 @@ export const openContextMenuFromEntityId= (entityModelId, event) => (dispatch, g
   });
 }
 
-export const openContextMenuFromEntityInstanceId= (entityInstanceId, entityModelId, event) => (dispatch, getState) => {
+export const openContextMenuFromEntityInstanceId= ({entityInstanceId, entityModelId, effectSpawned }, event) => (dispatch, getState) => {
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
@@ -74,6 +72,7 @@ export const openContextMenuFromEntityInstanceId= (entityInstanceId, entityModel
     payload: {
       entityInstanceIdSelectedContextMenu: entityInstanceId,
       entityModelIdSelectedContextMenu: entityModelId,
+      entityEffectSpawnedContextMenu: effectSpawned,
       selectableEntityInstances: null,
       contextMenuX: event.pageX,
       contextMenuY: event.pageY

@@ -78,8 +78,9 @@ export class GameInstance extends Phaser.Scene {
       // const zoneEntityModel = gameModel.entityModels[zoneId]
 
       let lastPlayerEntityId = playerInterface.playerEntityModelId ? playerInterface.playerEntityModelId : directionalPlayerEntityId;
+      const lastPlayerEntityModel = gameModel.entityModels[lastPlayerEntityId]
 
-      const {x, y} = this.getRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.entityModels[lastPlayerEntityId]))
+      const { x, y } = zone.getInnerCoordinates(lastPlayerEntityModel) 
 
       this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_DID, {
         entityModelId: currentStage.playerEntityModelId ? currentStage.playerEntityModelId : lastPlayerEntityId,
@@ -374,6 +375,8 @@ export class GameInstance extends Phaser.Scene {
       if(!entityInstanceData.entityModelId) {
         return console.error('missing entityModelId!!', entityInstanceId, entityInstanceData)
       }
+
+      console.log('initializing entity instance', entityInstanceId, entityInstanceData)
 
       this.initializeEntityInstance(entityInstanceId, entityInstanceData)
     });
@@ -807,7 +810,9 @@ addInstancesToEntityInstanceByTag(instances) {
     this.stage.ensureSpawnZoneExists()
     const zoneId = gameModel.stages[this.stage.stageId].playerSpawnZoneEntityId
     const zone = this.getRandomInstanceOfEntityId(zoneId)
-    this.playerInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.entityModels[zoneId]))
+    const playerEntityModel = gameModel.entityModeplayerEs[this.playerInstance.entityModelId]
+    const { x, y } = zone.getInnerCoordinates(playerEntityModel, this.playerInstance)
+    this.playerInstance.setPosition(x, y)
   }
 
   reset = () => {
@@ -1084,11 +1089,14 @@ addInstancesToEntityInstanceByTag(instances) {
       // } else
       }
 
+      console.log('spawning zone', effect.spawnEntityModelId, zone)
+
       if(!zone) return console.log('no zone exists for that')
       const gameModel = store.getState().gameModel.gameModel
       const entityModel = gameModel.entityModels[spawningEntityId]
       const spawnedEntityInstance =  this.addEntityInstance(SPAWNED_INSTANCE_DID+generateUniqueId(), modifiedEntityData, true)
-      spawnedEntityInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(entityModel))
+      const { x, y } = zone.getInnerCoordinates(entityModel)
+      spawnedEntityInstance.setPosition(x, y)
     }
   }
 
@@ -1182,7 +1190,8 @@ addInstancesToEntityInstanceByTag(instances) {
         const entityModel = gameModel.entityModels[phaserInstance.entityModelId]
         const zone = scene.getRandomInstanceOfEntityId(effect.zoneEntityModelId)
         if(!zone) return
-        phaserInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(entityModel))
+        const { x, y } = zone.getInnerCoordinates(entityModel, phaserInstance.entityInstance)
+        phaserInstance.setPosition(x, y)
       }
       
       if(effect.effectBehavior === EFFECT_DESTROY) {
