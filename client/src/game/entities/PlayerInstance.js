@@ -123,8 +123,8 @@ export class PlayerInstance extends EntityInstance {
     this.interactKey.isDown = this.xKey.isDown || (this.gamePad && this.gamePad.buttons[1].pressed)
     this.projectileKey.isDown = this.zKey.isDown || (this.gamePad && this.gamePad.buttons[0].pressed)
 
-    if(this.rKey.isDown || (this.gamePad && this.gamePad.buttons[2].pressed)) {
-      window.reload()
+    if((this.gamePad && this.gamePad.buttons[2].pressed)) {
+      window.location.reload()
     }
 
     // console.log('merged input', this.mergedInput)

@@ -8,8 +8,14 @@ import { FormLabel } from '@mui/material';
 
 import './BoundaryEditor.scss'
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
+import { setInterfaceIdHovering } from '../../../store/actions/game/cobrowsingActions';
 
-const BoundaryEditor = ({closeBoundaryEditor, editGameModel, gameModel: { currentStageId, gameModel : { stages }}}) => {
+const BoundaryEditor = ({
+  closeBoundaryEditor, 
+  editGameModel, 
+  setInterfaceIdHovering,
+  gameModel: { currentStageId, gameModel : { stages }}
+}) => {
   const boundaries = stages[currentStageId].boundaries
   const [sections, setSections] = useState({})
   const [isError, setIsError] = useState(false)
@@ -125,6 +131,8 @@ const BoundaryEditor = ({closeBoundaryEditor, editGameModel, gameModel: { curren
     // console.log(sections, sectionsX, sectionsY, sectionsWidth, sectionsHeight)
 
     setSections(sections)
+
+    setInterfaceIdHovering(null)
   }, [])
 
   return (
@@ -242,4 +250,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
 });
 
-export default connect(mapStateToProps, { closeBoundaryEditor, editGameModel })(BoundaryEditor);
+export default connect(mapStateToProps, { setInterfaceIdHovering, closeBoundaryEditor, editGameModel })(BoundaryEditor);

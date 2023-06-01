@@ -203,6 +203,9 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   initialDraw() {
     if(this.scene.textures.exists(this.textureId)) {
       super.draw(this.textureId, 0, 0)
+      if(this.isCollisionCanvas) {
+        this.createCollisionBody()
+      }
     }
   }
 }

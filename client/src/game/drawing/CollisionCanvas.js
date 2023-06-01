@@ -11,7 +11,7 @@ export class CollisionCanvas extends CodrawingCanvas {
     this.isCollisionCanvas = true
     this.collisionBody = null
     this.scene = scene
-
+    
     return this
   }
 

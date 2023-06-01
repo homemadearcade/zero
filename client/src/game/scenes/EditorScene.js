@@ -1350,6 +1350,7 @@ export class EditorScene extends GameInstance {
       if(this.gameRoomInstance.isHost) {
         this.editorCamera.startFollow(this.playerInstance.phaserInstance, false, 0.4, 0.4)
       } else {
+        console.log('update editor camera controls')
         this.editorCameraControls.update(delta)
       }
 
