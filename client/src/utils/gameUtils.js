@@ -302,6 +302,7 @@ export function getCutscenesForEntityModel({entityModel, gameModel}) {
 
   relationsForEachTag.forEach(({relationTag, relations}) => {
     relations.forEach(relation => {
+      console.log('relation', relation)
       relation.effectIds.forEach(effectId => {
         const effect = gameModel.effects[effectId]
         if(effect.effectBehavior === EFFECT_CUTSCENE) {

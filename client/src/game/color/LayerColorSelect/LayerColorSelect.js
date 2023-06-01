@@ -2,18 +2,15 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { createPortal } from 'react-dom';
 
 import './LayerColorSelect.scss';
 import {  COLOR_BRUSH_ID } from '../../constants';
 import { openCreateColorFlow } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { clearBrush, closeSelectAggregateColor, openSelectAggregateColor, selectBrush } from '../../../store/actions/game/gameSelectorActions';
 import { getHexFromColorId, getLayerIdFromColorId, isBrushIdColor, sortColorByLastSelectedDate } from '../../../utils/editorUtils';
-import AggregateColorSelectDialog from '../AggregateColorSelectDialog/AggregateColorSelectDialog';
 import { LAYER_AGGREGATE_COLOR_SELECT_IID, LAYER_CREATE_COLOR_DIALOG_IID } from '../../../constants/interfaceIds';
 
 const LayerColorSelect = ({

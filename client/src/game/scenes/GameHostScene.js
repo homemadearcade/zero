@@ -164,14 +164,14 @@ export class GameHostScene extends EditorScene {
       this.onStateChange(this.gameState, gameState)
     }
 
-    if(this.lastAcknowledgement) {
-      if(this.lastAcknowledgement + gameInstanceDisconnectedDelta < Date.now()) {
-        store.dispatch(changeErrorState(GAME_ROOM_CONNECTION_LOST, {message: 'Your connection to your guide has been lost. This may resolve shorty. If it doesnt please refresh the page. If the problem continues further, your guide will contact you'}))
-        this.lastAcknowledgement = null
-      } else if(store.getState().errors.errorStates[GAME_ROOM_CONNECTION_LOST].on) {
-        store.dispatch(clearErrorState(GAME_ROOM_CONNECTION_LOST))
-      }
-    }
+    // if(this.lastAcknowledgement) {
+    //   if(this.lastAcknowledgement + gameInstanceDisconnectedDelta < Date.now()) {
+    //     store.dispatch(changeErrorState(GAME_ROOM_CONNECTION_LOST, {message: 'Your connection to your guide has been lost. This may resolve shorty. If it doesnt please refresh the page. If the problem continues further, your guide will contact you'}))
+    //     this.lastAcknowledgement = null
+    //   } else if(store.getState().errors.errorStates[GAME_ROOM_CONNECTION_LOST].on) {
+    //     store.dispatch(clearErrorState(GAME_ROOM_CONNECTION_LOST))
+    //   }
+    // }
     
     if(this.isPaused) {
       this.pause()

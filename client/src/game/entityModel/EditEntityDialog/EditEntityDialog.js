@@ -109,7 +109,7 @@ const EditEntityDialog = ({
         <div className="EditEntityDialog__texture-stage">
           <TextureStage onClickIcon={() => {
             openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, entityModel)
-            closeEditEntityDialog()
+            handleClose()
           }} overlayIcon={'faPenToSquare'} textureId={entityModel.graphics.textureId} textureTint={entityModel.graphics.textureTint}>
               
           </TextureStage>

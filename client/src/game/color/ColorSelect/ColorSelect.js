@@ -11,7 +11,6 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { COLOR_ADD_IID, COLOR_SELECT_IID } from '../../../constants/interfaceIds';
 import EraserSelect from '../../ui/EraserSelect/EraserSelect';
-import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 import { COLOR_BRUSH_ID, NON_LAYER_COLOR_ID } from '../../constants';
 import { changeBrushIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 import { updateBrushLastUsedDate } from '../../../store/actions/game/gameSelectorActions';
@@ -89,7 +88,7 @@ const ColorSelect = ({
     }
 
     return el
-  }).slice(0, maxColors - 1)
+  }).slice(0, maxColors - 2)
 
   items.push(<Unlockable isTiny interfaceId={COLOR_ADD_IID}><Button size="fit" onClick={onAddColor}>
     +
