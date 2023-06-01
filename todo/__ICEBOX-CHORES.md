@@ -5,8 +5,6 @@ DEBUGGING
 
 --------------------------------------------------------------------------------------
 
-if theres no player spawn zone it leads to the camrea not being destroyed thing? so thats a way to reproduce the bug FYI
-
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -22,8 +20,6 @@ Catch all React Errors and also catch all utils errors, and even phaser errors?
 --------------------------------------------------------------------------------------
 PERFORMANCE
 --------------------------------------------------------------------------------------
-
-also like... event listeners, make sure they are getting turned off right. It can cause serious trouble
 
 Unauthenticate socket when logging out
 

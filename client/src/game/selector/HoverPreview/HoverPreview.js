@@ -176,7 +176,6 @@ const HoverPreview = ({
     </div>
   }
 
-
   function renderTopRightCornerData(data, onEdit) {
     return <div className="HoverPreview__top-right-corner-data">
       {data.map((data) => {
@@ -196,7 +195,6 @@ const HoverPreview = ({
       })}
     </div>
   }
-
 
   function renderTextOnlyDisplay({title, icon, subtitle, onEdit}) {
       return <div className="HoverPreview__title">
@@ -460,6 +458,9 @@ const HoverPreview = ({
       style={{height: gameEditorHeight ? gameEditorHeight * 0.2 : 0}}
       onMouseEnter={() => {
         setIsHoveringOverPreview(true)
+        setTimeout(() => {
+          setIsHoveringOverPreview(false)
+        }, 3000)
       }} 
       onMouseLeave={() => {
         setIsHoveringOverPreview(false)

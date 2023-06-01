@@ -21,7 +21,6 @@ Transition Zone
 
 Make two zones! One for transitioning in, one for transitioning out
 
-
 --
 
 Top down view

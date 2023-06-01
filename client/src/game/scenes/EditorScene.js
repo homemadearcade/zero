@@ -72,7 +72,6 @@ export class EditorScene extends GameInstance {
 
     // if(phaserInstance.effectSpawned) return
 
-
     this.isDragFromContext = false
 
     if(this.draggingEntityInstanceId === phaserInstance.entityInstanceId) {
@@ -81,7 +80,6 @@ export class EditorScene extends GameInstance {
       if(phaserInstance.entityInstanceId !== this.hoveringInstanceId) {
         return 
       }
-      console.log('onDragStart', phaserInstance.entityInstanceId, this.hoveringInstanceId)
       this.draggingEntityInstanceId = phaserInstance.entityInstanceId
     }
   }

@@ -552,6 +552,7 @@ addInstancesToEntityInstanceByTag(instances) {
 
   forAllEntityInstancesMatchingEntityId(entityModelId, fx) {
    [this.playerInstance, ...this.entityInstances, ...this.temporaryInstances].forEach((entityInstance) => {
+      if(entityInstance.effectSpawned) return
       if(entityInstance.entityModelId === entityModelId) {
         fx(entityInstance)
       } else if(entityInstance.entityInstanceId === entityModelId) {

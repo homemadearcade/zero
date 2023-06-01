@@ -12,7 +12,7 @@ import { MenuItem, MenuList } from '@mui/material';
 import DataSourceVisibilityMenu from '../../../ui/connected/DataSourceVisibilityMenu/DataSourceVisibilityMenu';
 import CobrowsingMenuIconButton from '../../cobrowsing/CobrowsingMenuIconButton/CobrowsingMenuIconButton';
 
-const SelectEntityModel = ({ onChange, disabled, value, interfaceId, formLabel, gameModel: { gameModel }, entityModelClass, gameSelector: { selectorInterfaceListInvisibility } }) => {
+const SelectEntityModel = ({ hideEntityModelsIds = [], onChange, disabled, value, interfaceId, formLabel, gameModel: { gameModel }, entityModelClass, gameSelector: { selectorInterfaceListInvisibility } }) => {
   const dataSourceFilterInterfaceId = interfaceId || SELECT_ENTITY_MODEL_IID
 
   const mapEntityToOption = (entityModelId) => {
@@ -25,6 +25,12 @@ const SelectEntityModel = ({ onChange, disabled, value, interfaceId, formLabel, 
 
     if(entityModelClass) {
       if(entityModel.entityIID !== entityModelClass) {
+        isRemoved = true
+      }
+    }
+
+    if(hideEntityModelsIds) {
+      if(hideEntityModelsIds.includes(entityModelId)) {
         isRemoved = true
       }
     }

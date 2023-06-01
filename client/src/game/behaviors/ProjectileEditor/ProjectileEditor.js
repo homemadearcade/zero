@@ -34,6 +34,7 @@ const ProjectileEditor = ({ entityModelId, gameModel: { gameModel }, editGameMod
         <SelectEntityModel 
           interfaceId={PROJECTILE_ENTITY_SELECTOR_IID}
           formLabel="Projectile"
+          hideEntityModelsIds={[entityModelId]}
           entityModelClass={PROJECTILE_ENTITY_IID}
           value={entitySelected.projectile.entityModelId ? [entitySelected.projectile.entityModelId] : []}
           onChange={(event, entityModels) => {
