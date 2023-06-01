@@ -824,6 +824,17 @@ export class EditorScene extends GameInstance {
     }))
   }
 
+  resetEntityInstance = (entityInstance) => {
+    if(entityInstance.isPlayerInstance) {
+      this.removePlayerInstance()
+      this.addPlayerInstance()
+      return
+    }
+    const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
+    this.removeEntityInstance(entityInstance.entityInstanceId)
+    this.addEntityInstance(entityInstance.entityInstanceId, entityInstanceData)
+  }
+
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
@@ -931,7 +942,14 @@ export class EditorScene extends GameInstance {
           layerInstance.updateTexture()
         } else {
           this.load.image(textureId, getImageUrlFromTextureId(textureId));
-          this.load.once('complete', (textureIdk) => {
+          this.load.once('complete', (textureId) => {
+            const gameModel = store.getState().gameModel.gameModel
+            Object.keys(gameModel.entityModels).forEach((entityModelId) => {
+              const entityModel = gameModel.entityModels[entityModelId]
+              if(entityModel.graphics.textureId === textureId) {
+                this.forAllEntityInstancesMatchingEntityId(entityModelId, this.resetEntityInstance)
+              }
+            })
             // console.log('loaded', textureId)
           });
           this.load.start();
@@ -1055,16 +1073,7 @@ export class EditorScene extends GameInstance {
         entityModelUpdate.collisionResponse?.ignoreStageBoundaries !== undefined
       ) {
         // setTimeout(() => {
-          this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
-            if(entityInstance.isPlayerInstance) {
-              this.removePlayerInstance()
-              this.addPlayerInstance()
-              return
-            }
-            const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
-            this.removeEntityInstance(entityInstance.entityInstanceId)
-            this.addEntityInstance(entityInstance.entityInstanceId, entityInstanceData)
-          })
+          this.forAllEntityInstancesMatchingEntityId(entityModelId, this.resetEntityInstance)
         // })
       }
 

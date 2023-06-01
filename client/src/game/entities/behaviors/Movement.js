@@ -108,7 +108,7 @@ export class Movement {
       }
     }
 
-    if(movementBehavior === MOVEMENT_UP_AND_DOWN && !phaserInstance.body.velocity.y === 0) {
+    if(movementBehavior === MOVEMENT_UP_AND_DOWN && phaserInstance.body.velocity.y === 0) {
       if(phaserInstance.body.blocked.down) {
         phaserInstance.setVelocityY(-entityModel.movement.velocityY)
       } else if(phaserInstance.body.blocked.up || phaserInstance.body.blocked.none) {
@@ -117,7 +117,8 @@ export class Movement {
     }
 
     if(movementBehavior === MOVEMENT_JUMP && phaserInstance.body.blocked.down && phaserInstance.body.velocity.y === 0) {
-      phaserInstance.setVelocityY(-entityModel.movement.velocityY)
+      console.log('setting jump velocity', entityModel.movement.velocityY)
+      phaserInstance.setVelocityY(entityModel.movement.velocityY)
     }
 
     if(this.mirroringInstance) {
