@@ -9,7 +9,7 @@ export class ControlledMovement {
     this.cursors = entityInstance.cursors
   }
 
-  update(time, delta) {
+  update(time, delta, jumpKey) {
     const entityModelId = this.entityInstance.entityModelId
     const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
     const phaserInstance = this.entityInstance.phaserInstance
@@ -21,6 +21,7 @@ export class ControlledMovement {
     let upPressed = this.cursors.up.isDown
     let leftPressed = this.cursors.left.isDown
     let rightPressed = this.cursors.right.isDown
+    let jumpPressed = jumpKey.isDown
 
     if(gamePad) {
       leftPressed = leftPressed || gamePad.leftStick.x === -1
@@ -90,7 +91,7 @@ export class ControlledMovement {
         this.entityInstance.setAngularVelocity(entityModel.movement.speedAngular);
       }
 
-      if(upPressed) {
+      if(jumpPressed || upPressed) {
           this.entityInstance.thrust(speed * 4);
       } else {
         if(downPressed && !entityModel.movement.disableDownKey) {
@@ -169,7 +170,7 @@ export class ControlledMovement {
     // JUMP
     if(isJumpAllowed) {
       if(entityModel.jump.jumpControlsBehavior === JUMP_GROUND) {
-        if(upPressed) {
+        if(jumpPressed) {
           if(phaserInstance.body.blocked.down) {
             this.entityInstance.setVelocityY(-entityModel.jump.ground)
           }
@@ -177,9 +178,9 @@ export class ControlledMovement {
       }
 
       if(entityModel.jump.jumpControlsBehavior === JUMP_COMBO) {
-        if(upPressed) {
-          if(this.cursors.up.isPressable) {
-            this.cursors.up.isPressable = false
+        if(jumpPressed) {
+          if(jumpKey.isPressable) {
+            jumpKey.isPressable = false
             if(phaserInstance.body.blocked.down) {
               this.entityInstance.setVelocityY(-entityModel.jump.ground * 5)
             } else if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
@@ -188,12 +189,12 @@ export class ControlledMovement {
             }
           }
         } else {
-          this.cursors.up.isPressable = true
+          jumpKey.isPressable = true
         }
       }
 
       if(entityModel.jump.jumpControlsBehavior === JUMP_AIR) {
-        if(upPressed) {
+        if(jumpPressed) {
           if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
             this.entityInstance.setVelocityY(-entityModel.jump.air * 5)
             this.doubleJumpCoolDown = time + entityModel.jump.cooldown
@@ -202,7 +203,7 @@ export class ControlledMovement {
       }
 
       if(entityModel.jump.jumpControlsBehavior === JUMP_CONSTANT) {
-        if(upPressed) {
+        if(jumpPressed) {
             this.entityInstance.thrust(entityModel.jump.ground * 4);
         } else {
           // if(downPressed && !entityModel.jump.disableDownKey) {

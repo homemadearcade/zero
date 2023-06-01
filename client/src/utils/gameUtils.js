@@ -315,7 +315,7 @@ export function getCutscenesForEntityModel({entityModel, gameModel}) {
 
             const eventType = event.eventType
             if(!cutsceneIdsByEventType[eventType]) {
-              cutsceneIdsByEventType[eventType] = cutscene.cutsceneId
+              cutsceneIdsByEventType[eventType] = [cutscene.cutsceneId]
             } else {
               cutsceneIdsByEventType[eventType].push(cutscene.cutsceneId)
             }

@@ -5,7 +5,7 @@
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
-import { UP_KID } from "../../../constants/keyboard/keyIds"
+import { C_KID, UP_KID } from "../../../constants/keyboard/keyIds"
 import { ADVANCED_DIRECTIONAL_CONTROLS } from "../core"
 import { JUMP_AIR, JUMP_COMBO, JUMP_CONSTANT, JUMP_GROUND, JUMP_NONE } from "../core"
 
@@ -114,19 +114,19 @@ export const jumpMovementDefaults = {
 
 export const jumpControlsToKeys = {
   [JUMP_GROUND]: {
-    [UP_KID]: 'Jump (On Ground)',
+    [C_KID]: 'Jump (On Ground)',
   },
   [JUMP_AIR]: {
-    [UP_KID]: 'Jump (In Air)',
+    [C_KID]: 'Jump (In Air)',
   },
   [JUMP_COMBO]: {
-    [UP_KID]: 'Jump/Air Jump'
+    [C_KID]: 'Jump/Air Jump'
   },
   [JUMP_CONSTANT]: {
-    [UP_KID]: 'Thrust',
+    [C_KID]: 'Thrust',
   },
   [JUMP_NONE]: {
-    [UP_KID]: false,
+    [C_KID]: false,
   }
 }
 

@@ -20,7 +20,7 @@ const PlayerControlsCardCurrent = ({
   }
 
   const playerEntityModel = entityModels[playerEntityModelId]
-  const projectileEntityModel = entityModels[playerEntityModel.projectileEntityModelId]
+  const projectileEntityModel = entityModels[playerEntityModel.projectile.entityModelId]
  
   return <PlayerControlsCard
     entityModel={playerEntityModel}

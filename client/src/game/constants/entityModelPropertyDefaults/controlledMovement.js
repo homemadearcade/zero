@@ -2,7 +2,7 @@
 /////////////////////////////////////
 /////////////////////////////////////
 
-import { DOWN_KID, LEFT_KID, RIGHT_KID, UP_KID } from "../../../constants/keyboard/keyIds"
+import { C_KID, DOWN_KID, LEFT_KID, RIGHT_KID, UP_KID } from "../../../constants/keyboard/keyIds"
 import { JUMP_GROUND } from "../core"
 import { JUMP_NONE } from "../core"
 import { ADVANCED_DIRECTIONAL_CONTROLS, DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from "../core"
@@ -105,6 +105,7 @@ export const advancedDirectionalDefaults = {
 
 export const movementControlsToKeys = {
   [VEHICLE_CONTROLS]: {
+    [C_KID]: 'Thrust Forward',
     [UP_KID]: 'Thrust Forward',
     [LEFT_KID]: 'Rotate Left',
     [RIGHT_KID]: 'Rotate Right',

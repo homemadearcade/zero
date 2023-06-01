@@ -191,10 +191,12 @@ router.put('/texture/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameE
 
 router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermissions, async (req, res) => {
   try {
+
     const tempGame = await ArcadeGame.findById(req.params.id).populate('owner')
     if (!tempGame) return res.status(404).json({ message: 'No such Game.' });
     
     const updatedGame = mergeDeep(tempGame, req.body.gameUpdate)
+
 
     Object.keys(updatedGame.stages).forEach((stageId) => {
       const stage = updatedGame.stages[stageId]
@@ -291,7 +293,10 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermi
       // user: tempGame.owner ? tempGame.owner.id : Math.random()
     }
 
+    console.log('updatedGame', update.cutscenes, req.params.id)
+
     if(!req.body.isAutosaveDisabled) {
+      console.log('updating game', update.cutscenes)
       await ArcadeGame.findByIdAndUpdate(
         req.params.id,
         update,

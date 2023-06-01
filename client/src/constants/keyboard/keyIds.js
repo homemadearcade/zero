@@ -2,6 +2,7 @@ export const SHIFT_KID = 'SHIFT_KID';
 export const ESC_KID = 'ESC_KID';
 export const X_KID = 'X_KID';
 export const Z_KID = 'Z_KID';
+export const C_KID = 'C_KID';
 
 export const UP_KID = 'UP_KID';
 export const DOWN_KID = 'DOWN_KID';

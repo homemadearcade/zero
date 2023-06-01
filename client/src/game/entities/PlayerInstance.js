@@ -11,6 +11,7 @@ import { getCobrowsingState } from "../../utils";
 import { changeGameState } from "../../store/actions/game/gameRoomInstanceActions";
 import { progressActiveCutscene } from "../../store/actions/game/playerInterfaceActions";
 import { editGameModel } from "../../store/actions/game/gameModelActions";
+import _, { set } from "lodash";
 
 export class PlayerInstance extends EntityInstance {
   constructor(scene, entityInstanceId, entityInstanceData){
@@ -104,10 +105,15 @@ export class PlayerInstance extends EntityInstance {
       isPressable: false,
     }
 
+    this.jumpKey = {
+      isDown: false,
+      isPressable: false,
+    }
+
     this.cursors = this.scene.input.keyboard.createCursorKeys();
     this.xKey = this.scene.input.keyboard.addKey('X');  // Get key object
     this.zKey = this.scene.input.keyboard.addKey('Z');  // Get key object
-    this.rKey = this.scene.input.keyboard.addKey('R');  // Get key object
+    this.cKey = this.scene.input.keyboard.addKey('C');  // Get key object
   }
 
   setSize(width, height) {
@@ -115,18 +121,24 @@ export class PlayerInstance extends EntityInstance {
     this.interactArea.setSize(width, height)
   }
 
+  resetInteractKey = () => {
+    this.interactKey.isPressable = true
+  }
+  
+  throttledResetInteractKey = _.throttle(this.resetInteractKey, 2000);
+
   update(time, delta) {  
     super.update()
 
     this.gamePad = this.scene.input.gamepad.pad1
 
-    this.interactKey.isDown = this.xKey.isDown || (this.gamePad && this.gamePad.buttons[1].pressed)
     this.projectileKey.isDown = this.zKey.isDown || (this.gamePad && this.gamePad.buttons[0].pressed)
+    this.interactKey.isDown = this.xKey.isDown || (this.gamePad && this.gamePad.buttons[1].pressed)
+    this.jumpKey.isDown = this.cKey.isDown || (this.gamePad && this.gamePad.buttons[2].pressed)
 
-    if((this.gamePad && this.gamePad.buttons[2].pressed)) {
+    if((this.gamePad && this.gamePad.buttons[3].pressed)) {
       window.location.reload()
     }
-
     // console.log('merged input', this.mergedInput)
     // console.log('merged input buttons', this.mergedInput.buttons)
     // console.log('merged input buttons_mapped', this.mergedInput.direction)
@@ -154,11 +166,11 @@ export class PlayerInstance extends EntityInstance {
     if(!this.interactKey.isPressable) {
       if(this.gamePad) {
         if(!this.gamePad.buttons[1].pressed) {
-          this.interactKey.isPressable = true
+          this.throttledResetInteractKey()
         }
       } else {
-        if(this.xKey.isUp) {
-          this.interactKey.isPressable = true
+        if(!this.interactKey.isDown) {
+          this.throttledResetInteractKey()
         }
       }
     }
@@ -181,7 +193,7 @@ export class PlayerInstance extends EntityInstance {
       )
     }
 
-    this.controlledMovement.update(time, delta)
+    this.controlledMovement.update(time, delta, this.jumpKey)
 
     if(this.scene.isPaused) return
     // this.camera.update(time, delta)

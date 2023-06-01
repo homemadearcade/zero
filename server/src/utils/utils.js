@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { promisify } from 'util';
+import { isArray, promisify } from 'util';
 import { nanoid } from 'nanoid'
 
 const readdir = promisify(fs.readdir);
@@ -50,6 +50,9 @@ export const isValidUrl = (str) => {
 
   if (isObject(target) && isObject(source)) {
     for (const key in source) {
+      // if(Array.isArray(source[key])) {
+      //   target[key] = source[key]
+      // } else 
       if (isObject(source[key])) {
         if (!target[key]) Object.assign(target, { [key]: {} });
         mergeDeep(target[key], source[key]);

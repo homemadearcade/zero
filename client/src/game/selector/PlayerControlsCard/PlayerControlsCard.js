@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { DOWN_KID, LEFT_KID, RIGHT_KID, UP_KID, Z_KID } from '../../../constants/keyboard/keyIds'
+import { C_KID, DOWN_KID, LEFT_KID, RIGHT_KID, UP_KID, Z_KID } from '../../../constants/keyboard/keyIds'
 import { useKeyPress } from '../../../hooks/useKeyPress'
 import { useWishTheme } from '../../../hooks/useWishTheme'
 import Typography from '../../../ui/Typography/Typography'
@@ -9,7 +9,6 @@ import { ADVANCED_DIRECTIONAL_CONTROLS, jumpControlsToKeys } from '../../constan
 import { movementControlsToKeys } from '../../constants'
 import Texture from '../../textures/Texture/Texture'
 import './PlayerControlsCard.scss'
-import useGamepads from '../../../hooks/useGamepads'
 
 const PlayerControlsCard = ({
   movementControlBehavior = {},
@@ -29,6 +28,8 @@ const PlayerControlsCard = ({
 
   const isZPressed = useKeyPress('z')
   const iszPressed = useKeyPress('Z')
+  const isCPressed = useKeyPress('C')
+  const iscPressed = useKeyPress('c')
   const isLeftPressed = useKeyPress('ArrowLeft')
   const isRightPressed = useKeyPress('ArrowRight')
   const isUpPressed = useKeyPress('ArrowUp')
@@ -36,6 +37,7 @@ const PlayerControlsCard = ({
 
   const keyIdToIsPressed = {
     [Z_KID]: isZPressed || iszPressed,
+    [C_KID]: isCPressed || iscPressed,
     [LEFT_KID]: isLeftPressed,
     [RIGHT_KID]: isRightPressed,
     [UP_KID]: isUpPressed,
@@ -104,13 +106,21 @@ const PlayerControlsCard = ({
       action: 'Shoot',
       textureId: projectileEntityModel.graphics.textureId,
       textureTint: projectileEntityModel.graphics.textureTint,
+      keys: keys[Z_KID],
       keyId: Z_KID
     }))
   }
 
-  if(keys[UP_KID]) {
-    list.push(renderKeyAndAction({keyName: 'up', action: keys[UP_KID], keyId: UP_KID}))
+  if(keys[C_KID]) {
+    list.push(renderKeyAndAction({keyName: 'C', action: keys[C_KID], keyId: C_KID}))
   }
+
+  if(entityModel.movement.ignoreGravity) {
+    if(keys[UP_KID]) {
+      list.push(renderKeyAndAction({keyName: 'up', action: keys[UP_KID], keyId: UP_KID}))
+    }
+  }
+  
   if(keys[LEFT_KID]) {
     list.push(renderKeyAndAction({keyName: 'left', action: keys[LEFT_KID], keyId: LEFT_KID}))
   }
