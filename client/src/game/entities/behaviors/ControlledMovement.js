@@ -14,7 +14,6 @@ export class ControlledMovement {
     const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
     const phaserInstance = this.entityInstance.phaserInstance
 
-    
     const isJumpAllowed = !entityModel.movement.ignoreGravity && entityModel.movement.movementControlsBehavior === ADVANCED_DIRECTIONAL_CONTROLS
 
     const gamePad = this.entityInstance.gamePad
@@ -32,17 +31,6 @@ export class ControlledMovement {
 
     const mod = (1/(delta * 5))
     const speed = entityModel.movement.speed * 100 * mod
-
-    if(phaserInstance.upKeyClimbOverride) {
-      if(upPressed) {
-        // a bit of a hack...
-        this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y - (700 * mod))
-        upPressed = false
-      } else if(downPressed) {
-        this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y + (500 * mod))
-        downPressed = false
-      }
-    }
 
     const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
     const playerEntityModelId = store.getState().playerInterface.playerEntityModelId
@@ -75,6 +63,21 @@ export class ControlledMovement {
         return
       }
     }
+
+
+    if(this.scene.isPaused) return
+
+    if(phaserInstance.upKeyClimbOverride) {
+      if(upPressed) {
+        // a bit of a hack...
+        this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y - (700 * mod))
+        upPressed = false
+      } else if(downPressed) {
+        this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y + (500 * mod))
+        downPressed = false
+      }
+    }
+
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////

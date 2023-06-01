@@ -14,16 +14,16 @@ import MenuItem from '@mui/material/MenuItem';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { logOutUser } from '../../store/actions/user/authActions';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import {  APP_ADMIN_ROLE } from '../../constants';
+import Link from '../../ui/Link/Link';
 
 function AppBar({ auth }) {
 
   const pages = [
     {
       name: 'Buy Tickets',
-      url: 'buy-tickets',
+      href: 'https://towalkthenight.com/homemade-arcade-games',
       variant: 'contained',
     }
   ]
@@ -133,12 +133,13 @@ function AppBar({ auth }) {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {settings.map(({name, url}) => (
+        {settings.map(({name, url,href }) => (
           <MenuItem key={name} onClick={handleCloseUserMenu}>
             <Button
               component={Link}
               key={name}
-              to={`/${url}`}
+              href={href && href}
+              to={url && `/${url}`}
               onClick={handleCloseNavMenu}
               sx={{ color: 'white', display: 'block' }}
             >
@@ -223,12 +224,13 @@ function AppBar({ auth }) {
             HA
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map(({name, url, variant}) => (
+            {pages.map(({name, url, variant, href}) => (
               <Button
                 variant={variant}
+                href={href && href}
+                to={url && `/${url}`}
                 component={Link}
                 key={name}
-                to={`/${url}`}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: variant !== 'contained' && 'white', display: 'block' }}
               >

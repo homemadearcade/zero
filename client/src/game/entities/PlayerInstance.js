@@ -181,9 +181,10 @@ export class PlayerInstance extends EntityInstance {
       )
     }
 
+    this.controlledMovement.update(time, delta)
+
     if(this.scene.isPaused) return
     // this.camera.update(time, delta)
-    this.controlledMovement.update(time, delta)
     this.controlledProjectileEjector.update(time, delta, this.projectileKey)
   }
 

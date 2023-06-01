@@ -827,6 +827,10 @@ addInstancesToEntityInstanceByTag(instances) {
     this.initializePlayerInstance()
 
     this.reregisterRelationships()
+
+    if(this.editorCameraControls) {
+      this.editorCameraControls.start();
+    }
   }
 
   unload() {
