@@ -1192,6 +1192,7 @@ export class EditorScene extends GameInstance {
         maxSpeed: 0.5
       };
       this.editorCameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
+      this.editorCameraControls.start();
     }
 
     this.input.on('pointerover', this.onPointerOver);
@@ -1350,7 +1351,6 @@ export class EditorScene extends GameInstance {
       if(this.gameRoomInstance.isHost) {
         this.editorCamera.startFollow(this.playerInstance.phaserInstance, false, 0.4, 0.4)
       } else {
-        console.log('update editor camera controls')
         this.editorCameraControls.update(delta)
       }
 

@@ -16,6 +16,8 @@ TEXTURE ID WHEN GOING THROUGH STEPS??
 
 Sometimes when switching to a game room when the host isnt logged on yet and then trying to load it again later leads to all sorts of bugs of it not loading
 
+If the host is not online, codrawing strokes will not save! Most importantly if you are non the same SCENE as the host it will not save
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
