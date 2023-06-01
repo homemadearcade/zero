@@ -144,6 +144,7 @@ export class Collider {
       }
 
       if(effect.effectBehavior === EFFECT_ALLOW_CLIMB) {
+        phaserInstance.ignoreGravityOverride = true
         phaserInstance.upKeyClimbOverride = true
       }
 

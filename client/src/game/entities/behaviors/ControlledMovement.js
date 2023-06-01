@@ -36,10 +36,10 @@ export class ControlledMovement {
     if(phaserInstance.upKeyClimbOverride) {
       if(upPressed) {
         // a bit of a hack...
-        this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y - (1000 * mod))
+        this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y - (700 * mod))
         upPressed = false
       } else if(downPressed) {
-        this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y + (1000 * mod))
+        this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y + (500 * mod))
         downPressed = false
       }
     }
