@@ -29,6 +29,8 @@ import {
   CLOSE_STAGE_LIVE_EDITOR,
   OPEN_TOOL_BOX_DIALOG,
   CLOSE_TOOL_BOX_DIALOG,
+  OPEN_BUY_TICKETS_DIALOG,
+  CLOSE_BUY_TICKETS_DIALOG,
 } from '../../types';
 
 const initialState = {
@@ -237,6 +239,17 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       }
     case CLEAR_EDITOR:
       return initialState
+
+    case OPEN_BUY_TICKETS_DIALOG:
+      return {
+        ...state,
+        isBuyTicketsDialogOpen: true
+      }
+    case CLOSE_BUY_TICKETS_DIALOG:
+      return {
+        ...state,
+        isBuyTicketsDialogOpen: false
+      }
     default:
       return state;
   }

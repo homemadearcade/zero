@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import Typography from '../../../ui/Typography/Typography';
 import CobrowsingToolbar from '../CobrowsingToolbar/CobrowsingToolbar';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
-import { defaultGuideRoleId } from '../../../constants';
+import { APP_ADMIN_ROLE, defaultGuideRoleId } from '../../../constants';
 import Alert from '../../../ui/Alert/Alert';
 import { GAME_ROOM_VIDEO_IID } from '../../../constants/interfaceIds';
 
@@ -19,15 +19,17 @@ const CobrowsingGame = ({
   lobbyInstance: { lobbyInstance }, 
   cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserMongoId }, 
   video: { isInsideVideoCall }, myTracks, userTracks,
-  gameRoomInstance: { gameRoomInstance },
+  gameRoomInstance: { gameRoomInstance: { isArcadeMachineDemo, hostUserMongoId }, },
   auth: { me }
 }) => { 
   const gameFacilitatorUserMongoId = lobbyInstance.roleIdToUserMongoIds[defaultGuideRoleId][0]
 
-  const isHost = gameRoomInstance.hostUserMongoId === me.id
+  const isHost = hostUserMongoId === me.id
+  const showArcadeMachineDemoView = (!me.roles[APP_ADMIN_ROLE] && isArcadeMachineDemo) || (isActivelyCobrowsing && isArcadeMachineDemo && !cobrowsingUser.roles[APP_ADMIN_ROLE])
 
   return <GameEditor 
       rootFontSize={rootFontSize}
+      showArcadeMachineDemoView={showArcadeMachineDemoView}
       isObscurable
       arcadeMachineDemo={isHost}
       classNames={classNames({'GameEditor--cobrowsing': isActivelyCobrowsing && !selectedTool, 'GameEditor--cobrowsing-border': isActivelyCobrowsing})}

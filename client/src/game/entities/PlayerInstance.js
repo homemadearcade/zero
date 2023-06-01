@@ -125,7 +125,7 @@ export class PlayerInstance extends EntityInstance {
     this.interactKey.isPressable = true
   }
   
-  throttledResetInteractKey = _.throttle(this.resetInteractKey, 2000);
+  throttledResetInteractKey =_.throttle(_.debounce(this.resetInteractKey, 250), 300);
 
   update(time, delta) {  
     super.update()
@@ -139,6 +139,7 @@ export class PlayerInstance extends EntityInstance {
     if((this.gamePad && this.gamePad.buttons[3].pressed)) {
       window.location.reload()
     }
+
     // console.log('merged input', this.mergedInput)
     // console.log('merged input buttons', this.mergedInput.buttons)
     // console.log('merged input buttons_mapped', this.mergedInput.direction)

@@ -51,6 +51,7 @@ import CreateCutsceneButton from '../../cutscene/CreateCutsceneButton/CreateCuts
 import Divider from '../../../ui/Divider/Divider';
 import PlayerControlsCardCurrent from '../../selector/PlayerControlsCardCurrent/PlayerControlsCardCurrent';
 import { APP_ADMIN_ROLE } from '../../../constants';
+import BuyTickets from '../BuyTickets/BuyTickets';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -105,12 +106,14 @@ const GameEditor = ({
   selectBrush,
   updateCreateBrush,
   updateCreateEntity,
-  gameRoomInstance: { gameRoomInstance: { gameState, isArcadeMachineDemo, hostUserMongoId } },
+  showArcadeMachineDemoView,
+  gameRoomInstance: { gameRoomInstance: { gameState, hostUserMongoId } },
   gameModel: { gameModel, currentStageId },
   playerInterface: { cutsceneId },
   auth: { me },
 }) => {
   useEffect(() => {   
+    
     setTimeout(() => {
       document.getElementById('GameEditor').style =`font-size: ${rootFontSize || '2vh'}`;
     })
@@ -127,7 +130,6 @@ const GameEditor = ({
 
   const showColumns = !cutsceneId && !isBoundaryEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== PLAYTHROUGH_START_STATE) && !isSnapshotTakerOpen
 
-  const showArcadeMachineDemoView = isArcadeMachineDemo && !me.roles[APP_ADMIN_ROLE]
 
   function renderSelectorColumn() {
     if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID) {
@@ -169,6 +171,7 @@ const GameEditor = ({
             alt="yo" 
             style={{width: '100%', background: 'white'}}
             />
+          <BuyTickets/>
         </>}
         {!showArcadeMachineDemoView && showColumns && <>
           <KeyboardInfo/>
