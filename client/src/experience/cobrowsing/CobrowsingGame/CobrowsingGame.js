@@ -13,25 +13,33 @@ import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import { defaultGuideRoleId } from '../../../constants';
 import Alert from '../../../ui/Alert/Alert';
 import { GAME_ROOM_VIDEO_IID } from '../../../constants/interfaceIds';
-import GameContext from '../../../hoc/GameContext';
 
-const CobrowsingGame = ({ rootFontSize, lobbyInstance: { lobbyInstance }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserMongoId }, video: { isInsideVideoCall }, myTracks, userTracks}) => { 
+const CobrowsingGame = ({ 
+  rootFontSize, 
+  lobbyInstance: { lobbyInstance }, 
+  cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserMongoId }, 
+  video: { isInsideVideoCall }, myTracks, userTracks,
+  gameRoomInstance: { gameRoomInstance },
+  auth: { me }
+}) => { 
   const gameFacilitatorUserMongoId = lobbyInstance.roleIdToUserMongoIds[defaultGuideRoleId][0]
 
-  return <GameContext>
-    <GameEditor 
+  const isHost = gameRoomInstance.hostUserMongoId === me.id
+
+  return <GameEditor 
       rootFontSize={rootFontSize}
       isObscurable
+      arcadeMachineDemo={isHost}
       classNames={classNames({'GameEditor--cobrowsing': isActivelyCobrowsing && !selectedTool, 'GameEditor--cobrowsing-border': isActivelyCobrowsing})}
       leftColumn={<>
-      <AgoraUserVideo
-          interfaceId={GAME_ROOM_VIDEO_IID}
-          userMongoId={gameFacilitatorUserMongoId}
-          className="AgoraVideo__guide"
-          label="Guide"
-          myTracks={myTracks}
-          userTracks={userTracks}
-      />
+        <AgoraUserVideo
+            interfaceId={GAME_ROOM_VIDEO_IID}
+            userMongoId={gameFacilitatorUserMongoId}
+            className="AgoraVideo__guide"
+            label="Guide"
+            myTracks={myTracks}
+            userTracks={userTracks}
+        />
       </>}
       rightColumn={<>
       </>}
@@ -42,9 +50,7 @@ const CobrowsingGame = ({ rootFontSize, lobbyInstance: { lobbyInstance }, cobrow
           {cobrowsingUser.username + ' has not interacted with the experience yet'}
         </Alert>
       </div>}
-    </GameEditor>
-  </GameContext>
-  
+  </GameEditor>  
 };
 
 const mapStateToProps = (state) => {
@@ -53,7 +59,8 @@ const mapStateToProps = (state) => {
     video: state.video,
     cobrowsing: state.cobrowsing,
     auth: state.auth,
-    lobbyInstance: state.lobbyInstance
+    lobbyInstance: state.lobbyInstance,
+    gameRoomInstance: state.gameRoomInstance,
   });
 
   return cobrowsingState

@@ -49,6 +49,7 @@ import ToolBoxDialog from '../../selector/ToolBoxDialog/ToolBoxDialog';
 import AggregateColorSelectDialog from '../../color/AggregateColorSelectDialog/AggregateColorSelectDialog';
 import CreateCutsceneButton from '../../cutscene/CreateCutsceneButton/CreateCutsceneButton';
 import Divider from '../../../ui/Divider/Divider';
+import PlayerControlsCardCurrent from '../../selector/PlayerControlsCardCurrent/PlayerControlsCardCurrent';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -103,7 +104,7 @@ const GameEditor = ({
   selectBrush,
   updateCreateBrush,
   updateCreateEntity,
-  gameRoomInstance: { gameRoomInstance: { gameState } },
+  gameRoomInstance: { gameRoomInstance: { gameState, isArcadeMachineDemo } },
   gameModel: { gameModel, currentStageId },
   playerInterface: { cutsceneId }
 }) => {
@@ -158,7 +159,15 @@ const GameEditor = ({
     return <>
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
         {leftColumn}
-        {showColumns && <>
+        {isArcadeMachineDemo && <>
+          <PlayerControlsCardCurrent/>
+          <img 
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1920px-QR_code_for_mobile_English_Wikipedia.svg.png" 
+            alt="yo" 
+            style={{width: '100%', background: 'white'}}
+            />
+        </>}
+        {!isArcadeMachineDemo && showColumns && <>
           <KeyboardInfo/>
           <BrushList/>
         </>}
@@ -170,11 +179,11 @@ const GameEditor = ({
       </GameView>}
       {children}
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
-         <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}>
+         {!isArcadeMachineDemo && <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}>
           <GameStateToolbar/>
-        </Unlockable>
-        <MouseInfo hoverPreviewOnly={!gameModel || !showColumns}/>
-        {showColumns && gameModel && <>
+        </Unlockable>}
+        {!isArcadeMachineDemo && <MouseInfo hoverPreviewOnly={!gameModel || !showColumns}/>}
+        {!isArcadeMachineDemo && showColumns && gameModel && <>
           {renderSelectorColumn()}
         </>}
       </div>

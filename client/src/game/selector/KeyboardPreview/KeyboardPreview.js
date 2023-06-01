@@ -11,6 +11,7 @@ import PlayerControlsCard from '../PlayerControlsCard/PlayerControlsCard';
 import { useKeyPress } from '../../../hooks/useKeyPress';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import { toggleGridView, togglePixelPerfectMode } from '../../../store/actions/game/gameViewEditorActions';
+import PlayerControlsCardCurrent from '../PlayerControlsCardCurrent/PlayerControlsCardCurrent';
 
 const KeyboardPreview = ({ 
   cobrowsing: {
@@ -171,9 +172,6 @@ const KeyboardPreview = ({
     return null
   }
 
-  const playerEntityModel = gameModel.entityModels[playerEntityModelId]
-  const projectileEntityModel = gameModel.entityModels[playerEntityModel?.projectile.entityModelId]
-
   if(!isExpanded) return
 
   return <Unlockable interfaceId={KEYBOARD_ACTIONS_IID}>
@@ -208,12 +206,7 @@ const KeyboardPreview = ({
           {interactOppurtunity && renderActionTitle('Interact')}
         </div>
       </div>
-      {playerEntityModel && <PlayerControlsCard 
-        entityModel={playerEntityModel}
-        projectileEntityModel={projectileEntityModel}
-        movementControlBehavior={playerEntityModel.movement.movementControlsBehavior}
-        jumpControlsBehavior={playerEntityModel.jump.jumpControlsBehavior}
-      />}
+      <PlayerControlsCardCurrent/>
     </div>
   </Unlockable>
 }

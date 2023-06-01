@@ -302,7 +302,7 @@ export function getCutscenesForEntityModel({entityModel, gameModel}) {
 
   relationsForEachTag.forEach(({relationTag, relations}) => {
     relations.forEach(relation => {
-      console.log('relation', relation)
+      const event = gameModel.events[relation.eventId]
       relation.effectIds.forEach(effectId => {
         const effect = gameModel.effects[effectId]
         if(effect.effectBehavior === EFFECT_CUTSCENE) {
@@ -313,7 +313,7 @@ export function getCutscenesForEntityModel({entityModel, gameModel}) {
               cutsceneIds: [cutscene.cutsceneId]
             })
 
-            const eventType = relation.event.eventType
+            const eventType = event.eventType
             if(!cutsceneIdsByEventType[eventType]) {
               cutsceneIdsByEventType[eventType] = cutscene.cutsceneId
             } else {

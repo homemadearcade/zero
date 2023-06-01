@@ -16,9 +16,19 @@ import Icon from '../../../ui/Icon/Icon';
 import Switch from '../../../ui/Switch/Switch';
 
 const GameRoomOverview = ({
-  gameRoomInstance: { gameRoomInstance, gameRoomInstance: { isPoweredOn, isAutosaveDisabled } },
-  myTracks, userTracks,
-  lobbyInstance: { lobbyInstance },
+  gameRoomInstance: { 
+    gameRoomInstance,
+    gameRoomInstance: { 
+      isPoweredOn, 
+      isAutosaveDisabled, 
+      isArcadeMachineDemo
+    }
+  },
+  myTracks,
+  userTracks,
+  lobbyInstance: { 
+    lobbyInstance
+  },
   editGameRoom,
 }) => {
   return (
@@ -38,6 +48,19 @@ const GameRoomOverview = ({
               })
             }}
             checked={isAutosaveDisabled}
+          />
+        </div>
+        <div className="GameRoomDrawer__not-saving-stage">
+          <Icon icon="faBeerMugEmpty"></Icon>
+          <Typography variant="subtitle2">Arcade Demo</Typography>
+          <Switch
+            size="small"
+            onChange={() => {
+              editGameRoom(gameRoomInstance.id, {
+                isArcadeMachineDemo: !isArcadeMachineDemo
+              })
+            }}
+            checked={isArcadeMachineDemo}
           />
         </div>
       <Divider></Divider>

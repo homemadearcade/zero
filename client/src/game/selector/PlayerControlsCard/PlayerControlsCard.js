@@ -18,9 +18,9 @@ const PlayerControlsCard = ({
   entityModel
 }) => {
 
-  const [gamepads, setGamepads] = useState({});
+  // const [gamepads, setGamepads] = useState({});
 
-  useGamepads(gamepads => setGamepads(gamepads));
+  // useGamepads(gamepads => setGamepads(gamepads));
 
   // const gamePadButtonIndexToPressed = gamepads.buttons.reduce((acc, button, index) => {
   //   acc[index] = button.pressed

@@ -310,7 +310,7 @@ function SelectChipsAutoForm({
         gap: '.5em'
       }}>
         <div style={{
-          maxWwidth: '1.2em',
+          maxWidth: '1.2em',
           maxHeight: '1.2em',
         }}>
           <Texture textureId={option.subTitleTextureId} textureTint={option.subTitleTextureTint} />
