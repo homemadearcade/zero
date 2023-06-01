@@ -116,10 +116,13 @@ export class Movement {
       }
     }
 
-    if(movementBehavior === MOVEMENT_JUMP && phaserInstance.body.blocked.down && phaserInstance.body.velocity.y === 0) {
-      console.log('setting jump velocity', entityModel.movement.velocityY)
-      phaserInstance.setVelocityY(entityModel.movement.velocityY)
-    }
+    // if(movementBehavior === MOVEMENT_JUMP) {
+    //   console.log('jumping', phaserInstance.body.blocked.down, phaserInstance.body.velocity.y)
+    // }
+    // if(movementBehavior === MOVEMENT_JUMP && phaserInstance.body.blocked.down && phaserInstance.body.velocity.y === 0) {
+    //   console.log('setting jump velocity', entityModel.movement.velocityY)
+    //   phaserInstance.setVelocityY(entityModel.movement.velocityY)
+    // }
 
     if(this.mirroringInstance) {
       const mirroringPhaserInstance = this.mirroringInstance.phaserInstance
