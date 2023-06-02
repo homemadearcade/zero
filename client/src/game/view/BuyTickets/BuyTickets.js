@@ -50,6 +50,7 @@ const BuyTickets = ({
   }, [currentStageId])
 
   function renderTimer() {
+    if(minutes == 0 && seconds == 0) return 
     return <div style={{textAlign: 'center'}}>
       {!me.roles[APP_ADMIN_ROLE] && <div style={{fontSize: '2em'}}>
         <span>{minutes}</span>:<span>{seconds}</span>

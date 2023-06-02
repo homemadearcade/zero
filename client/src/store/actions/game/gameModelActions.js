@@ -16,6 +16,7 @@ import {
 import _ from 'lodash';
 import { getSpritesByDescriptor } from '../../../game/constants';
 import { addLayersForArcadeGameStage, onArcadeGameModelUpdate } from './arcadeGameActions';
+import { clearCutscenes } from './playerInterfaceActions';
 
 export const changeCurrentStage = (stageId) => (dispatch, getState) => {
   dispatch({

@@ -704,15 +704,8 @@ addInstancesToEntityInstanceByTag(instances) {
   }
 
   switchStage(stageId) {
+    store.dispatch(clearCutscenes())
     this.scene.switch(stageId)
-    // this.scene.wake(stageId)
-    // this.scene.sleep(this.scene.key)
-
-    // its not able to run on the loaded stage if its run right away but I dont know how to 
-    // fix it even with a timeout
-    // setTimeout(() => {
-    //   this.runOnStageSwitchEffects()
-    // })
   }
 
   runOnStageSwitchEffects() {
