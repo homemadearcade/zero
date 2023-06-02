@@ -32,7 +32,6 @@ const LobbyPage = ({
 
   useEffect(() => {
     window.socket.on(ON_LOBBY_INSTANCE_EVENT, async ({lobbyInstanceEventType, data}) => {
-      console.log('lobbyInstanceEventType', lobbyInstanceEventType, data)
       switch(lobbyInstanceEventType) {
         case ANIMATION_CONFETTI:
           const jsConfetti = new JSConfetti()
@@ -59,7 +58,8 @@ const LobbyPage = ({
   }
 
   const role = lobbyInstance.roles[myRoleId]
-  if(role.roleCategory === EXPERIENCE_ROLE_FACILITATOR) {
+  if(me.roles[APP_ADMIN_ROLE]) {
+  //if(role.roleCategory === EXPERIENCE_ROLE_FACILITATOR) {
     return <CobrowsingSession userMongoId={lobbyInstance.cobrowsingUserMongoId}>
       {me.roles[APP_ADMIN_ROLE] && <GameRoomDrawer myTracks={myTracks} userTracks={userTracks}/>}
       {renderBody()}

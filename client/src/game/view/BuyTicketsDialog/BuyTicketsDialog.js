@@ -35,7 +35,7 @@ const BuyTicketsDialog = ({
       }
   }});
 
-    function renderTimer() {
+  function renderTimer() {
     return <div style={{textAlign: 'center'}}>
       {!me.roles[APP_ADMIN_ROLE] && <div style={{fontSize: '2em'}}>
         <span>{minutes}</span>:<span>{seconds}</span>
@@ -59,8 +59,18 @@ const BuyTicketsDialog = ({
       <Typography variant="h3" font="2P">
         Homemade Arcade
       </Typography>
+
+      <Typography variant="subtitle2">
+        It seems like you’re beginning to get it
+        <br/>
+        Let me tell you more.
+        <br/>
+        Lets meet another time
+        <br/>
+	      Ill see you soon
+      </Typography>
       <img 
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1920px-QR_code_for_mobile_English_Wikipedia.svg.png" 
+        src="assets/images/haqr.png" 
         alt="yo" 
         style={{width: '200px', background: 'white'}}
       />

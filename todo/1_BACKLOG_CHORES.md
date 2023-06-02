@@ -18,6 +18,10 @@ Sometimes when switching to a game room when the host isnt logged on yet and the
 
 If the host is not online, codrawing strokes will not save! Most importantly if you are non the same SCENE as the host it will not save
 
+EntityModelIds are getting set to null? When, where, why?
+
+Its getting cobrowsing updates from another lobby
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

@@ -80,6 +80,12 @@ export class PlayerInstance extends EntityInstance {
           }
         }))
       }
+      
+      this.cameraInstance.onClearResize = () => {
+        const gameModel = this.scene.getGameModel()
+        const playerEntityModel = gameModel.entityModels[this.scene.playerInstance.entityModelId]
+        this.setSize(playerEntityModel.camera.width, playerEntityModel.camera.width)
+      }
     })
 
     this.isPlayerInstance = true
@@ -125,7 +131,7 @@ export class PlayerInstance extends EntityInstance {
     this.interactKey.isPressable = true
   }
   
-  throttledResetInteractKey =_.throttle(_.debounce(this.resetInteractKey, 250), 300);
+  throttledResetInteractKey =_.throttle(_.debounce(this.resetInteractKey, 400), 500);
 
   update(time, delta) {  
     super.update()

@@ -251,14 +251,14 @@ export function getRelationsForEntityModel({entityModel, gameModel, showUnregist
     return !!entityModelRelationTag
   })
 
-  const relationTagIdsRegistered = Object.values(gameModel.entityModels).reduce((acc, entityModel) => {
-    const entityModelRelationTags = Object.keys(entityModel.relationTags).filter(relationTagId => {
-      const entityModelRelationTag = entityModel.relationTags[relationTagId]
-      return !!entityModelRelationTag
-    })
+  // const relationTagIdsRegistered = Object.values(gameModel.entityModels).reduce((acc, entityModel) => {
+  //   const entityModelRelationTags = Object.keys(entityModel.relationTags).filter(relationTagId => {
+  //     const entityModelRelationTag = entityModel.relationTags[relationTagId]
+  //     return !!entityModelRelationTag
+  //   })
 
-    return acc.concat(entityModelRelationTags)
-  }, [])
+  //   return acc.concat(entityModelRelationTags)
+  // }, [])
 
   const relationsForEachTag = entityModelRelationTags.map(entityModelRelationTagId => {
     const relationTag = gameModel.relationTags[entityModelRelationTagId]
@@ -272,8 +272,8 @@ export function getRelationsForEntityModel({entityModel, gameModel, showUnregist
       const hasTagA = (event.relationTagIdA && event.relationTagIdA === relationTag.relationTagId)
       const hasTagB = (event.relationTagIdB && event.relationTagIdB === relationTag.relationTagId)
       
-      const isTagARegistered = relationTagIdsRegistered.includes(event.relationTagIdA)
-      const isTagBRegistered = !event.relationTagIdB || relationTagIdsRegistered.includes(event.relationTagIdB)
+      const isTagARegistered = true //relationTagIdsRegistered.includes(event.relationTagIdA)
+      const isTagBRegistered = true // !event.relationTagIdB || relationTagIdsRegistered.includes(event.relationTagIdB)
 
       return (hasTagA || hasTagB) && (showUnregisteredRelations || (isTagARegistered && isTagBRegistered))
     })

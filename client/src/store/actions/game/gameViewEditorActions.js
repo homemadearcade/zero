@@ -128,8 +128,9 @@ export const toggleLayerVisibility = (layerId) => (dispatch, getState) => {
   });
 }
 
-export const setResizingEntityInstance = (entityInstanceId, entityModelId) => (dispatch, getState) => {
+export const setResizingEntityInstance = (entityInstanceId, entityModelId, updateCobrowsing) => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing,
     type: SET_RESIZING_ENTITY_INSTANCE_ID,
     payload: { entityInstanceId, entityModelId }
   });

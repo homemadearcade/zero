@@ -99,7 +99,7 @@ const CameraEditor = ({
       />
       </Unlockable>
       <Button onClick={() => {
-        setResizingEntityInstance(initialCameraZoneInstanceId)
+        setResizingEntityInstance(initialCameraZoneInstanceId, null, true)
         toggleGridView(true)
       }}>Resize Player Camera</Button>
     </div>

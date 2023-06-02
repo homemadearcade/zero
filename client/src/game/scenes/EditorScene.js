@@ -206,9 +206,15 @@ export class EditorScene extends GameInstance {
     const phaserInstance = this.resizingEntityInstance.phaserInstance
     const entityModel = store.getState().gameModel.gameModel.entityModels[phaserInstance.entityModelId];
 
+    const entityInstance = this.getEntityInstance(phaserInstance.entityInstanceId)
+    if(entityInstance.onClearResize) {
+      entityInstance.onClearResize()
+      return
+    }
+
     this.forAllEntityInstancesMatchingEntityId(phaserInstance.entityModelId, (entityInstance) => {
       const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
-      if(entityInstanceData.width || entityInstanceData.height) {
+      if(entityInstanceData.width && entityInstanceData.height) {
         entityInstance.setSize(entityInstanceData.width, entityInstanceData.height)
       } else {
         entityInstance.setSize(entityModel.graphics.width, entityModel.graphics.height)
@@ -1202,6 +1208,8 @@ export class EditorScene extends GameInstance {
       };
       this.editorCameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
       this.editorCameraControls.start();
+
+      console.log('we did this...')
     }
 
     this.input.on('pointerover', this.onPointerOver);
@@ -1360,6 +1368,7 @@ export class EditorScene extends GameInstance {
       if(this.gameRoomInstance.isHost) {
         this.editorCamera.startFollow(this.playerInstance.phaserInstance, false, 0.4, 0.4)
       } else {
+        console.log('update')
         this.editorCameraControls.update(delta)
       }
 

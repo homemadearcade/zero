@@ -35,7 +35,7 @@ export class ControlledMovement {
 
     const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
     const playerEntityModelId = store.getState().playerInterface.playerEntityModelId
-    if(isGridViewOn) {
+    if(isGridViewOn && !this.scene.editorCameraControls) {
       const speed = 500 * mod 
       if(playerEntityModelId === entityModelId) {
         if(leftPressed) {
@@ -64,7 +64,6 @@ export class ControlledMovement {
         return
       }
     }
-
 
     if(this.scene.isPaused) return
 

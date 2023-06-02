@@ -167,7 +167,7 @@ const GameEditor = ({
         {showArcadeMachineDemoView && <>
           <PlayerControlsCardCurrent/>
           <img 
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1920px-QR_code_for_mobile_English_Wikipedia.svg.png" 
+            src="assets/images/haqr.png" 
             alt="yo" 
             style={{width: '100%', background: 'white'}}
             />

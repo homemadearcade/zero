@@ -39,7 +39,7 @@ const UserPage = ({
     getUserByUsername(matchUsername, history);
   }, [matchUsername]);
 
-  const [showUnlistedGames, setShowUnlistedGames] = useState()
+  const [showHiddenGames, setShowHiddenGames] = useState()
 
   return (
     <Layout>
@@ -73,13 +73,12 @@ const UserPage = ({
               interfaceId: USER_GAMES_TAB_IID,
               label: 'Games',
               body: <>
-                {!showUnlistedGames &&  <Button onClick={() => {
-                  setShowUnlistedGames(true)
-                }}>Show Unlisted Games</Button>}
+                {!showHiddenGames &&  <Button onClick={() => {
+                  setShowHiddenGames(true)
+                }}>Show Hidden Games</Button>}
                 <GameList>
                   {(game) => {
-                    if(game.playScope === PLAY_GAME_SCOPE_UNLISTED && !showUnlistedGames) return null
-                    if(game.playScope === PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE) return null
+                    if(game.playScope === PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE && !showHiddenGames) return null
                     if(game.owner?.id !== user.id) return null
                     if(game.isRemoved) return null
                     return <GameCard key={game.id} game={game} canPlay canPublish canEdit></GameCard>
