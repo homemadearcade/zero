@@ -55,9 +55,9 @@ const BuyTickets = ({
       <Typography variant="subtitle2" font="2P">
         Time Remaining
       </Typography>
-      {!me.roles[APP_ADMIN_ROLE] && <div style={{fontSize: '2em'}}>
+      <div style={{fontSize: '2em'}}>
         <span>{minutes}</span>:<span>{seconds}</span>
-      </div>}
+      </div>
     </div>
   }
 

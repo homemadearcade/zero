@@ -37,28 +37,14 @@ const BuyTicketsDialog = ({
 
   function renderTimer() {
     return <div style={{textAlign: 'center'}}>
-      {!me.roles[APP_ADMIN_ROLE] && <div style={{fontSize: '2em'}}>
+      <div style={{fontSize: '2em'}}>
         <span>{minutes}</span>:<span>{seconds}</span>
-      </div>}
-      {me.roles[APP_ADMIN_ROLE] && <>
-        <button onClick={start}>Start</button>
-        <button onClick={pause}>Pause</button>
-        <button onClick={resume}>Resume</button>
-        <button onClick={() => {
-          // Restarts to 5 minutes timer
-          const time = new Date();
-          time.setSeconds(time.getSeconds() + playTime);
-          restart(time)
-        }}>Restart</button>
-      </>}
+      </div>
     </div>
   }
 
     return <CobrowsingDialog widthModifier={1.2} open onClose={closeBuyTicketsDialog}>
       <div className='BuyTickets__content'>
-      <Typography variant="h5" font="2P">
-        Homemade Arcade
-      </Typography>
 
       <Typography variant="subtitle1">
         It seems like you’re beginning to get it
@@ -69,6 +55,11 @@ const BuyTicketsDialog = ({
         <br/><br/>
 	      Ill see you soon
       </Typography>
+
+      <Typography variant="h5" font="2P">
+        Homemade Arcade
+      </Typography>
+
       <img 
         src="/assets/images/haqr.png" 
         alt="yo" 
