@@ -162,10 +162,12 @@ export const effectEditInterfaces = {
   [EFFECT_TRANSFORM]: {
     entityModelId: 'Transform into which object?',
     targetableType: TWO_RELATION_TAG_EFFECT_IID,
+    isCustomizeable: true,
   },
   [EFFECT_TRANSFORM_TEMPORARY_START]: {
     entityModelId: 'Transform into which object?',
     targetableType: TWO_RELATION_TAG_EFFECT_IID,
+    isCustomizeable: true,
     // autogenerateEffect: true,
     // autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT]
   },

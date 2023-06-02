@@ -36,6 +36,7 @@ const CreateRelationTag = ({ updateCreateRelationTag, closeCreateRelationTag, ed
       relationTags: {
         [relationTag.relationTagId] : {
           ...relationTag,
+          isNew: false
         }
       }
     })
