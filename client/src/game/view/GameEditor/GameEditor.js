@@ -167,7 +167,7 @@ const GameEditor = ({
         {showArcadeMachineDemoView && <>
           <PlayerControlsCardCurrent/>
           <img 
-            src="assets/images/haqr.png" 
+            src="/assets/images/haqr.png" 
             alt="yo" 
             style={{width: '100%', background: 'white'}}
             />

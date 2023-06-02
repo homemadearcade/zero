@@ -70,7 +70,7 @@ const BuyTicketsDialog = ({
 	      Ill see you soon
       </Typography>
       <img 
-        src="assets/images/haqr.png" 
+        src="/assets/images/haqr.png" 
         alt="yo" 
         style={{width: '200px', background: 'white'}}
       />
