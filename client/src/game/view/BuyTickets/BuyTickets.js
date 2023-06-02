@@ -52,20 +52,12 @@ const BuyTickets = ({
   function renderTimer() {
     if(minutes == 0 && seconds == 0) return 
     return <div style={{textAlign: 'center'}}>
+      <Typography variant="subtitle2" font="2P">
+        Time Remaining
+      </Typography>
       {!me.roles[APP_ADMIN_ROLE] && <div style={{fontSize: '2em'}}>
         <span>{minutes}</span>:<span>{seconds}</span>
       </div>}
-      {me.roles[APP_ADMIN_ROLE] && <>
-        <button onClick={start}>Start</button>
-        <button onClick={pause}>Pause</button>
-        <button onClick={resume}>Resume</button>
-        <button onClick={() => {
-          // Restarts to 5 minutes timer
-          const time = new Date();
-          time.setSeconds(time.getSeconds() + playTime);
-          restart(time)
-        }}>Restart</button>
-      </>}
     </div>
   }
 

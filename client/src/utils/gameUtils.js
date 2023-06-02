@@ -9,7 +9,7 @@ import { getCurrentGameScene } from "./editorUtils";
 import Phaser from 'phaser'
 import { interfaceActionIdData } from "../constants/interfaceActionIdData";
 import { unlockInterfaceId } from "../store/actions/game/unlockedInterfaceActions";
-import { RELATION_TAG_CUTSCENE_IID } from "../constants/interfaceIds";
+import { RELATION_TAG_CUTSCENE_IID, RELATION_TAG_GENERAL_IID } from "../constants/interfaceIds";
 
 export const getGameModelSize = (gameModel) => {
   const width = gameModel.size.nodeSize * gameModel.size.gridWidth
@@ -251,14 +251,14 @@ export function getRelationsForEntityModel({entityModel, gameModel, showUnregist
     return !!entityModelRelationTag
   })
 
-  // const relationTagIdsRegistered = Object.values(gameModel.entityModels).reduce((acc, entityModel) => {
-  //   const entityModelRelationTags = Object.keys(entityModel.relationTags).filter(relationTagId => {
-  //     const entityModelRelationTag = entityModel.relationTags[relationTagId]
-  //     return !!entityModelRelationTag
-  //   })
+  const relationTagIdsRegistered = Object.values(gameModel.entityModels).reduce((acc, entityModel) => {
+    const entityModelRelationTags = Object.keys(entityModel.relationTags).filter(relationTagId => {
+      const entityModelRelationTag = entityModel.relationTags[relationTagId]
+      return !!entityModelRelationTag
+    })
 
-  //   return acc.concat(entityModelRelationTags)
-  // }, [])
+    return acc.concat(entityModelRelationTags)
+  }, [])
 
   const relationsForEachTag = entityModelRelationTags.map(entityModelRelationTagId => {
     const relationTag = gameModel.relationTags[entityModelRelationTagId]
@@ -272,8 +272,10 @@ export function getRelationsForEntityModel({entityModel, gameModel, showUnregist
       const hasTagA = (event.relationTagIdA && event.relationTagIdA === relationTag.relationTagId)
       const hasTagB = (event.relationTagIdB && event.relationTagIdB === relationTag.relationTagId)
       
-      const isTagARegistered = true //relationTagIdsRegistered.includes(event.relationTagIdA)
-      const isTagBRegistered = true // !event.relationTagIdB || relationTagIdsRegistered.includes(event.relationTagIdB)
+      const relationTagA = gameModel.relationTags[event.relationTagIdA]
+      const relationTagB = gameModel.relationTags[event.relationTagIdB]
+      const isTagARegistered = relationTagIdsRegistered.includes(event.relationTagIdA) || RELATION_TAG_GENERAL_IID === relationTagA.relationTagIID
+      const isTagBRegistered = !event.relationTagIdB || relationTagIdsRegistered.includes(event.relationTagIdB) || RELATION_TAG_GENERAL_IID === relationTagB?.relationTagIID
 
       return (hasTagA || hasTagB) && (showUnregisteredRelations || (isTagARegistered && isTagBRegistered))
     })

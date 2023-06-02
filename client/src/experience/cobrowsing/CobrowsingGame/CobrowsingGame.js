@@ -34,14 +34,14 @@ const CobrowsingGame = ({
       arcadeMachineDemo={isHost}
       classNames={classNames({'GameEditor--cobrowsing': isActivelyCobrowsing && !selectedTool, 'GameEditor--cobrowsing-border': isActivelyCobrowsing})}
       leftColumn={<>
-        <AgoraUserVideo
+        {/* <AgoraUserVideo
             interfaceId={GAME_ROOM_VIDEO_IID}
             userMongoId={gameFacilitatorUserMongoId}
             className="AgoraVideo__guide"
             label="Guide"
             myTracks={myTracks}
             userTracks={userTracks}
-        />
+        /> */}
       </>}
       rightColumn={<>
       </>}

@@ -56,17 +56,17 @@ const BuyTicketsDialog = ({
 
     return <CobrowsingDialog widthModifier={1.2} open onClose={closeBuyTicketsDialog}>
       <div className='BuyTickets__content'>
-      <Typography variant="h3" font="2P">
+      <Typography variant="h5" font="2P">
         Homemade Arcade
       </Typography>
 
-      <Typography variant="subtitle2">
+      <Typography variant="subtitle1">
         It seems like you’re beginning to get it
-        <br/>
+        <br/><br/>
         Let me tell you more.
-        <br/>
+        <br/><br/>
         Lets meet another time
-        <br/>
+        <br/><br/>
 	      Ill see you soon
       </Typography>
       <img 
