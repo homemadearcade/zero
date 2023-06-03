@@ -33,6 +33,8 @@ import ArcadePage from './pages/ArcadePage/ArcadePage';
 import ExperienceCreatorPage from './pages/ExperienceCreatorPage/ExperienceCreatorPage';
 import ExperiencesPage from './pages/ExperiencesPage/ExperiencesPage';
 import AppSettingsPage from './pages/AppSettingsPage/AppSettingsPage';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import QRPage from './pages/QRPage/QRPage';
 
 window.awsUrl = window.location.origin + '/api/aws/' //'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
@@ -374,6 +376,7 @@ const App = ({ theme: { primaryColor } }) => {
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
+          <Route path="/qr" children={<QRPage/>}/>
           <Route path="/wishlabs" children={wrapComponentInAppIfAuthenticated(WishLabsPage)}/>
           <Route path="/buy-tickets" children={wrapComponentInAppIfAuthenticated(HATicketsPage)}/>
           <Route path="/calendar" children={wrapComponentInApp(TicketedEventCalendarPage)} />
