@@ -43,7 +43,7 @@ const BuyTicketsDialog = ({
     </div>
   }
 
-    return <CobrowsingDialog widthModifier={1.2} open onClose={closeBuyTicketsDialog}>
+    return <div className="BuyTicketsDialog" onClick={closeBuyTicketsDialog}>
       <div className='BuyTickets__content'>
 
       <Typography variant="subtitle1">
@@ -67,7 +67,7 @@ const BuyTicketsDialog = ({
       />
       </div>
       {renderTimer()}
-    </CobrowsingDialog>
+    </div>
  }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

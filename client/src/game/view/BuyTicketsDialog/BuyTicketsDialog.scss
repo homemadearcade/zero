@@ -1,21 +1,5 @@
-.BuyTickets {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 4em;
+.BuyTicketsDialog {
+  width: 100vw;
+  height: 100vh;
   background-color: #222;
-  padding-top: 2em;
-
-  &__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1em;
-    padding-top: 2em;
-    gap: 1.5em;
-    min-height: 70vh;
-  }
 }

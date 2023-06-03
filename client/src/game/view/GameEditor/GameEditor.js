@@ -165,6 +165,7 @@ const GameEditor = ({
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
         {leftColumn}
         {showArcadeMachineDemoView && <>
+          <div style={{paddingBottom: '4em'}}/>
           <PlayerControlsCardCurrent/>
           <img 
             src="/assets/images/haqr.png" 
