@@ -115,21 +115,21 @@ const PlayerControlsCard = ({
     list.push(renderKeyAndAction({keyName: 'C', action: keys[C_KID], keyId: C_KID}))
   }
 
-  if(entityModel.movement.ignoreGravity) {
-    if(keys[UP_KID]) {
-      list.push(renderKeyAndAction({keyName: 'up', action: keys[UP_KID], keyId: UP_KID}))
-    }
-  }
-  
-  if(keys[LEFT_KID]) {
-    list.push(renderKeyAndAction({keyName: 'left', action: keys[LEFT_KID], keyId: LEFT_KID}))
-  }
-  if(keys[RIGHT_KID]) {
-    list.push(renderKeyAndAction({keyName: 'right', action: keys[RIGHT_KID], keyId: RIGHT_KID}))
-  }
-  if(keys[DOWN_KID]) {
-    list.push(renderKeyAndAction({keyName: 'down', action: keys[DOWN_KID], keyId: DOWN_KID}))
-  }
+  // if(entityModel.movement.ignoreGravity) {
+  //   if(keys[UP_KID]) {
+  //     list.push(renderKeyAndAction({keyName: 'up', action: keys[UP_KID], keyId: UP_KID}))
+  //   }
+  // }
+
+  // if(keys[LEFT_KID]) {
+  //   list.push(renderKeyAndAction({keyName: 'left', action: keys[LEFT_KID], keyId: LEFT_KID}))
+  // }
+  // if(keys[RIGHT_KID]) {
+  //   list.push(renderKeyAndAction({keyName: 'right', action: keys[RIGHT_KID], keyId: RIGHT_KID}))
+  // }
+  // if(keys[DOWN_KID]) {
+  //   list.push(renderKeyAndAction({keyName: 'down', action: keys[DOWN_KID], keyId: DOWN_KID}))
+  // }
 
   return <div className="PlayerControlsCard">{list}</div>
 }
