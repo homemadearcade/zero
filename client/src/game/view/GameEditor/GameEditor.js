@@ -166,13 +166,13 @@ const GameEditor = ({
         {leftColumn}
         {showArcadeMachineDemoView && <>
           <div style={{paddingBottom: '4em'}}/>
-          <PlayerControlsCardCurrent/>
           <img 
             src="/assets/images/haqr.png" 
             alt="yo" 
             style={{width: '100%', background: 'white'}}
             />
           <BuyTickets/>
+          <PlayerControlsCardCurrent/>
         </>}
         {!showArcadeMachineDemoView && showColumns && <>
           <KeyboardInfo/>
