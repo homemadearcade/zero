@@ -8,8 +8,6 @@ SELECT FORMS
   Also For Select Relation Tag. Switch between visibility for Tag Interface Id vs Data Source
   For Select Entity, Switch between Data Source vs Entity Interface Id
 
-Popup that says - you do not have a role in this game, Join as Audience?
-
 WARNING
   NEED A WARNING FOR when a game is not being copied
 

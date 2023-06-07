@@ -4,19 +4,18 @@
 BUGS
 --------------------------------------------------------------------------------------
 
-WHEN STROKING
-  Texture id on canvas that is undefined?? 
+CODRAWING BUG UPDATES
+  WHEN STROKING
+    Texture id on canvas that is undefined?? 
+    
+  TEXTURE ID WHEN GOING THROUGH STEPS??
+    .textureId is not defined on the Codrawing Canvas anymore? - in lobbies. Maybe cuz someone aint the host
+    Must be because of draw player 
 
-IN EXPERIENCE
-  When we switched the color of an entity, it didnt have the instance data, spawnX of undefined
-  
-TEXTURE ID WHEN GOING THROUGH STEPS??
-  .textureId is not defined on the Codrawing Canvas anymore? - in lobbies. Maybe cuz someone aint the host
-  Must be because of draw player 
+  SECURITY
+    ALSO security is still a problem. If I send in a texture id I want to replace then I CAN. Maybe canvas images determine their own permissions instead of arcades...
+    So its like yes you gotta be in da lobby but also you gotta be allowed to edit the canvas image
 
-Sometimes when switching to a game room when the host isnt logged on yet and then trying to load it again later leads to all sorts of bugs of it not loading
-
-If the host is not online, codrawing strokes will not save! Most importantly if you are non the same SCENE as the host it will not save
 
 EntityModelIds are getting set to null? When, where, why?
 
@@ -59,15 +58,8 @@ DATA
 IMAGE SECURITY
 --------------------------------------------------------------------------------------
 
-ALSO security is still a problem. If I send in a texture id I want to replace then I CAN. Maybe canvas images dtermine their own permissions instead of arcades...
-So its like yes you gotta be in da lobby but also you gotta be allowed to edit the canvas image
 
 /////
-
-I think that Errors should just simualte a refresh of almost essnetially the entire page ( except the video call ? ). 
-
-If theres a problem with cobrowsing connection there could easily be a problem with lobby, game instance, etc. 
-
 
 ----
 
