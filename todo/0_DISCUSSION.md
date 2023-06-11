@@ -8,16 +8,6 @@ Themed animations all around the newly freed up areas
 
 YES HOW TO MAKE IT JUICEY....JUIECTY JUICEY. Voice to text thin that comes down from spencer??
 
-Loading should be fun. Loading up some dialogs that take time ( like create stage )
-
---
-
-TO TALK ABOUT 
-
-4 Panel Drawing ON/OFF
-
-theres Background, Playground, Foreground, and then everything together
-
 --
 
 More Operating System-like features? More minimizing?

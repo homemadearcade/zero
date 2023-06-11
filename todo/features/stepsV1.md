@@ -2,7 +2,7 @@ STEPS UPGRADE
   Name step when creating step 
 
   STEP SECTIONS
-    So tehy arent as long. Be able to add a step break in
+  So tehy arent as long. Be able to add a step break in
   Use map for interface Ids
   Automatically run the steps
   Stay Selected with the Step you are moving up

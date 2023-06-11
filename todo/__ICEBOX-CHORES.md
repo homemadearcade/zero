@@ -50,7 +50,6 @@ APP ORGANIZATION
 --------------------------------------------------------------------------------------
 
 updateCobrowsing wrapper that only occurs when you use the target icon in the cobrowsing toolbar
+Instead of the way redux does it now. In this wrapper basically dispatch add updateCobrowsing: true, on it
 
 TicketedEvent/TicketPurchase need to change user to owner/purchaser
-
-OPEN/CLOSE should all be TOGGLE with a value prop

@@ -1,15 +1,28 @@
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
-CREATIVE
 --------------------------------------------------------------------------------------
+NEW NAV
 --------------------------------------------------------------------------------------
 
-LOOK @ TWEENS?
+BETTER NAVIGATION
 
-Prompt sytem -> Uses voice? gets more advanced?
-
-TOUR component for admins? There this 'tour component' I found when searching ui libraries, its dope!
-
-MY CABINETS
-  Select Games and Buy a Cabinet!?
-  Add game to cabinet?
+User
+  InterfaceIds
+  SpeedTests
+  Games
+Creator
+  Classes
+  Roles
+  Experiences
+    Activities
+    Lobbys
+Events
+  Details
+  Calendar
+  Sold
+Admin
+  Users
+  Ticketing
+  Games
+  Lobbys
+  Game Rooms
