@@ -10,7 +10,7 @@ import Loader from '../../../ui/Loader/Loader';
 import { getArcadeGames } from '../../../store/actions/game/arcadeGameActions';
 import Button from '../../../ui/Button/Button';
 import Checkbox from '../../../ui/Checkbox/Checkbox';
-import { PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE } from '../../../game/constants';
+import { PLAY_GAME_SCOPE_ARCADE, PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE, PLAY_GAME_SCOPE_FEATURED, PLAY_GAME_SCOPE_UNLISTED, PLAY_GAME_SCOPE_USER_PROFILE } from '../../../game/constants';
 import ButtonGroup from '../../../ui/ButtonGroup/ButtonGroup';
 
 const SORT_CREATED = 'SORT_CREATED'
@@ -25,6 +25,9 @@ const GameList = ({ customFilter, getArcadeGames, children, arcadeGames: { arcad
   const [gamesList, setGamesList] = useState(arcadeGames)
   const [showRemoved, setShowRemoved] = useState(false)
   const [showTemporary, setShowTemporary] = useState(false)
+  const [showUnlisted, setShowUnlisted] = useState(false)
+  const [showFeatured, setShowFeatured] = useState(false)
+  const [showArcade, setShowArcade] = useState(false)
   const [sortBy, setSortBy] = useState(SORT_CREATED)
             // if((game.isRemoved && !showRemovedGames)) return 
             // if((game.playScope === PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE)) return
@@ -56,8 +59,14 @@ const GameList = ({ customFilter, getArcadeGames, children, arcadeGames: { arcad
   }
 
   function filterGameList(game) {
-    if((game.isRemoved && !showRemoved)) return false 
-    if((game.playScope === PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE && !showTemporary)) return
+    if(showRemoved || showTemporary || showUnlisted || showFeatured || showArcade) {
+      if((game.isRemoved && showRemoved)) return true
+      if((game.playScope === PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE && showTemporary)) return true
+      if((game.playScope === PLAY_GAME_SCOPE_UNLISTED && showUnlisted)) return true
+      if((game.playScope === PLAY_GAME_SCOPE_FEATURED && showFeatured)) return true
+      if((game.playScope === PLAY_GAME_SCOPE_ARCADE && showArcade)) return true
+      return false
+    }
 
     return true
   }
@@ -71,16 +80,38 @@ const GameList = ({ customFilter, getArcadeGames, children, arcadeGames: { arcad
   }
 
   function renderToggles() {
-    return <div>
-      Show:<br/>
-      <Checkbox size="small" checked={showTemporary} onChange={(checked) => {
-        setShowTemporary(checked)
-    }} label={<>
-      Temporary Games
-    </>}></Checkbox>
-      <Checkbox size="small" checked={showRemoved} onChange={(checked) => {
-        setShowRemoved(checked)
-      }} label={"Removed Games"}></Checkbox>
+    return <div className="GameList__filter">
+      Filter By:
+
+      <div>
+        <Checkbox size="small" checked={showFeatured} onChange={(checked) => {
+            setShowFeatured(checked)
+        }} label={<>
+          Featured
+        </>}></Checkbox>
+
+        <Checkbox size="small" checked={showArcade} onChange={(checked) => {
+            setShowArcade(checked)
+        }} label={<>
+          Arcade
+        </>}></Checkbox>
+
+        <Checkbox size="small" checked={showUnlisted} onChange={(checked) => {
+            setShowUnlisted(checked)
+        }} label={<>
+          Unlisted
+        </>}></Checkbox>
+
+        <Checkbox size="small" checked={showTemporary} onChange={(checked) => {
+          setShowTemporary(checked)
+      }} label={<>
+        Temporary
+      </>}></Checkbox>
+        <Checkbox size="small" checked={showRemoved} onChange={(checked) => {
+          setShowRemoved(checked)
+        }} label={"Removed"}></Checkbox>
+
+      </div>
     </div>
   }
 

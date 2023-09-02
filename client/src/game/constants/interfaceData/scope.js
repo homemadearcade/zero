@@ -4,7 +4,7 @@ export const playScopeInterfaceData = {
   [PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE]: {
     name: 'Temporary',
     appAdminOnly: true,
-    description: 'This game was created for a lobby and will be deleted soon',
+    description: 'This game was created for a lobby and will be deleted automatically',
     icon: 'faHourglassEnd',
   },
   [PLAY_GAME_SCOPE_UNLISTED]: {
@@ -44,7 +44,7 @@ export const editScopeInterfaceData = {
   [EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE]: {
     name: 'Temporary',
     appAdminOnly: true,
-    description: 'This game was created for a lobby and will be deleted soon',
+    description: 'This game was created for a lobby and will be deleted automatically',
     icon: 'faHourglassEnd',
   },
   [EDIT_GAME_SCOPE_ONLY_ME]: {
