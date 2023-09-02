@@ -39,9 +39,11 @@ const HomemadeArcadePage = () => {
           gameListRef.current.scrollIntoView({ behavior: "smooth" })
         }}>Play Now</Button>
       </ConstellationHero>
-      <Container><div ref={gameListRef}><GameList>{(game) => {
-        if(game.playScope !== PLAY_GAME_SCOPE_FEATURED) return
-        if(game.isRemoved) return
+      <Container><div ref={gameListRef}><GameList customFilter={(game) => {
+        if(game.playScope !== PLAY_GAME_SCOPE_FEATURED) return false
+        if(game.isRemoved) return false
+        return true
+      }}>{(game) => {
         return <GameCard key={game.id} canPlay game={game}/>
       }}</GameList></div></Container>
     </div>

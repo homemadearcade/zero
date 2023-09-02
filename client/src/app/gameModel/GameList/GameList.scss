@@ -1,5 +1,8 @@
 .GameList {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
   // flex-direction: column;
   // align-items: center;
   // justify-content: center;

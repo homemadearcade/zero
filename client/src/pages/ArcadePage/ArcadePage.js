@@ -27,9 +27,11 @@ const ArcadePage = () => {
     <Layout>
       <div className="ArcadePage">
         <div className="ArcadePage__list">
-          <GameList>{(game) => {
+          <GameList customFilter={(game) => {
             const { visible } = getGameData(game)
-            if(!visible) return
+            if(!visible) return false 
+            return true
+          }}>{(game) => {
             return <GameCard id={game.id} game={game} canPlay canEdit></GameCard>
           }}</GameList>
         </div>

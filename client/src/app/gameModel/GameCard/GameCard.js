@@ -17,7 +17,6 @@ import { APP_ADMIN_ROLE } from '../../../constants';
 const GameCard = ({game, game: { metadata }, width, canEdit, canRemove, canPlay, canPublish, editArcadeGame, getArcadeGames, auth: { me }}) => {
   const isEditor = me?.roles[APP_ADMIN_ROLE] || me?.id === game.owner?.id
 
-
   function renderRemoveButton() {
     if(game.isRemoved) {
       return <Button size="small" onClick={async () => {

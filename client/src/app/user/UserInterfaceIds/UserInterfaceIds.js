@@ -35,8 +35,8 @@ const UserInterfaceIds = ({
       {user.id && experienceModel?.id && <UnlockableInterfaceTree experienceModelMongoId={experienceModel.id} userMongoId={user.id}></UnlockableInterfaceTree>}
 
       <Divider sx={{ my: 2 }} />
-      <Typography variant="h6">Editor Interface</Typography>
-      <SelectExperienceModel label="Select the Experience to use for the Editing Interface when you are not in an experience" value={editorExperienceModelMongoId ? [editorExperienceModelMongoId] : []} onSelect={(experienceModels) => {
+      <Typography variant="h6">Default Interface</Typography>
+      <SelectExperienceModel label="Select the experience that will be used for the default interface (when not in an experience)" value={editorExperienceModelMongoId ? [editorExperienceModelMongoId] : []} onSelect={(experienceModels) => {
         if(experienceModels[0]) {
           const id = experienceModels[experienceModels.length -1].id
           editUser(user.id, { editorExperienceModelMongoId: id })

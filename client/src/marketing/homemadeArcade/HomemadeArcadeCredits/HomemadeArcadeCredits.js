@@ -57,8 +57,10 @@ const HomemadeArcadeCredits = () => {
             </Link>
           </Typography>
         </ConstellationHero>
-        <Container><div ref={gameListRef}><GameList>{(game) => {
-          if(game.isRemoved) return
+        <Container><div ref={gameListRef}><GameList customFilter={(game) => {
+          if(game.isRemoved) return false 
+          return true
+        }}>{(game) => {
           return <GameCard key={game.id} canPlay game={game}/>
         }}</GameList></div></Container>
       </>

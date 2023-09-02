@@ -16,7 +16,7 @@ const SelectPlayScope = ({ onChange, value, formLabel, auth: { me } }) => {
       subTitle: interfaceData.description,
       icon: interfaceData.icon,
       value: playScopeId,
-      isRemoved: interfaceData.appAdminOnly && !me.role[APP_ADMIN_ROLE]
+      isRemoved: interfaceData.appAdminOnly && !me.roles[APP_ADMIN_ROLE]
     }
   }
 

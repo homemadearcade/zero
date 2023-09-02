@@ -2,10 +2,10 @@ import { EDIT_GAME_SCOPE_ANYONE, EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE, EDIT_GAME_
 
 export const playScopeInterfaceData = {
   [PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE]: {
-    name: 'In Experience',
+    name: 'Temporary',
     appAdminOnly: true,
-    description: 'This game is played during an experience and will be deleted after some time',
-    icon: 'faE',
+    description: 'This game was created for a lobby and will be deleted soon',
+    icon: 'faHourglassEnd',
   },
   [PLAY_GAME_SCOPE_UNLISTED]: {
     name: 'Unlisted',
@@ -42,10 +42,10 @@ export const playScopeInterfaceData = {
 
 export const editScopeInterfaceData = {
   [EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE]: {
-    name: 'In Experience',
+    name: 'Temporary',
     appAdminOnly: true,
-    description: 'This game is hidden but can be played during an experience',
-    icon: 'faE',
+    description: 'This game was created for a lobby and will be deleted soon',
+    icon: 'faHourglassEnd',
   },
   [EDIT_GAME_SCOPE_ONLY_ME]: {
     name: 'Only Me',

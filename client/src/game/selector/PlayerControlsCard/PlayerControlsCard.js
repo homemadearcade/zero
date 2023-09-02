@@ -109,6 +109,10 @@ const PlayerControlsCard = ({
       keys: keys[Z_KID],
       keyId: Z_KID
     }))
+  } else {
+    if(keys[Z_KID]) {
+      list.push(renderKeyAndAction({keyName: 'Z', action: ''}))
+    }
   }
 
   if(keys[C_KID]) {

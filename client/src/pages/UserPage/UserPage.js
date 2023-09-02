@@ -19,12 +19,10 @@ import UserInfo from '../../app/user/UserInfo/UserInfo';
 import UserInterfaceIds from '../../app/user/UserInterfaceIds/UserInterfaceIds';
 import Tabs from '../../ui/Tabs/Tabs';
 import { USER_EXPERIENCES_TAB_IID, USER_GAMES_TAB_IID, USER_INFO_TAB_IID, USER_INTERFACE_IDS_TAB_IID, USER_ROLES_TAB_IID, USER_SPEED_TESTS_TAB_IID } from '../../constants/interfaceIds';
-import { PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE, PLAY_GAME_SCOPE_UNLISTED } from '../../game/constants';
 import Button from '../../ui/Button/Button';
 import UserRoles from '../../app/user/UserRoles/UserRoles';
 import ExperienceList from '../../app/experienceModel/experience/ExperienceList/ExperienceList';
 import ExperienceCard from '../../app/experienceModel/experience/ExperienceCard/ExperienceCard';
-import { CREATOR_BETA_ROLE } from '../../constants';
 
 const UserPage = ({
   getUserByUsername,
@@ -73,15 +71,10 @@ const UserPage = ({
               interfaceId: USER_GAMES_TAB_IID,
               label: 'Games',
               body: <>
-                {!showHiddenGames &&  <Button onClick={() => {
-                  setShowHiddenGames(true)
-                }}>Show Hidden Games</Button>}
                 <GameList>
                   {(game) => {
-                    if(game.playScope === PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE && !showHiddenGames) return null
                     if(game.owner?.id !== user.id) return null
-                    if(game.isRemoved) return null
-                    return <GameCard key={game.id} game={game} canPlay canPublish canEdit></GameCard>
+                    return <GameCard key={game.id} game={game} canPlay canEdit></GameCard>
                   }}
                 </GameList>
               </>
