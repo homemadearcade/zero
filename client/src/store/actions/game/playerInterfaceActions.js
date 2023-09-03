@@ -10,7 +10,7 @@ import {
   CHANGE_PLAYER_ENTITY,
   SET_IS_PLAYER_PAUSED,
 } from '../../types';
-import { changeGameState } from './gameRoomInstanceActions';
+import { changeGameStatus } from './gameRoomInstanceActions';
 
 export const changePlayerEntity = ({entityModelId}) => (dispatch, getState) => {
   dispatch({
@@ -32,14 +32,14 @@ export const changeInteractOppurtunity = (interactOppurtunity) => (dispatch, get
 };
 
 export const openCutscene = (entityModelId, cutsceneId) => (dispatch, getState) => {
-  // dispatch(changeGameState(PAUSED_STATE))
+  // dispatch(changeGameStatus(PAUSED_STATE))
 
   // const scene = getCurrentGameScene(getState().webPage.gameInstance)
   // if(scene) {
   //   if(scene.isPlaythrough) {
-  //     dispatch(changeGameState(PLAYTHROUGH_PAUSED_STATE))
+  //     dispatch(changeGameStatus(PLAYTHROUGH_PAUSED_STATE))
   //   } else {
-  //     dispatch(changeGameState(PAUSED_STATE))
+  //     dispatch(changeGameStatus(PAUSED_STATE))
   //   }
   // }
   const cutscene = getState().gameModel.gameModel.cutscenes[cutsceneId]
@@ -89,9 +89,9 @@ export const closeActiveCutscene = () => (dispatch, getState) => {
   // const scene = getCurrentGameScene(getState().webPage.gameInstance)
   // if(scene) {
   //   if(scene.isPlaythrough) {
-  //     dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
+  //     dispatch(changeGameStatus(PLAYTHROUGH_PLAY_STATE))
   //   } else {
-  //     dispatch(changeGameState(PLAY_STATE))
+  //     dispatch(changeGameStatus(PLAY_STATE))
   //   }
   // }
   dispatch(setIsPlayerPaused(false))

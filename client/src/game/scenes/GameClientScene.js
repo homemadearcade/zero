@@ -164,9 +164,9 @@ export class GameClientScene extends EditorScene {
   update(time, delta) {
     super.update(time, delta)
 
-    const gameState = store.getState().gameRoomInstance.gameRoomInstance.gameState
-    if(this.gameState !== gameState) {
-      this.onStateChange(this.gameState, gameState)
+    const gameStatus = store.getState().gameRoomInstance.gameRoomInstance.gameStatus
+    if(this.gameStatus !== gameStatus) {
+      this.onStateChange(this.gameStatus, gameStatus)
     }
 
     if(this.lastHostUpdate) {
@@ -179,14 +179,14 @@ export class GameClientScene extends EditorScene {
     }
   }
 
-  onStateChange(oldGameState, gameState) {
-    if(gameState === PLAY_STATE) {
+  onStateChange(oldGameStatus, gameStatus) {
+    if(gameStatus === PLAY_STATE) {
       this.isPlaythrough = false
     }
-    if(gameState === PLAYTHROUGH_PLAY_STATE) {
+    if(gameStatus === PLAYTHROUGH_PLAY_STATE) {
       this.isPlaythrough = true
     }
 
-    this.gameState = gameState
+    this.gameStatus = gameStatus
   }
 }

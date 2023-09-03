@@ -9,44 +9,44 @@ import { GAME_END_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE,
 PLAYTHROUGH_START_STATE } from '../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import KeyIndicator from '../../ui/KeyIndicator/KeyIndicator';
-import './GameStateScreen.scss';
+import './GameStatusScreen.scss';
 import PlayerControlsCard from '../../selector/PlayerControlsCard/PlayerControlsCard';
 import store from '../../../store';
 import useFitText from "use-fit-text";
-import { changeGameState } from '../../../store/actions/game/gameRoomInstanceActions';
+import { changeGameStatus } from '../../../store/actions/game/gameRoomInstanceActions';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 
-function GameStateScreenBody({changeGameState, gameStateMessage, gameState, gameModel: { gameModel }}) {
+function GameStatusScreenBody({changeGameStatus, gameStatusMessage, gameStatus, gameModel: { gameModel }}) {
   const { fontSize, ref } = useFitText();
   const { gameEditorWidth, gameEditorHeight } = useGameEditorSize()
 
-  function renderGameStateScreen() {
-    if(gameState === PLAYTHROUGH_START_STATE) {
+  function renderGameStatusScreen() {
+    if(gameStatus === PLAYTHROUGH_START_STATE) {
       const playerEntityModel = gameModel.entityModels[gameModel.stages[gameModel.player.startingStageId].playerEntityModelId]
       const projectileEntityModel = gameModel.entityModels[playerEntityModel?.projectile.entityModelId]
       return <Constellation width={gameEditorWidth} height={gameEditorHeight} notInteractive>
-        <Fade in><div className="GameStateScreen__content">
-          <Typography font="2P" component="h2" variant="h2"><div ref={ref} style={{fontSize}} className='GameStateScreen__title'>
+        <Fade in><div className="GameStatusScreen__content">
+          <Typography font="2P" component="h2" variant="h2"><div ref={ref} style={{fontSize}} className='GameStatusScreen__title'>
               {gameModel.metadata.title}
           </div></Typography>
-          <div className="GameStateScreen__press">
+          <div className="GameStatusScreen__press">
             <Typography component="h5" variant="h5">Press</Typography><KeyIndicator blink keyName="x"></KeyIndicator> <Typography component="h5" variant="h5">To Start</Typography>
           </div>
-          <div className="GameStateScreen__controls">
+          <div className="GameStatusScreen__controls">
             {playerEntityModel && <PlayerControlsCard showInteract entityModel={playerEntityModel} projectileEntityModel={projectileEntityModel} movementControlBehavior={playerEntityModel.movement.movementControlsBehavior} jumpControlsBehavior={playerEntityModel.jump.jumpControlsBehavior}></PlayerControlsCard>}
           </div>
         </div></Fade>
       </Constellation>
     }
 
-    if(gameState === GAME_END_STATE) {
+    if(gameStatus === GAME_END_STATE) {
       return <Constellation width={gameEditorWidth} height={gameEditorHeight} notInteractive>
-        <Fade in><div className="GameStateScreen__content">
+        <Fade in><div className="GameStatusScreen__content">
           <Typography font="2P" component="h2" variant="h2">Game Over</Typography>
-          {gameStateMessage && <Typography component="h3" variant="h3"><div ref={ref} style={{fontSize}} className='GameStateScreen__title' >
-          {gameStateMessage}
+          {gameStatusMessage && <Typography component="h3" variant="h3"><div ref={ref} style={{fontSize}} className='GameStatusScreen__title' >
+          {gameStatusMessage}
         </div></Typography>}
-          <div className="GameStateScreen__press">
+          <div className="GameStatusScreen__press">
             <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h5" variant="h5">To Play Again</Typography>
           </div>
           {!store.getState().gameRoomInstance.gameRoomInstance.isOnlineMultiplayer && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
@@ -56,18 +56,18 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
   }
 
   return (
-    <div className="GameStateScreen">
-      {renderGameStateScreen()}
+    <div className="GameStatusScreen">
+      {renderGameStatusScreen()}
     </div>
   );
 }
 
-function GameStateScreen({gameRoomInstance: { gameRoomInstance: { gameState, gameStateMessage }}, changeGameState, gameModel}) {
-  if(gameState !== PLAYTHROUGH_START_STATE && gameState !== GAME_END_STATE) {
+function GameStatusScreen({gameRoomInstance: { gameRoomInstance: { gameStatus, gameStatusMessage }}, changeGameStatus, gameModel}) {
+  if(gameStatus !== PLAYTHROUGH_START_STATE && gameStatus !== GAME_END_STATE) {
     return null
   }
 
-  return <GameStateScreenBody gameState={gameState} gameStateMessage={gameStateMessage} changeGameState={changeGameState} gameModel={gameModel}/>
+  return <GameStatusScreenBody gameStatus={gameStatus} gameStatusMessage={gameStatusMessage} changeGameStatus={changeGameStatus} gameModel={gameModel}/>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
@@ -76,5 +76,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 });
 
 export default compose(
-  connect(mapStateToProps, { changeGameState}),
-)(GameStateScreen)
+  connect(mapStateToProps, { changeGameStatus}),
+)(GameStatusScreen)

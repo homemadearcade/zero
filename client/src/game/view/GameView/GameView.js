@@ -13,7 +13,7 @@ import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { setGameInstance } from '../../../store/actions/webPageActions';
 
 import Cutscene from '../../cutscene/Cutscene/Cutscene';
-import GameStateScreen from '../../gameRoomInstance/GameStateScreen/GameStateScreen';
+import GameStatusScreen from '../../gameRoomInstance/GameStatusScreen/GameStatusScreen';
 import store from '../../../store';
 import ControlsPopup from '../ControlsPopup/ControlsPopup';
 import { changeErrorState, clearErrorState } from '../../../store/actions/errorsActions';
@@ -168,7 +168,7 @@ const PhaserGame = ({
     <div className="GameView">
       {children}
       <Cutscene/>
-      <GameStateScreen/>
+      <GameStatusScreen/>
       <ControlsPopup/>
       <div id="PhaserGame"/>
     </div>

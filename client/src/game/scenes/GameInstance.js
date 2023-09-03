@@ -13,7 +13,7 @@ import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerEntity, clearCutscenes, openCutscene } from '../../store/actions/game/playerInterfaceActions';
 import { changeCurrentStage } from '../../store/actions/game/gameModelActions';
-import { changeGameState, editGameRoom, updateGameRoomPlayer } from '../../store/actions/game/gameRoomInstanceActions';
+import { changeGameStatus, editGameRoom, updateGameRoomPlayer } from '../../store/actions/game/gameRoomInstanceActions';
 import { EntityInstance } from '../entities/EntityInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
@@ -43,7 +43,7 @@ export class GameInstance extends Phaser.Scene {
     this.layerInstancesById = {}
     this.layerInstancesByLayerGroupId = {}
 
-    this.gameState = null
+    this.gameStatus = null
 
     this.relationsPopulated = {}
 
@@ -868,8 +868,8 @@ addInstancesToEntityInstanceByTag(instances) {
     }  
   }
 
-  onStateChange(oldGameState, gameState) {
-    if(gameState === PLAYTHROUGH_START_STATE) {
+  onStateChange(oldGameStatus, gameStatus) {
+    if(gameStatus === PLAYTHROUGH_START_STATE) {
       this.isPaused = true
       this.isPlaythrough = true
       if(this.hasLoadedOnce) {
@@ -877,25 +877,25 @@ addInstancesToEntityInstanceByTag(instances) {
       }
     }
 
-    if(gameState === PLAYTHROUGH_PAUSED_STATE) {
+    if(gameStatus === PLAYTHROUGH_PAUSED_STATE) {
       this.isPaused = true
     }
-    if(gameState === PAUSED_STATE) {
+    if(gameStatus === PAUSED_STATE) {
       this.isPaused = true
     }
-    if(gameState === PLAY_STATE) {
+    if(gameStatus === PLAY_STATE) {
       this.isPaused = false
       this.isPlaythrough = false
     }
-    if(gameState === PLAYTHROUGH_PLAY_STATE) {
+    if(gameStatus === PLAYTHROUGH_PLAY_STATE) {
       this.isPaused = false
       this.isPlaythrough = true
     }
-    if(gameState === GAME_END_STATE) {
+    if(gameStatus === GAME_END_STATE) {
       this.isPaused = true   
     }
 
-    this.gameState = gameState
+    this.gameStatus = gameStatus
   }
 
 
@@ -1018,14 +1018,14 @@ addInstancesToEntityInstanceByTag(instances) {
 
     if(effect.effectBehavior === EFFECT_UNPAUSE_GAME) {
       if(this.isPlaythrough) {
-        store.dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
+        store.dispatch(changeGameStatus(PLAYTHROUGH_PLAY_STATE))
       } else {
-        store.dispatch(changeGameState(PLAY_STATE))
+        store.dispatch(changeGameStatus(PLAY_STATE))
       }
     } else if(effect.effectBehavior === EFFECT_PAUSE_GAME) {
-      store.dispatch(changeGameState(PAUSED_STATE))
+      store.dispatch(changeGameStatus(PAUSED_STATE))
     } else if(effect.effectBehavior === EFFECT_END_GAME) {
-      store.dispatch(changeGameState(GAME_END_STATE, effect.text))
+      store.dispatch(changeGameStatus(GAME_END_STATE, effect.text))
       this.sendResetGameEvent()
     } else if(effect.effectBehavior === EFFECT_SWITCH_STAGE) {
       store.dispatch(changeCurrentStage(effect.stageId))

@@ -3,7 +3,7 @@ import { PLAY_CUTSCENE_AID, PLAY_TEST_GAME_AID, TOGGLE_PAUSE_PLAY_AID } from "..
 import { INTERFACE_ACTION_GAME, INTERFACE_ACTION_PLAY } from "../interfaceActionIdGroups"
 import store from "../../store"
 import { PAUSED_STATE, PLAY_STATE } from "../../game/constants"
-import { changeGameState } from "../../store/actions/game/gameRoomInstanceActions"
+import { changeGameStatus } from "../../store/actions/game/gameRoomInstanceActions"
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -36,15 +36,15 @@ export default {
     subtitle: 'This will pause or resume the game',
     icon: 'faPause',
     isActive: (state) => {
-      return state.gameRoomInstance.gameRoomInstance.gameState === PAUSED_STATE
+      return state.gameRoomInstance.gameRoomInstance.gameStatus === PAUSED_STATE
     },
     interfaceActionGroupId: INTERFACE_ACTION_GAME,
     onClick: () => (dispatch, gameModel) => {
-      const gameState = store.getState().gameRoomInstance.gameRoomInstance.gameState 
-      if(gameState === PAUSED_STATE) {
-        dispatch(changeGameState(PLAY_STATE))
-      } else if(gameState === PLAY_STATE) {
-        dispatch(changeGameState(PAUSED_STATE))
+      const gameStatus = store.getState().gameRoomInstance.gameRoomInstance.gameStatus 
+      if(gameStatus === PAUSED_STATE) {
+        dispatch(changeGameStatus(PLAY_STATE))
+      } else if(gameStatus === PLAY_STATE) {
+        dispatch(changeGameStatus(PAUSED_STATE))
       }
     }
   }

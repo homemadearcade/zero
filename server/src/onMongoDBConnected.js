@@ -53,7 +53,7 @@ export async function onMongoDBConnected(app) {
       const gameRoomInstance = gri.toJSON()
       return {
         ...gameRoomInstance,
-        gameState: 'PLAY_STATE',
+        gameStatus: 'PLAY_STATE',
         messages: [],
         isPoweredOn: true,
         resetDate: Date.now(),

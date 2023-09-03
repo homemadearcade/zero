@@ -1,20 +1,20 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './GameStateToolbar.scss';
+import './GameStatusToolbar.scss';
 import ToolbarIcon from '../../../ui/ToolbarIcon/ToolbarIcon';
 import { toggleGridView } from '../../../store/actions/game/gameViewEditorActions'
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, PLAYTHROUGH_START_STATE } from '../../constants';
 import { INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TOOLBAR_PLAYTHROUGH_IID, INSTANCE_TOOLBAR_PLAY_IID, INSTANCE_TOOLBAR_RESET_IID } from '../../../constants/interfaceIds';
-import { changeGameState, editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
+import { changeGameStatus, editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 
-const GameStateToolbar = ({ editGameRoom, changeGameState, toggleGridView, gameRoomInstance: { gameRoomInstance: { gameState, gameResetVersion }, gameRoomInstance } }) => {
+const GameStatusToolbar = ({ editGameRoom, changeGameStatus, toggleGridView, gameRoomInstance: { gameRoomInstance: { gameStatus, gameResetVersion }, gameRoomInstance } }) => {
   const color = useWishTheme().primaryColor.hexString
 
-  if(gameState === PLAYTHROUGH_START_STATE || gameState === PLAYTHROUGH_PLAY_STATE) {
-    return <div className="GameStateToolbar">
+  if(gameStatus === PLAYTHROUGH_START_STATE || gameStatus === PLAYTHROUGH_PLAY_STATE) {
+    return <div className="GameStatusToolbar">
       <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_RESET_IID}>
           <ToolbarIcon 
             size="lg"
@@ -23,7 +23,7 @@ const GameStateToolbar = ({ editGameRoom, changeGameState, toggleGridView, gameR
               editGameRoom(gameRoomInstance.id, {
                 gameResetVersion: gameResetVersion + 1
               })
-              changeGameState(PLAY_STATE)
+              changeGameStatus(PLAY_STATE)
             }}
           />
       </Unlockable>
@@ -40,7 +40,7 @@ const GameStateToolbar = ({ editGameRoom, changeGameState, toggleGridView, gameR
   //     color: '#ccc'
   //   }}/>
   // </Unlockable>
- return <div className="GameStateToolbar">
+ return <div className="GameStatusToolbar">
   <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_RESET_IID}>
     <ToolbarIcon 
       size="lg"
@@ -56,9 +56,9 @@ const GameStateToolbar = ({ editGameRoom, changeGameState, toggleGridView, gameR
     <ToolbarIcon 
       size="lg"
       icon="faPause"
-      color={gameState === PAUSED_STATE ? color: null}
+      color={gameStatus === PAUSED_STATE ? color: null}
       onClick={() => {
-        changeGameState(PAUSED_STATE)
+        changeGameStatus(PAUSED_STATE)
       }}
     />
   </Unlockable>
@@ -66,9 +66,9 @@ const GameStateToolbar = ({ editGameRoom, changeGameState, toggleGridView, gameR
     <ToolbarIcon 
       size="lg"
       icon="faPlay"
-      color={gameState === PLAY_STATE ? color: null}
+      color={gameStatus === PLAY_STATE ? color: null}
       onClick={() => {
-        changeGameState(PLAY_STATE)
+        changeGameStatus(PLAY_STATE)
       }}
     />
   </Unlockable>
@@ -76,10 +76,10 @@ const GameStateToolbar = ({ editGameRoom, changeGameState, toggleGridView, gameR
     <ToolbarIcon 
       size="lg"
       icon="faCirclePlay"
-      color={(gameState === PLAYTHROUGH_START_STATE || gameState === PLAYTHROUGH_PLAY_STATE) ? color: null}
+      color={(gameStatus === PLAYTHROUGH_START_STATE || gameStatus === PLAYTHROUGH_PLAY_STATE) ? color: null}
       onClick={() => {
         toggleGridView(false)
-        changeGameState(PLAYTHROUGH_START_STATE)
+        changeGameStatus(PLAYTHROUGH_START_STATE)
       }}
     />
   </Unlockable>
@@ -91,4 +91,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editGameRoom, toggleGridView, changeGameState }))(GameStateToolbar);
+  connect(mapStateToProps, { editGameRoom, toggleGridView, changeGameStatus }))(GameStatusToolbar);

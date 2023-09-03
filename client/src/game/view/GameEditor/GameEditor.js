@@ -14,7 +14,7 @@ import { BRUSH_DID, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, COLOR_BRUSH
 import GameEditDialog from '../../selector/GameEditDialog/GameEditDialog';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
 import EditEntityDialog from '../../entityModel/EditEntityDialog/EditEntityDialog';
-import GameStateToolbar from '../../gameRoomInstance/GameStateToolbar/GameStateToolbar';
+import GameStatusToolbar from '../../gameRoomInstance/GameStatusToolbar/GameStatusToolbar';
 import EntityList from '../../entityModel/EntityList/EntityList';
 import BrushList from '../../brush/BrushList/BrushList';
 import Dialog from '../../../ui/Dialog/Dialog';
@@ -107,7 +107,7 @@ const GameEditor = ({
   updateCreateBrush,
   updateCreateEntity,
   showArcadeMachineDemoView,
-  gameRoomInstance: { gameRoomInstance: { gameState, hostUserMongoId } },
+  gameRoomInstance: { gameRoomInstance: { gameStatus, hostUserMongoId } },
   gameModel: { gameModel, currentStageId },
   playerInterface: { cutsceneId },
   auth: { me },
@@ -128,7 +128,7 @@ const GameEditor = ({
     }
   }, [])
 
-  const showColumns = !cutsceneId && !isBoundaryEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== PLAYTHROUGH_START_STATE) && !isSnapshotTakerOpen
+  const showColumns = !cutsceneId && !isBoundaryEditorOpen && (gameStatus !== PLAYTHROUGH_PLAY_STATE && gameStatus !== PLAYTHROUGH_START_STATE) && !isSnapshotTakerOpen
 
 
   function renderSelectorColumn() {
@@ -187,7 +187,7 @@ const GameEditor = ({
       {children}
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
          {!showArcadeMachineDemoView && <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}>
-          <GameStateToolbar/>
+          <GameStatusToolbar/>
         </Unlockable>}
         {!showArcadeMachineDemoView && <MouseInfo hoverPreviewOnly={!gameModel || !showColumns}/>}
         {!showArcadeMachineDemoView && showColumns && gameModel && <>

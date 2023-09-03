@@ -14,7 +14,7 @@ import { withRouter } from 'react-router-dom';
 
 const EditGamePage = ({ match }) => {
   return (
-    <LocalGameRoomContext room={{isEdit: true, gameState: PLAY_STATE, arcadeGameMongoId: match.params.arcadeGameMongoId}}>
+    <LocalGameRoomContext room={{isEdit: true, gameStatus: PLAY_STATE, arcadeGameMongoId: match.params.arcadeGameMongoId}}>
       <div className="EditGamePage">
         <GameEditor 
           leftColumn={<>

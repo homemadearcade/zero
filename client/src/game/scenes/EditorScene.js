@@ -1281,7 +1281,7 @@ export class EditorScene extends GameInstance {
           store.dispatch(setResizingEntityInstance(null))
         } else {
           // store.dispatch(editGameRoom(this.gameRoomInstance.id, {
-          //   gameState: PAUSED_STATE
+          //   gameStatus: PAUSED_STATE
           // }))
         }
 

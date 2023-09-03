@@ -125,7 +125,7 @@ router.post('/', requireJwtAuth, requireGameRoomInstances, async (req, res) => {
     gameRoomInstance.resetDate = Date.now()
     gameRoomInstance.messages = []
     gameRoomInstance.isPoweredOn = true
-    gameRoomInstance.gameState = 'PLAY_STATE'
+    gameRoomInstance.gameStatus = 'PLAY_STATE'
 
     req.gameRoomInstances.push(gameRoomInstance)
 
@@ -176,74 +176,155 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoomInstance, requireSocket
   }
 });
 
+// INVITING A USER
 
-// Assign userMongoId to playerId?
-// a Player should be assigned perhaps an object Instance Id? 
-// this is how you assign yourself to another object instance?
-
-// router.post('/assign/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
-//   if (!(req.user.roles[APP_ADMIN_ROLE] || req.user.id === req.body.userMongoId)) {
-//     return res.status(400).json({ message: 'You do not have privelages to assign that role.' });
-//   }
-
-//   const userFound = req.gameRoomInstance.invitedUsers.find((u, i) => {
-//     if(u.userMongoId === req.body.userMongoId) {
-//       return true
-//     } else {
-//       return false
-//     }
-//   })
-
-//   if(req.gameRoomInstance.isPoweredOn) {
-//     return res.status(400).json({ message: 'You cannot assign a role when the gameRoomInstance game is powered on' });
-//   }
-
-//   if(req.body.role === 'gameHost') {
-//     if(req.body.userMongoId === 'unassigned') {
-//       req.gameRoomInstance.hostUserMongoId = null
-//     } else {
-//       req.gameRoomInstance.hostUserMongoId = req.body.userMongoId
-//     }
-
-//   }
-
-//   if(req.body.role === 'player') {
-//     if(req.body.userMongoId === 'unassigned') {
-//       req.gameRoomInstance.playerId = null
-//     } else {
-//       req.gameRoomInstance.playerId = req.body.userMongoId
-//     }
-//   }
-
-//   if(req.body.role === 'guide') {
-//     if(req.body.userMongoId === 'unassigned') {
-//       req.gameRoomInstance.guideId = null
-//     } else {
-//       const user = await User.findById(req.body.userMongoId)
-//       if(user.role == 'ADMIN') {
-//         req.gameRoomInstance.guideId = req.body.userMongoId
+// router.post('/invite/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
+//   try {
+//     const invitingUser = req.gameRoomInstance.members.find((member) => {
+//       if(member.userMongoId === req.body.userMongoId) {
+//         return true
 //       } else {
-//         return res.status(400).json({ message: 'Guide must be admin role' });
+//         return false
 //       }
+//     })
+
+//     if(!invitingUser) return res.status(404).json({message: 'If you are not in this gameRoomInstance you cannot invite anyone'})
+
+//     const memberFound = req.gameRoomInstance.members.find((member) => {
+//       if(member.userMongoId === req.body.userMongoId) {
+//         return true
+//       } else {
+//         return false
+//       }
+//     })
+
+//     if(memberFound) {
+//       // const invitedSocket = socketSessions.findSession(memberFound.userMongoId);
+//       // if(!invitedSocket) return res.status(400).json({ message: 'user has no socket' });
+//       // invitedSocket.emit(ON_GAME_ROOM_INSTANCE_INVITE_CONFIRMED, req.user.id)
+//       return res.status(200).json({});
 //     }
+
+//     const user = await User.findById(req.body.userMongoId)
+
+//     // generate a gameRoomInstance formatted user
+//     const newGameRoomInstanceMember = { 
+//       email: user.email,
+//       userMongoId: user.id,
+//       username: user.username,
+//       role: user.role,
+//       joined: false,
+//     }
+
+//     req.gameRoomInstance.messages.push({
+//       user: {
+//         userMongoId: newGameRoomInstanceMember.userMongoId,
+//         username: newGameRoomInstanceMember.username
+//       },
+//       message: 'has been invited to the gameRoomInstance',
+//       automated: true
+//     })
+    
+//     // add to new gameRoomInstance
+//     req.gameRoomInstance.members.push(newGameRoomInstanceMember)
+
+//     // update the game sessions with this information
+//     req.io.to(req.gameRoomInstance.id).emit(ON_GAME_ROOM_INSTANCE_UPDATE, {gameRoomInstance: req.gameRoomInstance});
+
+//     // const invitedSocket = socketSessions.findSession(newGameRoomInstanceMember.userMongoId);
+//     // if(!invitedSocket) return res.status(400).json({ message: 'user has no socket' });
+//     // invitedSocket.emit(ON_GAME_ROOM_INSTANCE_INVITE_CONFIRMED, req.user.id)
+
+//     return res.status(200).json({});
+//   } catch (err) {
+//     res.status(500).json({ message: 'Something went wrong: ' + err });
 //   }
+// });
 
-//   const updatedGameRoomInstance = await GameRoomInstance.findByIdAndUpdate(
-//     req.params.id,
-//     { 
-//       hostUserMongoId: req.gameRoomInstance.hostUserMongoId,
-//       playerId: req.gameRoomInstance.playerId,
-//       guideId: req.gameRoomInstance.guideId,
-//     },
-//     { new: true },
-//   );
 
-//   // if(!userFound) {
-//   //   return res.status(400).json({ message: 'You are not a member of this gameRoomInstance' });
-//   // }
+// MORE RESTRICTIVE JOIN
 
-//   req.io.to(req.gameRoomInstance.id).emit(ON_GAME_ROOM_INSTANCE_UPDATE, {gameRoomInstance: req.gameRoomInstance});
-//   return res.status(200).json({ gameRoomInstance: req.gameRoomInstance });
+// router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
+//   try {
+//     if(!req.body.playerInstanceId) return res.status(400).json({ message : 'You must have a player instance id to join'})
+
+//     const memberFound = req.gameRoomInstance.members.find((member) => {
+//       if(member.userMongoId === req.user.id) {
+//         return true
+//       } else {
+//         return false
+//       }
+//     })
+
+//     if(memberFound) {
+//       req.gameRoomInstance.messages.push({
+//         user: {
+//           userMongoId: memberFound.userMongoId,
+//           username: memberFound.username
+//         },
+//         message: 'has joined the gameRoomInstance',
+//         automated: true
+//       })
+      
+//       req.socket.join(req.gameRoomInstance.id);
+//       if(req.user.roles[APP_ADMIN_ROLE]) req.socket.join(ADMIN_ROOM_PREFIX + req.gameRoomInstance.id);
+
+//       // remove from all other game sessions
+//       req.gameRoomInstances.forEach((gameRoomInstance) => {
+//         let index;
+//         gameRoomInstance.members.forEach((user, i) => {
+//           if(newGameRoomInstanceMember.userMongoId === user.userMongoId) {
+//             index = i
+//           }
+//         })
+//         if(index >= -1) {
+//           // gameRoomInstance.members.splice(index, 1)
+//           const member = gameRoomInstance.members[index]
+//           member.loadedGameMongoId = null
+//           member.joined = false
+//           gameRoomInstance.messages.push({
+//             user: {
+//               userMongoId: member.userMongoId,
+//               username: member.username
+//             },
+//             message: 'has joined another gameRoomInstance',
+//             automated: true
+//           })
+//           req.socket.leave(gameRoomInstance.id);
+//           req.io.to(gameRoomInstance.id).emit(ON_GAME_ROOM_INSTANCE_UPDATE, {gameRoomInstance: gameRoomInstance});
+//         }
+//       })
+
+//       updateUserAppLocation({
+//         userMongoId: memberFound.userMongoId,
+//         gameRoomInstanceMongoId: req.gameRoomInstance.id,
+//         authenticatedUser: req.user,
+//       })
+
+//       memberFound.joined = true
+      
+//       req.io.to(req.gameRoomInstance.id).emit(ON_GAME_ROOM_INSTANCE_UPDATE, {gameRoomInstance: req.gameRoomInstance});
+//       return res.status(200).json({ gameRoomInstance: req.gameRoomInstance });
+//     } else {
+//       return res.status(400).json({ message: 'You have not been invited to this game room' });
+//     }
+//   } catch (err) {
+//     res.status(500).json({ message: 'Something went wrong: ' + err });
+//   }
+// });
+
+
+// router.post('/identityRequest/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
+//   const hostSocket = socketSessions.findSession(req.gameRoomInstance.hostUserMongoId);
+//   if(!hostSocket) return res.status(400).json({ message: 'host has not joined' });
+//   hostSocket.emit(ON_GAME_ROOM_INSTANCE_IDENTITY_REQUESTED, req.user.id)
+//   return res.status(200).json({});
+// })
+
+// router.post('/identityDeliver/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
+//   const identitySocket = socketSessions.findSession(req.body.userMongoId);
+//   if(!identitySocket) return res.status(400).json({ message: 'user has no socket' });
+//   identitySocket.emit(ON_GAME_ROOM_INSTANCE_IDENTITY_DELIVERED, { playerInstanceId: req.body.playerInstanceId })
 // })
 
 router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
@@ -441,7 +522,7 @@ router.put('/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, a
           return id
         }),
         gameInstanceIds: req.gameRoomInstance.gameInstanceIds,
-        gameState: req.gameRoomInstance.gameState,
+        gameStatus: req.gameRoomInstance.gameStatus,
         hostUserMongoId: req.gameRoomInstance.hostUserMongoId,
       },
       { new: true },

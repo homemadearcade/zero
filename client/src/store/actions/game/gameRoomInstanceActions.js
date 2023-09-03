@@ -118,23 +118,23 @@ export const gameRoomInstanceUndo = () => async (dispatch, getState) => {
   }
 };
 
-export const changeGameState = (gameState, message) => (dispatch, getState) => {
+export const changeGameStatus = (gameStatus, message) => (dispatch, getState) => {
   // saveAllCurrentCanvases()
 
   const gameRoomInstance = getState().gameRoomInstance.gameRoomInstance
 
   if(gameRoomInstance.isOnlineMultiplayer) {
     dispatch(editGameRoom(gameRoomInstance.id, {
-      gameState,
-      gameStateMessage: message
+      gameStatus,
+      gameStatusMessage: message
     }))
   } else {
     dispatch({
       type: ON_GAME_ROOM_INSTANCE_UPDATE,
       payload: {
         gameRoomInstance: {
-          gameState,
-          gameStateMessage: message
+          gameStatus,
+          gameStatusMessage: message
         }
       }
     })

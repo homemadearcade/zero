@@ -159,9 +159,9 @@ export class GameHostScene extends EditorScene {
     super.update(time, delta)
 
     const state = store.getState()
-    const gameState = state.gameRoomInstance.gameRoomInstance.gameState
-    if(this.gameState !== gameState) {
-      this.onStateChange(this.gameState, gameState)
+    const gameStatus = state.gameRoomInstance.gameRoomInstance.gameStatus
+    if(this.gameStatus !== gameStatus) {
+      this.onStateChange(this.gameStatus, gameStatus)
     }
 
     // if(this.lastAcknowledgement) {

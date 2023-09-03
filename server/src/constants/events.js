@@ -92,6 +92,10 @@ export const ON_GAME_ROOM_INSTANCE_UNDO = 'ON_GAME_ROOM_INSTANCE_UNDO';
 export const ON_GAME_ROOM_INSTANCE_UPDATE = 'ON_GAME_ROOM_INSTANCE_UPDATE';
 export const ON_GAME_ROOM_INSTANCE_MEMBER_STATUS_UPDATE = 'ON_GAME_ROOM_INSTANCE_MEMBER_STATUS_UPDATE';
 
+// export const ON_GAME_ROOM_INSTANCE_IDENTITY_REQUESTED = 'ON_GAME_ROOM_INSTANCE_IDENTITY_REQUESTED';
+// export const ON_GAME_ROOM_INSTANCE_IDENTITY_DELIVERED = 'ON_GAME_ROOM_INSTANCE_IDENTITY_DELIVERED';
+
+
 //////////////////////////////////////////////
 //////////////////////////////////////////////
 //////////////////////////////////////////////

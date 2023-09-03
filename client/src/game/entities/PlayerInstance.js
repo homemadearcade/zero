@@ -8,7 +8,7 @@ import { ControlledMovement } from "./behaviors/ControlledMovement";
 import { ControlledProjectileEjector } from "./behaviors/ControlledProjectileEjector";
 import { GAME_END_STATE, ON_INTERACT, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, PLAY_STATE, initialCameraZoneEntityId, initialCameraZoneInstanceId } from "../constants";
 import { getCobrowsingState } from "../../utils";
-import { changeGameState } from "../../store/actions/game/gameRoomInstanceActions";
+import { changeGameStatus } from "../../store/actions/game/gameRoomInstanceActions";
 import { progressActiveCutscene } from "../../store/actions/game/playerInterfaceActions";
 import { editGameModel } from "../../store/actions/game/gameModelActions";
 import _, { set } from "lodash";
@@ -153,15 +153,15 @@ export class PlayerInstance extends EntityInstance {
 
     // console.log('merged input', this.mergedInput.interaction.lastPressed)
 
-    const gameState = store.getState().gameRoomInstance.gameRoomInstance.gameState
+    const gameStatus = store.getState().gameRoomInstance.gameRoomInstance.gameStatus
     const playerInterface = getCobrowsingState().playerInterface
 
     if(this.interactKey.isDown && this.interactKey.isPressable) {
-      if(gameState === PLAYTHROUGH_START_STATE || gameState === GAME_END_STATE) {
+      if(gameStatus === PLAYTHROUGH_START_STATE || gameStatus === GAME_END_STATE) {
         if(this.scene.isPlaythrough) {
-          store.dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
+          store.dispatch(changeGameStatus(PLAYTHROUGH_PLAY_STATE))
         } else {
-          store.dispatch(changeGameState(PLAY_STATE))
+          store.dispatch(changeGameStatus(PLAY_STATE))
         }
         this.interactKey.isPressable = false
       } else if(playerInterface.cutsceneId) {
