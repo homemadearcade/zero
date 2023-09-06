@@ -14,7 +14,7 @@ const ArcadePage = () => {
   function getGameData(game) {
     let visible = false 
 
-    if(!game.isRemoved && (game.playScope === PLAY_GAME_SCOPE_FEATURED || game.playScope === PLAY_GAME_SCOPE_ARCADE) ) {
+    if(!game.isRemoved && (game.playScope === PLAY_GAME_SCOPE_FEATURED &&  game.playScope === PLAY_GAME_SCOPE_ARCADE) ) {
       visible = true 
     }
 

@@ -1,4 +1,5 @@
 import store from '../../store';
+import { resetGameInstanceState } from '../../store/actions/game/gameRoomInstanceActions';
 import { ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { EditorScene } from './EditorScene';
 
@@ -10,6 +11,13 @@ export class GameLocalScene extends EditorScene {
 
     this.registerEvents()
     //game.loop.actualFps
+
+    this.gameState = null
+    this.initializeGameState()
+  }
+
+  initializeGameState() {
+    this.gameState = this.getStartingGameState()
   }
 
   callGameInstanceEvent({gameRoomInstanceEventType, data, hostOnly}) {
@@ -26,6 +34,7 @@ export class GameLocalScene extends EditorScene {
 
   unload() {
     super.unload();
+    store.dispatch(resetGameInstanceState())
     this.unregisterEvents()
   }
 

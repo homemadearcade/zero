@@ -93,8 +93,7 @@ class MultiplayerGameRoomContext extends Component {
 
   renderBody() {
     const {  gameRoomInstance: { isLoading, isJoining, gameRoomInstance }} = this.props;
-    
-
+  
 
     if(isLoading) {
             // return <Loader text="Loading Game Session..."/>

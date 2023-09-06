@@ -1160,7 +1160,14 @@ export class EditorScene extends GameInstance {
   }
 
   create() {
-    super.create()
+    if(this.gameState) {
+      this.initializeWithGameState()
+    }
+  }
+
+  initializeWithGameState() {
+    super.initializeWithGameState()
+    this.intitialized = true
 
     this.createGrids()
 
@@ -1254,6 +1261,8 @@ export class EditorScene extends GameInstance {
 
   update(time, delta) {
     super.update(time, delta)
+    
+    if(!this.initialized) return
 
     if(this.escKey.isDown) {
       if(this.readyForNextEscapeKey) {
@@ -1368,7 +1377,6 @@ export class EditorScene extends GameInstance {
       if(this.gameRoomInstance.isHost) {
         this.editorCamera.startFollow(this.playerInstance.phaserInstance, false, 0.4, 0.4)
       } else {
-        console.log('update')
         this.editorCameraControls.update(delta)
       }
 

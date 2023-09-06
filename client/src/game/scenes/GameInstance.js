@@ -45,6 +45,8 @@ export class GameInstance extends Phaser.Scene {
 
     this.gameStatus = null
 
+    this.initialized = false
+
     this.relationsPopulated = {}
 
     this.colliderRegistrations = []
@@ -68,7 +70,13 @@ export class GameInstance extends Phaser.Scene {
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
   initializePlayerInstance(entityInstanceData) {
-    if(!entityInstanceData) {
+    if(entityInstanceData) {
+      this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_DID, entityInstanceData);
+      this.playerInstance.setLerp(
+        entityInstanceData.cameraScrollX,
+        entityInstanceData.cameraScrollY,
+      )
+    } else if(this.gameRoomInstance.isHost) {
       const gameModel = this.getGameModel()
       const playerInterface = getCobrowsingState().playerInterface
       const currentStage = this.getCurrentStage()
@@ -89,14 +97,7 @@ export class GameInstance extends Phaser.Scene {
       });
       
       this.playerInstance.setLerp()
-    } else {
-      this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_DID, entityInstanceData);
-      this.playerInstance.setLerp(
-        entityInstanceData.cameraScrollX,
-        entityInstanceData.cameraScrollY,
-      )
     }
-
   }
 
   addPlayerInstance(entityInstanceData) {
@@ -189,7 +190,7 @@ export class GameInstance extends Phaser.Scene {
             // because THOSE relations have DEFINITELY NOT been registered yet. Cuz the instnace just showed up
 
     /// RELATIONS
-    this.playerInstance.registerRelations(newEntityInstancesByTag)
+    this.playerInstance?.registerRelations(newEntityInstancesByTag)
 
     this.entityInstances.forEach((instance) => {
       if(newEntityInstances.includes(instance)) {
@@ -208,7 +209,7 @@ export class GameInstance extends Phaser.Scene {
     })
 
     /// COLLIDERS
-    this.playerInstance.registerColliders(newEntityInstancesByTag)
+    this.playerInstance?.registerColliders(newEntityInstancesByTag)
 
     this.entityInstances.forEach((instance) => {
       if(newEntityInstances.includes(instance)) {
@@ -249,7 +250,7 @@ export class GameInstance extends Phaser.Scene {
 
   unregisterRelations() {
     /// RELATIONS AND COLLIDERS
-    this.playerInstance.unregister()
+    this.playerInstance?.unregister()
 
     this.entityInstances.forEach((instance) => {
       instance.unregister()
@@ -359,14 +360,13 @@ export class GameInstance extends Phaser.Scene {
 // --------------------------------------------------------------------------------------
 
   initializeEntityInstances() {
-    const currentStage = this.getCurrentStage()
-    const entityInstances = currentStage.entityInstances
+    const entityInstances = this.gameState.stages[this.getCurrentStage().stageId].entityInstances
     Object.keys(entityInstances).forEach((entityInstanceId) => {
       const entityInstanceData = entityInstances[entityInstanceId]
 
       if(!entityInstanceData) {
         return console.error('Object missing!', entityInstanceId)
-      } 
+      }
 
       if(entityInstanceId === PLAYER_INSTANCE_DID) {
         return console.error('hero got in?!')
@@ -384,11 +384,10 @@ export class GameInstance extends Phaser.Scene {
     })
   }
 
-  
   sortInstancesIntoTags(entityInstances) {
     if(!entityInstances) {
       entityInstances = this.entityInstances.slice()
-      entityInstances.push(this.playerInstance)
+      if(this.playerInstance) entityInstances.push(this.playerInstance)
     }
     const entityInstancesByTag = {}
     const entityModels = this.getGameModel().entityModels
@@ -575,8 +574,14 @@ addInstancesToEntityInstanceByTag(instances) {
   }
 
   create() {
+    if(this.gameState) {
+      this.initializeWithGameState()
+    }
+  }
+ 
+  initializeWithGameState() {
+    this.initialized = true
     const currentStage = this.getCurrentStage()
-    const gameModel = this.getGameModel()
 
     this.populateAndSortRelations()
 
@@ -613,10 +618,33 @@ addInstancesToEntityInstanceByTag(instances) {
     ////////////////////////////////////////////////////////////
     // PLAYER
     ////////////////////////////////////////////////////////////
-    this.initializePlayerInstance()
-    this.entityInstancesByTag = this.sortInstancesIntoTags()
+    if(this.gameRoomInstance.isHost) {
+      this.initializePlayerInstance()
+      this.entityInstancesByTag = this.sortInstancesIntoTags()
+      this.registerRelations()
+      this.initializeCamera()
+    }
 
-    this.registerRelations()
+    setTimeout(() => {
+      if(this.gameRoomInstance.isOnlineMultiplayer) {
+        this.setPlayerGameLoaded(this.gameRoomInstance.arcadeGameMongoId)
+      }
+      this.hasLoadedOnce = true
+    })
+
+    this.events.on('wake', () => {
+      if(this.gameRoomInstance.isHost) {
+        this.reset()
+      }
+      setTimeout(() => {
+        this.runOnStageSwitchEffects()
+      })
+    })
+  }
+
+  initializeCamera() {
+    const currentStage = this.getCurrentStage()
+    const gameModel = this.getGameModel()
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -634,22 +662,6 @@ addInstancesToEntityInstanceByTag(instances) {
     this.setPlayerZoom(playerCamera);
 
     this.runOnPlaythroughStartEffects()
-
-    setTimeout(() => {
-      if(this.gameRoomInstance.isOnlineMultiplayer) {
-        this.setPlayerGameLoaded(this.gameRoomInstance.arcadeGameMongoId)
-      }
-      this.hasLoadedOnce = true
-    })
-
-    this.events.on('wake', () => {
-      if(this.gameRoomInstance.isHost) {
-        this.reset()
-      }
-      setTimeout(() => {
-        this.runOnStageSwitchEffects()
-      })
-    })
   }
 
   runGameInstanceEvent({gameRoomInstanceEventType, data}) {
@@ -729,6 +741,8 @@ addInstancesToEntityInstanceByTag(instances) {
   }
 
   update(time, delta) {
+    if(!this.initialized) return 
+
     this.lastUpdate = Date.now()
     this.lastDelta = delta
     
@@ -754,18 +768,19 @@ addInstancesToEntityInstanceByTag(instances) {
       projectile.update(time, delta)
     })
 
-    if(this.playerInstance) this.playerInstance.update(time, delta)
+    if(this.playerInstance) {
+      this.playerInstance.update(time, delta)
+      if(this.getState().cobrowsing.isActivelyCobrowsing === false) {
+        let currentPlayerEntityId = this.getState().playerInterface.playerEntityModelId
+        if(this.playerInstance.entityModelId !== currentPlayerEntityId) {
+          store.dispatch(changePlayerEntity({entityModelId: this.playerInstance.entityModelId}))
+        }
+      }
+    }
 
     const currentStageId = this.getCurrentStage().stageId
     if(this.stage.stageId !== currentStageId) {
       this.switchStage(currentStageId)
-    }
-
-    if(this.getState().cobrowsing.isActivelyCobrowsing === false) {
-      let currentPlayerEntityId = this.getState().playerInterface.playerEntityModelId
-      if(this.playerInstance.entityModelId !== currentPlayerEntityId) {
-        store.dispatch(changePlayerEntity({entityModelId: this.playerInstance.entityModelId}))
-      }
     }
   }
 
@@ -816,6 +831,8 @@ addInstancesToEntityInstanceByTag(instances) {
 
     this.destroyInstances()
 
+    this.gameState = this.getStartingGameState()
+
     this.initializeEntityInstances()
     this.initializePlayerInstance()
 
@@ -823,6 +840,44 @@ addInstancesToEntityInstanceByTag(instances) {
 
     if(this.editorCameraControls) {
       this.editorCameraControls.start();
+    }
+  }
+
+  getStartingGameState() {
+    const gameModel = this.getGameModel()
+    const stages = gameModel.stages
+
+    return {
+      playerInstance: {},
+      stages: Object.keys(stages).map((stageId) => {
+        const entityInstances = Object.keys(stages[stageId].entityInstances).map((entityInstanceId) => {
+          const entityInstance = stages[stageId].entityInstances[entityInstanceId]
+          const { spawnX, spawnY, width, height, entityModelId } = entityInstance
+          return {
+            x: spawnX,
+            y: spawnY,
+            spawnX,
+            spawnY,
+            width,
+            height,
+            entityModelId,
+            removed: false,
+            effectSpawned: false,
+            isVisible: true,
+            transformEntityModelId: null,
+            destroyAfterUpdate: false
+          }
+        })
+        
+        return {
+          stageId,
+          entityInstances,
+          temporaryInstances: []
+        }
+      }).reduce((prev, next) => {
+        prev[next.stageId] = next
+        return prev
+      }, {}),
     }
   }
 
@@ -897,8 +952,6 @@ addInstancesToEntityInstanceByTag(instances) {
 
     this.gameStatus = gameStatus
   }
-
-
 
 
 // --------------------------------------------------------------------------------------

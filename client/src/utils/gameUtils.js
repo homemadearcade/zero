@@ -228,6 +228,89 @@ export function isZoneEntityId(id) {
   }
 }
 
+
+// getRandomPosition(x, y, w, h) {
+//   const xPlus = Math.random() * w
+//   const yPlus = Math.random() * h
+
+//   return {
+//     x: x + xPlus,
+//     y: y + yPlus
+//   }
+// }
+
+// export function getGameStateFromGameModel(gameModel) {
+//   const stages = gameModel.stages
+
+//   const initialStageId = gameModel.player.startingStageId
+//   const stage = gameModel.stages[initialStageId]
+//   const zoneId = stage.playerSpawnZoneEntityId
+//   // const zone = this.getRandomInstanceOfEntityId(zoneId)
+//   const playerEntityModelId = stage.playerEntityModelId ? stage.playerEntityModelId : directionalPlayerEntityId
+//   const playerEntityModel = gameModel.entityModels[playerEntityModelId]
+
+//   const zones = Object.keys(stage.entityModels).map((entityInstanceId) => {
+//     const entityInstance = stages[initialStageId].entityInstances[entityInstanceId]
+//     const { spawnX, spawnY, width, height, entityModelId } = entityInstance
+
+//     return {
+//       x: spawnX,
+//       y: spawnY,
+//       width, height,
+//       entityModelId,
+//       entityInstanceId
+//     }
+//   }).filter((entityInstance) => {
+//     return entityInstance.entityModelId === zoneId
+//   })
+//   const zone = zones[Math.floor(Math.random() * zones.length - 1)]
+
+//   const { x, y } = getRandomPosition(zone.x, zone.y, zone.width, zone.height)
+//   // const { x, y } = zone.getInnerCoordinates(lastPlayerEntityModel) 
+
+//   return {
+//     playerInstance: {
+//       spawnX: x,
+//       spawnY: y,
+//       x,
+//       y,
+//       entityModelId: playerEntityModelId
+//     },
+//     stages: Object.keys(stages).map((stageId) => {
+
+//       const entityInstances = Object.keys(stages[stageId].entityInstances).map((entityInstanceId) => {
+//         const entityInstance = stages[stageId].entityInstances[entityInstanceId]
+//         const { spawnX, spawnY, width, height, entityModelId } = entityInstance
+//         return {
+//           x: spawnX,
+//           y: spawnY,
+//           spawnX,
+//           spawnY,
+//           width,
+//           height,
+//           entityInstanceId,
+//           entityModelId,
+//           removed: false,
+//           effectSpawned: false,
+//           isVisible: true,
+//           transformEntityModelId: null,
+//           destroyAfterUpdate: false
+//         }
+//       })
+
+//       return {
+//         stageId,
+//         entityInstances,
+//         temporaryInstances: []
+//       }
+//     }).reduce((prev, next) => {
+//       prev[next.stageId] = next
+//       return prev
+//     }, {}),
+//     player: gameModel.player
+//   }
+// }
+
 export function createGameSceneInstance(key, gameRoomInstance) {
   const { isEdit, isOnlineMultiplayer, isHost } = gameRoomInstance
   if(isEdit) {

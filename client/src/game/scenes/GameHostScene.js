@@ -6,7 +6,7 @@ import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE, ON_GAME_INSTANCE_EVENT, 
 import { EditorScene } from './EditorScene';
 import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
 import { GAME_ROOM_CONNECTION_LOST } from '../../constants';
-import { editGameRoom } from '../../store/actions/game/gameRoomInstanceActions';
+import { editGameRoom, initializeGameInstanceState, resetGameInstanceState, storeGameRoomState } from '../../store/actions/game/gameRoomInstanceActions';
 
 export class GameHostScene extends EditorScene {
   constructor(props) {
@@ -32,6 +32,21 @@ export class GameHostScene extends EditorScene {
       gameResetVersion: newGameResetVersion
     }))
     this.gameResetVersion = newGameResetVersion
+
+    this.gameState = null
+    this.initializeGameState()
+  }
+
+  initializeGameState() {
+    // const gameState = this.gameRoomInstance.gameState
+    // if(!gameState || !gameState.gameInstanceId || gameState.gameInstanceId !== this.gameInstanceId) {
+      this.gameState = this.getStartingGameState()
+      this.gameState.gameInstanceId = this.gameInstanceId
+    // } else {
+    //   this.gameState = gameState
+    // }
+
+    store.dispatch(initializeGameInstanceState())
   }
   
   callGameInstanceEvent({gameRoomInstanceEventType, data, hostOnly}) {
@@ -64,6 +79,7 @@ export class GameHostScene extends EditorScene {
 
       if(!this.stage) return
       if(this.stage.stageId !== currentStageId) return
+
       const entityInstances = this.entityInstances.map(({phaserInstance: { entityInstanceId, x, y, rotation}, isVisible, destroyAfterUpdate, transformEntityModelId, entityModelId}) => {
         return {
           entityInstanceId,
@@ -97,11 +113,24 @@ export class GameHostScene extends EditorScene {
         rotation: this.playerInstance.phaserInstance.rotation,
         isVisible: this.playerInstance.isVisible,
         destroyAfterUpdate: this.playerInstance.destroyAfterUpdate,
-        transformEntityModelId: this.playerInstance.transformEntityModelId
+        transformEntityModelId: this.playerInstance.transformEntityModelId,
+        entityModelId: this.playerInstance.entityModelId
       }
       
       this.updateNetworkStatus()
-      
+
+      if(!this.gameState.stages[currentStageId]) {
+        this.gameState.stages[currentStageId] = {
+          stageId: currentStageId,
+          entityInstances: [],
+          temporaryInstances: []
+        }
+      }
+      this.gameState.stages[currentStageId].temporaryInstances = temporaryInstances
+      this.gameState.stages[currentStageId].entityInstances = entityInstances
+      this.gameState.playerInstance = playerInstance
+      // store.dispatch(storeGameRoomState(this.gameRoomInstance.id, this.gameState))
+
       window.socket.emit(ON_GAME_INSTANCE_UPDATE, 
         {
           gameInstanceId: this.gameInstanceId, 
@@ -152,6 +181,7 @@ export class GameHostScene extends EditorScene {
 
   unload() {
     super.unload();
+    store.dispatch(resetGameInstanceState())
     this.unregisterEvents()
   }
 

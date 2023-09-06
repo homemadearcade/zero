@@ -32,7 +32,9 @@ import {
   GAME_INSTANCE_UNDO_LOADING,
   GAME_INSTANCE_UNDO_SUCCESS,
   GAME_INSTANCE_UNDO_FAIL,
-  ON_GAME_ROOM_INSTANCE_UNDO
+  ON_GAME_ROOM_INSTANCE_UNDO,
+  GAME_INSTANCE_STATE_INITIALIZED,
+  GAME_INSTANCE_STATE_RESET
 } from '../../types';
 
 import { clearErrorState } from '../errorsActions';
@@ -218,6 +220,37 @@ export const addGameRoom = (formData) => async (dispatch, getState) => {
     });
   }
 };
+
+
+export const initializeGameInstanceState = () => async (dispatch, getState) => {
+  dispatch({
+    type: GAME_INSTANCE_STATE_INITIALIZED
+  })
+}
+
+export const resetGameInstanceState = () => async (dispatch, getState) => {
+  dispatch({
+    type: GAME_INSTANCE_STATE_RESET
+  })
+}
+
+export const storeGameRoomState = (id, gameState) => async (dispatch, getState) => {
+  // dispatch({
+  //   type: UPDATE_GAME_ROOM_STATE_LOADING,
+  // });
+  
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.put(`/api/gameRoomInstance/${id}/gameState`, gameState, options);
+  } catch (err) {
+    console.error(err)
+
+    // dispatch({
+    //   type: UPDATE_GAME_ROOM_STATE_FAIL,
+    //   payload: { error: err?.response?.data.message || err.message },
+    // });
+  }
+}
 
 export const editGameRoom = (id, data) => async (dispatch, getState) => {
   dispatch({

@@ -145,6 +145,8 @@ class GameContext extends Component {
   render() {
     const { gameModel: { isLoading, isSpriteSheetDataLoaded, gameModel } } = this.props
 
+    // console.log(gameRoomInstance) 
+
     if(!isSpriteSheetDataLoaded) {
       return <LinearIndeterminateLoader/>
     }
@@ -159,6 +161,7 @@ class GameContext extends Component {
 
 const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
+  // gameRoomInstance: state.gameRoomInstance,
   entityModelLibrary: state.entityModelLibrary,
   relationLibrary: state.relationLibrary,
   relationTagLibrary: state.relationTagLibrary,

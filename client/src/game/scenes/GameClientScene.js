@@ -8,6 +8,7 @@ import store from '../../store';
 import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
 import { changeCurrentStage } from '../../store/actions/game/gameModelActions';
 import { GAME_ROOM_CONNECTION_LOST } from '../../constants';
+import { initializeGameInstanceState, resetGameInstanceState } from '../../store/actions/game/gameRoomInstanceActions';
 
 export class GameClientScene extends EditorScene {
   constructor(props) {
@@ -26,6 +27,25 @@ export class GameClientScene extends EditorScene {
     this.gameInstanceId = props.gameRoomInstance.gameInstanceId
 
     this.registerEvents()
+
+    this.gameState = null
+    this.checkGameState()
+  }
+
+  checkGameState() {
+    const checkGameState = () => {
+      const gameState = this.gameState
+      if(!gameState || !gameState.gameInstanceId || gameState.gameInstanceId !== this.gameInstanceId) {
+        setTimeout(() => {  
+          checkGameState()
+        }, 1000)
+      } else {
+        store.dispatch(initializeGameInstanceState())
+        this.initializeWithGameState()
+      }
+    }
+
+    checkGameState()
   }
 
   onGameInstanceUpdate = ({gameInstanceId, entityInstances, playerInstance, temporaryInstances, stageId, upsHost, upsServer, gameResetVersion}) => {
@@ -41,17 +61,56 @@ export class GameClientScene extends EditorScene {
       return 
     }
 
+    /////////////////////
+    /////////////////////
+    /////////////////////
+    // INITIALIZE GAME STATE
+    if(!this.gameState){
+      this.gameState = {
+        gameInstanceId,
+        stages: {}
+      }
+    }
+    if(!this.gameState.stages[stageId]) {
+      this.gameState.stages[stageId] = {
+        stageId: stageId,
+        entityInstances: [],
+        temporaryInstances: []
+      }
+    }
+    /////////////////////
+    /////////////////////
+
     this.updateNetworkStatus()
     this.upsHost = upsHost
     this.upsServer = upsServer
 
-
     if(!this.stage) return 
+    
     if(this.stage.stageId !== stageId) {
       if(store.getState().cobrowsing.isActivelyCobrowsing)  {
         store.dispatch(changeCurrentStage(stageId))
       }
       return
+    }
+
+    if(this.playerInstance) {
+      this.playerInstance.phaserInstance.x = playerInstance.x 
+      this.playerInstance.phaserInstance.y = playerInstance.y
+      this.playerInstance.phaserInstance.rotation = playerInstance.rotation
+      this.playerInstance.setVisible(playerInstance.isVisible);
+      this.playerInstance.isVisible = playerInstance.isVisible
+      this.playerInstance.destroyAfterUpdate = playerInstance.destroyAfterUpdate 
+      this.playerInstance.transformEntityModelId = playerInstance.transformEntityModelId
+    } else {
+      console.log(playerInstance)
+      const playerInstanceData = {
+        spawnX: playerInstance.x,
+        spawnY: playerInstance.y,
+        ...playerInstance
+      }
+      this.addPlayerInstance(playerInstanceData)
+      this.initializeCamera()
     }
 
     entityInstances.forEach((instanceUpdate) => {
@@ -95,13 +154,15 @@ export class GameClientScene extends EditorScene {
 
     if(this.draggingEntityInstanceId === PLAYER_INSTANCE_DID) return
 
-    this.playerInstance.phaserInstance.x = playerInstance.x 
-    this.playerInstance.phaserInstance.y = playerInstance.y
-    this.playerInstance.phaserInstance.rotation = playerInstance.rotation
-    this.playerInstance.setVisible(playerInstance.isVisible);
-    this.playerInstance.isVisible = playerInstance.isVisible
-    this.playerInstance.destroyAfterUpdate = playerInstance.destroyAfterUpdate 
-    this.playerInstance.transformEntityModelId = playerInstance.transformEntityModelId
+    /////////////////////
+    /////////////////////
+    /////////////////////
+    // UPDATE GAME STATE
+    this.gameState.stages[stageId].temporaryInstances = temporaryInstances
+    this.gameState.stages[stageId].entityInstances = entityInstances
+    this.gameState.playerInstance = playerInstance 
+    /////////////////////
+    /////////////////////
 
     this.afterGameInstanceUpdateEffects() 
   }
@@ -157,7 +218,8 @@ export class GameClientScene extends EditorScene {
   }
 
   unload() {
-    super.unload();
+    super.unload()
+    store.dispatch(resetGameInstanceState())
     this.unregisterEvents()
   }
 

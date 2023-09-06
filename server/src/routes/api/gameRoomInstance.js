@@ -3,7 +3,7 @@ import requireJwtAuth from '../../middleware/requireJwtAuth';
 import requireSocketAuth from '../../middleware/requireSocketAuth';
 import { generateUniqueId } from '../../utils/utils';
 
-import { ON_GAME_ROOM_INSTANCE_UPDATE, ADMIN_ROOM_PREFIX, GAME_ROOMS_STORE, GAME_ROOM_INSTANCE_DID } from '../../constants';
+import { ON_GAME_ROOM_INSTANCE_UPDATE, ADMIN_ROOM_PREFIX, GAME_ROOMS_STORE, GAME_ROOM_INSTANCE_DID, ON_GAME_INSTANCE_UPDATE } from '../../constants';
 import GameRoomInstance from '../../models/GameRoomInstance';
 import { mergeDeep } from '../../utils/utils';
 import { updateUserAppLocation } from '../../utils/appLocation';
@@ -105,6 +105,7 @@ router.post('/', requireJwtAuth, requireGameRoomInstances, async (req, res) => {
       isOnlineMultiplayer: req.body.isOnlineMultiplayer,
       name: req.body.name,
       gameInstanceIds: req.body.gameInstanceIds,
+      // gameState: req.body.gameState,
       experienceInstanceId: req.body.experienceInstanceId,
       gameRoomInstanceId: GAME_ROOM_INSTANCE_DID + generateUniqueId(),
     });
@@ -523,6 +524,7 @@ router.put('/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, a
         }),
         gameInstanceIds: req.gameRoomInstance.gameInstanceIds,
         gameStatus: req.gameRoomInstance.gameStatus,
+        // gameStates: {},
         hostUserMongoId: req.gameRoomInstance.hostUserMongoId,
       },
       { new: true },
@@ -534,5 +536,67 @@ router.put('/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, a
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
+
+
+// let upsServer = {}
+// let lastUpsServerCounts = {}
+// let upsServerUpdates = {}
+
+// router.put('/:id/gameState', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
+//   try {
+
+//     mergeDeep(req.gameRoomInstance.gameState, req.body)
+
+//     const updatedGameRoomInstance = await GameRoomInstance.findByIdAndUpdate(
+//       req.params.id,
+//       { 
+//         gameState: req.gameRoomInstance.gameState,
+//       },
+//       { new: true },
+//     );
+
+//     const gameRoomInstanceMongoId = req.gameRoomInstance.id
+//     const time = Date.now();
+    
+//     if(!lastUpsServerCounts[gameRoomInstanceMongoId]) lastUpsServerCounts[gameRoomInstanceMongoId] = 0
+//     if(!upsServerUpdates[gameRoomInstanceMongoId]) upsServerUpdates[gameRoomInstanceMongoId] = 0
+
+//     upsServerUpdates[gameRoomInstanceMongoId]++;
+
+//     if (time > lastUpsServerCounts[gameRoomInstanceMongoId] + 1000) {
+//       upsServer[gameRoomInstanceMongoId] = Math.round( ( upsServerUpdates[gameRoomInstanceMongoId] * 1000 ) / ( time - lastUpsServerCounts[gameRoomInstanceMongoId] ) );
+//       lastUpsServerCounts[gameRoomInstanceMongoId] = time;
+//       upsServerUpdates[gameRoomInstanceMongoId] = 0;
+//     }
+
+//     payload.upsServer = upsServer[gameRoomInstanceMongoId]
+      
+//     req.io.to(req.gameRoomInstance.id).emit(ON_GAME_INSTANCE_UPDATE, { gameState, upsServer, });
+//     res.status(200).json({});
+//   } catch (err) {
+//     res.status(500).json({ message: 'Something went wrong. ' + err });
+//   }
+// });
+
+router.put('/:id/gameState', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
+  try {
+
+    mergeDeep(req.gameRoomInstance.gameState, req.body)
+
+    const updatedGameRoomInstance = await GameRoomInstance.findByIdAndUpdate(
+      req.params.id,
+      { 
+        gameState: req.gameRoomInstance.gameState,
+      },
+      { new: true },
+    );
+      
+    res.status(200).json({});
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong. ' + err });
+  }
+});
+
+
 
 export default router;
