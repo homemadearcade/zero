@@ -16,9 +16,6 @@ const gameRoomInstanceSchema = new Schema(
       required: false,
       default: false
     },
-    gameState: {
-      type: Object,
-    },
     gameInstanceIds: {
       type: Object, 
       required: false,
@@ -66,7 +63,6 @@ gameRoomInstanceSchema.methods.toJSON = function () {
     arcadeGameMongoId: this.arcadeGameMongoId,
     gameRoomInstanceId: this.gameRoomInstanceId,
     gameInstanceIds: this.gameInstanceIds,
-    gameState: this.gameState,
   };
 };
 

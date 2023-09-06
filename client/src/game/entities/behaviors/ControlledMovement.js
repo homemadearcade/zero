@@ -12,7 +12,7 @@ export class ControlledMovement {
   update(time, delta, jumpKey) {
     const entityModelId = this.entityInstance.entityModelId
     const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
-    const phaserInstance = this.entityInstance.phaserInstance
+    const matterSprite = this.entityInstance.matterSprite
 
     const isJumpAllowed = !entityModel.movement.ignoreGravity && entityModel.movement.movementControlsBehavior === ADVANCED_DIRECTIONAL_CONTROLS
 
@@ -39,21 +39,21 @@ export class ControlledMovement {
       const speed = 500 * mod 
       if(playerEntityModelId === entityModelId) {
         if(leftPressed) {
-          this.entityInstance.setPosition(phaserInstance.x - speed, phaserInstance.y)
+          this.entityInstance.setPosition(matterSprite.x - speed, matterSprite.y)
         } else if(rightPressed) {
-          this.entityInstance.setPosition(phaserInstance.x + speed, phaserInstance.y)
+          this.entityInstance.setPosition(matterSprite.x + speed, matterSprite.y)
         } else {
           this.entityInstance.setVelocityX(0)
-          // phaserInstance.setX(phaserInstance.body.prev.x)
+          // matterSprite.setX(matterSprite.body.prev.x)
         }
         
         if(upPressed) {
-          this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y - speed)
+          this.entityInstance.setPosition(matterSprite.x, matterSprite.y - speed)
         } else if(downPressed) {
-          this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y + speed)
+          this.entityInstance.setPosition(matterSprite.x, matterSprite.y + speed)
         } else {
           this.entityInstance.setVelocityY(0)
-          // phaserInstance.setY(phaserInstance.body.prev.y)
+          // matterSprite.setY(matterSprite.body.prev.y)
         }
 
         // const editorCamera = this.scene.editorCamera 
@@ -67,13 +67,13 @@ export class ControlledMovement {
 
     if(this.scene.isPaused) return
 
-    if(phaserInstance.upKeyClimbOverride) {
+    if(matterSprite.upKeyClimbOverride) {
       if(upPressed) {
         // a bit of a hack...
-        this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y - (700 * mod))
+        this.entityInstance.setPosition(matterSprite.x, matterSprite.y - (700 * mod))
         upPressed = false
       } else if(downPressed) {
-        this.entityInstance.setPosition(phaserInstance.x, phaserInstance.y + (500 * mod))
+        this.entityInstance.setPosition(matterSprite.x, matterSprite.y + (500 * mod))
         downPressed = false
       }
     }
@@ -170,7 +170,7 @@ export class ControlledMovement {
     if(isJumpAllowed) {
       if(entityModel.jump.jumpControlsBehavior === JUMP_GROUND) {
         if(jumpPressed) {
-          if(phaserInstance.body.blocked.down) {
+          if(matterSprite.body.blocked.down) {
             this.entityInstance.setVelocityY(-entityModel.jump.ground)
           }
         }
@@ -180,7 +180,7 @@ export class ControlledMovement {
         if(jumpPressed) {
           if(jumpKey.isPressable) {
             jumpKey.isPressable = false
-            if(phaserInstance.body.blocked.down) {
+            if(matterSprite.body.blocked.down) {
               this.entityInstance.setVelocityY(-entityModel.jump.ground * 5)
             } else if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
               this.entityInstance.setVelocityY(-entityModel.jump.air * 5)

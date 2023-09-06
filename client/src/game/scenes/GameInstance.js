@@ -227,20 +227,22 @@ export class GameInstance extends Phaser.Scene {
       }
     })
 
-    // all phaserInstances on playground layer collide with the player
-    const gameModel = this.getGameModel()
-    const releventInstances = newEntityInstances.filter((entityInstance) => {
-      const entityModel = gameModel.entityModels[entityInstance.entityModelId]
-      const layerGroupIID = entityModel.graphics.layerGroupIID
-      return layerGroupIID === PLAYGROUND_LAYER_GROUP_IID
-    }).map(({phaserInstance}) => phaserInstance)
+    if(this.playerInstance) {
+      // all matterSprites on playground layer collide with the player
+      const gameModel = this.getGameModel()
+      const releventInstances = newEntityInstances.filter((entityInstance) => {
+        const entityModel = gameModel.entityModels[entityInstance.entityModelId]
+        const layerGroupIID = entityModel.graphics.layerGroupIID
+        return layerGroupIID === PLAYGROUND_LAYER_GROUP_IID
+      }).map(({matterSprite}) => matterSprite)
 
-    this.colliderRegistrations.push(
-      this.physics.add.collider(this.playerInstance.phaserInstance, releventInstances, (phaserInstanceA, phaserInstanceB) => {
-        phaserInstanceA.justCollided = true
-        phaserInstanceB.justCollided = true
-      })
-    )
+      this.colliderRegistrations.push(
+        this.physics.add.collider(this.playerInstance.matterSprite, releventInstances, (matterSpriteA, matterSpriteB) => {
+          matterSpriteA.justCollided = true
+          matterSpriteB.justCollided = true
+        })
+      )
+    }
 
     Object.keys(this.layerInstancesById).forEach((layerId) => {
       const layerInstance = this.layerInstancesById[layerId]
@@ -459,9 +461,9 @@ export class GameInstance extends Phaser.Scene {
   }
 
   updateEntityInstance(entityInstance, {x, y, rotation, isVisible, destroyAfterUpdate, transformEntityModelId}) {
-    if(x) entityInstance.phaserInstance.x = x;
-    if(y) entityInstance.phaserInstance.y = y;
-    if(rotation) entityInstance.phaserInstance.rotation = rotation;
+    if(x) entityInstance.matterSprite.x = x;
+    if(y) entityInstance.matterSprite.y = y;
+    if(rotation) entityInstance.matterSprite.rotation = rotation;
     entityInstance.setVisible(isVisible);
     entityInstance.isVisible = isVisible
     entityInstance.destroyAfterUpdate = destroyAfterUpdate 
@@ -657,7 +659,7 @@ addInstancesToEntityInstanceByTag(instances) {
     const stageY = currentStage.boundaries.y
 
     this.cameras.main.setBounds(stageX, stageY, stageWidth, stageHeight);
-    this.cameras.main.pan(this.playerInstance.phaserInstance.x, this.playerInstance.phaserInstance.y, 0)
+    this.cameras.main.pan(this.playerInstance.matterSprite.x, this.playerInstance.matterSprite.y, 0)
     const playerCamera = gameModel.entityModels[this.playerInstance.entityModelId].camera
     this.setPlayerZoom(playerCamera);
 
@@ -688,9 +690,9 @@ addInstancesToEntityInstanceByTag(instances) {
         return
       case EVENT_SPAWN_MODEL_DRAG_FINISH: 
         const entityInstance = this.getEntityInstance(data.entityInstanceId)
-        if(entityInstance?.phaserInstance) {
-          entityInstance.phaserInstance.x = data.x;
-          entityInstance.phaserInstance.y = data.y;
+        if(entityInstance?.matterSprite) {
+          entityInstance.matterSprite.x = data.x;
+          entityInstance.matterSprite.y = data.y;
         } else {
           console.error('were trying to move an instance that doesnt exist', data.entityInstanceId)
         }
@@ -1024,20 +1026,20 @@ addInstancesToEntityInstanceByTag(instances) {
   /////////
   //// EFFECTS
 
-  getEffectedPhaserInstances = ({phaserInstanceA, phaserInstanceB, sidesA, sidesB, effect}) => {
-    const phaserInstances = []
-    const alternatePhaserInstanceData = {}
+  getEffectedmatterSprites = ({matterSpriteA, matterSpriteB, sidesA, sidesB, effect}) => {
+    const matterSprites = []
+    const alternatematterSpriteData = {}
     if(effect.effectTagA) {
-      phaserInstances.push(phaserInstanceA)
-      alternatePhaserInstanceData.phaserInstance = phaserInstanceB
-      alternatePhaserInstanceData.sides = sidesB
+      matterSprites.push(matterSpriteA)
+      alternatematterSpriteData.matterSprite = matterSpriteB
+      alternatematterSpriteData.sides = sidesB
     }
 
 
     if(effect.effectTagB) {
-      phaserInstances.push(phaserInstanceB)
-      alternatePhaserInstanceData.phaserInstance = phaserInstanceA
-      alternatePhaserInstanceData.sides = sidesA
+      matterSprites.push(matterSpriteB)
+      alternatematterSpriteData.matterSprite = matterSpriteA
+      alternatematterSpriteData.sides = sidesA
     }
 
     let remoteEffectedRelationTagIds = effect.remoteEffectedRelationTagIds?.slice()
@@ -1048,15 +1050,15 @@ addInstancesToEntityInstanceByTag(instances) {
     if(remoteEffectedRelationTagIds && !noRemoteEffectedTagEffects[effect.effectBehavior]) {
       remoteEffectedRelationTagIds?.forEach((relationTagId) => {
         this.entityInstancesByTag[relationTagId]?.forEach((entityInstance) => {
-          phaserInstances.push(entityInstance.phaserInstance)
+          matterSprites.push(entityInstance.matterSprite)
         })
       })
     }
 
-    return [phaserInstances, alternatePhaserInstanceData]
+    return [matterSprites, alternatematterSpriteData]
   }
 
-  runTargetlessAccuteEffect({relation, phaserInstanceA, phaserInstanceB}) {
+  runTargetlessAccuteEffect({relation, matterSpriteA, matterSpriteB}) {
     const effect = relation.effect
 
     if(effect.effectBehavior === EFFECT_CAMERA_SHAKE) {
@@ -1115,20 +1117,20 @@ addInstancesToEntityInstanceByTag(instances) {
 
     // NARRATIVE
     if(effect.effectBehavior === EFFECT_CUTSCENE) {
-      if(effect.cutsceneId) store.dispatch(openCutscene(phaserInstanceB?.entityModelId, effect.cutsceneId))
+      if(effect.cutsceneId) store.dispatch(openCutscene(matterSpriteB?.entityModelId, effect.cutsceneId))
     }
 
     if(effect.effectBehavior === EFFECT_SPAWN) {
       const spawningEntityId = effect.spawnEntityModelId
       let zone 
 
-      if(effect.spawnZoneSelectorType === SPAWN_ZONE_A_SELECT && phaserInstanceA) {
-        if(isZoneEntityId(phaserInstanceA.entityModelId)) {
-          zone = phaserInstanceA
+      if(effect.spawnZoneSelectorType === SPAWN_ZONE_A_SELECT && matterSpriteA) {
+        if(isZoneEntityId(matterSpriteA.entityModelId)) {
+          zone = matterSpriteA
         } 
-      } else if(effect.spawnZoneSelectorType === SPAWN_ZONE_B_SELECT && phaserInstanceB) {
-        if(isZoneEntityId(phaserInstanceB.entityModelId)) {
-          zone = phaserInstanceB
+      } else if(effect.spawnZoneSelectorType === SPAWN_ZONE_B_SELECT && matterSpriteB) {
+        if(isZoneEntityId(matterSpriteB.entityModelId)) {
+          zone = matterSpriteB
         } 
       } else {
           //  if(effect.spawnZoneSelectorType === SPAWN_ZONE_RANDOM_SELECT) {
@@ -1159,15 +1161,15 @@ addInstancesToEntityInstanceByTag(instances) {
           effect,
           effects: undefined
         },
-        phaserInstanceA: this.playerInstance.phaserInstance,
+        matterSpriteA: this.playerInstance.matterSprite,
       })
     })
   }
 
   runAccuteEffect({
     relation,
-    phaserInstanceA,
-    phaserInstanceB,
+    matterSpriteA,
+    matterSpriteB,
     sidesA = [],
     sidesB = []
   }) {
@@ -1191,8 +1193,8 @@ addInstancesToEntityInstanceByTag(instances) {
         delayedRelation.effect.effectDelay = null
         this.runAccuteEffect({
           relation: delayedRelation,
-          phaserInstanceA,
-          phaserInstanceB,
+          matterSpriteA,
+          matterSpriteB,
           sidesA,
           sidesB
         })
@@ -1214,44 +1216,44 @@ addInstancesToEntityInstanceByTag(instances) {
     if(effectInterface.targetableType === NO_RELATION_TAG_EFFECT_IID) {
       return this.runTargetlessAccuteEffect({
         relation,
-        phaserInstanceA,
-        phaserInstanceB,
+        matterSpriteA,
+        matterSpriteB,
       })
     }
 
-    const [phaserInstances] = this.getEffectedPhaserInstances({
-      phaserInstanceA,
-      phaserInstanceB,
+    const [matterSprites] = this.getEffectedmatterSprites({
+      matterSpriteA,
+      matterSpriteB,
       sidesA,
       sidesB,
       effect
     })
 
-    const runEffect = (phaserInstance) =>  {
+    const runEffect = (matterSprite) =>  {
       if(effect.effectBehavior === EFFECT_STICK_TO) {
-        phaserInstance.body.setVelocityY(0)
-        phaserInstance.body.setVelocityX(0)
+        matterSprite.body.setVelocityY(0)
+        matterSprite.body.setVelocityX(0)
       }
 
       if(effect.effectBehavior === EFFECT_TELEPORT) {
         const gameModel = store.getState().gameModel.gameModel
-        const entityModel = gameModel.entityModels[phaserInstance.entityModelId]
+        const entityModel = gameModel.entityModels[matterSprite.entityModelId]
         const zone = scene.getRandomInstanceOfEntityId(effect.zoneEntityModelId)
         if(!zone) return
-        const { x, y } = zone.getInnerCoordinates(entityModel, phaserInstance.entityInstance)
-        phaserInstance.setPosition(x, y)
+        const { x, y } = zone.getInnerCoordinates(entityModel, matterSprite.entityInstance)
+        matterSprite.setPosition(x, y)
       }
       
       if(effect.effectBehavior === EFFECT_DESTROY) {
-        const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
+        const entityInstance = scene.getEntityInstance(matterSprite.entityInstanceId)
         entityInstance.destroyAfterUpdate = true
       } else if(effect.effectBehavior === EFFECT_TRANSFORM) {
-        const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
+        const entityInstance = scene.getEntityInstance(matterSprite.entityInstanceId)
         entityInstance.transformEntityModelId = effect.entityModelId
       }
 
       if(effect.effectBehavior === EFFECT_TRANSFORM_TEMPORARY_START) {
-        const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
+        const entityInstance = scene.getEntityInstance(matterSprite.entityInstanceId)
         if(!entityInstance.transformCancelEntityModelId) {
           entityInstance.transformEntityModelId = effect.entityModelId
           entityInstance.transformCancelEntityModelId = entityInstance.entityModelId
@@ -1259,15 +1261,15 @@ addInstancesToEntityInstanceByTag(instances) {
       }
 
       if(effect.effectBehavior === EFFECT_TRANSFORM_TEMPORARY_END) {
-        const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
+        const entityInstance = scene.getEntityInstance(matterSprite.entityInstanceId)
         if(!entityInstance.transformCancelEntityModelId) return
         entityInstance.transformEntityModelId = entityInstance.transformCancelEntityModelId
         entityInstance.transformCancelEntityModelId = null
       }
     }
 
-    phaserInstances.forEach((phaserInstance) => {
-      runEffect(phaserInstance)
+    matterSprites.forEach((matterSprite) => {
+      runEffect(matterSprite)
     })
   }
 

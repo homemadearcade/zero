@@ -8,7 +8,6 @@ import store from '../../store';
 import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
 import { changeCurrentStage } from '../../store/actions/game/gameModelActions';
 import { GAME_ROOM_CONNECTION_LOST } from '../../constants';
-import { initializeGameInstanceState, resetGameInstanceState } from '../../store/actions/game/gameRoomInstanceActions';
 
 export class GameClientScene extends EditorScene {
   constructor(props) {
@@ -29,6 +28,7 @@ export class GameClientScene extends EditorScene {
     this.registerEvents()
 
     this.gameState = null
+
     this.checkGameState()
   }
 
@@ -40,7 +40,6 @@ export class GameClientScene extends EditorScene {
           checkGameState()
         }, 1000)
       } else {
-        store.dispatch(initializeGameInstanceState())
         this.initializeWithGameState()
       }
     }
@@ -95,15 +94,14 @@ export class GameClientScene extends EditorScene {
     }
 
     if(this.playerInstance) {
-      this.playerInstance.phaserInstance.x = playerInstance.x 
-      this.playerInstance.phaserInstance.y = playerInstance.y
-      this.playerInstance.phaserInstance.rotation = playerInstance.rotation
+      this.playerInstance.matterSprite.x = playerInstance.x 
+      this.playerInstance.matterSprite.y = playerInstance.y
+      this.playerInstance.matterSprite.rotation = playerInstance.rotation
       this.playerInstance.setVisible(playerInstance.isVisible);
       this.playerInstance.isVisible = playerInstance.isVisible
       this.playerInstance.destroyAfterUpdate = playerInstance.destroyAfterUpdate 
       this.playerInstance.transformEntityModelId = playerInstance.transformEntityModelId
     } else {
-      console.log(playerInstance)
       const playerInstanceData = {
         spawnX: playerInstance.x,
         spawnY: playerInstance.y,
@@ -215,11 +213,14 @@ export class GameClientScene extends EditorScene {
     super.create()
     this.pause()
     this.isPaused = true
+
+    const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
+    const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
+    this.loadingText = this.add.text(screenCenterX, screenCenterY, 'Waiting for host...').setOrigin(0.5);
   }
 
   unload() {
     super.unload()
-    store.dispatch(resetGameInstanceState())
     this.unregisterEvents()
   }
 

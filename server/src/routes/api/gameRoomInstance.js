@@ -578,24 +578,24 @@ router.put('/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, a
 //   }
 // });
 
-router.put('/:id/gameState', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
-  try {
+// router.put('/:id/gameState', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
+//   try {
 
-    mergeDeep(req.gameRoomInstance.gameState, req.body)
+//     mergeDeep(req.gameRoomInstance.gameState, req.body)
 
-    const updatedGameRoomInstance = await GameRoomInstance.findByIdAndUpdate(
-      req.params.id,
-      { 
-        gameState: req.gameRoomInstance.gameState,
-      },
-      { new: true },
-    );
+//     const updatedGameRoomInstance = await GameRoomInstance.findByIdAndUpdate(
+//       req.params.id,
+//       { 
+//         gameState: req.gameRoomInstance.gameState,
+//       },
+//       { new: true },
+//     );
       
-    res.status(200).json({});
-  } catch (err) {
-    res.status(500).json({ message: 'Something went wrong. ' + err });
-  }
-});
+//     res.status(200).json({});
+//   } catch (err) {
+//     res.status(500).json({ message: 'Something went wrong. ' + err });
+//   }
+// });
 
 
 

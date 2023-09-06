@@ -4,9 +4,9 @@ import { X_KID } from "../../../constants/keyboard/keyIds";
 import store from "../../../store";
 import { changeInteractOppurtunity } from "../../../store/actions/game/playerInterfaceActions";
 import { ARCADE_PHYSICS, DEFAULT_TEXTURE_ID, MATTER_PHYSICS, ON_INTERACT } from "../../constants";
-import { PhaserInstance } from "./PhaserInstance";
+import { MatterSprite } from "./MatterSprite";
 
-export class InteractArea extends PhaserInstance {
+export class InteractArea extends MatterSprite {
   constructor(scene, entityInstance, { color, width, height }){
     super(scene, { spawnX: 0, spawnY: 0, textureId: DEFAULT_TEXTURE_ID })
 
@@ -24,14 +24,14 @@ export class InteractArea extends PhaserInstance {
     this.setVisible(false)
 
     this.entityInstanceId = 'interact area'
-    // this.phaserInstance.entityModelId = entityModelId
+    // this.matterSprite.entityModelId = entityModelId
 
     this.overlaps = []
     this.interactables = []
     this.previousClosest = null
     this.paused = false
 
-    scene.uiLayer.add(this.phaserInstance)
+    scene.uiLayer.add(this.matterSprite)
 
     this.entityInstance = entityInstance
 
@@ -72,13 +72,13 @@ export class InteractArea extends PhaserInstance {
       const {event} = relation
       const releventEntityInstances = entityInstancesByTag[event.relationTagIdB]
       if(!releventEntityInstances || !releventEntityInstances.length) return
-      const releventPhaserInstances = releventEntityInstances.map(({phaserInstance}) => phaserInstance)
+      const releventMatterSprites = releventEntityInstances.map(({matterSprite}) => matterSprite)
       this.overlaps.push(
-        this.scene.physics.add.overlap(this.phaserInstance, releventPhaserInstances, (a, b) => {
+        this.scene.physics.add.overlap(this.matterSprite, releventMatterSprites, (a, b) => {
           if(this.paused) return
           if(this.scene.timeToTriggerAgain[relation.relationId] > Date.now()) return
           // console.log('event triggered')
-          this.interactables.push({phaserInstance: b, relation})
+          this.interactables.push({matterSprite: b, relation})
         })
       )
     })
@@ -133,21 +133,21 @@ export class InteractArea extends PhaserInstance {
       relations: []
     }
 
-    this.interactables.forEach(({phaserInstance}) => {
-      // phaserInstance.interactBorder.setVisible(false)
-      const distance = Phaser.Math.Distance.Between(phaserInstance.x, phaserInstance.y, this.phaserInstance.x, this.phaserInstance.y)
+    this.interactables.forEach(({matterSprite}) => {
+      // matterSprite.interactBorder.setVisible(false)
+      const distance = Phaser.Math.Distance.Between(matterSprite.x, matterSprite.y, this.matterSprite.x, this.matterSprite.y)
       const { closestDistance } = interactOppurtunity
       if(distance < closestDistance) {
         interactOppurtunity.closestDistance = distance
-        interactOppurtunity.closestInteractable = phaserInstance
+        interactOppurtunity.closestInteractable = matterSprite
       }
     })
     
     const { closestInteractable } = interactOppurtunity
     if(closestInteractable) {
       closestInteractable.interactBorder.setVisible(true)
-      this.interactables.forEach(({phaserInstance, relation}) => {
-        if(phaserInstance === closestInteractable) {
+      this.interactables.forEach(({matterSprite, relation}) => {
+        if(matterSprite === closestInteractable) {
           interactOppurtunity.relations.push(relation)
         }
       })
@@ -202,9 +202,9 @@ export class InteractArea extends PhaserInstance {
       this.setVisible(false)
     }
 
-    // const phaserInstance = this.entityInstance.phaserInstance
+    // const matterSprite = this.entityInstance.matterSprite
     // this.lastInteractedWithEntityId = this.interactedWithEntityId
-    // if(phaserInstance.body.touching.none && phaserInstance.body.blocked.none) {
+    // if(matterSprite.body.touching.none && matterSprite.body.blocked.none) {
     //   this.interactedWithEntityId = null
     // }
   }

@@ -1,13 +1,13 @@
 import { DEFAULT_TEXTURE_ID, ON_SPAWN, BOUNDARY_COLLIDE, BOUNDARY_WRAP, ON_DESTROY_ONE, ON_DESTROY_ALL, ON_INTERACT, ON_TOUCH_START, ON_TOUCH_ACTIVE } from "../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
-import { PhaserInstance } from "./behaviors/PhaserInstance";
+import { MatterSprite } from "./behaviors/MatterSprite";
 import { Collider } from "./behaviors/Collider";
 import { Graphics } from "./behaviors/Graphics";
 import { Movement } from "./behaviors/Movement";
 import { ProjectileEjector } from "./behaviors/ProjectileEjector";
 
-export class EntityInstance extends PhaserInstance {
+export class EntityInstance extends MatterSprite {
   constructor(scene, entityInstanceId, entityInstanceData, effectSpawned){
     const {spawnX, spawnY, entityModelId, transformCancelEntityModelId} = entityInstanceData
 
@@ -28,11 +28,11 @@ export class EntityInstance extends PhaserInstance {
 
     this.width = entityInstanceData.width || entityModel.graphics.width
     this.height = entityInstanceData.height || entityModel.graphics.height
-    this.phaserInstance.entityInstanceId = entityInstanceId
-    this.phaserInstance.effectSpawned = effectSpawned
+    this.matterSprite.entityInstanceId = entityInstanceId
+    this.matterSprite.effectSpawned = effectSpawned
     this.effectSpawned = effectSpawned
-    this.phaserInstance.entityModelId = entityModelId
-    scene.entityInstanceGroup.add(this.phaserInstance)
+    this.matterSprite.entityModelId = entityModelId
+    scene.entityInstanceGroup.add(this.matterSprite)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ export class EntityInstance extends PhaserInstance {
     return this
   }
 
-  runRelation = (relation, phaserInstanceB) => {
+  runRelation = (relation, matterSpriteB) => {
     const { event } = relation
     if(this.hasTag(event.relationTagIdA)) {
       Object.keys(relation.effects).forEach((effectId) => {
@@ -94,8 +94,8 @@ export class EntityInstance extends PhaserInstance {
             effect,
             effects: undefined
           },
-          phaserInstanceA: this.phaserInstance,
-          phaserInstanceB,
+          matterSpriteA: this.matterSprite,
+          matterSpriteB,
         })
       })
     }
@@ -108,15 +108,15 @@ export class EntityInstance extends PhaserInstance {
 
   runAccuteEffect({
     relation, 
-    phaserInstanceA,
-    phaserInstanceB,
+    matterSpriteA,
+    matterSpriteB,
     sidesA =[],
     sidesB = []
   }) {
     this.scene.runAccuteEffect({
       relation,
-      phaserInstanceA,
-      phaserInstanceB,
+      matterSpriteA,
+      matterSpriteB,
       sidesA,
       sidesB
     })
@@ -143,13 +143,13 @@ export class EntityInstance extends PhaserInstance {
     ////////////////////////////////////////
     // RELATIONS
     if(entityModel.boundaryRelation === BOUNDARY_WRAP) {
-      const width = this.phaserInstance.displayWidth
-      const height = this.phaserInstance.displayHeight
+      const width = this.matterSprite.displayWidth
+      const height = this.matterSprite.displayHeight
 
       let highestSize = width
       if(height > width) highestSize = height
 
-      this.scene.physics.world.wrap(this.phaserInstance.body, highestSize)
+      this.scene.physics.world.wrap(this.matterSprite.body, highestSize)
     }
 
     if(this.scene.isPaused) return 
@@ -196,20 +196,20 @@ export class EntityInstance extends PhaserInstance {
   }
 
   getInnerCoordinateBoundaries(entityModel, entityInstance) {
-    const phaserInstance = this.phaserInstance   
+    const matterSprite = this.matterSprite   
 
     let foreignWidth = entityModel.graphics.width
     let foreignHeight = entityModel.graphics.height
 
     if(entityInstance) {
-      foreignWidth = entityInstance.phaserInstance.displayWidth
-      foreignHeight = entityInstance.phaserInstance.displayHeight
+      foreignWidth = entityInstance.matterSprite.displayWidth
+      foreignHeight = entityInstance.matterSprite.displayHeight
     }
 
-    const x = phaserInstance.x - (phaserInstance.displayWidth/2) +  foreignWidth/4
-    const y = phaserInstance.y - (phaserInstance.displayHeight/2) + foreignHeight/4
-    const width = phaserInstance.displayWidth -  foreignWidth/2
-    const height = phaserInstance.displayHeight -  foreignHeight/2
+    const x = matterSprite.x - (matterSprite.displayWidth/2) +  foreignWidth/4
+    const y = matterSprite.y - (matterSprite.displayHeight/2) + foreignHeight/4
+    const width = matterSprite.displayWidth -  foreignWidth/2
+    const height = matterSprite.displayHeight -  foreignHeight/2
 
     return [x, y, width, height]
   }
@@ -220,13 +220,13 @@ export class EntityInstance extends PhaserInstance {
     let entityWidth = entityModel.graphics.width
     let entityHeight = entityModel.graphics.height
     if(entityInstance) {
-      entityWidth = entityInstance.phaserInstance.displayWidth
-      entityHeight = entityInstance.phaserInstance.displayHeight
+      entityWidth = entityInstance.matterSprite.displayWidth
+      entityHeight = entityInstance.matterSprite.displayHeight
     }
 
     if(entityWidth === this.width && entityHeight === this.height) {
-      x = this.phaserInstance.x
-      y = this.phaserInstance.y
+      x = this.matterSprite.x
+      y = this.matterSprite.y
     } else {
       const coordinateBoundaries = this.getInnerCoordinateBoundaries(entityModel, entityInstance)
       const position = this.scene.getRandomPosition(...coordinateBoundaries)
@@ -238,14 +238,14 @@ export class EntityInstance extends PhaserInstance {
   }
 
   transformEntityModel(entityModelId) {
-    const phaserInstance = this.phaserInstance
+    const matterSprite = this.matterSprite
     const modifiedEntityData = { 
-      spawnX: phaserInstance.x,
-      spawnY: phaserInstance.y,
+      spawnX: matterSprite.x,
+      spawnY: matterSprite.y,
       entityModelId,
       transformCancelEntityModelId: this.transformCancelEntityModelId,
-      velocityX: phaserInstance.body.velocity.x,
-      velocityY: phaserInstance.body.velocity.y,
+      velocityX: matterSprite.body.velocity.x,
+      velocityY: matterSprite.body.velocity.y,
     }
 
     //issue because as soon as we destroy it, we lose acces to 'this'!
@@ -283,9 +283,9 @@ export class EntityInstance extends PhaserInstance {
 
     // this check is in here because sometimes the children array is undefined for a scene that is not loaded anymore
     if(this.scene.entityInstanceGroup.children) {
-      this.scene.entityInstanceGroup.remove(this.phaserInstance, true)
+      this.scene.entityInstanceGroup.remove(this.matterSprite, true)
     }
-    // this.scene.removeInstanceFromPhaserInstanceGroup(this.entityModelId, this.phaserInstance)
+    // this.scene.removeInstanceFromMatterSpriteGroup(this.entityModelId, this.matterSprite)
     this.graphics.destroy()
     super.destroy()
   }

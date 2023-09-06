@@ -4,9 +4,7 @@ import {
 import store from '../../store';
 import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE, ON_GAME_INSTANCE_EVENT, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED } from '../../store/types';
 import { EditorScene } from './EditorScene';
-import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
-import { GAME_ROOM_CONNECTION_LOST } from '../../constants';
-import { editGameRoom, initializeGameInstanceState, resetGameInstanceState, storeGameRoomState } from '../../store/actions/game/gameRoomInstanceActions';
+import { editGameRoom } from '../../store/actions/game/gameRoomInstanceActions';
 
 export class GameHostScene extends EditorScene {
   constructor(props) {
@@ -46,7 +44,7 @@ export class GameHostScene extends EditorScene {
     //   this.gameState = gameState
     // }
 
-    store.dispatch(initializeGameInstanceState())
+    // store.dispatch(initializeGameInstanceState())
   }
   
   callGameInstanceEvent({gameRoomInstanceEventType, data, hostOnly}) {
@@ -80,7 +78,7 @@ export class GameHostScene extends EditorScene {
       if(!this.stage) return
       if(this.stage.stageId !== currentStageId) return
 
-      const entityInstances = this.entityInstances.map(({phaserInstance: { entityInstanceId, x, y, rotation}, isVisible, destroyAfterUpdate, transformEntityModelId, entityModelId}) => {
+      const entityInstances = this.entityInstances.map(({matterSprite: { entityInstanceId, x, y, rotation}, isVisible, destroyAfterUpdate, transformEntityModelId, entityModelId}) => {
         return {
           entityInstanceId,
           x,
@@ -93,7 +91,7 @@ export class GameHostScene extends EditorScene {
         }
       })
 
-      const temporaryInstances = this.temporaryInstances.map(({phaserInstance: { entityInstanceId, x, y, rotation}, isVisible, destroyTime, entityModelId, destroyAfterUpdate, transformEntityModelId}) => {
+      const temporaryInstances = this.temporaryInstances.map(({matterSprite: { entityInstanceId, x, y, rotation}, isVisible, destroyTime, entityModelId, destroyAfterUpdate, transformEntityModelId}) => {
         return {
           entityInstanceId,
           x,
@@ -108,9 +106,9 @@ export class GameHostScene extends EditorScene {
       })
       
       const playerInstance = {
-        x: this.playerInstance.phaserInstance.x,
-        y: this.playerInstance.phaserInstance.y,
-        rotation: this.playerInstance.phaserInstance.rotation,
+        x: this.playerInstance.matterSprite.x,
+        y: this.playerInstance.matterSprite.y,
+        rotation: this.playerInstance.matterSprite.rotation,
         isVisible: this.playerInstance.isVisible,
         destroyAfterUpdate: this.playerInstance.destroyAfterUpdate,
         transformEntityModelId: this.playerInstance.transformEntityModelId,
@@ -181,7 +179,7 @@ export class GameHostScene extends EditorScene {
 
   unload() {
     super.unload();
-    store.dispatch(resetGameInstanceState())
+    // store.dispatch(resetGameInstanceState())
     this.unregisterEvents()
   }
 

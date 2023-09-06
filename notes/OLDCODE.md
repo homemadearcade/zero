@@ -167,7 +167,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
             this.setVelocityX(-entityModel.speed)
             xVelocityTouched = true
           } else {
-            this.setPosition(this.phaserInstance.x - entityModel.speed * mod, this.phaserInstance.y)
+            this.setPosition(this.matterSprite.x - entityModel.speed * mod, this.matterSprite.y)
           }
         } else this.setAccelerationX(-entityModel.speed)
         xTouched = true
@@ -179,7 +179,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
             this.setVelocityX(entityModel.speed)
             xVelocityTouched = true
           } else {
-            this.setPosition(this.phaserInstance.x + entityModel.speed * mod, this.phaserInstance.y)
+            this.setPosition(this.matterSprite.x + entityModel.speed * mod, this.matterSprite.y)
           }
         } else this.setAccelerationX(entityModel.speed)
         xTouched = true
@@ -191,7 +191,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
             this.setVelocityY(-entityModel.speed)
             yVelocityTouched = true
           } else {
-            this.setPosition(this.phaserInstance.x, this.phaserInstance.y - entityModel.speed * mod)
+            this.setPosition(this.matterSprite.x, this.matterSprite.y - entityModel.speed * mod)
           }
         } else this.setAccelerationY(-entityModel.speed)
         yTouched = true
@@ -203,7 +203,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
             this.setVelocityY(entityModel.speed)
             yVelocityTouched = true
           } else {
-            this.setPosition(this.phaserInstance.x, this.phaserInstance.y +  entityModel.speed * mod)
+            this.setPosition(this.matterSprite.x, this.matterSprite.y +  entityModel.speed * mod)
           }
         } else this.setAccelerationY(entityModel.speed)
         yTouched = true
@@ -235,7 +235,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
             this.setVelocityX(-entityModel.speed)
             xVelocityTouched = true
           } else {
-            this.setPosition(this.phaserInstance.x - entityModel.speed * mod, this.phaserInstance.y)
+            this.setPosition(this.matterSprite.x - entityModel.speed * mod, this.matterSprite.y)
           }
         } else this.setAccelerationX(-entityModel.speed)
         xTouched = true
@@ -247,7 +247,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
             this.setVelocityX(entityModel.speed)
             xVelocityTouched = true
           } else {
-            this.setPosition(this.phaserInstance.x + entityModel.speed * mod, this.phaserInstance.y)
+            this.setPosition(this.matterSprite.x + entityModel.speed * mod, this.matterSprite.y)
           }
         } else this.setAccelerationX(entityModel.speed)
         xTouched = true
@@ -258,11 +258,11 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
           this.setVelocityY(entityModel.speed)
           yVelocityTouched = true
         } else {
-          this.setPosition(this.phaserInstance.x, this.phaserInstance.y +  entityModel.speed * mod)
+          this.setPosition(this.matterSprite.x, this.matterSprite.y +  entityModel.speed * mod)
         }
       }
 
-      if(this.cursors.space.isDown && this.phaserInstance.body.touching.down) {
+      if(this.cursors.space.isDown && this.matterSprite.body.touching.down) {
         this.setVelocityY(-entityModel.ground)
       }
 
@@ -290,7 +290,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     // BOUNCE ON COLLIDE
 
         if(pattern === MOVEMENT_JUMP_ON_COLLIDE) {
-      if(this.phaserInstance.body.touching.none === false || this.phaserInstance.body.blocked.none === false) {
+      if(this.matterSprite.body.touching.none === false || this.matterSprite.body.blocked.none === false) {
         console.log('...', entityModel.movement.velocityX, entityModel.movement.velocityY)
         this.setVelocity(entityModel.movement.velocityX, entityModel.movement.velocityY)
       }

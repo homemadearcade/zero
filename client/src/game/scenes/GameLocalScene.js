@@ -1,5 +1,4 @@
 import store from '../../store';
-import { resetGameInstanceState } from '../../store/actions/game/gameRoomInstanceActions';
 import { ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { EditorScene } from './EditorScene';
 
@@ -34,7 +33,7 @@ export class GameLocalScene extends EditorScene {
 
   unload() {
     super.unload();
-    store.dispatch(resetGameInstanceState())
+    // store.dispatch(resetGameInstanceState())
     this.unregisterEvents()
   }
 

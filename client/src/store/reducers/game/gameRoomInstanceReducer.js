@@ -27,7 +27,7 @@ const initialState = {
     gameInstanceIds: {},
   },
   isLoading: false,
-  isGameStateInitialized: false,
+  // isGameStateInitialized: false,
   error: null,
   isJoining: false,
   joinError: null,
@@ -77,16 +77,16 @@ export default function gameRoomInstanceReducer(state = initialState, { type, pa
         isLoading: false,
         gameRoomInstance: initialState.gameRoomInstance,
       };
-    case GAME_INSTANCE_STATE_INITIALIZED:
-      return { 
-        ...state,
-        isGameStateInitialized: true,
-      }
-    case GAME_INSTANCE_STATE_RESET:
-      return { 
-        ...state,
-        isGameStateInitialized: false,
-      }
+    // case GAME_INSTANCE_STATE_INITIALIZED:
+    //   return { 
+    //     ...state,
+    //     isGameStateInitialized: true,
+    //   }
+    // case GAME_INSTANCE_STATE_RESET:
+    //   return { 
+    //     ...state,
+    //     isGameStateInitialized: false,
+    //   }
     case JOIN_GAME_ROOM_FAIL:
       return {
         ...state,

@@ -4,7 +4,7 @@ import store from "../../../store";
 import { getHexIntFromHexString } from "../../../utils/editorUtils";
 import { getCobrowsingState } from "../../../utils/cobrowsingUtils";
 
-export class PhaserInstance {
+export class MatterSprite {
   constructor(scene, { textureId, spriteSheetName, spriteIndex, spawnX, spawnY }){
     const state = store.getState()
     const gameModel = state.gameModel.gameModel
@@ -26,40 +26,40 @@ export class PhaserInstance {
 
     if(scene.physicsType === ARCADE_PHYSICS) {
       if(!spriteSheetName) {
-        this.phaserInstance = scene.physics.add.sprite(spawnX, spawnY, textureId, 0)
+        this.matterSprite = scene.physics.add.sprite(spawnX, spawnY, textureId, 0)
       } else {
-        this.phaserInstance = scene.physics.add.sprite(spawnX, spawnY, spriteSheetName, spriteIndex)
+        this.matterSprite = scene.physics.add.sprite(spawnX, spawnY, spriteSheetName, spriteIndex)
       }
-      // scene.physics.world.enable([ this.phaserInstance ]);
+      // scene.physics.world.enable([ this.matterSprite ]);
     } else if(scene.physicsType === MATTER_PHYSICS) {
       if(!spriteSheetName) {
-        this.phaserInstance = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, textureId, 0, { plugin: stage.boundaries.loop ? plugin : {} })
+        this.matterSprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, textureId, 0, { plugin: stage.boundaries.loop ? plugin : {} })
       } else {
-        this.phaserInstance = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: stage.boundaries.loop ? plugin : {} })
+        this.matterSprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: stage.boundaries.loop ? plugin : {} })
       }
     }
 
-    this.phaserInstance.entityInstance = this
+    this.matterSprite.entityInstance = this
 
     this.physicsType = scene.physicsType
 
     // scene.physics.add.existing(this);   
 
-    this.phaserInstance.body.entityInstance = this
+    this.matterSprite.body.entityInstance = this
 
     return this
   }
 
   setActive(active) {
-    this.phaserInstance.setActive(active)
+    this.matterSprite.setActive(active)
   }
 
   setAngle(angle) {
-    this.phaserInstance.setAngle(angle)
+    this.matterSprite.setAngle(angle)
   }
 
   setAlpha(alpha) {
-    this.phaserInstance.setAlpha(alpha)
+    this.matterSprite.setAlpha(alpha)
   }
 
   setAcceleration(acceleration) {
@@ -67,7 +67,7 @@ export class PhaserInstance {
       console.log('setting acc under matter')
       return
     }
-    this.phaserInstance.setAcceleration(acceleration)
+    this.matterSprite.setAcceleration(acceleration)
   }
 
   setAccelerationX(acceleration) {
@@ -75,7 +75,7 @@ export class PhaserInstance {
       console.log('setting acc under matter')
       return
     }
-    this.phaserInstance.setAccelerationX(acceleration)
+    this.matterSprite.setAccelerationX(acceleration)
   }
 
   setAccelerationY(acceleration) {
@@ -83,7 +83,7 @@ export class PhaserInstance {
       console.log('setting acc under matter')
       return
     }
-    this.phaserInstance.setAccelerationY(acceleration)
+    this.matterSprite.setAccelerationY(acceleration)
   }
 
   setAngularAcceleration(acceleration) {
@@ -91,18 +91,18 @@ export class PhaserInstance {
       console.log('setting angular acc under matter')
       return
     }
-    this.phaserInstance.setAngularAcceleration(acceleration)
+    this.matterSprite.setAngularAcceleration(acceleration)
   }
 
   enableBody() {
-    // if(this.phaserInstance.body) {
-      this.phaserInstance.enableBody()
+    // if(this.matterSprite.body) {
+      this.matterSprite.enableBody()
     // }
   }
 
   disableBody() {
-    // if(this.phaserInstance.body) {
-      this.phaserInstance.disableBody()
+    // if(this.matterSprite.body) {
+      this.matterSprite.disableBody()
     // }
   }
 
@@ -111,20 +111,20 @@ export class PhaserInstance {
       console.log('setting angular drag under matter')
       return
     }
-    this.phaserInstance.setAngularDrag(drag)
+    this.matterSprite.setAngularDrag(drag)
   }
 
   setAngularVelocity(velocity) {
-    this.phaserInstance.setAngularVelocity(velocity)
+    this.matterSprite.setAngularVelocity(velocity)
   }
 
   setBounce(bounciness) {
-    this.phaserInstance.setBounce(bounciness)
+    this.matterSprite.setBounce(bounciness)
   }
 
   setCollideWorldBounds(collide) {
     if(this.physicsType === ARCADE_PHYSICS) {
-      this.phaserInstance.setCollideWorldBounds(collide)
+      this.matterSprite.setCollideWorldBounds(collide)
     }
   }
 
@@ -133,37 +133,37 @@ export class PhaserInstance {
       return 
     }
     
-    this.phaserInstance.body.checkCollision.down = true 
-    this.phaserInstance.body.checkCollision.up = true 
-    this.phaserInstance.body.checkCollision.left = true 
-    this.phaserInstance.body.checkCollision.right = true 
+    this.matterSprite.body.checkCollision.down = true 
+    this.matterSprite.body.checkCollision.up = true 
+    this.matterSprite.body.checkCollision.left = true 
+    this.matterSprite.body.checkCollision.right = true 
 
     sides.forEach((side) => {
       if(side === SIDE_LEFT) {
-        this.phaserInstance.body.checkCollision.left = false
+        this.matterSprite.body.checkCollision.left = false
       }
       if(side === SIDE_RIGHT) {
-        this.phaserInstance.body.checkCollision.right = false
+        this.matterSprite.body.checkCollision.right = false
       }
       if(side === SIDE_UP) {
-        this.phaserInstance.body.checkCollision.up = false
+        this.matterSprite.body.checkCollision.up = false
       }
       if(side === SIDE_DOWN) {
-        this.phaserInstance.body.checkCollision.down = false
+        this.matterSprite.body.checkCollision.down = false
       }
     })
   }
 
   setCollideable(collideable) {
     if(this.physicsType === ARCADE_PHYSICS) {
-      this.phaserInstance.body.setEnable(collideable)
+      this.matterSprite.body.setEnable(collideable)
       return
     }
 
     if(collideable) {
-      this.phaserInstance.setCollisionCategory(1)
+      this.matterSprite.setCollisionCategory(1)
     } else {
-      this.phaserInstance.setCollisionCategory(null)
+      this.matterSprite.setCollisionCategory(null)
     }
   }
 
@@ -173,11 +173,11 @@ export class PhaserInstance {
 
       return
     }
-    this.phaserInstance.setCollisionCategory(category)
+    this.matterSprite.setCollisionCategory(category)
   }
 
   setDepth(depth) {
-    this.phaserInstance.setDepth(depth)
+    this.matterSprite.setDepth(depth)
   }
 
   setDensity(density) {
@@ -185,16 +185,16 @@ export class PhaserInstance {
       console.log('setting density under arcade')
       return
     }
-    this.phaserInstance.setDensity(density)
+    this.matterSprite.setDensity(density)
   }
 
   setDrag(drag) {
     if(this.physicsType === ARCADE_PHYSICS) {
-      if(this.phaserInstance.body.useDamping) this.phaserInstance.setDrag(drag)
-      else this.phaserInstance.setDrag(drag * 200)
+      if(this.matterSprite.body.useDamping) this.matterSprite.setDrag(drag)
+      else this.matterSprite.setDrag(drag * 200)
       return
     }
-    this.phaserInstance.setFrictionAir(drag)
+    this.matterSprite.setFrictionAir(drag)
   }
 
   setDragY(drag) {
@@ -203,9 +203,9 @@ export class PhaserInstance {
       return
     }
     if(this.physicsType === ARCADE_PHYSICS) {
-      if(this.phaserInstance.body.useDamping) {
-        this.phaserInstance.setDragY(drag === 0 ? 0.00000000001 : drag)
-      } else this.phaserInstance.setDragY(drag * 200)
+      if(this.matterSprite.body.useDamping) {
+        this.matterSprite.setDragY(drag === 0 ? 0.00000000001 : drag)
+      } else this.matterSprite.setDragY(drag * 200)
       return
     }
   }
@@ -216,9 +216,9 @@ export class PhaserInstance {
       return
     }
     if(this.physicsType === ARCADE_PHYSICS) {
-      if(this.phaserInstance.body.useDamping) {
-        this.phaserInstance.setDragX(drag === 0 ? 0.00000000001 : drag)
-      } else this.phaserInstance.setDragX(drag * 200)
+      if(this.matterSprite.body.useDamping) {
+        this.matterSprite.setDragX(drag === 0 ? 0.00000000001 : drag)
+      } else this.matterSprite.setDragX(drag * 200)
       return
     }
   }
@@ -228,16 +228,16 @@ export class PhaserInstance {
       console.log('setting damping under matter')
       return
     }
-    this.phaserInstance.body.setDamping(damping)
+    this.matterSprite.body.setDamping(damping)
   }
 
   setFriction(friction) {
-    this.phaserInstance.setFriction(friction)
+    this.matterSprite.setFriction(friction)
   }
 
   setFixedRotation(isFixed) {
     if(this.physicsType === ARCADE_PHYSICS) {
-      this.phaserInstance.body.setAllowRotation(!isFixed)
+      this.matterSprite.body.setAllowRotation(!isFixed)
       return
     }
     if(isFixed) this.setFixedRotation()
@@ -248,7 +248,7 @@ export class PhaserInstance {
       console.log('setting friction static under arcade')
       return
     }
-    this.phaserInstance.setFrictionStatic(friction)
+    this.matterSprite.setFrictionStatic(friction)
   }
 
   setGravityY(gravity) {
@@ -257,7 +257,7 @@ export class PhaserInstance {
       return
     }
     if(this.physicsType === ARCADE_PHYSICS) {
-      this.phaserInstance.setGravityY(gravity)
+      this.matterSprite.setGravityY(gravity)
       return
     }
   }
@@ -268,45 +268,45 @@ export class PhaserInstance {
       return
     }
     if(this.physicsType === ARCADE_PHYSICS) {
-      this.phaserInstance.setGravityX(gravity)
+      this.matterSprite.setGravityX(gravity)
       return
     }
   }
 
   setInteractive(value) {
-    this.phaserInstance.setInteractive(value)
+    this.matterSprite.setInteractive(value)
   }
 
   setIgnoreGravity(ignore) {
     if(this.physicsType === ARCADE_PHYSICS) {
-      this.phaserInstance.body.setAllowGravity(!ignore)
+      this.matterSprite.body.setAllowGravity(!ignore)
       return
     }
-    this.phaserInstance.setIgnoreGravity(ignore)
+    this.matterSprite.setIgnoreGravity(ignore)
   }
 
   setImmovable(isStatic) {
     if(this.physicsType === MATTER_PHYSICS) {
-      this.phaserInstance.setStatic(isStatic)
+      this.matterSprite.setStatic(isStatic)
       return
     }
-    this.phaserInstance.setImmovable(!!isStatic)
+    this.matterSprite.setImmovable(!!isStatic)
   }
 
   setMass(mass) {
-    this.phaserInstance.setMass(mass)
+    this.matterSprite.setMass(mass)
   }
 
   setOrigin(x, y) {
-    this.phaserInstance.setOrigin(x, y)
+    this.matterSprite.setOrigin(x, y)
   }
 
   setPosition(x, y) {
-    this.phaserInstance.setPosition(x, y)
+    this.matterSprite.setPosition(x, y)
   }
 
   setRandomPosition(x, y, width, height) {
-    this.phaserInstance.setRandomPosition(x, y, width, height)
+    this.matterSprite.setRandomPosition(x, y, width, height)
   }
 
   setPushable(pushable) {
@@ -314,71 +314,71 @@ export class PhaserInstance {
       console.log('setting pushable under matter')
       return
     }
-    this.phaserInstance.setPushable(!!pushable)
+    this.matterSprite.setPushable(!!pushable)
   }
 
   setRotation(rotation) {
-    this.phaserInstance.setRotation(rotation)
+    this.matterSprite.setRotation(rotation)
   }
 
   setSize(width, height) {
-    this.phaserInstance.setDisplaySize(width, height)
+    this.matterSprite.setDisplaySize(width, height)
   }
 
   setTint(textureTint) {
     const colorInt = getHexIntFromHexString(textureTint)
-    this.phaserInstance.setTint(colorInt)
+    this.matterSprite.setTint(colorInt)
   }
 
   setVisible(visible) {
-    this.phaserInstance.setVisible(visible)
+    this.matterSprite.setVisible(visible)
   }
 
   setVelocity(x, y) {
-    this.phaserInstance.setVelocity(x, y)
+    this.matterSprite.setVelocity(x, y)
   }
 
   setVelocityX(x) {
-    this.phaserInstance.setVelocityX(x)
+    this.matterSprite.setVelocityX(x)
   }
 
   setVelocityY(y) {
-    this.phaserInstance.setVelocityY(y)
+    this.matterSprite.setVelocityY(y)
   }
 
   setMaxVelocity(xy) {
-    this.phaserInstance.setMaxVelocity(xy)
+    this.matterSprite.setMaxVelocity(xy)
   }
 
   thrust(thrust) {
     if(this.physicsType === MATTER_PHYSICS) {
-      this.phaserInstance.thrust(thrust)
+      this.matterSprite.thrust(thrust)
     } else {
-      this.scene.physics.velocityFromRotation(this.phaserInstance.rotation - Phaser.Math.DegToRad(90), thrust, this.phaserInstance.body.acceleration);  
+      this.scene.physics.velocityFromRotation(this.matterSprite.rotation - Phaser.Math.DegToRad(90), thrust, this.matterSprite.body.acceleration);  
     }
   }
 
   // adjustVelocityForRotation() {
-  //   //Math.abs(this.phaserInstance.body.velocity.x) + Math.abs(this.phaserInstance.body.velocity.y)
-  //   const rotationalVelocity = this.scene.physics.velocityFromRotation(this.phaserInstance.rotation - Phaser.Math.DegToRad(90), this.phaserInstance.body.speed); 
+  //   //Math.abs(this.matterSprite.body.velocity.x) + Math.abs(this.matterSprite.body.velocity.y)
+  //   const rotationalVelocity = this.scene.physics.velocityFromRotation(this.matterSprite.rotation - Phaser.Math.DegToRad(90), this.matterSprite.body.speed); 
 
-  //   // const xVel = (this.phaserInstance.body.velocity.x + rotationalVelocity.x)/2
-  //   // const yVel = (this.phaserInstance.body.velocity.y + rotationalVelocity.y)/2
-  //   // console.log(this.phaserInstance.body.speed)
-  //   this.setPosition(this.phaserInstance.x + (rotationalVelocity.x/10), this.phaserInstance.y + (rotationalVelocity.y/10))
+  //   // const xVel = (this.matterSprite.body.velocity.x + rotationalVelocity.x)/2
+  //   // const yVel = (this.matterSprite.body.velocity.y + rotationalVelocity.y)/2
+  //   // console.log(this.matterSprite.body.speed)
+  //   this.setPosition(this.matterSprite.x + (rotationalVelocity.x/10), this.matterSprite.y + (rotationalVelocity.y/10))
   // }
 
   eject(force) {
     if(this.physicsType === MATTER_PHYSICS) {
       console.log('eject via matter')
-      this.phaserInstance.thrust(force)
+      this.matterSprite.thrust(force)
     } else {
-      this.scene.physics.velocityFromRotation(this.phaserInstance.rotation, force, this.phaserInstance.body.velocity);  
+      this.scene.physics.velocityFromRotation(this.matterSprite.rotation, force, this.matterSprite.body.velocity);  
     }
   }
 
   destroy() {
     // console.log('neing destroyed', this.entityInstanceId)
-    this.phaserInstance.destroy()
+    this.matterSprite.destroy()
   }
 }

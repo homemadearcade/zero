@@ -26,7 +26,7 @@ export class ProjectileInstance extends EntityInstance {
       console.error('no projectile data in class id:' + entityModelId)
     }
 
-    // scene.temporaryInstanceGroup.add(this.phaserInstance)
+    // scene.temporaryInstanceGroup.add(this.matterSprite)
 
     this.scene = scene
     
@@ -97,7 +97,7 @@ export class ProjectileInstance extends EntityInstance {
     this.setRotation(rotation); // angle is in degree, rotation is in radian
     var offset = new Phaser.Geom.Point(shooter.height, 0);
     Phaser.Math.Rotate(offset, rotation); // you can only rotate with radian
-    this.setPosition(shooter.phaserInstance.x + offset.x, shooter.phaserInstance.y + offset.y);    
+    this.setPosition(shooter.matterSprite.x + offset.x, shooter.matterSprite.y + offset.y);    
     this.eject(shooterEntity.projectile.speed)
 
     this.isVisible = true;
@@ -113,7 +113,7 @@ export class ProjectileInstance extends EntityInstance {
     let rotation
 
     if(shooterEntity.movement.movementControlsBehavior === VEHICLE_CONTROLS) {
-      rotation = shooter.phaserInstance.rotation - Phaser.Math.DegToRad(90)
+      rotation = shooter.matterSprite.rotation - Phaser.Math.DegToRad(90)
     } else {
       if(cursors.left.isDown) {
         rotation = directionToRadians[DIRECTION_LEFT]
@@ -135,13 +135,13 @@ export class ProjectileInstance extends EntityInstance {
         rotation = directionToRadians[DIRECTION_UP]
       } else if(shooter.lastCursor === DIRECTION_DOWN) {
         rotation = directionToRadians[DIRECTION_DOWN]
-      } else if(shooter.phaserInstance.body.facing === Phaser.Physics.Arcade.FACING_LEFT) {
+      } else if(shooter.matterSprite.body.facing === Phaser.Physics.Arcade.FACING_LEFT) {
         rotation = directionToRadians[DIRECTION_LEFT]
-      } else if(shooter.phaserInstance.body.facing === Phaser.Physics.Arcade.FACING_RIGHT) {
+      } else if(shooter.matterSprite.body.facing === Phaser.Physics.Arcade.FACING_RIGHT) {
         rotation = directionToRadians[DIRECTION_RIGHT]
-      } else if(shooter.phaserInstance.body.facing === Phaser.Physics.Arcade.FACING_UP) {
+      } else if(shooter.matterSprite.body.facing === Phaser.Physics.Arcade.FACING_UP) {
         rotation = directionToRadians[DIRECTION_UP]
-      } else if(shooter.phaserInstance.body.facing === Phaser.Physics.Arcade.FACING_DOWN) {
+      } else if(shooter.matterSprite.body.facing === Phaser.Physics.Arcade.FACING_DOWN) {
         rotation = directionToRadians[DIRECTION_DOWN]
       }
     }

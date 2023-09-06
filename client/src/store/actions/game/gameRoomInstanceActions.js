@@ -222,35 +222,35 @@ export const addGameRoom = (formData) => async (dispatch, getState) => {
 };
 
 
-export const initializeGameInstanceState = () => async (dispatch, getState) => {
-  dispatch({
-    type: GAME_INSTANCE_STATE_INITIALIZED
-  })
-}
+// export const initializeGameInstanceState = () => async (dispatch, getState) => {
+//   dispatch({
+//     type: GAME_INSTANCE_STATE_INITIALIZED
+//   })
+// }
 
-export const resetGameInstanceState = () => async (dispatch, getState) => {
-  dispatch({
-    type: GAME_INSTANCE_STATE_RESET
-  })
-}
+// export const resetGameInstanceState = () => async (dispatch, getState) => {
+//   dispatch({
+//     type: GAME_INSTANCE_STATE_RESET
+//   })
+// }
 
-export const storeGameRoomState = (id, gameState) => async (dispatch, getState) => {
-  // dispatch({
-  //   type: UPDATE_GAME_ROOM_STATE_LOADING,
-  // });
+// export const storeGameRoomState = (id, gameState) => async (dispatch, getState) => {
+//   // dispatch({
+//   //   type: UPDATE_GAME_ROOM_STATE_LOADING,
+//   // });
   
-  try {
-    const options = attachTokenToHeaders(getState);
-    const response = await axios.put(`/api/gameRoomInstance/${id}/gameState`, gameState, options);
-  } catch (err) {
-    console.error(err)
+//   try {
+//     const options = attachTokenToHeaders(getState);
+//     const response = await axios.put(`/api/gameRoomInstance/${id}/gameState`, gameState, options);
+//   } catch (err) {
+//     console.error(err)
 
-    // dispatch({
-    //   type: UPDATE_GAME_ROOM_STATE_FAIL,
-    //   payload: { error: err?.response?.data.message || err.message },
-    // });
-  }
-}
+//     // dispatch({
+//     //   type: UPDATE_GAME_ROOM_STATE_FAIL,
+//     //   payload: { error: err?.response?.data.message || err.message },
+//     // });
+//   }
+// }
 
 export const editGameRoom = (id, data) => async (dispatch, getState) => {
   dispatch({

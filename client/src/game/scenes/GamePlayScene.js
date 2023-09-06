@@ -1,5 +1,4 @@
 import store from '../../store';
-import { resetGameInstanceState } from '../../store/actions/game/gameRoomInstanceActions';
 import { GameInstance } from './GameInstance';
 
 export class GamePlayScene extends GameInstance {
@@ -26,7 +25,7 @@ export class GamePlayScene extends GameInstance {
 
   unload() {
     super.unload();
-    store.dispatch(resetGameInstanceState())
+    // store.dispatch(resetGameInstanceState())
     this.unregisterEvents()
   }
 
