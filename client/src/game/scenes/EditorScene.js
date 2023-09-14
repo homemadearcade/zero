@@ -948,7 +948,7 @@ export class EditorScene extends GameInstance {
           layerInstance.updateTexture()
         } else {
           this.load.image(textureId, getImageUrlFromTextureId(textureId));
-          this.load.once('complete', (textureId) => {
+          this.load.once('complete', () => {
             const gameModel = store.getState().gameModel.gameModel
             Object.keys(gameModel.entityModels).forEach((entityModelId) => {
               const entityModel = gameModel.entityModels[entityModelId]
