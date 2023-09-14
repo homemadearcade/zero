@@ -66,6 +66,7 @@ export default function playerInterfaceReducer(state = initialState, { type, pay
     case CHANGE_PLAYER_ENTITY: 
       return {
         ...state,
+        playerGameInstanceId: payload.playerGameInstanceId,
         playerEntityModelId: payload.playerEntityModelId
       }
     case CHANGE_INTERACT_OPPURTUNITY: 

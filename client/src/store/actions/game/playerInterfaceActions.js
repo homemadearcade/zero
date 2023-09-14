@@ -12,11 +12,12 @@ import {
 } from '../../types';
 import { changeGameStatus } from './gameRoomInstanceActions';
 
-export const changePlayerEntity = ({entityModelId}) => (dispatch, getState) => {
+export const changePlayerEntity = ({entityModelId, gameInstanceId}) => (dispatch, getState) => {
   dispatch({
     type: CHANGE_PLAYER_ENTITY,
     payload: {
-      playerEntityModelId: entityModelId
+      playerEntityModelId: entityModelId,
+      playerGameInstanceId: gameInstanceId
     }
   })
 };

@@ -85,7 +85,11 @@ export class GameInstance extends Phaser.Scene {
 
       // const zoneEntityModel = gameModel.entityModels[zoneId]
 
-      let lastPlayerEntityId = playerInterface.playerEntityModelId ? playerInterface.playerEntityModelId : directionalPlayerEntityId;
+      let lastPlayerEntityId = directionalPlayerEntityId
+      if(playerInterface.playerEntityModelId && playerInterface.playerGameInstanceId === this.gameInstanceId) {
+        lastPlayerEntityId = playerInterface.playerEntityModelId
+      }
+
       const lastPlayerEntityModel = gameModel.entityModels[lastPlayerEntityId]
       console.log('lastPlayerEntityModel', lastPlayerEntityModel, gameModel.entityModels, lastPlayerEntityId)
 
@@ -778,7 +782,7 @@ addInstancesToEntityInstanceByTag(instances) {
       if(this.getState().cobrowsing.isActivelyCobrowsing === false) {
         let currentPlayerEntityId = this.getState().playerInterface.playerEntityModelId
         if(this.playerInstance.entityModelId !== currentPlayerEntityId) {
-          store.dispatch(changePlayerEntity({entityModelId: this.playerInstance.entityModelId}))
+          store.dispatch(changePlayerEntity({entityModelId: this.playerInstance.entityModelId, gameInstanceId: this.gameInstanceId}))
         }
       }
     }

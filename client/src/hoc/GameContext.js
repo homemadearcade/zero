@@ -62,7 +62,6 @@ class GameContext extends Component {
       })
 
       await this.unloadGame()
-      store.dispatch(changePlayerEntity(null))
     
       setTimeout(() => {
         this.loadGame(newProps.arcadeGameMongoId)
