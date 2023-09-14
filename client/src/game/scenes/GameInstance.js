@@ -456,7 +456,9 @@ export class GameInstance extends Phaser.Scene {
     this.entityInstances = this.entityInstances.filter((object) => {
       return entityInstanceId !== object.entityInstanceId
     })
-    this.getEntityInstance(entityInstanceId).destroy()
+    const entityInstance = this.getEntityInstance(entityInstanceId)
+    if(!entityInstance) return console.error('no entity instance to remove', entityInstanceId)
+    entityInstance.destroy()
     this.entityInstancesById[entityInstanceId] = null
     if(!skipReregisterRelationships) this.reregisterRelationships()
   }
