@@ -15,7 +15,7 @@ export class Graphics {
     const matterSprite = this.entityInstance.matterSprite
 
     if(entityModel.entityModelId === initialStageZoneEntityId) {
-      const boundaries = this.scene.getCurrentStage().boundaries
+      const boundaries = this.scene.getStage().boundaries
       this.entityInstance.setPosition(boundaries.x + (boundaries.width/2), boundaries.y + (boundaries.height/2))
       this.setSize(boundaries.width, boundaries.height)
       matterSprite.setDisplaySize(boundaries.width, boundaries.height)

@@ -316,15 +316,15 @@ export function createGameSceneInstance(key, gameRoomInstance) {
   if(isEdit) {
     if(isOnlineMultiplayer) {
       if(isHost) {
-        return new GameHostScene({ gameRoomInstance: gameRoomInstance, key})
+        return new GameHostScene({ gameRoomInstance: gameRoomInstance, key, stageId: key})
       } else {
-        return new GameClientScene({ gameRoomInstance: gameRoomInstance, key})
+        return new GameClientScene({ gameRoomInstance: gameRoomInstance, key, stageId: key})
       }
     } else {
-      return new GameLocalScene({ gameRoomInstance: gameRoomInstance, key})
+      return new GameLocalScene({ gameRoomInstance: gameRoomInstance, key, stageId: key})
     }
   } else {
-    return new GamePlayScene({ gameRoomInstance: gameRoomInstance, key})
+    return new GamePlayScene({ gameRoomInstance: gameRoomInstance, key, stageId: key})
   }
 }
 

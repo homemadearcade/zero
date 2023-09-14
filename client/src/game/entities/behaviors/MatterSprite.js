@@ -6,23 +6,23 @@ import { getCobrowsingState } from "../../../utils/cobrowsingUtils";
 
 export class MatterSprite {
   constructor(scene, { textureId, spriteSheetName, spriteIndex, spawnX, spawnY }){
-    const state = store.getState()
-    const gameModel = state.gameModel.gameModel
-    const stageId = state.gameModel.currentStageId
-    const stage = gameModel.stages[stageId]
+    // const state = store.getState()
+    // const gameModel = state.gameModel.gameModel
+  //   const stageId = state.gameModel.currentStageId
+  //   const stage = gameModel.stages[stageId]
     
-    const plugin = { 
-      wrap: {
-        min: {
-          x: stage.boundaries.x,
-          y: stage.boundaries.y
-        },
-        max: {
-          x: stage.boundaries.width,
-          y: stage.boundaries.height
-        }           
-      }
-  }
+  //   const plugin = { 
+  //     wrap: {
+  //       min: {
+  //         x: stage.boundaries.x,
+  //         y: stage.boundaries.y
+  //       },
+  //       max: {
+  //         x: stage.boundaries.width,
+  //         y: stage.boundaries.height
+  //       }           
+  //     }
+  // }
 
     if(scene.physicsType === ARCADE_PHYSICS) {
       if(!spriteSheetName) {
@@ -31,13 +31,16 @@ export class MatterSprite {
         this.matterSprite = scene.physics.add.sprite(spawnX, spawnY, spriteSheetName, spriteIndex)
       }
       // scene.physics.world.enable([ this.matterSprite ]);
-    } else if(scene.physicsType === MATTER_PHYSICS) {
-      if(!spriteSheetName) {
-        this.matterSprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, textureId, 0, { plugin: stage.boundaries.loop ? plugin : {} })
-      } else {
-        this.matterSprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: stage.boundaries.loop ? plugin : {} })
-      }
-    }
+    } 
+    
+    // else
+    // if(scene.physicsType === MATTER_PHYSICS) {
+    //   if(!spriteSheetName) {
+    //     this.matterSprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, textureId, 0, { plugin: stage.boundaries.loop ? plugin : {} })
+    //   } else {
+    //     this.matterSprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: stage.boundaries.loop ? plugin : {} })
+    //   }
+    // }
 
     this.matterSprite.entityInstance = this
 

@@ -1160,7 +1160,7 @@ export class EditorScene extends GameInstance {
   }
 
   create() {
-    if(this.gameState) {
+    if(this.gameState.initialized) {
       this.initializeWithGameState()
     }
   }

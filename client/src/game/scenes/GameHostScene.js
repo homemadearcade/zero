@@ -40,6 +40,7 @@ export class GameHostScene extends EditorScene {
     // if(!gameState || !gameState.gameInstanceId || gameState.gameInstanceId !== this.gameInstanceId) {
       this.gameState = this.getStartingGameState()
       this.gameState.gameInstanceId = this.gameInstanceId
+      this.gameState.initialized = true 
     // } else {
     //   this.gameState = gameState
     // }
@@ -73,6 +74,7 @@ export class GameHostScene extends EditorScene {
         // this.unload()
         return
       }
+
       const currentStageId = store.getState().gameModel.currentStageId
 
       if(!this.stage) return
@@ -117,15 +119,15 @@ export class GameHostScene extends EditorScene {
       
       this.updateNetworkStatus()
 
-      if(!this.gameState.stages[currentStageId]) {
-        this.gameState.stages[currentStageId] = {
+      if(!this.gameState) {
+        this.gameState = {
           stageId: currentStageId,
           entityInstances: [],
           temporaryInstances: []
         }
       }
-      this.gameState.stages[currentStageId].temporaryInstances = temporaryInstances
-      this.gameState.stages[currentStageId].entityInstances = entityInstances
+      this.gameState.temporaryInstances = temporaryInstances
+      this.gameState.entityInstances = entityInstances
       this.gameState.playerInstance = playerInstance
       // store.dispatch(storeGameRoomState(this.gameRoomInstance.id, this.gameState))
 

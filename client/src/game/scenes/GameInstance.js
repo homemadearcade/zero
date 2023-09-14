@@ -58,6 +58,8 @@ export class GameInstance extends Phaser.Scene {
     this.lastUpdate = null
     this.lastDelta = null
 
+    this.stageId = props.stageId
+
     this.timeToTriggerAgain = {}
   }
 
@@ -79,7 +81,7 @@ export class GameInstance extends Phaser.Scene {
     } else if(this.gameRoomInstance.isHost) {
       const gameModel = this.getGameModel()
       const playerInterface = getCobrowsingState().playerInterface
-      const currentStage = this.getCurrentStage()
+      const currentStage = this.getStage()
       const zoneId = gameModel.stages[currentStage.stageId].playerSpawnZoneEntityId
       const zone = this.getRandomInstanceOfEntityId(zoneId)
 
@@ -120,7 +122,7 @@ export class GameInstance extends Phaser.Scene {
   }
 
   setPlayerZoom({width, height}) {
-    const boundaries = this.getCurrentStage().boundaries
+    const boundaries = this.getStage().boundaries
     const zoom = 1/(width/boundaries.maxWidth)
     this.cameras.main.setZoom(zoom)
   }
@@ -288,7 +290,7 @@ export class GameInstance extends Phaser.Scene {
 // --------------------------------------------------------------------------------------
   initializeLayers = () => {
     const gameModel = this.getGameModel()
-    const stage = this.getCurrentStage()
+    const stage = this.getStage()
     const layers = gameModel.layers
 
     this.layerInstancesById = {}
@@ -367,7 +369,7 @@ export class GameInstance extends Phaser.Scene {
 // --------------------------------------------------------------------------------------
 
   initializeEntityInstances() {
-    const entityInstances = this.gameState.stages[this.getCurrentStage().stageId].entityInstances
+    const entityInstances = this.gameState.entityInstances
     Object.keys(entityInstances).forEach((entityInstanceId) => {
       const entityInstanceData = entityInstances[entityInstanceId]
 
@@ -583,14 +585,13 @@ addInstancesToEntityInstanceByTag(instances) {
   }
 
   create() {
-    if(this.gameState) {
+    if(this.gameState.initialized) {
       this.initializeWithGameState()
     }
   }
  
   initializeWithGameState() {
     this.initialized = true
-    const currentStage = this.getCurrentStage()
 
     this.populateAndSortRelations()
 
@@ -599,7 +600,8 @@ addInstancesToEntityInstanceByTag(instances) {
     ////////////////////////////////////////////////////////////
     // WORLD
     ////////////////////////////////////////////////////////////
-    this.stage = new Stage(this, currentStage.stageId, currentStage)
+    this.stage = new Stage(this, this.stageId)
+
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -652,7 +654,7 @@ addInstancesToEntityInstanceByTag(instances) {
   }
 
   initializeCamera() {
-    const currentStage = this.getCurrentStage()
+    const currentStage = this.getStage()
     const gameModel = this.getGameModel()
 
     ////////////////////////////////////////////////////////////
@@ -677,7 +679,7 @@ addInstancesToEntityInstanceByTag(instances) {
     switch(gameRoomInstanceEventType) {
       case ANIMATION_CAMERA_SHAKE: 
         let intensity = data.intensity/333
-        const gameBoundaryWidth = this.getCurrentStage().boundaries.width
+        const gameBoundaryWidth = this.getStage().boundaries.width
 
         const { width } = getGameModelSize(store.getState().gameModel.gameModel)
         const gameSizePercent = gameBoundaryWidth/width
@@ -731,7 +733,7 @@ addInstancesToEntityInstanceByTag(instances) {
 
   runOnStageSwitchEffects() {
     if(this.isPlaythrough) {
-      const stageId = this.getCurrentStage().stageId
+      const stageId = this.stageId
       this.relationsByEventType[ON_STAGE_LOADED]?.forEach((relation) => {
         if(relation.event.stageId === stageId) {
           this.runRelation(relation)
@@ -750,6 +752,11 @@ addInstancesToEntityInstanceByTag(instances) {
   }
 
   update(time, delta) {
+    const currentStageId = store.getState().gameModel.currentStageId
+    if(this.stage?.stageId !== currentStageId) {
+      this.switchStage(currentStageId)
+    }
+
     if(!this.initialized) return 
 
     this.lastUpdate = Date.now()
@@ -785,11 +792,6 @@ addInstancesToEntityInstanceByTag(instances) {
           store.dispatch(changePlayerEntity({entityModelId: this.playerInstance.entityModelId, gameInstanceId: this.gameInstanceId}))
         }
       }
-    }
-
-    const currentStageId = this.getCurrentStage().stageId
-    if(this.stage.stageId !== currentStageId) {
-      this.switchStage(currentStageId)
     }
   }
 
@@ -841,6 +843,7 @@ addInstancesToEntityInstanceByTag(instances) {
     this.destroyInstances()
 
     this.gameState = this.getStartingGameState()
+    this.gameState.gameInstanceId = this.gameInstanceId
 
     this.initializeEntityInstances()
     this.initializePlayerInstance()
@@ -856,37 +859,31 @@ addInstancesToEntityInstanceByTag(instances) {
     const gameModel = this.getGameModel()
     const stages = gameModel.stages
 
+    const stageId = this.stageId 
+
+    const entityInstances = Object.keys(stages[stageId].entityInstances).map((entityInstanceId) => {
+      const entityInstance = stages[stageId].entityInstances[entityInstanceId]
+      const { spawnX, spawnY, width, height, entityModelId } = entityInstance
+      return {
+        x: spawnX,
+        y: spawnY,
+        spawnX,
+        spawnY,
+        width,
+        height,
+        entityModelId,
+        removed: false,
+        effectSpawned: false,
+        isVisible: true,
+        transformEntityModelId: null,
+        destroyAfterUpdate: false
+      }
+    })
+    
     return {
       playerInstance: {},
-      stages: Object.keys(stages).map((stageId) => {
-        const entityInstances = Object.keys(stages[stageId].entityInstances).map((entityInstanceId) => {
-          const entityInstance = stages[stageId].entityInstances[entityInstanceId]
-          const { spawnX, spawnY, width, height, entityModelId } = entityInstance
-          return {
-            x: spawnX,
-            y: spawnY,
-            spawnX,
-            spawnY,
-            width,
-            height,
-            entityModelId,
-            removed: false,
-            effectSpawned: false,
-            isVisible: true,
-            transformEntityModelId: null,
-            destroyAfterUpdate: false
-          }
-        })
-        
-        return {
-          stageId,
-          entityInstances,
-          temporaryInstances: []
-        }
-      }).reduce((prev, next) => {
-        prev[next.stageId] = next
-        return prev
-      }, {}),
+      entityInstances,
+      temporaryInstances: []
     }
   }
 
@@ -1005,10 +1002,10 @@ addInstancesToEntityInstanceByTag(instances) {
     return store.getState()
   }
 
-  getCurrentStage() {
+  getStage() {
+    const stageId = this.stage.stageId
     const state = store.getState()
     const gameModel = state.gameModel.gameModel
-    const stageId = state.gameModel.currentStageId
     return gameModel.stages[stageId]
   }
 

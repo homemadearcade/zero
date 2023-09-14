@@ -6,10 +6,12 @@ import { generateUniqueId } from "../../utils/webPageUtils";
 import { getCobrowsingState } from "../../utils/cobrowsingUtils";
 
 export class Stage {
-  constructor(scene, stageId, { boundaries, gravity }){
+  constructor(scene, stageId){
     this.scene = scene
     this.physicsType = scene.physicsType
     this.stageId = stageId
+
+    const { boundaries, gravity } = store.getState().gameModel.gameModel.stages[stageId]
 
     this.setGravity(gravity.x, gravity.y)
     this.setBoundaries(boundaries)
@@ -19,7 +21,8 @@ export class Stage {
   }
 
   createStageColorLayer() {    
-    const stage = this.scene.getCurrentStage()
+    const gameModel = store.getState().gameModel.gameModel
+    const stage = gameModel.stages[this.stageId]
     const boundaries = stage.boundaries
     const colorInt = getHexIntFromHexString(stage.color || '#000000')
     if(this.colorLayer) this.colorLayer.destroy()
@@ -52,7 +55,8 @@ export class Stage {
   }
 
   ensureSpawnZoneExists() {
-    const stage = this.scene.getCurrentStage()
+    const gameModel = store.getState().gameModel.gameModel
+    const stage = gameModel.stages[this.stageId]
     const spawnZones = this.scene.getAllEntityInstancesOfEntityId(stage.playerSpawnZoneEntityId) 
     if(!spawnZones.length) {
       this.scene.initializeEntityInstance(ENTITY_INSTANCE_DID + generateUniqueId(), { spawnX: stage.boundaries.width/2, spawnY: stage.boundaries.height/2, entityModelId: stage.playerSpawnZoneEntityId}, true)

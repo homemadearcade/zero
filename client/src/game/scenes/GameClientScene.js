@@ -27,21 +27,27 @@ export class GameClientScene extends EditorScene {
 
     this.registerEvents()
 
-    this.gameState = null
-
     this.checkGameState()
+
+    this.gameState = {
+      gameInstanceId: this.gameInstanceId,
+      entityInstances: [],
+      temporaryInstances: [],
+    }
+    this.gameState.gameInstanceId = this.gameInstanceId
+    this.gameState.stageId = this.stageId
   }
 
   checkGameState() {
     const checkGameState = () => {
       const gameState = this.gameState
       console.log('checking game state: ', gameState)
-      if(!gameState || !gameState.gameInstanceId || gameState.gameInstanceId !== this.gameInstanceId) {
+      if(!gameState || !gameState.gameInstanceId || gameState.gameInstanceId !== this.gameInstanceId || !this.gameState.initialized) {
         setTimeout(() => {  
           checkGameState()
         }, 1000)
       } else {
-        console.log('game state is good')
+        console.log('game state is good', this.gameState)
         this.loadingText?.destroy()
         this.initializeWithGameState()
       }
@@ -63,38 +69,34 @@ export class GameClientScene extends EditorScene {
       return 
     }
 
-    /////////////////////
-    /////////////////////
-    /////////////////////
-    // INITIALIZE GAME STATE
-    if(!this.gameState){
-      this.gameState = {
-        gameInstanceId,
-        stages: {}
-      }
-    }
-    if(!this.gameState.stages[stageId]) {
-      this.gameState.stages[stageId] = {
-        stageId: stageId,
-        entityInstances: [],
-        temporaryInstances: []
-      }
-    }
-    /////////////////////
-    /////////////////////
-
     this.updateNetworkStatus()
     this.upsHost = upsHost
     this.upsServer = upsServer
 
-    if(!this.stage) return 
+
+    /////////////////////
+    /////////////////////
     
-    if(this.stage.stageId !== stageId) {
+    if(this.stageId !== stageId) {
       if(store.getState().cobrowsing.isActivelyCobrowsing)  {
         store.dispatch(changeCurrentStage(stageId))
       }
       return
     }
+
+    /////////////////////
+    /////////////////////
+    /////////////////////
+    // UPDATE GAME STATE
+    this.gameState.temporaryInstances = temporaryInstances
+    this.gameState.entityInstances = entityInstances
+    this.gameState.playerInstance = playerInstance 
+    this.gameState.initialized = true 
+    this.gameState.gameInstanceId = this.gameInstanceId
+
+    /////////////////////
+    /////////////////////
+    if(!this.stage) return 
 
     if(this.playerInstance) {
       this.playerInstance.matterSprite.x = playerInstance.x 
@@ -155,15 +157,6 @@ export class GameClientScene extends EditorScene {
 
     if(this.draggingEntityInstanceId === PLAYER_INSTANCE_DID) return
 
-    /////////////////////
-    /////////////////////
-    /////////////////////
-    // UPDATE GAME STATE
-    this.gameState.stages[stageId].temporaryInstances = temporaryInstances
-    this.gameState.stages[stageId].entityInstances = entityInstances
-    this.gameState.playerInstance = playerInstance 
-    /////////////////////
-    /////////////////////
 
     this.afterGameInstanceUpdateEffects() 
   }
@@ -217,9 +210,11 @@ export class GameClientScene extends EditorScene {
     this.pause()
     this.isPaused = true
 
-    const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
-    const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
-    this.loadingText = this.add.text(screenCenterX, screenCenterY, 'Waiting for host...').setOrigin(0.5);
+    if(!this.gameState.initialized) {
+      const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
+      const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
+      this.loadingText = this.add.text(screenCenterX, screenCenterY, 'Waiting for host...').setOrigin(0.5);
+    }
   }
 
   unload() {
