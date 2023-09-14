@@ -125,6 +125,7 @@ export const addCanvasImage = (canvasImage) => async (dispatch, getState) => {
       payload: { canvasImage: response.data.canvasImage },
     });
 
+    console.log('response.data.canvasImage', response.data.canvasImage)
     return response.data.canvasImage
   } catch (err) {
     console.error(err)

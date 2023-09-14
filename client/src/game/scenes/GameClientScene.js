@@ -41,7 +41,6 @@ export class GameClientScene extends EditorScene {
   checkGameState() {
     const checkGameState = () => {
       const gameState = this.gameState
-      console.log('checking game state: ', gameState)
       if(!gameState || !gameState.gameInstanceId || gameState.gameInstanceId !== this.gameInstanceId || !this.gameState.initialized) {
         setTimeout(() => {  
           checkGameState()
