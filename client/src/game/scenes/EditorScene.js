@@ -942,6 +942,7 @@ export class EditorScene extends GameInstance {
     }
 
     if(gameUpdate.textures) {
+      console.log('textures upddated', gameUpdate.textures)
       Object.keys(gameUpdate.textures).forEach((textureId) => {
         const layerInstance = this.getLayerInstanceByTextureId(textureId)
         if(layerInstance) {
@@ -1079,6 +1080,7 @@ export class EditorScene extends GameInstance {
         entityModelUpdate.collisionResponse?.ignoreStageBoundaries !== undefined
       ) {
         // setTimeout(() => {
+          console.log('resetting entity instances', entityModelUpdate)
           this.forAllEntityInstancesMatchingEntityId(entityModelId, this.resetEntityInstance)
         // })
       }
