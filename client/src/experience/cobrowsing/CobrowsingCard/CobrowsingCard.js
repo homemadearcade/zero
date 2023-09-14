@@ -85,7 +85,7 @@ const CobrowsingCard = ({
               }}
               variant="contained" 
               className="CobrowsingCard__view">
-              Return
+              Dashboard
             </Button>}
           </div>
         </div>

@@ -17,7 +17,7 @@ import Icon from '../../../ui/Icon/Icon';
 import { EXPERIENCE_ROLE_AUDIENCE, roleToInterfaceData, EXPERIENCE_INSTANCE_DID, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, defaultParticipantRoleId } from '../../../constants';
 import { RoleChip } from '../../experienceModel/role/RoleChip/RoleChip';
 import _ from 'lodash';
-import { EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE, PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE } from '../../../game/constants';
+import { EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE, GAME_INSTANCE_DID, PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE } from '../../../game/constants';
 
 function convertExperienceModelToLobbyInstance(experienceModel) {
   return {
@@ -106,6 +106,9 @@ const ExperienceInstanceForm = ({
             isAutosaveDisabled: gameRoom.isAutosaveDisabled,
             experienceInstanceId,
             arcadeGameMongoId,
+            gameInstanceIds : {
+              [arcadeGameMongoId]: GAME_INSTANCE_DID + generateUniqueId()
+            },
             hostUserMongoId,
             name: gameRoom.name,
           }
