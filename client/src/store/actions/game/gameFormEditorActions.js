@@ -136,6 +136,8 @@ export const openCreateCanvasImageDialog= (entityModelId, textureId, textureTint
       userMongoId: state.gameModel.gameModel.owner.id,
     }))
 
+    console.log(canvasImage)
+
     dispatch({
       updateCobrowsing: true,
       noCobrowsingToolNeeded: true,

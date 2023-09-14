@@ -363,11 +363,13 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         isCreateStageDialogOpen: false
       }
     case UPDATE_CREATE_CANVAS_IMAGE: 
+    console.log(state.canvasImage, payload.canvasImage)
       return {
         ...state,
         canvasImage: mergeDeep(state.canvasImage, payload.canvasImage)
       }
     case OPEN_CREATE_CANVAS_IMAGE_DIALOG:
+      console.log(payload.canvasImage)
       return {
         ...state,
         isCanvasImageDialogOpen: true,
