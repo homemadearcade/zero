@@ -24,7 +24,7 @@ import JSConfetti from 'js-confetti'
 import { directionalPlayerEntityId } from '../constants';
 import { generateUniqueId, getGameModelSize, getLayerIdFromEraserId, isZoneEntityId } from '../../utils';
 import { NO_RELATION_TAG_EFFECT_IID, PLAYGROUND_LAYER_GROUP_IID } from '../../constants/interfaceIds';
-import _, { set } from 'lodash';
+import _, { last, set } from 'lodash';
 import { updateLobbyMember } from '../../store/actions/experience/lobbyInstanceActions';
 
 export class GameInstance extends Phaser.Scene {
@@ -87,6 +87,7 @@ export class GameInstance extends Phaser.Scene {
 
       let lastPlayerEntityId = playerInterface.playerEntityModelId ? playerInterface.playerEntityModelId : directionalPlayerEntityId;
       const lastPlayerEntityModel = gameModel.entityModels[lastPlayerEntityId]
+      console.log('lastPlayerEntityModel', lastPlayerEntityModel, gameModel.entityModels, lastPlayerEntityId)
 
       const { x, y } = zone.getInnerCoordinates(lastPlayerEntityModel) 
 

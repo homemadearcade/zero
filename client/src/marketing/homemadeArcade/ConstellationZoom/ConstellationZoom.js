@@ -20,7 +20,7 @@ const ConstellationZoom = ({gameRoomInstance: { gameRoomInstance }, width, heigh
         const gameInstance = store.getState().webPage.gameInstance
         const scene = getCurrentGameScene(gameInstance)
 
-        if(!scene) {
+        if(!scene || !scene.getImageOfCurrentView) {
           timeout = setTimeout(attemptConstellation, 1000)
           return
         }
