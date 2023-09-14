@@ -199,7 +199,7 @@ const LobbyInstructions = ({
             }, 100)
           } else {
             store.dispatch(clearEditor())
-            console.log('running effect x')
+            console.log('running effect xx')
             effect.onClick(store.dispatch, gameModel, store.getState)
           }
         } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
