@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import store from '../store';
 import { loadArcadeGameByMongoId, unloadArcadeGame } from '../store/actions/game/arcadeGameActions';
 import { getSpritesheetData } from '../store/actions/game/gameModelActions';
-import { clearCutscenes } from '../store/actions/game/playerInterfaceActions';
+import { changePlayerEntity, clearCutscenes } from '../store/actions/game/playerInterfaceActions';
 import { closeContextMenu } from '../store/actions/game/contextMenuActions';
 import ArcadeGameLoader from '../game/ui/ArcadeGameLoader/ArcadeGameLoader';
 import { Fade } from '@mui/material';
@@ -62,7 +62,7 @@ class GameContext extends Component {
       })
 
       await this.unloadGame()
-
+      store.dispatch(changePlayerEntity(null))
     
       setTimeout(() => {
         this.loadGame(newProps.arcadeGameMongoId)
