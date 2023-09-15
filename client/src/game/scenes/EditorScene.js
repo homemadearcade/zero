@@ -952,7 +952,6 @@ export class EditorScene extends GameInstance {
             const gameModel = store.getState().gameModel.gameModel
             Object.keys(gameModel.entityModels).forEach((entityModelId) => {
               const entityModel = gameModel.entityModels[entityModelId]
-              console.log('entityModel', entityModel.graphics.textureId, textureId)
               if(entityModel.graphics.textureId === textureId) {
                 this.forAllEntityInstancesMatchingEntityId(entityModelId, this.resetEntityInstance)
               }
@@ -1217,7 +1216,7 @@ export class EditorScene extends GameInstance {
       this.editorCameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
       this.editorCameraControls.start();
 
-      console.log('we did this...')
+      console.log('we did do this camera thing...')
     }
 
     this.input.on('pointerover', this.onPointerOver);

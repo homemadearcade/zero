@@ -46,7 +46,6 @@ export class GameClientScene extends EditorScene {
           checkGameState()
         }, 1000)
       } else {
-        console.log('game state is good', this.gameState)
         this.loadingText?.destroy()
         this.initializeWithGameState()
       }

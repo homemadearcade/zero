@@ -65,7 +65,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   save = async (bypass)  => {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log('trying to save')
         if(!this.isCodrawingHost) return reject('not codrawing host')
         if(!this.strokeHistory.length && !bypass) return reject('no stroke history')
         const textureId = this.textureId
@@ -76,7 +75,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
           if(!this.strokeHistory.length) this.markSaved()
 
           const arcadeGameMongoId = store.getState().gameModel.gameModel.id
-          console.log('saving....')
           await store.dispatch(uploadCanvasImageAndAddToGameModel({imageFile, arcadeGameMongoId, textureId, imageType: this.imageType || IMAGE_TYPE_CANVAS}))
         } catch(e) {
           console.error(e)

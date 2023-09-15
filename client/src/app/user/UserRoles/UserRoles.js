@@ -19,7 +19,6 @@ const UserRoles = ({
   user: { user },
   editUserRoles,
 }) => {
-  console.log(user)
   return (
     <div className='UserRoles'>
       {Object.keys(userRoleInterfaceData).map((userRoleId) => {

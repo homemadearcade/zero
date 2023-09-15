@@ -28,18 +28,18 @@ class MultiplayerGameRoomContext extends Component {
       try {
         const response = await joinGameRoom({gameRoomInstanceMongoId, userMongoId: me?.id});
 
-        const gameRoomInstance = response.data.gameRoomInstance
-        const gameInstanceId = gameRoomInstance.gameInstanceIds[gameRoomInstance.arcadeGameMongoId]
-        if(!gameInstanceId && gameRoomInstance.hostUserMongoId === me.id) {
-          const gameInstanceId =  GAME_INSTANCE_DID + generateUniqueId()
-          editGameRoom(gameRoomInstanceMongoId, {
-            gameInstanceIds: {
-              [gameRoomInstance.arcadeGameMongoId]: gameInstanceId
-            }
-          })
-        } else {
-          console.error('not setting game instance id yet: ', gameInstanceId)
-        }
+        // const gameRoomInstance = response.data.gameRoomInstance
+        // const gameInstanceId = gameRoomInstance.gameInstanceIds[gameRoomInstance.arcadeGameMongoId]
+        // if(!gameInstanceId && gameRoomInstance.hostUserMongoId === me.id) {
+        //   const gameInstanceId =  GAME_INSTANCE_DID + generateUniqueId()
+        //   editGameRoom(gameRoomInstanceMongoId, {
+        //     gameInstanceIds: {
+        //       [gameRoomInstance.arcadeGameMongoId]: gameInstanceId
+        //     }
+        //   })
+        // } else {
+        //   console.error('not setting game instance id yet: ', gameInstanceId)
+        // }
 
         const userResponse = await getUserByMongoId(me.id)
         const user = userResponse.data.user

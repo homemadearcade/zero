@@ -21,7 +21,6 @@ export class GameHostScene extends EditorScene {
     this.upsServer = 0
 
     this.gameInstanceId = props.gameRoomInstance.gameInstanceId
-    console.log('gameInstanceId', this.gameInstanceId)
 
     this.registerEvents()
 

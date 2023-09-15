@@ -11,7 +11,6 @@ const SelectGameInstanceEffect = ({ onChange, removeInterfaceActions, value, eve
   const mapControlsToOption = (effectId) => {
     const effect = gameModel.effects[effectId]
 
-
     const { 
       title, 
       icon, 
@@ -48,7 +47,6 @@ const SelectGameInstanceEffect = ({ onChange, removeInterfaceActions, value, eve
     return -b.group.localeCompare(a.group)
   })
 
-  console.log('SelectGameInstanceEffect disabled', disabled)
   return <SelectChipsAuto 
     disabled={disabled}
     onChange={onChange}

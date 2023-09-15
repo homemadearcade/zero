@@ -97,7 +97,7 @@ const LobbyInstructions = ({
       // }
     },
     {
-      stepId: experienceModel.metadata.title + 'begings',
+      stepId: experienceModel.metadata.title + 'begins',
       title: <Typography component="h3" variant="h3">{experienceModel.metadata.title + ' Begins'}</Typography>,
       break: true
     }

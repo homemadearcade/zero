@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import moment from 'moment';
 
 function Row(props) {
-  const { row } = props;
+  const { row, mini } = props;
 
   return (
     <React.Fragment>
@@ -18,14 +18,14 @@ function Row(props) {
         key={row.date}
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       >
-        <TableCell component="th" scope="row">
+        {!mini && <TableCell component="th" scope="row">
           {moment(row.date).format('MMMM Do YYYY, H:mm:ss')}
-        </TableCell>
-        <TableCell align="right" sx={{wordBreak: 'break-all', width: '100px'}}>{row.url}</TableCell>
+        </TableCell>}
+        {!mini && <TableCell align="right" sx={{wordBreak: 'break-all', width: '100px'}}>{row.url}</TableCell>}
         <TableCell align="right">{row.uploadSpeed}</TableCell>
         <TableCell align="right">{row.downloadSpeed}</TableCell>
-        <TableCell align="right">{row.browserName}</TableCell>
-        <TableCell align="right">{row.osName}</TableCell>
+        {!mini && <TableCell align="right">{row.browserName}</TableCell>}
+        {!mini && <TableCell align="right">{row.osName}</TableCell>}
       </TableRow>
     </React.Fragment>
   );
@@ -42,23 +42,23 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function SpeedTestTable({rows}) {
+export default function SpeedTestTable({rows, mini}) {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="table">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Url</TableCell>
-            <TableCell>Upload</TableCell>
-            <TableCell>Download</TableCell>
-            <TableCell>Browser</TableCell>
-            <TableCell>System</TableCell>
+            {!mini && <TableCell>Date</TableCell>}
+            {!mini && <TableCell>Url</TableCell>}
+            <TableCell>Upload Speed</TableCell>
+            <TableCell>Download Speed</TableCell>
+            {!mini && <TableCell>Browser</TableCell>}
+            {!mini && <TableCell>System</TableCell>}
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <Row key={row.date} row={row} />
+            <Row key={row.date} row={row} mini={mini} />
           ))}
         </TableBody>
       </Table>

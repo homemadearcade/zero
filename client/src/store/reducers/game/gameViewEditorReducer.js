@@ -41,7 +41,6 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
   switch (type) {
 
     case SET_IS_DIALOG_OVER_GAME_VIEW:
-      console.log('SET_IS_DIALOG_OVER_GAME_VIEW', payload.value)
       return {
         ...state,
         isDialogOverGameView: payload.value

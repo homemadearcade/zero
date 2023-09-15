@@ -317,8 +317,6 @@ const CreateRelation = ({
       </Button>
     </>
 
-    console.log(!relation.isNew && !relation.isRemoved)
-
     return <div className="CreateRelation__buttons">
       <Button 
           disabled={isSaveDisabled()}
