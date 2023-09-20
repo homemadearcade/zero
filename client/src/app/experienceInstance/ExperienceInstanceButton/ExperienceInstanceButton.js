@@ -24,12 +24,13 @@ const ExperienceInstanceButton = ({
   useEffect(() => {
     async function doGetExperienceModelByMongoId() {
       if(!experienceModelMongoId) return
+      if(!openExperienceInstanceForm) return
       const options = attachTokenToHeaders(store.getState);
       const experienceModelResponse = await axios.get('/api/experienceModel/' + experienceModelMongoId, options);
       setExperienceModel(await loadExperienceModel(experienceModelResponse))
     }
     doGetExperienceModelByMongoId()
-  }, [experienceModelMongoId, getExperienceModelByMongoId])
+  }, [experienceModelMongoId, getExperienceModelByMongoId, openExperienceInstanceForm])
 
     return <div className="ExperienceInstanceButton">
       <Button type="submit" variant={variant} onClick={() => {
