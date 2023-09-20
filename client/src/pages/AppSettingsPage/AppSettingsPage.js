@@ -11,6 +11,7 @@ import PageHeader from '../../ui/PageHeader/PageHeader';
 import SelectArcadeGame from '../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import { editAppSettings } from '../../store/actions/appSettingsActions';
 import SelectExperienceModel from '../../ui/connected/SelectExperienceModel/SelectExperienceModel';
+import Link from '../../ui/Link/Link';
 
 const AppSettingsPage = ({
   appSettings: { appSettings },

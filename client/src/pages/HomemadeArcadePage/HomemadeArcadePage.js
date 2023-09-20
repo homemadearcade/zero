@@ -10,6 +10,7 @@ import ConstellationHero from '../../marketing/homemadeArcade/ConstellationHero/
 import AppBar from '../../layout/AppBar/AppBar';
 import { Container } from '@mui/material';
 import { PLAY_GAME_SCOPE_FEATURED } from '../../game/constants';
+import Link from '../../ui/Link/Link';
 
 // {!auth.isAuthenticated ? (
 //   <div>
@@ -39,13 +40,22 @@ const HomemadeArcadePage = () => {
           gameListRef.current.scrollIntoView({ behavior: "smooth" })
         }}>Play Now</Button>
       </ConstellationHero>
-      <Container><div ref={gameListRef}><GameList customFilter={(game) => {
-        if(game.playScope !== PLAY_GAME_SCOPE_FEATURED) return false
-        if(game.isRemoved) return false
-        return true
-      }}>{(game) => {
-        return <GameCard key={game.id} canPlay game={game}/>
-      }}</GameList></div></Container>
+      <Container>
+        <div className="HomemadeArcadePage__list">
+        <div ref={gameListRef}><GameList hideSearch customFilter={(game) => {
+          if(game.playScope !== PLAY_GAME_SCOPE_FEATURED) return false
+          if(game.isRemoved) return false
+          return true
+        }}>{(game) => {
+          return <GameCard key={game.id} canPlay game={game}/>
+        }}</GameList></div>
+        <Link
+          to="/arcade"
+        >
+          Play More Games
+        </Link>
+        </div>
+      </Container>
     </div>
   </>
 };

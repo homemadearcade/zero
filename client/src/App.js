@@ -36,6 +36,7 @@ import AppSettingsPage from './pages/AppSettingsPage/AppSettingsPage';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import QRPage from './pages/QRPage/QRPage';
 import InternetSpeedTestPage from './pages/InternetSpeedTestPage/InternetSpeedTestPage';
+import UserCreationsPage from './pages/UserCreationsPage/UserCreationsPage';
 
 window.awsUrl = window.location.origin + '/api/aws/' //'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
@@ -397,6 +398,7 @@ const App = ({ theme: { primaryColor } }) => {
           <Route path="/experience/:experienceModelMongoId" children={wrapComponentInApp(ExperienceCreatorPage)} />
           <Route path="/lobby/:lobbyInstanceMongoId" children={wrapComponentInApp(LobbyPage)} />
           <Route exact path="/user/:username" children={wrapComponentInApp(UserPage)} />
+          <Route exact path="/user/:username/creations" children={wrapComponentInApp(UserCreationsPage)} />
           <Route path="/OAuthSuccess" children={wrapComponentInApp(HomemadeArcadePage)} />
           <Route exact path="/" children={wrapComponentInAppIfAuthenticated(HomemadeArcadePage)} />
           <Route children={wrapComponentInAppIfAuthenticated(NotFound)} />

@@ -71,6 +71,8 @@ experienceModel.methods.toJSON = function () {
     lobbys: this.lobbys,
     roles: this.roles,
     isRemoved: this.isRemoved,
+    updatedAt: this.updatedAt,
+    createdAt: this.createdAt,
     experienceModelId: this.experienceModelId,
   };
 };

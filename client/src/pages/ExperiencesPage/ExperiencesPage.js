@@ -15,7 +15,6 @@ import { getExperienceModels } from '../../store/actions/experience/experienceMo
 import ExperienceAddForm from '../../app/experienceModel/experience/ExperienceAddForm/ExperienceAddForm';
 
 const ExperiencesPage = ({getExperienceModels}) => {
-  const [showRemovedExperiences, setShowRemovedExperiences] = useState()
   return (
     <Layout>
       <div className="ExperiencesPage">
@@ -24,12 +23,8 @@ const ExperiencesPage = ({getExperienceModels}) => {
           description="This is the Experiences page. Here are listed all of the experiences."
         ></PageHeader>
         <ExperienceAddForm onSubmit={getExperienceModels}></ExperienceAddForm>
-        {!showRemovedExperiences &&  <Button onClick={() => {
-          setShowRemovedExperiences(true)
-        }}>Show Removed Experiences</Button>}
         <div className="ExperiencesPage__list">
           <ExperienceList>{(experienceModel) => {
-            if(experienceModel.isRemoved && !showRemovedExperiences) return
             return <ExperienceCard key={experienceModel.id} width={300} experienceModel={experienceModel} canPlay canEdit canPublish canRemove></ExperienceCard>
           }}</ExperienceList>
         </div>

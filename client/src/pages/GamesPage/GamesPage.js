@@ -16,12 +16,9 @@ import GameList from '../../app/gameModel/GameList/GameList';
 import Button from '../../ui/Button/Button';
 import Divider from '../../ui/Divider/Divider';
 
-const GamesPage = ({ getArcadeGames}) => {
-  const [showRemovedGames, setShowRemovedGames] = useState()
-  
+const GamesPage = ({ getArcadeGames}) => {  
   return (
     <Layout>
-      <Divider/>
       <div className="GamesPage">
         <PageHeader 
           title="Games page"

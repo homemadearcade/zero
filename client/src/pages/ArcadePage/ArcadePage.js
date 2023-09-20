@@ -9,12 +9,14 @@ import { getArcadeGames } from '../../store/actions/game/arcadeGameActions';
 import GameCard from '../../app/gameModel/GameCard/GameCard';
 import GameList from '../../app/gameModel/GameList/GameList';
 import { PLAY_GAME_SCOPE_ARCADE, PLAY_GAME_SCOPE_FEATURED } from '../../game/constants';
+import { APP_ADMIN_ROLE } from '../../constants';
+import Link from '../../ui/Link/Link';
 
-const ArcadePage = () => {
+const ArcadePage = ({ auth }) => {
   function getGameData(game) {
     let visible = false 
 
-    if(!game.isRemoved && (game.playScope === PLAY_GAME_SCOPE_FEATURED &&  game.playScope === PLAY_GAME_SCOPE_ARCADE) ) {
+    if(!game.isRemoved && (game.playScope === PLAY_GAME_SCOPE_FEATURED || game.playScope === PLAY_GAME_SCOPE_ARCADE) ) {
       visible = true 
     }
 

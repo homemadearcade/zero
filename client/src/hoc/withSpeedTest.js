@@ -8,8 +8,9 @@ import SpeedTestTable from '../ui/SpeedTestTable/SpeedTestTable';
 import Button from '../ui/Button/Button';
 import Alert from '../ui/Alert/Alert';
 import LinearIndeterminateLoader from '../ui/LinearIndeterminateLoader/LinearIndeterminateLoader';
-import { Card, DialogActions, DialogTitle, Paper } from '@mui/material';
+import { Card, DialogActions, DialogContent, DialogTitle, Paper } from '@mui/material';
 import Dialog from '../ui/Dialog/Dialog';
+import Typography from '../ui/Typography/Typography';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -75,55 +76,58 @@ export default (ChildComponent) => {
 
         if(lobbyInstance?.id) {
           if(this.state.testResults.uploadSpeed && this.state.testResults.uploadSpeed < 100) {//3) {
-            warnings.push(<Alert severity="warning">Your internet's upload speed is too slow for this experience</Alert>)
+            warnings.push(<Alert severity="warning">Your internet's upload speed is too slow for this experience. <div style={{fontWeight: 'bold'}}>{Math.floor(this.state.testResults.uploadSpeed)}/3mbps</div></Alert>)
           }
 
           if(this.state.testResults.downloadSpeed && this.state.testResults.downloadSpeed < 10) {
-            warnings.push(<Alert severity="warning">Your internet's download speed is too slow for this experience</Alert>)
+            warnings.push(<Alert severity="warning">Your internet's download speed is too slow for this experience. <div style={{fontWeight: 'bold'}}>{Math.floor(this.state.testResults.downloadSpeed)}/10mbps</div></Alert>)
           }
 
           if(warnings.length > 0) {
             return <Dialog open>
-              <DialogTitle>Internet Speed Test Results</DialogTitle>
+              <DialogTitle>Internet Speed Test Failed</DialogTitle>
               {warnings}
-              <SpeedTestTable mini key={0} rows={[this.state.testResults]}/>
+              {/* <SpeedTestTable mini key={0} rows={[this.state.testResults]}/> */}
               <>
                 <Button onClick={() => {
                   this.setState({
                     testResults: null
                   })
                   this.runSpeedTest()
-                }}>I'm going to retry</Button>
+                }}>Retry</Button>
                 <Button onClick={() => {
                   this.setState({
                     byPassTest: true
                   })
-                }}>Id like to continue with the slow internet version</Button>
+                }}>Continue anyways</Button>
               </>
             </Dialog>
           }
         } else {  
             if(this.state.testResults.uploadSpeed && this.state.testResults.uploadSpeed < 100) {//3) {
-              warnings.push(<Alert severity="warning">Your internet's upload speed is too slow</Alert>)
+              warnings.push(<Alert severity="error">Your internet's upload speed is too slow. <div style={{fontWeight: 'bold'}}>{Math.floor(this.state.testResults.uploadSpeed)}/3mbps</div></Alert>)
             }
 
             if(this.state.testResults.downloadSpeed && this.state.testResults.downloadSpeed < 10) {
-              warnings.push(<Alert severity="warning">Your internet's download speed is too slow</Alert>)
+              warnings.push(<Alert severity="error">Your internet's download speed is too slow. <div style={{fontWeight: 'bold'}}>{Math.floor(this.state.testResults.downloadSpeed)}/10mbp</div></Alert>)
             }
 
             return <Dialog open>
             <DialogTitle>Internet Speed Test Results</DialogTitle>
-              {warnings}
-              {warnings.length && <Alert severity="info">Your internet connection isn’t fast enough. Please find a better internet connection before your experience begins</Alert>}
-              {!warnings.length && <Alert severity="success">The internet you are using right now, works great! We recommend using this connection during your experience</Alert>}
-              <SpeedTestTable mini key={0} rows={[this.state.testResults]}/>
+                {warnings}
+
+            <DialogContent>
+              {warnings.length && <Typography>Please find a better internet connection before your experience begins</Typography>}
+              {!warnings.length && <Typography>We recommend using this connection during your experience</Typography>}
+            </DialogContent>
+              {/* <SpeedTestTable mini key={0} rows={[this.state.testResults]}/> */}
               <>
                 <Button onClick={() => {
                   this.setState({
                     testResults: null
                   })
                   this.runSpeedTest()
-                }}>I'd like to test again</Button>
+                }}>Test again</Button>
               </>
             </Dialog>
         }

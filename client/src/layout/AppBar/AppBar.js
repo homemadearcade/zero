@@ -2,7 +2,7 @@ import * as React from 'react';
 import { AppBar as MuiAppBar } from "@mui/material";
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '../../ui/IconButton/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -17,68 +17,84 @@ import { logOutUser } from '../../store/actions/user/authActions';
 import { useState } from 'react';
 import {  APP_ADMIN_ROLE } from '../../constants';
 import Link from '../../ui/Link/Link';
+import { useLocation } from 'react-router-dom';
+import { useWishTheme } from '../../hooks/useWishTheme';
 
 function AppBar({ auth }) {
 
-  const pages = [
-    {
-      name: 'Buy Tickets',
-      href: 'https://towalkthenight.com/homemade-arcade-games',
-      variant: 'contained',
-    }
+  const pagesLeft = [
+    // {
+    //   name: 'Buy Tickets',
+    //   href: 'https://towalkthenight.com/homemade-arcade-games',
+    //   variant: 'contained',
+    // }
   ]
 
-  const settings = []
+  const userPages = []
+  const adminPages = []
+
+  const location = useLocation();
+
+  const theme = useWishTheme()
+
+  pagesLeft.push({
+    name: 'Arcade',
+    url: 'arcade',
+  })
 
   if (auth.isAuthenticated && auth.isSocketAuthenticated) {
-    settings.push({
+    userPages.push({
       name: 'My Account',
       url: 'user/'+auth.me.username,
     })
-
-    pages.push({
-      name: 'Arcade',
-      url: 'arcade',
+    userPages.push({
+      name: 'My Creations',
+      url: 'user/'+auth.me.username+'/creations',
     })
 
-    // pages.push({
+
+
+    // pagesLeft.push({
     //   name: 'My Tickets',
     //   url: 'my-tickets',
     //   })
 
-    if (auth.me.roles[APP_ADMIN_ROLE]) {
-      pages.push({
+    if (auth.me?.roles[APP_ADMIN_ROLE]) {
+      adminPages.push({
+        name: 'App Settings',
+        url: 'app-settings',
+      })
+
+      adminPages.push({
         name: 'Games',
         url: 'games',
       })
 
-      pages.push({
+      adminPages.push({
         name: 'Experiences',
         url: 'experiences',
       })
 
-      pages.push({
+      adminPages.push({
         name: 'Lobbies',
         url: 'lobbys',
       })
 
-      pages.push({
+      adminPages.push({
         name: 'Users',
         url: 'users',
       })
 
-      pages.push({
-        name: 'Calendar',
-        url: 'calendar',
-      })
+      // pagesLeft.push({
+      //   name: 'Calendar',
+      //   url: 'calendar',
+      // })
 
-      pages.push({
-        name: 'App',
-        url: 'app-settings',
-      })
+
     }
   }
 
+  const [anchorElAdmin, setAnchorElAdmin] = useState(null);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -88,6 +104,7 @@ function AppBar({ auth }) {
   
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
+    handleCloseAdminMenu()
   };
 
   const handleCloseNavMenu = () => {
@@ -97,6 +114,62 @@ function AppBar({ auth }) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleOpenAdminMenu = (event) => {
+    setAnchorElAdmin(event.currentTarget);
+    handleCloseUserMenu()
+  };
+
+  const handleCloseAdminMenu = () => {
+    setAnchorElAdmin(null);
+  };
+
+  function renderAdminMenu() {
+    const me = auth.me
+
+    if(!me || !me.roles[APP_ADMIN_ROLE]) {
+      return null
+    }
+
+     return <Box sx={{ flexGrow: 0, marginRight: '1em' }}>
+      <Tooltip title="Open Admin">
+        <IconButton icon="faCrown" onClick={handleOpenAdminMenu} sx={{ p: 0 }}>
+
+        </IconButton>
+      </Tooltip>
+      <Menu
+        sx={{ mt: '45px' }}
+        id="menu-appbar"
+        anchorEl={anchorElAdmin}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={Boolean(anchorElAdmin)}
+        onClose={handleCloseAdminMenu}
+      >
+        {adminPages.map(({name, url,href }) => (
+          <MenuItem key={name} onClick={handleCloseAdminMenu}>
+            <Button
+              component={Link}
+              key={name}
+              href={href && href}
+              to={url && `/${url}`}
+              onClick={handleCloseAdminMenu}
+              sx={{ color: 'white', display: 'block' }}
+            >
+              {name}
+            </Button>
+          </MenuItem>
+        ))}
+      </Menu>
+    </Box>
+  }
 
   function renderUserMenu() {
     const me = auth.me
@@ -112,7 +185,7 @@ function AppBar({ auth }) {
     }
 
      return <Box sx={{ flexGrow: 0 }}>
-      <Tooltip title="Open settings">
+      <Tooltip title="Open User">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           <Avatar alt={me.username} src={null} />
         </IconButton>
@@ -133,14 +206,14 @@ function AppBar({ auth }) {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {settings.map(({name, url,href }) => (
+        {userPages.map(({name, url,href }) => (
           <MenuItem key={name} onClick={handleCloseUserMenu}>
             <Button
               component={Link}
               key={name}
               href={href && href}
               to={url && `/${url}`}
-              onClick={handleCloseNavMenu}
+              onClick={handleCloseUserMenu}
               sx={{ color: 'white', display: 'block' }}
             >
               {name}
@@ -155,21 +228,22 @@ function AppBar({ auth }) {
     <MuiAppBar sx={{backgroundColor: 'rgba(0,0,0,0)', backgroundImage: 'url()', boxShadow: 'none'}} position="absolute">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="subtitle2"
-            noWrap
-            component="a"
-            href="/"
-            font="2P"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            HA
-          </Typography>
+          <Link to="/" sx={{ textDecoration: 'none' }}>
+            <Typography
+              variant="subtitle2"
+              noWrap
+              component="a"
+              font="2P"
+              sx={{
+                mr: 2,
+                display: { xs: 'none', md: 'flex' },
+                color: 'white',
+                textDecoration: 'none',
+              }}
+            >
+              HA
+            </Typography>
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -200,45 +274,64 @@ function AppBar({ auth }) {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map(({name, url}) => (
-                <MenuItem key={name} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{name}</Typography>
-                </MenuItem>
-              ))}
+              {pagesLeft.map(({name, url}) => {
+                const sx ={}
+                if(location.pathname === '/'+url) {
+                  sx.fontWeight = '700'
+                  sx.color = 'white'
+                  // sx.fontSize = '1em'
+                }
+                return <Link to={url} sx={{ textDecoration: 'none' }}>
+                  <MenuItem key={name} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center" sx={{
+                      color: '#EEE',
+                      ...sx
+                    }}>{name}</Typography>
+                  </MenuItem>
+                </Link>
+              })}
             </Menu>
           </Box>
-          <Typography
-            variant="subtitle2"
-            noWrap
-            component="a"
-            href=""
-            font="2P"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            HA
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map(({name, url, variant, href}) => (
-              <Button
+          <Link to="/" sx={{ textDecoration: 'none' }}>
+            <Typography
+              variant="subtitle2"
+              noWrap
+              component="a"
+              font="2P"
+              sx={{
+                mr: 2,
+                display: { xs: 'flex', md: 'none' },
+                flexGrow: 1,
+                color: 'white',
+                textDecoration: 'none',
+              }}
+            >
+              HA
+            </Typography>
+          </Link>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+            {pagesLeft.map(({name, url, variant, href}) => {
+              const sx ={}
+              if(location.pathname === '/'+url) {
+                sx.fontWeight = '700'
+                sx.color = 'white'
+                // sx.fontSize = '1em'
+              }
+
+              return <Button
                 variant={variant}
                 href={href && href}
                 to={url && `/${url}`}
                 component={Link}
                 key={name}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: variant !== 'contained' && 'white', display: 'block' }}
+                sx={{ my: 2, fontWeight: '400', color: variant !== 'contained' && '#EEE', display: 'block', ...sx }}
               >
                 {name}
               </Button>
-            ))}
+            })}
           </Box>
-
+          {renderAdminMenu()}
          {renderUserMenu()}
         </Toolbar>
       </Container>
@@ -250,4 +343,8 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default compose(connect(mapStateToProps, { logOutUser }))(AppBar);
+export default compose(
+  connect(
+    mapStateToProps, { logOutUser }
+  )
+)(AppBar);

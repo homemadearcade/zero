@@ -9,7 +9,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   try {
-    const experienceModels = await ExperienceModel.find().sort({ createdAt: 'desc' }).select('owner metadata isRemoved').populate('owner');
+    const experienceModels = await ExperienceModel.find().sort({ createdAt: 'desc' }).select('owner metadata isRemoved createdAt updatedAt').populate('owner');
 
     res.json({
       experienceModels: experienceModels.map((m) => {

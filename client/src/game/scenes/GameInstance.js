@@ -796,7 +796,7 @@ addInstancesToEntityInstanceByTag(instances) {
   }
 
    afterGameInstanceUpdateEffects() {
-    if(this.playerInstance.destroyAfterUpdate) {
+    if(this.playerInstance?.destroyAfterUpdate) {
       this.playerInstance.destroyInGame()
     }
 
@@ -814,7 +814,7 @@ addInstancesToEntityInstanceByTag(instances) {
       }
     })
 
-    if(this.playerInstance.transformEntityModelId && this.playerInstance.entityModelId !== this.playerInstance.transformEntityModelId) {
+    if(this.playerInstance && this.playerInstance.transformEntityModelId && this.playerInstance.entityModelId !== this.playerInstance.transformEntityModelId) {
       this.playerInstance.transformEntityModel(this.playerInstance.transformEntityModelId)
     }
   }

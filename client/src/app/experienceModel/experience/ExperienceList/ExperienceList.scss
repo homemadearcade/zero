@@ -4,7 +4,12 @@
   // align-items: center;
   // justify-content: center;
   
-
+  &__search {
+      display: flex;
+      flex-direction: column;
+      gap: .5em;
+    }
+    
   &__list {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;

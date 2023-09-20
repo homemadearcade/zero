@@ -16,7 +16,7 @@ import ButtonGroup from '../../../ui/ButtonGroup/ButtonGroup';
 const SORT_CREATED = 'SORT_CREATED'
 const SORT_EDITED = 'SORT_EDITED'
 
-const GameList = ({ customFilter, getArcadeGames, children, arcadeGames: { arcadeGames, isLoading }}) => {
+const GameList = ({ hideSearch, customFilter, getArcadeGames, children, arcadeGames: { arcadeGames, isLoading }}) => {
   useEffect(() => {
     getArcadeGames();
   }, [getArcadeGames]);
@@ -29,6 +29,7 @@ const GameList = ({ customFilter, getArcadeGames, children, arcadeGames: { arcad
   const [showFeatured, setShowFeatured] = useState(false)
   const [showArcade, setShowArcade] = useState(false)
   const [sortBy, setSortBy] = useState(SORT_CREATED)
+  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false)
             // if((game.isRemoved && !showRemovedGames)) return 
             // if((game.playScope === PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE)) return
 
@@ -68,12 +69,14 @@ const GameList = ({ customFilter, getArcadeGames, children, arcadeGames: { arcad
       return false
     }
 
+    if((game.isRemoved)) return false
+
     return true
   }
 
   function renderGameList() {
     if(customFilter) {
-      gamesList.filter(customFilter).filter(filterGameList).map(children)
+      return gamesList.filter(customFilter).filter(filterGameList).map(children)
     } else {
       return gamesList.filter(filterGameList).map(children)
     }
@@ -124,11 +127,10 @@ const GameList = ({ customFilter, getArcadeGames, children, arcadeGames: { arcad
     </>
   }
 
-
-
-  return (
+  return <>
     <div className="GameList">
-      <TextField sx={{width: '100%'}} 
+      <div className="GameList__search">
+      {!hideSearch && <TextField sx={{width: '100%'}} 
         onChange={handleSearchChange} 
         value={searchTerm} 
         label={"Search Title, Author, Description"}
@@ -141,14 +143,21 @@ const GameList = ({ customFilter, getArcadeGames, children, arcadeGames: { arcad
           </InputAdornment>
           )
         }}  
-      />
-      {!customFilter && renderSortBy()}
-      {!customFilter && renderToggles()}
+      />}
+      {showAdvancedSearch&& renderSortBy()}
+      {showAdvancedSearch&& renderToggles()}
+      </div>
+      {!customFilter && !hideSearch && !showAdvancedSearch && <Button size="small" onClick={() => {
+        setShowAdvancedSearch(true)
+      }}>
+        Advanced Search
+      </Button>}
       {isLoading ? (
         <Loader />
       ) : <div className="GameList__list">{renderGameList()}</div>}
     </div>
-  );
+
+    </>
 };
 
 const mapStateToProps = (state) => ({

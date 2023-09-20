@@ -14,17 +14,12 @@ import Typography from '../../ui/Typography/Typography';
 import PageHeader from '../../ui/PageHeader/PageHeader';
 import GameList from '../../app/gameModel/GameList/GameList';
 import GameCard from '../../app/gameModel/GameCard/GameCard';
-import UserSpeedTestList from '../../app/user/UserSpeedTestList/UserSpeedTestList';
-import UserInfo from '../../app/user/UserInfo/UserInfo';
-import UserInterfaceIds from '../../app/user/UserInterfaceIds/UserInterfaceIds';
 import Tabs from '../../ui/Tabs/Tabs';
 import { USER_EXPERIENCES_TAB_IID, USER_GAMES_TAB_IID, USER_INFO_TAB_IID, USER_INTERFACE_IDS_TAB_IID, USER_ROLES_TAB_IID, USER_SPEED_TESTS_TAB_IID } from '../../constants/interfaceIds';
-import Button from '../../ui/Button/Button';
-import UserRoles from '../../app/user/UserRoles/UserRoles';
 import ExperienceList from '../../app/experienceModel/experience/ExperienceList/ExperienceList';
 import ExperienceCard from '../../app/experienceModel/experience/ExperienceCard/ExperienceCard';
 
-const UserPage = ({
+const UserCreationsPage = ({
   getUserByUsername,
   user: { user, isLoading },
   history,
@@ -37,48 +32,39 @@ const UserPage = ({
     getUserByUsername(matchUsername, history);
   }, [matchUsername]);
 
-  const [showHiddenGames, setShowHiddenGames] = useState()
-
   return (
     <Layout>
-      <div className="UserPage">
+      <div className="UserCreationsPage">
         <PageHeader
-          title={user.username + "'s account"}
-          description="This is all your account information. You can edit your account here"
+          title={user.username + "'s creations"}
+          description="This is all your creations."
         ></PageHeader>
         {isLoading ? (
           <Loader text="Loading User..."/>
         ) : (
           <Tabs tabs={[
             {
-              interfaceId: USER_INFO_TAB_IID,
-              label: 'Info',
-              body: <UserInfo/>
-            },
-            {
-              interfaceId: USER_INTERFACE_IDS_TAB_IID,
-              appAdminOnly: true,
-              label: 'Interface Ids',
-              body: <UserInterfaceIds/>
-            },
-            { 
-              interfaceId: USER_ROLES_TAB_IID,
-              appAdminOnly: true,
-              label: 'Roles',
-              body: <UserRoles/>
-            },
-            {
-              interfaceId: USER_SPEED_TESTS_TAB_IID,
-              label: 'Speed Tests',
-              body: <UserSpeedTestList user={user}></UserSpeedTestList>
-            },
-            {
-              appAdminOnly: true,
-              label: 'App Location',
+              interfaceId: USER_GAMES_TAB_IID,
+              label: 'Games',
               body: <>
-                <Typography variant="body1">{user.appLocation && JSON.stringify(user.appLocation)}</Typography>
+                <GameList>
+                  {(game) => {
+                    if(game.owner?.id !== user.id) return null
+                    return <GameCard key={game.id} game={game} canPlay canEdit></GameCard>
+                  }}
+                </GameList>
               </>
-            }
+            },
+            {
+              interfaceId: USER_EXPERIENCES_TAB_IID,
+              label: 'Experiences',
+              body: <>
+                <ExperienceList>{(experienceModel) => {
+                  if(experienceModel.owner?.id !== user.id) return null
+                  return <ExperienceCard key={experienceModel.id} width={300} experienceModel={experienceModel} canPlay canEdit canPublish canRemove></ExperienceCard>
+                }}</ExperienceList>   
+              </>               
+            },
           ]}></Tabs>
         )}
       </div>
@@ -94,4 +80,4 @@ export default compose(
   requireAuth,
   withRouter,
   connect(mapStateToProps, { getUserByUsername }),
-)(UserPage);
+)(UserCreationsPage);

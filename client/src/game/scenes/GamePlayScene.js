@@ -13,6 +13,7 @@ export class GamePlayScene extends GameInstance {
 
   initializeGameState() {
     this.gameState = this.getStartingGameState()
+    this.gameState.initialized = true 
   }
 
   callGameInstanceEvent({gameRoomInstanceEventType, data, hostOnly}) {

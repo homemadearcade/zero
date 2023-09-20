@@ -60,9 +60,7 @@ const UserListPage = ({ getUsers, editUser, users: { users, isLoading } }) => {
                       </div>
                       <div>
                         <span className="label">Username: </span>
-                        <Link to={`/user/${user.username}`}>
                           {user.username}
-                        </Link>
                       </div>
                       <div>
                         <span className="label">Email: </span>
@@ -74,6 +72,14 @@ const UserListPage = ({ getUsers, editUser, users: { users, isLoading } }) => {
                           {moment(user.createdAt).format('dddd, MMMM Do YYYY, H:mm:ss')}
                         </span>
                       </div>
+
+                      <Link to={`/user/${user.username}`}>
+                        Account
+                      </Link>
+                      <Link to={`/user/${user.username}/creations`}>
+                        Creations
+                      </Link>
+
                       {!user.isRemoved && <Button onClick={async () => {
                         await editUser(user.id, {
                           isRemoved: true
@@ -90,6 +96,7 @@ const UserListPage = ({ getUsers, editUser, users: { users, isLoading } }) => {
                       }}>
                         Restore
                       </Button>}
+
                     </div>
                   </div>
                 );
