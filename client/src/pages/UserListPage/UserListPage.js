@@ -15,13 +15,10 @@ import Typography from '../../ui/Typography/Typography';
 import PageHeader from '../../ui/PageHeader/PageHeader';
 import Button from '../../ui/Button/Button';
 import { editUser } from '../../store/actions/user/userActions';
+import UserList from '../../app/user/UserList/UserList';
 
 const UserListPage = ({ getUsers, editUser, users: { users, isLoading } }) => {
-  useEffect(() => {
-    getUsers();
-  }, []);
 
-  const [showRemovedUsers, setShowRemovedUsers] = useState()
 
   return (
     <Layout>
@@ -32,18 +29,10 @@ const UserListPage = ({ getUsers, editUser, users: { users, isLoading } }) => {
         ></PageHeader>
         <p>
         </p>
-        {!showRemovedUsers && <Button onClick={() => {
-          setShowRemovedUsers(true)
-        }}>Show Removed Users</Button>}
-        <div className="list">
-          {isLoading ? (
-            <Loader text="Loading Users..."/>
-          ) : (
-            <>
-              {users.map((user, index) => {
-                if(user.isRemoved && !showRemovedUsers) return null
-                return (
-                  <div key={index} className="profile">
+
+        <div className="list">           <UserList>
+            {(user, index) => {
+                return <div key={index} className="profile">
                     {null && <img src={user.avatar} className="avatar" />}
                     <div className="info-container">
                       <div>
@@ -53,10 +42,6 @@ const UserListPage = ({ getUsers, editUser, users: { users, isLoading } }) => {
                       <div>
                         <span className="label">Provider: </span>
                         <span className="info">{user.provider}</span>
-                      </div>
-                      <div>
-                        <span className="label">Role: </span>
-                        <span className="info">{user.role}</span>
                       </div>
                       <div>
                         <span className="label">Username: </span>
@@ -99,10 +84,9 @@ const UserListPage = ({ getUsers, editUser, users: { users, isLoading } }) => {
 
                     </div>
                   </div>
-                );
-              })}
-            </>
-          )}
+              
+            }}
+            </UserList>
         </div>
       </div>
     </Layout>

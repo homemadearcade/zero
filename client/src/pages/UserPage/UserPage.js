@@ -37,8 +37,6 @@ const UserPage = ({
     getUserByUsername(matchUsername, history);
   }, [matchUsername]);
 
-  const [showHiddenGames, setShowHiddenGames] = useState()
-
   return (
     <Layout>
       <div className="UserPage">

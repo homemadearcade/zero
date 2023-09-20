@@ -39,55 +39,55 @@ function AppBar({ auth }) {
 
   pagesLeft.push({
     name: 'Arcade',
-    url: 'arcade',
+    url: '/arcade',
   })
 
   if (auth.isAuthenticated && auth.isSocketAuthenticated) {
     userPages.push({
       name: 'My Account',
-      url: 'user/'+auth.me.username,
+      url: '/user/'+auth.me.username,
     })
     userPages.push({
       name: 'My Creations',
-      url: 'user/'+auth.me.username+'/creations',
+      url: '/user/'+auth.me.username+'/creations',
     })
 
 
 
     // pagesLeft.push({
     //   name: 'My Tickets',
-    //   url: 'my-tickets',
+    //   url: '/my-tickets',
     //   })
 
     if (auth.me?.roles[APP_ADMIN_ROLE]) {
       adminPages.push({
         name: 'App Settings',
-        url: 'app-settings',
+        url: '/app-settings',
       })
 
       adminPages.push({
         name: 'Games',
-        url: 'games',
+        url: '/games',
       })
 
       adminPages.push({
         name: 'Experiences',
-        url: 'experiences',
+        url: '/experiences',
       })
 
       adminPages.push({
         name: 'Lobbies',
-        url: 'lobbys',
+        url: '/lobbys',
       })
 
       adminPages.push({
         name: 'Users',
-        url: 'users',
+        url: '/users',
       })
 
       // pagesLeft.push({
       //   name: 'Calendar',
-      //   url: 'calendar',
+      //   url: '/calendar',
       // })
 
 
@@ -154,18 +154,11 @@ function AppBar({ auth }) {
         onClose={handleCloseAdminMenu}
       >
         {adminPages.map(({name, url,href }) => (
+          <Link to={url} sx={{ textDecoration: 'none' }}>
           <MenuItem key={name} onClick={handleCloseAdminMenu}>
-            <Button
-              component={Link}
-              key={name}
-              href={href && href}
-              to={url && `/${url}`}
-              onClick={handleCloseAdminMenu}
-              sx={{ color: 'white', display: 'block' }}
-            >
               {name}
-            </Button>
           </MenuItem>
+          </Link>
         ))}
       </Menu>
     </Box>
@@ -207,18 +200,11 @@ function AppBar({ auth }) {
         onClose={handleCloseUserMenu}
       >
         {userPages.map(({name, url,href }) => (
+          <Link to={url} sx={{ textDecoration: 'none' }}>
           <MenuItem key={name} onClick={handleCloseUserMenu}>
-            <Button
-              component={Link}
-              key={name}
-              href={href && href}
-              to={url && `/${url}`}
-              onClick={handleCloseUserMenu}
-              sx={{ color: 'white', display: 'block' }}
-            >
               {name}
-            </Button>
           </MenuItem>
+          </Link>
         ))}
       </Menu>
     </Box>
@@ -321,7 +307,7 @@ function AppBar({ auth }) {
               return <Button
                 variant={variant}
                 href={href && href}
-                to={url && `/${url}`}
+                to={url}
                 component={Link}
                 key={name}
                 onClick={handleCloseNavMenu}
