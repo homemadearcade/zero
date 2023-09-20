@@ -1,0 +1,18 @@
+.ExperienceInstanceButton {
+  &__lobby {
+    padding: 1em;
+  }
+
+  &__roles {
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+
+        &__dialog {
+          min-width: 300px;
+          min-height: 300px;
+          padding: 2em;
+        }
+}

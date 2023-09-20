@@ -26,9 +26,15 @@ const AppSettingsPage = ({
             ></PageHeader>
             <div>
               <SelectExperienceModel 
+                label="What is the homemade arcade experience?"
+                value={appSettings.homemadeArcadeExperienceModelMongoId ? [appSettings.homemadeArcadeExperienceModelMongoId] : []} onSelect={(experienceModels) => {
+                  if(experienceModels[0]) {
+                    editAppSettings({ homemadeArcadeExperienceModelMongoId: experienceModels[experienceModels.length-1].id})
+                  }
+              }}/>
+              <SelectExperienceModel 
                 label="What experience determines the editor interface by default?"
                 value={appSettings.editorExperienceModelMongoId ? [appSettings.editorExperienceModelMongoId] : []} onSelect={(experienceModels) => {
-                  console.log(experienceModels, experienceModels[experienceModels.length-1].id)
                 if(experienceModels[0]) {
                   editAppSettings({ editorExperienceModelMongoId: experienceModels[experienceModels.length-1].id})
                 }

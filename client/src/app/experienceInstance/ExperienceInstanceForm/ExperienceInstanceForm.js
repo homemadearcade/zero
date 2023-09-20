@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { addLobby } from '../../../store/actions/experience/lobbyInstanceActions';
 // import { lobbyInstanceFormSchema } from './validation';
@@ -14,7 +14,7 @@ import { addGameRoom } from '../../../store/actions/game/gameRoomInstanceActions
 import { generateUniqueId, isLobbyInstanceUserAlreadyAssignedRoles } from '../../../utils';
 import './ExperienceInstanceForm.scss';
 import Icon from '../../../ui/Icon/Icon';
-import { EXPERIENCE_ROLE_AUDIENCE, roleToInterfaceData, EXPERIENCE_INSTANCE_DID, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, defaultParticipantRoleId } from '../../../constants';
+import { EXPERIENCE_ROLE_AUDIENCE, EXPERIENCE_INSTANCE_DID, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, defaultParticipantRoleId } from '../../../constants';
 import { RoleChip } from '../../experienceModel/role/RoleChip/RoleChip';
 import _ from 'lodash';
 import { EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE, GAME_INSTANCE_DID, PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE } from '../../../game/constants';
@@ -40,8 +40,9 @@ const ExperienceInstanceForm = ({
   addGameRoom, 
   copyArcadeGameToUser,
   editArcadeGame,
-  experienceModel: { experienceModel }
+  experienceModel,
 }) => {
+  console.log('experienceModel', experienceModel)
 
   const { handleSubmit, reset, control, formState: { isValid }, register } = useForm({
     defaultValues: convertExperienceModelToLobbyInstance(experienceModel)
@@ -244,7 +245,7 @@ const ExperienceInstanceForm = ({
 };
 
 const mapStateToProps = (state) => ({
-  experienceModel: state.experienceModel
+
 });
 
 export default connect(mapStateToProps, { addLobby, editArcadeGame, addGameRoom, copyArcadeGameToUser })(ExperienceInstanceForm);

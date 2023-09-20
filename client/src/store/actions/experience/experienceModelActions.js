@@ -303,7 +303,7 @@ export const deleteExperienceModel = (id) => async (dispatch, getState) => {
 };
 
 
-async function loadExperienceModel(response) {
+export async function loadExperienceModel(response) {
   console.log('raw experience model', response.data.experienceModel)
   const experienceModel = mergeDeep(_.cloneDeep(defaultExperienceModel), response.data.experienceModel)
   // addLibraryToExperience(experienceModel)

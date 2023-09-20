@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -11,6 +11,9 @@ import AppBar from '../../layout/AppBar/AppBar';
 import { Container } from '@mui/material';
 import { PLAY_GAME_SCOPE_FEATURED } from '../../game/constants';
 import Link from '../../ui/Link/Link';
+import ExperienceInstanceButton from '../../app/experienceInstance/ExperienceInstanceButton/ExperienceInstanceButton';
+import { getAppSettings } from '../../store/actions/appSettingsActions';
+import { APP_ADMIN_ROLE } from '../../constants';
 
 // {!auth.isAuthenticated ? (
 //   <div>
@@ -29,16 +32,24 @@ import Link from '../../ui/Link/Link';
 //   </>
 // )}
 
-const HomemadeArcadePage = () => {
+const HomemadeArcadePage = ({appSettings: { appSettings }, getAppSettings, auth: { me }}) => {
   const gameListRef = useRef()
+
+  useEffect(() => {
+    getAppSettings()
+  }, [])
   
   return <>
     <AppBar/>
     <div className="HomemadeArcadePage">
       <ConstellationHero>
-        <Button variant="contained" onClick={() => {
+        {/* <Button variant="contained" size="large" style={{marginTop: '1em'}} onClick={() => {
           gameListRef.current.scrollIntoView({ behavior: "smooth" })
-        }}>Play Now</Button>
+        }}>Play Now</Button> */}
+        <br/>
+        {me?.roles[APP_ADMIN_ROLE] && <ExperienceInstanceButton experienceModelMongoId={appSettings.homemadeArcadeExperienceModelMongoId} variant="contained" size="large">
+            Create a Lobby
+        </ExperienceInstanceButton>}
       </ConstellationHero>
       <Container>
         <div className="HomemadeArcadePage__list">
@@ -61,7 +72,8 @@ const HomemadeArcadePage = () => {
 };
 
 const mapStateToProps = (state) => ({
-
+  appSettings: state.appSettings,
+  auth: state.auth
 });
 
-export default compose(connect(mapStateToProps, { }))(HomemadeArcadePage);
+export default compose(connect(mapStateToProps, { getAppSettings }))(HomemadeArcadePage);

@@ -11,12 +11,12 @@ import SelectExperienceModel from '../../../ui/connected/SelectExperienceModel/S
 import { getExperienceModelByMongoId } from '../../../store/actions/experience/experienceModelActions';
 import './ExperienceInstanceAddForm.scss';
 import Dialog from '../../../ui/Dialog/Dialog';
-import ExperienceInstanceForm from '../ExperienceInstanceForm/ExperienceInstanceForm';
+import ExperienceInstanceButton from '../ExperienceInstanceButton/ExperienceInstanceButton';
 
 const ExperienceInstanceAddForm = ({ 
   onSubmit, 
   getExperienceModelByMongoId,
-  experienceModel: { experienceModel } }) => {
+}) => {
 
   const [experienceId, setExperienceId] = useState()
 
@@ -26,18 +26,17 @@ const ExperienceInstanceAddForm = ({
         <SelectExperienceModel value={experienceId ? [experienceId] : []} onSelect={(experienceModels) => {
           if(experienceModels[0]) {
             const id = experienceModels[experienceModels.length -1].id
-            getExperienceModelByMongoId(id)
             setExperienceId(id)
           }
         }}/>
-        {experienceId && experienceModel && <Dialog open>
-          <div className="ExperienceInstanceAddForm__dialog">
-            <ExperienceInstanceForm onSubmit={() => {
-              setExperienceId(null)
-              onSubmit()
-            }}/>
-          </div>
-        </Dialog>}
+        {experienceId && 
+            <ExperienceInstanceButton 
+              experienceModelMongoId={experienceId}
+              onSubmit={() => {
+                setExperienceId(null)
+                onSubmit()
+              }}/>
+        }
       </div>
   );
 };

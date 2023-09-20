@@ -12,7 +12,7 @@ const ConstellationHero = ({children, width, height}) => {
 
  return <div className="ConstellationHero">
     <div className="ConstellationHero__placeholder">
-    <Fade in timeout={{ enter: 3000 }}><div><Constellation width={width} height={height}>
+    <Fade in timeout={{ enter: 3000 }}><div><Constellation width={width} height={window.innerHeight/1.4}>
       <Fade in timeout={{ enter: 5000 }}>
         <div>
           <Typography className="ConstellationHero__title" font="2P" component="h3" variant={matches ? 'h4' : "h2"}>Homemade<br/> Arcade</Typography>

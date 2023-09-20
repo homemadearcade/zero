@@ -298,7 +298,7 @@ function AppBar({ auth }) {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
             {pagesLeft.map(({name, url, variant, href}) => {
               const sx ={}
-              if(location.pathname === '/'+url) {
+              if(location.pathname === url) {
                 sx.fontWeight = '700'
                 sx.color = 'white'
                 // sx.fontSize = '1em'
