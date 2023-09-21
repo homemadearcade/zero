@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import './SnackbarHandler.scss';
@@ -12,11 +12,21 @@ const SnackbarHandler= ({
   snackbar: { snackbars },
   clearSnackbar
  }) => {  
-  function renderSnackbar() {
-    const snackbar = snackbars[snackbars.length-1]
-    function handleClose() {
-      clearSnackbar(snackbar.id)
+  const [currentSnackbar, setCurrentSnackbar] = useState()
+
+  useEffect(() => {
+    if(snackbars.length > 0) {
+      console.log("snackbars", snackbars)
+      setCurrentSnackbar(snackbars[snackbars.length-1])
     }
+  }, [snackbars])
+
+  function renderSnackbar() {
+    function handleClose() {
+      clearSnackbar(currentSnackbar.id)
+    }
+
+    if(!currentSnackbar) return null
 
     const action = (<>
       <IconButton
@@ -30,14 +40,15 @@ const SnackbarHandler= ({
 
     return <Snackbar
       open
+      key={clearSnackbar.id}
       autoHideDuration={8000}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      onClose={handleClose}
+      // onClose={handleClose}
       action={action}>
         <SnackbarContent 
           message={<div>
-            {snackbar.imageUrl && <img alt={snackbar.message} src={snackbar.imageUrl} width="100px"/>}
-            {snackbar.message}
+            {currentSnackbar.imageUrl && <img alt={currentSnackbar.message} src={currentSnackbar.imageUrl} width="100px"/>}
+            {currentSnackbar.message}
             {action}
           </div>}
         />

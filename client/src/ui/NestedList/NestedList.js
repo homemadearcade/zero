@@ -20,8 +20,6 @@ export default function NestedList({ children, onClick, title, interfaceId, more
     setExpanded(expanded === interfaceId ? null : interfaceId);
   };
 
-  console.log('NestedList', {expanded, interfaceId})
-
   return <NestedListBody onClick={onClick} title={title} interfaceId={interfaceId} children={children} expanded={expanded} onChange={handleChange} moreMenu={moreMenu}/>
 }
 

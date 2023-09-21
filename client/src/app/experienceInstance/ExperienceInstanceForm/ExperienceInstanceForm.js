@@ -42,8 +42,6 @@ const ExperienceInstanceForm = ({
   editArcadeGame,
   experienceModel,
 }) => {
-  console.log('experienceModel', experienceModel)
-
   const { handleSubmit, reset, control, formState: { isValid }, register } = useForm({
     defaultValues: convertExperienceModelToLobbyInstance(experienceModel)
   });

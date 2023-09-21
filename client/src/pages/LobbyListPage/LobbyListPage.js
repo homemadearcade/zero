@@ -5,10 +5,11 @@ import { withRouter } from 'react-router-dom';
 
 import { getLobbys } from '../../store/actions/experience/lobbyInstancesActions';
 import { deleteLobby } from '../../store/actions/experience/lobbyInstanceActions';
+import { getAppSettings } from '../../store/actions/appSettingsActions';
 
 import Layout from '../../layout/Layout';
 import Loader from '../../ui/Loader/Loader';
-import ExperienceInstanceAddForm from '../../app/experienceInstance/ExperienceInstanceAddForm/ExperienceInstanceAddForm';
+// import ExperienceInstanceAddForm from '../../app/experienceInstance/ExperienceInstanceAddForm/ExperienceInstanceAddForm';
 import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';
 
@@ -17,11 +18,18 @@ import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
 import Link from '../../ui/Link/Link';
 import PageHeader from '../../ui/PageHeader/PageHeader';
+import LobbyInstanceCard from '../../app/lobbyInstance/LobbyInstanceCard/LobbyInstanceCard';
+import { APP_ADMIN_ROLE } from '../../constants';
+import ExperienceInstanceButton from '../../app/experienceInstance/ExperienceInstanceButton/ExperienceInstanceButton';
 
-const LobbyListPage = ({ history, getLobbys, deleteLobby, lobbyInstances: { lobbyInstances, isLoading } }) => {
+const LobbyListPage = ({ history, getLobbys, lobbyInstances: { lobbyInstances, isLoading }, appSettings: { appSettings }, getAppSettings, auth: { me } }) => {
   useEffect(() => {
     getLobbys();
   }, [getLobbys]);
+
+  useEffect(() => {
+    getAppSettings()
+  }, [getAppSettings])
 
   return (
     <Layout>
@@ -30,74 +38,38 @@ const LobbyListPage = ({ history, getLobbys, deleteLobby, lobbyInstances: { lobb
           title="Lobbies Page"
           description={`This is the lobbies page where all active lobbies are listed. Only admin users can see this page.`}
         ></PageHeader>
+        {/* <ExperienceInstanceAddForm onSubmit={() => {
+            getLobbys()
+        }}/> */}
+        {me?.roles[APP_ADMIN_ROLE] && <ExperienceInstanceButton experienceModelMongoId={appSettings.homemadeArcadeExperienceModelMongoId} variant="contained" size="large">
+            Create a Homemade Arcade Lobby
+        </ExperienceInstanceButton>}
         <div className="LobbyListPage__list">
           {isLoading ? (
             <Loader text="Lobbys Loading..."/>
           ) : (
-            <>
+          <>
               {lobbyInstances.map((lobbyInstance, index) => {
                 return (
-                  <div key={index} className="LobbyListPage__lobby">
-
-                    <div className="LobbyListPage__info-container">
-                      <Typography component="h5" variant="h5">{lobbyInstance.invitedUsers[0]?.username}'s Lobby</Typography>
-                      <div>
-                        <span className="LobbyListPage__label">Lobby ID: </span>
-                        <span className="LobbyListPage__info">{lobbyInstance.id}</span>
-                      </div>
-                      <div>
-                        <span className="LobbyListPage__label">Participants Email: </span>
-                        <span className="LobbyListPage__info">{lobbyInstance.invitedUsers[0]?.email}</span>
-                      </div>
-                      <div>
-                        <span className="LobbyListPage__label">Participants Username: </span>
-                        <span className="LobbyListPage__info">{lobbyInstance.invitedUsers[0]?.username}</span>
-                      </div>
-                      <div>
-                        <span className="LobbyListPage__label">Start Time: </span>
-                        <span className="LobbyListPage__info">{lobbyInstance.startTime}</span>
-                      </div>
-                      {/* <Button
-                        className="LobbyListPage__button"
-                        type="button"
-                        onClick={() => {
-                          history.push('/lobbyInstance/'+lobbyInstance.id)
-                        }}
-                      >
-                        Enter
-                      </Button> */}
-                      <Link to={'/lobby/'+lobbyInstance.id}>Enter</Link>
-                      <Button
-                        className="LobbyListPage__button"
-                        type="button"
-                        onClick={async () => {
-                          await deleteLobby(lobbyInstance.id, history)
-                          getLobbys()
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </div>
+                  <LobbyInstanceCard key={lobbyInstance.id} lobbyInstance={lobbyInstance} canDelete></LobbyInstanceCard>
                 );
               })} 
-              <ExperienceInstanceAddForm onSubmit={() => {
-                getLobbys()
-              }}/>
             </>
           )}
         </div>
-      </div>
+      </div> 
     </Layout>
   );
 };
 
 const mapStateToProps = (state) => ({
   lobbyInstances: state.lobbyInstances,
+  appSettings: state.appSettings,
+  auth: state.auth
 });
 
 export default compose(
   requireAuth,
   requireAdmin,  
   withRouter,
-  connect(mapStateToProps, { getLobbys, deleteLobby }))(LobbyListPage);
+  connect(mapStateToProps, { getAppSettings, getLobbys }))(LobbyListPage);

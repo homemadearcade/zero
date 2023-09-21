@@ -21,9 +21,14 @@ import UserSpeedTestRequest from '../../app/user/UserSpeedTestRequest/UserSpeedT
 import { inIframe } from '../../utils/webPageUtils';
 import LinearIndeterminateLoader from '../../ui/LinearIndeterminateLoader/LinearIndeterminateLoader';
 import AppSettingsContext from '../../hoc/AppSettingsContext';
+import { getLobbysForUser } from '../../store/actions/experience/lobbyInstancesActions';
+import { addSnackbar } from '../../store/actions/snackbarActions';
+import Link from '../../ui/Link/Link';
+import LobbyInstanceCard from '../../app/lobbyInstance/LobbyInstanceCard/LobbyInstanceCard';
 
-const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
+const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth, addSnackbar }) => {
   const [needsSpeedTest, setNeedsSpeedTest] = useState()
+  const [lobbyInstancesAwaited, setLobbiesAwaited] = useState([])
 
   useEffect(() => {
     if(auth.me && window.location.pathname.indexOf('lobby/')  === -1) {
@@ -32,6 +37,32 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
       }
     }
   }, [auth.me])
+
+  useEffect(() => {
+    if(auth.me && window.location.pathname.indexOf('lobby/')  === -1) {
+      async function goGetLobbysForUser(userId) {
+        const lobbyInstances = await getLobbysForUser(userId)
+        if(lobbyInstances.length > 0) {
+          setLobbiesAwaited(lobbyInstances)
+        }
+      }
+
+      goGetLobbysForUser(auth.me.id)
+    }
+  }, [auth.me])
+
+  useEffect(() => {
+    if(lobbyInstancesAwaited.length) {
+      lobbyInstancesAwaited.forEach((lobbyInstance) => {
+        addSnackbar({
+          message: <div>
+            You have been invited to a lobby 
+            <LobbyInstanceCard lobbyInstance={lobbyInstance}/>
+          </div>,
+        })
+      })
+    }
+  }, [lobbyInstancesAwaited])
 
   useEffect(() => {
     // window.socket = io(window.location.host, { autoConnect: false })
@@ -88,4 +119,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default compose(withRouter, connect(mapStateToProps, { logInUserWithOauth, loadMe }))(AppPage);
+export default compose(withRouter, connect(mapStateToProps, { addSnackbar, logInUserWithOauth, loadMe }))(AppPage);

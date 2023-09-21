@@ -40,11 +40,14 @@ const GameCard = ({game, game: { metadata }, width, canEdit, canRemove, canPlay,
   }
 
  return <Card className="GameCard" sx={{ width: width? width : 200 }}>
-    <CardMedia
+    {metadata.imageUrl && <CardMedia
       component="img"
       image={metadata.imageUrl ? metadata.imageUrl : ""}
       alt={metadata.title}
-    />
+    />}
+    {!metadata.imageUrl && <div style={{backgroundColor: '#111'}} >
+      <minidenticon-svg username={game.id}></minidenticon-svg>
+    </div>}
     <CardContent>
       <Typography gutterBottom variant="h5" component="div">
         {metadata.title}

@@ -7,7 +7,7 @@ const initialState = {
 
 export const initialSnackbarState = initialState
 
-export default function errorReducer(state = initialState, { type, payload }) {
+export default function snackbarReducer(state = initialState, { type, payload }) {
   switch (type) {
     case ADD_SNACKBAR:
       return {

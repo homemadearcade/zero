@@ -32,12 +32,8 @@ import { APP_ADMIN_ROLE } from '../../constants';
 //   </>
 // )}
 
-const HomemadeArcadePage = ({appSettings: { appSettings }, getAppSettings, auth: { me }}) => {
+const HomemadeArcadePage = () => {
   const gameListRef = useRef()
-
-  useEffect(() => {
-    getAppSettings()
-  }, [])
   
   return <>
     <AppBar/>
@@ -47,9 +43,6 @@ const HomemadeArcadePage = ({appSettings: { appSettings }, getAppSettings, auth:
           gameListRef.current.scrollIntoView({ behavior: "smooth" })
         }}>Play Now</Button> */}
         <br/>
-        {me?.roles[APP_ADMIN_ROLE] && <ExperienceInstanceButton experienceModelMongoId={appSettings.homemadeArcadeExperienceModelMongoId} variant="contained" size="large">
-            Create a Lobby
-        </ExperienceInstanceButton>}
       </ConstellationHero>
       <Container>
         <div className="HomemadeArcadePage__list">
