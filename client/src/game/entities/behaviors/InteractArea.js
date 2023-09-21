@@ -24,14 +24,14 @@ export class InteractArea extends MatterSprite {
     this.setVisible(false)
 
     this.entityInstanceId = 'interact area'
-    // this.matterSprite.entityModelId = entityModelId
+    // this.physicsSprite.entityModelId = entityModelId
 
     this.overlaps = []
     this.interactables = []
     this.previousClosest = null
     this.paused = false
 
-    scene.uiLayer.add(this.matterSprite)
+    scene.uiLayer.add(this.physicsSprite)
 
     this.entityInstance = entityInstance
 
@@ -72,13 +72,13 @@ export class InteractArea extends MatterSprite {
       const {event} = relation
       const releventEntityInstances = entityInstancesByTag[event.relationTagIdB]
       if(!releventEntityInstances || !releventEntityInstances.length) return
-      const releventMatterSprites = releventEntityInstances.map(({matterSprite}) => matterSprite)
+      const releventMatterSprites = releventEntityInstances.map(({physicsSprite}) => physicsSprite)
       this.overlaps.push(
-        this.scene.physics.add.overlap(this.matterSprite, releventMatterSprites, (a, b) => {
+        this.scene.physics.add.overlap(this.physicsSprite, releventMatterSprites, (a, b) => {
           if(this.paused) return
           if(this.scene.timeToTriggerAgain[relation.relationId] > Date.now()) return
           // console.log('event triggered')
-          this.interactables.push({matterSprite: b, relation})
+          this.interactables.push({physicsSprite: b, relation})
         })
       )
     })
@@ -133,21 +133,21 @@ export class InteractArea extends MatterSprite {
       relations: []
     }
 
-    this.interactables.forEach(({matterSprite}) => {
-      // matterSprite.interactBorder.setVisible(false)
-      const distance = Phaser.Math.Distance.Between(matterSprite.x, matterSprite.y, this.matterSprite.x, this.matterSprite.y)
+    this.interactables.forEach(({physicsSprite}) => {
+      // physicsSprite.interactBorder.setVisible(false)
+      const distance = Phaser.Math.Distance.Between(physicsSprite.x, physicsSprite.y, this.physicsSprite.x, this.physicsSprite.y)
       const { closestDistance } = interactOppurtunity
       if(distance < closestDistance) {
         interactOppurtunity.closestDistance = distance
-        interactOppurtunity.closestInteractable = matterSprite
+        interactOppurtunity.closestInteractable = physicsSprite
       }
     })
     
     const { closestInteractable } = interactOppurtunity
     if(closestInteractable) {
       closestInteractable.interactBorder.setVisible(true)
-      this.interactables.forEach(({matterSprite, relation}) => {
-        if(matterSprite === closestInteractable) {
+      this.interactables.forEach(({physicsSprite, relation}) => {
+        if(physicsSprite === closestInteractable) {
           interactOppurtunity.relations.push(relation)
         }
       })
@@ -202,9 +202,9 @@ export class InteractArea extends MatterSprite {
       this.setVisible(false)
     }
 
-    // const matterSprite = this.entityInstance.matterSprite
+    // const physicsSprite = this.entityInstance.physicsSprite
     // this.lastInteractedWithEntityId = this.interactedWithEntityId
-    // if(matterSprite.body.touching.none && matterSprite.body.blocked.none) {
+    // if(physicsSprite.body.touching.none && physicsSprite.body.blocked.none) {
     //   this.interactedWithEntityId = null
     // }
   }

@@ -28,11 +28,11 @@ export class EntityInstance extends MatterSprite {
 
     this.width = entityInstanceData.width || entityModel.graphics.width
     this.height = entityInstanceData.height || entityModel.graphics.height
-    this.matterSprite.entityInstanceId = entityInstanceId
-    this.matterSprite.effectSpawned = effectSpawned
+    this.physicsSprite.entityInstanceId = entityInstanceId
+    this.physicsSprite.effectSpawned = effectSpawned
     this.effectSpawned = effectSpawned
-    this.matterSprite.entityModelId = entityModelId
-    scene.entityInstanceGroup.add(this.matterSprite)
+    this.physicsSprite.entityModelId = entityModelId
+    scene.entityInstanceGroup.add(this.physicsSprite)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ export class EntityInstance extends MatterSprite {
     return this
   }
 
-  runRelation = (relation, matterSpriteB) => {
+  runRelation = (relation, physicsSpriteB) => {
     const { event } = relation
     if(this.hasTag(event.relationTagIdA)) {
       Object.keys(relation.effects).forEach((effectId) => {
@@ -94,8 +94,8 @@ export class EntityInstance extends MatterSprite {
             effect,
             effects: undefined
           },
-          matterSpriteA: this.matterSprite,
-          matterSpriteB,
+          physicsSpriteA: this.physicsSprite,
+          physicsSpriteB,
         })
       })
     }
@@ -108,15 +108,15 @@ export class EntityInstance extends MatterSprite {
 
   runAccuteEffect({
     relation, 
-    matterSpriteA,
-    matterSpriteB,
+    physicsSpriteA,
+    physicsSpriteB,
     sidesA =[],
     sidesB = []
   }) {
     this.scene.runAccuteEffect({
       relation,
-      matterSpriteA,
-      matterSpriteB,
+      physicsSpriteA,
+      physicsSpriteB,
       sidesA,
       sidesB
     })
@@ -143,13 +143,13 @@ export class EntityInstance extends MatterSprite {
     ////////////////////////////////////////
     // RELATIONS
     if(entityModel.boundaryRelation === BOUNDARY_WRAP) {
-      const width = this.matterSprite.displayWidth
-      const height = this.matterSprite.displayHeight
+      const width = this.physicsSprite.displayWidth
+      const height = this.physicsSprite.displayHeight
 
       let highestSize = width
       if(height > width) highestSize = height
 
-      this.scene.physics.world.wrap(this.matterSprite.body, highestSize)
+      this.scene.physics.world.wrap(this.physicsSprite.body, highestSize)
     }
 
     if(this.scene.isPaused) return 
@@ -196,20 +196,20 @@ export class EntityInstance extends MatterSprite {
   }
 
   getInnerCoordinateBoundaries(entityModel, entityInstance) {
-    const matterSprite = this.matterSprite   
+    const physicsSprite = this.physicsSprite   
 
     let foreignWidth = entityModel.graphics.width
     let foreignHeight = entityModel.graphics.height
 
     if(entityInstance) {
-      foreignWidth = entityInstance.matterSprite.displayWidth
-      foreignHeight = entityInstance.matterSprite.displayHeight
+      foreignWidth = entityInstance.physicsSprite.displayWidth
+      foreignHeight = entityInstance.physicsSprite.displayHeight
     }
 
-    const x = matterSprite.x - (matterSprite.displayWidth/2) +  foreignWidth/4
-    const y = matterSprite.y - (matterSprite.displayHeight/2) + foreignHeight/4
-    const width = matterSprite.displayWidth -  foreignWidth/2
-    const height = matterSprite.displayHeight -  foreignHeight/2
+    const x = physicsSprite.x - (physicsSprite.displayWidth/2) +  foreignWidth/4
+    const y = physicsSprite.y - (physicsSprite.displayHeight/2) + foreignHeight/4
+    const width = physicsSprite.displayWidth -  foreignWidth/2
+    const height = physicsSprite.displayHeight -  foreignHeight/2
 
     return [x, y, width, height]
   }
@@ -220,13 +220,13 @@ export class EntityInstance extends MatterSprite {
     let entityWidth = entityModel.graphics.width
     let entityHeight = entityModel.graphics.height
     if(entityInstance) {
-      entityWidth = entityInstance.matterSprite.displayWidth
-      entityHeight = entityInstance.matterSprite.displayHeight
+      entityWidth = entityInstance.physicsSprite.displayWidth
+      entityHeight = entityInstance.physicsSprite.displayHeight
     }
 
     if(entityWidth === this.width && entityHeight === this.height) {
-      x = this.matterSprite.x
-      y = this.matterSprite.y
+      x = this.physicsSprite.x
+      y = this.physicsSprite.y
     } else {
       const coordinateBoundaries = this.getInnerCoordinateBoundaries(entityModel, entityInstance)
       const position = this.scene.getRandomPosition(...coordinateBoundaries)
@@ -238,14 +238,14 @@ export class EntityInstance extends MatterSprite {
   }
 
   transformEntityModel(entityModelId) {
-    const matterSprite = this.matterSprite
+    const physicsSprite = this.physicsSprite
     const modifiedEntityData = { 
-      spawnX: matterSprite.x,
-      spawnY: matterSprite.y,
+      spawnX: physicsSprite.x,
+      spawnY: physicsSprite.y,
       entityModelId,
       transformCancelEntityModelId: this.transformCancelEntityModelId,
-      velocityX: matterSprite.body.velocity.x,
-      velocityY: matterSprite.body.velocity.y,
+      velocityX: physicsSprite.body.velocity.x,
+      velocityY: physicsSprite.body.velocity.y,
     }
 
     //issue because as soon as we destroy it, we lose acces to 'this'!
@@ -283,9 +283,9 @@ export class EntityInstance extends MatterSprite {
 
     // this check is in here because sometimes the children array is undefined for a scene that is not loaded anymore
     if(this.scene.entityInstanceGroup.children) {
-      this.scene.entityInstanceGroup.remove(this.matterSprite, true)
+      this.scene.entityInstanceGroup.remove(this.physicsSprite, true)
     }
-    // this.scene.removeInstanceFromMatterSpriteGroup(this.entityModelId, this.matterSprite)
+    // this.scene.removeInstanceFromMatterSpriteGroup(this.entityModelId, this.physicsSprite)
     this.graphics.destroy()
     super.destroy()
   }

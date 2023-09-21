@@ -235,18 +235,18 @@ export class GameInstance extends Phaser.Scene {
     })
 
     if(this.playerInstance) {
-      // all matterSprites on playground layer collide with the player
+      // all physicsSprites on playground layer collide with the player
       const gameModel = this.getGameModel()
       const releventInstances = newEntityInstances.filter((entityInstance) => {
         const entityModel = gameModel.entityModels[entityInstance.entityModelId]
         const layerGroupIID = entityModel.graphics.layerGroupIID
         return layerGroupIID === PLAYGROUND_LAYER_GROUP_IID
-      }).map(({matterSprite}) => matterSprite)
+      }).map(({physicsSprite}) => physicsSprite)
 
       this.colliderRegistrations.push(
-        this.physics.add.collider(this.playerInstance.matterSprite, releventInstances, (matterSpriteA, matterSpriteB) => {
-          matterSpriteA.justCollided = true
-          matterSpriteB.justCollided = true
+        this.physics.add.collider(this.playerInstance.physicsSprite, releventInstances, (physicsSpriteA, physicsSpriteB) => {
+          physicsSpriteA.justCollided = true
+          physicsSpriteB.justCollided = true
         })
       )
     }
@@ -470,9 +470,9 @@ export class GameInstance extends Phaser.Scene {
   }
 
   updateEntityInstance(entityInstance, {x, y, rotation, isVisible, destroyAfterUpdate, transformEntityModelId}) {
-    if(x) entityInstance.matterSprite.x = x;
-    if(y) entityInstance.matterSprite.y = y;
-    if(rotation) entityInstance.matterSprite.rotation = rotation;
+    if(x) entityInstance.physicsSprite.x = x;
+    if(y) entityInstance.physicsSprite.y = y;
+    if(rotation) entityInstance.physicsSprite.rotation = rotation;
     entityInstance.setVisible(isVisible);
     entityInstance.isVisible = isVisible
     entityInstance.destroyAfterUpdate = destroyAfterUpdate 
@@ -668,7 +668,7 @@ addInstancesToEntityInstanceByTag(instances) {
     const stageY = currentStage.boundaries.y
 
     this.cameras.main.setBounds(stageX, stageY, stageWidth, stageHeight);
-    this.cameras.main.pan(this.playerInstance.matterSprite.x, this.playerInstance.matterSprite.y, 0)
+    this.cameras.main.pan(this.playerInstance.physicsSprite.x, this.playerInstance.physicsSprite.y, 0)
     const playerCamera = gameModel.entityModels[this.playerInstance.entityModelId].camera
     this.setPlayerZoom(playerCamera);
 
@@ -699,9 +699,9 @@ addInstancesToEntityInstanceByTag(instances) {
         return
       case EVENT_SPAWN_MODEL_DRAG_FINISH: 
         const entityInstance = this.getEntityInstance(data.entityInstanceId)
-        if(entityInstance?.matterSprite) {
-          entityInstance.matterSprite.x = data.x;
-          entityInstance.matterSprite.y = data.y;
+        if(entityInstance?.physicsSprite) {
+          entityInstance.physicsSprite.x = data.x;
+          entityInstance.physicsSprite.y = data.y;
         } else {
           console.error('were trying to move an instance that doesnt exist', data.entityInstanceId)
         }
@@ -1030,20 +1030,20 @@ addInstancesToEntityInstanceByTag(instances) {
   /////////
   //// EFFECTS
 
-  getEffectedmatterSprites = ({matterSpriteA, matterSpriteB, sidesA, sidesB, effect}) => {
-    const matterSprites = []
-    const alternatematterSpriteData = {}
+  getEffectedphysicsSprites = ({physicsSpriteA, physicsSpriteB, sidesA, sidesB, effect}) => {
+    const physicsSprites = []
+    const alternatephysicsSpriteData = {}
     if(effect.effectTagA) {
-      matterSprites.push(matterSpriteA)
-      alternatematterSpriteData.matterSprite = matterSpriteB
-      alternatematterSpriteData.sides = sidesB
+      physicsSprites.push(physicsSpriteA)
+      alternatephysicsSpriteData.physicsSprite = physicsSpriteB
+      alternatephysicsSpriteData.sides = sidesB
     }
 
 
     if(effect.effectTagB) {
-      matterSprites.push(matterSpriteB)
-      alternatematterSpriteData.matterSprite = matterSpriteA
-      alternatematterSpriteData.sides = sidesA
+      physicsSprites.push(physicsSpriteB)
+      alternatephysicsSpriteData.physicsSprite = physicsSpriteA
+      alternatephysicsSpriteData.sides = sidesA
     }
 
     let remoteEffectedRelationTagIds = effect.remoteEffectedRelationTagIds?.slice()
@@ -1054,15 +1054,15 @@ addInstancesToEntityInstanceByTag(instances) {
     if(remoteEffectedRelationTagIds && !noRemoteEffectedTagEffects[effect.effectBehavior]) {
       remoteEffectedRelationTagIds?.forEach((relationTagId) => {
         this.entityInstancesByTag[relationTagId]?.forEach((entityInstance) => {
-          matterSprites.push(entityInstance.matterSprite)
+          physicsSprites.push(entityInstance.physicsSprite)
         })
       })
     }
 
-    return [matterSprites, alternatematterSpriteData]
+    return [physicsSprites, alternatephysicsSpriteData]
   }
 
-  runTargetlessAccuteEffect({relation, matterSpriteA, matterSpriteB}) {
+  runTargetlessAccuteEffect({relation, physicsSpriteA, physicsSpriteB}) {
     const effect = relation.effect
 
     if(effect.effectBehavior === EFFECT_CAMERA_SHAKE) {
@@ -1121,20 +1121,20 @@ addInstancesToEntityInstanceByTag(instances) {
 
     // NARRATIVE
     if(effect.effectBehavior === EFFECT_CUTSCENE) {
-      if(effect.cutsceneId) store.dispatch(openCutscene(matterSpriteB?.entityModelId, effect.cutsceneId))
+      if(effect.cutsceneId) store.dispatch(openCutscene(physicsSpriteB?.entityModelId, effect.cutsceneId))
     }
 
     if(effect.effectBehavior === EFFECT_SPAWN) {
       const spawningEntityId = effect.spawnEntityModelId
       let zone 
 
-      if(effect.spawnZoneSelectorType === SPAWN_ZONE_A_SELECT && matterSpriteA) {
-        if(isZoneEntityId(matterSpriteA.entityModelId)) {
-          zone = matterSpriteA
+      if(effect.spawnZoneSelectorType === SPAWN_ZONE_A_SELECT && physicsSpriteA) {
+        if(isZoneEntityId(physicsSpriteA.entityModelId)) {
+          zone = physicsSpriteA
         } 
-      } else if(effect.spawnZoneSelectorType === SPAWN_ZONE_B_SELECT && matterSpriteB) {
-        if(isZoneEntityId(matterSpriteB.entityModelId)) {
-          zone = matterSpriteB
+      } else if(effect.spawnZoneSelectorType === SPAWN_ZONE_B_SELECT && physicsSpriteB) {
+        if(isZoneEntityId(physicsSpriteB.entityModelId)) {
+          zone = physicsSpriteB
         } 
       } else {
           //  if(effect.spawnZoneSelectorType === SPAWN_ZONE_RANDOM_SELECT) {
@@ -1165,15 +1165,15 @@ addInstancesToEntityInstanceByTag(instances) {
           effect,
           effects: undefined
         },
-        matterSpriteA: this.playerInstance.matterSprite,
+        physicsSpriteA: this.playerInstance.physicsSprite,
       })
     })
   }
 
   runAccuteEffect({
     relation,
-    matterSpriteA,
-    matterSpriteB,
+    physicsSpriteA,
+    physicsSpriteB,
     sidesA = [],
     sidesB = []
   }) {
@@ -1197,8 +1197,8 @@ addInstancesToEntityInstanceByTag(instances) {
         delayedRelation.effect.effectDelay = null
         this.runAccuteEffect({
           relation: delayedRelation,
-          matterSpriteA,
-          matterSpriteB,
+          physicsSpriteA,
+          physicsSpriteB,
           sidesA,
           sidesB
         })
@@ -1220,44 +1220,44 @@ addInstancesToEntityInstanceByTag(instances) {
     if(effectInterface.targetableType === NO_RELATION_TAG_EFFECT_IID) {
       return this.runTargetlessAccuteEffect({
         relation,
-        matterSpriteA,
-        matterSpriteB,
+        physicsSpriteA,
+        physicsSpriteB,
       })
     }
 
-    const [matterSprites] = this.getEffectedmatterSprites({
-      matterSpriteA,
-      matterSpriteB,
+    const [physicsSprites] = this.getEffectedphysicsSprites({
+      physicsSpriteA,
+      physicsSpriteB,
       sidesA,
       sidesB,
       effect
     })
 
-    const runEffect = (matterSprite) =>  {
+    const runEffect = (physicsSprite) =>  {
       if(effect.effectBehavior === EFFECT_STICK_TO) {
-        matterSprite.body.setVelocityY(0)
-        matterSprite.body.setVelocityX(0)
+        physicsSprite.body.setVelocityY(0)
+        physicsSprite.body.setVelocityX(0)
       }
 
       if(effect.effectBehavior === EFFECT_TELEPORT) {
         const gameModel = store.getState().gameModel.gameModel
-        const entityModel = gameModel.entityModels[matterSprite.entityModelId]
+        const entityModel = gameModel.entityModels[physicsSprite.entityModelId]
         const zone = scene.getRandomInstanceOfEntityId(effect.zoneEntityModelId)
         if(!zone) return
-        const { x, y } = zone.getInnerCoordinates(entityModel, matterSprite.entityInstance)
-        matterSprite.setPosition(x, y)
+        const { x, y } = zone.getInnerCoordinates(entityModel, physicsSprite.entityInstance)
+        physicsSprite.setPosition(x, y)
       }
       
       if(effect.effectBehavior === EFFECT_DESTROY) {
-        const entityInstance = scene.getEntityInstance(matterSprite.entityInstanceId)
+        const entityInstance = scene.getEntityInstance(physicsSprite.entityInstanceId)
         entityInstance.destroyAfterUpdate = true
       } else if(effect.effectBehavior === EFFECT_TRANSFORM) {
-        const entityInstance = scene.getEntityInstance(matterSprite.entityInstanceId)
+        const entityInstance = scene.getEntityInstance(physicsSprite.entityInstanceId)
         entityInstance.transformEntityModelId = effect.entityModelId
       }
 
       if(effect.effectBehavior === EFFECT_TRANSFORM_TEMPORARY_START) {
-        const entityInstance = scene.getEntityInstance(matterSprite.entityInstanceId)
+        const entityInstance = scene.getEntityInstance(physicsSprite.entityInstanceId)
         if(!entityInstance.transformCancelEntityModelId) {
           entityInstance.transformEntityModelId = effect.entityModelId
           entityInstance.transformCancelEntityModelId = entityInstance.entityModelId
@@ -1265,15 +1265,15 @@ addInstancesToEntityInstanceByTag(instances) {
       }
 
       if(effect.effectBehavior === EFFECT_TRANSFORM_TEMPORARY_END) {
-        const entityInstance = scene.getEntityInstance(matterSprite.entityInstanceId)
+        const entityInstance = scene.getEntityInstance(physicsSprite.entityInstanceId)
         if(!entityInstance.transformCancelEntityModelId) return
         entityInstance.transformEntityModelId = entityInstance.transformCancelEntityModelId
         entityInstance.transformCancelEntityModelId = null
       }
     }
 
-    matterSprites.forEach((matterSprite) => {
-      runEffect(matterSprite)
+    physicsSprites.forEach((physicsSprite) => {
+      runEffect(physicsSprite)
     })
   }
 

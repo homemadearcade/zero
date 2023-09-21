@@ -79,7 +79,7 @@ export class GameHostScene extends EditorScene {
       if(!this.stage) return
       if(this.stage.stageId !== currentStageId) return
 
-      const entityInstances = this.entityInstances.map(({matterSprite: { entityInstanceId, x, y, rotation}, isVisible, destroyAfterUpdate, transformEntityModelId, entityModelId}) => {
+      const entityInstances = this.entityInstances.map(({physicsSprite: { entityInstanceId, x, y, rotation}, isVisible, destroyAfterUpdate, transformEntityModelId, entityModelId}) => {
         return {
           entityInstanceId,
           x,
@@ -92,7 +92,7 @@ export class GameHostScene extends EditorScene {
         }
       })
 
-      const temporaryInstances = this.temporaryInstances.map(({matterSprite: { entityInstanceId, x, y, rotation}, isVisible, destroyTime, entityModelId, destroyAfterUpdate, transformEntityModelId}) => {
+      const temporaryInstances = this.temporaryInstances.map(({physicsSprite: { entityInstanceId, x, y, rotation}, isVisible, destroyTime, entityModelId, destroyAfterUpdate, transformEntityModelId}) => {
         return {
           entityInstanceId,
           x,
@@ -107,9 +107,9 @@ export class GameHostScene extends EditorScene {
       })
       
       const playerInstance = {
-        x: this.playerInstance.matterSprite.x,
-        y: this.playerInstance.matterSprite.y,
-        rotation: this.playerInstance.matterSprite.rotation,
+        x: this.playerInstance.physicsSprite.x,
+        y: this.playerInstance.physicsSprite.y,
+        rotation: this.playerInstance.physicsSprite.rotation,
         isVisible: this.playerInstance.isVisible,
         destroyAfterUpdate: this.playerInstance.destroyAfterUpdate,
         transformEntityModelId: this.playerInstance.transformEntityModelId,

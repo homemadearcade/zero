@@ -32,19 +32,19 @@ export class Movement {
   update(time, delta) {
     const entityModel = store.getState().gameModel.gameModel.entityModels[this.entityInstance.entityModelId]
     const movementBehavior = entityModel.movement.movementBehavior 
-    const phaserInstance = this.entityInstance.phaserInstance
+    const physicsSprite = this.entityInstance.physicsSprite
 
     const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
     if(isGridViewOn && this.entityInstance.isPlayerInstance) {
       this.entityInstance.setIgnoreGravity(true)
-    } else if(phaserInstance.ignoreGravityOverride) {
+    } else if(physicsSprite?.ignoreGravityOverride) {
       this.entityInstance.setIgnoreGravity(true)
     } else {
       this.entityInstance.setIgnoreGravity(entityModel.movement.ignoreGravity)
     }
 
     if(movementBehavior === MOVEMENT_TURN_ON_COLLIDE) {
-      if(phaserInstance.body.blocked.none === false || phaserInstance.justCollided) {
+      if(physicsSprite.body.blocked.none === false || physicsSprite.justCollided) {
         const speed = entityModel.movement.speed
         const check = Math.random()
     
@@ -100,56 +100,56 @@ export class Movement {
     }
 
 
-    if(movementBehavior === MOVEMENT_SIDE_TO_SIDE && phaserInstance.body.velocity.x === 0) {
-      if(phaserInstance.body.blocked.right) {
-        phaserInstance.setVelocityX(-entityModel.movement.velocityX)
-      } else if(phaserInstance.body.blocked.left || phaserInstance.body.blocked.none) {
-        phaserInstance.setVelocityX(entityModel.movement.velocityX)
+    if(movementBehavior === MOVEMENT_SIDE_TO_SIDE && physicsSprite.body.velocity.x === 0) {
+      if(physicsSprite.body.blocked.right) {
+        physicsSprite.setVelocityX(-entityModel.movement.velocityX)
+      } else if(physicsSprite.body.blocked.left || physicsSprite.body.blocked.none) {
+        physicsSprite.setVelocityX(entityModel.movement.velocityX)
       }
     }
 
-    if(movementBehavior === MOVEMENT_UP_AND_DOWN && phaserInstance.body.velocity.y === 0) {
-      if(phaserInstance.body.blocked.down) {
-        phaserInstance.setVelocityY(-entityModel.movement.velocityY)
-      } else if(phaserInstance.body.blocked.up || phaserInstance.body.blocked.none) {
-        phaserInstance.setVelocityY(entityModel.movement.velocityY)
+    if(movementBehavior === MOVEMENT_UP_AND_DOWN && physicsSprite.body.velocity.y === 0) {
+      if(physicsSprite.body.blocked.down) {
+        physicsSprite.setVelocityY(-entityModel.movement.velocityY)
+      } else if(physicsSprite.body.blocked.up || physicsSprite.body.blocked.none) {
+        physicsSprite.setVelocityY(entityModel.movement.velocityY)
       }
     }
 
     // if(movementBehavior === MOVEMENT_JUMP) {
-    //   console.log('jumping', phaserInstance.body.blocked.down, phaserInstance.body.velocity.y)
+    //   console.log('jumping', physicsSprite.body.blocked.down, physicsSprite.body.velocity.y)
     // }
-    // if(movementBehavior === MOVEMENT_JUMP && phaserInstance.body.blocked.down && phaserInstance.body.velocity.y === 0) {
+    // if(movementBehavior === MOVEMENT_JUMP && physicsSprite.body.blocked.down && physicsSprite.body.velocity.y === 0) {
     //   console.log('setting jump velocity', entityModel.movement.velocityY)
-    //   phaserInstance.setVelocityY(entityModel.movement.velocityY)
+    //   physicsSprite.setVelocityY(entityModel.movement.velocityY)
     // }
 
     if(this.mirroringInstance) {
-      const mirroringPhaserInstance = this.mirroringInstance.phaserInstance
-      phaserInstance.x = mirroringPhaserInstance.x 
-      phaserInstance.y = mirroringPhaserInstance.y
+      const mirroringPhaserInstance = this.mirroringInstance.physicsSprite
+      physicsSprite.x = mirroringPhaserInstance.x 
+      physicsSprite.y = mirroringPhaserInstance.y
     }
 
     if(this.followingInstance) {
       const speed = entityModel.movement.speed
-      const followingPhaserInstance = this.followingInstance.phaserInstance
-      if(Math.abs(phaserInstance.x - followingPhaserInstance.x) < (speed/4) + 10) {
+      const followingPhaserInstance = this.followingInstance.physicsSprite
+      if(Math.abs(physicsSprite.x - followingPhaserInstance.x) < (speed/4) + 10) {
 
-      } else if(phaserInstance.x > followingPhaserInstance.x) {
+      } else if(physicsSprite.x > followingPhaserInstance.x) {
         this.entityInstance.setVelocityX(-speed)
       } else {
         this.entityInstance.setVelocityX(speed)
       }
 
-      if(Math.abs(phaserInstance.y - followingPhaserInstance.y) < (speed/4) + 10) {
+      if(Math.abs(physicsSprite.y - followingPhaserInstance.y) < (speed/4) + 10) {
 
-      } else if(phaserInstance.y > followingPhaserInstance.y) {
+      } else if(physicsSprite.y > followingPhaserInstance.y) {
         this.entityInstance.setVelocityY(-speed)
       } else {
         this.entityInstance.setVelocityY(speed)
       }
     }
 
-    phaserInstance.justCollided = false
+    if(physicsSprite) physicsSprite.justCollided = false
   }
 }

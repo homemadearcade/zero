@@ -97,9 +97,9 @@ export class GameClientScene extends EditorScene {
     if(!this.stage) return 
 
     if(this.playerInstance) {
-      this.playerInstance.matterSprite.x = playerInstance.x 
-      this.playerInstance.matterSprite.y = playerInstance.y
-      this.playerInstance.matterSprite.rotation = playerInstance.rotation
+      this.playerInstance.physicsSprite.x = playerInstance.x 
+      this.playerInstance.physicsSprite.y = playerInstance.y
+      this.playerInstance.physicsSprite.rotation = playerInstance.rotation
       this.playerInstance.setVisible(playerInstance.isVisible);
       this.playerInstance.isVisible = playerInstance.isVisible
       this.playerInstance.destroyAfterUpdate = playerInstance.destroyAfterUpdate 

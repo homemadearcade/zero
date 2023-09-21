@@ -23,26 +23,26 @@ export class PlayerInstance extends EntityInstance {
     //   speed: {
     //     onEmit: (particle, key, t, value) =>
     //     {
-    //       return this.matterSprite.body.speed/10;
+    //       return this.physicsSprite.body.speed/10;
     //     }
     //   },
     //   lifespan: {
     //     onEmit: (particle, key, t, value) =>
     //     {reg
-    //       return Phaser.Math.Percent(this.matterSprite.body.speed/50, 0, 300) * 40000;
+    //       return Phaser.Math.Percent(this.physicsSprite.body.speed/50, 0, 300) * 40000;
     //     }
     //   },
     //   alpha: {
     //     onEmit: (particle, key, t, value) =>
     //     {
-    //       return Phaser.Math.Percent(this.matterSprite.body.speed/50, 0, 300) * 1000;
+    //       return Phaser.Math.Percent(this.physicsSprite.body.speed/50, 0, 300) * 1000;
     //     }
     //   },
     //   scale: { start: 1.0, end: 0 },
     //   blendMode: 'ADD'
     // });
 
-    // this.emitter.startFollow(this.matterSprite);
+    // this.emitter.startFollow(this.physicsSprite);
 
     this.scene = scene
 
@@ -89,7 +89,7 @@ export class PlayerInstance extends EntityInstance {
     })
 
     this.isPlayerInstance = true
-    this.matterSprite.isPlayerInstance = true
+    this.physicsSprite.isPlayerInstance = true
 
     return this
   }
@@ -195,7 +195,7 @@ export class PlayerInstance extends EntityInstance {
       this.lastInteractAreaUpdate = time
       this.interactArea.update(
         {
-          x: this.matterSprite.x, y: this.matterSprite.y, angle: this.matterSprite.angle
+          x: this.physicsSprite.x, y: this.physicsSprite.y, angle: this.physicsSprite.angle
         },
         this.interactKey
       )
@@ -221,14 +221,14 @@ export class PlayerInstance extends EntityInstance {
   transformEntityModel(entityModelId) {
 
     const playerCamera = this.scene.cameras.main
-    const matterSprite = this.matterSprite
+    const physicsSprite = this.physicsSprite
     const modifiedEntityData = { 
-      spawnX: matterSprite.x,
-      spawnY: matterSprite.y,
+      spawnX: physicsSprite.x,
+      spawnY: physicsSprite.y,
       entityModelId,
       transformCancelEntityModelId: this.transformCancelEntityModelId,
-      velocityX: matterSprite.body.velocity.x,
-      velocityY: matterSprite.body.velocity.y,
+      velocityX: physicsSprite.body.velocity.x,
+      velocityY: physicsSprite.body.velocity.y,
       cameraScrollX: playerCamera.scrollX,
       cameraScrollY: playerCamera.scrollY,
     }
@@ -246,7 +246,7 @@ export class PlayerInstance extends EntityInstance {
     const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
     let lerpX = entityModel.camera.lerpX || 0.001
     let lerpY = entityModel.camera.lerpY || 0.001
-    this.scene.cameras.main.startFollow(this.matterSprite, false, lerpX, lerpY)
+    this.scene.cameras.main.startFollow(this.physicsSprite, false, lerpX, lerpY)
     if(cameraScrollX === undefined || cameraScrollY === undefined) return
     this.scene.cameras.main.setScroll(cameraScrollX, cameraScrollY)
   }
@@ -255,14 +255,14 @@ export class PlayerInstance extends EntityInstance {
     this.setCollideable(false);
     // this.particles.setVisible(false)
     this.destroyed = true
-    this.matterSprite.invisibleOverride = true
+    this.physicsSprite.invisibleOverride = true
     this.interactArea.pause()
   }
 
   respawn() {
     this.setCollideable(true);
     this.destroyed = false
-    this.matterSprite.invisibleOverride = false
+    this.physicsSprite.invisibleOverride = false
     this.interactArea.resume()
     // this.particles.setVisible(true)
   }

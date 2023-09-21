@@ -31,14 +31,14 @@ export class Collider {
   update() {
     const entityModelId = this.entityInstance.entityModelId
     const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
-    const matterSprite = this.entityInstance.matterSprite
+    const physicsSprite = this.entityInstance.physicsSprite
 
-    // if(matterSprite.previousIgnoreGravityOverrideFlag && !matterSprite.ignoreGravityOverrideFlag) {
-    //   matterSprite.ignoreGravityOverride = false
+    // if(physicsSprite.previousIgnoreGravityOverrideFlag && !physicsSprite.ignoreGravityOverrideFlag) {
+    //   physicsSprite.ignoreGravityOverride = false
     // }
 
-    // matterSprite.previousIgnoreGravityOverrideFlag = matterSprite.ignoreGravityOverrideFlag
-    // matterSprite.ignoreGravityOverrideFlag = false
+    // physicsSprite.previousIgnoreGravityOverrideFlag = physicsSprite.ignoreGravityOverrideFlag
+    // physicsSprite.ignoreGravityOverrideFlag = false
 
     ////////////////////////////////////////
     ////////////////////////////////////////
@@ -46,14 +46,14 @@ export class Collider {
     ////////////////////////////////////////
     ////////////////////////////////////////
     // STICK TO EFFECT
-    if (matterSprite.heldByInstance) {
-      matterSprite.body.position.x += matterSprite.heldByInstance.body.deltaXFinal();
-      matterSprite.body.position.y += matterSprite.heldByInstance.body.deltaYFinal();   
+    if (physicsSprite.heldByInstance) {
+      physicsSprite.body.position.x += physicsSprite.heldByInstance.body.deltaXFinal();
+      physicsSprite.body.position.y += physicsSprite.heldByInstance.body.deltaYFinal();   
     }
     
-    if (matterSprite.heldByInstance && this.fallenOff(matterSprite, matterSprite.heldByInstance, matterSprite.heldReleaseSides)) {
-      matterSprite.heldByInstance = null;   
-      matterSprite.heldReleaseSides = null
+    if (physicsSprite.heldByInstance && this.fallenOff(physicsSprite, physicsSprite.heldByInstance, physicsSprite.heldReleaseSides)) {
+      physicsSprite.heldByInstance = null;   
+      physicsSprite.heldReleaseSides = null
     }
 
     // if(this.lastCollidingWith) {
@@ -72,9 +72,9 @@ export class Collider {
     // })
 
     setTimeout(() => {
-      matterSprite.invisibleOverride = false 
-      matterSprite.ignoreGravityOverride = false
-      matterSprite.upKeyClimbOverride = false
+      physicsSprite.invisibleOverride = false 
+      physicsSprite.ignoreGravityOverride = false
+      physicsSprite.upKeyClimbOverride = false
     }, 0)
 
     this.lastCollidingWith = this.collidingWith
@@ -110,50 +110,50 @@ export class Collider {
   
   runCollideActiveEffect = ({
     relation,
-    matterSpriteA,
-    matterSpriteB,
+    physicsSpriteA,
+    physicsSpriteB,
     sidesA = [],
     sidesB = []
   }) => {
     const effect = relation.effect
   
-    const [matterSprites, alternatematterSpriteData] = this.scene.getEffectedmatterSprites({
-      matterSpriteA,
-      matterSpriteB,
+    const [physicsSprites, alternatephysicsSpriteData] = this.scene.getEffectedphysicsSprites({
+      physicsSpriteA,
+      physicsSpriteB,
       sidesA,
       sidesB,
       effect: relation.effect
     })
 
-    const runEffect = (matterSprite) => {
+    const runEffect = (physicsSprite) => {
       if(effect.effectBehavior === EFFECT_INVISIBLE && !this.isVisibilityModified) {
-        matterSprite.invisibleOverride = true
+        physicsSprite.invisibleOverride = true
       }
 
       if(effect.effectBehavior === EFFECT_IGNORE_GRAVITY && !this.ignoreGravityOverrideFlag) {
-        matterSprite.ignoreGravityOverride = true
+        physicsSprite.ignoreGravityOverride = true
       }
 
       if(effect.effectBehavior === EFFECT_STICK_TO) {
-        if(!alternatematterSpriteData.matterSprite) console.error('bad!, stick to will not work here')
+        if(!alternatephysicsSpriteData.physicsSprite) console.error('bad!, stick to will not work here')
 
-        matterSprite.heldByInstance = alternatematterSpriteData.matterSprite;   
-        matterSprite.heldReleaseSides = alternatematterSpriteData.sides
+        physicsSprite.heldByInstance = alternatephysicsSpriteData.physicsSprite;   
+        physicsSprite.heldReleaseSides = alternatephysicsSpriteData.sides
 
-        matterSprite.ignoreGravityOverride = true
+        physicsSprite.ignoreGravityOverride = true
       }
 
       if(effect.effectBehavior === EFFECT_ALLOW_CLIMB) {
-        matterSprite.ignoreGravityOverride = true
-        matterSprite.upKeyClimbOverride = true
+        physicsSprite.ignoreGravityOverride = true
+        physicsSprite.upKeyClimbOverride = true
       }
 
       if(effect.effectBehavior === EFFECT_GRAVITY_PULL || effect.effectBehavior === EFFECT_GRAVITY_PUSH) {
-        matterSprite.ignoreGravityOverride = true
-        const center = alternatematterSpriteData.matterSprite.body.center
-        const x = matterSprite.body.position.x + matterSprite.body.width / 2
-        const currentVelocityX = matterSprite.body.velocity.x
-        const currentVelocityY = matterSprite.body.velocity.y
+        physicsSprite.ignoreGravityOverride = true
+        const center = alternatephysicsSpriteData.physicsSprite.body.center
+        const x = physicsSprite.body.position.x + physicsSprite.body.width / 2
+        const currentVelocityX = physicsSprite.body.velocity.x
+        const currentVelocityY = physicsSprite.body.velocity.y
 
         let deltaVelocity = .01 * this.scene.lastDelta
 
@@ -162,23 +162,23 @@ export class Collider {
         }
 
         if(center.x > x) {
-          matterSprite.setVelocityX(currentVelocityX + deltaVelocity)
+          physicsSprite.setVelocityX(currentVelocityX + deltaVelocity)
         } else {
-          matterSprite.setVelocityX(currentVelocityX - deltaVelocity)
+          physicsSprite.setVelocityX(currentVelocityX - deltaVelocity)
         }
 
-        const y = matterSprite.body.position.y + matterSprite.body.height / 2
+        const y = physicsSprite.body.position.y + physicsSprite.body.height / 2
         if(center.y > y) {
-          matterSprite.setVelocityY(currentVelocityY + deltaVelocity)
+          physicsSprite.setVelocityY(currentVelocityY + deltaVelocity)
         } else {
-          matterSprite.setVelocityY(currentVelocityY - deltaVelocity)
+          physicsSprite.setVelocityY(currentVelocityY - deltaVelocity)
         }
 
       }
     }
 
-    matterSprites.forEach((matterSprite) => {
-      runEffect(matterSprite)
+    physicsSprites.forEach((physicsSprite) => {
+      runEffect(physicsSprite)
     })
 
   }
@@ -201,8 +201,8 @@ export class Collider {
 
   startRunCollideEffects = ({
     relation,
-    matterSpriteA,
-    matterSpriteB,
+    physicsSpriteA,
+    physicsSpriteB,
     sidesA = [],
     sidesB = []
   }) => {
@@ -215,18 +215,18 @@ export class Collider {
       }
 
       const event = relation.event
-      const isOnEnter = this.lastCollidingWith?.indexOf(matterSpriteB?.entityInstanceId) === -1 // -> this would mean that instances couldnt do two effects.. && this.collidingWith?.indexOf(matterSpriteB?.entityInstanceId) === -1
+      const isOnEnter = this.lastCollidingWith?.indexOf(physicsSpriteB?.entityInstanceId) === -1 // -> this would mean that instances couldnt do two effects.. && this.collidingWith?.indexOf(physicsSpriteB?.entityInstanceId) === -1
 
-      const alreadyCollidingWith = this.collidingWith.indexOf(matterSpriteB?.entityInstanceId) >= 0
+      const alreadyCollidingWith = this.collidingWith.indexOf(physicsSpriteB?.entityInstanceId) >= 0
       if(!alreadyCollidingWith) {
-        this.collidingWith.push(matterSpriteB?.entityInstanceId)
+        this.collidingWith.push(physicsSpriteB?.entityInstanceId)
       }
       
       if(event.eventType === ON_TOUCH_ACTIVE) {
         this.runCollideActiveEffect({
           relation: newRelation,
-          matterSpriteA,
-          matterSpriteB,
+          physicsSpriteA,
+          physicsSpriteB,
           sidesA,
           sidesB
         })
@@ -235,8 +235,8 @@ export class Collider {
       if(isOnEnter && (event.eventType === ON_TOUCH_START || effect.effectBehavior === EFFECT_STICK_TO)) {
         this.scene.runAccuteEffect({
           relation: newRelation,
-          matterSpriteA,
-          matterSpriteB,
+          physicsSpriteA,
+          physicsSpriteB,
           sidesA,
           sidesB
         })
@@ -249,11 +249,11 @@ export class Collider {
       const { relationTagIdB } = collider
       const releventInstances = entityInstancesByTag[relationTagIdB]
       if(!releventInstances || !releventInstances.length) return
-      const releventSprites = releventInstances.map(({matterSprite}) => matterSprite)
+      const releventSprites = releventInstances.map(({physicsSprite}) => physicsSprite)
       this.colliders.push(
-        this.scene.physics.add.collider(this.sensor.matterSprite, releventSprites, (matterSpriteA, matterSpriteB) => {
-          matterSpriteA.justCollided = true
-          matterSpriteB.justCollided = true
+        this.scene.physics.add.collider(this.sensor.physicsSprite, releventSprites, (physicsSpriteA, physicsSpriteB) => {
+          physicsSpriteA.justCollided = true
+          physicsSpriteB.justCollided = true
         })
       )
     })
@@ -266,19 +266,19 @@ export class Collider {
 
       if(!releventInstances || !releventInstances.length) return
 
-      const releventSprites = releventInstances.map(({matterSprite}) => matterSprite)
+      const releventSprites = releventInstances.map(({physicsSprite}) => physicsSprite)
       this.overlaps.push(
-        this.scene.physics.add.overlap(this.sensor.matterSprite, releventSprites, (matterSpriteA, matterSpriteB) => {
+        this.scene.physics.add.overlap(this.sensor.physicsSprite, releventSprites, (physicsSpriteA, physicsSpriteB) => {
           if(sidesB?.length) {
-            if(!areBSidesHit(sidesB, matterSpriteA, matterSpriteB)) return
+            if(!areBSidesHit(sidesB, physicsSpriteA, physicsSpriteB)) return
           }
           if(sidesA?.length) {
-            if(!areBSidesHit(sidesA, matterSpriteB, matterSpriteA)) return
+            if(!areBSidesHit(sidesA, physicsSpriteB, physicsSpriteA)) return
           }
           this.startRunCollideEffects({
             relation,
-            matterSpriteA,
-            matterSpriteB,
+            physicsSpriteA,
+            physicsSpriteB,
             sidesA,
             sidesB
           })
@@ -351,8 +351,8 @@ export class Collider {
       })
       this.colliders = []
 
-      const matterSprite = this.entityInstance.matterSprite
-      matterSprite.heldByInstance = null
+      const physicsSprite = this.entityInstance.physicsSprite
+      physicsSprite.heldByInstance = null
       // this.onCollideEndRelations = {}
     } 
 

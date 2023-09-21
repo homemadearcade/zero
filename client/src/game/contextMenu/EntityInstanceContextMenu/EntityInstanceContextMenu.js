@@ -98,8 +98,8 @@ const EntityInstanceContextMenu = ({
       <MenuItem onClick={() => {
         const entityInstance = getCurrentGameScene(gameInstance).getEntityInstance(entityInstanceId)
         const json = {
-          x: entityInstance.matterSprite.x,
-          y: entityInstance.matterSprite.y, 
+          x: entityInstance.physicsSprite.x,
+          y: entityInstance.physicsSprite.y, 
           transformEntityModelId: entityInstance.transformEntityModelId,
           transformCancelEntityModelId: entityInstance.transformCancelEntityModelId,
           destroyAfterUpdate: entityInstance.destroyAfterUpdate,

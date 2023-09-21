@@ -26,43 +26,43 @@ export class MatterSprite {
 
     if(scene.physicsType === ARCADE_PHYSICS) {
       if(!spriteSheetName) {
-        this.matterSprite = scene.physics.add.sprite(spawnX, spawnY, textureId, 0)
+        this.physicsSprite = scene.physics.add.sprite(spawnX, spawnY, textureId, 0)
       } else {
-        this.matterSprite = scene.physics.add.sprite(spawnX, spawnY, spriteSheetName, spriteIndex)
+        this.physicsSprite = scene.physics.add.sprite(spawnX, spawnY, spriteSheetName, spriteIndex)
       }
-      // scene.physics.world.enable([ this.matterSprite ]);
+      // scene.physics.world.enable([ this.physicsSprite ]);
     } 
     
     // else
     // if(scene.physicsType === MATTER_PHYSICS) {
     //   if(!spriteSheetName) {
-    //     this.matterSprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, textureId, 0, { plugin: stage.boundaries.loop ? plugin : {} })
+    //     this.physicsSprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, textureId, 0, { plugin: stage.boundaries.loop ? plugin : {} })
     //   } else {
-    //     this.matterSprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: stage.boundaries.loop ? plugin : {} })
+    //     this.physicsSprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: stage.boundaries.loop ? plugin : {} })
     //   }
     // }
 
-    this.matterSprite.entityInstance = this
+    this.physicsSprite.entityInstance = this
 
     this.physicsType = scene.physicsType
 
     // scene.physics.add.existing(this);   
 
-    this.matterSprite.body.entityInstance = this
+    this.physicsSprite.body.entityInstance = this
 
     return this
   }
 
   setActive(active) {
-    this.matterSprite.setActive(active)
+    this.physicsSprite.setActive(active)
   }
 
   setAngle(angle) {
-    this.matterSprite.setAngle(angle)
+    this.physicsSprite.setAngle(angle)
   }
 
   setAlpha(alpha) {
-    this.matterSprite.setAlpha(alpha)
+    this.physicsSprite.setAlpha(alpha)
   }
 
   setAcceleration(acceleration) {
@@ -70,7 +70,7 @@ export class MatterSprite {
       console.log('setting acc under matter')
       return
     }
-    this.matterSprite.setAcceleration(acceleration)
+    this.physicsSprite.setAcceleration(acceleration)
   }
 
   setAccelerationX(acceleration) {
@@ -78,7 +78,7 @@ export class MatterSprite {
       console.log('setting acc under matter')
       return
     }
-    this.matterSprite.setAccelerationX(acceleration)
+    this.physicsSprite.setAccelerationX(acceleration)
   }
 
   setAccelerationY(acceleration) {
@@ -86,7 +86,7 @@ export class MatterSprite {
       console.log('setting acc under matter')
       return
     }
-    this.matterSprite.setAccelerationY(acceleration)
+    this.physicsSprite.setAccelerationY(acceleration)
   }
 
   setAngularAcceleration(acceleration) {
@@ -94,18 +94,18 @@ export class MatterSprite {
       console.log('setting angular acc under matter')
       return
     }
-    this.matterSprite.setAngularAcceleration(acceleration)
+    this.physicsSprite.setAngularAcceleration(acceleration)
   }
 
   enableBody() {
-    // if(this.matterSprite.body) {
-      this.matterSprite.enableBody()
+    // if(this.physicsSprite.body) {
+      this.physicsSprite.enableBody()
     // }
   }
 
   disableBody() {
-    // if(this.matterSprite.body) {
-      this.matterSprite.disableBody()
+    // if(this.physicsSprite.body) {
+      this.physicsSprite.disableBody()
     // }
   }
 
@@ -114,20 +114,20 @@ export class MatterSprite {
       console.log('setting angular drag under matter')
       return
     }
-    this.matterSprite.setAngularDrag(drag)
+    this.physicsSprite.setAngularDrag(drag)
   }
 
   setAngularVelocity(velocity) {
-    this.matterSprite.setAngularVelocity(velocity)
+    this.physicsSprite.setAngularVelocity(velocity)
   }
 
   setBounce(bounciness) {
-    this.matterSprite.setBounce(bounciness)
+    this.physicsSprite.setBounce(bounciness)
   }
 
   setCollideWorldBounds(collide) {
     if(this.physicsType === ARCADE_PHYSICS) {
-      this.matterSprite.setCollideWorldBounds(collide)
+      this.physicsSprite.setCollideWorldBounds(collide)
     }
   }
 
@@ -136,37 +136,37 @@ export class MatterSprite {
       return 
     }
     
-    this.matterSprite.body.checkCollision.down = true 
-    this.matterSprite.body.checkCollision.up = true 
-    this.matterSprite.body.checkCollision.left = true 
-    this.matterSprite.body.checkCollision.right = true 
+    this.physicsSprite.body.checkCollision.down = true 
+    this.physicsSprite.body.checkCollision.up = true 
+    this.physicsSprite.body.checkCollision.left = true 
+    this.physicsSprite.body.checkCollision.right = true 
 
     sides.forEach((side) => {
       if(side === SIDE_LEFT) {
-        this.matterSprite.body.checkCollision.left = false
+        this.physicsSprite.body.checkCollision.left = false
       }
       if(side === SIDE_RIGHT) {
-        this.matterSprite.body.checkCollision.right = false
+        this.physicsSprite.body.checkCollision.right = false
       }
       if(side === SIDE_UP) {
-        this.matterSprite.body.checkCollision.up = false
+        this.physicsSprite.body.checkCollision.up = false
       }
       if(side === SIDE_DOWN) {
-        this.matterSprite.body.checkCollision.down = false
+        this.physicsSprite.body.checkCollision.down = false
       }
     })
   }
 
   setCollideable(collideable) {
     if(this.physicsType === ARCADE_PHYSICS) {
-      this.matterSprite.body.setEnable(collideable)
+      this.physicsSprite.body.setEnable(collideable)
       return
     }
 
     if(collideable) {
-      this.matterSprite.setCollisionCategory(1)
+      this.physicsSprite.setCollisionCategory(1)
     } else {
-      this.matterSprite.setCollisionCategory(null)
+      this.physicsSprite.setCollisionCategory(null)
     }
   }
 
@@ -176,11 +176,11 @@ export class MatterSprite {
 
       return
     }
-    this.matterSprite.setCollisionCategory(category)
+    this.physicsSprite.setCollisionCategory(category)
   }
 
   setDepth(depth) {
-    this.matterSprite.setDepth(depth)
+    this.physicsSprite.setDepth(depth)
   }
 
   setDensity(density) {
@@ -188,16 +188,16 @@ export class MatterSprite {
       console.log('setting density under arcade')
       return
     }
-    this.matterSprite.setDensity(density)
+    this.physicsSprite.setDensity(density)
   }
 
   setDrag(drag) {
     if(this.physicsType === ARCADE_PHYSICS) {
-      if(this.matterSprite.body.useDamping) this.matterSprite.setDrag(drag)
-      else this.matterSprite.setDrag(drag * 200)
+      if(this.physicsSprite.body.useDamping) this.physicsSprite.setDrag(drag)
+      else this.physicsSprite.setDrag(drag * 200)
       return
     }
-    this.matterSprite.setFrictionAir(drag)
+    this.physicsSprite.setFrictionAir(drag)
   }
 
   setDragY(drag) {
@@ -206,9 +206,9 @@ export class MatterSprite {
       return
     }
     if(this.physicsType === ARCADE_PHYSICS) {
-      if(this.matterSprite.body.useDamping) {
-        this.matterSprite.setDragY(drag === 0 ? 0.00000000001 : drag)
-      } else this.matterSprite.setDragY(drag * 200)
+      if(this.physicsSprite.body.useDamping) {
+        this.physicsSprite.setDragY(drag === 0 ? 0.00000000001 : drag)
+      } else this.physicsSprite.setDragY(drag * 200)
       return
     }
   }
@@ -219,9 +219,9 @@ export class MatterSprite {
       return
     }
     if(this.physicsType === ARCADE_PHYSICS) {
-      if(this.matterSprite.body.useDamping) {
-        this.matterSprite.setDragX(drag === 0 ? 0.00000000001 : drag)
-      } else this.matterSprite.setDragX(drag * 200)
+      if(this.physicsSprite.body.useDamping) {
+        this.physicsSprite.setDragX(drag === 0 ? 0.00000000001 : drag)
+      } else this.physicsSprite.setDragX(drag * 200)
       return
     }
   }
@@ -231,16 +231,16 @@ export class MatterSprite {
       console.log('setting damping under matter')
       return
     }
-    this.matterSprite.body.setDamping(damping)
+    this.physicsSprite.body.setDamping(damping)
   }
 
   setFriction(friction) {
-    this.matterSprite.setFriction(friction)
+    this.physicsSprite.setFriction(friction)
   }
 
   setFixedRotation(isFixed) {
     if(this.physicsType === ARCADE_PHYSICS) {
-      this.matterSprite.body.setAllowRotation(!isFixed)
+      this.physicsSprite.body.setAllowRotation(!isFixed)
       return
     }
     if(isFixed) this.setFixedRotation()
@@ -251,7 +251,7 @@ export class MatterSprite {
       console.log('setting friction static under arcade')
       return
     }
-    this.matterSprite.setFrictionStatic(friction)
+    this.physicsSprite.setFrictionStatic(friction)
   }
 
   setGravityY(gravity) {
@@ -260,7 +260,7 @@ export class MatterSprite {
       return
     }
     if(this.physicsType === ARCADE_PHYSICS) {
-      this.matterSprite.setGravityY(gravity)
+      this.physicsSprite.setGravityY(gravity)
       return
     }
   }
@@ -271,45 +271,45 @@ export class MatterSprite {
       return
     }
     if(this.physicsType === ARCADE_PHYSICS) {
-      this.matterSprite.setGravityX(gravity)
+      this.physicsSprite.setGravityX(gravity)
       return
     }
   }
 
   setInteractive(value) {
-    this.matterSprite.setInteractive(value)
+    this.physicsSprite.setInteractive(value)
   }
 
   setIgnoreGravity(ignore) {
     if(this.physicsType === ARCADE_PHYSICS) {
-      this.matterSprite.body.setAllowGravity(!ignore)
+      this.physicsSprite.body.setAllowGravity(!ignore)
       return
     }
-    this.matterSprite.setIgnoreGravity(ignore)
+    this.physicsSprite.setIgnoreGravity(ignore)
   }
 
   setImmovable(isStatic) {
     if(this.physicsType === MATTER_PHYSICS) {
-      this.matterSprite.setStatic(isStatic)
+      this.physicsSprite.setStatic(isStatic)
       return
     }
-    this.matterSprite.setImmovable(!!isStatic)
+    this.physicsSprite.setImmovable(!!isStatic)
   }
 
   setMass(mass) {
-    this.matterSprite.setMass(mass)
+    this.physicsSprite.setMass(mass)
   }
 
   setOrigin(x, y) {
-    this.matterSprite.setOrigin(x, y)
+    this.physicsSprite.setOrigin(x, y)
   }
 
   setPosition(x, y) {
-    this.matterSprite.setPosition(x, y)
+    this.physicsSprite.setPosition(x, y)
   }
 
   setRandomPosition(x, y, width, height) {
-    this.matterSprite.setRandomPosition(x, y, width, height)
+    this.physicsSprite.setRandomPosition(x, y, width, height)
   }
 
   setPushable(pushable) {
@@ -317,71 +317,71 @@ export class MatterSprite {
       console.log('setting pushable under matter')
       return
     }
-    this.matterSprite.setPushable(!!pushable)
+    this.physicsSprite.setPushable(!!pushable)
   }
 
   setRotation(rotation) {
-    this.matterSprite.setRotation(rotation)
+    this.physicsSprite.setRotation(rotation)
   }
 
   setSize(width, height) {
-    this.matterSprite.setDisplaySize(width, height)
+    this.physicsSprite.setDisplaySize(width, height)
   }
 
   setTint(textureTint) {
     const colorInt = getHexIntFromHexString(textureTint)
-    this.matterSprite.setTint(colorInt)
+    this.physicsSprite.setTint(colorInt)
   }
 
   setVisible(visible) {
-    this.matterSprite.setVisible(visible)
+    this.physicsSprite.setVisible(visible)
   }
 
   setVelocity(x, y) {
-    this.matterSprite.setVelocity(x, y)
+    this.physicsSprite.setVelocity(x, y)
   }
 
   setVelocityX(x) {
-    this.matterSprite.setVelocityX(x)
+    this.physicsSprite.setVelocityX(x)
   }
 
   setVelocityY(y) {
-    this.matterSprite.setVelocityY(y)
+    this.physicsSprite.setVelocityY(y)
   }
 
   setMaxVelocity(xy) {
-    this.matterSprite.setMaxVelocity(xy)
+    this.physicsSprite.setMaxVelocity(xy)
   }
 
   thrust(thrust) {
     if(this.physicsType === MATTER_PHYSICS) {
-      this.matterSprite.thrust(thrust)
+      this.physicsSprite.thrust(thrust)
     } else {
-      this.scene.physics.velocityFromRotation(this.matterSprite.rotation - Phaser.Math.DegToRad(90), thrust, this.matterSprite.body.acceleration);  
+      this.scene.physics.velocityFromRotation(this.physicsSprite.rotation - Phaser.Math.DegToRad(90), thrust, this.physicsSprite.body.acceleration);  
     }
   }
 
   // adjustVelocityForRotation() {
-  //   //Math.abs(this.matterSprite.body.velocity.x) + Math.abs(this.matterSprite.body.velocity.y)
-  //   const rotationalVelocity = this.scene.physics.velocityFromRotation(this.matterSprite.rotation - Phaser.Math.DegToRad(90), this.matterSprite.body.speed); 
+  //   //Math.abs(this.physicsSprite.body.velocity.x) + Math.abs(this.physicsSprite.body.velocity.y)
+  //   const rotationalVelocity = this.scene.physics.velocityFromRotation(this.physicsSprite.rotation - Phaser.Math.DegToRad(90), this.physicsSprite.body.speed); 
 
-  //   // const xVel = (this.matterSprite.body.velocity.x + rotationalVelocity.x)/2
-  //   // const yVel = (this.matterSprite.body.velocity.y + rotationalVelocity.y)/2
-  //   // console.log(this.matterSprite.body.speed)
-  //   this.setPosition(this.matterSprite.x + (rotationalVelocity.x/10), this.matterSprite.y + (rotationalVelocity.y/10))
+  //   // const xVel = (this.physicsSprite.body.velocity.x + rotationalVelocity.x)/2
+  //   // const yVel = (this.physicsSprite.body.velocity.y + rotationalVelocity.y)/2
+  //   // console.log(this.physicsSprite.body.speed)
+  //   this.setPosition(this.physicsSprite.x + (rotationalVelocity.x/10), this.physicsSprite.y + (rotationalVelocity.y/10))
   // }
 
   eject(force) {
     if(this.physicsType === MATTER_PHYSICS) {
       console.log('eject via matter')
-      this.matterSprite.thrust(force)
+      this.physicsSprite.thrust(force)
     } else {
-      this.scene.physics.velocityFromRotation(this.matterSprite.rotation, force, this.matterSprite.body.velocity);  
+      this.scene.physics.velocityFromRotation(this.physicsSprite.rotation, force, this.physicsSprite.body.velocity);  
     }
   }
 
   destroy() {
     // console.log('neing destroyed', this.entityInstanceId)
-    this.matterSprite.destroy()
+    this.physicsSprite.destroy()
   }
 }
