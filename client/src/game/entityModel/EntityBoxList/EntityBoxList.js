@@ -18,7 +18,8 @@ const EntityBoxList = ({
   entityModels,
   updateOpenInterfaceId,
   onSelectEntity,
-  gameModel: { gameModel, currentStageId }
+  gameModel: { gameModel },
+  gameRoomInstance: { gameRoomInstance: { currentStageId } }
 }) => {
   const [accordians, setAccordians] = useState()
 
@@ -139,6 +140,7 @@ const EntityBoxList = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
+  gameRoomInstance: state.gameRoomInstance,
 })
 
 export default compose(

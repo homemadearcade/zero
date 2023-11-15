@@ -23,7 +23,8 @@ import { IMPORT_DATA_SOURCE_AID, PLACE_ENTITY_AID } from '../../../constants/int
 const ENTITY_MAX = 16
 
 const EntityList = ({
-  gameModel: { gameModel, currentStageId },
+  gameModel: { gameModel },
+  gameRoomInstance: { gameRoomInstance: { currentStageId } },
   gameViewEditor: {layerInvisibility},
   openEntityBoxDialog,
 }) => {
@@ -127,6 +128,7 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
   gameViewEditor: state.gameViewEditor,
   gameSelector: state.gameSelector,
+  gameRoomInstance: state.gameRoomInstance,
   // for the unlockability to show up
   cobrowsing: state.cobrowsing
 })

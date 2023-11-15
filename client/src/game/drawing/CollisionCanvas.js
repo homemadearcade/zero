@@ -75,7 +75,10 @@ export class CollisionCanvas extends CodrawingCanvas {
 
   registerColliders(entityInstances) {
     if(this.collisionBody) {
-      if(!entityInstances) entityInstances = this.scene.entityInstances
+      if(!entityInstances) {
+        entityInstances = this.scene.entityInstances
+        entityInstances.push(this.scene.playerInstance)
+      }
       // console.log('body arrived')
 
       const entityModels = this.scene.getGameModel().entityModels

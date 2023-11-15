@@ -13,7 +13,6 @@ import {
 } from '../../types';
 
 const initialState = {
-  currentStageId: null,
   isLoading: false,
   isSpriteSheetDataLoaded: false,
   error: null,
@@ -69,11 +68,6 @@ export default function gameReducer(state = initialState, { type, payload }) {
         isLoading: false,
         error: payload.error,
       };
-    case CHANGE_CURRENT_STAGE: 
-      return {
-        ...state,
-        currentStageId: payload.stageId,
-      }
     case UNLOAD_GAME_MODEL: 
       return {
         ...state,

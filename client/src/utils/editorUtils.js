@@ -9,7 +9,7 @@ import { getCobrowsingState } from "./cobrowsingUtils";
 
 export function getCurrentGameScene(gameInstance) {
   const scenes = gameInstance?.scene?.scenes
-  const currentStageId = store.getState().gameModel.currentStageId
+  const currentStageId = store.getState().gameRoomInstance.gameRoomInstance.currentStageId
 
   let currentScene
   if(scenes) scenes.forEach((scene) => {
@@ -20,7 +20,7 @@ export function getCurrentGameScene(gameInstance) {
   return currentScene
 }
 
-export function snapFreeXY({x, y, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {
+export function snapFreeXY({x, y, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameRoomInstance.gameRoomInstance.currentStageId].boundaries}) {
   const gameModel = store.getState().gameModel.gameModel
   const nodeSize = gameModel.size.nodeSize
   const halfNodeSize = nodeSize /// 2
@@ -52,7 +52,7 @@ export function snapFreeXY({x, y, boundaries = store.getState().gameModel.gameMo
 }
 
 
-export function snapSectionalXY({x, y, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {
+export function snapSectionalXY({x, y, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameRoomInstance.gameRoomInstance.currentStageId].boundaries}) {
   const gameModel = store.getState().gameModel.gameModel
   const nodeSize = gameModel.size.nodeSize
   const brushSize = getCobrowsingState().gameSelector.brushSize
@@ -77,7 +77,7 @@ export function snapSectionalXY({x, y, boundaries = store.getState().gameModel.g
   }
 }
 
-export function snapObjectXY({x, y, entityModel, entityInstance, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {
+export function snapObjectXY({x, y, entityModel, entityInstance, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameRoomInstance.gameRoomInstance.currentStageId].boundaries}) {
   const gameModel = store.getState().gameModel.gameModel
   const halfNodeSize = gameModel.size.nodeSize ///2
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn

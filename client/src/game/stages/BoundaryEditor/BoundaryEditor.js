@@ -14,7 +14,8 @@ const BoundaryEditor = ({
   closeBoundaryEditor, 
   editGameModel, 
   setInterfaceIdHovering,
-  gameModel: { currentStageId, gameModel : { stages }}
+  gameModel: { gameModel : { stages }},
+  gameRoomInstance: { gameRoomInstance: { currentStageId } }
 }) => {
   const boundaries = stages[currentStageId].boundaries
   const [sections, setSections] = useState({})
@@ -248,6 +249,7 @@ const BoundaryEditor = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
+  gameRoomInstance: state.gameRoomInstance
 });
 
 export default connect(mapStateToProps, { setInterfaceIdHovering, closeBoundaryEditor, editGameModel })(BoundaryEditor);

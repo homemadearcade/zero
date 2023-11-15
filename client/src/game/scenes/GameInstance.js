@@ -249,11 +249,16 @@ export class GameInstance extends Phaser.Scene {
           physicsSpriteB.justCollided = true
         })
       )
-    }
 
+      
+    }
+    
     Object.keys(this.layerInstancesById).forEach((layerId) => {
       const layerInstance = this.layerInstancesById[layerId]
-      if(layerInstance.isCollisionCanvas) layerInstance.registerColliders(newEntityInstances)
+      if(layerInstance.isCollisionCanvas) {
+        layerInstance.registerColliders(newEntityInstances)
+        if(this.playerInstance) layerInstance.registerColliders(this.playerInstance)
+      }
     })
   }
 
@@ -752,7 +757,7 @@ addInstancesToEntityInstanceByTag(instances) {
   }
 
   update(time, delta) {
-    const currentStageId = store.getState().gameModel.currentStageId
+    const currentStageId = store.getState().gameRoomInstance.gameRoomInstance.currentStageId
     if(this.stage?.stageId !== currentStageId) {
       this.switchStage(currentStageId)
     }

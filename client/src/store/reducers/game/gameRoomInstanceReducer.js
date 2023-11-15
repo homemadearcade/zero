@@ -25,6 +25,7 @@ const initialState = {
     members: [],
     gameResetVersion: 1,
     gameInstanceIds: {},
+    currentStageId: null,
   },
   isLoading: false,
   // isGameStateInitialized: false,

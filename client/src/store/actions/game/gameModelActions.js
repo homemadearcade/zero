@@ -17,14 +17,19 @@ import _ from 'lodash';
 import { getSpritesByDescriptor } from '../../../game/constants';
 import { addLayersForArcadeGameStage, onArcadeGameModelUpdate } from './arcadeGameActions';
 import { clearCutscenes } from './playerInterfaceActions';
+import { editGameRoom } from './gameRoomInstanceActions';
 
 export const changeCurrentStage = (stageId) => (dispatch, getState) => {
-  dispatch({
-    type: CHANGE_CURRENT_STAGE,
-    payload: {
-      stageId,
-    }
-  })
+  // dispatch({
+  //   type: CHANGE_CURRENT_STAGE,
+  //   payload: {
+  //     stageId,
+  //   }
+  // })
+
+  dispatch(editGameRoom(getState().gameRoomInstance.gameRoomInstance.id, {
+    currentStageId: stageId
+  }))
 };
  
 export const getSpritesheetData  = () => async (dispatch, getState) => {

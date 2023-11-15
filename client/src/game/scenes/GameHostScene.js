@@ -74,7 +74,7 @@ export class GameHostScene extends EditorScene {
         return
       }
 
-      const currentStageId = store.getState().gameModel.currentStageId
+      const currentStageId = store.getState().gameRoomInstance.gameRoomInstance.currentStageId
 
       if(!this.stage) return
       if(this.stage.stageId !== currentStageId) return

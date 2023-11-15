@@ -29,11 +29,15 @@ const KeyboardShortcuts = ({
     isSubscribedCobrowsing,
   },
   gameModel: { 
-    currentStageId,
     gameModel,
   },
   gameViewEditor: {
     isDialogOverGameView
+  },
+  gameRoomInstance: {
+    gameRoomInstance: {
+      currentStageId,
+    }
   },
   changeKeyboardShortcutActionIdHovering,
   unlockInterfaceId,
@@ -220,6 +224,7 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   hoverPreview: state.hoverPreview,
   gameModel: state.gameModel,
   gameSelector: state.gameSelector,
+  gameRoomInstance: state.gameRoomInstance,
   cobrowsing: state.cobrowsing,
   gameViewEditor: state.gameViewEditor,
   keyToolbar: state.keyToolbar,

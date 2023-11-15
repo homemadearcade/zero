@@ -87,7 +87,7 @@ if (isProduction) {
 
   server = http.Server(app)
 } else {
-  port = process.env.PORT || 5000;
+  port = process.env.PORT || 5001;
 
   const httpsOptions = {
     key: readFileSync(resolve(__dirname, '../security/cert.key')),

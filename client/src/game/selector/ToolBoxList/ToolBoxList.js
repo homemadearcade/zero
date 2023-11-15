@@ -21,7 +21,8 @@ import Button from '../../../ui/Button/Button';
 const ToolBoxList = ({
   updateOpenInterfaceId,
   onSelectTool,
-  gameModel: { gameModel, currentStageId },
+  gameModel: { gameModel} ,
+  gameRoomInstance: { gameRoomInstance: { currentStageId } },
   editGameModel
 }) => {
   const [accordians, setAccordians] = useState()
@@ -239,6 +240,7 @@ const ToolBoxList = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
+  gameRoomInstance: state.gameRoomInstance,
 })
 
 export default compose(

@@ -24,7 +24,8 @@ const EntityContextMenu = ({
   editGameModel, 
   openEditEntityGraphics, 
   onMenuItemClick, 
-  gameModel: { gameModel, currentStageId }, 
+  gameModel: { gameModel }, 
+  gameRoomInstance: { gameRoomInstance: { currentStageId } },
   playerInterface: { playerEntityModelId },
   openEditEntityDialog,
   entityModelId, 
@@ -147,7 +148,8 @@ const EntityContextMenu = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
-  playerInterface: state.playerInterface
+  playerInterface: state.playerInterface,
+  gameRoomInstance: state.gameRoomInstance,
 })
 
 export default connect(mapStateToProps, { 

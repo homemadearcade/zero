@@ -14,9 +14,14 @@ import Typography from '../../../ui/Typography/Typography';
 
 const CameraEditor = ({ 
   entityModelId, 
-  gameModel: { gameModel, currentStageId },
+  gameModel: { gameModel },
   gameViewEditor: {
     resizingEntityInstanceId
+  },
+  gameRoomInstance: {
+    gameRoomInstance: {
+      currentStageId
+    }
   },
   editGameModel,
   setResizingEntityInstance,
@@ -108,7 +113,8 @@ const CameraEditor = ({
 
 const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
-  gameViewEditor: state.gameViewEditor
+  gameViewEditor: state.gameViewEditor,
+  gameRoomInstance: state.gameRoomInstance
 });
 
 export default connect(mapStateToProps, { editGameModel, toggleGridView, setResizingEntityInstance })(CameraEditor);

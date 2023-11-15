@@ -34,15 +34,29 @@ import { APP_ADMIN_ROLE } from '../../constants';
 
 const HomemadeArcadePage = () => {
   const gameListRef = useRef()
-  
+
   return <>
     <AppBar/>
     <div className="HomemadeArcadePage">
       <ConstellationHero>
+        <div>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap:'1em'
+          }}>
+            {['image0', 'image1', 'image2', 'image3'].map((imageName) => {
+              return <img 
+                src={`/assets/images/templates/${imageName}.jpg`}
+                alt="yo" 
+                style={{width: '120px', background: 'white'}}
+              />
+            })}
+          </div>
+        </div>
         {/* <Button variant="contained" size="large" style={{marginTop: '1em'}} onClick={() => {
           gameListRef.current.scrollIntoView({ behavior: "smooth" })
         }}>Play Now</Button> */}
-        <br/>
       </ConstellationHero>
       <Container>
         <div className="HomemadeArcadePage__list">

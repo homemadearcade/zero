@@ -43,7 +43,8 @@ const StageLiveEditor = ({
   openCreateStageDialog, 
   editGameModel, 
   openEditContentDialog,
-  gameModel: { gameModel, currentStageId }, 
+  gameModel: { gameModel }, 
+  gameRoomInstance: { gameRoomInstance: { currentStageId } },
   closeStageLiveEditor
  }) => {
   const stage = gameModel.stages[currentStageId]
@@ -186,7 +187,8 @@ const StageLiveEditor = ({
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameModel: state.gameModel
+  gameModel: state.gameModel,
+  gameRoomInstance: state.gameRoomInstance,
 })
 
 export default compose(

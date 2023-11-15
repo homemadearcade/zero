@@ -2,4 +2,22 @@
   &__placeholder {
     height: 100%;
   }
+
+  &__title {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+  }
+
+  &__sections {
+    display: flex;
+    justify-content: space-between;
+    align-items: space-between;
+    gap: 3em;
+
+      @media screen and (max-width: 850px) {
+        flex-direction: column;
+      }
+  }
 }

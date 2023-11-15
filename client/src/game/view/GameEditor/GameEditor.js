@@ -107,8 +107,8 @@ const GameEditor = ({
   updateCreateBrush,
   updateCreateEntity,
   showArcadeMachineDemoView,
-  gameRoomInstance: { gameRoomInstance: { gameStatus, hostUserMongoId } },
-  gameModel: { gameModel, currentStageId },
+  gameRoomInstance: { gameRoomInstance: { gameStatus, hostUserMongoId, currentStageId } },
+  gameModel: { gameModel },
   playerInterface: { cutsceneId },
   auth: { me },
 }) => {

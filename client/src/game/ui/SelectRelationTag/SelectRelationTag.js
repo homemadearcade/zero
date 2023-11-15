@@ -12,7 +12,7 @@ import { MenuItem, MenuList } from '@mui/material';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CobrowsingMenuIconButton from '../../cobrowsing/CobrowsingMenuIconButton/CobrowsingMenuIconButton';
 
-const SelectRelationTag = ({ removeEntityTags, relationTagIID, interfaceId, onChange, disabled, value, formLabel, gameModel: { gameModel, currentStageId }, gameSelector: { selectorInterfaceListInvisibility } }) => {
+const SelectRelationTag = ({ removeEntityTags, relationTagIID, interfaceId, onChange, disabled, value, formLabel, gameRoomInstance: { gameRoomInstance: { currentStageId }}, gameModel: { gameModel }, gameSelector: { selectorInterfaceListInvisibility } }) => {
   const dataSourceFilterInterfaceId = interfaceId || SELECT_RELATION_TAG_IID
 
   const mapTagToOption = (relationTagId) => {
@@ -119,6 +119,7 @@ const mapStateToProps = (state) => {
   return {
     gameModel: state.gameModel,
     gameSelector: state.gameSelector,
+    gameRoomInstance: state.gameRoomInstance,
   }
 };
 

@@ -21,7 +21,8 @@ const EntityBoxDialog = ({
   closeEntityBoxDialog, 
   gameSelector: { entityBoxDialogType, entityBoxDialogActionId }, 
   gameFormEditor: { isEditEntityGraphicsOpen },
-  gameModel : { gameModel, currentStageId, gameModel : { entityModels }},
+  gameModel : { gameModel, gameModel : { entityModels }},
+  gameRoomInstance: { gameRoomInstance: { currentStageId } },
   editGameModel
  }) => {
 
@@ -85,6 +86,7 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameSelector: state.gameSelector,
   gameModel: state.gameModel,
   gameFormEditor: state.gameFormEditor,
+  gameRoomInstance: state.gameRoomInstance,
 })
 
 export default compose(

@@ -20,9 +20,10 @@ import { sortByLastSelectedDate } from '../../../utils/editorUtils';
 import Divider from '../../../ui/Divider/Divider';
 
 const BrushList = ({
-  gameModel: { gameModel, currentStageId },
+  gameModel: { gameModel },
   gameViewEditor: { layerInvisibility },
   openCreateBrushFlow,
+  gameRoomInstance: { gameRoomInstance: { currentStageId } },
   canvasImage: { textureIdSaving, textureIdUnsaved, textureIdStrokesPending },
 }) => {
   const brushes = gameModel?.brushes
@@ -116,6 +117,7 @@ const BrushList = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameViewEditor: state.gameViewEditor,
+  gameRoomInstance: state.gameRoomInstance,
   // for the unlockability to show up
   cobrowsing: state.cobrowsing,
   canvasImage: state.canvasImage 

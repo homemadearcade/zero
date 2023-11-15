@@ -29,11 +29,13 @@ const ClickPreview = ({
     currentSelectorListInterfaceId,
   },
   gameModel: { 
-    currentStageId,
     gameModel,
   },
   gameRoomInstance: {
-    gameRoomInstance
+    gameRoomInstance,
+    gameRoomInstance: {
+      currentStageId,
+    }
   },
   gameViewEditor: {
     isBoundaryEditorOpen,

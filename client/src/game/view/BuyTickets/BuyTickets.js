@@ -16,8 +16,8 @@ import BuyTicketsDialog from '../BuyTicketsDialog/BuyTicketsDialog';
 const playTime = 300
 
 const BuyTickets = ({ 
-  gameModel: { currentStageId }, 
   gameSelector: { isBuyTicketsDialogOpen }, 
+  gameRoomInstance: { gameRoomInstance: { currentStageId } },
   closeBuyTicketsDialog, 
   openBuyTicketsDialog,
   auth: { me }
@@ -70,6 +70,7 @@ const BuyTickets = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameSelector: state.gameSelector,
   gameModel: state.gameModel,
+  gameRoomInstance: state.gameRoomInstance,
   auth: state.auth
 });
 

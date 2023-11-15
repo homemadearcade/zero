@@ -35,8 +35,9 @@ import { STAGE_SPAWN_ZONE_SELECT_IID, ZONE_ENTITY_IID } from '../../../constants
 const CreateStageDialog = ({ 
   closeCreateStageDialog, editGameModel,
   updateCreateStage, gameFormEditor: { stage }, 
-  gameModel: { gameModel, currentStageId, isStageAddLoading }, 
-  addStageToGameModel
+  gameModel: { gameModel, isStageAddLoading }, 
+  gameRoomInstance: { gameRoomInstance: { currentStageId } },
+  addStageToGameModel,
 }) => {
   function handleClose() {
     closeCreateStageDialog()
@@ -128,9 +129,10 @@ const CreateStageDialog = ({
 
 const mapStateToProps = (state) => {
   return mapCobrowsingState(state, {
-  gameFormEditor: state.gameFormEditor,
-  gameModel: state.gameModel,
-})
+    gameFormEditor: state.gameFormEditor,
+    gameModel: state.gameModel,
+    gameRoomInstance: state.gameRoomInstance,
+  })
 }
 
 export default compose(

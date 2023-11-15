@@ -24,7 +24,7 @@ import Divider from '../../../ui/Divider/Divider';
           // })
           // }}>Set as Start Stage</Button>}
 
-const StagesList = ({  openCreateStageDialog, changeCurrentStage, gameModel: { gameModel, currentStageId }, editGameModel}) => {
+const StagesList = ({  openCreateStageDialog, changeCurrentStage, gameRoomInstance: { gameRoomInstance: { currentStageId } }, gameModel: { gameModel }, editGameModel}) => {
 
   const [showRemovedStages, setShowRemovedStages] = useState()
 
@@ -76,6 +76,7 @@ const StagesList = ({  openCreateStageDialog, changeCurrentStage, gameModel: { g
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
+  gameRoomInstance: state.gameRoomInstance,
 })
 
 

@@ -13,9 +13,10 @@ import { BRUSH_SIZE_IID } from '../../../constants/interfaceIds';
 import Icon from '../../../ui/Icon/Icon';
 
 const BrushControl = ({
-  gameModel: { gameModel: { brushes, stages }, currentStageId},
+  gameModel: { gameModel: { brushes, stages }},
   updateBrushSize,
   gameSelector: { brushSize, brushIdSelectedBrushList },
+  gameRoomInstance: { gameRoomInstance: { currentStageId } }
 }) => {
   // const brush = brushes[brushIdSelectedBrushList]
 
@@ -63,6 +64,7 @@ const BrushControl = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameSelector: state.gameSelector,
+  gameRoomInstance: state.gameRoomInstance
 })
 
 export default compose(

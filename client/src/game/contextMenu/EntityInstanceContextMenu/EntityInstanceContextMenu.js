@@ -22,7 +22,8 @@ const EntityInstanceContextMenu = ({
   entityEffectSpawned,
   onMenuItemClick,
   entityInstanceId, webPage: { gameInstance }, 
-  gameModel: { gameModel, currentStageId }, 
+  gameModel: { gameModel }, 
+  gameRoomInstance: { gameRoomInstance: { currentStageId } },
   openEditEntityDialog, 
   selectEntity, 
   openJsonViewer,
@@ -118,6 +119,7 @@ const EntityInstanceContextMenu = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   webPage: state.webPage,
   gameModel: state.gameModel,
+  gameRoomInstance: state.gameRoomInstance,
 })
 
 export default connect(mapStateToProps, { editGameModel, openEditEntityDialog, selectEntity, openJsonViewer, setResizingEntityInstance })(EntityInstanceContextMenu);

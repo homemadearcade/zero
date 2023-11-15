@@ -18,7 +18,8 @@ const EntityModelAdd = ({
   addEntityDialogIID,
   children,
   defaultValues = {},
-  gameModel: { gameModel, currentStageId },
+  gameModel: { gameModel },
+  gameRoomInstance: { gameRoomInstance: { currentStageId } },
 }) => {
   function addDefaultValuesToPlayerEntity(entityModel) {
     const defaultType = gameModel.stages[currentStageId].defaultType
@@ -86,9 +87,10 @@ const EntityModelAdd = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
+  gameRoomInstance: state.gameRoomInstance,
   // for the unlockability to show up
   gameModel: state.gameModel,
-  cobrowsing: state.cobrowsing
+  cobrowsing: state.cobrowsing,
 })
 export default compose(
   connect(mapStateToProps, { openEditEntityGraphics}),

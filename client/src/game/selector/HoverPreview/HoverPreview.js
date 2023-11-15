@@ -79,11 +79,13 @@ const HoverPreview = ({
     currentSelectorListInterfaceId,
   },
   gameModel: { 
-    currentStageId,
     gameModel,
   },
   gameRoomInstance: {
-    gameRoomInstance
+    gameRoomInstance,
+    gameRoomInstance: {
+      currentStageId,
+    }
   },
   gameViewEditor: {
     isBoundaryEditorOpen,
