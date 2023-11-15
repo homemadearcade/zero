@@ -378,6 +378,9 @@ const App = ({ theme: { primaryColor } }) => {
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
+          <Route path="/demo" children={
+            <Redirect to="/play/647690c4c650ed0051b973f6"/>
+          }/>
           <Route path="/qr" children={<QRPage/>}/>
           <Route path="/wishlabs" children={wrapComponentInAppIfAuthenticated(WishLabsPage)}/>
           <Route path="/buy-tickets" children={wrapComponentInAppIfAuthenticated(HATicketsPage)}/>
