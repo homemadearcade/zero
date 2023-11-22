@@ -98,9 +98,7 @@ router.get('/gameModelId/:gameModelId', async (req, res) => {
 
 router.post('/:id/copy', requireJwtAuth, async (req, res) => {
   try {
-    console.log('?????')
     const game = await ArcadeGame.findById(req.params.id).populate('owner');
-    console.log('yyy?', game.owner)
     if (!game) return res.status(404).json({ message: 'No game found.' });
 
     let copiedGame = await ArcadeGame.create(game)
@@ -308,6 +306,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermi
       appLocation: updatedGame.appLocation,
       playScope: updatedGame.playScope,
       editScope: updatedGame.editScope,
+      importantValues: updatedGame.importantValues
       // user: tempGame.owner ? tempGame.owner.id : Math.random()
     }
 

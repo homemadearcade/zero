@@ -377,7 +377,8 @@ export class GameInstance extends Phaser.Scene {
 
   initializeEntityInstances() {
     const entityInstances = this.gameState.entityInstances
-    Object.keys(entityInstances).forEach((entityInstanceId) => {
+    entityInstances.forEach((entityInstance) => {
+      const entityInstanceId = entityInstance.entityInstanceId
       const entityInstanceData = entityInstances[entityInstanceId]
 
       if(!entityInstanceData) {
@@ -391,7 +392,7 @@ export class GameInstance extends Phaser.Scene {
       if(!entityInstanceData.entityModelId) {
         return console.error('missing entityModelId!!', entityInstanceId, entityInstanceData)
       }
-
+      
       this.initializeEntityInstance(entityInstanceId, entityInstanceData)
     });
 

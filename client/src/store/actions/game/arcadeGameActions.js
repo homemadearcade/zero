@@ -438,7 +438,6 @@ export const copyArcadeGameToUser = ({arcadeGameMongoId, userMongoId, gameDataUp
     payload: { me: { ...getState().auth.me } },
   });
   const options = attachTokenToHeaders(getState);
-  console.log()
   const response = await axios.post(`/api/arcadeGames/${arcadeGameMongoId}/copy`, {}, options);
   const gameData = response.data.game
 
@@ -472,7 +471,6 @@ export const copyArcadeGameToUser = ({arcadeGameMongoId, userMongoId, gameDataUp
     const options = attachTokenToHeaders(getState);
     const response = await axios.put('/api/arcadeGames/' + gameData.id, gameDataUpdate, options);
 
-    console.log('???', gameDataUpdate, gameData)
     // const arcadeGameMongoId = response.data.game.id
 
     dispatch({
