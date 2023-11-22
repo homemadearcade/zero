@@ -1,10 +1,10 @@
-import { mergeDeep } from "../../../utils/utils"
+import { mergeDeep } from "../../../../utils/utils"
 import _ from "lodash"
 // import { defaultEntity } from "./entityModel"
 import { defaultPlayerEntity } from "./entityClass"
-import { directionalPlayerEntityId, jumperPlayerEntityId, swimmerPlayerEntityId, vehiclePlayerEntityId } from "../core"
-import { advancedDirectionalDefaults, directionalDefaults, groundJumpDefaults, jumpMovementDefaults, noJumpDefaults, swimmerDefaults, vehicleDefaults } from "../entityModelPropertyDefaults"
-import { DATA_SOURCE_SYSTEM_IID } from "../../../constants/interfaceIds"
+import { directionalPlayerEntityId, jumperPlayerEntityId, swimmerPlayerEntityId, vehiclePlayerEntityId } from "../../core"
+import { advancedDirectionalDefaults, directionalDefaults, groundJumpDefaults, jumpMovementDefaults, noJumpDefaults, swimmerDefaults, vehicleDefaults } from "../entityModelMember"
+import { DATA_SOURCE_SYSTEM_IID } from "../../../../constants/interfaceIds"
 
 const defaultProps = mergeDeep(
   // _.cloneDeep(defaultEntity),

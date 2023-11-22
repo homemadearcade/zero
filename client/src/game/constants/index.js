@@ -1,5 +1,3 @@
 export * from './core'
-export * from './entityModelPropertyDefaults'
-export * from './entityModelDefaults'
-export * from './gameModelDefaults'
+export * from './initialGame'
 export * from './interfaceData'

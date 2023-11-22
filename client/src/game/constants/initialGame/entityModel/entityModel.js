@@ -1,9 +1,9 @@
-import { DATA_SOURCE_GAME_MODEL_IID, PLAYGROUND_LAYER_GROUP_IID } from "../../../constants/interfaceIds"
-import { BOUNDARY_COLLIDE } from "../core"
-import { nodeSize } from "../core"
-import { defaultCollisionResponse, defaultJump, defaultMovement, defaultProjectile } from "../entityModelPropertyDefaults"
-import { defaultAutogeneration } from "../entityModelPropertyDefaults/autogeneration"
-import { defaultEditorInterface } from "../entityModelPropertyDefaults/editorInterface"
+import { DATA_SOURCE_GAME_MODEL_IID, PLAYGROUND_LAYER_GROUP_IID } from "../../../../constants/interfaceIds"
+import { BOUNDARY_COLLIDE } from "../../core"
+import { nodeSize } from "../../core"
+import { defaultCollisionResponse, defaultJump, defaultMovement, defaultProjectile } from "../entityModelMember"
+import { defaultAutogeneration } from "../entityModelMember/autogeneration"
+import { defaultEditorInterface } from "../entityModelMember/editorInterface"
 
 export const defaultEntity = {
   dataSourceIID: DATA_SOURCE_GAME_MODEL_IID,

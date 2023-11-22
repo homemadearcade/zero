@@ -1,7 +1,7 @@
-import { BASIC_ENTITY_IID, FOREGROUND_LAYER_GROUP_IID, NPC_ENTITY_IID, PLAYER_ENTITY_IID, POWERUP_ENTITY_IID, PROJECTILE_ENTITY_IID, ZONE_ENTITY_IID } from "../../../constants/interfaceIds";
-import { initialPlayerSpawnZoneEntityId, playerDepthModifier } from "../core";
-import { DIRECTIONAL_CONTROLS } from "../core";
-import { MOVEMENT_NONE } from "../entityModelPropertyDefaults";
+import { BASIC_ENTITY_IID, FOREGROUND_LAYER_GROUP_IID, NPC_ENTITY_IID, PLAYER_ENTITY_IID, POWERUP_ENTITY_IID, PROJECTILE_ENTITY_IID, ZONE_ENTITY_IID } from "../../../../constants/interfaceIds";
+import { initialPlayerSpawnZoneEntityId, playerDepthModifier } from "../../core";
+import { DIRECTIONAL_CONTROLS } from "../../core";
+import { MOVEMENT_NONE } from "../entityModelMember";
 
 // export const defaultPowerupEntity = { 
 //   entityIID: POWERUP_ENTITY_IID,

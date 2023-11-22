@@ -5,9 +5,9 @@
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
-import { C_KID, UP_KID } from "../../../constants/keyboard/keyIds"
-import { ADVANCED_DIRECTIONAL_CONTROLS } from "../core"
-import { JUMP_AIR, JUMP_COMBO, JUMP_CONSTANT, JUMP_GROUND, JUMP_NONE } from "../core"
+import { C_KID, UP_KID } from "../../../../constants/keyboard/keyIds"
+import { ADVANCED_DIRECTIONAL_CONTROLS } from "../../core"
+import { JUMP_AIR, JUMP_COMBO, JUMP_CONSTANT, JUMP_GROUND, JUMP_NONE } from "../../core"
 
 export const defaultJump = {
   jumpControlsBehavior: JUMP_NONE,

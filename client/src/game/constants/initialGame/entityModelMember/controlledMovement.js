@@ -2,10 +2,10 @@
 /////////////////////////////////////
 /////////////////////////////////////
 
-import { C_KID, DOWN_KID, LEFT_KID, RIGHT_KID, UP_KID } from "../../../constants/keyboard/keyIds"
-import { JUMP_GROUND } from "../core"
-import { JUMP_NONE } from "../core"
-import { ADVANCED_DIRECTIONAL_CONTROLS, DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from "../core"
+import { C_KID, DOWN_KID, LEFT_KID, RIGHT_KID, UP_KID } from "../../../../constants/keyboard/keyIds"
+import { JUMP_GROUND } from "../../core"
+import { JUMP_NONE } from "../../core"
+import { ADVANCED_DIRECTIONAL_CONTROLS, DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from "../../core"
 import { CONTROLS_NO_BEHAVIOR_NONE } from "./movement"
 
 //////////////////////////////////////////////////////////////////////////
