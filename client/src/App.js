@@ -7,8 +7,6 @@ import { connect } from 'react-redux';
 
 // import Cookies from 'js-cookie';
 
-import Login from './pages/Login/Login';
-import Register from './pages/Register/Register';
 import GamesPage from './pages/GamesPage/GamesPage';
 import PlayGamePage from './pages/PlayGamePage/PlayGamePage';
 import EditGamePage from './pages/EditGamePage/EditGamePage';
@@ -37,6 +35,8 @@ import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import QRPage from './pages/QRPage/QRPage';
 import InternetSpeedTestPage from './pages/InternetSpeedTestPage/InternetSpeedTestPage';
 import UserCreationsPage from './pages/UserCreationsPage/UserCreationsPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
+import LoginPage from './pages/LoginPage/LoginPage';
 
 window.awsUrl = window.location.origin + '/api/aws/' //'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
@@ -390,8 +390,8 @@ const App = ({ theme: { primaryColor } }) => {
           <Route path="/arcade" children={wrapComponentInApp(ArcadePage)} />
           <Route path="/edit/:arcadeGameMongoId" children={wrapComponentInApp(EditGamePage)} />
           <Route path="/play/:arcadeGameMongoId" children={wrapComponentInApp(PlayGamePage)} />
-          <Route path="/login" children={wrapComponentInApp(Login)} />
-          <Route path="/register" children={wrapComponentInApp(Register)} />
+          <Route path="/login" children={wrapComponentInApp(LoginPage)} />
+          <Route path="/register" children={wrapComponentInApp(RegisterPage)} />
           <Route path="/users" children={wrapComponentInApp(UserListPage)} />
           <Route path="/interface" children={wrapComponentInApp(InterfaceListPage)} />
           <Route path="/notfound" children={wrapComponentInAppIfAuthenticated(NotFound)} />

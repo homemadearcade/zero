@@ -18,7 +18,7 @@ export default (ChildComponent) => {
     constructor(props) {
       super(props)
       this.state = {
-        // byPassTest: isLocalHost(),
+        byPassTest: isLocalHost(),
         testResults: null
       }
     }

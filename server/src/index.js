@@ -213,7 +213,7 @@ io.on("connection", (socket) => {
     if(socket.user?.userMongoId) {
     // connected ==
       const lobbyInstances = app.get(LOBBY_INSTANCE_STORE)
-      lobbyInstances.forEach((lobbyInstance) => {
+      lobbyInstances?.forEach((lobbyInstance) => {
         lobbyInstance.members.forEach((member) => {
           if(member.userMongoId === socket.user.userMongoId) {
             socket.emit(ON_SOCKET_DISCONNECT)
@@ -231,7 +231,7 @@ io.on("connection", (socket) => {
       })
     
       const gameRoomInstances = app.get(GAME_ROOMS_STORE)
-      gameRoomInstances.forEach((gameRoomInstance) => {
+      gameRoomInstances?.forEach((gameRoomInstance) => {
         gameRoomInstance.members.forEach((member) => {
           if(member.userMongoId === socket.user.userMongoId) {
             // if(reason === 'ping timeout') user.loadedGameMongoId = null

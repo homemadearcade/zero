@@ -2,27 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { APP_ADMIN_ROLE } from '../constants';
-import Login from '../pages/Login/Login';
 import UnauthorizedPage from '../pages/UnauthorizedPage/UnauthorizedPage';
+import Login from '../auth/Login/Login';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
   class ComposedComponent extends Component {
-    // // Our component just got rendered
-    // componentDidMount() {
-    //   this.shouldNavigateAway();
-    // }
-
-    // // Our component just got updated
-    // componentDidUpdate() {
-    //   this.shouldNavigateAway();
-    // }
-
-    // shouldNavigateAway() {
-    //     this.props.history.push('/');
-    //   }
-    // }
-
     render() {
       if (this.props.auth.isAuthenticated && this.props.auth.me?.roles[APP_ADMIN_ROLE]) {
         return <ChildComponent {...this.props} />;

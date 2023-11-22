@@ -418,7 +418,7 @@ export const leaveLobbyByMongoId = ({ lobbyInstanceMongoId, userMongoId }, histo
     window.socket.off(ON_COBROWSING_STATUS_UPDATE);
     window.clearInterval(pingInterval);
 
-    if(history) history.push('/');
+    // if(history) history.push('/');
 
     dispatch({
       type: LEAVE_LOBBY_SUCCESS,

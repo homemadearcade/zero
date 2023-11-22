@@ -21,6 +21,7 @@ import { APP_ADMIN_ROLE, EXPERIENCE_ROLE_FACILITATOR, WAITING_ACTIVITY } from '.
 import { ANIMATION_CONFETTI } from '../../game/constants';
 import JSConfetti from 'js-confetti';
 import { ON_LOBBY_INSTANCE_EVENT } from '../../store/types';
+import redirectAfterLogin from '../../hoc/redirectAfterLogin';
 
 const LobbyPage = ({
   lobbyInstance: { lobbyInstance, myRoleId },
@@ -87,6 +88,7 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   requireChrome,
+  redirectAfterLogin,
   requireAuth,
   LobbyInstanceContext,
   withSpeedTest,

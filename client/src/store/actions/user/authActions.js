@@ -102,7 +102,7 @@ export const loadMe = () => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.get('/api/users/me', options);
 
-    dispatch(authenticateSocket())
+    await dispatch(authenticateSocket())
 
     const me = response.data.me
     // if(!me.preferences) me.preferences = {}
@@ -132,9 +132,7 @@ export const loginUserWithEmail = (formData, history) => async (dispatch, getSta
       payload: { token: response.data.token, me: response.data.me },
     });
 
-    dispatch(loadMe());
-    history.push(window.LocalStorageSession.getItem("auth").redirect || '/');
-    dispatch(clearRedirect())
+    await dispatch(loadMe());
   } catch (err) {   
     console.error(err) 
     dispatch({
@@ -161,8 +159,6 @@ export const logInUserWithOauth = (token, history) => async (dispatch, getState)
     });
 
     dispatch(authenticateSocket())
-    history.push(window.LocalStorageSession.getItem("auth").redirect || '/');
-    dispatch(clearRedirect())
   } catch (err) {
     console.error(err)
 

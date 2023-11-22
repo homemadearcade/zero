@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Login from '../pages/Login/Login';
+import Login from '../auth/Login/Login';
 import UnauthorizedPage from '../pages/UnauthorizedPage/UnauthorizedPage';
 import { setRedirect } from '../store/actions/user/authActions';
 import Loader from '../ui/Loader/Loader';

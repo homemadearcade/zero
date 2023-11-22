@@ -438,13 +438,12 @@ export const copyArcadeGameToUser = ({arcadeGameMongoId, userMongoId, gameDataUp
     payload: { me: { ...getState().auth.me } },
   });
   const options = attachTokenToHeaders(getState);
-  const response = await axios.get('/api/arcadeGames/' + arcadeGameMongoId, options);
+  console.log()
+  const response = await axios.post(`/api/arcadeGames/${arcadeGameMongoId}/copy`, {}, options);
   const gameData = response.data.game
-  gameData.owner = null
-  gameData.playScope = PLAY_GAME_SCOPE_UNLISTED
-  gameData.userMongoId = userMongoId
-  
-  mergeDeep(gameData, gameDataUpdate)
+
+  if(!gameDataUpdate.owner) gameDataUpdate.owner = userMongoId
+  if(!gameDataUpdate.playScope) gameDataUpdate.playScope = PLAY_GAME_SCOPE_UNLISTED
 
   Object.keys(gameData.layers).forEach(async layerId => {
     const layer = gameData.layers[layerId]
@@ -471,9 +470,10 @@ export const copyArcadeGameToUser = ({arcadeGameMongoId, userMongoId, gameDataUp
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/arcadeGames', _.cloneDeep(gameData), options);
+    const response = await axios.put('/api/arcadeGames/' + gameData.id, gameDataUpdate, options);
 
-    const arcadeGameMongoId = response.data.game.id
+    console.log('???', gameDataUpdate, gameData)
+    // const arcadeGameMongoId = response.data.game.id
 
     dispatch({
       type: ADD_ARCADE_GAME_SUCCESS,

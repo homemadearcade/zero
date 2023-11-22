@@ -11,6 +11,7 @@ export class CollisionCanvas extends CodrawingCanvas {
     this.isCollisionCanvas = true
     this.collisionBody = null
     this.scene = scene
+    this.collidersToRegister = []
     
     return this
   }
@@ -62,7 +63,6 @@ export class CollisionCanvas extends CodrawingCanvas {
       }
     }
     
-    this.unregisterColliders()
     this.collisionBody = new CompoundStaticBody(this.scene, { 
       parts: collisionGridNodes,
       width: stage.boundaries.maxWidth, 
@@ -70,17 +70,15 @@ export class CollisionCanvas extends CodrawingCanvas {
       nodeWidth: nodeSize, 
       nodeHeight: nodeSize
     })
-    this.registerColliders()
+
+    if(this.collidersToRegister) {
+      this.registerColliders(this.collidersToRegister)
+      this.collidersToRegister = []
+    } 
   }
 
   registerColliders(entityInstances) {
     if(this.collisionBody) {
-      if(!entityInstances) {
-        entityInstances = this.scene.entityInstances
-        entityInstances.push(this.scene.playerInstance)
-      }
-      // console.log('body arrived')
-
       const entityModels = this.scene.getGameModel().entityModels
       if(this.playerInstance) this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.physicsSprite)
       this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, entityInstances.filter(({entityModelId}) => {
@@ -90,9 +88,10 @@ export class CollisionCanvas extends CodrawingCanvas {
         return physicsSprite
       }))
     } else {
-      // console.log('no body yet')
+      if(entityInstances) {
+        this.collidersToRegister.push(...entityInstances)
+      }
     }
-
   }
 
   unregisterColliders() {

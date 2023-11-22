@@ -7,7 +7,7 @@ import {
   LOGIN_WITH_EMAIL_SUCCESS
 } from '../../types';
 
-import { clearRedirect, loadMe } from './authActions';
+import { loadMe } from './authActions';
 
 export const registerUserWithEmail = (formData, history) => async (dispatch, getState) => {
   dispatch({ type: REGISTER_WITH_EMAIL_LOADING });
@@ -23,9 +23,7 @@ export const registerUserWithEmail = (formData, history) => async (dispatch, get
       payload: { token: response.data.token, me: response.data.me },
     });
 
-    dispatch(loadMe());
-    history.push(window.LocalStorageSession.getItem("auth").redirect || '/');
-    dispatch(clearRedirect())
+    await dispatch(loadMe());
   } catch (err) {
     console.error(err)
 

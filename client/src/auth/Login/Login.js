@@ -15,24 +15,20 @@ import Typography from '../../ui/Typography/Typography';
 import Icon from '../../ui/Icon/Icon';
 import { GOOGLE_AUTH_LINK } from '../../constants';
 
-const Login = ({ auth, history, loginUserWithEmail }) => {
+const Login = ({ auth, loginUserWithEmail, onLogin }) => {
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
     validationSchema: loginSchema,
-    onSubmit: (values) => {
-      loginUserWithEmail(values, history);
+    onSubmit: async (values) => {
+      console.log('???')
+      await loginUserWithEmail(values);
+      console.log('??')
+      onLogin()
     },
   });
-
-  useEffect(() => {
-    if(auth.isAuthenticated && !auth.redirect) {
-      console.log('redirect in login componet is triggering')
-      history.push('/')
-    }
-  }, [])
 
   return (
     <div className="Login">
@@ -87,12 +83,6 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
           <Icon icon="faGoogle"></Icon>
           Login with Google
         </a>
-        <div>
-          Don't have an account?{' '}
-          <Link to="/register">
-            Register
-          </Link>
-        </div>
     </div>
   );
 };
@@ -102,4 +92,4 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default compose(withRouter, connect(mapStateToProps, { loginUserWithEmail }))(Login);
+export default compose(connect(mapStateToProps, { loginUserWithEmail }))(Login);

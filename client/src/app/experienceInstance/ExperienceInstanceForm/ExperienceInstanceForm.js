@@ -18,6 +18,7 @@ import { EXPERIENCE_ROLE_AUDIENCE, EXPERIENCE_INSTANCE_DID, GAME_ROOM_ACTIVITY, 
 import { RoleChip } from '../../experienceModel/role/RoleChip/RoleChip';
 import _ from 'lodash';
 import { EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE, GAME_INSTANCE_DID, PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE } from '../../../game/constants';
+import { set } from 'js-cookie';
 
 function convertExperienceModelToLobbyInstance(experienceModel) {
   return {
@@ -51,7 +52,10 @@ const ExperienceInstanceForm = ({
     name: 'lobbyInstances'
   })
 
+  const [isLoading, setIsLoading] = useState()
+
   const submit = async (data) => {
+    setIsLoading(true)
     const experienceInstanceId = EXPERIENCE_INSTANCE_DID + generateUniqueId()
 
     const lobbyIds = Object.keys(experienceModel.lobbys)
@@ -178,6 +182,7 @@ const ExperienceInstanceForm = ({
       await addLobby(completeLobbyInstance)
     }
    
+    setIsLoading(false)
     reset();
     onSubmit()
   }
@@ -236,7 +241,7 @@ const ExperienceInstanceForm = ({
                 </div>
               </Paper>
             })}
-            <Button disabled={!isValid} type="submit" onClick={handleSubmit(submit)}>Add Experience Instance</Button>
+            <Button disabled={!isValid || isLoading} type="submit" onClick={handleSubmit(submit)}>Add Experience Instance</Button>
           </div>
       </div>
   );

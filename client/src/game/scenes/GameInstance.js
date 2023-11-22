@@ -256,8 +256,10 @@ export class GameInstance extends Phaser.Scene {
     Object.keys(this.layerInstancesById).forEach((layerId) => {
       const layerInstance = this.layerInstancesById[layerId]
       if(layerInstance.isCollisionCanvas) {
-        layerInstance.registerColliders(newEntityInstances)
-        if(this.playerInstance) layerInstance.registerColliders(this.playerInstance)
+        if(newEntityInstances) layerInstance.registerColliders(newEntityInstances)
+        if(this.playerInstance) {
+          layerInstance.registerColliders([this.playerInstance])
+        }
       }
     })
   }

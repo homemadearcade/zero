@@ -41,7 +41,14 @@ const LobbyListPage = ({ history, getLobbys, lobbyInstances: { lobbyInstances, i
         {/* <ExperienceInstanceAddForm onSubmit={() => {
             getLobbys()
         }}/> */}
-        {me?.roles[APP_ADMIN_ROLE] && <ExperienceInstanceButton experienceModelMongoId={appSettings.homemadeArcadeExperienceModelMongoId} variant="contained" size="large">
+        {me?.roles[APP_ADMIN_ROLE] && <ExperienceInstanceButton 
+          experienceModelMongoId={appSettings.homemadeArcadeExperienceModelMongoId} 
+          variant="contained" 
+          size="large"
+          onSubmit={() => {
+            getLobbys()
+          }}
+        >
             Create a Homemade Arcade Lobby
         </ExperienceInstanceButton>}
         <div className="LobbyListPage__list">

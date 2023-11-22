@@ -26,17 +26,25 @@ const CobrowsingDialog = ({
   useEffect(() => {
     setIsDialogOverGameView(true)
 
-    const keyStop = setInterval(() => {
+    function stopKeys() {
       const scene = getCurrentGameScene(gameInstance)
       if(scene) {
         scene.input.keyboard.disableGlobalCapture()
+        scene.input.keyboard.enabled = false
       }
-    }, 1000)
+    }
+    
+    stopKeys()
+    const keyStop = setInterval(stopKeys, 1000)
 
     return () => {
       clearInterval(keyStop)
       setIsDialogOverGameView(false)
-      getCurrentGameScene(store.getState().webPage.gameInstance)?.input?.keyboard.enableGlobalCapture();
+      const scene = getCurrentGameScene(gameInstance)
+      if(scene) {
+        scene?.input?.keyboard.enableGlobalCapture();
+        scene.input.keyboard.enabled = true
+      }
     }
   }, [])
   

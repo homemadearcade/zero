@@ -18,7 +18,7 @@ import Typography from '../../ui/Typography/Typography';
 import Icon from '../../ui/Icon/Icon';
 import { GOOGLE_AUTH_LINK } from '../../constants';
 
-const Register = ({ auth, register: { isLoading, error }, history, registerUserWithEmail}) => {
+const Register = ({ onLogin, register: { isLoading, error }, registerUserWithEmail}) => {
   const participantEmail = getUrlParameter('participantEmail')
 
   const formik = useFormik({
@@ -28,8 +28,9 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
       password: '',
     },
     validationSchema: registerSchema,
-    onSubmit: (values) => {
-      registerUserWithEmail(values, history);
+    onSubmit: async (values) => {
+      await registerUserWithEmail(values);
+      onLogin()
     },
   });
 
@@ -108,4 +109,4 @@ const mapStateToProps = (state) => ({
   register: state.register,
 });
 
-export default compose(withRouter, connect(mapStateToProps, { registerUserWithEmail }))(Register);
+export default compose(connect(mapStateToProps, { registerUserWithEmail }))(Register);
