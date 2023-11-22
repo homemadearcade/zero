@@ -35,7 +35,7 @@ const Register = ({ onLogin, register: { isLoading, error }, registerUserWithEma
   });
 
   return (
-    <div className="RegisterPage">
+    <div className="Register">
       <Typography component="h4" variant="h4">Register</Typography>
       <div>
         back to{' '}

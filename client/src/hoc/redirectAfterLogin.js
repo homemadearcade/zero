@@ -4,7 +4,6 @@ import Login from '../auth/Login/Login';
 import UnauthorizedPage from '../pages/UnauthorizedPage/UnauthorizedPage';
 import { setRedirect } from '../store/actions/user/authActions';
 import { withRouter } from 'react-router-dom';
-import Register from '../auth/Register/Register';
 import { compose } from 'redux';
 
 // eslint-disable-next-line import/no-anonymous-default-export
