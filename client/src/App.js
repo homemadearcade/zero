@@ -37,6 +37,8 @@ import InternetSpeedTestPage from './pages/InternetSpeedTestPage/InternetSpeedTe
 import UserCreationsPage from './pages/UserCreationsPage/UserCreationsPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import LoginPage from './pages/LoginPage/LoginPage';
+import Forgot from './auth/Forgot/Forgot';
+import Reset from './auth/Reset/Reset';
 
 window.awsUrl = window.location.origin + '/api/aws/' //'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
@@ -380,10 +382,9 @@ const App = ({ theme: { primaryColor } }) => {
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <Route path="/demo" children={
-            <Redirect to="/play/647690c4c650ed0051b973f6"/>
-          }/>
           <Route path="/qr" children={<QRPage/>}/>
+          <Route path="/forgot" children={<Forgot/>}/>
+          <Route path="/reset/:code" children={<Reset/>}/>
           <Route path="/wishlabs" children={wrapComponentInAppIfAuthenticated(WishLabsPage)}/>
           <Route path="/buy-tickets" children={wrapComponentInAppIfAuthenticated(HATicketsPage)}/>
           <Route path="/speed-test" children={wrapComponentInApp(InternetSpeedTestPage)} />

@@ -1,7 +1,9 @@
 import User, { hashPassword } from '../models/User';
 import nodemailer from 'nodemailer'
 import { generateUniqueId } from '../utils/utils';
+import express from 'express';
 const router = express.Router();
+
 
 //you can use the registerUser controller and getUsers controller to test the API endpoints in Postman since they are not connected to the client
 
@@ -47,7 +49,7 @@ const updatePassword = async (req, res) => {
 
 const sendEmail = async (req, res) => {
   const { recipient_email } = req.body;
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email: recipient_email });
   if (!user) {
       return res.status(404).json({ message: 'User not found' });
   }

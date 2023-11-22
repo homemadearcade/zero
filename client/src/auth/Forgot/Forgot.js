@@ -2,6 +2,7 @@ import React, {useState } from "react";
 import axios from "axios";
 import { compose } from "redux";
 import { withRouter } from "react-router-dom";
+import Typography from "../../ui/Typography/Typography";
 
 function Forgot( { match }) {
   const [email, setEmail] = useState("");
@@ -30,18 +31,16 @@ function Forgot( { match }) {
 
   return (
     <div className="container">
-        <h2>Reset Password Request</h2>
-        <form  className="form">
-            <label  />  Email:  
-            <input
-                type="email"
-                placeholder=""
-                required=""
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-            <button onClick={() => sendEmail}>Send Email</button>
-        </form>
+        <Typography variant="h3">Forgot Password </Typography>
+        <label  />  Email:  
+        <input
+            type="email"
+            placeholder=""
+            required=""
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+        />
+        <button onClick={() => sendEmail()}>Send Email</button>
     </div>
   );}
 

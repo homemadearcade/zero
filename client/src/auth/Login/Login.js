@@ -77,20 +77,12 @@ const Login = ({ auth, loginUserWithEmail, onLogin, children }) => {
           </div>
           </form>
         </div>
-        <Button
+        <Link
+          to="/forgot"
           className="btn submit"
         >
           Forgot Password?
-        </Button>
-        <Button
-          className="btn submit"
-          type="submit"
-          onClick={() => {
-            // setForgotPassword(true)
-          }}
-        >
-          Send Password Recovery Email
-        </Button>
+        </Link>
         {children && children}
         {/* <a className="GoogleOAuth" href={GOOGLE_AUTH_LINK}>
           <Icon icon="faGoogle"></Icon>

@@ -3,12 +3,15 @@ import { RecoveryContext } from "../../App";
 import axios from "axios";
 import { compose } from "redux";
 import { withRouter } from "react-router-dom";
+import Typography from "../../ui/Typography/Typography";
 
 
 function Reset( { match }) {
   const [password, setPassword] = useState("");
 
   const code = match.params.code;
+
+  console.log('??')
 
   function changePassword() {
     if(password) {
@@ -22,13 +25,13 @@ function Reset( { match }) {
         return alert("Password changed successfully, please login!");
       } catch (error) {console.log(error);}
     }
-    
+
     return alert("Please enter your new Password");
   }
 
   return (
     <div className="container">
-        <h2> Change Password </h2>
+        <Typography variant="h3"> Change Password </Typography>
         <form  className="form">
             <label  />  New Password:  
             <input
