@@ -9,7 +9,7 @@ const entityModel = new Schema({
     boundaryRelation: {
       type: String,
     },
-    entityIID: {
+    entityClassIID: {
       type: String,
     },
     name: {
@@ -84,7 +84,7 @@ entityModel.methods.toJSON = function () {
     boundaryRelation: this.boundaryRelation,
     entityModelId: this.entityModelId,
     dataSourceIID: this.dataSourceIID,
-    entityIID: this.entityIID,
+    entityClassIID: this.entityClassIID,
     movement: this.movement,
     collisionResponse: this.collisionResponse,
     jump: this.jump,

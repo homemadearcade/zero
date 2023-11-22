@@ -4,7 +4,7 @@ import { IS_DATA_REMOVED } from '../../game/constants'
 export const useEntityDataSourceVisibility = (entityModel) => {
   const selectorInterfaceListInvisibility = useSelector((state) => state.gameSelector.selectorInterfaceListInvisibility)
   const dataSourceIID = entityModel.dataSourceIID
-  const interfaceId = entityModel.entityIID
+  const interfaceId = entityModel.entityClassIID
   const isDataSourceInvisible = selectorInterfaceListInvisibility[interfaceId][dataSourceIID]
 
   const isRemoved = entityModel.isRemoved

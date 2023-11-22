@@ -6,7 +6,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import EntityContextMenu from '../EntityContextMenu/EntityContextMenu';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { initialCameraZoneEntityId, PLAYER_INSTANCE_DID } from '../../constants';
+import { PLAYER_INSTANCE_DID } from '../../constants';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { selectEntity, openJsonViewer } from '../../../store/actions/game/gameSelectorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';

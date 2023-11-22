@@ -13,8 +13,8 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
 import { REMOVED_DATA_SHOW_IID, STAGE_ADD_IID, } from '../../../constants/interfaceIds';
 import { initialStage, STAGE_DID } from '../../constants';
-import { generateUniqueId } from '../../../utils';
 import Divider from '../../../ui/Divider/Divider';
+import { createInitialStage } from '../../constants/initialGame/gameModel';
 
           // {gameModel.player.startingStageId !== stageId && stage.playerEntityModelId && <Button onClick={() => {
           //   editGameModel({
@@ -24,7 +24,12 @@ import Divider from '../../../ui/Divider/Divider';
           // })
           // }}>Set as Start Stage</Button>}
 
-const StagesList = ({  openCreateStageDialog, changeCurrentStage, gameRoomInstance: { gameRoomInstance: { currentStageId } }, gameModel: { gameModel }, editGameModel}) => {
+const StagesList = ({ 
+  openCreateStageDialog, 
+  changeCurrentStage, 
+  gameRoomInstance: { gameRoomInstance: { currentStageId } }, 
+  gameModel: { gameModel }, 
+  editGameModel}) => {
 
   const [showRemovedStages, setShowRemovedStages] = useState()
 
@@ -58,8 +63,9 @@ const StagesList = ({  openCreateStageDialog, changeCurrentStage, gameRoomInstan
     <Unlockable interfaceId={STAGE_ADD_IID}>
       <Button startIcon={<Icon icon="faPlus"/>} onClick={() => {
         // const newStageId = STAGE_DID + generateUniqueId()
+        const newStage = createInitialStage(gameModel.importantValues)
         openCreateStageDialog({
-          ...initialStage,
+          ...newStage,
           // stageId: newStageId,
           // isNew: true,
         })

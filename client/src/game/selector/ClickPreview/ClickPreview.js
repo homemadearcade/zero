@@ -48,7 +48,7 @@ const ClickPreview = ({
     const entityModelId = entityModelIdHovering || entityModelIdSelectedEntityList
     const entityModel = gameModel.entityModels[entityModelId]
     if(!entityModel) return
-    return entityModelClassToDisplayName[entityModel.entityIID]
+    return entityModelClassToDisplayName[entityModel.entityClassIID]
   }
 
   function renderActionTitle(text, icon) {

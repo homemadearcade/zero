@@ -7,8 +7,7 @@ import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/edito
 import { clearBrush, clearEntity, openEntityBehaviorLiveEditor, openGameEditDialog, openStageLiveEditor, selectEntity } from '../../store/actions/game/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom, setResizingEntityInstance, closeBoundaryEditor, setIsMouseOverGameView } from '../../store/actions/game/gameViewEditorActions';
 import { PLAYER_INSTANCE_DID, ENTITY_INSTANCE_DID, UI_LAYER_DEPTH, 
-  STAGE_LAYER_ID, EVENT_SPAWN_MODEL_DRAG_FINISH,
-   initialCameraZoneEntityId, initialStageZoneEntityId, 
+  STAGE_LAYER_ID, EVENT_SPAWN_MODEL_DRAG_FINISH, STAGE_ZONE_ENTITY_IVID,
  } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
@@ -371,7 +370,7 @@ export class EditorScene extends GameInstance {
     }
     if(entityModelId && !this.stamper) {
       const entityModel = gameModel.entityModels[entityModelId]
-      if(entityModel.entityIID !== PLAYER_ENTITY_IID) {
+      if(entityModel.entityClassIID !== PLAYER_ENTITY_IID) {
         const entityInstanceId = gameSelector.entityInstanceIdSelected
         if(entityInstanceId) {
           const entityInstanceData = gameModel.stages[this.stage.stageId].entityInstances[entityInstanceId]
@@ -897,7 +896,8 @@ export class EditorScene extends GameInstance {
         const stageY = stageUpdate.boundaries.y
         this.cameras.main.setBounds(stageX, stageY, stageWidth, stageHeight)
         this.stage.setBoundaries(stageUpdate.boundaries)
-        this.forAllEntityInstancesMatchingEntityId(initialStageZoneEntityId, (entityInstance) => {
+        const stageZoneEntityId = this.getGameModel().importantValues[STAGE_ZONE_ENTITY_IVID]
+        this.forAllEntityInstancesMatchingEntityId(stageZoneEntityId, (entityInstance) => {
           const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
           this.removeEntityInstance(entityInstance.entityInstanceId)
           this.addEntityInstance(entityInstance.entityInstanceId, entityInstanceData)

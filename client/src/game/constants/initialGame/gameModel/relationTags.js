@@ -1,6 +1,6 @@
-import {  RELATION_TAG_DID, } from ".."
-import { ENTITY_RELATION_TAGS_IID, RELATION_TAG_GENERAL_IID , DATA_SOURCE_GAME_MODEL_IID, DATA_SOURCE_SYSTEM_IID } from "../../../constants/interfaceIds"
-import { defaultEditorInterface } from "../entityModelPropertyDefaults/editorInterface"
+import {  PLAYER_RELATION_TAG_ID, RELATION_TAG_DID, } from "../../"
+import { ENTITY_RELATION_TAGS_IID, RELATION_TAG_GENERAL_IID , DATA_SOURCE_GAME_MODEL_IID, DATA_SOURCE_SYSTEM_IID } from "../../../../constants/interfaceIds"
+import { defaultEditorInterface } from "../entityModelMember/editorInterface"
 
 export const defaultRelationTag = {
   relationTagIID: RELATION_TAG_GENERAL_IID,
@@ -37,8 +37,6 @@ function createLibraryTag(relationTagId, name, textureTint, hiddenFromIDs = {}) 
   }
 }
 
-export const playerRelationTagId = RELATION_TAG_DID+'player'
-
 // export const playgroundRelationTagId = RELATION_TAG_DID+'playground'
 
 // export const enemyRelationTagId = RELATION_TAG_DID+'enemy'
@@ -54,7 +52,7 @@ export const playerRelationTagId = RELATION_TAG_DID+'player'
 // export const endGameWhenAllDestroyedTagId = RELATION_TAG_DID+'endGameWhenAllDestroyed'
 
 export const initialTags = {
-  [playerRelationTagId]: createLibraryTag(playerRelationTagId, 'Player', '#FFFF00', {
+  [PLAYER_RELATION_TAG_ID]: createLibraryTag(PLAYER_RELATION_TAG_ID, 'Player', '#FFFF00', {
     [ENTITY_RELATION_TAGS_IID]: true,
   }),
   // [endGameOnTouchTagId]: createLibraryTag(endGameOnTouchTagId, 'End Game on Touch', '#FF0000'),

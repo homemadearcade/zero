@@ -8,7 +8,6 @@ import { BACKGROUND_LAYER_GROUP_IID, FOREGROUND_LAYER_GROUP_IID, PLAYGROUND_LAYE
 import { layerGroupIIDtoName } from '../../constants';
 
 
-
 const SelectLayer = ({ formLabel, onChange, value, disabled}) => {
   const mapControlsToOption = (layerGroupIID) => {
 

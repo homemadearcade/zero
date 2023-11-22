@@ -34,13 +34,13 @@ export const PROJECTILE_ENTITY_SELECT_IID = "PROJECTILE_ENTITY_IID/select";
 
 export const ENTITY_MODEL_BOUNDARY_RELATION_IID = 'ENTITY_MODEL_BOUNDARY_RELATION_IID'
 
-export function getSelectEntityFromEntityType(entityIID) {
-  if(entityIID === PLAYER_ENTITY_IID) return PLAYER_ENTITY_SELECT_IID
-  if(entityIID === ZONE_ENTITY_IID) return ZONE_ENTITY_SELECT_IID
-  if(entityIID === BASIC_ENTITY_IID) return BASIC_ENTITY_SELECT_IID
-  if(entityIID === NPC_ENTITY_IID) return NPC_ENTITY_SELECT_IID
-  // if(entityIID === POWERUP_ENTITY_IID) return POWERUP_ENTITY_SELECT_IID
-  if(entityIID === PROJECTILE_ENTITY_IID) return PROJECTILE_ENTITY_SELECT_IID
+export function getSelectEntityFromEntityType(entityClassIID) {
+  if(entityClassIID === PLAYER_ENTITY_IID) return PLAYER_ENTITY_SELECT_IID
+  if(entityClassIID === ZONE_ENTITY_IID) return ZONE_ENTITY_SELECT_IID
+  if(entityClassIID === BASIC_ENTITY_IID) return BASIC_ENTITY_SELECT_IID
+  if(entityClassIID === NPC_ENTITY_IID) return NPC_ENTITY_SELECT_IID
+  // if(entityClassIID === POWERUP_ENTITY_IID) return POWERUP_ENTITY_SELECT_IID
+  if(entityClassIID === PROJECTILE_ENTITY_IID) return PROJECTILE_ENTITY_SELECT_IID
 }
 
 /////////////////////////////////////

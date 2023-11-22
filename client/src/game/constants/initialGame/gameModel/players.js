@@ -2,85 +2,113 @@ import { mergeDeep } from "../../../../utils/utils"
 import _ from "lodash"
 // import { defaultEntity } from "./entityModel"
 import { defaultPlayerEntity } from "../entityModel/entityClass"
-import { directionalPlayerEntityId, jumperPlayerEntityId, swimmerPlayerEntityId, vehiclePlayerEntityId } from "../../core"
 import { advancedDirectionalDefaults, directionalDefaults, groundJumpDefaults, jumpMovementDefaults, noJumpDefaults, swimmerDefaults, vehicleDefaults } from "../entityModelMember"
 import { DATA_SOURCE_SYSTEM_IID } from "../../../../constants/interfaceIds"
+import { DIRECTIONAL_PLAYER_ENTITY_IVID, JUMPER_PLAYER_ENTITY_IVID, SWIMMER_PLAYER_ENTITY_IVID, VEHICLE_PLAYER_ENTITY_IVID } from "../importantValueIds"
 
-const defaultProps = mergeDeep(
-  // _.cloneDeep(defaultEntity),
-  _.cloneDeep(defaultPlayerEntity),
-)
+export function createInitialPlayerEntities(importantValues) {
 
-export const vehicleEntity = {
-  ...defaultProps,
-  dataSourceIID: DATA_SOURCE_SYSTEM_IID,
-  entityModelId: vehiclePlayerEntityId,
-  name: 'Vehicle',
-  graphics: {
-    textureTint: '#FFFFFF',
-    // "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
-  },
-  "movement": {
-    ...vehicleDefaults.movement
-  },
-  'jump': {
-    ...vehicleDefaults.jump
+  const vehiclePlayerEntityId = importantValues[VEHICLE_PLAYER_ENTITY_IVID].value
+
+  const jumperPlayerEntityId = importantValues[JUMPER_PLAYER_ENTITY_IVID].value
+
+  const directionalPlayerEntityId = importantValues[DIRECTIONAL_PLAYER_ENTITY_IVID].value
+
+  const swimmerPlayerEntityId = importantValues[SWIMMER_PLAYER_ENTITY_IVID].value
+
+  const defaultProps = mergeDeep(
+    // _.cloneDeep(defaultEntity),
+    _.cloneDeep(defaultPlayerEntity),
+  )
+
+  const vehicleEntity = {
+    ...defaultProps,
+    dataSourceIID: DATA_SOURCE_SYSTEM_IID,
+    name: 'Vehicle',
+    graphics: {
+      textureTint: '#FFFFFF',
+      // "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
+    },
+    "movement": {
+      ...vehicleDefaults.movement
+    },
+    'jump': {
+      ...vehicleDefaults.jump
+    }
   }
+
+  const swimmerEntity = {
+    ...defaultProps,
+    dataSourceIID: DATA_SOURCE_SYSTEM_IID,
+    name: 'Swimmer',
+    graphics: {
+      textureTint: '#FFFFFF',
+      // "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
+    },
+    "movement": {
+      ...swimmerDefaults.movement,
+    },
+    'jump': {
+      ...swimmerDefaults.jump,
+    }
+  }
+
+  const jumperEntity = {
+    ...defaultProps,
+    dataSourceIID: DATA_SOURCE_SYSTEM_IID,
+    name: 'Jumper',
+    graphics: {
+      textureTint: '#FFFFFF',
+
+      // "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
+    },
+    movement: {
+      ...advancedDirectionalDefaults.movement,
+      ...jumpMovementDefaults.movement
+    },
+    'jump': {
+      ...advancedDirectionalDefaults.jump,
+      ...groundJumpDefaults.jump
+    }
+  }
+
+  const directionalEntity = {
+    ...defaultProps,
+    dataSourceIID: DATA_SOURCE_SYSTEM_IID,
+    name: 'Directional',
+    graphics: {
+      textureTint: '#FFFFFF',
+      // "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
+    },
+    movement: {
+      ...directionalDefaults.movement
+    },
+    'jump': {
+      ...noJumpDefaults
+    }
+  }
+
+  return {
+    'vehicleEntity': {
+      ...vehicleEntity,
+      entityModelId: vehiclePlayerEntityId
+    },
+    'swimmerEntity': {
+      ...swimmerEntity,
+      entityModelId: swimmerPlayerEntityId
+    },
+    'jumperEntity': {
+      ...jumperEntity,
+      entityModelId: jumperPlayerEntityId
+    },
+    'directionalEntity': {
+      ...directionalEntity,
+      entityModelId: directionalPlayerEntityId
+    },
+  }
+
 }
 
-export const swimmerEntity = {
-  ...defaultProps,
-  dataSourceIID: DATA_SOURCE_SYSTEM_IID,
-  entityModelId: swimmerPlayerEntityId,
-  name: 'Swimmer',
-  graphics: {
-    textureTint: '#FFFFFF',
-    // "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
-  },
-  "movement": {
-    ...swimmerDefaults.movement,
-  },
-  'jump': {
-    ...swimmerDefaults.jump,
-  }
-}
-
-export const jumperEntity = {
-  ...defaultProps,
-  dataSourceIID: DATA_SOURCE_SYSTEM_IID,
-  entityModelId: jumperPlayerEntityId,
-  name: 'Jumper',
-  graphics: {
-    textureTint: '#FFFFFF',
-
-    // "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
-  },
-  movement: {
-    ...advancedDirectionalDefaults.movement,
-    ...jumpMovementDefaults.movement
-  },
-  'jump': {
-    ...advancedDirectionalDefaults.jump,
-    ...groundJumpDefaults.jump
-  }
-}
-
-export const directionalEntity = {
-  ...defaultProps,
-  dataSourceIID: DATA_SOURCE_SYSTEM_IID,
-  entityModelId: directionalPlayerEntityId,
-  name: 'Directional',
-  graphics: {
-    textureTint: '#FFFFFF',
-    // "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
-  },
-  movement: {
-    ...directionalDefaults.movement
-  },
-  'jump': {
-    ...noJumpDefaults
-  }
-}
 
 // export const carEntity = {
 //   ...defaultProps,

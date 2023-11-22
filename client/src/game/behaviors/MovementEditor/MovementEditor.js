@@ -20,7 +20,7 @@ const MovementEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel
   const [seeAllParameters, setSeeAllParameters] = useState()
   const entitySelected = gameModel.entityModels[entityModelId]
 
-  let movementParameters = entitySelected.entityIID === PLAYER_ENTITY_IID ? movementControlsBehaviorToInterface[entitySelected.movement.movementControlsBehavior] : movementBehaviorToInterface[entitySelected.movement.movementBehavior]
+  let movementParameters = entitySelected.entityClassIID === PLAYER_ENTITY_IID ? movementControlsBehaviorToInterface[entitySelected.movement.movementControlsBehavior] : movementBehaviorToInterface[entitySelected.movement.movementBehavior]
 
   if(seeAllParameters) {
     movementParameters = {
@@ -43,7 +43,7 @@ const MovementEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel
 
   return (
     <div className="MovementEditor">
-      {entitySelected.entityIID === PLAYER_ENTITY_IID && <Unlockable interfaceId={CONTROLS_NO_BEHAVIOR_BEHAVIOR_IID}>
+      {entitySelected.entityClassIID === PLAYER_ENTITY_IID && <Unlockable interfaceId={CONTROLS_NO_BEHAVIOR_BEHAVIOR_IID}>
         <SelectMovementControlsBehavior
           formLabel="Controls"
           value={entitySelected.movement.movementControlsBehavior ? [entitySelected.movement.movementControlsBehavior] : []}
@@ -51,7 +51,7 @@ const MovementEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel
             editGameModel({ entityModels: { [entityModelId]: { ...controls[controls.length-1] } }})    
         }}/>
       </Unlockable>}
-      {entitySelected.entityIID !== PLAYER_ENTITY_IID && <Unlockable interfaceId={MOVEMENT_BEHAVIOR_IID}>
+      {entitySelected.entityClassIID !== PLAYER_ENTITY_IID && <Unlockable interfaceId={MOVEMENT_BEHAVIOR_IID}>
         <SelectMovementBehavior
           formLabel="Behavior"
           value={entitySelected.movement.movementBehavior ? [entitySelected.movement.movementBehavior] : []}

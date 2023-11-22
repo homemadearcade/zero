@@ -1,7 +1,7 @@
 import { MenuItem } from "@mui/material"
 import { PLAYER_AND_RELATION_TAG_EVENT_IID, PLAYER_ENTITY_IID, SINGLE_RELATION_TAG_EVENT_IID, TWO_RELATION_TAG_EVENT_IID } from "../../../constants/interfaceIds"
 import ButtonMenu from "../../../ui/ButtonMenu/ButtonMenu"
-import { eventShortNames, eventTypeInterfaces, playerRelationTagId } from "../../constants"
+import { eventShortNames, eventTypeInterfaces, PLAYER_RELATION_TAG_ID } from "../../constants"
 import { openCreateRelation } from "../../../store/actions/game/gameFormEditorActions"
 import { mapCobrowsingState } from "../../../utils"
 import { compose } from "redux"
@@ -28,7 +28,7 @@ const CreateRelationForRelationTag = ({
         }
 
         if(eventInterface.relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT_IID) {
-          event.relationTagIdA = playerRelationTagId
+          event.relationTagIdA = PLAYER_RELATION_TAG_ID
           event.relationTagIdB = relationTag.relationTagId
         } else if(eventInterface.relationTagSelectType === SINGLE_RELATION_TAG_EVENT_IID) {
           event.relationTagIdA = relationTag.relationTagId

@@ -16,7 +16,7 @@ export default {
       return gameModel.entityModels[entityModelId].name
     },
     isRemoved: ([entityModelId], gameModel) => {
-      return gameModel.entityModels[entityModelId].entityIID === ZONE_ENTITY_IID
+      return gameModel.entityModels[entityModelId].entityClassIID === ZONE_ENTITY_IID
     },
     onClick: ([entityModelId]) => (dispatch, gameModel) => {
       const entityModel = gameModel.entityModels[entityModelId]
@@ -42,7 +42,7 @@ export default {
       return gameModel.entityModels[entityModelId].name
     },
     isRemoved: ([entityModelId], gameModel) => {
-      return gameModel.entityModels[entityModelId].entityIID === ZONE_ENTITY_IID
+      return gameModel.entityModels[entityModelId].entityClassIID === ZONE_ENTITY_IID
     },
     onClick: ([entityModelId]) => (dispatch, gameModel) => {
       const entityModel = gameModel.entityModels[entityModelId]

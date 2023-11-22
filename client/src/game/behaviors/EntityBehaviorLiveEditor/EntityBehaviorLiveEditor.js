@@ -52,7 +52,7 @@ const EntityBehaviorLiveEditor = ({ closeEntityBehaviorLiveEditor, gameSelector:
     body: <CameraEditor entityModelId={entityModelIdSelectedLiveEditor}/>
   }
 
-  if(entityModel.entityIID === PLAYER_ENTITY_IID) {
+  if(entityModel.entityClassIID === PLAYER_ENTITY_IID) {
 
     tabs.push(cameraTab)
 

@@ -2,7 +2,7 @@ import store from "../../../store"
 import { getCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { getHexIntFromHexString } from "../../../utils/editorUtils"
 import { getThemePrimaryColor } from "../../../utils/webPageUtils"
-import { UI_LAYER_DEPTH, editorHighlightDepthModifier, initialStageZoneEntityId, invisibleIndicatorDepthModifer } from "../../constants"
+import { STAGE_ZONE_ENTITY_IVID, UI_LAYER_DEPTH, editorHighlightDepthModifier, invisibleIndicatorDepthModifer } from "../../constants"
 
 
 export class Graphics {
@@ -14,7 +14,8 @@ export class Graphics {
     const entityModel = gameModel.entityModels[entityInstance.entityModelId]
     const physicsSprite = this.entityInstance.physicsSprite
 
-    if(entityModel.entityModelId === initialStageZoneEntityId) {
+    const stageZoneEntityId = gameModel.importantValues[STAGE_ZONE_ENTITY_IVID].value
+    if(entityModel.entityModelId === stageZoneEntityId) {
       const boundaries = this.scene.getStage().boundaries
       this.entityInstance.setPosition(boundaries.x + (boundaries.width/2), boundaries.y + (boundaries.height/2))
       this.setSize(boundaries.width, boundaries.height)
@@ -230,7 +231,7 @@ export class Graphics {
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
     const layerInvisibility = gameViewEditor.layerInvisibility
-    const isLayerInvisible = layerInvisibility[entityModel.entityIID]
+    const isLayerInvisible = layerInvisibility[entityModel.entityClassIID]
     // sets visible to false if layer is invisible, but if the layer is visible, then visibility is determined by the entitys visibility state
 
     if(isInvisible && !isLayerInvisible) {

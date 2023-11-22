@@ -34,25 +34,25 @@ const EntityList = ({
     return null
   }
 
-  const renderEntityItem = (entityModelClass) =>  (currentEntityModelId, i) => {
+  const renderEntityItem = (entityModelClassIID) =>  (currentEntityModelId, i) => {
     const el = <EntityItem key={i} entityModelId={currentEntityModelId}/>
-    return <Unlockable interfaceId={getSelectEntityFromEntityType(entityModelClass)}>
+    return <Unlockable interfaceId={getSelectEntityFromEntityType(entityModelClassIID)}>
       {el}
     </Unlockable>
   }
 
-  function renderEntityBoxButton(entityModelClass){
+  function renderEntityBoxButton(entityModelClassIID){
     return <>
       <Unlockable interfaceId={ENTITY_BOX_OPEN_IID}>
       <Button size="fit" startIcon={<Icon icon='faArrowPointer'/>} className="EntityList__more" onClick={() => {
-        openEntityBoxDialog(PLACE_ENTITY_AID, entityModelClass)
+        openEntityBoxDialog(PLACE_ENTITY_AID, entityModelClassIID)
       }}>
         More
       </Button>
     </Unlockable>
     <Unlockable interfaceId={ENTITY_BOX_OPEN_IID}>
       <Button size="fit" startIcon={<Icon icon='faBoxArchive'/>} className="EntityList__more" onClick={() => {
-        openEntityBoxDialog(IMPORT_DATA_SOURCE_AID, entityModelClass)
+        openEntityBoxDialog(IMPORT_DATA_SOURCE_AID, entityModelClassIID)
       }}>
         Import
       </Button>
@@ -60,12 +60,12 @@ const EntityList = ({
    </>
   }
 
-  const filterEntityModels = (entityModelClass) => (currentEntityModelId) => {
+  const filterEntityModels = (entityModelClassIID) => (currentEntityModelId) => {
     const currentEntityModel = entityModels[currentEntityModelId]
     if(currentEntityModel.isRemoved) return 
     if(currentEntityModel.editorInterface.hiddenFromIDs[SELECTOR_ENTITY_BY_INTERFACE_ID_IID]) return false
     if(!currentEntityModel.importedStageIds[currentStageId]) return false 
-    if(currentEntityModel.entityIID === entityModelClass) {
+    if(currentEntityModel.entityClassIID === entityModelClassIID) {
       return true
     }
     return false
@@ -75,13 +75,13 @@ const EntityList = ({
   const hiddenOpacity = 0.5
 
   const entityModelClasss = [PLAYER_ENTITY_IID, NPC_ENTITY_IID, BASIC_ENTITY_IID, ZONE_ENTITY_IID, PROJECTILE_ENTITY_IID]
-  entityModelClasss.forEach((entityIID) => {
+  entityModelClasss.forEach((entityClassIID) => {
     const releventEntityModels = Object.keys(entityModels).
-      filter(filterEntityModels(entityIID)).
+      filter(filterEntityModels(entityClassIID)).
       sort(sortByLastEditedDate(entityModels)).
-      map(renderEntityItem(entityIID)).filter((item) => !!item).slice(0, ENTITY_MAX -1)
+      map(renderEntityItem(entityClassIID)).filter((item) => !!item).slice(0, ENTITY_MAX -1)
     
-    releventEntityModels.push(<EntityModelAdd addEntityDialogIID={EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID} entityIID={entityIID}>
+    releventEntityModels.push(<EntityModelAdd addEntityDialogIID={EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID} entityClassIID={entityClassIID}>
       {(onClick) => {
         return <Button className="EntityList__add" onClick={onClick}>
           +
@@ -90,10 +90,10 @@ const EntityList = ({
     </EntityModelAdd>)
 
     accordians.push({
-      interfaceId: entityModelClassToContainerIID[entityIID],
-      sx: layerInvisibility[entityIID] ? {opacity: hiddenOpacity} : {},
+      interfaceId: entityModelClassToContainerIID[entityClassIID],
+      sx: layerInvisibility[entityClassIID] ? {opacity: hiddenOpacity} : {},
       title: <>
-        <Typography component="div" variant="subtitle1">{entityModelClassToDisplayName[entityIID]}</Typography>
+        <Typography component="div" variant="subtitle1">{entityModelClassToDisplayName[entityClassIID]}</Typography>
       </>,
       body: <>
         <BorderedGrid
@@ -103,8 +103,8 @@ const EntityList = ({
           items={releventEntityModels}
         />
         <div className="EntityList__tools">
-          <LayerVisibility layerId={entityIID} />
-          {renderEntityBoxButton(entityIID)}
+          <LayerVisibility layerId={entityClassIID} />
+          {renderEntityBoxButton(entityClassIID)}
         </div>
       </>
     })

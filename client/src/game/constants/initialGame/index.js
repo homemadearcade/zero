@@ -1,3 +1,4 @@
 export * from './entityModelMember'
 export * from './entityModel'
-export * from './gameModel/gameModel'
+export * from './gameModel'
+export * from './importantValueIds'

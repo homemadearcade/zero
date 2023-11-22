@@ -6,7 +6,7 @@ import { openEntityBehaviorLiveEditor, openJsonViewer } from '../../../store/act
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { openEditEntityGraphics, openEditEntityDialog, openCreateCanvasImageDialog } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { ENTITY_MODEL_DID, entityModelClassToPrefix, initialCameraZoneEntityId } from '../../constants';
+import { CAMERA_ZONE_INSTANCE_IVID, ENTITY_MODEL_DID, entityModelClassToPrefix } from '../../constants';
 import { entityModelClassToDisplayName } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
@@ -35,7 +35,8 @@ const EntityContextMenu = ({
 }) => {
   const entityModel = gameModel.entityModels[entityModelId]
 
-  if(entityModelId === initialCameraZoneEntityId) {
+  const cameraZoneEntityId = gameModel.importantValues[CAMERA_ZONE_INSTANCE_IVID].value
+  if(entityModelId === cameraZoneEntityId) {
     return null
   }
 
@@ -44,7 +45,7 @@ const EntityContextMenu = ({
       openEditEntityDialog(entityModel)
       onMenuItemClick()
     }}>{entityModel.name}</ContextMenuTitle>}
-    {!insideEntityInstanceContextMenu && entityModel.entityIID === PLAYER_ENTITY_IID && <Unlockable interfaceId={PLAYER_ENTITY_TRANSFORM_IID}>
+    {!insideEntityInstanceContextMenu && entityModel.entityClassIID === PLAYER_ENTITY_IID && <Unlockable interfaceId={PLAYER_ENTITY_TRANSFORM_IID}>
       <MenuItem disabled={entityModelId === playerEntityModelId} 
       onClick={() => {
         editGameModel({
@@ -79,12 +80,12 @@ const EntityContextMenu = ({
       <MenuItem onClick={() => {
         openEditEntityDialog(entityModel)
         onMenuItemClick()
-      }}><ListItemIcon><Icon icon="faChessPawn"/></ListItemIcon>Edit {entityModelClassToDisplayName[entityModel.entityIID]}</MenuItem>
+      }}><ListItemIcon><Icon icon="faChessPawn"/></ListItemIcon>Edit {entityModelClassToDisplayName[entityModel.entityClassIID]}</MenuItem>
     </Unlockable>
 
     {!insideEntityInstanceContextMenu && <Unlockable interfaceId={ENTITY_MODEL_DUPLICATE_IID}>
       <MenuItem onClick={() => {  
-        const newEntityId = ENTITY_MODEL_DID+entityModelClassToPrefix[entityModel.entityIID]+generateUniqueId()
+        const newEntityId = ENTITY_MODEL_DID+entityModelClassToPrefix[entityModel.entityClassIID]+generateUniqueId()
 
         const newRelationTags =  Object.keys(entityModel.relationTags).filter(relationTagId => {
           const relationTag = gameModel.relationTags[relationTagId]
@@ -111,7 +112,7 @@ const EntityContextMenu = ({
           }
         })
         onMenuItemClick()
-      }}><ListItemIcon><Icon icon="faClone"/></ListItemIcon>Duplicate {entityModelClassToDisplayName[entityModel.entityIID]}</MenuItem>
+      }}><ListItemIcon><Icon icon="faClone"/></ListItemIcon>Duplicate {entityModelClassToDisplayName[entityModel.entityClassIID]}</MenuItem>
     </Unlockable>}
     {!insideEntityInstanceContextMenu && 
       <Unlockable interfaceId={ENTITY_MODEL_REMOVE_IID}>

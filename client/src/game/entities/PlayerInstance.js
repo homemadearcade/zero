@@ -6,7 +6,7 @@ import { CameraPreview } from "./behaviors/CameraPreview";
 import { InteractArea } from "./behaviors/InteractArea";
 import { ControlledMovement } from "./behaviors/ControlledMovement";
 import { ControlledProjectileEjector } from "./behaviors/ControlledProjectileEjector";
-import { GAME_END_STATE, ON_INTERACT, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, PLAY_STATE, initialCameraZoneEntityId, initialCameraZoneInstanceId } from "../constants";
+import { CAMERA_ZONE_ENTITY_IVID, CAMERA_ZONE_INSTANCE_IVID, GAME_END_STATE, ON_INTERACT, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, PLAY_STATE } from "../constants";
 import { getCobrowsingState } from "../../utils";
 import { changeGameStatus } from "../../store/actions/game/gameRoomInstanceActions";
 import { progressActiveCutscene } from "../../store/actions/game/playerInterfaceActions";
@@ -46,8 +46,9 @@ export class PlayerInstance extends EntityInstance {
 
     this.scene = scene
 
+    const gameModel = store.getState().gameModel.gameModel
     const { entityModelId } = entityInstanceData
-    const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
+    const entityModel = gameModel.entityModels[entityModelId]
     if(!entityModel) {
       console.error('no player class for entityModelId:' + entityModelId)
     }
@@ -63,8 +64,11 @@ export class PlayerInstance extends EntityInstance {
 
     setTimeout(() => {
       // this.cameraZoneInstanceId = ENTITY_INSTANCE_DID + generateUniqueId()
-      this.cameraInstance = this.scene.addEntityInstance(initialCameraZoneInstanceId, {
-        entityModelId: initialCameraZoneEntityId,
+
+      const cameraZoneInstanceId = gameModel.importantValues[CAMERA_ZONE_INSTANCE_IVID].value
+      const cameraZoneEntityId = gameModel.importantValues[CAMERA_ZONE_ENTITY_IVID].value
+      this.cameraInstance = this.scene.addEntityInstance(cameraZoneInstanceId, {
+        entityModelId: cameraZoneEntityId,
         spawnX: 0,
         spawnY: 0,
       })

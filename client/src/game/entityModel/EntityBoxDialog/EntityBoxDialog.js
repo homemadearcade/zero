@@ -34,12 +34,12 @@ const EntityBoxDialog = ({
   const entityModelsToSelect = Object.keys(entityModels).map((entityModelId) => {
     return entityModels[entityModelId]
   }).filter((entityModel) => {
-    return entityModel.entityIID === entityBoxDialogType
+    return entityModel.entityClassIID === entityBoxDialogType
   })
 
   return <><CobrowsingDialog open onClose={handleClose}>
     <div className="EntityBoxDialog">
-      <EntityModelAdd entityIID={entityBoxDialogType} addEntityDialogIID={ENTITY_BOX_DIALOG_IID}>
+      <EntityModelAdd entityClassIID={entityBoxDialogType} addEntityDialogIID={ENTITY_BOX_DIALOG_IID}>
       {(onClick) => {
         return <Button size="wide" startIcon={<Icon icon="faPlus"/>}onClick={onClick}>
           Add {entityModelClassToDisplayName[entityBoxDialogType]}

@@ -29,6 +29,7 @@ const EntityBoxList = ({
       const matchingEntityModels = entityModels.
       filter(filterEntityModels(dataSourceIID)).
       map(renderEntityItem).filter((item) => !!item)
+
             // matchingEntityModels.push(<Unlockable interfaceId={PLAYER_ENTITY_ADD_IID}>
       //   <Button size="fit" 
       //     onClick={() => {
@@ -84,6 +85,7 @@ const EntityBoxList = ({
   }, [accordians])
 
   const renderEntityItem = (currentEntityModel, i) => {
+    console.log(currentEntityModel)
     const el = <EntityItem key={i} onClick={() => {
       onSelectEntity(currentEntityModel.entityModelId)
     }}

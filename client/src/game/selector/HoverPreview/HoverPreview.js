@@ -6,12 +6,12 @@ import Typography from '../../../ui/Typography/Typography';
 import Texture from '../../textures/Texture/Texture';
 import { getLayerIdFromColorId, getLayerIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
 import { dataSourceIIDToIcon,
+   INITIAL_STAGE_IVID,
    layerGroupIIDtoShortName, ON_STEP_BEGINS, PAUSED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
 import { entityModelClassToDisplayName } from '../../constants';
-import { initialStageId } from '../../constants';
 import { changeSelectorList, openEntityBehaviorLiveEditor, openGameEditDialog, openStageLiveEditor } from '../../../store/actions/game/gameSelectorActions';
 import Button from '../../../ui/Button/Button';
 import { openEditContentDialog, openEditEntityDialog, openEditEntityGraphics, openEditRelationSystemDialog, openEffectPromptDialog } from '../../../store/actions/game/gameFormEditorActions';
@@ -147,6 +147,8 @@ const HoverPreview = ({
 
   const interfaceData = interfaceIdData[interfaceIdHovering]
 
+  const initialStageId = gameModel.importantValues[INITIAL_STAGE_IVID].value
+
   ///////////------------------///////////
   ///////////------------------///////////
   ///////////------------------///////////
@@ -253,7 +255,7 @@ const HoverPreview = ({
         <Unlockable interfaceId={ENTITY_MODEL_OPEN_EDIT_IID}>
           <Button startIcon={<Icon icon="faChessPawn"/>} size="xs" onClick={() => {
             openEditEntityDialog(entityModel)
-          }}>Edit {entityModelClassToDisplayName[entityModel.entityIID]}</Button>
+          }}>Edit {entityModelClassToDisplayName[entityModel.entityClassIID]}</Button>
         </Unlockable>
         </div>
       </div>
@@ -277,7 +279,7 @@ const HoverPreview = ({
           icon: dataSourceIIDToIcon[entityModel.dataSourceIID]
         },
       ])}
-      {renderCategoryTitle(entityModelClassToDisplayName[entityModel.entityIID])}
+      {renderCategoryTitle(entityModelClassToDisplayName[entityModel.entityClassIID])}
       {renderDisplayWithTexture({
         textureTint: entityModel.graphics.textureTint,
         textureId: entityModel.graphics.textureId,

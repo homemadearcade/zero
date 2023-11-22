@@ -54,7 +54,7 @@ const SelectRelationTag = ({ removeEntityTags, relationTagIID, interfaceId, onCh
         textureId: relationTag.textureId,
         textureTint: relationTag.textureTint,
         isRemoved: removeEntityTags || isRemoved || isImportInvisible,
-        relationTagIID: entityModelClassToDisplayName[relationTagEntity.entityIID],
+        relationTagIID: entityModelClassToDisplayName[relationTagEntity.entityClassIID],
       }
     }
 

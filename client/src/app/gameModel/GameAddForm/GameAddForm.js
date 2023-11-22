@@ -10,7 +10,8 @@ import Dialog from '../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
-import { gameGridHeight, gameGridWidth, nodeSize } from '../../../game/constants';
+import { createInitialGameModel, gameGridHeight, gameGridWidth, nodeSize } from '../../../game/constants';
+import { mergeDeep } from '../../../utils';
 
 const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, appSettings: { appSettings }, defaultValues = {} }) => {
   const [isAddGameFormOpen, setIsAddGameFormOpen] = useState(false)
@@ -40,7 +41,9 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, appSettings: { app
   });
 
   const submit = async (data) => {
-    const gameResponse = await addArcadeGame(data);
+    const initialGameModel = createInitialGameModel()
+
+    const gameResponse = await addArcadeGame(mergeDeep(initialGameModel, data));
 
     const game = gameResponse.data.game
 

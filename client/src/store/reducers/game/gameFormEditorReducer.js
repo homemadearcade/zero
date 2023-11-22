@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { defaultRelationship } from '../../../game/constants';
 import { mergeDeep } from '../../../utils/utils';
 import {
   CLEAR_EDITOR_FORMS,
@@ -48,6 +47,7 @@ import {
   CLOSE_EDIT_CONTENT_DIALOG,
   UPDATE_GAME_MODEL_FORM_EDITOR,
 } from '../../types';
+import { defaultRelationship } from '../../../game/constants/initialGame/gameModel/relationship';
 
 // game create editor
 const initialState = {
@@ -71,7 +71,7 @@ const initialState = {
 
     },
     name: "",
-    entityIID: null,
+    entityClassIID: null,
   },
 
   isCreateColorFlowOpen: false,

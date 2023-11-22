@@ -14,7 +14,7 @@ import _ from 'lodash';
 
 const EntityModelAdd = ({
   openEditEntityGraphics,
-  entityIID,
+  entityClassIID,
   addEntityDialogIID,
   children,
   defaultValues = {},
@@ -26,7 +26,8 @@ const EntityModelAdd = ({
     if(!defaultType) return entityModel
     const defaultTypeProperties = stageDefaultTypeProperties[defaultType]
     const entityModels = gameModel.entityModels
-    const defaultEntityModel = _.cloneDeep(entityModels[defaultTypeProperties.playerEntityModelId])
+    const entityModelId = gameModel.importantValues[defaultTypeProperties.importantValueId]
+    const defaultEntityModel = _.cloneDeep(entityModels[entityModelId])
     defaultEntityModel.entityModelId = null
     defaultEntityModel.isNew = true
     const newModel = mergeDeep(defaultEntityModel, entityModel)
@@ -37,7 +38,7 @@ const EntityModelAdd = ({
     openEditEntityGraphics(addEntityDialogIID, mergeDeep(_.cloneDeep(entityModel), defaultValues))
   }
 
-  if(entityIID === PLAYER_ENTITY_IID) {
+  if(entityClassIID === PLAYER_ENTITY_IID) {
     return <Unlockable interfaceId={PLAYER_ENTITY_ADD_IID}>
       {children(() => {
         onOpenEditEntityGraphics(addDefaultValuesToPlayerEntity({...defaultPlayerEntity}))
@@ -45,7 +46,7 @@ const EntityModelAdd = ({
     </Unlockable>
   }
 
-  if(entityIID === NPC_ENTITY_IID) {
+  if(entityClassIID === NPC_ENTITY_IID) {
     return <Unlockable interfaceId={NPC_ENTITY_ADD_IID}>
       {children(() => {
         onOpenEditEntityGraphics(defaultNpcEntity)
@@ -53,7 +54,7 @@ const EntityModelAdd = ({
     </Unlockable>
   }
 
-  if(entityIID === BASIC_ENTITY_IID) {
+  if(entityClassIID === BASIC_ENTITY_IID) {
     return <Unlockable interfaceId={BASIC_ENTITY_ADD_IID}>
       {children(() => {
         onOpenEditEntityGraphics(defaultBasicEntity)
@@ -61,7 +62,7 @@ const EntityModelAdd = ({
     </Unlockable>
   }
 
-  if(entityIID === ZONE_ENTITY_IID) {
+  if(entityClassIID === ZONE_ENTITY_IID) {
     return <Unlockable interfaceId={ZONE_ENTITY_ADD_IID}>
       {children(() => {
         onOpenEditEntityGraphics(defaultZoneEntity)
@@ -69,7 +70,7 @@ const EntityModelAdd = ({
     </Unlockable>
   }
 
-  if(entityIID === PROJECTILE_ENTITY_IID) {
+  if(entityClassIID === PROJECTILE_ENTITY_IID) {
     return <Unlockable interfaceId={PROJECTILE_ENTITY_IID}>
       {children(() => {
         onOpenEditEntityGraphics(defaultProjectileEntity)
@@ -77,7 +78,7 @@ const EntityModelAdd = ({
     </Unlockable>
   }
 
-  // if(entityIID === POWERUP_ENTITY_IID) {
+  // if(entityClassIID === POWERUP_ENTITY_IID) {
   //   return <Unlockable interfaceId={POWERUP_ENTITY_ADD_IID}>
   //     {children(() => {
   //       onOpenEditEntityGraphics(defaultPowerupEntity)

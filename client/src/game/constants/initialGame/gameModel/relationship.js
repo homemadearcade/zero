@@ -1,6 +1,6 @@
 import {
  SPAWN_ZONE_RANDOM_SELECT
-} from "../core"
+} from "../../core"
 
 export const initialEffectRelation = {
   effectTagA: true,

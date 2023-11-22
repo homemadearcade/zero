@@ -8,9 +8,9 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { CAMERA_LERP_X_IID, CAMERA_LERP_Y_IID, CAMERA_ZOOM_IID } from '../../../constants/interfaceIds';
 import Button from '../../../ui/Button/Button';
-import { initialCameraZoneInstanceId } from '../../constants';
 import { setResizingEntityInstance, toggleGridView } from '../../../store/actions/game/gameViewEditorActions';
 import Typography from '../../../ui/Typography/Typography';
+import { CAMERA_ZONE_INSTANCE_IVID } from '../../constants';
 
 const CameraEditor = ({ 
   entityModelId, 
@@ -58,6 +58,8 @@ const CameraEditor = ({
   ].filter((num) => {
     return !!num
   })
+
+  const initialCameraZoneInstanceId = gameModel.importantValues[CAMERA_ZONE_INSTANCE_IVID].value
 
   if(initialCameraZoneInstanceId === resizingEntityInstanceId) {
     return <div className="CameraEditor">

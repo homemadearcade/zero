@@ -8,7 +8,7 @@ import { PLAYER_INSTANCE_DID,
       NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth, noRemoteEffectedTagEffects, EFFECT_SPAWN, effectEditInterfaces, 
       EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_DESTROY, EFFECT_TRANSFORM, SPAWNED_INSTANCE_DID, SPAWN_ZONE_A_SELECT, 
       SPAWN_ZONE_B_SELECT, EFFECT_CUTSCENE, EFFECT_CAMERA_SHAKE, EFFECT_END_GAME, EFFECT_SWITCH_STAGE, RUN_GAME_INSTANCE_ACTION,
-       ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_UNPAUSE_GAME, ON_CUTSCENE_END, EFFECT_TRANSFORM_TEMPORARY_START, EFFECT_TRANSFORM_TEMPORARY_END, ON_STAGE_LOADED } from '../constants';
+       ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_UNPAUSE_GAME, ON_CUTSCENE_END, EFFECT_TRANSFORM_TEMPORARY_START, EFFECT_TRANSFORM_TEMPORARY_END, ON_STAGE_LOADED, DIRECTIONAL_PLAYER_ENTITY_IVID } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerEntity, clearCutscenes, openCutscene } from '../../store/actions/game/playerInterfaceActions';
@@ -21,7 +21,6 @@ import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Stage } from '../entities/Stage';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
 import JSConfetti from 'js-confetti'
-import { directionalPlayerEntityId } from '../constants';
 import { generateUniqueId, getGameModelSize, getLayerIdFromEraserId, isZoneEntityId } from '../../utils';
 import { NO_RELATION_TAG_EFFECT_IID, PLAYGROUND_LAYER_GROUP_IID } from '../../constants/interfaceIds';
 import _, { last, set } from 'lodash';
@@ -87,13 +86,14 @@ export class GameInstance extends Phaser.Scene {
 
       // const zoneEntityModel = gameModel.entityModels[zoneId]
 
+      const directionalPlayerEntityId = gameModel.importantValues[DIRECTIONAL_PLAYER_ENTITY_IVID].value
       let lastPlayerEntityId = directionalPlayerEntityId
       if(playerInterface.playerEntityModelId && playerInterface.playerGameInstanceId === this.gameInstanceId) {
         lastPlayerEntityId = playerInterface.playerEntityModelId
       }
 
       const lastPlayerEntityModel = gameModel.entityModels[lastPlayerEntityId]
-      console.log('lastPlayerEntityModel', lastPlayerEntityModel, gameModel.entityModels, lastPlayerEntityId)
+      // console.log('lastPlayerEntityModel', lastPlayerEntityModel, gameModel.entityModels, lastPlayerEntityId)
 
       const { x, y } = zone.getInnerCoordinates(lastPlayerEntityModel) 
 
@@ -377,12 +377,11 @@ export class GameInstance extends Phaser.Scene {
 
   initializeEntityInstances() {
     const entityInstances = this.gameState.entityInstances
-    entityInstances.forEach((entityInstance) => {
-      const entityInstanceId = entityInstance.entityInstanceId
-      const entityInstanceData = entityInstances[entityInstanceId]
+    entityInstances.forEach((entityInstanceData) => {
+      const entityInstanceId = entityInstanceData.entityInstanceId
 
       if(!entityInstanceData) {
-        return console.error('Object missing!', entityInstanceId)
+        return console.error('Object missing!', entityInstanceData)
       }
 
       if(entityInstanceId === PLAYER_INSTANCE_DID) {

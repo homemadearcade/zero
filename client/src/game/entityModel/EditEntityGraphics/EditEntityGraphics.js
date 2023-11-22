@@ -33,11 +33,11 @@ const EditEntityGraphics = ({
     clearGameFormEditor()
   }
 
-  const defaultEntityModelName = `New ${entityModelClassToDisplayName[entityModel.entityIID]} #${Object.keys(gameModel.entityModels).length + 1}`
+  const defaultEntityModelName = `New ${entityModelClassToDisplayName[entityModel.entityClassIID]} #${Object.keys(gameModel.entityModels).length + 1}`
   useEffect(() => {
     if(!entityModel.entityModelId) {
       updateCreateEntity({ 
-        entityModelId: ENTITY_MODEL_DID+entityModelClassToPrefix[entityModel.entityIID]+generateUniqueId(), 
+        entityModelId: ENTITY_MODEL_DID+entityModelClassToPrefix[entityModel.entityClassIID]+generateUniqueId(), 
         isNew: true,
         name: defaultEntityModelName,
        })
@@ -96,7 +96,7 @@ const EditEntityGraphics = ({
           textureIdSelected={entityModel.graphics.textureId}
         />
       </>}
-      {entityModel.entityIID === ZONE_ENTITY_IID && 
+      {entityModel.entityClassIID === ZONE_ENTITY_IID && 
         <AggregateColorSelect
           selectedColor={entityModel.graphics.textureTint}
           onSelectColor={(textureTint) => {
@@ -110,7 +110,7 @@ const EditEntityGraphics = ({
             }})
           }}
       />}
-      {entityModel.entityIID !== ZONE_ENTITY_IID && entityModel.entityIID !== PLAYER_ENTITY_IID && <Unlockable interfaceId={ENTITY_LAYER_IID}>
+      {entityModel.entityClassIID !== ZONE_ENTITY_IID && entityModel.entityClassIID !== PLAYER_ENTITY_IID && <Unlockable interfaceId={ENTITY_LAYER_IID}>
         <SelectLayer formLabel={"Layer"} value={entityModel.graphics.layerGroupIID ? [entityModel.graphics.layerGroupIID] : [PLAYGROUND_LAYER_GROUP_IID]} onChange={(e, value) => {
           const newValue = value[value.length-1]
           if(newValue) updateCreateEntity({ graphics: {

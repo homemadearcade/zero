@@ -153,6 +153,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       appLocation: req.body.appLocation,
       playScope: req.body.playScope,
       editScope: req.body.editScope,
+      importantValues: req.body.importantValues,
       gameModelId: GAME_MODEL_DID + generateUniqueId()
     });
 

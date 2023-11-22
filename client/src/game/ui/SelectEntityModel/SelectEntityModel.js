@@ -21,10 +21,10 @@ const SelectEntityModel = ({ hideEntityModelsIds = [], onChange, disabled, value
     const isDataSourceInvisible = selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][entityModel.dataSourceIID]
     const isRemovedInvisible = entityModel.isRemoved && selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][IS_DATA_REMOVED_IID]
 
-    let isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromIDs[interfaceId] || !entityModel.entityIID
+    let isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromIDs[interfaceId] || !entityModel.entityClassIID
 
     if(entityModelClass) {
-      if(entityModel.entityIID !== entityModelClass) {
+      if(entityModel.entityClassIID !== entityModelClass) {
         isRemoved = true
       }
     }
@@ -35,8 +35,8 @@ const SelectEntityModel = ({ hideEntityModelsIds = [], onChange, disabled, value
       }
     }
 
-    if(!entityModel.entityIID) {
-      console.error("missing entityIID for entityId", entityModel.entityModelId)
+    if(!entityModel.entityClassIID) {
+      console.error("missing entityClassIID for entityId", entityModel.entityModelId)
     }
 
     return {
@@ -45,13 +45,13 @@ const SelectEntityModel = ({ hideEntityModelsIds = [], onChange, disabled, value
       textureId: entityModel.graphics.textureId,
       textureTint: entityModel.graphics.textureTint,
       isRemoved,
-      entityIID: entityModel.entityIID
+      entityClassIID: entityModel.entityClassIID
     }
   }
 
   const options = Object.keys(gameModel.entityModels).map(mapEntityToOption)
 
-  options.sort((a, b) => -b.entityIID?.localeCompare(a.entityIID))
+  options.sort((a, b) => -b.entityClassIID?.localeCompare(a.entityClassIID))
 
   return <div className="SelectEntityModel">
     <SelectChipsAuto 
@@ -60,7 +60,7 @@ const SelectEntityModel = ({ hideEntityModelsIds = [], onChange, disabled, value
         onChange(event,  visualTags)
       }}
       groupBy={option => {
-        return entityModelClassToDisplayName[option.entityIID]
+        return entityModelClassToDisplayName[option.entityClassIID]
       }}
       hideRemoved
       formLabel={formLabel}

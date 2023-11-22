@@ -68,7 +68,7 @@ const JumpEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel, au
 
   return (
     <div className="JumpEditor">
-      {entitySelected.entityIID === PLAYER_ENTITY_IID && <Unlockable interfaceId={JUMP_BEHAVIOR_IID}>
+      {entitySelected.entityClassIID === PLAYER_ENTITY_IID && <Unlockable interfaceId={JUMP_BEHAVIOR_IID}>
         <SelectJumpControlsBehavior
           formLabel="Behavior"
           value={entitySelected.jump.jumpControlsBehavior ? [entitySelected.jump.jumpControlsBehavior] : []}

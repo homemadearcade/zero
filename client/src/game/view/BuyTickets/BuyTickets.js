@@ -7,7 +7,7 @@ import KeyIndicator from '../../ui/KeyIndicator/KeyIndicator';
 import './BuyTickets.scss';
 import CobrowsingDialog from '../../cobrowsing/CobrowsingDialog/CobrowsingDialog';
 import { closeBuyTicketsDialog, openBuyTicketsDialog } from '../../../store/actions/game/gameSelectorActions';
-import { initialStageId } from '../../constants';
+import { INITIAL_STAGE_IVID } from '../../constants';
 import { useTimer } from 'react-timer-hook';
 import { APP_ADMIN_ROLE } from '../../../constants';
 import { rest } from 'lodash';
@@ -18,6 +18,9 @@ const playTime = 300
 const BuyTickets = ({ 
   gameSelector: { isBuyTicketsDialogOpen }, 
   gameRoomInstance: { gameRoomInstance: { currentStageId } },
+  gameModel: { 
+    gameModel
+  },
   closeBuyTicketsDialog, 
   openBuyTicketsDialog,
   auth: { me }
@@ -41,6 +44,7 @@ const BuyTickets = ({
   }});
 
   useEffect(() => {
+    const initialStageId = gameModel.importantValues[INITIAL_STAGE_IVID].value
     if(currentStageId === initialStageId) {
       const time = new Date();
       time.setSeconds(time.getSeconds() + playTime);

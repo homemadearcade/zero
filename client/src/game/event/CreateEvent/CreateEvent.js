@@ -6,7 +6,7 @@ import './CreateEvent.scss';
 import { closeCreateEvent, updateCreateEvent } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { defaultEvent, eventTypeInterfaces, playerRelationTagId } from '../../constants';
+import { defaultEvent, eventTypeInterfaces, PLAYER_RELATION_TAG_ID } from '../../constants';
 import { ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START } from '../../constants';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import Switch from '../../../ui/Switch/Switch';
@@ -193,7 +193,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
           updateCreateEvent({
             ...defaultEvent,
             eventType: eventType,
-            relationTagIdA: playerRelationTagId,
+            relationTagIdA: PLAYER_RELATION_TAG_ID,
           })
         } else {
           updateCreateEvent({

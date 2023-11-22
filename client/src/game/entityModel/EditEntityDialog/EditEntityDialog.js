@@ -54,7 +54,7 @@ const EditEntityDialog = ({
 
   useEffect(() => {
     if(!entityModel.entityModelId) {
-      updateCreateEntity({ entityModelId: ENTITY_MODEL_DID+entityModelClassToPrefix[entityModel.entityIID]+generateUniqueId(), isNew: true })
+      updateCreateEntity({ entityModelId: ENTITY_MODEL_DID+entityModelClassToPrefix[entityModel.entityClassIID]+generateUniqueId(), isNew: true })
     }
   }, [])
 
@@ -66,7 +66,7 @@ const EditEntityDialog = ({
         [entityModel.entityModelId] : {
           name: entityModel.name,
           relationTags: entityModel.relationTags,
-          entityIID: entityModel.entityIID,
+          entityClassIID: entityModel.entityClassIID,
           boundaryRelation: entityModel.boundaryRelation,
           spawnZoneEntityModelIds: entityModel.spawnZoneEntityModelIds,
           isDirty: false
@@ -77,10 +77,10 @@ const EditEntityDialog = ({
 
   function renderSelectInterfaceId() {
     return <Unlockable interfaceId={CHANGE_ENTITY_INTERFACE_IID}>
-      <SelectEntityModelClass formLabel="Class" value={entityModel.entityIID ? [entityModel.entityIID]: []} onChange={(event, entityIID) => {
-        if(!entityIID.length) return
+      <SelectEntityModelClass formLabel="Class" value={entityModel.entityClassIID ? [entityModel.entityClassIID]: []} onChange={(event, entityClassIID) => {
+        if(!entityClassIID.length) return
         updateCreateEntity({
-          entityIID: entityIID[entityIID.length-1]
+          entityClassIID: entityClassIID[entityClassIID.length-1]
         })
       }}/>
     </Unlockable>
@@ -116,7 +116,7 @@ const EditEntityDialog = ({
         </div>
         <div className="EditEntityDialog__primary-options">
           <div className="EditEntityDialog__name"><Typography variant="h5">
-            {entityModel.isNew && 'New ' + entityModelClassToDisplayName[entityModel.entityIID]}
+            {entityModel.isNew && 'New ' + entityModelClassToDisplayName[entityModel.entityClassIID]}
             {!entityModel.isNew && <EntityNameForm/>}
             </Typography>
           </div>
@@ -155,7 +155,7 @@ const EditEntityDialog = ({
           handleClose()
           openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_COLLISIONS_TAB_IID, entityModel.entityModelId)
         }}>Edit Collisions</Button>
-        {entityModel.entityIID === PLAYER_ENTITY_IID &&
+        {entityModel.entityClassIID === PLAYER_ENTITY_IID &&
           <Button onClick={() => {
             handleClose()
             openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_CAMERA_TAB_IID, entityModel.entityModelId)
@@ -165,7 +165,7 @@ const EditEntityDialog = ({
           handleClose()
           openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_PROJECTILE_TAB_IID, entityModel.entityModelId)
         }}>Edit Projectile</Button>
-      {entityModel.entityIID === PLAYER_ENTITY_IID && 
+      {entityModel.entityClassIID === PLAYER_ENTITY_IID && 
         <Button onClick={() => {
           handleClose()
           openEntityBehaviorLiveEditor(LIVE_ENTITY_EDITOR_JUMP_TAB_IID, entityModel.entityModelId)

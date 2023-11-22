@@ -4,7 +4,7 @@ import { DIRECTIONAL_CONTROLS } from "../../core";
 import { MOVEMENT_NONE } from "../entityModelMember";
 
 // export const defaultPowerupEntity = { 
-//   entityIID: POWERUP_ENTITY_IID,
+//   entityClassIID: POWERUP_ENTITY_IID,
 //   graphics: {
 //     glowing: true
 //   },
@@ -28,7 +28,7 @@ import { MOVEMENT_NONE } from "../entityModelMember";
 // }
 
 export const defaultNpcEntity = { 
-  entityIID: NPC_ENTITY_IID,
+  entityClassIID: NPC_ENTITY_IID,
   autogeneration: {
     teleportToEffect: false,
       playerTeleportToRelationTag: false,
@@ -51,7 +51,7 @@ export const defaultNpcEntity = {
 }
 
 export const defaultZoneEntity = {
-  entityIID: ZONE_ENTITY_IID, 
+  entityClassIID: ZONE_ENTITY_IID, 
   collisionResponse: {
     immovable: true,
   },
@@ -71,7 +71,7 @@ export const defaultZoneEntity = {
 }
 
 export const defaultPlayerEntity = {
-  entityIID: PLAYER_ENTITY_IID, 
+  entityClassIID: PLAYER_ENTITY_IID, 
   graphics: {
     depthModifier: playerDepthModifier
   },
@@ -94,7 +94,7 @@ export const defaultPlayerEntity = {
 }
 
 export const defaultBasicEntity = { 
-  entityIID: BASIC_ENTITY_IID,
+  entityClassIID: BASIC_ENTITY_IID,
   movement: {
     movementBehavior: MOVEMENT_NONE,
   },
@@ -115,7 +115,7 @@ export const defaultBasicEntity = {
 }
 
 export const defaultProjectileEntity = {
-  entityIID: PROJECTILE_ENTITY_IID,
+  entityClassIID: PROJECTILE_ENTITY_IID,
   graphics: {
     width: 12,
     height: 12,

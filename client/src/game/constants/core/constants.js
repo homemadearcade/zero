@@ -83,23 +83,4 @@ export const EFFECT_DID = 'effect-'
 export const LAYER_DID = 'layer-'
 export const TEXTURE_DID = 'texture-'
 
-export const vehiclePlayerEntityId = ENTITY_MODEL_DID+PLAYER_ENTITY_TYPE_PREFIX+'vehicle'
-export const jumperPlayerEntityId = ENTITY_MODEL_DID+PLAYER_ENTITY_TYPE_PREFIX+'jumper'
-export const directionalPlayerEntityId = ENTITY_MODEL_DID+PLAYER_ENTITY_TYPE_PREFIX+'directional'
-export const swimmerPlayerEntityId = ENTITY_MODEL_DID+PLAYER_ENTITY_TYPE_PREFIX+'swimmer'
-
-export const initialStageId =  STAGE_DID+'default'
-export const initialPlayerSpawnZoneEntityId = ENTITY_MODEL_DID+ZONE_ENTITY_TYPE_PREFIX+'playerspawnzone'
-export const initialPlayerSpawnZoneInstanceId = ENTITY_MODEL_DID+ENTITY_INSTANCE_DID+'playerspawnzone'
-export const initialCameraZoneEntityId = ENTITY_MODEL_DID+ZONE_ENTITY_TYPE_PREFIX+'playercamerazone2'
-export const initialCameraZoneInstanceId = ENTITY_MODEL_DID+ENTITY_INSTANCE_DID+'playercamerazone'
-export const initialStageZoneEntityId = ENTITY_MODEL_DID+ZONE_ENTITY_TYPE_PREFIX+'stagezone'
-export const initialStageZoneInstanceId = ENTITY_MODEL_DID+ENTITY_INSTANCE_DID+'stagezone'
-
-export const initialPlayerEntityId = directionalPlayerEntityId
-
-export const playthroughStartCutsceneId = CUTSCENE_DID+'start'
-export const endGameCutsceneId = CUTSCENE_DID+'end'
-
-
-
+export const PLAYER_RELATION_TAG_ID = RELATION_TAG_DID+'player'
