@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import Link from '../../ui/Link/Link';
 
@@ -15,7 +15,7 @@ import Typography from '../../ui/Typography/Typography';
 import Icon from '../../ui/Icon/Icon';
 import { GOOGLE_AUTH_LINK } from '../../constants';
 
-const Login = ({ auth, loginUserWithEmail, onLogin }) => {
+const Login = ({ auth, loginUserWithEmail, onLogin, children }) => {
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -23,9 +23,7 @@ const Login = ({ auth, loginUserWithEmail, onLogin }) => {
     },
     validationSchema: loginSchema,
     onSubmit: async (values) => {
-      console.log('???')
       await loginUserWithEmail(values);
-      console.log('??')
       onLogin()
     },
   });
@@ -54,7 +52,7 @@ const Login = ({ auth, loginUserWithEmail, onLogin }) => {
             {formik.touched.email && formik.errors.email ? (
               <p className="error">{formik.errors.email}</p>
             ) : null}
-            <input
+             <input
               placeholder="Password"
               name="password"
               type="password"
@@ -68,7 +66,7 @@ const Login = ({ auth, loginUserWithEmail, onLogin }) => {
             ) : null}
           </div>
           {auth.error && <p className="error">{auth.error}</p>}
-          <div>
+           <div>
             <Button
               className="btn submit"
               disabled={auth.isLoading || !formik.isValid}
@@ -79,10 +77,25 @@ const Login = ({ auth, loginUserWithEmail, onLogin }) => {
           </div>
           </form>
         </div>
-        <a className="GoogleOAuth" href={GOOGLE_AUTH_LINK}>
+        <Button
+          className="btn submit"
+        >
+          Forgot Password?
+        </Button>
+        <Button
+          className="btn submit"
+          type="submit"
+          onClick={() => {
+            // setForgotPassword(true)
+          }}
+        >
+          Send Password Recovery Email
+        </Button>
+        {children && children}
+        {/* <a className="GoogleOAuth" href={GOOGLE_AUTH_LINK}>
           <Icon icon="faGoogle"></Icon>
           Login with Google
-        </a>
+        </a> */}
     </div>
   );
 };

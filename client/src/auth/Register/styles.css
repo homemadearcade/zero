@@ -1,7 +1,0 @@
-.RegisterPage {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-direction: column;
-  align-items: center;
-}

@@ -4,6 +4,7 @@ import googleAuthRoutes from './googleAuth';
 import apiRoutes from './api';
 import { readFileSync, writeFile } from 'fs';
 import { resolve } from 'path';
+import authRoutes from './auth'
 
 const router = Router();
 
@@ -23,6 +24,7 @@ GET /auth/logout
 */
 router.use('/auth', localAuthRoutes);
 router.use('/auth', googleAuthRoutes);
+router.use('/auth', authRoutes)
 
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////

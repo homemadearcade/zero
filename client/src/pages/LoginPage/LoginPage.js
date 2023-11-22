@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Login from '../../auth/Login/Login';
 import Link from '../../ui/Link/Link';
+import Divider from '../../ui/Divider/Divider';
 
 const LoginPage = ({ match, auth, history }) => {
   useEffect(() => {
@@ -16,13 +17,14 @@ const LoginPage = ({ match, auth, history }) => {
   return <>
     <Login onLogin={() => {
       history.push('/')
-    }}/>
-    <div>
+    }}>
+      <Divider/>
       Don't have an account?{' '}
       <Link to="/register">
         Register
       </Link>
-    </div>
+    </Login>
+
   </>
 };
 
