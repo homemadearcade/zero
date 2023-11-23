@@ -100,7 +100,7 @@ export const addEntityModelToLibrary = (entityModel) => async (dispatch, getStat
   try {
     const userMongoId = getState().auth.me.id
     entityModel.userMongoId = userMongoId
-    entityModel.dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODEL_IID
+    // entityModel.dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODEL_IID
     
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/entityModel', entityModel, options);

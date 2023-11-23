@@ -11,6 +11,9 @@ const CreateRelationForRelationTag = ({
   relationTag,
   openCreateRelation
  }) => {
+
+  console.log(relationTag)
+
     return <ButtonMenu variant="outlined" text={"Add New Relationship for " + relationTag.name} menu={(handleClose) => {
     return [Object.keys(eventTypeInterfaces).map((eventType) => {
       const eventInterface = eventTypeInterfaces[eventType]

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { addArcadeGame } from '../../../store/actions/game/arcadeGameActions';
+import { addArcadeGame, addImportedArcadeGame } from '../../../store/actions/game/arcadeGameActions';
 
 import './styles.css';
 import Button from '../../../ui/Button/Button';
@@ -13,7 +13,7 @@ import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 import { createInitialGameModel, gameGridHeight, gameGridWidth, nodeSize } from '../../../game/constants';
 import { mergeDeep } from '../../../utils';
 
-const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, appSettings: { appSettings }, defaultValues = {} }) => {
+const GameAddForm = ({ addArcadeGame, addImportedArcadeGame, onSubmit, auth: { me }, appSettings: { appSettings }, defaultValues = {} }) => {
   const [isAddGameFormOpen, setIsAddGameFormOpen] = useState(false)
 
   const { handleSubmit, reset, control } = useForm({
@@ -26,7 +26,6 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, appSettings: { app
       relationTags: {},
       entityModels: {},
       colliisions: {},
-      importedArcadeGames: appSettings.importedArcadeGameMongoIds || [],
       brushes: {},
       colors: {},
       textures: {},
@@ -46,6 +45,12 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, appSettings: { app
     const gameResponse = await addArcadeGame(mergeDeep(initialGameModel, data));
 
     const game = gameResponse.data.game
+
+    if(appSettings.importedArcadeGameMongoIds) {
+      for(let i = 0; i < appSettings.importedArcadeGameMongoIds.length; i++) {  
+        await addImportedArcadeGame(appSettings.importedArcadeGameMongoIds[i], game.id)
+      }
+    }
 
     reset();
     if(onSubmit) onSubmit(game)
@@ -93,4 +98,4 @@ const mapStateToProps = (state) => ({
   appSettings: state.appSettings
 });
 
-export default connect(mapStateToProps, { addArcadeGame })(GameAddForm);
+export default connect(mapStateToProps, { addArcadeGame, addImportedArcadeGame })(GameAddForm);

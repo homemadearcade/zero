@@ -62,7 +62,7 @@ export class ProjectileInstance extends EntityInstance {
     }
 
     if(projectileBehavior === PROJECTILE_TARGET_ENTITY_MODEL) {
-      const entityInstances = this.scene.getAllEntityInstancesOfEntityId(shooterEntity.projectile.targetEntityId)
+      const entityInstances = this.scene.entityInstancesByTag[shooterEntity.projectile.targetRelationTagId]
       if(entityInstances.length) {
         rotation = getAngleBetweenInstances(shooter, entityInstances[0])
       }
@@ -86,6 +86,7 @@ export class ProjectileInstance extends EntityInstance {
       rotation = Phaser.Math.DegToRad(angle)
     }
 
+    console.log(rotation)
     this.fire(shooter, shooterEntity, rotation)
   }
 

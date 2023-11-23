@@ -45,11 +45,12 @@ class GameContext extends Component {
   }
 
   async unloadGame() {
-    const { unloadArcadeGame, clearCutscenes, closeContextMenu } = this.props
+    const { unloadArcadeGame, clearCutscenes, closeContextMenu, changePlayerEntity } = this.props
   
     unloadArcadeGame()
     clearCutscenes()
     closeContextMenu()
+    changePlayerEntity({entityModelId: null, gameInstanceId: null})
   }
 
   async switchGame(oldProps, newProps) {
@@ -170,4 +171,4 @@ const mapStateToProps = (state) => ({
   library: state.library,
 });
 
-export default connect(mapStateToProps, { closeContextMenu, loadArcadeGameByMongoId, unloadArcadeGame, getSpritesheetData, clearCutscenes})(GameContext)
+export default connect(mapStateToProps, { changePlayerEntity, closeContextMenu, loadArcadeGameByMongoId, unloadArcadeGame, getSpritesheetData, clearCutscenes})(GameContext)

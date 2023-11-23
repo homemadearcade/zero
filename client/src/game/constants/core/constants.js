@@ -84,3 +84,6 @@ export const LAYER_DID = 'layer-'
 export const TEXTURE_DID = 'texture-'
 
 export const PLAYER_RELATION_TAG_ID = RELATION_TAG_DID+'player'
+export const CAMERA_RELATION_TAG_ID = RELATION_TAG_DID+'camera'
+export const STAGE_RELATION_TAG_ID = RELATION_TAG_DID+'stage'
+export const SPAWN_ZONE_RELATION_TAG_ID = RELATION_TAG_DID+'spawnZone'

@@ -11,6 +11,7 @@ import PlayerControlsCard from '../../selector/PlayerControlsCard/PlayerControls
 import { PLAYER_ENTITY_IID, PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID, PROJECTILE_ENTITY_SELECTOR_IID, PROJECTILE_ENTITY_IID, PROJECTILE_ENTITY_TARGET_SELECTOR_IID } from '../../../constants/interfaceIds';
 import { PROJECTILE_TARGET_ENTITY_MODEL } from '../../constants';
 import SelectProjectileBehavior from '../../ui/SelectProjectileBehavior/SelectProjectileBehavior';
+import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 
         // {false && <Unlockable isSlider interfaceId={PROJECTILE_AMMO_IID}>
         //   <SliderNotched
@@ -52,14 +53,14 @@ const ProjectileEditor = ({ entityModelId, gameModel: { gameModel }, editGameMod
               editGameModel({ entityModels: { [entityModelId]: { projectile: { projectileBehavior: projectileBehavior[projectileBehavior.length-1] } } }})    
             }}/>
         </Unlockable>}
-        {entitySelected.projectile.projectileBehavior === PROJECTILE_TARGET_ENTITY_MODEL && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
-          <SelectEntityModel
+        {entitySelected.projectile.projectileBehavior === PROJECTILE_TARGET_ENTITY_MODEL && <Unlockable interfaceId={PROJECTILE_TARGET_ENTITY_MODEL}>
+          <SelectRelationTag
             formLabel="Target"
             interfaceId={PROJECTILE_ENTITY_TARGET_SELECTOR_IID}
-            value={entitySelected.projectile.targetEntityId ? [entitySelected.projectile.targetEntityId] : []}
+            value={entitySelected.projectile.targetRelationTagId ? [entitySelected.projectile.targetRelationTagId] : []}
             onChange={(event, entityModels) => {
               const newEntityId = entityModels[entityModels.length-1]
-              editGameModel({ entityModels: { [entityModelId]: { projectile: { targetEntityId: newEntityId ? newEntityId : null  }}}})        
+              editGameModel({ entityModels: { [entityModelId]: { projectile: { targetRelationTagId: newEntityId ? newEntityId : null  }}}})        
           }}/>
         </Unlockable>}
         <Unlockable isSlider interfaceId={PROJECTILE_SPEED_IID}>

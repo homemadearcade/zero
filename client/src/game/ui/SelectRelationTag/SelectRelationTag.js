@@ -5,12 +5,13 @@ import { connect } from 'react-redux';
 import './SelectRelationTag.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { entityModelClassToDisplayName, relationTagTypeToDisplayName } from '../../constants';
-import { DATA_SOURCE_GAME_MODEL_IID, IS_DATA_REMOVED_IID, RELATION_TAG_ENTITY_IID, SELECTOR_MORE_IID, SELECT_RELATION_TAG_IID } from '../../../constants/interfaceIds';
+import { NOT_DERIVED_IID, IS_DATA_REMOVED_IID, RELATION_TAG_ENTITY_IID, SELECTOR_MORE_IID, SELECT_RELATION_TAG_IID } from '../../../constants/interfaceIds';
 import DataSourceVisibilityMenu from '../../../ui/connected/DataSourceVisibilityMenu/DataSourceVisibilityMenu';
 import Icon from '../../../ui/Icon/Icon';
 import { MenuItem, MenuList } from '@mui/material';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CobrowsingMenuIconButton from '../../cobrowsing/CobrowsingMenuIconButton/CobrowsingMenuIconButton';
+import _ from 'lodash';
 
 const SelectRelationTag = ({ removeEntityTags, relationTagIID, interfaceId, onChange, disabled, value, formLabel, gameRoomInstance: { gameRoomInstance: { currentStageId }}, gameModel: { gameModel }, gameSelector: { selectorInterfaceListInvisibility } }) => {
   const dataSourceFilterInterfaceId = interfaceId || SELECT_RELATION_TAG_IID
@@ -45,7 +46,7 @@ const SelectRelationTag = ({ removeEntityTags, relationTagIID, interfaceId, onCh
           isRemoved: true,
         }
       }
-      const isImportInvisible = relationTagEntity.importedStageIds[currentStageId] && relationTagEntity.dataSourceIID !== DATA_SOURCE_GAME_MODEL_IID
+      const isImportInvisible = relationTagEntity.importedStageIds[currentStageId] && relationTagEntity.dataSourceIID !== NOT_DERIVED_IID
 
       return {
         title: relationTag.name,
@@ -63,6 +64,7 @@ const SelectRelationTag = ({ removeEntityTags, relationTagIID, interfaceId, onCh
       subTitle: relationTag.description,
       value: relationTagId,
       icon: relationTag.icon,
+      textureId: relationTag.textureId,
       textureTint: relationTag.textureTint,
       isRemoved,
       relationTagIID
@@ -70,7 +72,7 @@ const SelectRelationTag = ({ removeEntityTags, relationTagIID, interfaceId, onCh
   }
 
   const options = Object.keys(gameModel.relationTags).map(mapTagToOption)
-
+  
   options.sort((a, b) => {
     if(!a.relationTagIID) {
       return 1

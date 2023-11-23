@@ -71,15 +71,13 @@ const GameEditDialog = ({
     interfaceId: EDIT_GAME_LIBRARY_TAB_IID,
     label: 'Library',
     body: <>
-      <SelectArcadeGame excludedIds={gameModel.id} removeFilter = {(game) => {
-        if(!game.importedArcadeGames || game.importedArcadeGames?.length) return false 
-        return true 
-      }} label="Import a Game" userMongoId={gameModel.owner.id} onSelect={(games) => {
+      <SelectArcadeGame excludedIds={gameModel.id} label="Select a game to import as a library" userMongoId={gameModel.owner.id} onSelect={async (games) => {
       if(games[0]) {
-        addImportedArcadeGame(games[0].id)
+        await addImportedArcadeGame(games[0].id)
+        window.reload()
       }
       }}/>
-      <FormLabel>Imported Games</FormLabel>
+      {/* <FormLabel>Imported Games</FormLabel>
       <div className="GameEditDialog__imported-games">{gameModel.importedArcadeGames?.map((gameModel) => {
         if(gameModel.importedArcadeGames?.length) return <div key={gameModel.id}>
           <Alert severity="error">
@@ -88,7 +86,7 @@ const GameEditDialog = ({
         </div>
         return <GameCard game={gameModel}/>
       })}
-      </div>
+      </div> */}
     </>
   }
 
@@ -143,7 +141,7 @@ const GameEditDialog = ({
     </>
   }
 
-  const tabs = [metadataTab, privacyTab, playersTab, themeTab, libraryTab, sizeTab]
+  const tabs = [metadataTab, privacyTab, playersTab, libraryTab, themeTab, sizeTab]
 
   return <CobrowsingDialog widthModifier={1} open={true} onClose={handleClose}>
     <div className="GameEditDialog">

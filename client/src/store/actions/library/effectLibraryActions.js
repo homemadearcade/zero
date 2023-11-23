@@ -100,7 +100,7 @@ export const addEffectToLibrary = (effect) => async (dispatch, getState) => {
   try {
     const userMongoId = getState().auth.me.id
     effect.userMongoId = userMongoId
-    effect.dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODEL_IID
+    // effect.dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODEL_IID
     
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/effect', effect, options);

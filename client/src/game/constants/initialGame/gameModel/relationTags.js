@@ -1,12 +1,12 @@
-import {  PLAYER_RELATION_TAG_ID, RELATION_TAG_DID, } from "../../"
-import { ENTITY_RELATION_TAGS_IID, RELATION_TAG_GENERAL_IID , DATA_SOURCE_GAME_MODEL_IID, DATA_SOURCE_SYSTEM_IID } from "../../../../constants/interfaceIds"
-import { defaultEditorInterface } from "../entityModelMember/editorInterface"
+import {  CAMERA_RELATION_TAG_ID, PLAYER_RELATION_TAG_ID, RELATION_TAG_DID, SPAWN_ZONE_RELATION_TAG_ID, STAGE_RELATION_TAG_ID, } from "../../"
+import { ENTITY_RELATION_TAGS_IID, RELATION_TAG_GENERAL_IID , NOT_DERIVED_IID, DERIVED_DEFAULT_SYSTEM_IID } from "../../../../constants/interfaceIds"
+import { defaultEditorInterface } from "../entityModelBehavior/editorInterface"
 
 export const defaultRelationTag = {
   relationTagIID: RELATION_TAG_GENERAL_IID,
   isRemoved: false,
   isReadOnly: false,
-  dataSourceIID: DATA_SOURCE_GAME_MODEL_IID,
+  dataSourceIID: NOT_DERIVED_IID,
   relationTagId: null,
   name: null,
   icon: null,
@@ -22,7 +22,7 @@ function createLibraryTag(relationTagId, name, textureTint, hiddenFromIDs = {}) 
   return {
     ...defaultRelationTag,
     isReadOnly: true,
-    dataSourceIID: DATA_SOURCE_SYSTEM_IID,
+    dataSourceIID: DERIVED_DEFAULT_SYSTEM_IID,
     relationTagIID: RELATION_TAG_GENERAL_IID,
     relationTagId,
     name,
@@ -55,6 +55,16 @@ export const initialTags = {
   [PLAYER_RELATION_TAG_ID]: createLibraryTag(PLAYER_RELATION_TAG_ID, 'Player', '#FFFF00', {
     [ENTITY_RELATION_TAGS_IID]: true,
   }),
+  [CAMERA_RELATION_TAG_ID]: createLibraryTag(CAMERA_RELATION_TAG_ID, 'Player Camera', '#00FF00', {
+    [ENTITY_RELATION_TAGS_IID]: true,
+  }),
+  [STAGE_RELATION_TAG_ID]: createLibraryTag(STAGE_RELATION_TAG_ID, 'Stage', '#000000', {
+    [ENTITY_RELATION_TAGS_IID]: true,
+  }),
+  [SPAWN_ZONE_RELATION_TAG_ID]: createLibraryTag(SPAWN_ZONE_RELATION_TAG_ID, 'Player Spawn Zone', '#FFFFFF', {
+    [ENTITY_RELATION_TAGS_IID]: true,
+  }),
+
   // [endGameOnTouchTagId]: createLibraryTag(endGameOnTouchTagId, 'End Game on Touch', '#FF0000'),
   // [endGameWhenAllDestroyedTagId]: createLibraryTag(endGameWhenAllDestroyedTagId, 'End Game when all Destroyed', '#FF0000'),
 

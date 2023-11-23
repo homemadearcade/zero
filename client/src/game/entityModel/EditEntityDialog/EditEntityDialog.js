@@ -86,7 +86,6 @@ const EditEntityDialog = ({
     </Unlockable>
   }
 
-
   function renderSpawnZoneGeneration(formLabel) {
     return <Unlockable interfaceId={ENTITY_SPAWN_ZONE_ENTITY_IID}>
       <SelectEntityModel 

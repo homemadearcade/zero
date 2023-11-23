@@ -102,7 +102,7 @@ export const addInterfacePresetToLibrary = (interfacePreset) => async (dispatch,
   try {
     const userMongoId = getState().auth.me.id
     interfacePreset.userMongoId = userMongoId
-    interfacePreset.dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODEL_IID
+    // interfacePreset.dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODEL_IID
     
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/interfacePreset', interfacePreset, options);

@@ -1,4 +1,4 @@
-import { DATA_SOURCE_GAME_MODEL_IID  } from "../../../../constants/interfaceIds";
+import { NOT_DERIVED_IID  } from "../../../../constants/interfaceIds";
 import { gameGridHeight, gameGridWidth, nodeSize  } from "../../core";
 
 export const defaultLayer = {
@@ -10,5 +10,5 @@ export const defaultLayer = {
   layerGroupIID: null,
   width: nodeSize * gameGridWidth,
   height: nodeSize * gameGridHeight,
-  dataSourceIID: DATA_SOURCE_GAME_MODEL_IID
+  dataSourceIID: NOT_DERIVED_IID
 }

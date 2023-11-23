@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import Typography from '../../../ui/Typography/Typography';
 import EntityItem from '../EntityItem/EntityItem';
 
-import './EntityMemberTitle.scss'
+import './EntityBehaviorTitle.scss'
 
-const EntityMemberTitle = ({ title, entityModelId }) => {
+const EntityBehaviorTitle = ({ title, entityModelId }) => {
   return (
-    <div className="EntityMemberTitle">
+    <div className="EntityBehaviorTitle">
       <EntityItem entityModelId={entityModelId} 
         height="3.3em"
         width="4.5em"
@@ -21,4 +21,4 @@ const mapStateToProps = (state) => ({
 
 })
 
-export default connect(mapStateToProps, { })(EntityMemberTitle);
+export default connect(mapStateToProps, { })(EntityBehaviorTitle);

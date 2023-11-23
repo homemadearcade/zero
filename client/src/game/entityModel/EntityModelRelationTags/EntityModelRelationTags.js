@@ -12,6 +12,7 @@ const EntityModelRelationTags = ({
   entityModel,
   onUpdate,
 }) => {
+
   return <div className="EntityModelRelationTags">
     <FormLabel>Relationship Tags</FormLabel>
     <div className="EditEntityDialog__read-only-tags">

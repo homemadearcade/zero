@@ -13,7 +13,7 @@ import Icon from '../../../ui/Icon/Icon';
 import CameraEditor from '../CameraEditor/CameraEditor';
 import ProjectileEditor from '../ProjectileEditor/ProjectileEditor';
 import MovementEditor from '../MovementEditor/MovementEditor';
-import EntityMemberTitle from '../../entityModel/EntityMemberTitle/EntityMemberTitle';
+import EntityBehaviorTitle from '../../entityModel/EntityBehaviorTitle/EntityBehaviorTitle';
 import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
 import { CAMERA_EDITOR_IID, PLAYER_ENTITY_IID, JUMP_EDITOR_IID, MOVEMENT_EDITOR_IID, COLLISION_EDITOR_IID, PROJECTILE_EDITOR_IID, STAGE_EDITOR_IID } from '../../constants';
@@ -41,7 +41,7 @@ const SideEditor = ({ closeLiveEditor, openLiveEditor, gameSelector: { entityMod
   return (
     <div className="SideEditor">
       {<div className="SideEditor__close"><Button onClick={closeLiveEditor}><Icon icon="faClose"/></Button></div>}
-      {<EntityMemberTitle entityModelId={entityModelIdSelectedLiveEditor} title={<>
+      {<EntityBehaviorTitle entityModelId={entityModelIdSelectedLiveEditor} title={<>
           <span className="SideEditor__title">{title}</span>
           <MenuIconButton
             icon={<Icon size="xs" icon={"faChevronDown"} />} 

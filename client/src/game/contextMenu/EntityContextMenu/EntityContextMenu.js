@@ -14,8 +14,8 @@ import {
   ENTITY_MODEL_DUPLICATE_IID, ENTITY_MODEL_OPEN_GRAPHICS_IID,
   ENTITY_MODEL_OPEN_EDIT_IID, 
   ENTITY_MODEL_REMOVE_IID, PLAYER_ENTITY_TRANSFORM_IID,
-  EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, PLAYER_ENTITY_IID, DATA_SOURCE_GAME_MODEL_IID,
-  DATA_SOURCE_ENTITY_MODEL_IID, ENTITY_MODEL_IMPORT_IID, ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID
+  EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, PLAYER_ENTITY_IID, NOT_DERIVED_IID,
+  DERIVED_ENTITY_MODEL_IID, ENTITY_MODEL_IMPORT_IID, ENTITY_MODEL_OPEN_BEHAVIOR_EDIT_IID
 } from '../../../constants/interfaceIds';
 import { ListItemIcon } from '@mui/material';
 import Icon from '../../../ui/Icon/Icon';
@@ -89,7 +89,7 @@ const EntityContextMenu = ({
 
         const newRelationTags =  Object.keys(entityModel.relationTags).filter(relationTagId => {
           const relationTag = gameModel.relationTags[relationTagId]
-          return relationTag.dataSourceIID !== DATA_SOURCE_ENTITY_MODEL_IID
+          return relationTag.dataSourceIID !== DERIVED_ENTITY_MODEL_IID
         }).reduce((newRelationTags, relationTagId) => {
           newRelationTags[relationTagId] = entityModel.relationTags[relationTagId]
           return newRelationTags
@@ -104,7 +104,7 @@ const EntityContextMenu = ({
           entityModels: {
             [newEntityId]: {
               ...newEntityModel,
-              dataSourceIID: DATA_SOURCE_GAME_MODEL_IID,
+              dataSourceIID: NOT_DERIVED_IID,
               entityModelId: newEntityId,
               name: entityModel.name + ' Duplicate',
               isNew: false

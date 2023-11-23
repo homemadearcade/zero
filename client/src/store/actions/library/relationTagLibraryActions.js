@@ -100,7 +100,7 @@ export const addRelationTagToLibrary = (relationTag) => async (dispatch, getStat
   try {
     const userMongoId = getState().auth.me.id
     relationTag.userMongoId = userMongoId
-    relationTag.dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODEL_IID
+    // relationTag.dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODEL_IID
     
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/relationTag', relationTag, options);

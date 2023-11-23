@@ -100,7 +100,7 @@ export const addRelationToLibrary = (relation) => async (dispatch, getState) => 
   try {
     const userMongoId = getState().auth.me.id
     relation.userMongoId = userMongoId
-    relation.dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODEL_IID
+    // relation.dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODEL_IID
     
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/relation', relation, options);

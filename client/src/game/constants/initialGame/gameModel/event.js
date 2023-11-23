@@ -1,7 +1,7 @@
 /////////////////////////////////////
 /////////////////////////////////////
 
-import { DATA_SOURCE_GAME_MODEL_IID } from "../../../../constants/interfaceIds";
+import { NOT_DERIVED_IID } from "../../../../constants/interfaceIds";
 
 // WHEN, WHO, WHERE
 export const defaultEvent = {
@@ -11,7 +11,7 @@ export const defaultEvent = {
   relationTagIdB: null,
   cutsceneId: null,
 
-  dataSourceIID: DATA_SOURCE_GAME_MODEL_IID,
+  dataSourceIID: NOT_DERIVED_IID,
   sidesA: [],
   sidesB: [],
 

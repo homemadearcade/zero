@@ -12,7 +12,7 @@ import Icon from '../../../ui/Icon/Icon';
 import CameraEditor from '../CameraEditor/CameraEditor';
 import ProjectileEditor from '../ProjectileEditor/ProjectileEditor';
 import MovementEditor from '../MovementEditor/MovementEditor';
-import EntityMemberTitle from '../../entityModel/EntityMemberTitle/EntityMemberTitle';
+import EntityBehaviorTitle from '../../entityModel/EntityBehaviorTitle/EntityBehaviorTitle';
 import JumpEditor from '../JumpEditor/JumpEditor';
 import { PLAYER_ENTITY_IID, LIVE_ENTITY_EDITOR_TAB_CONTANER_IID, LIVE_ENTITY_EDITOR_JUMP_TAB_IID, LIVE_ENTITY_EDITOR_MOVEMENT_TAB_IID, LIVE_ENTITY_EDITOR_PROJECTILE_TAB_IID, LIVE_ENTITY_EDITOR_COLLISIONS_TAB_IID, LIVE_ENTITY_EDITOR_CAMERA_TAB_IID } from '../../../constants/interfaceIds';
 import CobrowsingTabs from '../../cobrowsing/CobrowsingTabs/CobrowsingTabs';
@@ -61,7 +61,7 @@ const EntityBehaviorLiveEditor = ({ closeEntityBehaviorLiveEditor, gameSelector:
   return (
     <div className="EntityBehaviorLiveEditor">
       <div className="EntityBehaviorLiveEditor__close"><Button onClick={closeEntityBehaviorLiveEditor}><Icon icon="faClose"/></Button></div>
-      <EntityMemberTitle title="Behavior" entityModelId={entityModelIdSelectedLiveEditor}></EntityMemberTitle>
+      <EntityBehaviorTitle title="Behavior" entityModelId={entityModelIdSelectedLiveEditor}></EntityBehaviorTitle>
       <CobrowsingTabs tabs={tabs} interfaceGroupId={LIVE_ENTITY_EDITOR_TAB_CONTANER_IID} />
     </div>
   );

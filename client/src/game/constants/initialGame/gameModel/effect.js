@@ -1,7 +1,7 @@
 /////////////////////////////////////
 /////////////////////////////////////
 
-import { DATA_SOURCE_GAME_MODEL_IID } from "../../../../constants/interfaceIds";
+import { NOT_DERIVED_IID } from "../../../../constants/interfaceIds";
 
 // WHAT HAPPENS
 export const defaultEffect = {
@@ -24,7 +24,7 @@ export const defaultEffect = {
 
   text: '',
   
-  dataSourceIID: DATA_SOURCE_GAME_MODEL_IID,
+  dataSourceIID: NOT_DERIVED_IID,
   isRemoved: false,
   isReadOnly: false,
 

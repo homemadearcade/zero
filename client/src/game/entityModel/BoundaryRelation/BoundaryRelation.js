@@ -8,7 +8,7 @@ import { closeBoundaryRelation, updateBoundaryRelation } from '../../../store/ac
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
-import EntityMemberTitle from '../../entityModel/EntityMemberTitle/EntityMemberTitle';
+import EntityBehaviorTitle from '../../entityModel/EntityBehaviorTitle/EntityBehaviorTitle';
 import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
 
 const BoundaryRelation = ({ closeBoundaryRelation, editGameModel, updateBoundaryRelation, gameFormEditor: { entityModel }}) => {
@@ -18,7 +18,7 @@ const BoundaryRelation = ({ closeBoundaryRelation, editGameModel, updateBoundary
 
   return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="BoundaryRelation">
-      <EntityMemberTitle entityModelId={entityModel.entityModelId} title="Boundary Relation"/>
+      <EntityBehaviorTitle entityModelId={entityModel.entityModelId} title="Boundary Relation"/>
         <SelectBoundaryEffect
           entityModelId={entityModel.entityModelId}
           formLabel={`What happens when touching the world boundary?`}

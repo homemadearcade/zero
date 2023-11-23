@@ -2,8 +2,8 @@ import { mergeDeep } from "../../../../utils/utils"
 import _ from "lodash"
 // import { defaultEntity } from "./entityModel"
 import { defaultPlayerEntity } from "../entityModel/entityClass"
-import { advancedDirectionalDefaults, directionalDefaults, groundJumpDefaults, jumpMovementDefaults, noJumpDefaults, swimmerDefaults, vehicleDefaults } from "../entityModelMember"
-import { DATA_SOURCE_SYSTEM_IID } from "../../../../constants/interfaceIds"
+import { advancedDirectionalDefaults, directionalDefaults, groundJumpDefaults, jumpMovementDefaults, noJumpDefaults, swimmerDefaults, vehicleDefaults } from "../entityModelBehavior"
+import { NOT_DERIVED_IID } from "../../../../constants/interfaceIds"
 import { DIRECTIONAL_PLAYER_ENTITY_IVID, JUMPER_PLAYER_ENTITY_IVID, SWIMMER_PLAYER_ENTITY_IVID, VEHICLE_PLAYER_ENTITY_IVID } from "../importantValueIds"
 
 export function createInitialPlayerEntities(importantValues) {
@@ -23,7 +23,7 @@ export function createInitialPlayerEntities(importantValues) {
 
   const vehicleEntity = {
     ...defaultProps,
-    dataSourceIID: DATA_SOURCE_SYSTEM_IID,
+    dataSourceIID: NOT_DERIVED_IID,
     name: 'Vehicle',
     graphics: {
       textureTint: '#FFFFFF',
@@ -39,7 +39,7 @@ export function createInitialPlayerEntities(importantValues) {
 
   const swimmerEntity = {
     ...defaultProps,
-    dataSourceIID: DATA_SOURCE_SYSTEM_IID,
+    dataSourceIID: NOT_DERIVED_IID,
     name: 'Swimmer',
     graphics: {
       textureTint: '#FFFFFF',
@@ -55,7 +55,7 @@ export function createInitialPlayerEntities(importantValues) {
 
   const jumperEntity = {
     ...defaultProps,
-    dataSourceIID: DATA_SOURCE_SYSTEM_IID,
+    dataSourceIID: NOT_DERIVED_IID,
     name: 'Jumper',
     graphics: {
       textureTint: '#FFFFFF',
@@ -74,7 +74,7 @@ export function createInitialPlayerEntities(importantValues) {
 
   const directionalEntity = {
     ...defaultProps,
-    dataSourceIID: DATA_SOURCE_SYSTEM_IID,
+    dataSourceIID: NOT_DERIVED_IID,
     name: 'Directional',
     graphics: {
       textureTint: '#FFFFFF',

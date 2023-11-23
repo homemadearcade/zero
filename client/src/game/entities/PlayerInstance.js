@@ -11,7 +11,7 @@ import { getCobrowsingState } from "../../utils";
 import { changeGameStatus } from "../../store/actions/game/gameRoomInstanceActions";
 import { progressActiveCutscene } from "../../store/actions/game/playerInterfaceActions";
 import { editGameModel } from "../../store/actions/game/gameModelActions";
-import _, { set } from "lodash";
+import _ from "lodash";
 
 export class PlayerInstance extends EntityInstance {
   constructor(scene, entityInstanceId, entityInstanceData){
@@ -88,7 +88,7 @@ export class PlayerInstance extends EntityInstance {
       this.cameraInstance.onClearResize = () => {
         const gameModel = this.scene.getGameModel()
         const playerEntityModel = gameModel.entityModels[this.scene.playerInstance.entityModelId]
-        this.setSize(playerEntityModel.camera.width, playerEntityModel.camera.width)
+        this.cameraInstance.setSize(playerEntityModel.camera.width, playerEntityModel.camera.width)
       }
     })
 

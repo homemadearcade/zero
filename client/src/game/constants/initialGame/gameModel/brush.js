@@ -1,4 +1,4 @@
-import { DATA_SOURCE_GAME_MODEL_IID } from "../../../../constants/interfaceIds";
+import { NOT_DERIVED_IID } from "../../../../constants/interfaceIds";
 import { DEFAULT_TEXTURE_ID } from "../../core";
 
 export const defaultBrush = {
@@ -7,5 +7,5 @@ export const defaultBrush = {
   name: null,
   textureTint: '#FFFFFF',
   textureId: DEFAULT_TEXTURE_ID,
-  dataSourceIID: DATA_SOURCE_GAME_MODEL_IID
+  dataSourceIID: NOT_DERIVED_IID
 }

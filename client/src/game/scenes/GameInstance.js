@@ -1190,8 +1190,8 @@ addInstancesToEntityInstanceByTag(instances) {
     const effectInterface = effectEditInterfaces[effect.effectBehavior]
     if(!this.gameRoomInstance.isHost && !effectInterface.runOnClient) return
 
-    if(this.timeToTriggerAgain[relation.relationId]) {
-      if(this.timeToTriggerAgain[relation.relationId] > Date.now()) {
+    if(this.timeToTriggerAgain[effect.effectId]) {
+      if(this.timeToTriggerAgain[effect.effectId] > Date.now()) {
         return
       }
     }
@@ -1214,13 +1214,13 @@ addInstancesToEntityInstanceByTag(instances) {
     }
 
     if(relation.event.onlyOnce) {
-      this.timeToTriggerAgain[relation.relationId] = Date.now() + 10000000000000
+      this.timeToTriggerAgain[effect.effectId] = Date.now() + 10000000000000
     } else {
       if(relation.effect.effectBehavior === EFFECT_SPAWN) {
         const effectCooldown = relation.effect.effectCooldown || 200
-        this.timeToTriggerAgain[relation.relationId] = Date.now() + effectCooldown
+        this.timeToTriggerAgain[effect.effectId] = Date.now() + effectCooldown
       } else if(relation.effect.effectCooldown) {
-        this.timeToTriggerAgain[relation.relationId] = Date.now() + relation.effect.effectCooldown
+        this.timeToTriggerAgain[effect.effectId] = Date.now() + relation.effect.effectCooldown
       }
     }
 

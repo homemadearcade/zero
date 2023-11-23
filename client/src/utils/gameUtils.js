@@ -114,8 +114,8 @@ export function isGameBoundaryWall(world, body) {
 }
 
 export function getAngleBetweenInstances(obj1, obj2) {
-  let sprite1 = obj1.sprite ? obj1.sprite : obj1
-  let sprite2 = obj2.sprite ? obj2.sprite : obj2
+  let sprite1 = obj1.physicsSprite ? obj1.physicsSprite : obj1
+  let sprite2 = obj2.physicsSprite ? obj2.physicsSprite : obj2
 
     //I use the offset because the ship is pointing down
     //at the 6 o'clock position
