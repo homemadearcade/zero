@@ -9,12 +9,11 @@ import { openEditEntityGraphics, openCreateCutscene, openCreateEffect, openCreat
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import {  TEXT_SCENE_ADD_IID, TEXT_SCENE_CONTAINER_IID, TEXT_SCENE_SELECT_IID, EFFECT_LIST_IID, EFFECT_ADD_IID, EFFECT_CONTAINER_IID, EVENT_LIST_IID, EVENT_ADD_IID, EVENT_CONTAINER_IID, EVENT_SELECT_IID, IS_DATA_REMOVED_IID, RELATION_LIST_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, RELATION_TAG_LIST_IID, RELATION_TAG_ADD_IID, RELATION_TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
+import {  EFFECT_LIST_IID, EFFECT_ADD_IID, EFFECT_CONTAINER_IID, EVENT_LIST_IID, EVENT_ADD_IID, EVENT_CONTAINER_IID, EVENT_SELECT_IID, IS_DATA_REMOVED_IID, RELATION_LIST_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, RELATION_TAG_LIST_IID, RELATION_TAG_ADD_IID, RELATION_TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openEntityBoxDialog } from '../../../store/actions/game/gameSelectorActions';
 import { NestedListContainer, NestedListItem, NestedListItemButton } from '../../../ui/NestedList/NestedList';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
 import RelationItem from '../RelationItem/RelationItem';
-import { CUTSCENE_ADD_IID, CUTSCENE_CONTAINER_IID, CUTSCENE_SELECT_IID } from '../../../constants/interfaceIds/cutsceneInterfaceIds';
 import EventShorthand from '../../event/EventShorthand/EventShorthand';
 import RelationTagItem from '../../tags/RelationTagItem/RelationTagItem';
 import EffectItem from '../../effect/EffectItem/EffectItem';

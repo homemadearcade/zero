@@ -5,55 +5,31 @@ import { gameGridWidth, gameGridHeight, SPAWN_ZONE_RELATION_TAG_ID, CAMERA_RELAT
 import { mirrorPlayerDefaults } from "../entityModelBehavior";
 import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../../core";
 import { nodeSize } from "../../core";
-import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, NOT_DERIVED_IID, ENTITY_SPAWN_ZONE_ENTITY_IID, PROJECTILE_ENTITY_SELECTOR_IID, COLLIDER_RELATION_TAG_IID, SELECT_SPEAKER_ENTITY_MODEL_IID, PROJECTILE_ENTITY_TARGET_SELECTOR_IID, IMAGE_AND_TEXT_SCENE_IID } from "../../../../constants/interfaceIds";
-import { EDIT_ENTITY_AID, IMPORT_DATA_SOURCE_AID, PLACE_ENTITY_AID } from "../../../../constants/interfaceActionIds";
+import { IMAGE_AND_TEXT_SCENE_IID, NOT_DERIVED_IID } from "../../../../constants/interfaceIds";
 import { EDIT_GAME_SCOPE_ONLY_ME, PLAY_GAME_SCOPE_UNLISTED } from "../../core";
 import { defaultCutscene } from "./cutscene";
 import _, { cloneDeep } from "lodash";
-import { CAMERA_ZONE_ENTITY_IVID, DIRECTIONAL_PLAYER_ENTITY_IVID, END_GAME_CUTSCENE_IVID, INITIAL_STAGE_IVID, JUMPER_PLAYER_ENTITY_IVID, PLAYER_SPAWN_ZONE_ENTITY_IVID, PLAYTHROUGH_START_CUTSCENE_IVID, STAGE_ZONE_ENTITY_IVID, SWIMMER_PLAYER_ENTITY_IVID, VEHICLE_PLAYER_ENTITY_IVID, importantValueData } from "../importantValueIds";
-import { createInitialPlayerEntities } from "./players";
+import { CAMERA_ZONE_ENTITY_IVID, END_GAME_CUTSCENE_IVID, INITIAL_STAGE_IVID, PLAYER_SPAWN_ZONE_ENTITY_IVID, PLAYTHROUGH_START_CUTSCENE_IVID, STAGE_ZONE_ENTITY_IVID } from "../importantValueIds";
 import { createInitialStage } from "./stage";
-import { generateUniqueId } from "../../../../utils";
 import { initialTags } from "./relationTags";
+import { loadStarterPack } from "../../starterPack";
 
-export function createInitialGameModel() {
-  const importantValues = importantValueData.reduce((prev, importantValueData) => {
-    const { importantValueId, name } = importantValueData
+export function createInitialGameModel(starterPackIID) {
+  const starterPackData = loadStarterPack(starterPackIID)
 
-    prev[importantValueId] = {
-      unique: true,
-      type: 'id',
-      name,
-      importantValueId,
-      value: importantValueId + '-' + generateUniqueId(),
-      relatedId: null
-    }
-    return prev
-  }, {})
+  const initialStageId = INITIAL_STAGE_IVID
 
-  const initialStageId = importantValues[INITIAL_STAGE_IVID].value
+  const initialStageZoneEntityId = STAGE_ZONE_ENTITY_IVID
 
-  const initialStageZoneEntityId = importantValues[STAGE_ZONE_ENTITY_IVID].value
+  const initialCameraZoneEntityId = CAMERA_ZONE_ENTITY_IVID
 
-  const initialCameraZoneEntityId = importantValues[CAMERA_ZONE_ENTITY_IVID].value
+  const initialPlayerSpawnZoneEntityId = PLAYER_SPAWN_ZONE_ENTITY_IVID
 
-  const initialPlayerSpawnZoneEntityId = importantValues[PLAYER_SPAWN_ZONE_ENTITY_IVID].value
+  const playthroughStartCutsceneId = PLAYTHROUGH_START_CUTSCENE_IVID
 
-  const vehiclePlayerEntityId = importantValues[VEHICLE_PLAYER_ENTITY_IVID].value
-
-  const jumperPlayerEntityId = importantValues[JUMPER_PLAYER_ENTITY_IVID].value
-
-  const directionalPlayerEntityId = importantValues[DIRECTIONAL_PLAYER_ENTITY_IVID].value
-
-  const swimmerPlayerEntityId = importantValues[SWIMMER_PLAYER_ENTITY_IVID].value
-
-  const playthroughStartCutsceneId = importantValues[PLAYTHROUGH_START_CUTSCENE_IVID].value
-
-  const endGameCutsceneId = importantValues[END_GAME_CUTSCENE_IVID].value
-
-  const { directionalEntity, jumperEntity, vehicleEntity, swimmerEntity } = createInitialPlayerEntities(importantValues)
-
-  const initialStage = createInitialStage(importantValues)
+  const endGameCutsceneId = END_GAME_CUTSCENE_IVID
+  
+  const initialStage = createInitialStage()
 
   return  {
     "metadata": {
@@ -61,6 +37,9 @@ export function createInitialGameModel() {
       "description": "",
       "authorPseudonym": "",
       "imageUrl": "",
+    },
+    stageClasses: {
+      ...starterPackData.stageClasses
     },
     playScope: PLAY_GAME_SCOPE_UNLISTED,
     editScope: EDIT_GAME_SCOPE_ONLY_ME,
@@ -124,20 +103,11 @@ export function createInitialGameModel() {
     },
     layers: {},
     "entityModels": {
-      [vehiclePlayerEntityId]: vehicleEntity,
-      [jumperPlayerEntityId]: jumperEntity,
-      [directionalPlayerEntityId]: directionalEntity,
-      [swimmerPlayerEntityId]: swimmerEntity,
+      ...starterPackData.entityModels,
       [initialPlayerSpawnZoneEntityId]: {
         name: 'Player Spawn',
         ...defaultZoneEntity,
         entityModelId: initialPlayerSpawnZoneEntityId,
-        editorInterface: {
-          // hiddenFromIDs: {
-          //   // [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true,
-          //   [EDIT_ENTITY_AID]: true,
-          // },
-        },
         autogeneration: {
           transformIntoEffect: false,
             playerTransformIntoRelationTag: false,
@@ -165,20 +135,8 @@ export function createInitialGameModel() {
           ...mirrorPlayerDefaults.movement
         },
         editorInterface: {
-          // hiddenFromIDs: {
-          //   // [SELECT_SPEAKER_ENTITY_MODEL_IID]: true,
-          //   [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true,
-          //   [RELATION_SPAWN_ENTITY_MODEL_IID]: true,
-          //   // [ENTITY_SPAWN_ZONE_ENTITY_IID]: true,
-          //   // [EDIT_ENTITY_AID]: true,
-          //   [IMPORT_DATA_SOURCE_AID]: true,
-          //   [PLACE_ENTITY_AID]: true,
-          //   [PROJECTILE_ENTITY_SELECTOR_IID]: true,
-          //   // [PROJECTILE_ENTITY_TARGET_SELECTOR_IID]: true,
-          //   // [COLLIDER_RELATION_TAG_IID]: true
-          // },
           fixedAspectRatio: true,
-          notSelectableInForms: true,
+          notSelectableInInterface: true,
           notSelectableInStage: true,
         },
         autogeneration: {
@@ -213,19 +171,7 @@ export function createInitialGameModel() {
         name: 'Stage',
         ...defaultZoneEntity,
         editorInterface: {
-          hiddenFromIDs: {
-            [SELECT_SPEAKER_ENTITY_MODEL_IID]: true,
-            [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true,
-            [RELATION_SPAWN_ENTITY_MODEL_IID]: true,
-            [ENTITY_SPAWN_ZONE_ENTITY_IID]: true,
-            [EDIT_ENTITY_AID]: true,
-            [IMPORT_DATA_SOURCE_AID]: true,
-            [PLACE_ENTITY_AID]: true,
-            [PROJECTILE_ENTITY_SELECTOR_IID]: true,
-            // [PROJECTILE_ENTITY_TARGET_SELECTOR_IID]: true,
-            [COLLIDER_RELATION_TAG_IID]: true
-          },
-          notSelectableInForms: true,
+          notSelectableInInterface: true,
           notSelectableInStage: true,
         },
         relationTags: {
@@ -250,7 +196,7 @@ export function createInitialGameModel() {
         graphics: {
           ...defaultZoneEntity.graphics,
           textureTint: '#000000',
-          depthOverride: 1,
+          depthOverride: 0,
           width: nodeSize * gameGridWidth,
           height: nodeSize * gameGridHeight
         },
@@ -258,7 +204,7 @@ export function createInitialGameModel() {
       }
     },
     isRemoved: false,
-    importantValues
+    starterPackIID: starterPackIID,
   }
 }
 

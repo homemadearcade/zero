@@ -92,7 +92,7 @@ const EntityBoxList = ({
     }
     if(currentEntityModel.isRemoved) return 
 
-    const isHidden = currentEntityModel.editorInterface.hiddenFromIDs[SELECTOR_ENTITY_BY_INTERFACE_ID_IID]
+    const isHidden = currentEntityModel.editorInterface.notSelectableInInterface
     if(dataSourceIID === IS_DATA_HIDDEN_IID) {
       if(isHidden) return true
       return false
@@ -111,7 +111,7 @@ const EntityBoxList = ({
   // function addDefaultValuesToPlayerEntity(entityModel) {
   //   const defaultType = gameModel.stages[currentStageId].defaultType
   //   if(!defaultType) return entityModel
-  //   const defaultTypeProperties = stageDefaultTypeProperties[defaultType]
+  //   const defaultTypeProperties = stageClassIIDProperties[defaultType]
   //   const defaultEntityModel = entityModels[defaultTypeProperties].playerEntityModelId
   //   return {...entityModel, ...defaultEntityModel}
   // }

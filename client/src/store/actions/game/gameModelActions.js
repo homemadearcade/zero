@@ -107,7 +107,7 @@ export const addStageToGameModel = (stage, gameModel) => async (dispatch, getSta
   })
 
   try {
-    const initialStage = createInitialStage(gameModel.importantValues)
+    const initialStage = createInitialStage()
     const newStage = mergeDeep(_.cloneDeep(initialStage), stage)
     await addLayersForArcadeGameStage(gameModel.id, gameModel.owner.id, stage.stageId)
     await dispatch(editGameModel({

@@ -84,16 +84,9 @@ export class GameInstance extends Phaser.Scene {
       const zoneId = gameModel.stages[currentStage.stageId].playerSpawnZoneEntityId
       const zone = this.getRandomInstanceOfEntityId(zoneId)
 
-      // const zoneEntityModel = gameModel.entityModels[zoneId]
 
-      const directionalPlayerEntityId = gameModel.importantValues[DIRECTIONAL_PLAYER_ENTITY_IVID].value
-      let lastPlayerEntityId = directionalPlayerEntityId
-      if(playerInterface.playerEntityModelId && playerInterface.playerGameInstanceId === this.gameInstanceId) {
-        lastPlayerEntityId = playerInterface.playerEntityModelId
-      }
-
+      const lastPlayerEntityId = playerInterface.playerEntityModelId
       const lastPlayerEntityModel = gameModel.entityModels[lastPlayerEntityId]
-      // console.log('lastPlayerEntityModel', lastPlayerEntityModel, gameModel.entityModels, lastPlayerEntityId)
 
       const { x, y } = zone.getInnerCoordinates(lastPlayerEntityModel) 
 

@@ -18,21 +18,18 @@ export const defaultRelationTag = {
   },
 }
 
-function createLibraryTag(relationTagId, name, textureTint, hiddenFromIDs = {}) {
+function createLibraryTag(relationTagId, name, textureTint, editorInterface) {
   return {
     ...defaultRelationTag,
     isReadOnly: true,
-    dataSourceIID: DERIVED_DEFAULT_SYSTEM_IID,
+    dataSourceIID: NOT_DERIVED_IID,
     relationTagIID: RELATION_TAG_GENERAL_IID,
     relationTagId,
     name,
     textureTint,
     editorInterface: {
       ...defaultRelationTag.editorInterface,
-      hiddenFromIDs: {
-        ...defaultRelationTag.editorInterface.hiddenFromIDs,
-        ...hiddenFromIDs
-      }
+      ...editorInterface
     }
   }
 }
@@ -53,16 +50,16 @@ function createLibraryTag(relationTagId, name, textureTint, hiddenFromIDs = {}) 
 
 export const initialTags = {
   [PLAYER_RELATION_TAG_ID]: createLibraryTag(PLAYER_RELATION_TAG_ID, 'Player', '#FFFF00', {
-    [ENTITY_RELATION_TAGS_IID]: true,
+    notAddable: true
   }),
   [CAMERA_RELATION_TAG_ID]: createLibraryTag(CAMERA_RELATION_TAG_ID, 'Player Camera', '#00FF00', {
-    [ENTITY_RELATION_TAGS_IID]: true,
+    notAddable: true
   }),
   [STAGE_RELATION_TAG_ID]: createLibraryTag(STAGE_RELATION_TAG_ID, 'Stage', '#000000', {
-    [ENTITY_RELATION_TAGS_IID]: true,
+    notAddable: true
   }),
   [SPAWN_ZONE_RELATION_TAG_ID]: createLibraryTag(SPAWN_ZONE_RELATION_TAG_ID, 'Player Spawn Zone', '#FFFFFF', {
-    [ENTITY_RELATION_TAGS_IID]: true,
+    notAddable: true
   }),
 
   // [endGameOnTouchTagId]: createLibraryTag(endGameOnTouchTagId, 'End Game on Touch', '#FF0000'),

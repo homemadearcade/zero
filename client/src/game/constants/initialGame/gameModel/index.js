@@ -10,5 +10,4 @@ export * from './visualTags';
 export * from './stage';
 export * from './visualTags'
 export * from './gameModel';
-export * from './players';
 

@@ -13,7 +13,19 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CobrowsingMenuIconButton from '../../cobrowsing/CobrowsingMenuIconButton/CobrowsingMenuIconButton';
 import _ from 'lodash';
 
-const SelectRelationTag = ({ removeEntityTags, relationTagIID, interfaceId, onChange, disabled, value, formLabel, gameRoomInstance: { gameRoomInstance: { currentStageId }}, gameModel: { gameModel }, gameSelector: { selectorInterfaceListInvisibility } }) => {
+const SelectRelationTag = ({ 
+  removeEntityTags,
+  hideRelationTagIds = [],
+  relationTagIID,
+  interfaceId,
+  onChange,
+  disabled,
+  value,
+  formLabel,
+  gameRoomInstance: { gameRoomInstance: { currentStageId }},
+  gameModel: { gameModel },
+  gameSelector: { selectorInterfaceListInvisibility }
+ }) => {
   const dataSourceFilterInterfaceId = interfaceId || SELECT_RELATION_TAG_IID
 
   const mapTagToOption = (relationTagId) => {
@@ -28,7 +40,13 @@ const SelectRelationTag = ({ removeEntityTags, relationTagIID, interfaceId, onCh
     const isDataSourceInvisible = selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][relationTag.dataSourceIID]
     const isRemovedInvisible = relationTag.isRemoved && selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][IS_DATA_REMOVED_IID]
 
-    let isRemoved = isDataSourceInvisible || isRemovedInvisible || relationTag.editorInterface.hiddenFromIDs[interfaceId]
+    let isRemoved = isDataSourceInvisible || isRemovedInvisible
+
+    if(hideRelationTagIds) {
+      if(hideRelationTagIds.includes(relationTagId)) {
+        isRemoved = true
+      }
+    }
 
     if(relationTagIID) {
       if(relationTag.relationTagIID === relationTagIID) {

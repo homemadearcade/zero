@@ -38,17 +38,18 @@ function DataSourceVisibilityMenu({ interfaceId, gameSelector: { selectorInterfa
         <MenuItem key={DERIVED_DEFAULT_SYSTEM_IID+interfaceId} dense>{renderSelectorListCheckbox(DERIVED_DEFAULT_SYSTEM_IID)}</MenuItem>
       )
 
+      if(interfaceId === RELATION_TAG_LIST_IID || interfaceId === SELECT_RELATION_TAG_IID) {
+        menuItems.push(
+          <MenuItem key={DERIVED_ENTITY_MODEL_IID+interfaceId} dense>{renderSelectorListCheckbox(DERIVED_ENTITY_MODEL_IID)}</MenuItem>
+        )
+      }
+
       if(interfaceId === EFFECT_LIST_IID) {
         menuItems.push(
           <MenuItem key={DERIVED_INTERFACE_ACTION_IID+interfaceId} dense>{renderSelectorListCheckbox(DERIVED_INTERFACE_ACTION_IID)}</MenuItem>
         )
       }
 
-      if(interfaceId === RELATION_TAG_LIST_IID || interfaceId === SELECT_RELATION_TAG_IID) {
-        menuItems.push(
-          <MenuItem key={DERIVED_ENTITY_MODEL_IID+interfaceId} dense>{renderSelectorListCheckbox(DERIVED_ENTITY_MODEL_IID)}</MenuItem>
-        )
-      }
   
       menuItems.push(
         <Unlockable key={IS_DATA_REMOVED_IID} interfaceId={IS_DATA_REMOVED_IID}>

@@ -44,8 +44,7 @@ const BuyTickets = ({
   }});
 
   useEffect(() => {
-    const initialStageId = gameModel.importantValues[INITIAL_STAGE_IVID].value
-    if(currentStageId === initialStageId) {
+    if(currentStageId === INITIAL_STAGE_IVID) {
       const time = new Date();
       time.setSeconds(time.getSeconds() + playTime);
       restart(time)

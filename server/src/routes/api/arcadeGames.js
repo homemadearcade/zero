@@ -143,7 +143,8 @@ router.post('/', requireJwtAuth, async (req, res) => {
       appLocation: req.body.appLocation,
       playScope: req.body.playScope,
       editScope: req.body.editScope,
-      importantValues: req.body.importantValues,
+      stageClasses: req.body.stageClasses,
+      starterPackIID: req.body.starterPackIID,
       gameModelId: GAME_MODEL_DID + generateUniqueId()
     });
 
@@ -181,7 +182,8 @@ router.post('/:id/importArcadeGame', requireJwtAuth, requireSocketAuth, requireA
       Object.keys(importedGame.entityModels).forEach((entityModelId) => {
         const importedEntityModel = importedGame.entityModels[entityModelId]
         if(tempGame.entityModels[entityModelId]) {
-          tempGame.entityModels[entityModelId] = mergeDeep(importedEntityModel), tempGame.entityModels[entityModelId]
+          return 
+          // tempGame.entityModels[entityModelId] = mergeDeep(importedEntityModel), tempGame.entityModels[entityModelId]
         } else {
           tempGame.entityModels[entityModelId] = importedEntityModel
         }
@@ -218,6 +220,9 @@ router.post('/:id/importArcadeGame', requireJwtAuth, requireSocketAuth, requireA
 
     if(importedGame.cutscenes) {
       Object.keys(importedGame.cutscenes).forEach((cutsceneId) => {
+        if(tempGame.cutscenes[cutsceneId]) {
+          return 
+        }
         const importedCutscene = importedGame.cutscenes[cutsceneId]
         tempGame.cutscenes[cutsceneId] = importedCutscene
       })
@@ -354,7 +359,8 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, requireArcadeGameEditPermi
       appLocation: updatedGame.appLocation,
       playScope: updatedGame.playScope,
       editScope: updatedGame.editScope,
-      importantValues: updatedGame.importantValues
+      stageClasses: updatedGame.stageClasses,
+      starterPackIID: updatedGame.starterPackIID,
       // user: tempGame.owner ? tempGame.owner.id : Math.random()
     }
 

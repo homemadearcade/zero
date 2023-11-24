@@ -86,7 +86,6 @@ export class ProjectileInstance extends EntityInstance {
       rotation = Phaser.Math.DegToRad(angle)
     }
 
-    console.log(rotation)
     this.fire(shooter, shooterEntity, rotation)
   }
 

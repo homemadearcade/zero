@@ -896,7 +896,7 @@ export class EditorScene extends GameInstance {
         const stageY = stageUpdate.boundaries.y
         this.cameras.main.setBounds(stageX, stageY, stageWidth, stageHeight)
         this.stage.setBoundaries(stageUpdate.boundaries)
-        const stageZoneEntityId = this.getGameModel().importantValues[STAGE_ZONE_ENTITY_IVID]
+        const stageZoneEntityId = STAGE_ZONE_ENTITY_IVID
         this.forAllEntityInstancesMatchingEntityId(stageZoneEntityId, (entityInstance) => {
           const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
           this.removeEntityInstance(entityInstance.entityInstanceId)

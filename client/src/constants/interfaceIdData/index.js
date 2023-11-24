@@ -22,8 +22,6 @@ import dialogInterfaceIdData from "./dialogInterfaceIdData";
 import keyboardInterfaceIdData from "./keyboard";
 import cobrowsing from "./cobrowsing";
 
-export * from './hideableInterfaceIds'
-
 export const interfaceIdData = {
   ...gameViewInterfaceIdData,
   ...jumpInterfaceIdData,

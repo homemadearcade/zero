@@ -72,10 +72,10 @@ const GameEditDialog = ({
     label: 'Library',
     body: <>
       <SelectArcadeGame excludedIds={gameModel.id} label="Select a game to import as a library" userMongoId={gameModel.owner.id} onSelect={async (games) => {
-      if(games[0]) {
-        await addImportedArcadeGame(games[0].id)
-        window.reload()
-      }
+        if(games[0]) {
+          await addImportedArcadeGame(games[0].id)
+          window.location.reload()
+        }
       }}/>
       {/* <FormLabel>Imported Games</FormLabel>
       <div className="GameEditDialog__imported-games">{gameModel.importedArcadeGames?.map((gameModel) => {
@@ -91,7 +91,6 @@ const GameEditDialog = ({
   }
 
   const stage = gameModel.stages[gameModel.player.startingStageId]
-  const playerEntity = gameModel.entityModels[gameModel.player.startingEntityModelId]
   const playersTab = {
     interfaceId: EDIT_GAME_PLAYERS_TAB_IID,
     label: 'Stage',

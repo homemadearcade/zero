@@ -5,35 +5,17 @@ import { FIVE_KID, FOUR_KID, ONE_KID, THREE_KID, TWO_KID } from "../../../../con
 const gameWidth = nodeSize * gameGridWidth
 const gameHeight = nodeSize * gameGridWidth
 
-export function createInitialStage(importantValues) {
+export function createInitialStage() {
 
-  const initialStageZoneEntityId = importantValues[STAGE_ZONE_ENTITY_IVID].value
-  
-  const initialStageZoneInstanceId = importantValues[STAGE_ZONE_INSTANCE_IVID].value
+  const initialPlayerSpawnZoneEntityId = PLAYER_SPAWN_ZONE_ENTITY_IVID
 
-  const initialPlayerSpawnZoneEntityId = importantValues[PLAYER_SPAWN_ZONE_ENTITY_IVID].value
+  const initialPlayerSpawnZoneInstanceId = PLAYER_SPAWN_ZONE_INSTANCE_IVID
 
-  const initialPlayerSpawnZoneInstanceId = importantValues[PLAYER_SPAWN_ZONE_INSTANCE_IVID].value
-
-  const initialPlayerEntityId = importantValues[DIRECTIONAL_PLAYER_ENTITY_IVID].value
+  const initialPlayerEntityId = DIRECTIONAL_PLAYER_ENTITY_IVID
 
   const initialPlayerSpawnZoneInstance = {
     id: initialPlayerSpawnZoneInstanceId,
     entityModelId: initialPlayerSpawnZoneEntityId,
-    spawnX: gameWidth/2,
-    spawnY: gameHeight/2,
-  }
-
-  // const initialPlayerCameraZoneInstance = {
-  //   id: initialCameraZoneInstanceId,
-  //   entityModelId: initialCameraZoneEntityId,
-  //   spawnX: 0,
-  //   spawnY: 0,
-  // }
-
-  const initialStageZoneInstance = {
-    id: initialStageZoneInstanceId,
-    entityModelId: initialStageZoneEntityId,
     spawnX: gameWidth/2,
     spawnY: gameHeight/2,
   }
@@ -49,12 +31,6 @@ export function createInitialStage(importantValues) {
       [initialPlayerSpawnZoneInstanceId]: {
         ...initialPlayerSpawnZoneInstance
       },
-      // [initialCameraZoneInstanceId]: {
-      //   ...initialPlayerCameraZoneInstance
-      // },
-      [initialStageZoneInstanceId]: {
-        ...initialStageZoneInstance
-      }
     },
     keyboardShortcuts: {
           // EFFECT_DID + interfaceActionId

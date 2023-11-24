@@ -147,7 +147,7 @@ const HoverPreview = ({
 
   const interfaceData = interfaceIdData[interfaceIdHovering]
 
-  const initialStageId = gameModel.importantValues[INITIAL_STAGE_IVID].value
+  const initialStageId = INITIAL_STAGE_IVID
 
   ///////////------------------///////////
   ///////////------------------///////////

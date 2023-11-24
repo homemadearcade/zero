@@ -65,8 +65,8 @@ export class PlayerInstance extends EntityInstance {
     setTimeout(() => {
       // this.cameraZoneInstanceId = ENTITY_INSTANCE_DID + generateUniqueId()
 
-      const cameraZoneInstanceId = gameModel.importantValues[CAMERA_ZONE_INSTANCE_IVID].value
-      const cameraZoneEntityId = gameModel.importantValues[CAMERA_ZONE_ENTITY_IVID].value
+      const cameraZoneInstanceId = CAMERA_ZONE_INSTANCE_IVID
+      const cameraZoneEntityId = CAMERA_ZONE_ENTITY_IVID
       this.cameraInstance = this.scene.addEntityInstance(cameraZoneInstanceId, {
         entityModelId: cameraZoneEntityId,
         spawnX: 0,

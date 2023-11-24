@@ -63,7 +63,7 @@ const StagesList = ({
     <Unlockable interfaceId={STAGE_ADD_IID}>
       <Button startIcon={<Icon icon="faPlus"/>} onClick={() => {
         // const newStageId = STAGE_DID + generateUniqueId()
-        const newStage = createInitialStage(gameModel.importantValues)
+        const newStage = createInitialStage()
         openCreateStageDialog({
           ...newStage,
           // stageId: newStageId,

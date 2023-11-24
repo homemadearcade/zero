@@ -21,7 +21,7 @@ const SelectEntityModel = ({ hideEntityModelsIds = [], onChange, disabled, value
     const isDataSourceInvisible = selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][entityModel.dataSourceIID]
     const isRemovedInvisible = entityModel.isRemoved && selectorInterfaceListInvisibility[dataSourceFilterInterfaceId][IS_DATA_REMOVED_IID]
 
-    let isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromIDs[interfaceId] || !entityModel.entityClassIID
+    let isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.notSelectableInInterface|| !entityModel.entityClassIID
 
     if(entityModelClass) {
       if(entityModel.entityClassIID !== entityModelClass) {

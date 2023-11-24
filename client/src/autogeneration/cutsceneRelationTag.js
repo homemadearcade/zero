@@ -1,4 +1,4 @@
-import { DERIVED_DEFAULT_SYSTEM_IID, RELATION_TAG_CUTSCENE_IID } from "../constants/interfaceIds"
+import { DERIVED_AUTOGENERATION_IID, DERIVED_DEFAULT_SYSTEM_IID, RELATION_TAG_CUTSCENE_IID } from "../constants/interfaceIds"
 import { eventShortNames, PLAYER_RELATION_TAG_ID } from "../game/constants"
 
 export function generateCutsceneRelationTag({
@@ -10,7 +10,7 @@ export function generateCutsceneRelationTag({
   const relationId = cutsceneId + eventType
 
   gameData.relationTags[relationId] = {
-    dataSourceIID: DERIVED_DEFAULT_SYSTEM_IID,
+    dataSourceIID: DERIVED_AUTOGENERATION_IID,
     relationTagId: relationId,
     name: 'Play "' + cutscene.name + '"',
     description: `When the ${eventShortName} event occurs`,
@@ -24,7 +24,7 @@ export function generateCutsceneRelationTag({
     eventType,
     relationTagIdA: PLAYER_RELATION_TAG_ID,
     relationTagIdB: relationId,
-    dataSourceIID: DERIVED_DEFAULT_SYSTEM_IID,
+    dataSourceIID: DERIVED_AUTOGENERATION_IID,
     isReadOnly: true,
   }
 
@@ -38,7 +38,7 @@ export function generateCutsceneRelationTag({
       }
     },
     effectIds: [cutsceneId],
-    dataSourceIID: DERIVED_DEFAULT_SYSTEM_IID
+    dataSourceIID: DERIVED_AUTOGENERATION_IID
   }
 
   return gameData

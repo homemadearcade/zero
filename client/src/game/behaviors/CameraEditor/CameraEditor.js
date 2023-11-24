@@ -59,7 +59,7 @@ const CameraEditor = ({
     return !!num
   })
 
-  const initialCameraZoneInstanceId = gameModel.importantValues[CAMERA_ZONE_INSTANCE_IVID].value
+  const initialCameraZoneInstanceId = CAMERA_ZONE_INSTANCE_IVID
 
   if(initialCameraZoneInstanceId === resizingEntityInstanceId) {
     return <div className="CameraEditor">

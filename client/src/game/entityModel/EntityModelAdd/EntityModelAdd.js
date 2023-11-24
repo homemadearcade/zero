@@ -7,7 +7,7 @@ import './EntityModelAdd.scss';
 import { openEditEntityGraphics } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { stageDefaultTypeProperties, defaultPowerupEntity, defaultProjectileEntity, defaultZoneEntity, defaultBasicEntity, defaultPlayerEntity, defaultNpcEntity} from '../../constants';
+import { stageClassIIDProperties, defaultPowerupEntity, defaultProjectileEntity, defaultZoneEntity, defaultBasicEntity, defaultPlayerEntity, defaultNpcEntity} from '../../constants';
 import { BASIC_ENTITY_ADD_IID, BASIC_ENTITY_IID, NPC_ENTITY_ADD_IID, NPC_ENTITY_IID, PLAYER_ENTITY_ADD_IID, PLAYER_ENTITY_IID, POWERUP_ENTITY_ADD_IID, POWERUP_ENTITY_IID, PROJECTILE_ENTITY_IID, ZONE_ENTITY_ADD_IID, ZONE_ENTITY_IID} from '../../../constants/interfaceIds';
 import { mergeDeep } from '../../../utils';
 import _ from 'lodash';
@@ -24,9 +24,9 @@ const EntityModelAdd = ({
   function addDefaultValuesToPlayerEntity(entityModel) {
     const defaultType = gameModel.stages[currentStageId].defaultType
     if(!defaultType) return entityModel
-    const defaultTypeProperties = stageDefaultTypeProperties[defaultType]
+    const defaultTypeProperties = stageClassIIDProperties[defaultType]
     const entityModels = gameModel.entityModels
-    const entityModelId = gameModel.importantValues[defaultTypeProperties.importantValueId]
+    const entityModelId = defaultTypeProperties.entityModelId
     const defaultEntityModel = _.cloneDeep(entityModels[entityModelId])
     defaultEntityModel.entityModelId = null
     defaultEntityModel.isNew = true

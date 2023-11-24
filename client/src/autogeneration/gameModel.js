@@ -438,7 +438,7 @@ export function enrichGameModel(gameData) {
       isReadOnly: true
     }
 
-    const playthroughStartCutsceneId = gameData.importantValues[PLAYTHROUGH_START_CUTSCENE_IVID].value
+    const playthroughStartCutsceneId = PLAYTHROUGH_START_CUTSCENE_IVID
     if(cutsceneId === playthroughStartCutsceneId) {
       const playthroughCutscenePowerId = cutsceneId + ON_PLAYTHROUGH
 
@@ -464,7 +464,7 @@ export function enrichGameModel(gameData) {
         dataSourceIID: DERIVED_DEFAULT_SYSTEM_IID
       }
     } else {
-      const endGameCutsceneId = gameData.importantValues[END_GAME_CUTSCENE_IVID].value
+      const endGameCutsceneId = END_GAME_CUTSCENE_IVID
       if(cutsceneId === endGameCutsceneId) {
         const endGameCutscenePowerId = cutsceneId + '-endGame'
         gameData.events[endGameCutscenePowerId] = {
@@ -673,7 +673,7 @@ export function enrichGameModel(gameData) {
     }
 
     const spawnOntoStageEffect = entityModel.autogeneration.spawnOntoStageEffect
-    const initialStageZoneEntityId = gameData.importantValues[STAGE_ZONE_ENTITY_IVID].value
+    const initialStageZoneEntityId = STAGE_ZONE_ENTITY_IVID
     if(spawnOntoStageEffect) {
       const spawnEntityModelId = 'spawn-'+entityModelId
       gameData.effects[spawnEntityModelId] = {

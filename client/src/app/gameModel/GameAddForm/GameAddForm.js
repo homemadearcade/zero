@@ -12,6 +12,7 @@ import { Controller, useForm } from 'react-hook-form';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 import { createInitialGameModel, gameGridHeight, gameGridWidth, nodeSize } from '../../../game/constants';
 import { mergeDeep } from '../../../utils';
+import { STARTER_PACK_GENERAL_IID } from '../../../constants/interfaceIds';
 
 const GameAddForm = ({ addArcadeGame, addImportedArcadeGame, onSubmit, auth: { me }, appSettings: { appSettings }, defaultValues = {} }) => {
   const [isAddGameFormOpen, setIsAddGameFormOpen] = useState(false)
@@ -40,7 +41,7 @@ const GameAddForm = ({ addArcadeGame, addImportedArcadeGame, onSubmit, auth: { m
   });
 
   const submit = async (data) => {
-    const initialGameModel = createInitialGameModel()
+    const initialGameModel = createInitialGameModel(STARTER_PACK_GENERAL_IID)
 
     const gameResponse = await addArcadeGame(mergeDeep(initialGameModel, data));
 

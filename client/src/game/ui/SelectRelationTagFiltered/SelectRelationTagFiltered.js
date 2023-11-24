@@ -10,6 +10,11 @@ const SelectRelationTagFiltered = ({ interfaceId, relationTagIID, onChange, disa
       disabled={disabled}
       interfaceId={interfaceId}
       formLabel={formLabel}
+      hideRelationTagIds={Object.keys(gameModel.relationTags).filter((relationTagId) => {
+        return gameModel.relationTags[relationTagId].editorInterface.notAddable
+      }).map((relationTagId) => {
+        return relationTagId
+      })}
       removeEntityTags value={entityModel.relationTags ? Object.keys(entityModel.relationTags).filter((relationTagId) => {
         const entityModelRelationTag = entityModel.relationTags[relationTagId]
         const isTruthy = !!entityModelRelationTag 

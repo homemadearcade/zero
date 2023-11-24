@@ -81,7 +81,7 @@ const arcadeGameSchema = new Schema(
       required: true,
       default: {}
     },
-    importantValues: {
+    stageClasses: {
       type: Object,
       required: true,
       default: {}
@@ -122,6 +122,10 @@ const arcadeGameSchema = new Schema(
       type: Object,
       default: {}
     },
+    starterPackIID: {
+      type: String,
+      default: null
+    },
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true },
@@ -153,7 +157,6 @@ export const validateArcadeGame = (game) => {
     textures: Joi.object(),
     isRemoved: Joi.bool(),
     relationTags: Joi.object(),
-    importantValues: Joi.object(),
     version: Joi.string(),
     // playScope: Joi.string(),
     // editScope: Joi.string(),
@@ -189,8 +192,9 @@ arcadeGameSchema.methods.toJSON = function () {
     version: this.version,
     playScope: this.playScope,
     editScope: this.editScope,
-    importantValues: this.importantValues,
+    stageClasses: this.stageClasses,
     appLocation: this.appLocation,
+    starterPackIID: this.starterPackIID,
   };
 };
 

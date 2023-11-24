@@ -14,15 +14,15 @@ export class Graphics {
     const entityModel = gameModel.entityModels[entityInstance.entityModelId]
     const physicsSprite = this.entityInstance.physicsSprite
 
-    const stageZoneEntityId = gameModel.importantValues[STAGE_ZONE_ENTITY_IVID].value
-    if(entityModel.entityModelId === stageZoneEntityId) {
-      const boundaries = this.scene.getStage().boundaries
-      this.entityInstance.setPosition(boundaries.x + (boundaries.width/2), boundaries.y + (boundaries.height/2))
-      this.setSize(boundaries.width, boundaries.height)
-      physicsSprite.setDisplaySize(boundaries.width, boundaries.height)
-      entityInstance.width = boundaries.width 
-      entityInstance.height = boundaries.height
-    }
+    // const stageZoneEntityId = gameModel.importantValues[STAGE_ZONE_ENTITY_IVID].value
+    // if(entityModel.entityModelId === stageZoneEntityId) {
+    //   const boundaries = this.scene.getStage().boundaries
+    //   this.entityInstance.setPosition(boundaries.x + (boundaries.width/2), boundaries.y + (boundaries.height/2))
+    //   this.setSize(boundaries.width, boundaries.height)
+    //   physicsSprite.setDisplaySize(boundaries.width, boundaries.height)
+    //   entityInstance.width = boundaries.width 
+    //   entityInstance.height = boundaries.height
+    // }
 
     physicsSprite.setDisplaySize(entityInstance.width, entityInstance.height)
     this.setSize(entityInstance.width, entityInstance.height)

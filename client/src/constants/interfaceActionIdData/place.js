@@ -17,7 +17,7 @@ export default {
       return gameModel.entityModels[entityModelId].name
     },
     isRemoved: ([entityModelId], gameModel) => {
-      return gameModel.entityModels[entityModelId].editorInterface.hiddenFromIDs[PLACE_ENTITY_AID]
+      return gameModel.entityModels[entityModelId].editorInterface.notSelectableInInterface
     },
     interfaceActionGroupId: INTERFACE_ACTION_PLACE,
     onClick: ([entityModelId]) => (dispatch, gameModel) => {

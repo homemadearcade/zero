@@ -1,9 +1,12 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, MATTER_PHYSICS, ENTITY_INSTANCE_DID, STAGE_LAYER_DEPTH, STAGE_LAYER_ID } from "../constants";
+import { ARCADE_PHYSICS, MATTER_PHYSICS, ENTITY_INSTANCE_DID, STAGE_LAYER_DEPTH, STAGE_LAYER_ID, nodeSize, gameGridWidth, STAGE_ZONE_ENTITY_IVID, STAGE_ZONE_INSTANCE_IVID } from "../constants";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { generateUniqueId } from "../../utils/webPageUtils";
 import { getCobrowsingState } from "../../utils/cobrowsingUtils";
+
+const gameWidth = nodeSize * gameGridWidth
+const gameHeight = nodeSize * gameGridWidth
 
 export class Stage {
   constructor(scene, stageId){
@@ -16,6 +19,20 @@ export class Stage {
     this.setGravity(gravity.x, gravity.y)
     this.setBoundaries(boundaries)
     this.createStageColorLayer()
+    
+    setTimeout(() => {
+      const initialStageZoneEntityId = STAGE_ZONE_ENTITY_IVID
+      const initialStageZoneInstanceId = STAGE_ZONE_INSTANCE_IVID
+
+      const initialStageZoneInstance = {
+        id: initialStageZoneInstanceId,
+        entityModelId: initialStageZoneEntityId,
+        spawnX: gameWidth/2,
+        spawnY: gameHeight/2,
+      }
+
+      this.stageInstance = this.scene.addEntityInstance(initialStageZoneInstanceId, initialStageZoneInstance)
+    });
 
     return this
   }

@@ -46,6 +46,7 @@ import { addDefaultsToGameModel, cleanGameModel, enrichGameModel, generateAction
 import { 
   BACKGROUND_LAYER_GROUP_IID, FOREGROUND_LAYER_GROUP_IID, NOT_DERIVED_IID, PLAYGROUND_LAYER_GROUP_IID 
 } from '../../../constants/interfaceIds';
+import { changePlayerEntity } from './playerInterfaceActions';
 
 export function onArcadeGameModelUpdate(gameUpdate) {
   const state = store.getState()
@@ -273,7 +274,10 @@ export const loadArcadeGameByMongoId = (arcadeGameMongoId) => async (dispatch, g
     window.socket.on(ON_GAME_CHARACTER_UPDATE, onArcadeGameCharacterUpdate)
 
     const gameData = await loadArcadeGame(response, dispatch)
+    const startingStageId = gameData.player.startingStageId
     dispatch(changeCurrentStage(gameData.player.startingStageId))
+    const startingStage = gameData.stages[startingStageId]
+    dispatch(changePlayerEntity({entityModelId: startingStage.playerEntityModelId}))
 
     dispatch({
       type: LOAD_GAME_MODEL_SUCCESS,
@@ -417,7 +421,7 @@ export const addArcadeGame = (gameData) => async (dispatch, getState) => {
 
     const arcadeGameMongoId = response.data.game.id
 
-    const initialStageId = gameData.importantValues[INITIAL_STAGE_IVID].value
+    const initialStageId = INITIAL_STAGE_IVID
     await addLayersForArcadeGameStage(arcadeGameMongoId, response.data.game.owner.id, initialStageId)
 
     dispatch({

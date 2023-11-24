@@ -35,8 +35,7 @@ const EntityContextMenu = ({
 }) => {
   const entityModel = gameModel.entityModels[entityModelId]
 
-  const cameraZoneEntityId = gameModel.importantValues[CAMERA_ZONE_INSTANCE_IVID].value
-  if(entityModelId === cameraZoneEntityId) {
+  if(entityModelId === CAMERA_ZONE_INSTANCE_IVID) {
     return null
   }
 

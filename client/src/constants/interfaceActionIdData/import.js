@@ -13,7 +13,7 @@ export default {
       return gameModel.entityModels[entityModelId].name
     },
     isRemoved: ([entityModelId], gameModel) => {
-      return gameModel.entityModels[entityModelId].importedStageIds[store.getState().gameRoomInstance.gameRoomInstance.currentStageId] || gameModel.entityModels[entityModelId].editorInterface.hiddenFromIDs[IMPORT_DATA_SOURCE_AID]
+      return gameModel.entityModels[entityModelId].importedStageIds[store.getState().gameRoomInstance.gameRoomInstance.currentStageId] || gameModel.entityModels[entityModelId].editorInterface.notSelectableInInterface
     },
     onClick: ([entityModelId]) => (dispatch, gameModel, getState) => {
       dispatch(editGameModel({

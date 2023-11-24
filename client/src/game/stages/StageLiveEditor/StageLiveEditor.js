@@ -7,7 +7,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import SelectStageColor from '../SelectStageColor/SelectStageColor';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
-import SelectStageDefaultType from '../../ui/SelectStageDefaultType/SelectStageDefaultType';
+import SelectStageClass from '../../ui/SelectStageClass/SelectStageClass';
 import Switch from '../../../ui/Switch/Switch';
 import { LIVE_EDIT_STAGE_COLOR_TAB_IID, LIVE_EDIT_STAGE_GRAVITY_TAB_IID, LIVE_EDIT_STAGE_TAB_CONTAINER_IID, PLAYER_ENTITY_IID, STAGE_CUSTOMIZE_IID, STAGE_GRAVITY_X_IID, STAGE_GRAVITY_Y_IID, STAGE_SPAWN_ZONE_SELECT_IID, LIVE_EDIT_STAGE_SPAWN_TAB_IID, ZONE_ENTITY_IID, LIVE_EDIT_STAGE_PERSPECTIVE_TAB_IID, EDIT_CONTENT_STAGES_TAB_IID } from '../../../constants/interfaceIds';
 import SelectEntityModel from '../../ui/SelectEntityModel/SelectEntityModel';
@@ -69,13 +69,19 @@ const StageLiveEditor = ({
     label: 'Perspective',
     interfaceId: LIVE_EDIT_STAGE_PERSPECTIVE_TAB_IID,
     body: <>
-      <SelectStageDefaultType
+      <SelectStageClass
         value={stage.defaultType ? [stage.defaultType] : []}
-        onChange={(defaultProperties) => {
-        editGameModel({
-          stages: {
+        onChange={(stageClassProperties) => {
+          const entityModelId = stageClassProperties.entityModelId
+          const newStage = {
+            playerEntityModelId: entityModelId,
+            ...stageClassProperties
+          }
+
+          editGameModel({
+            stages: {
             [stage.stageId] : {
-                ...defaultProperties
+                ...newStage
             }
           }})    
       }}/>

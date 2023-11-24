@@ -37,7 +37,7 @@ export default  {
     subIcon: 'faUpRightAndDownLeftFromCenter',
     subTitle: 'This will immediately change the mouse action to resizing',
     onClick: () => (dispatch, gameModel) => {
-      dispatch(setResizingEntityInstance(gameModel.importantValues[CAMERA_ZONE_INSTANCE_IVID].value))
+      dispatch(setResizingEntityInstance(CAMERA_ZONE_INSTANCE_IVID))
     }
   },
 }
