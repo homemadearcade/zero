@@ -2,7 +2,7 @@ import store from "../../../store"
 import { getCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { getHexIntFromHexString } from "../../../utils/editorUtils"
 import { getThemePrimaryColor } from "../../../utils/webPageUtils"
-import { STAGE_ZONE_ENTITY_IVID, UI_LAYER_DEPTH, editorHighlightDepthModifier, invisibleIndicatorDepthModifer } from "../../constants"
+import { STAGE_ZONE_ENTITY_RID, UI_LAYER_DEPTH, editorHighlightDepthModifier, invisibleIndicatorDepthModifer } from "../../constants"
 
 
 export class Graphics {
@@ -14,7 +14,7 @@ export class Graphics {
     const entityModel = gameModel.entityModels[entityInstance.entityModelId]
     const physicsSprite = this.entityInstance.physicsSprite
 
-    // const stageZoneEntityId = gameModel.importantValues[STAGE_ZONE_ENTITY_IVID].value
+    // const stageZoneEntityId = gameModel.importantValues[STAGE_ZONE_ENTITY_RID].value
     // if(entityModel.entityModelId === stageZoneEntityId) {
     //   const boundaries = this.scene.getStage().boundaries
     //   this.entityInstance.setPosition(boundaries.x + (boundaries.width/2), boundaries.y + (boundaries.height/2))

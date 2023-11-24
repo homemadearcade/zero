@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { effectEditInterfaces } from "../../game/constants"
+import { effectInterfaceData } from "../../game/constants"
 
  export default function useIsEffectSaveable(effect) {
   const [isSaveable, setIsSaveable] = useState();
@@ -8,30 +8,30 @@ import { effectEditInterfaces } from "../../game/constants"
     function isSaveDisabled() {
       if(!effect || !effect.effectBehavior) return false
 
-      const effectForms = effectEditInterfaces[effect.effectBehavior]
+      const effectTypeInterfaceData = effectInterfaceData[effect.effectBehavior]
 
-      if(effectForms?.entityModelId) {
+      if(effectTypeInterfaceData?.entityModelId) {
         if(!effect.entityModelId) return true
       }
 
-      if(effectForms?.zoneEntityModelId) {
+      if(effectTypeInterfaceData?.zoneEntityModelId) {
         if(!effect.zoneEntityModelId) return true
       }
 
-      if(effectForms?.cutsceneId) {
+      if(effectTypeInterfaceData?.cutsceneId) {
         if(!effect.cutsceneId) return true
       }
 
-      if(effectForms?.spawnEntityModelId) {
+      if(effectTypeInterfaceData?.spawnEntityModelId) {
         if(!effect.spawnEntityModelId) return true
       }
 
 
-      if(effectForms?.stageId) {
+      if(effectTypeInterfaceData?.stageId) {
         if(!effect.stageId) return true
       }
 
-      if(effectForms?.text) {
+      if(effectTypeInterfaceData?.text) {
         if(!effect.text) return true
       }
 

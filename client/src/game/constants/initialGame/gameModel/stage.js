@@ -1,4 +1,4 @@
-import { DIRECTIONAL_PLAYER_ENTITY_IVID, EFFECT_DID, PLAYER_SPAWN_ZONE_ENTITY_IVID, PLAYER_SPAWN_ZONE_INSTANCE_IVID, STAGE_ZONE_ENTITY_IVID, STAGE_ZONE_INSTANCE_IVID, gameGridWidth, nodeSize } from "../../";
+import { DIRECTIONAL_PLAYER_ENTITY_RID, EFFECT_DID, PLAYER_SPAWN_ZONE_ENTITY_RID, PLAYER_SPAWN_ZONE_INSTANCE_RID, STAGE_ZONE_ENTITY_RID, STAGE_ZONE_INSTANCE_RID, gameGridWidth, nodeSize } from "../../";
 import { EDIT_CURRENT_STAGE_BOUNDARIES_AID, PLAY_TEST_GAME_AID, SNAPSHOT_GAME_AREA_AID, TOGGLE_GRID_VIEW_AID, TOGGLE_PAUSE_PLAY_AID } from "../../../../constants/interfaceActionIds";
 import { FIVE_KID, FOUR_KID, ONE_KID, THREE_KID, TWO_KID } from "../../../../constants/keyboard/keyIds";
 
@@ -7,11 +7,11 @@ const gameHeight = nodeSize * gameGridWidth
 
 export function createInitialStage() {
 
-  const initialPlayerSpawnZoneEntityId = PLAYER_SPAWN_ZONE_ENTITY_IVID
+  const initialPlayerSpawnZoneEntityId = PLAYER_SPAWN_ZONE_ENTITY_RID
 
-  const initialPlayerSpawnZoneInstanceId = PLAYER_SPAWN_ZONE_INSTANCE_IVID
+  const initialPlayerSpawnZoneInstanceId = PLAYER_SPAWN_ZONE_INSTANCE_RID
 
-  const initialPlayerEntityId = DIRECTIONAL_PLAYER_ENTITY_IVID
+  const initialPlayerEntityId = DIRECTIONAL_PLAYER_ENTITY_RID
 
   const initialPlayerSpawnZoneInstance = {
     id: initialPlayerSpawnZoneInstanceId,

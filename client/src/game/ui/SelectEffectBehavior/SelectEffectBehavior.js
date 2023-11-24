@@ -4,20 +4,20 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectEffectBehavior.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { effectEditInterfaces, effectInterfaceDatas, isUseableEffect } from '../../constants';
+import { effectInterfaceData, isUseableEffect } from '../../constants';
 
 const SelectEffectBehavior = ({ onChange, value, eventType, formLabel, disabled}) => {
   const mapEffectsToOption = (effectBehavior) => {
-    const effectEditInterface = effectEditInterfaces[effectBehavior]
+    const effectTypeInterfaceData = effectInterfaceData[effectBehavior]
 
     return {
-      title: effectInterfaceDatas[effectBehavior].displayName,
+      title: effectTypeInterfaceData.displayName,
       value: effectBehavior,
-      isRemoved: !effectEditInterface.isCustomizeable
+      isRemoved: !effectTypeInterfaceData.isCustomizeable
     }
   }
 
-  const options = Object.keys(effectInterfaceDatas).filter((effectBehavior) => {
+  const options = Object.keys(effectInterfaceData).filter((effectBehavior) => {
     if(eventType && !isUseableEffect(null, effectBehavior, eventType)) return false
     return true
   }).map(mapEffectsToOption)

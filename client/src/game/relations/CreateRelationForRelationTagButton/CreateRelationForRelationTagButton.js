@@ -1,7 +1,7 @@
 import { MenuItem } from "@mui/material"
 import { PLAYER_AND_RELATION_TAG_EVENT_IID, PLAYER_ENTITY_IID, SINGLE_RELATION_TAG_EVENT_IID, TWO_RELATION_TAG_EVENT_IID } from "../../../constants/interfaceIds"
 import ButtonMenu from "../../../ui/ButtonMenu/ButtonMenu"
-import { eventShortNames, eventTypeInterfaces, PLAYER_RELATION_TAG_ID } from "../../constants"
+import { eventInterfaceData, PLAYER_RELATION_TAG_ID } from "../../constants"
 import { openCreateRelation } from "../../../store/actions/game/gameFormEditorActions"
 import { mapCobrowsingState } from "../../../utils"
 import { compose } from "redux"
@@ -15,15 +15,15 @@ const CreateRelationForRelationTag = ({
   console.log(relationTag)
 
     return <ButtonMenu variant="outlined" text={"Add New Relationship for " + relationTag.name} menu={(handleClose) => {
-    return [Object.keys(eventTypeInterfaces).map((eventType) => {
-      const eventInterface = eventTypeInterfaces[eventType]
+    return [Object.keys(eventInterfaceData).map((eventType) => {
+      const eventInterface = eventInterfaceData[eventType]
       if(
         eventInterface.relationTagSelectType !== PLAYER_AND_RELATION_TAG_EVENT_IID &&
         eventInterface.relationTagSelectType !== SINGLE_RELATION_TAG_EVENT_IID && 
         eventInterface.relationTagSelectType !== TWO_RELATION_TAG_EVENT_IID
       ) return null
 
-      const eventName = eventShortNames[eventType]
+      const eventName = eventInterfaceData[eventType].name
       
       return <MenuItem key={eventType} onClick={() => {
         const event = {

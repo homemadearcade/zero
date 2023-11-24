@@ -7,7 +7,7 @@ import { closeCreateEffect } from '../../../store/actions/game/gameFormEditorAct
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import SelectEntityModel from '../../ui/SelectEntityModel/SelectEntityModel';
-import { defaultEffect, effectEditInterfaces } from '../../constants';
+import { defaultEffect, effectInterfaceData } from '../../constants';
 import { TextField } from '@mui/material';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
 import SelectStage from '../../ui/SelectStage/SelectStage';
@@ -22,14 +22,14 @@ const CreateEffect = ({ onUpdateEffect, eventType, effect}) => {
   }
   
   function renderEffectForms() {
-    const effectForms = effectEditInterfaces[effect.effectBehavior]
+    const effectTypeInterfaceData = effectInterfaceData[effect.effectBehavior]
 
     const forms = []
 
-    if(effectForms.cutsceneId) {
+    if(effectTypeInterfaceData.cutsceneId) {
       forms.push(<SelectCutscene
         key={'effectCutsceneId'}
-        formLabel={effectForms.cutsceneId}
+        formLabel={effectTypeInterfaceData.cutsceneId}
         value={effect.cutsceneId ? [effect.cutsceneId] : []}
         onChange={(event, cutscenes) => {
           const newCutsceneId = cutscenes[cutscenes.length-1]
@@ -38,10 +38,10 @@ const CreateEffect = ({ onUpdateEffect, eventType, effect}) => {
       )
     }
 
-    if(effectForms.stageId) {
+    if(effectTypeInterfaceData.stageId) {
       forms.push(<SelectStage
         key={'effectStageId'}
-        formLabel={effectForms.stageId}
+        formLabel={effectTypeInterfaceData.stageId}
         value={effect.stageId ? [effect.stageId] : []}
         onChange={(event, stages) => {
           const newStageId = stages[stages.length-1]
@@ -50,10 +50,10 @@ const CreateEffect = ({ onUpdateEffect, eventType, effect}) => {
       )
     }
 
-    if(effectForms.arcadeGameMongoId) {
+    if(effectTypeInterfaceData.arcadeGameMongoId) {
       forms.push(<SelectArcadeGame
         key={'effectGameId'}
-        formLabel={effectForms.arcadeGameMongoId}
+        formLabel={effectTypeInterfaceData.arcadeGameMongoId}
         value={effect.arcadeGameMongoId ? [effect.arcadeGameMongoId] : []}
         onChange={(event, games) => {
           if(games[0]) {
@@ -64,18 +64,18 @@ const CreateEffect = ({ onUpdateEffect, eventType, effect}) => {
       )
     }
 
-    if(effectForms.text) {
+    if(effectTypeInterfaceData.text) {
       forms.push(<TextField key={"effect/text"}  multiline value={effect.text} onChange={(e) => {
         handleEffectChange('text', e.target.value)
-      }} label={effectForms.text}/>
+      }} label={effectTypeInterfaceData.text}/>
       )
     }
 
-    if(effectForms.entityModelId) {
+    if(effectTypeInterfaceData.entityModelId) {
       forms.push(<SelectEntityModel
         key={'entityModelId'}
         interfaceId={RELATION_ENTITY_MODEL_IID}
-        formLabel={effectForms.entityModelId}
+        formLabel={effectTypeInterfaceData.entityModelId}
         value={effect.entityModelId ? [effect.entityModelId] : []}
         onChange={(event, entityModels) => {
           const newEntityId = entityModels[entityModels.length-1]
@@ -84,11 +84,11 @@ const CreateEffect = ({ onUpdateEffect, eventType, effect}) => {
       )
     }
 
-    if(effectForms.spawnEntityModelId) {
+    if(effectTypeInterfaceData.spawnEntityModelId) {
       forms.push(<SelectEntityModel
         key={'spawnEntityModelId'}
         interfaceId={RELATION_SPAWN_ENTITY_MODEL_IID}
-        formLabel={effectForms.spawnEntityModelId}
+        formLabel={effectTypeInterfaceData.spawnEntityModelId}
         value={effect.spawnEntityModelId ? [effect.spawnEntityModelId] : []}
         onChange={(event, entityModels) => {
           const newEntityId = entityModels[entityModels.length-1]
@@ -96,12 +96,12 @@ const CreateEffect = ({ onUpdateEffect, eventType, effect}) => {
       }}/>)
     }
 
-    if(effectForms.zoneEntityModelId) {
+    if(effectTypeInterfaceData.zoneEntityModelId) {
       forms.push(<SelectEntityModel
         key={'zoneEntityModelId'}
         entityModelClass={ZONE_ENTITY_IID}
         interfaceId={RELATION_SPAWN_ZONE_ENTITY_IID}
-        formLabel={effectForms.zoneEntityModelId}
+        formLabel={effectTypeInterfaceData.zoneEntityModelId}
         value={effect.zoneEntityModelId ? [effect.zoneEntityModelId] : []}
         onChange={(event, entityModels) => {
           const newEntityId = entityModels[entityModels.length-1]

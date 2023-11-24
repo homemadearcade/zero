@@ -2,7 +2,7 @@ import { Paper } from "@mui/material"
 import Icon from "../../../ui/Icon/Icon"
 import './EventTypeChip.scss'
 import Texture from "../../textures/Texture/Texture"
-import { eventShortNames, eventTypeDescriptions, eventTypeInterfaces } from "../../constants"
+import { eventInterfaceData } from "../../constants"
 import Typography from "../../../ui/Typography/Typography"
 
 function renderTexture(relationTag) {
@@ -22,8 +22,8 @@ function renderTexture(relationTag) {
 }
 
 export function EventTypeChip  ({ eventType, className}) {
-  const eventName = eventShortNames[eventType]
-  const eventDescription = eventTypeDescriptions[eventType].this
+  const eventName = eventInterfaceData[eventType].name
+  const eventDescription = eventInterfaceData[eventType].description.this
 
   return <Paper elevation={3} sx={{
     width: 'max-content',

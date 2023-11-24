@@ -31,7 +31,7 @@ import store from '../..';
 import { 
     gameGridHeight,
     gameGridWidth,
-    INITIAL_STAGE_IVID,
+    INITIAL_STAGE_RID,
     LAYER_DID, 
     layerGroupIIDtoName, 
     nodeSize, 
@@ -421,7 +421,7 @@ export const addArcadeGame = (gameData) => async (dispatch, getState) => {
 
     const arcadeGameMongoId = response.data.game.id
 
-    const initialStageId = INITIAL_STAGE_IVID
+    const initialStageId = INITIAL_STAGE_RID
     await addLayersForArcadeGameStage(arcadeGameMongoId, response.data.game.owner.id, initialStageId)
 
     dispatch({

@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, MATTER_PHYSICS, ENTITY_INSTANCE_DID, STAGE_LAYER_DEPTH, STAGE_LAYER_ID, nodeSize, gameGridWidth, STAGE_ZONE_ENTITY_IVID, STAGE_ZONE_INSTANCE_IVID } from "../constants";
+import { ARCADE_PHYSICS, MATTER_PHYSICS, ENTITY_INSTANCE_DID, STAGE_LAYER_DEPTH, STAGE_LAYER_ID, nodeSize, gameGridWidth, STAGE_ZONE_ENTITY_RID, STAGE_ZONE_INSTANCE_RID } from "../constants";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { generateUniqueId } from "../../utils/webPageUtils";
@@ -21,8 +21,8 @@ export class Stage {
     this.createStageColorLayer()
     
     setTimeout(() => {
-      const initialStageZoneEntityId = STAGE_ZONE_ENTITY_IVID
-      const initialStageZoneInstanceId = STAGE_ZONE_INSTANCE_IVID
+      const initialStageZoneEntityId = STAGE_ZONE_ENTITY_RID
+      const initialStageZoneInstanceId = STAGE_ZONE_INSTANCE_RID
 
       const initialStageZoneInstance = {
         id: initialStageZoneInstanceId,

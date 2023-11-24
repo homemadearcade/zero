@@ -10,7 +10,7 @@ import { CAMERA_LERP_X_IID, CAMERA_LERP_Y_IID, CAMERA_ZOOM_IID } from '../../../
 import Button from '../../../ui/Button/Button';
 import { setResizingEntityInstance, toggleGridView } from '../../../store/actions/game/gameViewEditorActions';
 import Typography from '../../../ui/Typography/Typography';
-import { CAMERA_ZONE_INSTANCE_IVID } from '../../constants';
+import { CAMERA_ZONE_INSTANCE_RID } from '../../constants';
 
 const CameraEditor = ({ 
   entityModelId, 
@@ -59,7 +59,7 @@ const CameraEditor = ({
     return !!num
   })
 
-  const initialCameraZoneInstanceId = CAMERA_ZONE_INSTANCE_IVID
+  const initialCameraZoneInstanceId = CAMERA_ZONE_INSTANCE_RID
 
   if(initialCameraZoneInstanceId === resizingEntityInstanceId) {
     return <div className="CameraEditor">

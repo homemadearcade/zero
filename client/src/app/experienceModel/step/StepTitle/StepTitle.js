@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { effectInterfaceDatas, getEffectShorthand } from '../../../../game/constants';
+import { getEffectShorthand } from '../../../../game/constants';
 
 const StepTitle = ({  
   step,

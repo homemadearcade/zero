@@ -7,7 +7,7 @@ import KeyIndicator from '../../ui/KeyIndicator/KeyIndicator';
 import './BuyTickets.scss';
 import CobrowsingDialog from '../../cobrowsing/CobrowsingDialog/CobrowsingDialog';
 import { closeBuyTicketsDialog, openBuyTicketsDialog } from '../../../store/actions/game/gameSelectorActions';
-import { INITIAL_STAGE_IVID } from '../../constants';
+import { INITIAL_STAGE_RID } from '../../constants';
 import { useTimer } from 'react-timer-hook';
 import { APP_ADMIN_ROLE } from '../../../constants';
 import { rest } from 'lodash';
@@ -44,7 +44,7 @@ const BuyTickets = ({
   }});
 
   useEffect(() => {
-    if(currentStageId === INITIAL_STAGE_IVID) {
+    if(currentStageId === INITIAL_STAGE_RID) {
       const time = new Date();
       time.setSeconds(time.getSeconds() + playTime);
       restart(time)

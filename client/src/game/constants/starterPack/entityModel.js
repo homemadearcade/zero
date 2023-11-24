@@ -2,7 +2,7 @@ import { advancedDirectionalDefaults, directionalDefaults, groundJumpDefaults, j
 import { NOT_DERIVED_IID } from "../../../constants/interfaceIds"
 import { mergeDeep } from "../../../utils"
 import _ from "lodash"
-import { DIRECTIONAL_PLAYER_ENTITY_IVID, JUMPER_PLAYER_ENTITY_IVID, SWIMMER_PLAYER_ENTITY_IVID, VEHICLE_PLAYER_ENTITY_IVID } from "../initialGame/importantValueIds"
+import { DIRECTIONAL_PLAYER_ENTITY_RID, JUMPER_PLAYER_ENTITY_RID, SWIMMER_PLAYER_ENTITY_RID, VEHICLE_PLAYER_ENTITY_RID } from "../initialGame/reservedIds"
 import {  defaultPlayerEntity } from "../initialGame/entityModel"
 
 const defaultProps = mergeDeep(
@@ -78,8 +78,8 @@ const directionalPlayerEntity = {
 }
 
 export const starterEntityModels = {
-  [VEHICLE_PLAYER_ENTITY_IVID]: vehiclePlayerEntity,
-  [SWIMMER_PLAYER_ENTITY_IVID]: swimmerPlayerEntity,
-  [JUMPER_PLAYER_ENTITY_IVID]: jumperPlayerEntity,
-  [DIRECTIONAL_PLAYER_ENTITY_IVID]: directionalPlayerEntity,
+  [VEHICLE_PLAYER_ENTITY_RID]: vehiclePlayerEntity,
+  [SWIMMER_PLAYER_ENTITY_RID]: swimmerPlayerEntity,
+  [JUMPER_PLAYER_ENTITY_RID]: jumperPlayerEntity,
+  [DIRECTIONAL_PLAYER_ENTITY_RID]: directionalPlayerEntity,
 }

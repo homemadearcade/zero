@@ -4,7 +4,7 @@ import { PLAYER_AND_RELATION_TAG_EVENT_IID, SINGLE_RELATION_TAG_EVENT_IID, TWO_R
  } from "../../../constants/interfaceIds"
 import Typography from "../../../ui/Typography/Typography"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
-import { eventShortNames, eventTypeInterfaces } from "../../constants"
+import { eventInterfaceData } from "../../constants"
 import Texture from "../../textures/Texture/Texture"
 
 function renderRelationTag(relationTag) {
@@ -21,7 +21,7 @@ function renderRelationTag(relationTag) {
 }
 
 function renderEventName(event) {
-  const displayName = eventShortNames[event.eventType]
+  const displayName = eventInterfaceData[event.eventType].name
   return  <Typography sx={{ fontWeight: 'bold' }} component="span">{'On ' + displayName}</Typography>
 }
 
@@ -31,7 +31,7 @@ function EventShorthand({event, onClick, gameModel: { gameModel }}) {
   const relationTagA = relationTags[event.relationTagIdA]
   const relationTagB = relationTags[event.relationTagIdB] 
 
-  const eventTypeInterface = eventTypeInterfaces[eventType]
+  const eventTypeInterface = eventInterfaceData[eventType]
 
   function renderBody() {
     if(eventTypeInterface.relationTagSelectType === SINGLE_RELATION_TAG_EVENT_IID) {

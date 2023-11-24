@@ -6,7 +6,7 @@ import { openEntityBehaviorLiveEditor, openJsonViewer } from '../../../store/act
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { openEditEntityGraphics, openEditEntityDialog, openCreateCanvasImageDialog } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { CAMERA_ZONE_INSTANCE_IVID, ENTITY_MODEL_DID, entityModelClassToPrefix } from '../../constants';
+import { CAMERA_ZONE_INSTANCE_RID, ENTITY_MODEL_DID, entityModelClassToPrefix } from '../../constants';
 import { entityModelClassToDisplayName } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
@@ -35,7 +35,7 @@ const EntityContextMenu = ({
 }) => {
   const entityModel = gameModel.entityModels[entityModelId]
 
-  if(entityModelId === CAMERA_ZONE_INSTANCE_IVID) {
+  if(entityModelId === CAMERA_ZONE_INSTANCE_RID) {
     return null
   }
 

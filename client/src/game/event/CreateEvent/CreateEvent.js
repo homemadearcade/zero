@@ -6,7 +6,7 @@ import './CreateEvent.scss';
 import { closeCreateEvent, updateCreateEvent } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { defaultEvent, eventTypeInterfaces, PLAYER_RELATION_TAG_ID } from '../../constants';
+import { defaultEvent, eventInterfaceData, PLAYER_RELATION_TAG_ID } from '../../constants';
 import { ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START } from '../../constants';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import Switch from '../../../ui/Switch/Switch';
@@ -42,7 +42,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
     if(!event.eventType) return
     const correctEvent = event.eventType === ON_TOUCH_START || event.eventType === ON_TOUCH_ACTIVE || event.eventType === ON_COLLIDE_END
     const advancedOptions = []
-    const eventTypeInterface = eventTypeInterfaces[event.eventType]
+    const eventTypeInterface = eventInterfaceData[event.eventType]
 
     if(eventTypeInterface.onlyOnce) {
       advancedOptions.push(<Unlockable key={"event/onlyOnce"} interfaceId={EVENT_ONLY_ONCE_IID}>
@@ -93,7 +93,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
 
   function renderTagSelect() {
     if(!event.eventType) return
-    const eventTypeInterface = eventTypeInterfaces[event.eventType]
+    const eventTypeInterface = eventInterfaceData[event.eventType]
 
     if(eventTypeInterface.relationTagSelectType === CUTSCENE_EVENT_IID) {
       return <SelectCutscene
@@ -188,7 +188,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       onChange={(event, eventTypes) => {
         const eventType = eventTypes[eventTypes.length-1]
         if(!eventType) return
-        const { relationTagSelectType } = eventTypeInterfaces[eventType]
+        const { relationTagSelectType } = eventInterfaceData[eventType]
         if(relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT_IID || relationTagSelectType === PLAYER_RELATION_TAG_EVENT_IID) {
           updateCreateEvent({
             ...defaultEvent,

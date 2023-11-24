@@ -4,7 +4,7 @@ import { SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID } from "../
 import Divider from "../../../ui/Divider/Divider"
 import NestedList, { NestedListContainer, NestedListItem } from "../../../ui/NestedList/NestedList"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
-import { effectEditInterfaces } from "../../constants"
+import { effectInterfaceData } from "../../constants"
 import EffectShorthand from "../../effect/EffectShorthand/EffectShorthand"
 import EventShorthand from "../../event/EventShorthand/EventShorthand"
 import Texture from "../../textures/Texture/Texture"
@@ -26,7 +26,7 @@ function RelationShorthand({relation, onClickEvent, useListForEffects = true, ga
   const event = events[relation.eventId]
 
   function renderEffectedTags(effect, effectId) {
-    const effectEditInterface = effectEditInterfaces[effect.effectBehavior]
+    const effectTypeInterfaceData = effectInterfaceData[effect.effectBehavior]
     const relationEffect = relation.effects[effectId]
 
     if(!relationEffect) return 
@@ -34,7 +34,7 @@ function RelationShorthand({relation, onClickEvent, useListForEffects = true, ga
     const relationTagA = relationTags[event.relationTagIdA]
     const relationTagB = relationTags[event.relationTagIdB]
 
-    if(effectEditInterface.targetableType === SINGLE_RELATION_TAG_EFFECT_IID) {
+    if(effectTypeInterfaceData.targetableType === SINGLE_RELATION_TAG_EFFECT_IID) {
       if(relationEffect.effectTagA) {
         return renderRelationTag(relationTagA)
       } else {
@@ -42,7 +42,7 @@ function RelationShorthand({relation, onClickEvent, useListForEffects = true, ga
       }
     }
 
-    if(effectEditInterface.targetableType === TWO_RELATION_TAG_EFFECT_IID) {
+    if(effectTypeInterfaceData.targetableType === TWO_RELATION_TAG_EFFECT_IID) {
       return <>
         {relationEffect.effectTagA && renderRelationTag(relationTagA)}
         {relationEffect.effectTagB && renderRelationTag(relationTagB)}

@@ -7,7 +7,7 @@ import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/edito
 import { clearBrush, clearEntity, openEntityBehaviorLiveEditor, openGameEditDialog, openStageLiveEditor, selectEntity } from '../../store/actions/game/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom, setResizingEntityInstance, closeBoundaryEditor, setIsMouseOverGameView } from '../../store/actions/game/gameViewEditorActions';
 import { PLAYER_INSTANCE_DID, ENTITY_INSTANCE_DID, UI_LAYER_DEPTH, 
-  STAGE_LAYER_ID, EVENT_SPAWN_MODEL_DRAG_FINISH, STAGE_ZONE_ENTITY_IVID,
+  STAGE_LAYER_ID, EVENT_SPAWN_MODEL_DRAG_FINISH, STAGE_ZONE_ENTITY_RID,
  } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
@@ -896,7 +896,7 @@ export class EditorScene extends GameInstance {
         const stageY = stageUpdate.boundaries.y
         this.cameras.main.setBounds(stageX, stageY, stageWidth, stageHeight)
         this.stage.setBoundaries(stageUpdate.boundaries)
-        const stageZoneEntityId = STAGE_ZONE_ENTITY_IVID
+        const stageZoneEntityId = STAGE_ZONE_ENTITY_RID
         this.forAllEntityInstancesMatchingEntityId(stageZoneEntityId, (entityInstance) => {
           const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
           this.removeEntityInstance(entityInstance.entityInstanceId)

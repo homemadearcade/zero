@@ -6,7 +6,7 @@ import { CameraPreview } from "./behaviors/CameraPreview";
 import { InteractArea } from "./behaviors/InteractArea";
 import { ControlledMovement } from "./behaviors/ControlledMovement";
 import { ControlledProjectileEjector } from "./behaviors/ControlledProjectileEjector";
-import { CAMERA_ZONE_ENTITY_IVID, CAMERA_ZONE_INSTANCE_IVID, GAME_END_STATE, ON_INTERACT, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, PLAY_STATE } from "../constants";
+import { CAMERA_ZONE_ENTITY_RID, CAMERA_ZONE_INSTANCE_RID, GAME_END_STATE, ON_INTERACT, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, PLAY_STATE } from "../constants";
 import { getCobrowsingState } from "../../utils";
 import { changeGameStatus } from "../../store/actions/game/gameRoomInstanceActions";
 import { progressActiveCutscene } from "../../store/actions/game/playerInterfaceActions";
@@ -65,8 +65,8 @@ export class PlayerInstance extends EntityInstance {
     setTimeout(() => {
       // this.cameraZoneInstanceId = ENTITY_INSTANCE_DID + generateUniqueId()
 
-      const cameraZoneInstanceId = CAMERA_ZONE_INSTANCE_IVID
-      const cameraZoneEntityId = CAMERA_ZONE_ENTITY_IVID
+      const cameraZoneInstanceId = CAMERA_ZONE_INSTANCE_RID
+      const cameraZoneEntityId = CAMERA_ZONE_ENTITY_RID
       this.cameraInstance = this.scene.addEntityInstance(cameraZoneInstanceId, {
         entityModelId: cameraZoneEntityId,
         spawnX: 0,

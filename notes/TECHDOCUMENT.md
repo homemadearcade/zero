@@ -45,11 +45,13 @@ Never send an update with more data than you need! A deep merge takes place on t
 
 Default Entity, Default Object get placed onto all entityModels and instance entityInstance when loading the game model
 
-Default Game Model gets placed onto the game model when loading up, it has a default stage on it
-
 Default stage gets put on the create stage flow
 
 Default relation gets placed onto relation ( in create relation menu ) data when resetting it
+
+All entitys and media are in the data model. However a lot of effects, relationships, relation tags are derived from the data model. 
+
+Some entities and some media have reserved ids. These ids are common accross all games. When importing, if theres two objects with the same reserved id, the imported one is not included in the import
 
 ----
 

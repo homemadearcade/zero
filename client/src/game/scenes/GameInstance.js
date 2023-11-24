@@ -5,10 +5,10 @@ import { PLAYER_INSTANCE_DID,
      PLAYTHROUGH_START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, 
      GAME_END_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI,
       EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID, 
-      NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth, noRemoteEffectedTagEffects, EFFECT_SPAWN, effectEditInterfaces, 
+      NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth, EFFECT_SPAWN, effectInterfaceData, 
       EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_DESTROY, EFFECT_TRANSFORM, SPAWNED_INSTANCE_DID, SPAWN_ZONE_A_SELECT, 
       SPAWN_ZONE_B_SELECT, EFFECT_CUTSCENE, EFFECT_CAMERA_SHAKE, EFFECT_END_GAME, EFFECT_SWITCH_STAGE, RUN_GAME_INSTANCE_ACTION,
-       ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_UNPAUSE_GAME, ON_CUTSCENE_END, EFFECT_TRANSFORM_TEMPORARY_START, EFFECT_TRANSFORM_TEMPORARY_END, ON_STAGE_LOADED, DIRECTIONAL_PLAYER_ENTITY_IVID } from '../constants';
+       ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_UNPAUSE_GAME, ON_CUTSCENE_END, EFFECT_TRANSFORM_TEMPORARY_START, EFFECT_TRANSFORM_TEMPORARY_END, ON_STAGE_LOADED, DIRECTIONAL_PLAYER_ENTITY_RID } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerEntity, clearCutscenes, openCutscene } from '../../store/actions/game/playerInterfaceActions';
@@ -1051,7 +1051,7 @@ addInstancesToEntityInstanceByTag(instances) {
       remoteEffectedRelationTagIds.push(...effect.remoteEffectedRelationTagIdsExtension)
     }
 
-    if(remoteEffectedRelationTagIds && !noRemoteEffectedTagEffects[effect.effectBehavior]) {
+    if(remoteEffectedRelationTagIds && !effectInterfaceData[effect.effectBehavior].nonRemote) {
       remoteEffectedRelationTagIds?.forEach((relationTagId) => {
         this.entityInstancesByTag[relationTagId]?.forEach((entityInstance) => {
           physicsSprites.push(entityInstance.physicsSprite)
@@ -1180,8 +1180,8 @@ addInstancesToEntityInstanceByTag(instances) {
     const effect = relation.effect
     const scene = this
 
-    const effectInterface = effectEditInterfaces[effect.effectBehavior]
-    if(!this.gameRoomInstance.isHost && !effectInterface.runOnClient) return
+    const effectTypeInterfaceData = effectInterfaceData[effect.effectBehavior]
+    if(!this.gameRoomInstance.isHost && !effectTypeInterfaceData.runOnClient) return
 
     if(this.timeToTriggerAgain[effect.effectId]) {
       if(this.timeToTriggerAgain[effect.effectId] > Date.now()) {
@@ -1217,7 +1217,7 @@ addInstancesToEntityInstanceByTag(instances) {
       }
     }
 
-    if(effectInterface.targetableType === NO_RELATION_TAG_EFFECT_IID) {
+    if(effectTypeInterfaceData.targetableType === NO_RELATION_TAG_EFFECT_IID) {
       return this.runTargetlessAccuteEffect({
         relation,
         physicsSpriteA,

@@ -9,7 +9,7 @@ import { IMAGE_AND_TEXT_SCENE_IID, NOT_DERIVED_IID } from "../../../../constants
 import { EDIT_GAME_SCOPE_ONLY_ME, PLAY_GAME_SCOPE_UNLISTED } from "../../core";
 import { defaultCutscene } from "./cutscene";
 import _, { cloneDeep } from "lodash";
-import { CAMERA_ZONE_ENTITY_IVID, END_GAME_CUTSCENE_IVID, INITIAL_STAGE_IVID, PLAYER_SPAWN_ZONE_ENTITY_IVID, PLAYTHROUGH_START_CUTSCENE_IVID, STAGE_ZONE_ENTITY_IVID } from "../importantValueIds";
+import { CAMERA_ZONE_ENTITY_RID, END_GAME_CUTSCENE_RID, INITIAL_STAGE_RID, PLAYER_SPAWN_ZONE_ENTITY_RID, PLAYTHROUGH_START_CUTSCENE_RID, STAGE_ZONE_ENTITY_RID } from "../reservedIds";
 import { createInitialStage } from "./stage";
 import { initialTags } from "./relationTags";
 import { loadStarterPack } from "../../starterPack";
@@ -17,17 +17,17 @@ import { loadStarterPack } from "../../starterPack";
 export function createInitialGameModel(starterPackIID) {
   const starterPackData = loadStarterPack(starterPackIID)
 
-  const initialStageId = INITIAL_STAGE_IVID
+  const initialStageId = INITIAL_STAGE_RID
 
-  const initialStageZoneEntityId = STAGE_ZONE_ENTITY_IVID
+  const initialStageZoneEntityId = STAGE_ZONE_ENTITY_RID
 
-  const initialCameraZoneEntityId = CAMERA_ZONE_ENTITY_IVID
+  const initialCameraZoneEntityId = CAMERA_ZONE_ENTITY_RID
 
-  const initialPlayerSpawnZoneEntityId = PLAYER_SPAWN_ZONE_ENTITY_IVID
+  const initialPlayerSpawnZoneEntityId = PLAYER_SPAWN_ZONE_ENTITY_RID
 
-  const playthroughStartCutsceneId = PLAYTHROUGH_START_CUTSCENE_IVID
+  const playthroughStartCutsceneId = PLAYTHROUGH_START_CUTSCENE_RID
 
-  const endGameCutsceneId = END_GAME_CUTSCENE_IVID
+  const endGameCutsceneId = END_GAME_CUTSCENE_RID
   
   const initialStage = createInitialStage()
 

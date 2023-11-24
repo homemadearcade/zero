@@ -1,4 +1,4 @@
-import { CAMERA_ZONE_INSTANCE_IVID, PLAYER_INSTANCE_DID } from "../../game/constants"
+import { CAMERA_ZONE_INSTANCE_RID, PLAYER_INSTANCE_DID } from "../../game/constants"
 import { openBoundaryEditor, setResizingEntityInstance } from "../../store/actions/game/gameViewEditorActions"
 import { EDIT_CURRENT_STAGE_BOUNDARIES_AID, RESIZE_CURRENT_PLAYER_AID, RESIZE_CURRENT_PLAYER_CAMERA_AID, RESIZE_INSTANCE_AID } from "../interfaceActionIds"
 import { INTERFACE_ACTION_CURRENT_PLAYER, INTERFACE_ACTION_RESIZE, INTERFACE_ACTION_STAGE } from "../interfaceActionIdGroups"
@@ -37,7 +37,7 @@ export default  {
     subIcon: 'faUpRightAndDownLeftFromCenter',
     subTitle: 'This will immediately change the mouse action to resizing',
     onClick: () => (dispatch, gameModel) => {
-      dispatch(setResizingEntityInstance(CAMERA_ZONE_INSTANCE_IVID))
+      dispatch(setResizingEntityInstance(CAMERA_ZONE_INSTANCE_RID))
     }
   },
 }

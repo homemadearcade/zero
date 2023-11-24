@@ -14,148 +14,81 @@ export const spawnZoneSelectorTypeToDisplayName = {
   [SPAWN_ZONE_RANDOM_SELECT]: 'Spawn in Random Instance of Zone',
 }
 
-export const effectInterfaceDatas = {
-  // Movement
-  [EFFECT_TELEPORT]: {
-    displayName: 'Teleport',
-    // icon: 'faPersonToPortal',
-    icon: 'faBullseye',
-  },
-  [EFFECT_IGNORE_GRAVITY]: {
-    displayName: 'Remove Gravity',
-    icon: 'faUpLong'
-  },
-  [EFFECT_STICK_TO]: {
-    displayName: 'Hold',
-    icon: 'faHandsHolding'
-  },
-  [EFFECT_GRAVITY_PULL]: {
-    displayName: 'Gravity Pull',
-    icon: 'faUpLong'
-  },
-  [EFFECT_GRAVITY_PUSH]: {
-    displayName: 'Gravity Push',
-    icon: 'faUpLong'
-  },
-  [EFFECT_ALLOW_CLIMB]: {
-    displayName: 'Allow Climb',
-    icon: 'faWaterLadder'
-  },
-
-  // Lifecycle
-  [EFFECT_TRANSFORM]: {
-    displayName: 'Transform',
-    icon: 'faRightLeft'
-  },
-  [EFFECT_SPAWN]: {
-    displayName: 'Spawn',
-    icon: 'faPlus'
-  },
-  [EFFECT_DESTROY]: {
-    displayName: 'Destroy',
-    icon: 'faSkullCrossbones'
-  },
-  [EFFECT_TRANSFORM_TEMPORARY_START]: {
-    displayName: 'Transform Temporarily',
-    icon: 'faRightLeft'
-  },
-  [EFFECT_TRANSFORM_TEMPORARY_END]: {
-    displayName: 'End Temporary Transform',
-    icon: 'faRightLeft'
-  },
-
-  // Game State
-  [EFFECT_END_GAME]: {
-    displayName: 'End Game',
-    icon: 'faAward',
-    customSelectorCategory: 'Game',
-  },
-  // Graphical
-  [EFFECT_CAMERA_SHAKE]: {
-    displayName: 'Shake Camera',
-    icon: 'faBurst'
-  },
-  [EFFECT_INVISIBLE]: {
-   displayName: 'Hide',
-   icon: 'faEyeSlash'
-  },
-
-  // Meta
-  [EFFECT_SWITCH_STAGE]: {
-    displayName: 'Switch Stage',
-    icon: 'faShuffle'
-  },
-  [EFFECT_PAUSE_GAME]: {
-    displayName: 'Pause Game',
-    icon: 'faPause',
-    customSelectorCategory: 'Game',
-  },
-  [EFFECT_UNPAUSE_GAME]: {
-    displayName: 'Unpause Game',
-    icon: 'faPlay',
-    customSelectorCategory: 'Game',
-  },
-
-
-  // INTERFACE
-  [EFFECT_INTERFACE_ACTION]: {
-    displayName: 'Interface Action',
-  },
-  [EFFECT_CUTSCENE]: {
-    displayName: 'Play Dialog/Cutscene',
-    icon: 'faScroll'
-  },
-  [EFFECT_INTERFACE_UNLOCK]: {
-    displayName: 'Unlock Interface',
-    icon: 'faLockOpen'
-  },
-  [EFFECT_OPEN_TRANSITION]: {
-    displayName: 'Go to stars',
-    icon: 'faStar',
-    customSelectorCategory: 'Transition',
-  },
-  [EFFECT_CLOSE_TRANSITION]: {
-    displayName: 'Return from stars',
-    icon: 'faStar',
-    customSelectorCategory: 'Transition',
-  },
-}
-
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 //// EFFECT
-export const effectEditInterfaces = {
+export const effectInterfaceData = {
   // Movement
   [EFFECT_TELEPORT]: {
     zoneEntityModelId: 'Teleport to which zone?',
     targetableType: TWO_RELATION_TAG_EFFECT_IID,
+    
+  
+    displayName: 'Teleport',
+    // icon: 'faPersonToPortal',
+    icon: 'faBullseye',
   },
   [EFFECT_IGNORE_GRAVITY]: {
     targetableType: TWO_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
-    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE]
+    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE],
+
+    touchActive: true,
+    nonStep: true,
+
+    displayName: 'Remove Gravity',
+    icon: 'faUpLong'
   },
   [EFFECT_STICK_TO]: {
     targetableType: SINGLE_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
-    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE]
+    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE],
+
+    touchActive: true,
+    nonStep: true,
+    nonRemote: true,
+
+
+    displayName: 'Hold',
+    icon: 'faHandsHolding'
   },
   [EFFECT_GRAVITY_PULL]: {
     targetableType: SINGLE_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
-    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE]
+    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE],
+
+    touchActive: true,
+    nonStep: true,
+    nonRemote: true,
+
+    displayName: 'Gravity Pull',
+    icon: 'faUpLong'
   },
   [EFFECT_GRAVITY_PUSH]: {
     targetableType: SINGLE_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
-    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE]
+    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE],
+
+    touchActive: true,
+    nonStep: true,
+    nonRemote: true,
+
+    displayName: 'Gravity Push',
+    icon: 'faUpLong'
   },
   [EFFECT_ALLOW_CLIMB]: {
     targetableType: SINGLE_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
-    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE]
+    autogenerateRelationForEvents: [ON_TOUCH_ACTIVE],
+
+    touchActive: true,
+    nonStep: true,
+    nonRemote: true,
+
+    displayName: 'Allow Climb',
+    icon: 'faWaterLadder'
   },
 
   // Lifecycle
@@ -163,6 +96,9 @@ export const effectEditInterfaces = {
     entityModelId: 'Transform into which object?',
     targetableType: TWO_RELATION_TAG_EFFECT_IID,
     isCustomizeable: true,
+
+    displayName: 'Transform',
+    icon: 'faRightLeft'
   },
   [EFFECT_TRANSFORM_TEMPORARY_START]: {
     entityModelId: 'Transform into which object?',
@@ -170,11 +106,17 @@ export const effectEditInterfaces = {
     isCustomizeable: true,
     // autogenerateEffect: true,
     // autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT]
+
+    displayName: 'Transform Temporarily',
+    icon: 'faRightLeft'
   },
   [EFFECT_TRANSFORM_TEMPORARY_END]: {
     targetableType: TWO_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
-    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT]
+    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT],
+
+    displayName: 'End Temporary Transform',
+    icon: 'faRightLeft'
   },
   [EFFECT_SPAWN]: {
     zoneEntityModelId: 'Spawn in which Zone?',
@@ -183,11 +125,19 @@ export const effectEditInterfaces = {
     spawnZoneSelectorType: true,  
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     isCustomizeable: true,
+
+    nonRemote: true,
+
+    displayName: 'Spawn',
+    icon: 'faPlus'
   },
   [EFFECT_DESTROY]: {
     targetableType: TWO_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
-    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT]
+    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT],
+
+    displayName: 'Destroy',
+    icon: 'faSkullCrossbones'
   },
 
   // Game State
@@ -196,7 +146,13 @@ export const effectEditInterfaces = {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     isCustomizeable: true,
     autogenerateEffect: true,
-    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT, ON_DESTROY_ALL, ON_DESTROY_ONE]
+    autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT, ON_DESTROY_ALL, ON_DESTROY_ONE],
+
+    nonRemote: true,
+
+    displayName: 'End Game',
+    icon: 'faAward',
+    customSelectorCategory: 'Game',
   },
 
   // Graphical
@@ -206,11 +162,22 @@ export const effectEditInterfaces = {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
     runOnClient: true,
+
+    nonRemote: true,
+
+    displayName: 'Shake Camera',
+    icon: 'faBurst'
   },
   [EFFECT_INVISIBLE]: {
     targetableType: TWO_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
     runOnClient: true,
+
+    touchActive: true,
+    nonStep: true,
+
+    displayName: 'Hide',
+   icon: 'faEyeSlash'
   },
 
   // Meta
@@ -221,14 +188,31 @@ export const effectEditInterfaces = {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     isCustomizeable: false,
     runOnClient: true,
+
+    nonRemote: true,
+
+    displayName: 'Switch Stage',
+    icon: 'faShuffle'
   },
   [EFFECT_PAUSE_GAME]: {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
+
+    nonRemote: true,
+
+    displayName: 'Pause Game',
+    icon: 'faPause',
+    customSelectorCategory: 'Game',
   },
   [EFFECT_UNPAUSE_GAME]: {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
+
+    nonRemote: true,
+
+    displayName: 'Unpause Game',
+    icon: 'faPlay',
+    customSelectorCategory: 'Game',
   },
 
   // INTERFACE
@@ -237,152 +221,70 @@ export const effectEditInterfaces = {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     // isCustomizeable: true,
     runOnClient: true,
+
+    nonRemote: true,
+
+    displayName: 'Interface Action',
   },
   [EFFECT_CUTSCENE]: {
     cutsceneId: 'Which cutscene?',
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     runOnClient: true,
+
+    nonRemote: true,
+
+    displayName: 'Play Dialog/Cutscene',
+    icon: 'faScroll'
   },
   [EFFECT_INTERFACE_UNLOCK]: {
     interfaceId: 'Which interface?',
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     runOnClient: true,
+
+    nonRemote: true,
+
+    displayName: 'Unlock Interface',
+    icon: 'faLockOpen'
   },
   [EFFECT_OPEN_TRANSITION]: {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
     autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT],
     runOnClient: true,
+
+    nonRemote: true,
+
+    displayName: 'Go to stars',
+    icon: 'faStar',
+    customSelectorCategory: 'Transition',
   },
   [EFFECT_CLOSE_TRANSITION]: {
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     autogenerateEffect: true,
     autogenerateRelationForEvents: [ON_TOUCH_START, ON_INTERACT],
     runOnClient: true,
+
+    nonRemote: true,
+
+    displayName: 'Return from stars',
+    icon: 'faStar',
+    customSelectorCategory: 'Transition',
   },
 }
 
-// EFFECT_CAMERA_SHAKE,  EFFECT_END_GAME, EFFECT_DESTROY, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_CUTSCENE
-export const touchActiveEffects  = {
-  // Movement
-  [EFFECT_TELEPORT]: false,
-  [EFFECT_IGNORE_GRAVITY]: true,
-  [EFFECT_STICK_TO]: true,
-  [EFFECT_GRAVITY_PULL]: true,
-  [EFFECT_GRAVITY_PUSH]: true,
-  [EFFECT_ALLOW_CLIMB]: true,
-  
-
-  // Lifecycle
-  [EFFECT_TRANSFORM]: false,
-  [EFFECT_SPAWN]: false,
-  [EFFECT_DESTROY]: false,
-  [EFFECT_TRANSFORM_TEMPORARY_START]: false,
-  [EFFECT_TRANSFORM_TEMPORARY_END]: false,
-
-  // Game State
-  [EFFECT_END_GAME]: false,
-
-  // Graphical
-  [EFFECT_CAMERA_SHAKE]: false,
-  [EFFECT_INVISIBLE]: true,
-
-  // Meta
-  [EFFECT_SWITCH_STAGE]: false,
-  [EFFECT_PAUSE_GAME]: false,
-  [EFFECT_UNPAUSE_GAME]: false,
-
-  // Interface
-  [EFFECT_CUTSCENE]: false,
-  [EFFECT_INTERFACE_ACTION]: false,
-  [EFFECT_INTERFACE_UNLOCK]: false,
-  [EFFECT_OPEN_TRANSITION]: false,
-  [EFFECT_CLOSE_TRANSITION]: false,
-}
-
-export const noRemoteEffectedTagEffects = {
-  // Movement
-  [EFFECT_TELEPORT]: false,
-  [EFFECT_IGNORE_GRAVITY]: false,
-  [EFFECT_STICK_TO]: true,
-  [EFFECT_GRAVITY_PULL]: true,
-  [EFFECT_GRAVITY_PUSH]: true,
-  [EFFECT_ALLOW_CLIMB]: true,
-
-  // Lifecycle
-  [EFFECT_TRANSFORM]: false,
-  [EFFECT_SPAWN]: true,
-  [EFFECT_DESTROY]: false,
-  [EFFECT_TRANSFORM_TEMPORARY_START]: false,
-  [EFFECT_TRANSFORM_TEMPORARY_END]: false,
-
-  // Game State
-  [EFFECT_END_GAME]: true,
-
-  // Graphical
-  [EFFECT_CAMERA_SHAKE]: true,
-  [EFFECT_INVISIBLE]: false,
-
-  // Meta
-  [EFFECT_SWITCH_STAGE]: true,
-  [EFFECT_PAUSE_GAME]: true,
-  [EFFECT_UNPAUSE_GAME]: true,
-
-  // Interface
-  [EFFECT_CUTSCENE]: true,
-  [EFFECT_INTERFACE_ACTION]: true,
-  [EFFECT_INTERFACE_UNLOCK]: true,
-  [EFFECT_OPEN_TRANSITION]: true,
-  [EFFECT_CLOSE_TRANSITION]: true,
-}
-
-export const nonStepEffectBehaviors = {
-    // Movement
-  [EFFECT_TELEPORT]: false,
-  [EFFECT_IGNORE_GRAVITY]: true,
-  [EFFECT_STICK_TO]: true,
-  [EFFECT_GRAVITY_PULL]: true,
-  [EFFECT_GRAVITY_PUSH]: true,
-  [EFFECT_ALLOW_CLIMB]: true,
-
-  // Lifecycle
-  [EFFECT_TRANSFORM]: false,
-  [EFFECT_SPAWN]: false,
-  [EFFECT_DESTROY]: false,
-  [EFFECT_TRANSFORM_TEMPORARY_START]: false,
-  [EFFECT_TRANSFORM_TEMPORARY_END]: false,
-
-  // Game State
-  [EFFECT_END_GAME]: false,
-
-  // Graphical
-  [EFFECT_CAMERA_SHAKE]: false,
-  [EFFECT_INVISIBLE]: true,
-
-  // Meta
-  [EFFECT_SWITCH_STAGE]: false,
-  [EFFECT_PAUSE_GAME]: false,
-  [EFFECT_UNPAUSE_GAME]: false,
-
-  // Interface
-  [EFFECT_CUTSCENE]: false,
-  [EFFECT_INTERFACE_ACTION]: false,
-  [EFFECT_INTERFACE_UNLOCK]: false,
-  [EFFECT_OPEN_TRANSITION]: false,
-  [EFFECT_CLOSE_TRANSITION]: false,
-}
-
 export function isUseableEffect(effect, effectBehavior, eventType) {
+  const effectTypeInterfaceData = effectInterfaceData[effectBehavior]
+
   if(eventType === ON_STEP_BEGINS) {
-    if((!effect.remoteEffectedRelationTagIds && !noRemoteEffectedTagEffects[effectBehavior]) || nonStepEffectBehaviors[effectBehavior]) {
+    if((!effect.remoteEffectedRelationTagIds && !effectInterfaceData.nonRemote) || effectTypeInterfaceData.nonStep) {
       return false
     }
   } else {
     if(eventType !== ON_TOUCH_ACTIVE) {
-      if(touchActiveEffects[effectBehavior]) return false
+      if(effectTypeInterfaceData.touchActive) return false
     }
     if(eventType === ON_TOUCH_ACTIVE) {
-      if(!touchActiveEffects[effectBehavior]) return false
+      if(!effectTypeInterfaceData.touchActive) return false
     }
   }
   return true
@@ -390,7 +292,7 @@ export function isUseableEffect(effect, effectBehavior, eventType) {
 
 export function getEffectShorthand(effect) {
   const effectBehavior = effect.effectBehavior 
-  const displayName = effectInterfaceDatas[effectBehavior].displayName
+  const displayName = effectInterfaceData[effectBehavior].displayName
   const gameModel = store.getState().gameModel.gameModel
   const entityModels = gameModel.entityModels 
   const cutscenes = gameModel.cutscenes 

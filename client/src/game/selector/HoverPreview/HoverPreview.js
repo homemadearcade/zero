@@ -6,7 +6,7 @@ import Typography from '../../../ui/Typography/Typography';
 import Texture from '../../textures/Texture/Texture';
 import { getLayerIdFromColorId, getLayerIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
 import { dataSourceIIDToIcon,
-   INITIAL_STAGE_IVID,
+   INITIAL_STAGE_RID,
    layerGroupIIDtoShortName, ON_STEP_BEGINS, PAUSED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
@@ -147,7 +147,7 @@ const HoverPreview = ({
 
   const interfaceData = interfaceIdData[interfaceIdHovering]
 
-  const initialStageId = INITIAL_STAGE_IVID
+  const initialStageId = INITIAL_STAGE_RID
 
   ///////////------------------///////////
   ///////////------------------///////////

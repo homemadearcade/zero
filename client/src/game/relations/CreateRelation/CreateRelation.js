@@ -11,9 +11,9 @@ import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { 
-  effectInterfaceDatas, 
-  EFFECT_DID, EVENT_DID, isUseableEffect, noRemoteEffectedTagEffects, 
-  effectEditInterfaces, eventTypeInterfaces } from '../../constants';
+  effectInterfaceData, 
+  EFFECT_DID, EVENT_DID, isUseableEffect,
+  eventInterfaceData } from '../../constants';
 import { RELATION_DID } from '../../constants';
 import { getEntityAandB } from '../../../utils/gameUtils';
 import {SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID, 
@@ -122,8 +122,8 @@ const CreateRelation = ({
   function renderSelectGameInstanceEffectedTagInstances(effect) {
     if(!event || !effect.effectBehavior) return 
     
-    const effectEditInterface = effectEditInterfaces[effect.effectBehavior]
-    const eventTypeInterface = eventTypeInterfaces[event.eventType]
+    const effectTypeInterfaceData = effectInterfaceData[effect.effectBehavior]
+    const eventTypeInterface = eventInterfaceData[event.eventType]
     const effectData = relation.effects[effect.effectId] ? relation.effects[effect.effectId] : {}
 
     const forms = []
@@ -133,12 +133,12 @@ const CreateRelation = ({
 
     if(effect.remoteEffectedRelationTagIds?.length) return
 
-    const effectShortName = effectInterfaceDatas[effect.effectBehavior].displayName
+    const effectName = effectInterfaceData[effect.effectBehavior].displayName
 
-    if(effectEditInterface.targetableType === SINGLE_RELATION_TAG_EFFECT_IID) {
+    if(effectTypeInterfaceData.targetableType === SINGLE_RELATION_TAG_EFFECT_IID) {
       if(event.relationTagIdA && event.relationTagIdB) {
         forms.push(<Switch
-            labels={[`${effectShortName} ${relationTagA.name}`, `${effectShortName} ${relationTagB.name}`]}
+            labels={[`${effectName} ${relationTagA.name}`, `${effectName} ${relationTagB.name}`]}
             size="small"
             onChange={(e) => {
               if(e.target.checked) {
@@ -151,7 +151,7 @@ const CreateRelation = ({
         />)
       } else if(event.relationTagIdA) {
         forms.push(<Switch
-          labels={['', `${effectShortName} ${relationTagA.name}`]}
+          labels={['', `${effectName} ${relationTagA.name}`]}
           size="small"
           onChange={(e) => {
             updateEffectData(effect.effectId, { effectTagA: e.target.checked })
@@ -160,7 +160,7 @@ const CreateRelation = ({
         />) 
       } else if(event.relationTagIdB) {
         forms.push(<Switch
-          labels={['', `${effectShortName} ${relationTagB.name}`]}
+          labels={['', `${effectName} ${relationTagB.name}`]}
           size="small"
           onChange={(e) => {
             updateEffectData(effect.effectId, { effectTagB: e.target.checked })
@@ -170,9 +170,9 @@ const CreateRelation = ({
       }
     }
 
-    if(effectEditInterface.targetableType === TWO_RELATION_TAG_EFFECT_IID) {
+    if(effectTypeInterfaceData.targetableType === TWO_RELATION_TAG_EFFECT_IID) {
       if(event.relationTagIdA) forms.push(<Switch
-          labels={['', `${effectShortName} ${relationTagA.name}`]}
+          labels={['', `${effectName} ${relationTagA.name}`]}
           size="small"
           onChange={(e) => {
             updateEffectData(effect.effectId, { effectTagA: e.target.checked })
@@ -181,7 +181,7 @@ const CreateRelation = ({
       />)
       
       if(event.relationTagIdB) forms.push(<Switch
-          labels={['', `${effectShortName} ${relationTagB.name}`]}
+          labels={['', `${effectName} ${relationTagB.name}`]}
           size="small"
           onChange={(e) => {
             updateEffectData(effect.effectId, { effectTagB: e.target.checked })
@@ -198,8 +198,8 @@ const CreateRelation = ({
     
     const { classA, classB } = getEntityAandB(event.relationTagIdA, event.relationTagIdB)
 
-    const effectEditInterface = effectEditInterfaces[effect.effectBehavior]
-    const eventTypeInterface = eventTypeInterfaces[event.eventType]
+    const effectTypeInterfaceData = effectInterfaceData[effect.effectBehavior]
+    const eventTypeInterface = eventInterfaceData[event.eventType]
 
     const effectData = relation.effects[effect.effectId] ? relation.effects[effect.effectId] : {}
 
@@ -207,7 +207,7 @@ const CreateRelation = ({
     const useA = effect.zoneEntityModelId && classA?.entityModelId === effect.zoneEntityModelId
     const useB = effect.zoneEntityModelId && classB?.entityModelId === effect.zoneEntityModelId
 
-    if(effectEditInterface.spawnZoneSelectorType && (useA || useB)) {
+    if(effectTypeInterfaceData.spawnZoneSelectorType && (useA || useB)) {
       forms.push(<Unlockable
         key={"effect/spawnZoneSelectorType"} 
         interfaceId={EFFECT_PICK_RANDOM_ZONE_IID}>
@@ -224,7 +224,7 @@ const CreateRelation = ({
       </Unlockable>)
     }
 
-    if(!noRemoteEffectedTagEffects[effect.effectBehavior] && !effect.remoteEffectedRelationTagIds?.length) {
+    if(!effectTypeInterfaceData.nonRemote && !effect.remoteEffectedRelationTagIds?.length) {
       
       forms.push(<Unlockable interfaceId={EFFECT_REMOTE_IID}>
         <SelectRelationTag
@@ -256,7 +256,7 @@ const CreateRelation = ({
       />
     </Unlockable>)
 
-    if(!event.onlyOnce && eventTypeInterface.effectCooldown && effectEditInterface.effectCooldown) {
+    if(!event.onlyOnce && eventTypeInterface.effectCooldown && effectTypeInterfaceData.effectCooldown) {
       forms.push(<Unlockable interfaceId={EFFECT_COOLDOWN_IID}>
           <SliderNotched
             key="effect/cooldown"
