@@ -14,6 +14,10 @@ export const spawnZoneSelectorTypeToDisplayName = {
   [SPAWN_ZONE_RANDOM_SELECT]: 'Spawn in Random Instance of Zone',
 }
 
+/// rewrite the lines below by effectInterfaceData and integrate with touchActiveEffects
+
+
+
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -276,7 +280,7 @@ export function isUseableEffect(effect, effectBehavior, eventType) {
   const effectTypeInterfaceData = effectInterfaceData[effectBehavior]
 
   if(eventType === ON_STEP_BEGINS) {
-    if((!effect.remoteEffectedRelationTagIds && !effectInterfaceData.nonRemote) || effectTypeInterfaceData.nonStep) {
+    if((!effect.remoteEffectedRelationTagIds?.length && !effectTypeInterfaceData.nonRemote) || effectTypeInterfaceData.nonStep) {
       return false
     }
   } else {

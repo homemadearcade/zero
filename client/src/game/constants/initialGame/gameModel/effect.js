@@ -28,6 +28,6 @@ export const defaultEffect = {
   isRemoved: false,
   isReadOnly: false,
 
-  customSelectorCategory: null
+  group: null
 }
 

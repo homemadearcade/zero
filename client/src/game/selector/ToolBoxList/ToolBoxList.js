@@ -11,7 +11,7 @@ import Typography from '../../../ui/Typography/Typography';
 import { updateOpenInterfaceId } from '../../../store/actions/game/gameSelectorActions';
 import Icon from '../../../ui/Icon/Icon';
 import Texture from '../../textures/Texture/Texture';
-import { getEffectData } from '../../../utils';
+import { enrichEffectData } from '../../../utils';
 import ButtonMenu from '../../../ui/ButtonMenu/ButtonMenu';
 import { MenuItem } from '@mui/material';
 import { keyIdToInterfaceData } from '../../../constants/keyboard/keyIds';
@@ -180,7 +180,7 @@ const ToolBoxList = ({
         subIcon, 
         textureId,
         textureTint
-      } = getEffectData(effect, ON_STEP_BEGINS, gameModel)
+      } = enrichEffectData(effect, ON_STEP_BEGINS, gameModel)
 
       let wrongLayer = false
       if(effect.layerId) {
@@ -222,7 +222,7 @@ const ToolBoxList = ({
   if(!accordians) return null
 
   const commonlyUsedEffects = effectList.map((effect) => {
-    const effectData = getEffectData(effect, ON_STEP_BEGINS, gameModel)
+    const effectData = enrichEffectData(effect, ON_STEP_BEGINS, gameModel)
     effectData.effectId = effect.effectId
     effectData.effectBehavior = effect.effectBehavior
     if(!effectData.isCommonlyUsed || effectData.isRemoved) return null

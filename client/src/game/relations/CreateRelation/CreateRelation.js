@@ -225,7 +225,6 @@ const CreateRelation = ({
     }
 
     if(!effectTypeInterfaceData.nonRemote && !effect.remoteEffectedRelationTagIds?.length) {
-      
       forms.push(<Unlockable interfaceId={EFFECT_REMOTE_IID}>
         <SelectRelationTag
           interfaceId={EFFECT_REMOTE_IID}

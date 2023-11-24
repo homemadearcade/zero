@@ -14,11 +14,11 @@ import { EIGHT_KID, FIVE_KID, FOUR_KID, keyIdToInterfaceData, NINE_KID, ONE_KID,
 import classNames from 'classnames';
 import store from '../../../store';
 import { unlockInterfaceId } from '../../../store/actions/game/unlockedInterfaceActions';
-import { getCurrentGameScene, getEffectData, runEffect } from '../../../utils';
+import { getCurrentGameScene, enrichEffectData, runEffect } from '../../../utils';
 import { changeKeyboardShortcutActionIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import IconButton from '../../../ui/IconButton/IconButton';
-import { interfaceActionIdData } from '../../../constants/interfaceActionIdData';
+import { interfaceActionData } from '../../../constants/interfaceActionIdData';
 import { openToolBoxDialog } from '../../../store/actions/game/gameSelectorActions';
 import { useKeyPress } from '../../../hooks/useKeyPress';
 import Texture from '../../textures/Texture/Texture';
@@ -117,8 +117,8 @@ const KeyboardShortcuts = ({
     let hidden = false
 
     if(effect?.interfaceActionId) {
-      const interfaceActionData = interfaceActionIdData[effect.interfaceActionId]
-      if(interfaceActionData?.activeCobrowsingRequired) {
+      const interfaceActionIdData = interfaceActionData[effect.interfaceActionId]
+      if(interfaceActionIdData?.activeCobrowsingRequired) {
         hidden = !isSubscribedCobrowsing
         disabled = hidden || !isActivelyCobrowsing
       }
@@ -132,7 +132,7 @@ const KeyboardShortcuts = ({
     let icon, subIcon, textureId, textureTint
 
     if(effect) {
-      const effectData = getEffectData(effect, ON_STEP_BEGINS, gameModel)
+      const effectData = enrichEffectData(effect, ON_STEP_BEGINS, gameModel)
       icon = effectData?.icon
       subIcon = effectData?.subIcon
       textureId = effectData?.textureId

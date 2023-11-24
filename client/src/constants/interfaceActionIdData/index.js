@@ -14,7 +14,7 @@ import tool from "./tool";
 import sprite from "./sprite";
 import stage from "./stage";
 
-export const interfaceActionIdData = {
+export const interfaceActionData = {
   ...sprite,
   ...snapshot,
   ...importData,

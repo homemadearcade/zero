@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectGameInstanceEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { getEffectData } from '../../../utils';
+import { enrichEffectData } from '../../../utils';
 import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK } from '../../constants';
 
 const SelectGameInstanceEffect = ({ onChange, removeInterfaceActions, value, eventType, formLabel, disabled, gameModel: { gameModel }}) => {
@@ -19,7 +19,7 @@ const SelectGameInstanceEffect = ({ onChange, removeInterfaceActions, value, eve
       isRemoved,
       textureId,
       textureTint
-    } = getEffectData(effect, eventType, gameModel)
+    } = enrichEffectData(effect, eventType, gameModel)
 
     let isEffectRemoved = isRemoved
 

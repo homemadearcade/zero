@@ -53,6 +53,8 @@ All entitys and media are in the data model. However a lot of effects, relations
 
 Some entities and some media have reserved ids. These ids are common accross all games. When importing, if theres two objects with the same reserved id, the imported one is not included in the import
 
+effects are derived in a very detailed manner. They are both derived from effects constants and from actions. Once derived they are normally enriched before being displayed
+
 ----
 
 PHASER EFFECTS

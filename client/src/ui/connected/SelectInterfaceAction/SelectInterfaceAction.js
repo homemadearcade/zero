@@ -4,12 +4,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectInterfaceAction.scss';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
-import { interfaceActionIdData } from '../../constants/interfaceActionIdData';
+import { interfaceActionData } from '../../constants/interfaceActionIdData';
 
 const SelectInterfaceAction = ({ onChange, disabled, value, formLabel, interfaceActionGroupId }) => {
 
   const mapEntityToOption = (interfaceActionId) => {
-    const actionData = interfaceActionIdData[interfaceActionId]
+    const actionData = interfaceActionData[interfaceActionId]
     const name = actionData.name
 
     if(actionData.interfaceActionGroupId !== interfaceActionGroupId) return false
@@ -20,7 +20,7 @@ const SelectInterfaceAction = ({ onChange, disabled, value, formLabel, interface
     }
   }
 
-  const options = Object.keys(interfaceActionIdData).map(mapEntityToOption)
+  const options = Object.keys(interfaceActionData).map(mapEntityToOption)
 
   return <SelectChipsAuto 
     disabled={disabled}

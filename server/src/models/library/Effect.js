@@ -49,7 +49,7 @@ const effect = new Schema({
       type: String,
       default: '',
     },
-    customSelectorCategory: {
+    group: {
       type: String,
       default: null,
     },
@@ -83,7 +83,7 @@ effect.methods.toJSON = function () {
     zoneEntityModelId: this.zoneEntityModelId,
     cutsceneId: this.cutsceneId,
     text: this.text,
-    customSelectorCategory: this.customSelectorCategory,
+    group: this.group,
     dataSourceIID: this.dataSourceIID,
     isReadOnly: this.isReadOnly,
     isRemoved: this.isRemoved,

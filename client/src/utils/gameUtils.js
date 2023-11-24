@@ -7,9 +7,10 @@ import store from "../store";
 import { getCobrowsingState } from "./cobrowsingUtils";
 import { getCurrentGameScene } from "./editorUtils";
 import Phaser from 'phaser'
-import { interfaceActionIdData } from "../constants/interfaceActionIdData";
+import { interfaceActionData } from "../constants/interfaceActionIdData";
 import { unlockInterfaceId } from "../store/actions/game/unlockedInterfaceActions";
 import { RELATION_TAG_GENERAL_IID } from "../constants/interfaceIds";
+import { interfaceActionGroupData } from "../constants";
 
 export const getGameModelSize = (gameModel) => {
   const width = gameModel.size.nodeSize * gameModel.size.gridWidth
@@ -37,7 +38,7 @@ export function runEffect(effect) {
   }
 }
 
-export function getEffectData(effect, eventType, gameModel) {
+export function enrichEffectData(effect, eventType, gameModel) {
   const effectTypeInterfaceData = effectInterfaceData[effect.effectBehavior]
 
   let subTitle = effect.subTitle || getEffectShorthand(effect)
@@ -46,18 +47,25 @@ export function getEffectData(effect, eventType, gameModel) {
   }
 
   let icon = effect.icon || effectTypeInterfaceData.icon
+  let subIcon = effect.subIcon || effectTypeInterfaceData.subIcon
+  let group = effect.group || effectTypeInterfaceData.displayName
 
-  const group = effect.customSelectorCategory || effectTypeInterfaceData.displayName
+  if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
+    const actionIdData = interfaceActionData[effect.interfaceActionId]
+    const groupIdData = interfaceActionGroupData[actionIdData.interfaceActionGroupId]
+    icon = effect.icon || groupIdData?.icon || icon 
+    subIcon = effect.subIcon || actionIdData.subIcon || subIcon
+    group = effect.group || actionIdData.group || groupIdData?.displayName || group
+  }
 
   let isRemoved = effect.isRemoved || !isUseableEffect(effect, effect.effectBehavior, eventType)
-
-  const subIcon = effect.subIcon || effectTypeInterfaceData.subIcon
 
   let textureId = effect.textureId
   let textureTint = effect.textureTint
 
   const entityModelId = effect.entityModelId ||effect.spawnEntityModelId || effect.zoneEntityModelId
 
+  // override any texture Ids if we have an entity model
   if(entityModelId) {
     const entityModel = gameModel.entityModels[entityModelId]
     if(entityModel) {
@@ -65,7 +73,6 @@ export function getEffectData(effect, eventType, gameModel) {
       textureTint = entityModel.graphics.textureTint
     }
   }
-
   if(effect.remoteEffectedRelationTagIds && !entityModelId) {
     const relationTagId = effect.remoteEffectedRelationTagIds[0]
     const relationTag = gameModel.relationTags[relationTagId]
@@ -75,10 +82,12 @@ export function getEffectData(effect, eventType, gameModel) {
     }
   } 
 
+
+  /// commonly used
   let isCommonlyUsed = effect.isCommonlyUsed
 
   if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
-    const interfaceAction = interfaceActionIdData[effect.interfaceActionId]
+    const interfaceAction = interfaceActionData[effect.interfaceActionId]
     if(interfaceAction) {
       isCommonlyUsed = interfaceAction.isCommonlyUsed
     }

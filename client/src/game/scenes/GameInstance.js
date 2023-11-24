@@ -1051,7 +1051,7 @@ addInstancesToEntityInstanceByTag(instances) {
       remoteEffectedRelationTagIds.push(...effect.remoteEffectedRelationTagIdsExtension)
     }
 
-    if(remoteEffectedRelationTagIds && !effectInterfaceData[effect.effectBehavior].nonRemote) {
+    if(remoteEffectedRelationTagIds?.length && effectInterfaceData[effect.effectBehavior].nonRemote) {
       remoteEffectedRelationTagIds?.forEach((relationTagId) => {
         this.entityInstancesByTag[relationTagId]?.forEach((entityInstance) => {
           physicsSprites.push(entityInstance.physicsSprite)

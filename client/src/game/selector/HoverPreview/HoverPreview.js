@@ -31,7 +31,7 @@ import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorAct
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 import { Paper } from '@mui/material';
-import { getEffectData } from '../../../utils';
+import { enrichEffectData } from '../../../utils';
 
     // <Unlockable interfaceId={CONTEXT_MENU_SNAPSHOT_IID}>
     //   <MenuItem onClick={() => {
@@ -433,7 +433,7 @@ const HoverPreview = ({
       const {
         title,
         subTitle
-      } = getEffectData(effect, null, gameModel)
+      } = enrichEffectData(effect, null, gameModel)
 
       return renderTextOnlyDisplay({
         title: title || subTitle
