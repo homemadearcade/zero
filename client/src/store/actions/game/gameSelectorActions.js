@@ -342,20 +342,3 @@ export const toggleSelectorClassInvisibility = (interfaceId, dataSourceIID) => (
     }
   });
 }
-
-
-export const openBuyTicketsDialog = () => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_BUY_TICKETS_DIALOG,
-    payload: {}
-  });
-}
-
-export const closeBuyTicketsDialog = () => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: CLOSE_BUY_TICKETS_DIALOG,
-    payload: {}
-  });
-}

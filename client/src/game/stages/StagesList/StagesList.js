@@ -8,7 +8,7 @@ import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
-import { changeCurrentStage } from '../../../store/actions/game/gameModelActions';
+import { changeCurrentStage } from '../../../store/actions/game/gameRoomInstanceActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
 import { REMOVED_DATA_SHOW_IID, STAGE_ADD_IID, } from '../../../constants/interfaceIds';

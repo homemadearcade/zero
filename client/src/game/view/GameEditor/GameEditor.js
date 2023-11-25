@@ -14,9 +14,7 @@ import { BRUSH_DID, PLAYTHROUGH_PLAY_STATE, PLAYTHROUGH_START_STATE, COLOR_BRUSH
 import GameEditDialog from '../../selector/GameEditDialog/GameEditDialog';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
 import EditEntityDialog from '../../entityModel/EditEntityDialog/EditEntityDialog';
-import GameStatusToolbar from '../../gameRoomInstance/GameStatusToolbar/GameStatusToolbar';
 import EntityList from '../../entityModel/EntityList/EntityList';
-import BrushList from '../../brush/BrushList/BrushList';
 import Dialog from '../../../ui/Dialog/Dialog';
 import CreateStageDialog from '../../stages/CreateStageDialog/CreateStageDialog';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
@@ -43,15 +41,10 @@ import CreateColorFlow from '../../color/CreateColorFlow/CreateColorFlow';
 import StageLiveEditor from '../../stages/StageLiveEditor/StageLiveEditor';
 import EditRelationSystemDialog from '../../relations/EditRelationSystemDialog/EditRelationSystemDialog';
 import EditContentDialog from '../../content/EditContentDialog/EditContentDialog';
-import MouseInfo from '../../selector/MouseInfo/MouseInfo';
-import KeyboardInfo from '../../selector/KeyboardInfo/KeyboardInfo';
 import ToolBoxDialog from '../../selector/ToolBoxDialog/ToolBoxDialog';
 import AggregateColorSelectDialog from '../../color/AggregateColorSelectDialog/AggregateColorSelectDialog';
 import CreateCutsceneButton from '../../cutscene/CreateCutsceneButton/CreateCutsceneButton';
 import Divider from '../../../ui/Divider/Divider';
-import PlayerControlsCardCurrent from '../../selector/PlayerControlsCardCurrent/PlayerControlsCardCurrent';
-import { APP_ADMIN_ROLE } from '../../../constants';
-import BuyTickets from '../BuyTickets/BuyTickets';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -106,7 +99,6 @@ const GameEditor = ({
   selectBrush,
   updateCreateBrush,
   updateCreateEntity,
-  showArcadeMachineDemoView,
   gameRoomInstance: { gameRoomInstance: { gameStatus, hostUserMongoId, currentStageId } },
   gameModel: { gameModel },
   playerInterface: { cutsceneId },
@@ -164,20 +156,6 @@ const GameEditor = ({
     return <>
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
         {leftColumn}
-        {showArcadeMachineDemoView && <>
-          <div style={{paddingBottom: '4em'}}/>
-          <img 
-            src="/assets/images/haqr.png" 
-            alt="yo" 
-            style={{width: '100%', background: 'white'}}
-            />
-          <BuyTickets/>
-          <PlayerControlsCardCurrent/>
-        </>}
-        {!showArcadeMachineDemoView && showColumns && <>
-          <KeyboardInfo/>
-          <BrushList/>
-        </>}
       </div>
       {isObscurable ? <GameViewObscured>
         {renderOverlay()}
@@ -186,13 +164,6 @@ const GameEditor = ({
       </GameView>}
       {children}
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
-         {!showArcadeMachineDemoView && <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}>
-          <GameStatusToolbar/>
-        </Unlockable>}
-        {!showArcadeMachineDemoView && <MouseInfo hoverPreviewOnly={!gameModel || !showColumns}/>}
-        {!showArcadeMachineDemoView && showColumns && gameModel && <>
-          {renderSelectorColumn()}
-        </>}
       </div>
       
       <div id="CobrowsingDialog"></div>

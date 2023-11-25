@@ -12,10 +12,11 @@ import Button from '../../../ui/Button/Button';
 import GameTextures from '../GameTextures/GameTextures';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
-import { CHOOSE_GAME_TEXTURES_IID, CHOOSE_SYSTEM_TEXTURES_IID, TEXTURE_EDITOR_OPEN_IID } from '../../../constants/interfaceIds';
+import { CHOOSE_GAME_TEXTURES_IID, CHOOSE_SYSTEM_TEXTURES_IID, TEXTURE_EDITOR_OPEN_IID, TEXTURES_TAGGED_TAB_IID, TEXTURES_USER_TAB_IID } from '../../../constants/interfaceIds';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import TextureStage from '../TextureStage/TextureStage';
 import { openCreateCanvasImageDialog, openCreateColorFlow } from '../../../store/actions/game/gameFormEditorActions';
+import Tabs from '../../../ui/Tabs/Tabs';
 
 const CreateTexture = ({
   textureIdSelected,
@@ -59,12 +60,24 @@ const CreateTexture = ({
         onUnselectColor={onClearTint}
       />
         <div className="CreateTexture__texture-list">
-          <Unlockable interfaceId={CHOOSE_SYSTEM_TEXTURES_IID}>
-            <TaggedTextures onClickTexture={onSelect} visualTags={visualTags}/>
-          </Unlockable>
-          <Unlockable interfaceId={CHOOSE_GAME_TEXTURES_IID}>
-            <GameTextures onClickTexture={onSelect} visualTags={visualTags}/>
-          </Unlockable>
+           <Tabs tabs={[
+            {
+              interfaceId: TEXTURES_TAGGED_TAB_IID,
+              label: 'Recommended',
+              body: <TaggedTextures 
+                  onClickTexture={onSelect}
+                  visualTags={visualTags}
+                />
+            },
+            {
+              interfaceId: TEXTURES_USER_TAB_IID,
+              label: 'My Sprites',
+              body: <GameTextures 
+                onClickTexture={onSelect}
+                visualTags={visualTags}
+              />
+            }
+           ]}/>
         </div>
     </div>
   </>

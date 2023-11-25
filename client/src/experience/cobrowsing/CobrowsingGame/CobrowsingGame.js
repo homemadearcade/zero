@@ -19,29 +19,22 @@ const CobrowsingGame = ({
   lobbyInstance: { lobbyInstance }, 
   cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserMongoId }, 
   video: { isInsideVideoCall }, myTracks, userTracks,
-  gameRoomInstance: { gameRoomInstance: { isArcadeMachineDemo, hostUserMongoId }, },
-  auth: { me }
 }) => { 
   const gameFacilitatorUserMongoId = lobbyInstance.roleIdToUserMongoIds[defaultGuideRoleId][0]
 
-  const isHost = hostUserMongoId === me.id
-  const showArcadeMachineDemoView = (!me.roles[APP_ADMIN_ROLE] && isArcadeMachineDemo) || (isActivelyCobrowsing && isArcadeMachineDemo && !cobrowsingUser.roles[APP_ADMIN_ROLE])
-
   return <GameEditor 
       rootFontSize={rootFontSize}
-      showArcadeMachineDemoView={showArcadeMachineDemoView}
       isObscurable
-      arcadeMachineDemo={isHost}
       classNames={classNames({'GameEditor--cobrowsing': isActivelyCobrowsing && !selectedTool, 'GameEditor--cobrowsing-border': isActivelyCobrowsing})}
       leftColumn={<>
-        {/* <AgoraUserVideo
+        <AgoraUserVideo
             interfaceId={GAME_ROOM_VIDEO_IID}
             userMongoId={gameFacilitatorUserMongoId}
             className="AgoraVideo__guide"
             label="Guide"
             myTracks={myTracks}
             userTracks={userTracks}
-        /> */}
+        />
       </>}
       rightColumn={<>
       </>}
@@ -60,9 +53,7 @@ const mapStateToProps = (state) => {
   const cobrowsingState = mapCobrowsingState(state, {
     video: state.video,
     cobrowsing: state.cobrowsing,
-    auth: state.auth,
     lobbyInstance: state.lobbyInstance,
-    gameRoomInstance: state.gameRoomInstance,
   });
 
   return cobrowsingState

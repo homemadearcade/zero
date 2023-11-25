@@ -4,7 +4,7 @@ import store from "../../../store";
 import { getHexIntFromHexString } from "../../../utils/editorUtils";
 import { getCobrowsingState } from "../../../utils/cobrowsingUtils";
 
-export class MatterSprite {
+export class PhysicsSprite {
   constructor(scene, { textureId, spriteSheetName, spriteIndex, spawnX, spawnY }){
     // const state = store.getState()
     // const gameModel = state.gameModel.gameModel
@@ -63,6 +63,10 @@ export class MatterSprite {
 
   setAlpha(alpha) {
     this.physicsSprite.setAlpha(alpha)
+  }
+
+  setMaxSpeed(speed) {
+    this.physicsSprite.body.setMaxSpeed(speed)
   }
 
   setAcceleration(acceleration) {

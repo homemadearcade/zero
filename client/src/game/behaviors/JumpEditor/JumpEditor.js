@@ -7,7 +7,7 @@ import './JumpEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
-import { advancedDirectionalDefaults } from '../../constants';
+import { VEHICLE_CONTROLS, advancedDirectionalDefaults } from '../../constants';
 import Button from '../../../ui/Button/Button';
 import { ADVANCED_DIRECTIONAL_CONTROLS } from '../../constants';
 import PlayerControlsCard from '../../selector/PlayerControlsCard/PlayerControlsCard';
@@ -21,8 +21,8 @@ const JumpEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel, au
 
   const incompatibleErrors = []
 
-  if(entitySelected.movement.movementControlsBehavior !== ADVANCED_DIRECTIONAL_CONTROLS) {
-    incompatibleErrors.push('Movement control scheme must be the Advanced Directional scheme to use Jump')
+  if(entitySelected.movement.movementControlsBehavior === VEHICLE_CONTROLS) {
+    incompatibleErrors.push('For Jumping on this control scheme, use the Thrust parameter in the Movement Tab')
     incompatibleErrors.push(<Unlockable interfaceId={CONTROLS_NO_BEHAVIOR_BEHAVIOR_IID}>
         <Button
           onClick={(e) => {

@@ -1,13 +1,13 @@
 import { DEFAULT_TEXTURE_ID, ON_SPAWN, BOUNDARY_COLLIDE, BOUNDARY_WRAP, ON_DESTROY_ONE, ON_DESTROY_ALL, ON_INTERACT, ON_TOUCH_START, ON_TOUCH_ACTIVE } from "../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
-import { MatterSprite } from "./behaviors/MatterSprite";
+import { PhysicsSprite } from "./behaviors/PhysicsSprite";
 import { Collider } from "./behaviors/Collider";
 import { Graphics } from "./behaviors/Graphics";
 import { Movement } from "./behaviors/Movement";
 import { ProjectileEjector } from "./behaviors/ProjectileEjector";
 
-export class EntityInstance extends MatterSprite {
+export class EntityInstance extends PhysicsSprite {
   constructor(scene, entityInstanceId, entityInstanceData, effectSpawned){
     const {spawnX, spawnY, entityModelId, transformCancelEntityModelId} = entityInstanceData
 
@@ -285,7 +285,7 @@ export class EntityInstance extends MatterSprite {
     if(this.scene.entityInstanceGroup.children) {
       this.scene.entityInstanceGroup.remove(this.physicsSprite, true)
     }
-    // this.scene.removeInstanceFromMatterSpriteGroup(this.entityModelId, this.physicsSprite)
+    // this.scene.removeInstanceFromPhysicsSpriteGroup(this.entityModelId, this.physicsSprite)
     this.graphics.destroy()
     super.destroy()
   }

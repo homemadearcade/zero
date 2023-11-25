@@ -93,6 +93,19 @@ export function onInstanceUndo() {
   // }
 }
 
+export const changeCurrentStage = (stageId) => (dispatch, getState) => {
+  // dispatch({
+  //   type: CHANGE_CURRENT_STAGE,
+  //   payload: {
+  //     stageId,
+  //   }
+  // })
+
+  dispatch(editGameRoom(getState().gameRoomInstance.gameRoomInstance.id, {
+    currentStageId: stageId
+  }))
+};
+
 export const gameRoomInstanceUndo = () => async (dispatch, getState) => {
   dispatch({
     type: GAME_INSTANCE_UNDO_LOADING,

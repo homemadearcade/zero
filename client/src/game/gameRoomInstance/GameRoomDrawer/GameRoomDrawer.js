@@ -17,7 +17,6 @@ import IconButton from '../../../ui/IconButton/IconButton';
 import { toggleMinimizeCobrowsingCard } from '../../../store/actions/game/cobrowsingActions';
 
 const GameRoomDrawer = ({
-  lobbyInstance: { lobbyInstance },
   cobrowsing: {
     isCobrowsingCardMinimized
   },
@@ -71,7 +70,6 @@ const GameRoomDrawer = ({
 };
 
 const mapStateToProps = (state) => ({
-  lobbyInstance: state.lobbyInstance,
   cobrowsing: state.cobrowsing,
 });
 

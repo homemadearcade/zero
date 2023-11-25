@@ -4,9 +4,9 @@ import { X_KID } from "../../../constants/keyboard/keyIds";
 import store from "../../../store";
 import { changeInteractOppurtunity } from "../../../store/actions/game/playerInterfaceActions";
 import { ARCADE_PHYSICS, DEFAULT_TEXTURE_ID, MATTER_PHYSICS, ON_INTERACT } from "../../constants";
-import { MatterSprite } from "./MatterSprite";
+import { PhysicsSprite } from "./PhysicsSprite";
 
-export class InteractArea extends MatterSprite {
+export class InteractArea extends PhysicsSprite {
   constructor(scene, entityInstance, { color, width, height }){
     super(scene, { spawnX: 0, spawnY: 0, textureId: DEFAULT_TEXTURE_ID })
 
@@ -72,9 +72,9 @@ export class InteractArea extends MatterSprite {
       const {event} = relation
       const releventEntityInstances = entityInstancesByTag[event.relationTagIdB]
       if(!releventEntityInstances || !releventEntityInstances.length) return
-      const releventMatterSprites = releventEntityInstances.map(({physicsSprite}) => physicsSprite)
+      const releventPhysicsSprites = releventEntityInstances.map(({physicsSprite}) => physicsSprite)
       this.overlaps.push(
-        this.scene.physics.add.overlap(this.physicsSprite, releventMatterSprites, (a, b) => {
+        this.scene.physics.add.overlap(this.physicsSprite, releventPhysicsSprites, (a, b) => {
           if(this.paused) return
           if(this.scene.timeToTriggerAgain[relation.relationId] > Date.now()) return
           // console.log('event triggered')

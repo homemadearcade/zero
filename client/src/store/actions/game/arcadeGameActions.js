@@ -38,7 +38,7 @@ import {
     PLAY_GAME_SCOPE_UNLISTED, 
     TEXTURE_DID, 
     UNDO_MEMORY_MAX } from '../../../game/constants';
-import { changeCurrentStage, editGameModel } from './gameModelActions';
+import { changeCurrentStage } from './gameRoomInstanceActions';
 import { generateUniqueId, getImageUrlFromTextureId } from '../../../utils';
 import { addCanvasImage, getCanvasImageByTextureId } from '../media/canvasImageActions';
 import { IMAGE_TYPE_LAYER } from '../../../constants';
@@ -47,6 +47,7 @@ import {
   BACKGROUND_LAYER_GROUP_IID, FOREGROUND_LAYER_GROUP_IID, NOT_DERIVED_IID, PLAYGROUND_LAYER_GROUP_IID 
 } from '../../../constants/interfaceIds';
 import { changePlayerEntity } from './playerInterfaceActions';
+import { editGameModel } from './gameModelActions';
 
 export function onArcadeGameModelUpdate(gameUpdate) {
   const state = store.getState()

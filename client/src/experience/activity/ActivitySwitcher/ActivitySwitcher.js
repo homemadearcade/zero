@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './ActivitySwitcher.scss';
-import { editLobby, toggleLobbyDashboard } from '../../../store/actions/experience/lobbyInstanceActions';
+import { editLobby } from '../../../store/actions/experience/lobbyInstanceActions';
 import Button from '../../../ui/Button/Button';
 import SelectActivity from '../../../ui/connected/SelectActivity/SelectActivity';
 import SelectViewCategory from '../../../ui/SelectViewCategory/SelectViewCategory';
@@ -12,7 +12,6 @@ import SelectViewCategory from '../../../ui/SelectViewCategory/SelectViewCategor
 const ActivitySwitcher = ({
   lobbyInstance: { lobbyInstance },
   editLobby,
-  toggleLobbyDashboard
 }) => {
   const activity = lobbyInstance.activitys[lobbyInstance.currentActivityId]
 
@@ -53,5 +52,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { toggleLobbyDashboard,  editLobby }),
+  connect(mapStateToProps, { editLobby }),
 )(ActivitySwitcher);

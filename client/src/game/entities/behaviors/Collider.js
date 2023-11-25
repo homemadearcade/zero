@@ -5,7 +5,7 @@ import {
   MATTER_PHYSICS,
   ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START, 
   SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN,
-  EFFECT_INVISIBLE, EFFECT_IGNORE_GRAVITY, EFFECT_GRAVITY_PULL, EFFECT_GRAVITY_PUSH, EFFECT_ALLOW_CLIMB, 
+  EFFECT_INVISIBLE, EFFECT_IGNORE_GRAVITY, EFFECT_GRAVITY_PULL, EFFECT_GRAVITY_PUSH, EFFECT_ALLOW_CLIMB, DIRECTIONAL_CONTROLS, 
 } from "../../constants";
 import { areBSidesHit, isEventMatch } from "../../../utils/gameUtils";
 import store from "../../../store";
@@ -155,7 +155,10 @@ export class Collider {
         const currentVelocityX = physicsSprite.body.velocity.x
         const currentVelocityY = physicsSprite.body.velocity.y
 
-        let deltaVelocity = .01 * this.scene.lastDelta
+        const entityModel = this.scene.getGameModel().entityModels[physicsSprite.entityModelId]
+        const rate = entityModel.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS ? .5 : .05
+
+        let deltaVelocity = rate * this.scene.lastDelta
 
         if(effect.effectBehavior === EFFECT_GRAVITY_PUSH) {
           deltaVelocity *= -1

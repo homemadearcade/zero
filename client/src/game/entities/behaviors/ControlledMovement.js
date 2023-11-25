@@ -14,7 +14,7 @@ export class ControlledMovement {
     const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
     const physicsSprite = this.entityInstance.physicsSprite
 
-    const isJumpAllowed = !entityModel.movement.ignoreGravity && entityModel.movement.movementControlsBehavior === ADVANCED_DIRECTIONAL_CONTROLS
+    const isJumpAllowed = !entityModel.movement.ignoreGravity && entityModel.movement.movementControlsBehavior !== VEHICLE_CONTROLS
 
     const gamePad = this.entityInstance.gamePad
     let downPressed = this.cursors.down.isDown
@@ -108,28 +108,35 @@ export class ControlledMovement {
       let xTouched = false 
       let yTouched = false
 
+      const currentVelocityX = physicsSprite.body.velocity.x
+      const currentVelocityY = physicsSprite.body.velocity.y
+
       if(leftPressed) {
-        this.entityInstance.setVelocityX(-speed * 5)
+        this.entityInstance.setVelocityX(currentVelocityX + (-speed * 5))
         xTouched = true
       }
       
       if(rightPressed) {
-        this.entityInstance.setVelocityX(speed * 5)
+        this.entityInstance.setVelocityX(currentVelocityX + (speed * 5))
         xTouched = true
       }
       
-      if(upPressed) {
-        this.entityInstance.setVelocityY(-speed * 5)
+      if((entityModel.jump.jumpControlsBehavior === JUMP_NONE || !isJumpAllowed) && upPressed) {
+        this.entityInstance.setVelocityY(currentVelocityY + (-speed * 5))
         yTouched = true
       }
 
       if(downPressed) {
-        this.entityInstance.setVelocityY(speed * 5)
+        this.entityInstance.setVelocityY(currentVelocityY + (speed * 5))
         yTouched = true
       }
 
-      if(!xTouched) this.entityInstance.setVelocityX(0)
-      if(!yTouched) this.entityInstance.setVelocityY(0)
+      if(!xTouched) {
+        this.entityInstance.setVelocityX(0)
+      }
+      if(!yTouched) {
+        this.entityInstance.setVelocityY(0)
+      }
     }
 
     //////////////////////////////////////////////////////////////

@@ -20,19 +20,6 @@ import { clearCutscenes } from './playerInterfaceActions';
 import { editGameRoom } from './gameRoomInstanceActions';
 import { mergeDeep } from '../../../utils';
 import { createInitialStage } from '../../../game/constants/initialGame/gameModel';
-
-export const changeCurrentStage = (stageId) => (dispatch, getState) => {
-  // dispatch({
-  //   type: CHANGE_CURRENT_STAGE,
-  //   payload: {
-  //     stageId,
-  //   }
-  // })
-
-  dispatch(editGameRoom(getState().gameRoomInstance.gameRoomInstance.id, {
-    currentStageId: stageId
-  }))
-};
  
 export const getSpritesheetData  = () => async (dispatch, getState) => {
   dispatch({

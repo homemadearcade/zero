@@ -12,7 +12,7 @@ import { PLAYER_INSTANCE_DID,
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerEntity, clearCutscenes, openCutscene } from '../../store/actions/game/playerInterfaceActions';
-import { changeCurrentStage } from '../../store/actions/game/gameModelActions';
+import { changeCurrentStage } from '../../store/actions/game/gameRoomInstanceActions';
 import { changeGameStatus, editGameRoom, updateGameRoomPlayer } from '../../store/actions/game/gameRoomInstanceActions';
 import { EntityInstance } from '../entities/EntityInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
