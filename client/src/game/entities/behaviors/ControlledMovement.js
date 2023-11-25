@@ -111,32 +111,32 @@ export class ControlledMovement {
       const currentVelocityX = physicsSprite.body.velocity.x
       const currentVelocityY = physicsSprite.body.velocity.y
 
-      if(leftPressed) {
-        this.entityInstance.setVelocityX(currentVelocityX + (-speed * 5))
+      if(leftPressed && !physicsSprite.body.blocked.left) {
+        physicsSprite.body.position.x += (-speed/7.5)
         xTouched = true
       }
       
-      if(rightPressed) {
-        this.entityInstance.setVelocityX(currentVelocityX + (speed * 5))
+      if(rightPressed && !physicsSprite.body.blocked.right) {
+        physicsSprite.body.position.x += (speed/7.5)
         xTouched = true
       }
       
-      if((entityModel.jump.jumpControlsBehavior === JUMP_NONE || !isJumpAllowed) && upPressed) {
-        this.entityInstance.setVelocityY(currentVelocityY + (-speed * 5))
+      if((entityModel.jump.jumpControlsBehavior === JUMP_NONE || !isJumpAllowed) && upPressed && !physicsSprite.body.blocked.up) {
+        physicsSprite.body.position.y += (-speed/7.5)
         yTouched = true
       }
 
-      if(downPressed) {
-        this.entityInstance.setVelocityY(currentVelocityY + (speed * 5))
+      if(downPressed && !physicsSprite.body.blocked.down) {
+        physicsSprite.body.position.y += (speed/7.5)
         yTouched = true
       }
 
-      if(!xTouched) {
-        this.entityInstance.setVelocityX(0)
-      }
-      if(!yTouched) {
-        this.entityInstance.setVelocityY(0)
-      }
+      // if(!xTouched) {
+      //   this.entityInstance.setVelocityX(0)
+      // }
+      // if(!yTouched) {
+      //   this.entityInstance.setVelocityY(0)
+      // }
     }
 
     //////////////////////////////////////////////////////////////
