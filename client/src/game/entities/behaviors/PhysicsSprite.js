@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, MATTER_PHYSICS, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../../constants";
+import { ARCADE_PHYSICS, DIRECTIONAL_CONTROLS, MATTER_PHYSICS, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../../constants";
 import store from "../../../store";
 import { getHexIntFromHexString } from "../../../utils/editorUtils";
 import { getCobrowsingState } from "../../../utils/cobrowsingUtils";
@@ -342,15 +342,36 @@ export class PhysicsSprite {
   }
 
   setVelocity(x, y) {
-    this.physicsSprite.setVelocity(x, y)
+    const entityModel = this.scene.getGameModel().entityModels[this.physicsSprite.entityInstance.entityModelId]
+    if(entityModel.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS) {
+      this.proposedVelocityX = x;
+      this.proposedVelocityY = y;
+    } else {
+      this.physicsSprite.setVelocity(x, y)
+    }
   }
 
   setVelocityX(x) {
-    this.physicsSprite.setVelocityX(x)
+    const entityModel = this.scene.getGameModel().entityModels[this.physicsSprite.entityInstance.entityModelId]
+
+          console.log(x)
+    
+    if(entityModel.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS) {
+      this.proposedVelocityX = x;
+    } else {
+      this.physicsSprite.setVelocityX(x)
+    }
   }
 
   setVelocityY(y) {
-    this.physicsSprite.setVelocityY(y)
+    const entityModel = this.scene.getGameModel().entityModels[this.physicsSprite.entityInstance.entityModelId]
+    if(entityModel.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS) {
+      this.proposedVelocityY = y;
+            console.log(y)
+
+    } else {
+      this.physicsSprite.setVelocityY(y)
+    }
   }
 
   setMaxVelocity(xy) {

@@ -152,11 +152,18 @@ export class Collider {
         physicsSprite.ignoreGravityOverride = true
         const center = alternatephysicsSpriteData.physicsSprite.body.center
         const x = physicsSprite.body.position.x + physicsSprite.body.width / 2
-        const currentVelocityX = physicsSprite.body.velocity.x
-        const currentVelocityY = physicsSprite.body.velocity.y
-
+        
+        const entityInstance = this.scene.getEntityInstance(physicsSprite.entityInstanceId)
         const entityModel = this.scene.getGameModel().entityModels[physicsSprite.entityModelId]
-        const rate = entityModel.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS ? .5 : .05
+        const rate = entityModel.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS ? 3 : .05
+        const gradual = entityModel.movement.movementControlsBehavior !== DIRECTIONAL_CONTROLS
+
+        let currentVelocityX = 0;
+        let currentVelocityY = 0;
+        if(gradual) {
+          currentVelocityX = physicsSprite.body.velocity.x
+          currentVelocityY = physicsSprite.body.velocity.y
+        }
 
         let deltaVelocity = rate * this.scene.lastDelta
 
@@ -165,16 +172,16 @@ export class Collider {
         }
 
         if(center.x > x) {
-          physicsSprite.setVelocityX(currentVelocityX + deltaVelocity)
+          entityInstance.setVelocityX(currentVelocityX + deltaVelocity)
         } else {
-          physicsSprite.setVelocityX(currentVelocityX - deltaVelocity)
+          entityInstance.setVelocityX(currentVelocityX - deltaVelocity)
         }
 
         const y = physicsSprite.body.position.y + physicsSprite.body.height / 2
         if(center.y > y) {
-          physicsSprite.setVelocityY(currentVelocityY + deltaVelocity)
+          entityInstance.setVelocityY(currentVelocityY + deltaVelocity)
         } else {
-          physicsSprite.setVelocityY(currentVelocityY - deltaVelocity)
+          entityInstance.setVelocityY(currentVelocityY - deltaVelocity)
         }
 
       }

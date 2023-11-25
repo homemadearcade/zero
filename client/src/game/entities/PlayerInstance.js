@@ -161,7 +161,7 @@ export class PlayerInstance extends EntityInstance {
     const playerInterface = getCobrowsingState().playerInterface
 
     if(this.interactKey.isDown && this.interactKey.isPressable) {
-      console.log('interact key down', gameStatus, playerInterface.cutsceneId)
+      // console.log('interact key down', gameStatus, playerInterface.cutsceneId)
       if(gameStatus === PLAYTHROUGH_START_STATE || gameStatus === GAME_END_STATE) {
         if(this.scene.isPlaythrough) {
           store.dispatch(changeGameStatus(PLAYTHROUGH_PLAY_STATE))

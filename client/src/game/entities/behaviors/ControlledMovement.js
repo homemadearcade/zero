@@ -108,35 +108,72 @@ export class ControlledMovement {
       let xTouched = false 
       let yTouched = false
 
-      const currentVelocityX = physicsSprite.body.velocity.x
-      const currentVelocityY = physicsSprite.body.velocity.y
-
-      if(leftPressed && !physicsSprite.body.blocked.left) {
-        physicsSprite.body.position.x += (-speed/7.5)
+      if(leftPressed) {
+        physicsSprite.setVelocityX(-speed * 5)
         xTouched = true
       }
       
-      if(rightPressed && !physicsSprite.body.blocked.right) {
-        physicsSprite.body.position.x += (speed/7.5)
+      if(rightPressed) {
+        physicsSprite.setVelocityX(speed * 5)
         xTouched = true
       }
       
-      if((entityModel.jump.jumpControlsBehavior === JUMP_NONE || !isJumpAllowed) && upPressed && !physicsSprite.body.blocked.up) {
-        physicsSprite.body.position.y += (-speed/7.5)
+      if(upPressed) {
+        physicsSprite.setVelocityY(-speed * 5)
         yTouched = true
       }
 
-      if(downPressed && !physicsSprite.body.blocked.down) {
-        physicsSprite.body.position.y += (speed/7.5)
+      if(downPressed) {
+        physicsSprite.setVelocityY(speed * 5)
         yTouched = true
       }
 
-      // if(!xTouched) {
-      //   this.entityInstance.setVelocityX(0)
-      // }
-      // if(!yTouched) {
-      //   this.entityInstance.setVelocityY(0)
-      // }
+      if(!xTouched) {
+        let velocityX = this.entityInstance.proposedVelocityX
+        // console.log(velocityX)
+
+        if(!entityModel.movement.ignoreGravity) {
+          const gravityX = (entityModel.movement.gravityX * 40) || this.scene.physics.world.gravity.x || 0
+          velocityX += (gravityX/2)
+        }
+
+        physicsSprite.setVelocityX(velocityX)
+      }
+      if(!yTouched) {
+        let velocityY = this.entityInstance.proposedVelocityY
+        // console.log(velocityY)
+
+        if(!entityModel.movement.ignoreGravity) {
+          const gravityY = (entityModel.movement.gravityY * 40) || this.scene.physics.world.gravity.y || 0
+          velocityY += (gravityY/2)
+        }
+
+        physicsSprite.setVelocityY(velocityY)
+      }
+
+      // console.log(this.entityInstance.proposedVelocityY)// = 0
+      // console.log('y', this.entityInstance.proposedVelocityX)
+
+      const deltaX = entityModel.movement.dragX
+      if(this.entityInstance.proposedVelocityX > 0) {
+        this.entityInstance.proposedVelocityX *= -deltaX
+      } else {
+        this.entityInstance.proposedVelocityX *= deltaX
+      }
+
+      const deltaY = entityModel.movement.dragY
+      if(this.entityInstance.proposedVelocityY > 0) {
+        this.entityInstance.proposedVelocityY *= -deltaY
+      } else {
+        this.entityInstance.proposedVelocityY *= deltaY
+      }
+
+      if(xTouched) {
+        this.entityInstance.proposedVelocityX = 0
+      }
+      if(yTouched) {
+        this.entityInstance.proposedVelocityY = 0
+      }
     }
 
     //////////////////////////////////////////////////////////////

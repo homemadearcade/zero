@@ -45,6 +45,10 @@ import ToolBoxDialog from '../../selector/ToolBoxDialog/ToolBoxDialog';
 import AggregateColorSelectDialog from '../../color/AggregateColorSelectDialog/AggregateColorSelectDialog';
 import CreateCutsceneButton from '../../cutscene/CreateCutsceneButton/CreateCutsceneButton';
 import Divider from '../../../ui/Divider/Divider';
+import KeyboardInfo from '../../selector/KeyboardInfo/KeyboardInfo';
+import BrushList from '../../brush/BrushList/BrushList';
+import GameStatusToolbar from '../../gameRoomInstance/GameStatusToolbar/GameStatusToolbar';
+import MouseInfo from '../../selector/MouseInfo/MouseInfo';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -154,8 +158,12 @@ const GameEditor = ({
           // {gameModel && <SideEditor></SideEditor>}
 
     return <>
-      <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
+        <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
         {leftColumn}
+        {showColumns && <>
+          <KeyboardInfo/>
+          <BrushList/>
+        </>}
       </div>
       {isObscurable ? <GameViewObscured>
         {renderOverlay()}
@@ -164,6 +172,13 @@ const GameEditor = ({
       </GameView>}
       {children}
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
+         <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}>
+          <GameStatusToolbar/>
+        </Unlockable>
+        <MouseInfo hoverPreviewOnly={!gameModel || !showColumns}/>
+        {showColumns && gameModel && <>
+          {renderSelectorColumn()}
+        </>}
       </div>
       
       <div id="CobrowsingDialog"></div>

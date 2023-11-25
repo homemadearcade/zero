@@ -82,8 +82,8 @@ export const directionalDefaults = {
   movement: {
     movementControlsBehavior: DIRECTIONAL_CONTROLS,
     disableDownKey: false,
-    dragX: 0,
-    dragY: 0,
+    dragX: 0.75,
+    dragY: 0.75,
     ignoreGravity: true
   },
   jump: {
