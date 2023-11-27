@@ -31,6 +31,8 @@ export const openStageContextMenu = (event) => (dispatch, getState) => {
 
 export const openContextMenuFromEntityInstance = (entityInstances, event) => (dispatch, getState) => {
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
+
+  console.log(entityInstances)
   dispatch({
     // updateCobrowsing: true,
     // cobrowsingPublisherOnly: true,

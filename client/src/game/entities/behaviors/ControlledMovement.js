@@ -134,7 +134,7 @@ export class ControlledMovement {
 
         if(!entityModel.movement.ignoreGravity) {
           const gravityX = (entityModel.movement.gravityX * 40) || this.scene.physics.world.gravity.x || 0
-          velocityX += (gravityX/2)
+          velocityX += (gravityX/4)
         }
 
         physicsSprite.setVelocityX(velocityX)
@@ -145,7 +145,7 @@ export class ControlledMovement {
 
         if(!entityModel.movement.ignoreGravity) {
           const gravityY = (entityModel.movement.gravityY * 40) || this.scene.physics.world.gravity.y || 0
-          velocityY += (gravityY/2)
+          velocityY += (gravityY/4)
         }
 
         physicsSprite.setVelocityY(velocityY)
@@ -212,22 +212,34 @@ export class ControlledMovement {
     //////////////////////////////////////////////////////////////
     // JUMP
     if(isJumpAllowed) {
+      let jumpGroundVelocity = entityModel.jump.ground
+      
+      if(entityModel.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS) {
+        jumpGroundVelocity *= 5
+      }
+
       if(entityModel.jump.jumpControlsBehavior === JUMP_GROUND) {
         if(jumpPressed) {
           if(physicsSprite.body.blocked.down) {
-            this.entityInstance.setVelocityY(-entityModel.jump.ground)
+            this.entityInstance.setVelocityY(-jumpGroundVelocity)
           }
         }
       }
 
       if(entityModel.jump.jumpControlsBehavior === JUMP_COMBO) {
+        let jumpAirVelocity = entityModel.jump.air
+        
+        if(entityModel.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS) {
+          jumpAirVelocity *= 5
+        }
+
         if(jumpPressed) {
           if(jumpKey.isPressable) {
             jumpKey.isPressable = false
             if(physicsSprite.body.blocked.down) {
-              this.entityInstance.setVelocityY(-entityModel.jump.ground * 5)
+              this.entityInstance.setVelocityY(-jumpGroundVelocity)
             } else if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
-              this.entityInstance.setVelocityY(-entityModel.jump.air * 5)
+              this.entityInstance.setVelocityY(-jumpAirVelocity)
               this.doubleJumpCoolDown = time + entityModel.jump.cooldown
             }
           }
@@ -237,20 +249,30 @@ export class ControlledMovement {
       }
 
       if(entityModel.jump.jumpControlsBehavior === JUMP_AIR) {
+        let jumpAirVelocity = entityModel.jump.air
+        
+        if(entityModel.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS) {
+          jumpAirVelocity *= 5
+        }
+
         if(jumpPressed) {
           if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
-            this.entityInstance.setVelocityY(-entityModel.jump.air * 5)
+            this.entityInstance.setVelocityY(-jumpAirVelocity)
             this.doubleJumpCoolDown = time + entityModel.jump.cooldown
           }
         }
       }
 
       if(entityModel.jump.jumpControlsBehavior === JUMP_CONSTANT) {
+        if(entityModel.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS) {
+          jumpGroundVelocity *= 3
+        }
+
         if(jumpPressed) {
-            this.entityInstance.thrust(entityModel.jump.ground * 4);
+            this.entityInstance.thrust(jumpGroundVelocity * 4);
         } else {
           // if(downPressed && !entityModel.jump.disableDownKey) {
-          //   this.entityInstance.thrust(-(entityModel.jump.ground * 4));
+          //   this.entityInstance.thrust(-(jumpGroundVelocity * 4));
           // } else {
           //   this.entityInstance.setAccelerationY(0)
           // }

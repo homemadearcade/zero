@@ -18,7 +18,7 @@ import { getSpritesByDescriptor } from '../../../game/constants';
 import { addLayersForArcadeGameStage, onArcadeGameModelUpdate } from './arcadeGameActions';
 import { clearCutscenes } from './playerInterfaceActions';
 import { editGameRoom } from './gameRoomInstanceActions';
-import { mergeDeep } from '../../../utils';
+import { getGameModelSize, mergeDeep } from '../../../utils';
 import { createInitialStage } from '../../../game/constants/initialGame/gameModel';
  
 export const getSpritesheetData  = () => async (dispatch, getState) => {
@@ -94,9 +94,10 @@ export const addStageToGameModel = (stage, gameModel) => async (dispatch, getSta
   })
 
   try {
-    const initialStage = createInitialStage()
+    const { width, height } = getGameModelSize(gameModel)
+    const initialStage = createInitialStage(width, height)
     const newStage = mergeDeep(_.cloneDeep(initialStage), stage)
-    await addLayersForArcadeGameStage(gameModel.id, gameModel.owner.id, stage.stageId)
+    await addLayersForArcadeGameStage(gameModel, gameModel.owner.id, stage.stageId)
     await dispatch(editGameModel({
       stages: {
         [stage.stageId] : {

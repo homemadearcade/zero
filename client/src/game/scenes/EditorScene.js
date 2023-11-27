@@ -73,7 +73,9 @@ export class EditorScene extends GameInstance {
 
     this.isDragFromContext = false
 
-    if(this.draggingEntityInstanceId === physicsSprite.entityInstanceId) {
+    console.log(this.draggingEntityInstanceId)
+
+    if(this.draggingEntityInstanceId && this.draggingEntityInstanceId === physicsSprite.entityInstanceId) {
       this.continueDrag(physicsSprite, {x: dragX, y: dragY})
     } else if(!this.brush && !this.stamper){
       if(physicsSprite.entityInstanceId !== this.hoveringInstanceId) {
@@ -180,8 +182,8 @@ export class EditorScene extends GameInstance {
     // }
 
     const entityModel = this.getEntityModel(this.resizingEntityInstance.entityModelId)
-    if(entityModel.editorInterface.fixedAspectRatio) {
-      height = width
+    if(entityModel.graphics.aspectRatio) {
+      height = width/(entityModel.graphics.aspectRatio)
     }
 
     const resizingEntityModelId = getCobrowsingState().gameViewEditor.resizingEntityModelId
@@ -896,12 +898,7 @@ export class EditorScene extends GameInstance {
         const stageY = stageUpdate.boundaries.y
         this.cameras.main.setBounds(stageX, stageY, stageWidth, stageHeight)
         this.stage.setBoundaries(stageUpdate.boundaries)
-        const stageZoneEntityId = STAGE_ZONE_ENTITY_RID
-        this.forAllEntityInstancesMatchingEntityId(stageZoneEntityId, (entityInstance) => {
-          const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
-          this.removeEntityInstance(entityInstance.entityInstanceId)
-          this.addEntityInstance(entityInstance.entityInstanceId, entityInstanceData)
-        })
+        this.stage.resetStageInstance()
 
         this.createGrids()
       }

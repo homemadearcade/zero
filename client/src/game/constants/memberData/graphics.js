@@ -28,10 +28,6 @@ export const graphicsPropertys = {
     displayName: 'Layer Id',
     description: 'The id of the layer to use for this class',
   },
-  depthOverride: {
-    displayName: 'Depth Override',
-    description: 'The depth override of this class',
-  },
   depthModifier: {
     displayName: 'Depth Modifier',
     description: 'The depth modifier of this class',

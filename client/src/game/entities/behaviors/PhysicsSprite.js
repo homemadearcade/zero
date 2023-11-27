@@ -352,10 +352,7 @@ export class PhysicsSprite {
   }
 
   setVelocityX(x) {
-    const entityModel = this.scene.getGameModel().entityModels[this.physicsSprite.entityInstance.entityModelId]
-
-          console.log(x)
-    
+    const entityModel = this.scene.getGameModel().entityModels[this.physicsSprite.entityInstance.entityModelId]    
     if(entityModel.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS) {
       this.proposedVelocityX = x;
     } else {
@@ -367,8 +364,6 @@ export class PhysicsSprite {
     const entityModel = this.scene.getGameModel().entityModels[this.physicsSprite.entityInstance.entityModelId]
     if(entityModel.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS) {
       this.proposedVelocityY = y;
-            console.log(y)
-
     } else {
       this.physicsSprite.setVelocityY(y)
     }

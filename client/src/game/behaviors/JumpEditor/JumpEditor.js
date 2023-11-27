@@ -80,7 +80,7 @@ const JumpEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel, au
       {jumpParameters.ground && <Unlockable interfaceId={JUMP_GROUND_IID}>
         <SliderNotched
           formLabel={jumpParameters.ground.length ? jumpParameters.ground : "Ground Jump Speed"}
-          options={[50, 100, 200, 300, 400, 500]}
+          options={[10, 50, 100, 200, 300, 400, 500]}
           step={10}
           onChangeCommitted={(value) => {
             editGameModel({ entityModels: { [entityModelId]: { jump: { ground: value } }}})        

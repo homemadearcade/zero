@@ -31,7 +31,6 @@ export const defaultEntity = {
     invisible: false,
     glowing: false,
     layerGroupIID: PLAYGROUND_LAYER_GROUP_IID,
-    depthOverride: 0,
     depthModifier: 0,
   },
   editorInterface: {

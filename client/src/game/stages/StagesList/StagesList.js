@@ -15,6 +15,7 @@ import { REMOVED_DATA_SHOW_IID, STAGE_ADD_IID, } from '../../../constants/interf
 import { initialStage, STAGE_DID } from '../../constants';
 import Divider from '../../../ui/Divider/Divider';
 import { createInitialStage } from '../../constants/initialGame/gameModel';
+import { getGameModelSize } from '../../../utils';
 
           // {gameModel.player.startingStageId !== stageId && stage.playerEntityModelId && <Button onClick={() => {
           //   editGameModel({
@@ -63,7 +64,8 @@ const StagesList = ({
     <Unlockable interfaceId={STAGE_ADD_IID}>
       <Button startIcon={<Icon icon="faPlus"/>} onClick={() => {
         // const newStageId = STAGE_DID + generateUniqueId()
-        const newStage = createInitialStage()
+        const { width, height } = getGameModelSize(gameModel)
+        const newStage = createInitialStage(width, height)
         openCreateStageDialog({
           ...newStage,
           // stageId: newStageId,

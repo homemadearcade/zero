@@ -13,6 +13,7 @@ import { CAMERA_ZONE_ENTITY_RID, END_GAME_CUTSCENE_RID, INITIAL_STAGE_RID, PLAYE
 import { createInitialStage } from "./stage";
 import { initialTags } from "./relationTags";
 import { loadStarterPack } from "../../starterPack";
+import { getGameModelSize } from "../../../../utils";
 
 export function createInitialGameModel(starterPackIID) {
   const starterPackData = loadStarterPack(starterPackIID)
@@ -28,8 +29,15 @@ export function createInitialGameModel(starterPackIID) {
   const playthroughStartCutsceneId = PLAYTHROUGH_START_CUTSCENE_RID
 
   const endGameCutsceneId = END_GAME_CUTSCENE_RID
+
+  const size = {
+    gridWidth: gameGridWidth,
+    gridHeight: gameGridHeight,
+    "nodeSize": nodeSize,
+  }
+  const { width, height, aspectRatio } = getGameModelSize({ size })
   
-  const initialStage = createInitialStage()
+  const initialStage = createInitialStage(width, height)
 
   return  {
     "metadata": {
@@ -46,11 +54,7 @@ export function createInitialGameModel(starterPackIID) {
     theme: {
       primaryColor: DEFAULT_THEME_COLOR
     },
-    size: {
-      gridWidth: gameGridWidth,
-      gridHeight: gameGridHeight,
-      "nodeSize": nodeSize,
-    },
+    size,
     "stages": {
       [initialStageId]: {
         ...initialStage,
@@ -135,7 +139,6 @@ export function createInitialGameModel(starterPackIID) {
           ...mirrorPlayerDefaults.movement
         },
         editorInterface: {
-          fixedAspectRatio: true,
           notSelectableInInterface: true,
           notSelectableInStage: true,
         },
@@ -161,9 +164,9 @@ export function createInitialGameModel(starterPackIID) {
         graphics: {
           ...defaultZoneEntity.graphics,
           textureTint: '#00FF00',
-          depthOverride: PLAYGROUND_LAYER_GROUP_DEPTH - 5,
-          width: nodeSize * 30,
-          height: nodeSize * 30
+          aspectRatio,
+          width: width/3,
+          height: height/3
         },
         dataSourceIID: NOT_DERIVED_IID
       },
@@ -196,9 +199,8 @@ export function createInitialGameModel(starterPackIID) {
         graphics: {
           ...defaultZoneEntity.graphics,
           textureTint: '#000000',
-          depthOverride: 0,
-          width: nodeSize * gameGridWidth,
-          height: nodeSize * gameGridHeight
+          width: width,
+          height: height
         },
         dataSourceIID: NOT_DERIVED_IID,
       }

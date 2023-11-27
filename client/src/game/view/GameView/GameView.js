@@ -27,7 +27,7 @@ const config= {
   pixelArt: true,
   parent: 'game',
   scale: {
-    mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
+    mode: Phaser.Scale.FIT,
     parent: 'PhaserGame',
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },

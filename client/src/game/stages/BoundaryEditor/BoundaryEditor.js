@@ -170,6 +170,9 @@ const BoundaryEditor = ({
               return sections[id]
             })
 
+            const oneThirdWidth = boundaries.maxWidth/3
+            const oneThirdHeight = boundaries.maxHeight/3
+
             const min = _.min(sectionIds)
             const max = _.max(sectionIds)
 
@@ -179,36 +182,36 @@ const BoundaryEditor = ({
                 y: 0
               },
               2: {
-                x: 360,
+                x: oneThirdWidth,
                 y: 0
               },
               3: {
-                x: 720,
+                x: oneThirdWidth * 2,
                 y: 0
               },
               4: {
                 x: 0,
-                y: 360
+                y: oneThirdHeight
               },
               5: {
-                x: 360,
-                y: 360
+                x: oneThirdWidth,
+                y: oneThirdHeight
               },
               6: {
-                x: 720,
-                y: 360
+                x: oneThirdWidth * 2,
+                y: oneThirdHeight
               },
               7: {
                 x: 0,
-                y: 720
+                y: oneThirdHeight * 2
               },
               8: {
-                x: 360,
-                y: 720
+                x: oneThirdWidth,
+                y: oneThirdHeight * 2
               },
               9: {
-                x: 720,
-                y: 720
+                x: oneThirdWidth * 2,
+                y: oneThirdHeight * 2
               }
             }
 
@@ -216,8 +219,8 @@ const BoundaryEditor = ({
 
             const maxCorner = xyCornerFromSectionId[max]
 
-            const width = (maxCorner.x - x) + 360
-            const height = (maxCorner.y - y) + 360
+            const width = (maxCorner.x - x) + oneThirdWidth
+            const height = (maxCorner.y - y) + oneThirdHeight
 
             editGameModel({
               stages: {

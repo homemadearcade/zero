@@ -47,7 +47,6 @@ const EntityInstanceContextMenu = ({
     </>
   }
 
-
   return <>
     <ContextMenuTitle onClick={() => {
       openEditEntityDialog(gameModel.entityModels[entityModelId])

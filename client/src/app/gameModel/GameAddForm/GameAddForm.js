@@ -10,7 +10,7 @@ import Dialog from '../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
-import { createInitialGameModel, gameGridHeight, gameGridWidth, nodeSize } from '../../../game/constants';
+import { createInitialGameModel } from '../../../game/constants';
 import { mergeDeep } from '../../../utils';
 import { STARTER_PACK_GENERAL_IID } from '../../../constants/interfaceIds';
 
@@ -30,11 +30,7 @@ const GameAddForm = ({ addArcadeGame, addImportedArcadeGame, onSubmit, auth: { m
       brushes: {},
       colors: {},
       textures: {},
-      size: {
-        nodeSize: nodeSize,
-        gridWidth: gameGridWidth,
-        gridHeight: gameGridHeight
-      },
+      size: {},
       userMongoId: me.id,
       ...defaultValues
     },

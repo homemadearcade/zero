@@ -116,7 +116,7 @@ export class GameInstance extends Phaser.Scene {
 
   setPlayerZoom({width, height}) {
     const boundaries = this.getStage().boundaries
-    const zoom = 1/(width/boundaries.maxWidth)
+    const zoom = 1/(height/boundaries.maxHeight)
     this.cameras.main.setZoom(zoom)
   }
 
@@ -865,6 +865,7 @@ addInstancesToEntityInstanceByTag(instances) {
       const entityInstance = stages[stageId].entityInstances[entityInstanceId]
       const { spawnX, spawnY, width, height, entityModelId } = entityInstance
       return {
+        entityInstanceId,
         x: spawnX,
         y: spawnY,
         spawnX,

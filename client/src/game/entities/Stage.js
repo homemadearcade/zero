@@ -1,12 +1,10 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, MATTER_PHYSICS, ENTITY_INSTANCE_DID, STAGE_LAYER_DEPTH, STAGE_LAYER_ID, nodeSize, gameGridWidth, STAGE_ZONE_ENTITY_RID, STAGE_ZONE_INSTANCE_RID } from "../constants";
+import { ARCADE_PHYSICS, MATTER_PHYSICS, ENTITY_INSTANCE_DID, STAGE_LAYER_DEPTH, STAGE_LAYER_ID, STAGE_ZONE_ENTITY_RID, STAGE_ZONE_INSTANCE_RID } from "../constants";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { generateUniqueId } from "../../utils/webPageUtils";
 import { getCobrowsingState } from "../../utils/cobrowsingUtils";
-
-const gameWidth = nodeSize * gameGridWidth
-const gameHeight = nodeSize * gameGridWidth
+import { getGameModelSize } from "../../utils";
 
 export class Stage {
   constructor(scene, stageId){
@@ -21,20 +19,27 @@ export class Stage {
     this.createStageColorLayer()
     
     setTimeout(() => {
-      const initialStageZoneEntityId = STAGE_ZONE_ENTITY_RID
-      const initialStageZoneInstanceId = STAGE_ZONE_INSTANCE_RID
-
-      const initialStageZoneInstance = {
-        id: initialStageZoneInstanceId,
-        entityModelId: initialStageZoneEntityId,
-        spawnX: gameWidth/2,
-        spawnY: gameHeight/2,
-      }
-
-      this.stageInstance = this.scene.addEntityInstance(initialStageZoneInstanceId, initialStageZoneInstance)
+      this.resetStageInstance()
     });
 
     return this
+  }
+
+  resetStageInstance() {
+    const gameModel = this.scene.getGameModel()
+    const { height, width } = getGameModelSize(gameModel)
+
+    const initialStageZoneEntityId = STAGE_ZONE_ENTITY_RID
+    const initialStageZoneInstanceId = STAGE_ZONE_INSTANCE_RID
+
+    const initialStageZoneInstance = {
+      id: initialStageZoneInstanceId,
+      entityModelId: initialStageZoneEntityId,
+      spawnX: width/2,
+      spawnY: height/2,
+    }
+
+    this.stageInstance = this.scene.addEntityInstance(initialStageZoneInstanceId, initialStageZoneInstance)
   }
 
   createStageColorLayer() {    

@@ -72,7 +72,7 @@ export const airJumpDefaults = {
   jump: {
     jumpControlsBehavior: JUMP_AIR,
     ground: 0,
-    air: 50,
+    air: 200,
     cooldown: 200,
   },
 }
@@ -80,8 +80,8 @@ export const airJumpDefaults = {
 export const comboJumpDefaults = {
   jump: {
     jumpControlsBehavior: JUMP_COMBO,
-    ground: 100,
-    air: 50,
+    ground: 200,
+    air: 200,
     cooldown: 200,
   },
 }
@@ -97,7 +97,7 @@ export const groundJumpDefaults = {
 export const jetpackDefaults = {
   jump: {
     jumpControlsBehavior: JUMP_CONSTANT,
-    ground: 100,
+    ground: 200,
     air: 0,
   },
 }

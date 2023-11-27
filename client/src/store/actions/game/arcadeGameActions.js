@@ -29,17 +29,14 @@ import { mergeDeep } from '../../../utils/utils';
 import _ from 'lodash';
 import store from '../..';
 import { 
-    gameGridHeight,
-    gameGridWidth,
     INITIAL_STAGE_RID,
     LAYER_DID, 
     layerGroupIIDtoName, 
-    nodeSize, 
     PLAY_GAME_SCOPE_UNLISTED, 
     TEXTURE_DID, 
     UNDO_MEMORY_MAX } from '../../../game/constants';
 import { changeCurrentStage } from './gameRoomInstanceActions';
-import { generateUniqueId, getImageUrlFromTextureId } from '../../../utils';
+import { generateUniqueId, getGameModelSize, getImageUrlFromTextureId } from '../../../utils';
 import { addCanvasImage, getCanvasImageByTextureId } from '../media/canvasImageActions';
 import { IMAGE_TYPE_LAYER } from '../../../constants';
 import { addDefaultsToGameModel, cleanGameModel, enrichGameModel, generateActionEffect, generateActionEffects } from '../../../autogeneration/gameModel';
@@ -306,7 +303,7 @@ export const unloadArcadeGame = () => (dispatch, getState) => {
   })
 };
 
-export async function addLayersForArcadeGameStage(arcadeGameMongoId, userMongoId, stageId) {
+export async function addLayersForArcadeGameStage(gameModel, userMongoId, stageId) {
   const backgroundLayerId = LAYER_DID + generateUniqueId()
   const playgroundLayerId = LAYER_DID + generateUniqueId()
   const foregroundLayerId = LAYER_DID + generateUniqueId()
@@ -314,6 +311,8 @@ export async function addLayersForArcadeGameStage(arcadeGameMongoId, userMongoId
   const backgroundTextureId = TEXTURE_DID + generateUniqueId()
   const playgroundTextureId = TEXTURE_DID + generateUniqueId()
   const foregroundTextureId = TEXTURE_DID + generateUniqueId()
+
+  const { width, height } = getGameModelSize(gameModel)
 
   const colors = {
     '#FFFFFF': {},
@@ -335,8 +334,8 @@ export async function addLayersForArcadeGameStage(arcadeGameMongoId, userMongoId
     imageType: IMAGE_TYPE_LAYER,
     imageUrl: getImageUrlFromTextureId(backgroundTextureId),
     imageData: {
-      width: nodeSize * gameGridWidth,
-      height: nodeSize * gameGridHeight,
+      width: width,
+      height: height,
     },
     textureId: backgroundTextureId, 
     userMongoId,
@@ -346,8 +345,8 @@ export async function addLayersForArcadeGameStage(arcadeGameMongoId, userMongoId
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
     imageData: {
-      width: nodeSize * gameGridWidth,
-      height: nodeSize * gameGridHeight,
+      width: width,
+      height: height,
     },
     imageUrl: getImageUrlFromTextureId(playgroundTextureId),
     textureId: playgroundTextureId, 
@@ -358,8 +357,8 @@ export async function addLayersForArcadeGameStage(arcadeGameMongoId, userMongoId
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
     imageData: {
-      width: nodeSize * gameGridWidth,
-      height: nodeSize * gameGridHeight,
+      width: width,
+      height: height,
     },
     imageUrl: getImageUrlFromTextureId(foregroundTextureId),
     textureId: foregroundTextureId,
@@ -402,10 +401,10 @@ export async function addLayersForArcadeGameStage(arcadeGameMongoId, userMongoId
 
   // so that it live updates
   const gameModelId = store.getState().gameModel.gameModel?.id
-  if(gameModelId === arcadeGameMongoId) {
+  if(gameModelId === gameModel.id) {
     await store.dispatch(editGameModel(gameData))
   } else {
-    await store.dispatch(editArcadeGame(arcadeGameMongoId, gameData)) 
+    await store.dispatch(editArcadeGame(gameModel.id, gameData)) 
   }
 
   return layers
@@ -420,10 +419,8 @@ export const addArcadeGame = (gameData) => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/arcadeGames', gameData, options);
 
-    const arcadeGameMongoId = response.data.game.id
-
     const initialStageId = INITIAL_STAGE_RID
-    await addLayersForArcadeGameStage(arcadeGameMongoId, response.data.game.owner.id, initialStageId)
+    await addLayersForArcadeGameStage(response.data.game, response.data.game.owner.id, initialStageId)
 
     dispatch({
       type: ADD_ARCADE_GAME_SUCCESS,
@@ -461,12 +458,13 @@ export const copyArcadeGameToUser = ({arcadeGameMongoId, userMongoId, gameDataUp
     const previousTextureId = layer.textureId
     layer.textureId = textureId
 
+    const { width, height } = getGameModelSize(gameData)
     const previousCanvasImage = await dispatch(getCanvasImageByTextureId(previousTextureId))
     dispatch(addCanvasImage({
       imageType: IMAGE_TYPE_LAYER,
       imageData: {
-        width: nodeSize * gameGridWidth,
-        height: nodeSize * gameGridHeight,
+        width: width,
+        height: height,
       },
       imageUrl: getImageUrlFromTextureId(textureId),
       initialTextureId: previousCanvasImage.initialTextureId || previousTextureId,

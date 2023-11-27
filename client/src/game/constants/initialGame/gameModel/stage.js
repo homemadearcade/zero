@@ -1,11 +1,8 @@
-import { DIRECTIONAL_PLAYER_ENTITY_RID, EFFECT_DID, PLAYER_SPAWN_ZONE_ENTITY_RID, PLAYER_SPAWN_ZONE_INSTANCE_RID, STAGE_ZONE_ENTITY_RID, STAGE_ZONE_INSTANCE_RID, gameGridWidth, nodeSize } from "../../";
+import { DIRECTIONAL_PLAYER_ENTITY_RID, EFFECT_DID, PLAYER_SPAWN_ZONE_ENTITY_RID, PLAYER_SPAWN_ZONE_INSTANCE_RID } from "../../";
 import { EDIT_CURRENT_STAGE_BOUNDARIES_AID, PLAY_TEST_GAME_AID, SNAPSHOT_GAME_AREA_AID, TOGGLE_GRID_VIEW_AID, TOGGLE_PAUSE_PLAY_AID } from "../../../../constants/interfaceActionIds";
 import { FIVE_KID, FOUR_KID, ONE_KID, THREE_KID, TWO_KID } from "../../../../constants/keyboard/keyIds";
 
-const gameWidth = nodeSize * gameGridWidth
-const gameHeight = nodeSize * gameGridWidth
-
-export function createInitialStage() {
+export function createInitialStage(width, height) {
 
   const initialPlayerSpawnZoneEntityId = PLAYER_SPAWN_ZONE_ENTITY_RID
 
@@ -16,8 +13,8 @@ export function createInitialStage() {
   const initialPlayerSpawnZoneInstance = {
     id: initialPlayerSpawnZoneInstanceId,
     entityModelId: initialPlayerSpawnZoneEntityId,
-    spawnX: gameWidth/2,
-    spawnY: gameHeight/2,
+    spawnX: width/2,
+    spawnY: height/2,
   }
 
   const initialStage = {
@@ -52,12 +49,12 @@ export function createInitialStage() {
     },
     "boundaries": {
       loop: false,
-      "maxWidth": gameWidth,
-      "maxHeight": gameHeight,
-      "height": (gameHeight/3) * 1,
-      "width": (gameWidth/3) * 1,
-      "x": gameWidth/3,
-      "y": gameHeight/3
+      "maxWidth": width,
+      "maxHeight": height,
+      "height": (height/3) * 1,
+      "width": (width/3) * 1,
+      "x": width/3,
+      "y": height/3
     },
     "gravity": {
       "y": 12,
