@@ -45,12 +45,21 @@ const SelectExperienceModel = ({ excludedIds, onSelect, label, userMongoId, getE
       return false
     })
   }
+
+  const experienceModelsById = experienceModels.reduce((prev, next) => {
+    prev[next.id] = next
+    return prev
+  }, {})
   
   return (
     <div className="SelectExperienceModel">
       <SelectChipsAuto
-        onChange={(event, experienceModelMongoId) => {
-          const experiences = experienceModels.filter((experienceModel) => experienceModelMongoId.indexOf(experienceModel.id) >= 0)
+        onChange={(event, experienceModelMongoIds) => {
+
+          const experiences = experienceModelMongoIds.map((experienceModelMongoId) => {
+            return experienceModelsById[experienceModelMongoId]
+          })
+
           onSelect(experiences)
         }}
         groupBy={(option) => option.firstLetter}

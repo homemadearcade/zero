@@ -148,10 +148,12 @@ class GameContext extends Component {
     // console.log(gameRoomInstance) 
 
     if(!isSpriteSheetDataLoaded) {
+      // return <Loader text="Loading Spritesheets..."/>
       return <LinearIndeterminateLoader/>
     }
 
     if(isLoading || !gameModel?.id) {
+      return <Loader text="Loading Game Model..."/>
       return <LinearIndeterminateLoader/>
     }
 

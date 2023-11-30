@@ -61,8 +61,11 @@ class LocalGameRoomContext extends Component {
     }
 
     if(!this.state.isUnlockableInterfaceIdsInitialized) {
+            // return <Loader text="Initializing Interface Ids.."/>
       return <LinearIndeterminateLoader/>
     }
+
+    
 
     const gameInstanceId = gameRoomInstance.gameInstanceIds[gameRoomInstance.arcadeGameMongoId]
     return <GameContext arcadeGameMongoId={gameRoomInstance.arcadeGameMongoId} gameInstanceId={gameInstanceId}>

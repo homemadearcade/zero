@@ -102,7 +102,7 @@ const GameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me
           control={control}
           render={({ field: { onChange, value } }) => (
             <Switch
-              labels={['', `Disabled autosave`]}
+              labels={['', `Disable autosave`]}
               size="small"
               checked={value}
               onChange={(e) => {

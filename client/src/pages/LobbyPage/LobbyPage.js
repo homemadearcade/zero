@@ -17,7 +17,7 @@ import LobbyErrorStates from '../../experience/lobbyInstance/LobbyErrorStates/Lo
 import GameRoomDrawer from '../../game/gameRoomInstance/GameRoomDrawer/GameRoomDrawer';
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
 import AgoraVideoPeek from '../../experience/agora/AgoraVideoPeek/AgoraVideoPeek';
-import { APP_ADMIN_ROLE, EXPERIENCE_ROLE_FACILITATOR, WAITING_ACTIVITY } from '../../constants';
+import { APP_ADMIN_ROLE, EXPERIENCE_ROLE_FACILITATOR, WAITING_ROOM } from '../../constants';
 import { ANIMATION_CONFETTI } from '../../game/constants';
 import JSConfetti from 'js-confetti';
 import { ON_LOBBY_INSTANCE_EVENT } from '../../store/types';
@@ -54,7 +54,7 @@ const LobbyPage = ({
     return <>
       <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
       <LobbyErrorStates/>
-      {currentActivityCategory !== WAITING_ACTIVITY && <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>}
+      {currentActivityCategory !== WAITING_ROOM && <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>}
     </>
   }
 

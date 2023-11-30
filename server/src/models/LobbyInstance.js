@@ -40,6 +40,14 @@ const lobbyInstanceSchema = new Schema(
     currentActivityId: {
       type: String,
     },
+    memberStorage: {
+      type: Object,
+      default: {}
+    },
+    usersMustWaitInLine: {
+      type: Boolean,
+      default: false
+    },
     instructionsByRoleId: {
       type: Object,
       required: true,
@@ -65,6 +73,9 @@ const lobbyInstanceSchema = new Schema(
       unique: true,
       required: true,
       index: true,
+    },
+    lobbyId: {
+      type: String,
     },
   },
   { timestamps: true },
@@ -103,6 +114,7 @@ lobbyInstanceSchema.methods.toJSON = function () {
     gameRoomInstances: this.gameRoomInstances ? this.gameRoomInstances.map((gameRoomInstance) => {
       return gameRoomInstance?.toJSON()
     }) : [],
+    lobbyId: this.lobbyId,
     activitys: this.activitys,
     currentActivityId: this.currentActivityId,
     cobrowsingUserMongoId: this.cobrowsingUserMongoId,
@@ -110,6 +122,8 @@ lobbyInstanceSchema.methods.toJSON = function () {
     roles: this.roles,
     hostUserMongoId: this.hostUserMongoId,
     instructions: this.instructions,
+    memberStorage: this.memberStorage,
+    usersMustWaitInLine: this.usersMustWaitInLine,
     instructionsByRoleId: this.instructionsByRoleId,
     instructionCurrentSteps: this.instructionCurrentSteps,
     experienceInstanceId: this.experienceInstanceId,

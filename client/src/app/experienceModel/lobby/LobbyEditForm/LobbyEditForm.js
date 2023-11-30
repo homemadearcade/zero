@@ -10,16 +10,22 @@ import SelectInstructions from '../../../../ui/connected/SelectInstructions/Sele
 import { INSTRUCTION_LOBBY } from '../../../../constants';
 import Typography from '../../../../ui/Typography/Typography';
 import LobbyForm from '../LobbyForm/LobbyForm';
+import SelectArcadeGame from '../../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
+import Divider from '../../../../ui/Divider/Divider';
+import Switch from '../../../../ui/Switch/Switch';
+import NestedList, { NestedListContainer } from '../../../../ui/NestedList/NestedList';
 
-const LobbyEditForm = ({ editExperienceModel, lobbyId, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
+const LobbyEditForm = ({ editExperienceModel, lobbyId, experienceModel: { experienceModel, isSaving }, onSubmit, auth: { me }}) => {
   const lobby = experienceModel.lobbys[lobbyId]
 
-  const { name, instructionsByRoleId } = lobby
+  const { name, instructionsByRoleId, usersMustWaitInLine, introArcadeGameMongoId } = lobby
 
-  const { handleSubmit, register, control } = useForm({
+  const { handleSubmit, register, control, trigger } = useForm({
     defaultValues: {
       name,
-      instructionsByRoleId
+      instructionsByRoleId,
+      usersMustWaitInLine,
+      introArcadeGameMongoId
     },
   });
 
@@ -33,6 +39,30 @@ const LobbyEditForm = ({ editExperienceModel, lobbyId, experienceModel: { experi
     })
     // reset();
     if(onSubmit) onSubmit()
+  }
+
+  function introGameSelect() {
+    return <Controller
+      {...register("introArcadeGameMongoId", {
+        // required: true,
+        // shouldUnregister: true,
+      })}
+      name={"introArcadeGameMongoId"}
+      control={control}
+      render={({ field: { onChange, value } }) => (
+        <SelectArcadeGame label="Intro Arcade Game" userMongoId={me.id} gamesSelected={value ? [value] : []} onSelect={(games) => {
+          if(games[0]) {
+            const game = games[games.length - 1]
+            onChange(game.id)
+            // // setValue("gameMetadata", game.metadata)
+            // setValue("name", game.metadata.title)
+            // trigger("arcadeGameMongoId")
+          } else {
+            onChange(null)
+          }
+        }}/>
+      )}
+    />
   }
 
   return (
@@ -58,7 +88,30 @@ const LobbyEditForm = ({ editExperienceModel, lobbyId, experienceModel: { experi
               />
             </>
           })}
-
+        <Divider/>
+        <NestedListContainer>
+          <NestedList title="Advanced" interfaceId="AdvancedLobby">
+          {introGameSelect()}
+          <Divider/>
+          <Controller
+            {...register("usersMustWaitInLine", {
+              // shouldUnregister: true,
+            })}
+            name={"usersMustWaitInLine"}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Switch
+                labels={['', `This Lobby has a line to get in`]}
+                size="small"
+                checked={value}
+                onChange={(e) => {
+                  onChange(e.target.checked)
+                }}
+              />
+            )}
+          />
+          </NestedList>
+        </NestedListContainer>
         </div>
         <br/>
         <Button disabled={isSaving} type="submit" onClick={handleSubmit(submit)}>Save</Button>
@@ -78,6 +131,7 @@ const LobbyEditForm = ({ editExperienceModel, lobbyId, experienceModel: { experi
 };
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   experienceModel: state.experienceModel,
 });
 

@@ -28,6 +28,7 @@ const AppSettingsPage = ({
               <SelectExperienceModel 
                 label="What is the homemade arcade experience?"
                 value={appSettings.homemadeArcadeExperienceModelMongoId ? [appSettings.homemadeArcadeExperienceModelMongoId] : []} onSelect={(experienceModels) => {
+                  console.log(experienceModels, experienceModels.length -1)
                   if(experienceModels[0]) {
                     editAppSettings({ homemadeArcadeExperienceModelMongoId: experienceModels[experienceModels.length-1].id})
                   }

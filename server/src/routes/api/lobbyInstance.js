@@ -12,8 +12,6 @@ import { APP_ADMIN_ROLE } from "../../constants/index";
 
 const router = Router();
 
-
-
 function requireLobbyInstances(req, res, next) {
   req.lobbyInstances = req.app.get(LOBBY_INSTANCE_STORE);
   next()
@@ -134,8 +132,11 @@ router.post('/', requireJwtAuth, requireLobbyInstances, async (req, res) => {
       instructionCurrentSteps: req.body.instructionCurrentSteps,
       instructions: req.body.instructions,
       instructionsByRoleId: req.body.instructionsByRoleId,
+      usersMustWaitInLine: req.body.usersMustWaitInLine,
       invitedUsers: req.body.invitedUsers,
+      memberStorage: req.body.memberStorage,
       hostUserMongoId: req.body.hostUserMongoId,
+      lobbyId: req.body.lobbyId,
       lobbyInstanceId: LOBBY_INSTANCE_DID + generateUniqueId()
     });
 
@@ -151,6 +152,8 @@ router.post('/', requireJwtAuth, requireLobbyInstances, async (req, res) => {
         role: user.role,
       }
     })
+
+    lobbyInstance.usersInLine = []
 
     lobbyInstance.messages = []
 
@@ -225,6 +228,83 @@ router.post('/assign/:id', requireJwtAuth, requireLobbyInstance, requireSocketAu
   req.io.to(req.lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance: updatedLobbyInstance});
   return res.status(200).json({ lobbyInstance: req.lobbyInstance });
 })
+
+
+router.post('/enter_line/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, async (req, res) => {
+  try {
+    // generate a lobbyInstance formatted user
+    const userInLine = { 
+      email: req.user.email,
+      userMongoId: req.user.id,
+      username: req.user.username,
+      role: req.user.role,
+      dateEntered: new Date()
+    }
+
+    req.lobbyInstance.messages.push({
+      user: {
+        userMongoId: userInLine.userMongoId,
+        username: userInLine.username
+      },
+      message: 'has entered the line',
+      automated: true,
+    })
+
+    // add to new lobbyInstance
+    req.lobbyInstance.usersInLine.push(userInLine)
+
+    // update the lobbies with this information
+    req.io.to(req.lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance: req.lobbyInstance});
+    return res.status(200).json({ lobbyInstance: req.lobbyInstance });
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong: ' + err });
+  }
+});
+
+router.post('/member_storage/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, async (req, res) => {
+  try {
+    req.io.to(req.lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance: req.lobbyInstance});
+    res.status(200).json({ lobbyInstance: req.lobbyInstance });
+    req.lobbyInstance.memberStorage[req.body.userMongoId] = { ...req.lobbyInstance.memberStorage[index], ...req.body.memberStorage}
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong: ' + err });
+  }
+})
+
+router.post('/leave_line/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, async (req, res) => {
+  try {
+    let index;
+    const userInLineFound = req.lobbyInstance.usersInLines.filter((userInLine, i) => {
+      if(userInLine.userMongoId === req.body.userMongoId) {
+        index = i
+        return true
+      } else {
+        return false
+      }
+    })[0]
+
+    if(!userInLineFound) {
+      return res.status(400).json({ message: 'No user with id ' + req.body.userMongoId + ' found in lobbyInstance' });
+    }
+
+    lobbyInstance.usersInLine.splice(index, 1)
+
+    req.lobbyInstance.messages.push({
+      user: {
+        userMongoId: userInLineFound.id,
+        username: userInLineFound.username
+      },
+      automated: true,
+      message: 'has left the line',
+    })
+
+    req.io.to(req.lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance: req.lobbyInstance});
+    res.status(200).json({ lobbyInstance: req.lobbyInstance });
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong. ' + err });
+  }
+});
+
 
 router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, async (req, res) => {
   try {
@@ -422,6 +502,9 @@ router.put('/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, asyn
         // gameRoomInstances: req.lobbyInstance.gameRoomInstances,
         roleIdToUserMongoIds: req.lobbyInstance.roleIdToUserMongoIds,
         activitys: req.lobbyInstance.activitys,
+        usersMustWaitInLine: req.lobbyInstance.usersMustWaitInLine,
+        memberStorage: req.lobbyInstance.memberStorage,
+        lobbyId: req.lobbyInstance.lobbyId
       },
       { new: true },
     );

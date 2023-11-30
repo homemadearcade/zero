@@ -25,13 +25,13 @@ export const defaultExperienceModel = {
       isNotRemoveable: true,
       roleCategory: EXPERIENCE_ROLE_FACILITATOR
     },
-    // [defaultPerformerRoleId]: {
-    //   name: 'Performer',
-    //   roleId: defaultPerformerRoleId,
-    //   color: '#FFFF00',
-    //   isRemoved: true,
-    //   roleCategory: EXPERIENCE_ROLE_PERFORMER
-    // },
+    [defaultPerformerRoleId]: {
+      name: 'Performer',
+      roleId: defaultPerformerRoleId,
+      color: '#FFFF00',
+      isRemoved: true,
+      roleCategory: EXPERIENCE_ROLE_PERFORMER
+    },
     [defaultAudienceRoleId]: {
       name: 'Audience',
       roleId: defaultAudienceRoleId,

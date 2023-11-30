@@ -28,6 +28,7 @@ export async function onMongoDBConnected(app) {
       return {
         ...lobbyInstance,
         messages: [],
+        usersInLine: [],
         members: lobbyInstance.invitedUsers.map((user) => {
           return {
             email: user.email,
@@ -37,7 +38,7 @@ export async function onMongoDBConnected(app) {
             inTransitionView: false,
             joined: false
           }
-        })
+        }),
       }
     })
 
@@ -66,7 +67,7 @@ export async function onMongoDBConnected(app) {
             role: user.role,
             joined: false
           }
-        })
+        }),
       }
     })
     

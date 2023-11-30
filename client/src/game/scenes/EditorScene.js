@@ -73,8 +73,6 @@ export class EditorScene extends GameInstance {
 
     this.isDragFromContext = false
 
-    console.log(this.draggingEntityInstanceId)
-
     if(this.draggingEntityInstanceId && this.draggingEntityInstanceId === physicsSprite.entityInstanceId) {
       this.continueDrag(physicsSprite, {x: dragX, y: dragY})
     } else if(!this.brush && !this.stamper){

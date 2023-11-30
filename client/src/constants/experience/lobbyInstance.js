@@ -1,9 +1,20 @@
 export const defaultLobbyInstance = {
   lobbyInstanceId: null,
+  name:  null,
+
   experienceInstanceId: null,
+  experienceModelMongoId: null,
+
+  invitedUsers: [],
+  cobrowsingUserMongoId: null,
+  hostUserMongoId: null,
+
+  currentActivityId: null,
   activitys: {
 
   },
+  gameRoomInstances: [],
+
   instructions: {
 
   },
@@ -19,23 +30,4 @@ export const defaultLobbyInstance = {
   instructionCurrentSteps: {
 
   },
-  gameRoomInstances: [],
-  hostUserMongoId: null,
-  currentActivityId: null,
-  cobrowsingUserMongoId: null,
-  name:  null,
-}
-
-export const defaultLobbyInstanceActivity = {
-  name: null,
-  activityId: null,
-  activityCategory: null,
-  currentViewCategory: null,
-  gameRoomInstanceMongoId: null,
-  instructionsByRoleId: {
-
-  },
-  instructionCurrentSteps: {
-
-  }
 }

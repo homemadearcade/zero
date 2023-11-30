@@ -18,7 +18,6 @@ import { EXPERIENCE_ROLE_AUDIENCE, EXPERIENCE_INSTANCE_DID, GAME_ROOM_ACTIVITY, 
 import { RoleChip } from '../../experienceModel/role/RoleChip/RoleChip';
 import _ from 'lodash';
 import { EDIT_GAME_SCOPE_EXPERIENCE_INSTANCE, GAME_INSTANCE_DID, PLAY_GAME_SCOPE_EXPERIENCE_INSTANCE } from '../../../game/constants';
-import { set } from 'js-cookie';
 
 function convertExperienceModelToLobbyInstance(experienceModel) {
   return {
@@ -161,7 +160,10 @@ const ExperienceInstanceForm = ({
       const hostUserMongoId = lobbyInstance.roleIdToUserMongoIds[lobby.hostRoleId][0]
       const cobrowsingUserMongoId = lobbyInstance.roleIdToUserMongoIds[defaultParticipantRoleId][0]
       const completeLobbyInstance = {
+        lobbyId,
+        introArcadeGameMongoId: lobby.introArcadeGameMongoId,
         instructionsByRoleId: lobby.instructionsByRoleId,
+        usersMustWaitInLine: lobby.usersMustWaitInLine,
         invitedUsers,
         hostUserMongoId,
         activitys,

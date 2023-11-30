@@ -12,5 +12,8 @@ export const defaultLobby = {
   activitys: {},
   initialActivityId: null,
   instructionsByRoleId: {},
-  isRemoved: false
+  isRemoved: false,
+  
+  introArcadeGameMongoId: {},
+  usersMustWaitInLine: {}
 }

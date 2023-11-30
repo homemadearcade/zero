@@ -23,7 +23,7 @@ import {  mergeDeep } from '../../../utils';
 import _ from 'lodash';
 import { activityToInterfaceData, ACTIVITY_DID, CREDITS_ACTIVITY, defaultActivity, 
   defaultGuideRoleId, defaultInstructions, defaultLobby, defaultStep,
-   GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_DID, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
+   GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_DID, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ROOM } from '../../../constants';
 import { defaultExperienceModel } from '../../../constants';
 import { defaultGameRoom } from '../../../constants/experience/gameRoom';
 
@@ -40,8 +40,8 @@ function addDefaultsToExperienceModel(experienceModel) {
       if(!presetLobby.initialActivityId) presetLobby.initialActivityId = waitingRoomId
        const presetWaitingRoom = {
         activityId: waitingRoomId,
-        activityCategory: WAITING_ACTIVITY,
-        initialViewCategory: activityToInterfaceData[WAITING_ACTIVITY].initialViewCategory,
+        activityCategory: WAITING_ROOM,
+        initialViewCategory: activityToInterfaceData[WAITING_ROOM].initialViewCategory,
         name: `Waiting Room`,
         isNotRemoveable: true,
         isRemoved: presetLobby.isRemoved
@@ -119,6 +119,7 @@ function addDefaultsToExperienceModel(experienceModel) {
         if(!presetActivity.instructionsByRoleId) { 
           presetActivity.instructionsByRoleId = {}
         }
+
         presetActivity.instructionsByRoleId[defaultGuideRoleId] = gameRoomInstructionsId
       }
 

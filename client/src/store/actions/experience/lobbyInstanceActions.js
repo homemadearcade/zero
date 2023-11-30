@@ -20,9 +20,9 @@ import {
   EDIT_LOBBY_LOADING,
   EDIT_LOBBY_SUCCESS,
   EDIT_LOBBY_FAIL,
-  UPDATE_LOBBY_USER_LOADING,
-  UPDATE_LOBBY_USER_SUCCESS,
-  UPDATE_LOBBY_USER_FAIL,
+  UPDATE_LOBBY_MEMBER_LOADING,
+  UPDATE_LOBBY_MEMBER_SUCCESS,
+  UPDATE_LOBBY_MEMBER_FAIL,
   DELETE_LOBBY_LOADING,
   DELETE_LOBBY_SUCCESS,
   DELETE_LOBBY_FAIL,
@@ -32,7 +32,16 @@ import {
   SEND_LOBBY_MESSAGE_LOADING,
   SEND_LOBBY_MESSAGE_SUCCESS,
   SEND_LOBBY_MESSAGE_FAIL,
-  TOGGLE_LOBBY_DASHBOARD
+  TOGGLE_LOBBY_DASHBOARD,
+  ENTER_LOBBY_LINE_SUCCESS,
+  ENTER_LOBBY_LINE_FAIL,
+  ENTER_LOBBY_LINE_LOADING,
+  LEAVE_LOBBY_LINE_LOADING,
+  LEAVE_LOBBY_LINE_SUCCESS,
+  LEAVE_LOBBY_LINE_FAIL,
+  ADD_MEMBER_STORAGE_LOADING,
+  ADD_MEMBER_STORAGE_SUCCESS,
+  ADD_MEMBER_STORAGE_FAIL
 } from '../../types';
 
 import ping from 'web-pingjs';
@@ -178,50 +187,118 @@ export const editLobby = (id, data) => async (dispatch, getState) => {
 
 export const updateLobbyMember = ({userMongoId, lobbyInstanceMongoId, member}) => async (dispatch, getState) => {
   dispatch({
-    type: UPDATE_LOBBY_USER_LOADING,
+    type: UPDATE_LOBBY_MEMBER_LOADING,
   });
   try {
     const options = attachTokenToHeaders(getState);
     const response = await axios.put(`/api/lobbyInstance/member/${lobbyInstanceMongoId}`, {userMongoId, member}, options);
 
     dispatch({
-      type: UPDATE_LOBBY_USER_SUCCESS,
+      type: UPDATE_LOBBY_MEMBER_SUCCESS,
       payload: { lobbyInstance: response.data.lobbyInstance },
     });
   } catch (err) {
     console.error(err)
 
     dispatch({
-      type: UPDATE_LOBBY_USER_FAIL,
+      type: UPDATE_LOBBY_MEMBER_FAIL,
       payload: { error: err?.response?.data.message || err.message },
     });
   }
 };
 
-// export const getLobbyById = (id, history) => async (dispatch, getState) => {
-//   dispatch({
-//     type: GET_LOBBY_LOADING,
-//   });
-//   try {
-//     const options = attachTokenToHeaders(getState);
-//     const response = await axios.get(`/api/lobbyInstance/${id}`, options);
 
-//     dispatch({
-//       type: GET_LOBBY_SUCCESS,
-//       payload: { lobbyInstance: response.data.lobbyInstance },
-//     });
-//   } catch (err) {
-//     console.error(err)
+export const addLobbyMemberStorage = ({userMongoId, lobbyInstanceMongoId, memberStorage}) => async (dispatch, getState) => {
+  dispatch({
+    type: ADD_MEMBER_STORAGE_LOADING,
+  });
 
-//     if (err?.response.status === 404) {
-//       history.push('/notfound');
-//     }
-//     dispatch({
-//       type: GET_LOBBY_FAIL,
-//       payload: { error: err?.response?.data.message || err.message },
-//     });
-//   }
-// };
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.put(`/api/lobbyInstance/member_storage/${lobbyInstanceMongoId}`, {userMongoId, memberStorage}, options);
+
+    dispatch({
+      type: ADD_MEMBER_STORAGE_SUCCESS,
+      payload: { lobbyInstance: response.data.lobbyInstance },
+    });
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: ADD_MEMBER_STORAGE_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const enterLobbyInstanceLine = (lobbyInstanceMongoId, userMongoId) => async (dispatch, getState) => {
+  dispatch({
+    type: ENTER_LOBBY_LINE_LOADING,
+    payload: {},
+  });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post(`/api/lobbyInstance/enter_line/${lobbyInstanceMongoId}`, { userMongoId }, options);
+
+    dispatch({
+      type: ENTER_LOBBY_LINE_SUCCESS,
+      payload: { lobbyInstance: response.data.lobbyInstance },
+    });
+  } catch (err) {
+    dispatch({
+      type: ENTER_LOBBY_LINE_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const leaveLobbyInstanceLine = (lobbyInstanceMongoId, userMongoId) => async (dispatch, getState) => {
+  dispatch({
+    type: LEAVE_LOBBY_LINE_LOADING
+    ,
+    payload: {},
+  });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post(`/api/lobbyInstance/leave_line/${lobbyInstanceMongoId}`, { userMongoId }, options);
+
+    dispatch({
+      type: LEAVE_LOBBY_LINE_SUCCESS,
+      payload: { lobbyInstance: response.data.lobbyInstance },
+    });
+  } catch (err) {
+    dispatch({
+      type: LEAVE_LOBBY_LINE_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const getLobbyByMongoId = (id, history) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_LOBBY_LOADING,
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(`/api/lobbyInstance/${id}`, options);
+
+    dispatch({
+      type: GET_LOBBY_SUCCESS,
+      payload: { lobbyInstance: response.data.lobbyInstance },
+    });
+
+    return response.data.lobbyInstance
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: GET_LOBBY_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
 
 // export const getLobbyByEmail = (email) => async (dispatch, getState) => {
 //   dispatch({
@@ -268,44 +345,46 @@ export const deleteLobby = (id) => async (dispatch, getState) => {
   }
 };
 
-export const getLobbyInstanceByIdFromLibrary = (lobbyInstanceId) => async (dispatch, getState) => {
-  dispatch({
-    type: GET_LOBBY_LOADING,
-  });
+// export const getLobbyInstanceByIdFromLibrary = (lobbyInstanceId) => async (dispatch, getState) => {
+//   dispatch({
+//     type: GET_LOBBY_LOADING,
+//   });
 
-  try {
-    const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/lobbyInstance/lobbyInstanceId/' + lobbyInstanceId, options);
+//   try {
+//     const options = attachTokenToHeaders(getState);
+//     const response = await axios.get('/api/lobbyInstance/lobbyInstanceId/' + lobbyInstanceId, options);
 
-    dispatch({
-      type: GET_LOBBY_SUCCESS,
-      payload: { lobbyInstance: response.data.lobbyInstance },
-    });
+//     dispatch({
+//       type: GET_LOBBY_SUCCESS,
+//       payload: { lobbyInstance: response.data.lobbyInstance },
+//     });
     
-  } catch (err) {
-    console.error(err)
+//   } catch (err) {
+//     console.error(err)
 
-    dispatch({
-      type: GET_LOBBY_FAIL,
-      payload: { error: err?.response?.data.message || err.message },
-    });
-  }
-};
+//     dispatch({
+//       type: GET_LOBBY_FAIL,
+//       payload: { error: err?.response?.data.message || err.message },
+//     });
+//   }
+// };
 
 
 export const joinLobbyById = ({ lobbyInstanceId, userMongoId }) => async (dispatch, getState) => {
 
 }
 
-export const joinLobbyByMongoId = ({ lobbyInstanceMongoId, userMongoId }) => async (dispatch, getState) => {
+export const joinLobbyByMongoId = ({ lobbyInstanceMongoId}) => async (dispatch, getState) => {
   dispatch({
     type: JOIN_LOBBY_LOADING,
     payload: {},
   });
 
+  const me = getState().auth.me
+
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post(`/api/lobbyInstance/join/${lobbyInstanceMongoId}`, { userMongoId }, options);
+    const response = await axios.post(`/api/lobbyInstance/join/${lobbyInstanceMongoId}`, { userMongoId: me.id }, options);
 
     window.lastIsFocused = true
     pingInterval = window.setInterval(async () => {
@@ -325,7 +404,7 @@ export const joinLobbyByMongoId = ({ lobbyInstanceMongoId, userMongoId }) => asy
       window.socket.emit(ON_LOBBY_INSTANCE_MEMBER_STATUS_UPDATE, { status: {
         lastSeen: Date.now(),
         pingDelta, isFocused: !document.hidden, isFullscreen: document.fullscreenElement,
-      }, userMongoId, lobbyInstanceMongoId })
+      }, userMongoId: me.id, lobbyInstanceMongoId })
     }, 3000);
 
     // event is triggered to all members in this lobbyInstance when lobbyInstance is updated

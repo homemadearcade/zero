@@ -1,4 +1,4 @@
-import { CHATROOM_ACTIVITY, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from "./constants/activitys"
+import { CHATROOM_ACTIVITY, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, WAITING_ROOM } from "./constants/activitys"
 import { ACTIVITY_VIEW_BROWSE, ACTIVITY_VIEW_CHATROOM, ACTIVITY_VIEW_FACILITATORS, ACTIVITY_VIEW_GAME_HIDDEN, ACTIVITY_VIEW_MY_INFORMATION, ACTIVITY_VIEW_PARTICIPANTS, ACTIVITY_VIEW_PLAY_GAME, ACTIVITY_VIEW_TEXT } from "./constants/views"
 
 export const activityToInterfaceData = {
@@ -8,7 +8,7 @@ export const activityToInterfaceData = {
     initialViewCategory: ACTIVITY_VIEW_CHATROOM,
     viewOptions: [ACTIVITY_VIEW_CHATROOM],
   },
-  [WAITING_ACTIVITY]: {
+  [WAITING_ROOM]: {
     displayName: 'Waiting Room',
     icon: 'faHourglassStart',
     initialViewCategory: ACTIVITY_VIEW_TEXT,

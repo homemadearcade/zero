@@ -22,6 +22,12 @@ export class CollisionCanvas extends CodrawingCanvas {
   }
 
   createCollisionBody = async () => {
+    if(this.collisionBody) {
+      this.scene.physics.world.removeCollider(this.unregisterPlayerCollisions)
+      this.scene.physics.world.removeCollider(this.unregisterObjectCollisions)
+      this.collisionBody.destroy()
+    }
+
     const { bufferCanvasContext, bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
     const state = store.getState()
     const gameModel = state.gameModel.gameModel 
@@ -71,32 +77,29 @@ export class CollisionCanvas extends CodrawingCanvas {
       nodeHeight: nodeSize
     })
 
-    if(this.collidersToRegister) {
-      this.registerColliders(this.collidersToRegister)
-      this.collidersToRegister = []
-    } 
+    this.createColliders(this.collidersToRegister)
   }
 
   registerColliders(entityInstances) {
-    if(this.collisionBody) {
-      const entityModels = this.scene.getGameModel().entityModels
-      if(this.playerInstance) this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.physicsSprite)
-      this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, entityInstances.filter(({entityModelId}) => {
-        const layerGroupIID = entityModels[entityModelId].graphics.layerGroupIID
-        return layerGroupIID === PLAYGROUND_LAYER_GROUP_IID
-      }).map(({physicsSprite}) => {
-        return physicsSprite
-      }))
-    } else {
-      if(entityInstances) {
-        this.collidersToRegister.push(...entityInstances)
-      }
-    }
+    this.collidersToRegister.push(...entityInstances)
+    if(this.collisionBody) this.createColliders(entityInstances)
+  }
+
+  createColliders(entityInstances) {
+    const entityModels = this.scene.getGameModel().entityModels
+    if(this.playerInstance) this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.physicsSprite)
+    this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, entityInstances.filter(({entityModelId}) => {
+      const layerGroupIID = entityModels[entityModelId].graphics.layerGroupIID
+      return layerGroupIID === PLAYGROUND_LAYER_GROUP_IID
+    }).map(({physicsSprite}) => {
+      return physicsSprite
+    }))
   }
 
   unregisterColliders() {
     this.scene.physics.world.removeCollider(this.unregisterPlayerCollisions)
     this.scene.physics.world.removeCollider(this.unregisterObjectCollisions)
+    this.collidersToRegister = []
     // this.scene.physics.world.removeCollider(this.unregisterProjectileCollisions)
   }
 }

@@ -9,9 +9,9 @@ import {
   GET_LOBBY_FAIL,
   EDIT_LOBBY_SUCCESS,
   EDIT_LOBBY_FAIL,
-  // UPDATE_LOBBY_USER_LOADING,
-  // UPDATE_LOBBY_USER_SUCCESS,
-  UPDATE_LOBBY_USER_FAIL,
+  // UPDATE_LOBBY_MEMBER_LOADING,
+  // UPDATE_LOBBY_MEMBER_SUCCESS,
+  UPDATE_LOBBY_MEMBER_FAIL,
   DELETE_LOBBY_LOADING,
   DELETE_LOBBY_SUCCESS,
   DELETE_LOBBY_FAIL,
@@ -21,16 +21,25 @@ import {
   GAME_INSTANCE_UNDO_SUCCESS,
   GAME_INSTANCE_UNDO_FAIL,
   SEND_LOBBY_MESSAGE_FAIL,
-  TOGGLE_LOBBY_DASHBOARD
+  TOGGLE_LOBBY_DASHBOARD,
+  ENTER_LOBBY_LINE_LOADING,
+  ENTER_LOBBY_LINE_SUCCESS,
+  LEAVE_LOBBY_LINE_LOADING,
+  LEAVE_LOBBY_LINE_SUCCESS,
+  LEAVE_LOBBY_LINE_FAIL,
+  ENTER_LOBBY_LINE_FAIL,
+  ADD_MEMBER_STORAGE_FAIL
 } from '../../types';
 
 const initialState = {
   lobbyInstance: {
-    members: []
+    members: [],
+    usersInLine: []
   },
   isLobbyDashboardOpen: false,
   isLoading: false,
   error: null,
+  isJoined: false,
   isJoining: false,
   joinError: null,
   isUndoing: false,
@@ -71,13 +80,30 @@ export default function lobbyInstanceReducer(state = initialState, { type, paylo
       return {
         ...state,
         isLoading: false,
-        lobbyInstance: payload.lobbyInstance,
+        lobbyInstance: {...payload.lobbyInstance, members: payload.lobbyInstance.members.slice()},
       };
+    case ENTER_LOBBY_LINE_LOADING: 
+      return {
+        ...state,
+        isLoading: true
+      }
+    case ENTER_LOBBY_LINE_SUCCESS: 
+      return {
+        ...state,
+        isLoading: false,
+        isWaitingInLine: true
+      }
+    case LEAVE_LOBBY_LINE_SUCCESS: 
+      return {
+        ...state,
+        isWaitingInLine: false
+      }
     case JOIN_LOBBY_SUCCESS:
       return {
         ...state,
+        isWaitingInLine: false,
         isJoining: false,
-        isInsideLobby: true,
+        isJoined: true,
         lobbyInstance: {...payload.lobbyInstance, members: payload.lobbyInstance.members.slice()},
         myRoleId: payload.myRoleId
       };
@@ -85,7 +111,7 @@ export default function lobbyInstanceReducer(state = initialState, { type, paylo
     return {
       ...state,
       isJoining: false,
-      isInsideLobby: false,
+      isJoined: false,
       myRoleId: null,
       lobbyInstance: initialState.lobbyInstance,
     };
@@ -114,10 +140,14 @@ export default function lobbyInstanceReducer(state = initialState, { type, paylo
     case DELETE_LOBBY_FAIL:
     case LEAVE_LOBBY_FAIL:
     case ASSIGN_LOBBY_ROLE_FAIL:
-    case UPDATE_LOBBY_USER_FAIL:
+    case UPDATE_LOBBY_MEMBER_FAIL:
     case SEND_LOBBY_MESSAGE_FAIL:
+    case LEAVE_LOBBY_LINE_FAIL:
+    case ENTER_LOBBY_LINE_FAIL:
+    case ADD_MEMBER_STORAGE_FAIL:
       return {
         ...state,
+        isWaitingInLine: false,
         isLoading: false,
         isJoining: false,
         lobbyInstance: initialState.lobbyInstance,

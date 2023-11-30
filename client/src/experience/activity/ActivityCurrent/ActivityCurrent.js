@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import { clearErrorState } from '../../../store/actions/errorsActions';
-import { CHATROOM_ACTIVITY, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
+import { CHATROOM_ACTIVITY, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, WAITING_ROOM } from '../../../constants';
 import Chatroom from '../../Chatroom/Chatroom';
 import './ActivityCurrent.scss'
 import { Container } from '@mui/system';
@@ -26,7 +26,7 @@ const ActivityCurrent = ({
   const currentViewCategory = activity.currentViewCategory
 
   function renderCurrentActivity() {
-    if(activityCategory === WAITING_ACTIVITY) {
+    if(activityCategory === WAITING_ROOM) {
       return <WaitingActivity currentViewCategory={currentViewCategory} myTracks={myTracks} />
     }
 

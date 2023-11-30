@@ -26,6 +26,8 @@ router.put('/', requireJwtAuth, async (req, res) => {
     
     const updatedAppSettings = mergeDeep(tempAppSettings, req.body)
 
+    console.log(updatedAppSettings, req.body)
+
     await AppSettings.findByIdAndUpdate(
       tempAppSettings.id,
       { 

@@ -16,6 +16,8 @@ import StepBuilder from '../../step/StepBuilder/StepBuilder';
 const InstructionEditForm = ({ loadArcadeGameByMongoId, unloadArcadeGame, editExperienceModel, instructionId, gameModel: { gameModel, isLoading }, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
   const instruction = experienceModel.instructions[instructionId]
   
+  console.log(instruction)
+  
   useEffect(() => {
     if(instruction.arcadeGameMongoId) {
       loadArcadeGameByMongoId(instruction.arcadeGameMongoId)
